@@ -7,9 +7,14 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,7 +25,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+  Joystick joystick = new Joystick(0);
+
   private RobotContainer m_robotContainer;
+
+  public DriveTrain driveTrain = new DriveTrain();
+  boolean _firstCall = true;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -96,6 +106,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    double forwardStick = joystick.getRawAxis(1);
+    if (_firstCall) {
+      _firstCall = false;
+      driveTrain.driveRightMaster.selectProfileSlot(Constants.kSlot_Velocit, Constants.PID_PRIMARY);
+    }
+
+    double target_rpm = forwardStick * 250; // +/- 500
+    double target_unitsPer100ms = target_rpm * Constants.kSensorUnitsPerRotation / 600.0; // to native units
+    driveTrain.driveRightMaster.set(ControlMode.Velocity, target_unitsPer100ms, DemandType.ArbitraryFeedForward, 0);
+    driveTrain.driveLeftMaster.follow(driveTrain.driveRightMaster);
   }
 
   @Override
