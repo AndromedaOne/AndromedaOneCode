@@ -8,7 +8,6 @@ public class MockShooter extends ShooterBase {
 
     public void setShooterVelocity(double velocity) {
         System.out.println("Setting shooter velocity to: " + velocity);
-
     }
 
     public void turnTurretToDegree(double degrees) {
