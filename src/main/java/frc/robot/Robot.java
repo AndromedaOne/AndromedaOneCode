@@ -107,15 +107,22 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double forwardStick = joystick.getRawAxis(1);
+    double turn = joystick.getRawAxis(0);
     if (_firstCall) {
       _firstCall = false;
       driveTrain.driveRightMaster.selectProfileSlot(Constants.kSlot_Velocit, Constants.PID_PRIMARY);
     }
 
-    double target_rpm = forwardStick * 250; // +/- 500
+    double target_rpm = forwardStick * 500; // +/- 500
     double target_unitsPer100ms = target_rpm * Constants.kSensorUnitsPerRotation / 600.0; // to native units
-    driveTrain.driveRightMaster.set(ControlMode.Velocity, target_unitsPer100ms, DemandType.ArbitraryFeedForward, 0);
+    double feedFwd = turn * 1.00;
+    // TODO fix turns
+    driveTrain.driveRightMaster.set(ControlMode.Velocity, target_unitsPer100ms, DemandType.ArbitraryFeedForward, feedFwd);
     driveTrain.driveLeftMaster.follow(driveTrain.driveRightMaster);
+    
+                 double actual_RPM = (driveTrain.driveRightMaster.getSelectedSensorVelocity() / (double)Constants.kSensorUnitsPerRotation * 600f);
+             System.out.println("Vel[RPM]: " + actual_RPM + " Pos: " + driveTrain.driveRightMaster.getSelectedSensorPosition());
+    System.out.println("Joystick Value:" + forwardStick);
   }
 
   @Override
