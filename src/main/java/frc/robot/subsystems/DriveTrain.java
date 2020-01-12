@@ -48,7 +48,7 @@ public class DriveTrain extends SubsystemBase {
 
     _talon.configFactoryDefault();
 
-    _talon.setNeutralMode(NeutralMode.Brake);
+    _talon.setNeutralMode(NeutralMode.Coast);
 
 
     _talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
