@@ -9,7 +9,6 @@ package frc.robot.subsystems.pidsubsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
@@ -17,8 +16,7 @@ public class PIDDriveTrain extends PIDSubsystem {
 
   public WPI_TalonSRX driveRight;
   public WPI_TalonSRX driveLeft;
-  
-  
+
   /**
    * Creates a new PIDDriveTrain.
    */
@@ -28,7 +26,7 @@ public class PIDDriveTrain extends PIDSubsystem {
         new PIDController(0, 0, 0));
     driveRight = new WPI_TalonSRX(4);
     driveLeft = new WPI_TalonSRX(2);
-    
+
   }
 
   @Override
