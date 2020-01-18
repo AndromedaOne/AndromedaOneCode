@@ -7,11 +7,9 @@
 
 package frc.robot;
 
-import java.io.File;
+import com.ctre.phoenix.motorcontrol.can.*;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -24,36 +22,46 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+  private WPI_TalonSRX shooterOne = new WPI_TalonSRX(5);
+  private WPI_TalonSRX shooterTwo = new WPI_TalonSRX(9);
+  private WPI_TalonSRX shooterSeries = new WPI_TalonSRX(6);
+  private boolean speedUpFlag = false;
+  private boolean speedDownFlag = false;
+  private Joystick controller = new Joystick(0);
+  private double speed = 0;
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
-  private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
+  // private static Config nameConfig = ConfigFactory.parseFile(new
+  // File("/home/lvuser/name.conf"));
 
   /**
    * This config should live on the robot and have hardware- specific configs.
    */
-  private static Config environmentalConfig = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/robot.conf"));
+  // private static Config environmentalConfig = ConfigFactory
+//    .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/robot.conf"));
 
   /**
    * This config lives in the jar and has hardware-independent configs.
    */
-  private static Config defaultConfig = ConfigFactory.parseResources("application.conf");
+  // private static Config defaultConfig =
+  // ConfigFactory.parseResources("application.conf");
 
   /**
    * Combined config
    */
-  protected static Config conf = environmentalConfig.withFallback(defaultConfig).resolve();
+  // protected static Config conf =
+  // environmentalConfig.withFallback(defaultConfig).resolve();
 
   /**
    * Get the robot's config
    * 
    * @return the config
    */
-  public static Config getConfig() {
-    return conf;
-  }
+  /*
+   * public static Config getConfig() { return conf; }
+   */
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -65,13 +73,14 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    System.out.println("Robot name = " + nameConfig.getString("robot.name"));
+    // System.out.println("Robot name = " + nameConfig.getString("robot.name"));
 
-    if (conf.hasPath("subsystems.driveTrain")) {
-      System.out.println("Using real drivetrain");
-    } else {
-      System.out.println("Using fake drivetrain");
-    }
+    /*
+     * if (conf.hasPath("subsystems.driveTrain")) {
+     * System.out.println("Using real drivetrain"); } else {
+     * System.out.println("Using fake drivetrain"); }
+     */
+
   }
 
   /**
@@ -93,6 +102,26 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    if (controller.getRawButtonPressed(4) && !speedUpFlag) {
+      System.out.println(" - Speed: " + speed);
+      speed += speed < 1 ? .1 : 0;
+      speedUpFlag = true;
+    } else if (controller.getRawButtonReleased(4)) {
+      speedUpFlag = false;
+    }
+
+    if (controller.getRawButtonPressed(1) && !speedDownFlag) {
+      System.out.println(" - Speed: " + speed);
+      speed -= speed > -1 ? .1 : 0;
+      speedDownFlag = true;
+    } else if (controller.getRawButtonReleased(1)) {
+      speedDownFlag = false;
+    }
+
+    shooterOne.set(-speed);
+    shooterTwo.set(speed);
+    shooterSeries.set(-speed);
   }
 
   /**
