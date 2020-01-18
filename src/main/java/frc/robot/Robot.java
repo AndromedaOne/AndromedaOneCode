@@ -16,6 +16,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -83,6 +88,13 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+NetworkTableEntry tx = table.getEntry("tx");
+NetworkTableEntry ty = table.getEntry("ty");
+NetworkTableEntry ta = table.getEntry("ta");
+
+
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
@@ -93,6 +105,16 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    //read values periodically
+double x = tx.getDouble(0.0);
+double y = ty.getDouble(0.0);
+double area = ta.getDouble(0.0);
+
+//post to smart dashboard periodically
+SmartDashboard.putNumber("LimelightX", x);
+SmartDashboard.putNumber("LimelightY", y);
+SmartDashboard.putNumber("LimelightArea", area);
+  
   }
 
   /**
