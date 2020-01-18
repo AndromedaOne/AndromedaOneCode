@@ -14,10 +14,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrain extends SubsystemBase {
   private static WPI_TalonSRX driveTrainLeftMaster;
-    private static WPI_TalonSRX driveTrainRightMaster;
-    private static WPI_TalonSRX driveTrainLeftSlave;
-    private static WPI_TalonSRX driveTrainRightSlave;
-    private static DifferentialDrive differentialDrive;
+  private static WPI_TalonSRX driveTrainRightMaster;
+  private static WPI_TalonSRX driveTrainLeftSlave;
+  private static WPI_TalonSRX driveTrainRightSlave;
+  private static DifferentialDrive differentialDrive;
+
   /**
    * Creates a new DriveTrain.
    */
@@ -35,7 +36,6 @@ public class DriveTrain extends SubsystemBase {
 
     differentialDrive = new DifferentialDrive(driveTrainLeftMaster, driveTrainRightMaster);
 
-    
   }
 
   @Override
