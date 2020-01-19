@@ -23,17 +23,9 @@ public class DriveTrain extends SubsystemBase {
    * Creates a new DriveTrain.
    */
   public DriveTrain() {
-    driveTrainLeftMaster = new WPI_TalonSRX(3);
-    driveTrainRightMaster = new WPI_TalonSRX(1);
-    driveTrainLeftSlave = new WPI_TalonSRX(4);
-    driveTrainLeftSlave.configFactoryDefault();
-    driveTrainLeftSlave.follow(driveTrainLeftMaster);
-    driveTrainLeftSlave.setInverted(true);
-    driveTrainRightSlave = new WPI_TalonSRX(2);
-    driveTrainRightSlave.configFactoryDefault();
-    driveTrainRightSlave.follow(driveTrainRightMaster);
-    driveTrainRightSlave.setInverted(false);
-
+    driveTrainLeftMaster = new WPI_TalonSRX(2);
+    driveTrainRightMaster = new WPI_TalonSRX(4);
+   
     differentialDrive = new DifferentialDrive(driveTrainLeftMaster, driveTrainRightMaster);
 
   }

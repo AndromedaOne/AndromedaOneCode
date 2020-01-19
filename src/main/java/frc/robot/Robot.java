@@ -8,16 +8,20 @@
 package frc.robot;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Set;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
-import edu.wpi.first.hal.sim.DriverStationSim;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.pidcommands.LimelightTTFCommand;
 import frc.robot.subsystems.DriveTrain;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -59,26 +63,23 @@ public class Robot extends TimedRobot {
   }
 
   protected DriveTrain driveTrain = new DriveTrain();
+
   public DriveTrain getDriveTrain() {
     return driveTrain;
   }
-
-
-
-
 
   private Robot() {
 
   }
 
   static Robot m_instance;
+
   public static Robot getInstance() {
-    if(m_instance == null) {
+    if (m_instance == null) {
       m_instance = new Robot();
     }
     return m_instance;
   }
-
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -97,6 +98,22 @@ public class Robot extends TimedRobot {
     } else {
       System.out.println("Using fake drivetrain");
     }
+    Joystick driveController = new Joystick(0);
+    (new JoystickButton(driveController, 2)).whenPressed(new LimelightTTFCommand());
+
+    driveTrain.setDefaultCommand(new Command(){
+    
+      public void execute() {
+        double forwardBackwardThing = driveController.getRawAxis(1); 
+        double rightLeftThing = driveController.getRawAxis(4);
+        driveTrain.move(-forwardBackwardThing, rightLeftThing);
+      }
+      @Override
+      public Set<Subsystem> getRequirements() {
+        // TODO Auto-generated method stub
+        return Collections.singleton(driveTrain);
+      }
+    });
   }
 
   /**
@@ -108,9 +125,6 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
- 
-
-
 
   @Override
   public void robotPeriodic() {
@@ -122,8 +136,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    
-  
+
   }
 
   /**
