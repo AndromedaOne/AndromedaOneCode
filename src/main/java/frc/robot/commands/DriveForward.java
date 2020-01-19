@@ -22,14 +22,14 @@ public class DriveForward extends PIDCommand {
   public DriveForward(DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(0.3, 0, 0),
+        new PIDController(0.003, 0, 0),
         // This should return the measurement
          driveTrain::getPosition,
         // This should return the setpoint (can also be a constant)
         () -> 500,
         // This uses the output
         output -> {
-          driveTrain.move(output, 0);
+          driveTrain.move(-output, 0);
         });
         m_driveTrain = driveTrain;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -47,4 +47,10 @@ public class DriveForward extends PIDCommand {
     + m_driveTrain.getPosition());
     return (getController().atSetpoint());
   }
+
+    public void initialize() {
+      System.out.println("DriveForward initialize");
+      m_driveTrain.resetEncoder();
+      getController().reset();
+    }
 }

@@ -25,7 +25,9 @@ public class DriveTrain extends SubsystemBase {
    */
   public DriveTrain() {
     driveTrainLeftMaster = new WPI_TalonSRX(3);
+    driveTrainLeftMaster.configFactoryDefault();
     driveTrainRightMaster = new WPI_TalonSRX(1);
+    driveTrainRightMaster.configFactoryDefault();
     driveTrainLeftSlave = new WPI_TalonSRX(4);
     driveTrainLeftSlave.configFactoryDefault();
     driveTrainLeftSlave.follow(driveTrainLeftMaster);
