@@ -12,14 +12,12 @@ import java.io.File;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveTrain;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -60,6 +58,15 @@ public class Robot extends TimedRobot {
     return conf;
   }
 
+  protected DriveTrain driveTrain = new DriveTrain();
+  public DriveTrain getDriveTrain() {
+    return driveTrain;
+  }
+
+
+
+
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -88,10 +95,7 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-NetworkTableEntry tx = table.getEntry("tx");
-NetworkTableEntry ty = table.getEntry("ty");
-NetworkTableEntry ta = table.getEntry("ta");
+ 
 
 
 
@@ -105,15 +109,7 @@ NetworkTableEntry ta = table.getEntry("ta");
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    //read values periodically
-double x = tx.getDouble(0.0);
-double y = ty.getDouble(0.0);
-double area = ta.getDouble(0.0);
-
-//post to smart dashboard periodically
-SmartDashboard.putNumber("LimelightX", x);
-SmartDashboard.putNumber("LimelightY", y);
-SmartDashboard.putNumber("LimelightArea", area);
+    
   
   }
 
