@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -36,6 +37,9 @@ public class DriveTrain extends SubsystemBase {
 
     differentialDrive = new DifferentialDrive(driveTrainLeftMaster, driveTrainRightMaster);
 
+    driveTrainLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+    driveTrainLeftMaster.setSensorPhase(true);
+
   }
 
   @Override
@@ -45,5 +49,13 @@ public class DriveTrain extends SubsystemBase {
 
   public void move(double forwardBackSpeed, double rotateAmount) {
     differentialDrive.arcadeDrive(forwardBackSpeed, rotateAmount);
+  }
+
+  public double getPosition() {
+    return (driveTrainLeftMaster.getSelectedSensorPosition());
+  }
+
+  public void resetEncoder() {
+    driveTrainLeftMaster.setSelectedSensorPosition(0);
   }
 }

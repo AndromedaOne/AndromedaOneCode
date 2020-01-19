@@ -12,9 +12,15 @@ import java.io.File;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.DriveForward;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,6 +33,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private DriveTrain m_driveTrain;
 
   private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
@@ -72,6 +79,9 @@ public class Robot extends TimedRobot {
     } else {
       System.out.println("Using fake drivetrain");
     }
+    m_driveTrain = new DriveTrain();
+    Joystick joystick = new Joystick(0);
+    new JoystickButton(joystick, Button.kA.value).whenPressed(new DriveForward(m_driveTrain));
   }
 
   /**
@@ -93,6 +103,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("Encoder", m_driveTrain.getPosition());
   }
 
   /**
