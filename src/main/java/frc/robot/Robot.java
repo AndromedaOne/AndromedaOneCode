@@ -55,6 +55,19 @@ public class Robot extends TimedRobot {
     return conf;
   }
 
+  private Robot() {
+
+  }
+
+  static Robot m_instance;
+  public static Robot getInstance() {
+    if(m_instance == null) {
+      m_instance = new Robot();
+    }
+    return m_instance;
+  }
+
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
