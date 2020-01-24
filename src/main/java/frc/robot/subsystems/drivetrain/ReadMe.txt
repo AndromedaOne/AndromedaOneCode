@@ -1,5 +1,7 @@
 forward is positive
-backward is negetive
+backward is negative
+
+NOTE: When looking down at robot.
 rotating counterclockwise is positive
 rotating clockwise is negetive
 
