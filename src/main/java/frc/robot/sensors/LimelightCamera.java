@@ -3,11 +3,19 @@ package frc.robot.sensors;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class limelight {
+public class LimelightCamera {
   NetworkTable limelightTable;
   double cameraHeight = 0.0;
+  private static LimelightCamera instance;
 
-  private limelight() {
+  public static synchronized LimelightCamera getInstance() {
+    if (instance == null) {
+      instance = new LimelightCamera();
+    }
+    return instance;
+  }
+
+  private LimelightCamera() {
     limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
   }
 
