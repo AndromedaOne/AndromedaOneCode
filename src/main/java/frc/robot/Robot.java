@@ -26,8 +26,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
-
   private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
   /**
@@ -60,13 +58,13 @@ public class Robot extends TimedRobot {
   }
 
   static Robot m_instance;
+
   public static Robot getInstance() {
-    if(m_instance == null) {
+    if (m_instance == null) {
       m_instance = new Robot();
     }
     return m_instance;
   }
-
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -77,7 +75,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
     System.out.println("Robot name = " + nameConfig.getString("robot.name"));
 
     if (conf.hasPath("subsystems.driveTrain")) {
@@ -125,7 +122,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = null;
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
