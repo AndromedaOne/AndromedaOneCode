@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems.drivetrain;
 
-public class MockDriveTrain extends DriveTrainBase {
+public class MockDriveTrain extends DriveTrain {
   /**
    * Creates a new MockDriveTrain.
    */

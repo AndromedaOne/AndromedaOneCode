@@ -7,11 +7,13 @@
 
 package frc.robot.subsystems.drivetrain;
 
-public class VBusControl extends DriveTrainBase {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public abstract class DriveTrain extends SubsystemBase {
   /**
-   * Creates a new VBusControl.
+   * Creates a new DriveTrainBase.
    */
-  public VBusControl() {
+  public DriveTrain() {
 
   }
 
@@ -20,7 +22,5 @@ public class VBusControl extends DriveTrainBase {
     // This method will be called once per scheduler run
   }
 
-  public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
-
-  }
+  public abstract void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput);
 }
