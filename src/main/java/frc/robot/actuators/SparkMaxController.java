@@ -2,13 +2,17 @@ package frc.robot.actuators;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import frc.robot.Robot;
 
 public class SparkMaxController implements SpeedController {
   private CANSparkMax m_sparkMaxController;
 
-  public SparkMaxController(int deviceID, MotorType type) {
+  public SparkMaxController(String configString) {
+    Config config = Robot.getConfig();
+    
     m_sparkMaxController = new CANSparkMax(deviceID, type);
     configure();
   }
