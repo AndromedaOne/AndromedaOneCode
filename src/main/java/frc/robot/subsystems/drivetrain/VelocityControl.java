@@ -19,4 +19,8 @@ public class VelocityControl extends DriveTrainBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
+
+  }
 }
