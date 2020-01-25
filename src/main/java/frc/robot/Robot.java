@@ -27,6 +27,8 @@ public class Robot extends TimedRobot {
   private WPI_TalonSRX shooterSeries = new WPI_TalonSRX(6);
   private boolean speedUpFlag = false;
   private boolean speedDownFlag = false;
+  private boolean speedSmallUpFlag = false;
+  private boolean speedSmallDownFlag = false;
   private Joystick controller = new Joystick(0);
   private double speed = 0;
   private Command m_autonomousCommand;
@@ -117,6 +119,22 @@ public class Robot extends TimedRobot {
       speedDownFlag = true;
     } else if (controller.getRawButtonReleased(1)) {
       speedDownFlag = false;
+    }
+
+    if (controller.getPOV() == 90 && !speedSmallUpFlag) {
+      System.out.println(" - Speed: " + speed);
+      speed += speed < 1 ? .05 : 0;
+      speedSmallUpFlag = true;
+    } else if (controller.getPOV() == 90) {
+      speedSmallUpFlag = false;
+    }
+
+    if (controller.getPOV() == 270 && !speedSmallDownFlag) {
+      System.out.println(" - Speed: " + speed);
+      speed -= speed < 1 ? .05 : 0;
+      speedSmallDownFlag = true;
+    } else if (controller.getPOV() == 270) {
+      speedSmallDownFlag = false;
     }
 
     shooterOne.set(-speed);
