@@ -39,4 +39,12 @@ public class Config4905 {
   public static Config4905 getConfig4905() {
     return m_config4905;
   }
+
+  private static Config drivetrainFactory = ConfigFactory
+    .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/drivetrain.conf"));
+  private static Config drivetrainConfig = drivetrainFactory.withFallback(defaultConfig).resolve();
+  
+  public Config getDrivetrainConfig() {
+       return drivetrainConfig;
+  }
 }
