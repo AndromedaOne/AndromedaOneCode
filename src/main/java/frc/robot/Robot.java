@@ -9,12 +9,16 @@ package frc.robot;
 
 import java.io.File;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.actuators.SparkMaxController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +29,15 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private CANSparkMax shooterOne;
+  private CANSparkMax shooterTwo;
+  private CANSparkMax shooterSeries;
+  private double speed = 0;
+  private boolean speedUpFlag = false;
+  private boolean speedDownFlag = false;
+  private boolean speedSmallUpFlag = false;
+  private boolean speedSmallDownFlag = false;
+  private Joystick controller;
 
   private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
@@ -82,6 +95,11 @@ public class Robot extends TimedRobot {
     } else {
       System.out.println("Using fake drivetrain");
     }
+
+    shooterOne = new CANSparkMax(0, MotorType.kBrushless);
+    shooterTwo = new CANSparkMax(1, MotorType.kBrushless);
+    shooterSeries = new CANSparkMax(2, MotorType.kBrushless);
+
   }
 
   /**
@@ -103,6 +121,44 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    if (controller.getRawButtonPressed(4) && !speedUpFlag) {
+      System.out.println(" - Speed: " + speed);
+      speed += speed < 1 ? .1 : 0;
+      speedUpFlag = true;
+    } else if (controller.getRawButtonReleased(4)) {
+      speedUpFlag = false;
+    }
+
+    if (controller.getRawButtonPressed(1) && !speedDownFlag) {
+      System.out.println(" - Speed: " + speed);
+      speed -= speed > -1 ? .1 : 0;
+      speedDownFlag = true;
+    } else if (controller.getRawButtonReleased(1)) {
+      speedDownFlag = false;
+    }
+
+    if (controller.getPOV() == 90 && !speedSmallUpFlag) {
+      System.out.println(" - Speed: " + speed);
+      speed += speed < 1 ? .05 : 0;
+      speedSmallUpFlag = true;
+    } else if (controller.getPOV() == 90) {
+      speedSmallUpFlag = false;
+    }
+
+    if (controller.getPOV() == 270 && !speedSmallDownFlag) {
+      System.out.println(" - Speed: " + speed);
+      speed -= speed < 1 ? .05 : 0;
+      speedSmallDownFlag = true;
+    } else if (controller.getPOV() == 270) {
+      speedSmallDownFlag = false;
+    }
+
+    
+
+    shooterOne.set(-speed);
+    shooterTwo.set(speed);
+    shooterSeries.set(-speed);
   }
 
   /**
