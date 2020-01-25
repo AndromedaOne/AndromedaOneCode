@@ -13,13 +13,8 @@ public class MockSparkMaxEncoderSensor extends SparkMaxEncoderSensor {
   }
 
   @Override
-  public double getRate() {
+  public double getVelocity() {
     return 0;
-  }
-
-  @Override
-  public void reset() {
-    // Attempting to reset the non-existent encoder
   }
 
 }

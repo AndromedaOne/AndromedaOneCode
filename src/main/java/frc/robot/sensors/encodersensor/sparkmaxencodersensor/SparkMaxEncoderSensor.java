@@ -17,11 +17,6 @@ public abstract class SparkMaxEncoderSensor {
     /**
      * @return the rate of the Spark Max encoder in ticks per second
      */
-    public abstract double getRate();
-
-    /**
-     * Resets the encoder
-     */
-    public abstract void reset();
+    public abstract double getVelocity();
 
 }
