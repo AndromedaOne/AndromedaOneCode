@@ -31,11 +31,6 @@ public class RealMagEncoderSensor extends MagEncoderSensor {
   }
 
   @Override
-  public void putSensorOnLiveWindow(String subsystemNameParam, String sensorNameParam) {
-    super.putReadingOnLiveWindow(subsystemNameParam, sensorNameParam + "Ticks:", this::getDistanceTicks);
-  }
-
-  @Override
   public void reset() {
     initialPosition = getPosition();
   }

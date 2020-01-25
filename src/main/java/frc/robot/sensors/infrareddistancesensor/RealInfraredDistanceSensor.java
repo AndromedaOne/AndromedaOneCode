@@ -12,9 +12,4 @@ public class RealInfraredDistanceSensor extends InfraredDistanceSensor {
   public double getInfraredDistance() {
     return infraredDistanceSensor.getVoltage();
   }
-
-  @Override
-  public void putSensorOnLiveWindow(String subsystemNameParam, String sensorNameParam) {
-    putReadingOnLiveWindow(subsystemNameParam, sensorNameParam + "Distance:", this::getInfraredDistance);
-  }
 }

@@ -24,9 +24,4 @@ public class RealAngleSensor extends AngleSensor {
   @Override
   public void reset() {
   }
-
-  @Override
-  public void putSensorOnLiveWindow(String subsystemNameParam, String sensorNameParam) {
-    super.putReadingOnLiveWindow(subsystemNameParam, sensorNameParam + "Angle:", this::getAngle);
-  }
 }

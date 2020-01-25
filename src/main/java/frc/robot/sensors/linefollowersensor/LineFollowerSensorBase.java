@@ -115,7 +115,7 @@ public abstract class LineFollowerSensorBase {
    * center
    * 
    * @return This will return a boolean stating wether or not we are detecting a
-   * line
+   *         line
    * @author Owen Salter & Devin C
    */
   private boolean isThereLine() {
@@ -138,7 +138,7 @@ public abstract class LineFollowerSensorBase {
 
   /**
    * @return This will return wether or not we found a line and what angle we
-   * found the line at as a type LineFollowArraySensorReading
+   *         found the line at as a type LineFollowArraySensorReading
    */
   public LineFollowArraySensorReading findLine() {
     sensorReadingBuffer = sensorDataThread.getSensorReadingBuffer();

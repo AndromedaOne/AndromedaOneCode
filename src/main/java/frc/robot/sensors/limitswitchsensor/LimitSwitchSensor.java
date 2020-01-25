@@ -1,8 +1,6 @@
 package frc.robot.sensors.limitswitchsensor;
 
-import frc.robot.sensors.SensorBase;
-
-public abstract class LimitSwitchSensor extends SensorBase {
+public abstract class LimitSwitchSensor {
 
   /**
    * @return trues if the limit switch is at its limit

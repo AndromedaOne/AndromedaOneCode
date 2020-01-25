@@ -22,7 +22,7 @@ public class SunFounderSensorArray extends LineFollowerSensorBase {
 
   /**
    * @return An array of booleans where true means that a line was detected and
-   * false means that a line wasn't detected
+   *         false means that a line wasn't detected
    * @author Owen Salter
    */
   private boolean once = true;
@@ -31,7 +31,7 @@ public class SunFounderSensorArray extends LineFollowerSensorBase {
    * Doesn't do anything right now.
    * 
    * @return structure containing a boolean of whether the line is found, and the
-   * angle in radians
+   *         angle in radians
    */
   public void getSensorReading(int[] readingBuf) {
     /*

@@ -12,7 +12,7 @@ import frc.robot.Robot;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
-public class NavXGyroSensor extends SensorBase {
+public class NavXGyroSensor {
   AHRS gyro; /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
   static NavXGyroSensor instance;
   private double initialZAngleReading = 0.0;
@@ -128,10 +128,4 @@ public class NavXGyroSensor extends SensorBase {
     }
     return correctedAngle;
   }
-
-  @Override
-  public void putSensorOnLiveWindow(String subsystemNameParam, String sensorNameParam) {
-    super.putReadingOnLiveWindow(subsystemNameParam, sensorNameParam + "ZAngle:", this::getZAngle);
-  }
-
 }

@@ -15,8 +15,8 @@ public class RealUltrasonicSensorPair extends UltrasonicSensor {
    * Creates an ultrasonic pair which takes in two ultrasonics and assumes one is
    * on the left and one is on the right
    * 
-   * @param leftPing left ultrasonic ping port
-   * @param leftEcho left ultrasonic echo port
+   * @param leftPing  left ultrasonic ping port
+   * @param leftEcho  left ultrasonic echo port
    * @param rightPing right ultrasonic ping port
    * @param rightEcho right ultrasonic echo port
    */
@@ -57,11 +57,6 @@ public class RealUltrasonicSensorPair extends UltrasonicSensor {
     }
     SmartDashboard.putNumber("Ultrasonic", distance);
     return distance;
-  }
-
-  @Override
-  public void putSensorOnLiveWindow(String subsystemNameParam, String sensorNameParam) {
-    super.putReadingOnLiveWindow(subsystemNameParam, sensorNameParam + "Inches:", this::getDistanceInches);
   }
 
   public double getMinDistanceInches() {

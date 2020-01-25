@@ -10,7 +10,7 @@ public class RealLimitSwitchSensor extends LimitSwitchSensor {
    * Sets the limit switch to a new DigitalInput with the port specified and
    * records whether or not the limit switch has reversed polarity
    * 
-   * @param port Port to use
+   * @param port                  Port to use
    * @param reversedPolarityParam Whether or not to reverse the polarity
    */
   public RealLimitSwitchSensor(int port, boolean reversedPolarityParam) {
@@ -24,10 +24,5 @@ public class RealLimitSwitchSensor extends LimitSwitchSensor {
       return !limitSwitch.get();
     }
     return limitSwitch.get();
-  }
-
-  @Override
-  public void putSensorOnLiveWindow(String subsystemNameParam, String sensorNameParam) {
-    super.putReadingOnLiveWindow(subsystemNameParam, sensorNameParam + "IsAtLimit:", this::isAtLimit);
   }
 }
