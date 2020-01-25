@@ -15,6 +15,9 @@ import com.typesafe.config.ConfigFactory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.oi.OIContainer;
+import frc.robot.sensors.SensorsContainer;
+import frc.robot.subsystems.SubsystemsContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,7 +28,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private SubsystemsContainer subsystemContainer;
+  private SensorsContainer sensorsContainer;
+  private OIContainer oiContainer;
   private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
   /**
@@ -76,12 +81,10 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     System.out.println("Robot name = " + nameConfig.getString("robot.name"));
-
-    if (conf.hasPath("subsystems.driveTrain")) {
-      System.out.println("Using real drivetrain");
-    } else {
-      System.out.println("Using fake drivetrain");
-    }
+    subsystemContainer = new SubsystemsContainer();
+    oiContainer = new OIContainer();
+    sensorsContainer = new SensorsContainer();
+    
   }
 
   /**

@@ -5,13 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.oi;
-
-import edu.wpi.first.wpilibj.Joystick;
+package frc.robot.sensors;
 
 /**
- * Add your docs here.
+ * The Container that controls whether the sensors are real or mock. Uses the config to do this.
  */
-public class DriveController {
-  Joystick driveController = new Joystick(0);
+public class SensorsContainer {
+    //TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
+    public SensorsContainer() {
+        
+    }
 }

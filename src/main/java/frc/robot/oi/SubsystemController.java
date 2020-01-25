@@ -7,8 +7,12 @@
 
 package frc.robot.oi;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 /**
  * Add your docs here.
  */
 public class SubsystemController {
+  Joystick subsystemController = new Joystick(1);
+
 }

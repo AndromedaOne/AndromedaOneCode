@@ -7,11 +7,17 @@
 
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Add your docs here.
+ * The container that controls all of the classes in package OI.
  */
-public class DriveController {
-  Joystick driveController = new Joystick(0);
+public class OIContainer {
+    DriveController m_driveController;
+    Smartdashboard m_smartDashboard;
+    SubsystemController m_subsystemController;
+    public OIContainer() {
+        m_driveController = new DriveController();
+        m_smartDashboard = new Smartdashboard();
+        m_subsystemController = new SubsystemController();
+    }
 }
