@@ -1,7 +1,10 @@
 package frc.robot.sensors.ultrasonicsensor;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Config4905;
 
 public class RealUltrasonicSensor extends UltrasonicSensor {
   private Ultrasonic ultrasonic;
@@ -15,7 +18,10 @@ public class RealUltrasonicSensor extends UltrasonicSensor {
    * @param ping Port for the ping
    * @param echo Port for the echo
    */
-  public RealUltrasonicSensor(int ping, int echo) {
+  public RealUltrasonicSensor(String confString) {
+    Config conf = Config4905.getConfig4905().getSensorConfig();
+    int ping = conf.getInt("sensors." + confString + ".ping");
+    int echo = conf.getInt("sensors." + confString + ".echo");
     ultrasonic = new Ultrasonic(ping, echo);
     ultrasonic.setEnabled(true);
     ultrasonic.setAutomaticMode(true);

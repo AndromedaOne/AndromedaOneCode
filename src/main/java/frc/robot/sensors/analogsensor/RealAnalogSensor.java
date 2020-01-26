@@ -1,14 +1,19 @@
 package frc.robot.sensors.analogsensor;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.AnalogInput;
+import frc.robot.Config4905;
 
 public class RealAnalogSensor extends AnalogSensor {
   private AnalogInput angleSensor;
   private boolean useWrapAround = false;
+  private Config conf;
 
-  public RealAnalogSensor(int port) {
+  public RealAnalogSensor(int port, String configString) {
     angleSensor = new AnalogInput(port);
-
+    this.conf = Config4905.getConfig4905().getSensorConfig();
+    this.useWrapAround = this.conf.getBoolean("sensors." + configString + "useWrapAround");
   }
 
   @Override

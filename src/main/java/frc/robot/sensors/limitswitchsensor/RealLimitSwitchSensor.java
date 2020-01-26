@@ -1,6 +1,9 @@
 package frc.robot.sensors.limitswitchsensor;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Config4905;
 
 public class RealLimitSwitchSensor extends LimitSwitchSensor {
   private DigitalInput limitSwitch;
@@ -10,12 +13,12 @@ public class RealLimitSwitchSensor extends LimitSwitchSensor {
    * Sets the limit switch to a new DigitalInput with the port specified and
    * records whether or not the limit switch has reversed polarity
    * 
-   * @param port                  Port to use
-   * @param reversedPolarityParam Whether or not to reverse the polarity
+   * @param confString name of the sensor
    */
-  public RealLimitSwitchSensor(int port, boolean reversedPolarityParam) {
-    limitSwitch = new DigitalInput(port);
-    reversedPolarity = reversedPolarityParam;
+  public RealLimitSwitchSensor(String confString) {
+    Config conf = Config4905.getConfig4905().getSensorConfig();
+    limitSwitch = new DigitalInput(conf.getInt("sensors." + confString + ".port"));
+    reversedPolarity = conf.getBoolean("sensors." + confString + ".reversedPolarity");
   }
 
   @Override

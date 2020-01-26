@@ -1,7 +1,10 @@
 package frc.robot.sensors.ultrasonicsensor;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Config4905;
 
 public class RealUltrasonicSensorPair extends UltrasonicSensor {
   private Ultrasonic leftUltrasonic;
@@ -20,10 +23,15 @@ public class RealUltrasonicSensorPair extends UltrasonicSensor {
    * @param rightPing right ultrasonic ping port
    * @param rightEcho right ultrasonic echo port
    */
-  public RealUltrasonicSensorPair(int leftPing, int leftEcho, int rightPing, int rightEcho) {
+  public RealUltrasonicSensorPair(String confString) {
     // Everytime we add new ultrasonics we need to disable automatic mode and re
     // enable it
     // rightUltrasonic.setAutomaticMode(false);
+    Config conf = Config4905.getConfig4905().getSensorConfig();
+    int leftPing = conf.getInt("sensors." + confString + ".leftPing");
+    int leftEcho = conf.getInt("sensors." + confString + ".leftEcho");
+    int rightPing = conf.getInt("sensors." + confString + ".rightPing");
+    int rightEcho = conf.getInt("sensors." + confString + ".rightEcho");
     leftUltrasonic = new Ultrasonic(leftPing, leftEcho);
     leftUltrasonic.setEnabled(true);
     rightUltrasonic = new Ultrasonic(rightPing, rightEcho);
