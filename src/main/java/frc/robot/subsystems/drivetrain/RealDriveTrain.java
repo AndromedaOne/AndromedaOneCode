@@ -9,6 +9,7 @@ package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
 public class RealDriveTrain extends DriveTrain {
@@ -27,6 +28,8 @@ public class RealDriveTrain extends DriveTrain {
   private final SparkMaxController m_frontRight = new SparkMaxController("frontright");
   private final SparkMaxController m_backRight = new SparkMaxController("backright");
 
+  private int ticksPerInch = Config4905.getConfig4905().getDrivetrainConfig().getInt("drivetrain.ticksPerInch");
+
   // the robot's main drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftmotors, m_rightmotors);
 
@@ -40,16 +43,16 @@ public class RealDriveTrain extends DriveTrain {
   }
 
   @Override
-  public double getEncoderPosition() {
-    double encoderPositionAvg = (m_frontLeft.getEncoderPositionInches() + m_backLeft.getEncoderPositionInches()
-        + m_frontRight.getEncoderPositionInches() + m_backRight.getEncoderPositionInches()) / 4;
+  public double getEncoderPositionInches() {
+    double encoderPositionAvg = (m_frontLeft.getEncoderPositionTicks() + m_backLeft.getEncoderPositionTicks()
+        + m_frontRight.getEncoderPositionTicks() + m_backRight.getEncoderPositionTicks()) / 4 * ticksPerInch;
     return encoderPositionAvg;
   }
 
   @Override
-  public double getEncoderVelocity() {
-    double encoderVelocityAvg = (m_frontLeft.getEncoderVelocityInches() + m_backLeft.getEncoderVelocityInches()
-        + m_frontRight.getEncoderVelocityInches() + m_backRight.getEncoderVelocityInches()) / 4;
+  public double getEncoderVelocityInches() {
+    double encoderVelocityAvg = (m_frontLeft.getEncoderVelocityTicks() + m_backLeft.getEncoderVelocityTicks()
+        + m_frontRight.getEncoderVelocityTicks() + m_backRight.getEncoderVelocityTicks()) / 4 * ticksPerInch;
     return encoderVelocityAvg;
   }
 }

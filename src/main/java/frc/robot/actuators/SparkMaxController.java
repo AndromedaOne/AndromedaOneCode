@@ -10,7 +10,6 @@ import frc.robot.Config4905;
 public class SparkMaxController implements SpeedController {
   private CANSparkMax m_sparkMaxController;
   private CANEncoder m_sparkMaxEncoder;
-  private int ticks_per_inch = Config4905.getConfig4905().getDrivetrainConfig().getInt("drivetrain.ticks_per_inch");
 
   public SparkMaxController(String configString) {
     m_sparkMaxController = new CANSparkMax(
@@ -64,13 +63,5 @@ public class SparkMaxController implements SpeedController {
 
   public double getEncoderVelocityTicks() {
     return m_sparkMaxEncoder.getVelocity();
-  }
-
-  public double getEncoderPositionInches() {
-    return m_sparkMaxEncoder.getPosition() / ticks_per_inch;
-  }
-
-  public double getEncoderVelocityInches() {
-    return m_sparkMaxEncoder.getVelocity() / ticks_per_inch;
   }
 }
