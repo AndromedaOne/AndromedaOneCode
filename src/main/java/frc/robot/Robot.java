@@ -9,6 +9,7 @@ package frc.robot;
 
 import java.io.File;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.typesafe.config.Config;
@@ -38,6 +39,9 @@ public class Robot extends TimedRobot {
   private boolean speedSmallUpFlag = false;
   private boolean speedSmallDownFlag = false;
   private Joystick controller = new Joystick(0);
+  private CANEncoder shooterEncoder = new CANEncoder(shooterOne);
+  private CANEncoder seriesEncoder = new CANEncoder(shooterSeries);
+  private int loopCount = 0;
 
   private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
@@ -121,6 +125,16 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    if(loopCount > 25) {
+      loopCount = 0;
+      System.out.println(" --- Shooter: " + shooterEncoder.getVelocity() / 42 + " ---"); 
+      System.out.println(" --- Series: " + seriesEncoder.getVelocity() / 42 + " ---");
+      System.out.println();
+      System.out.println(); 
+    }
+
+    loopCount++;
 
     if (controller.getRawButtonPressed(4) && !speedUpFlag) {
       speed += speed < 1 ? .1 : 0;
