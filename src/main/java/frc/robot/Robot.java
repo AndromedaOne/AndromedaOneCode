@@ -171,7 +171,7 @@ public class Robot extends TimedRobot {
 
     shooterOne.set(-speed);
     shooterTwo.set(speed);
-    shooterSeries.set(-speed);
+    shooterSeries.set(speed);
   }
 
   /**
