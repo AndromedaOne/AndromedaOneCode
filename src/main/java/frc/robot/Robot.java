@@ -7,14 +7,12 @@
 
 package frc.robot;
 
-import java.io.File;
-
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.oi.OIContainer;
+import frc.robot.sensors.SensorsContainer;
+import frc.robot.subsystems.SubsystemsContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,33 +23,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
-  private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
-
-  /**
-   * This config should live on the robot and have hardware- specific configs.
-   */
-  private static Config environmentalConfig = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/robot.conf"));
-
-  /**
-   * This config lives in the jar and has hardware-independent configs.
-   */
-  private static Config defaultConfig = ConfigFactory.parseResources("application.conf");
-
-  /**
-   * Combined config
-   */
-  protected static Config conf = environmentalConfig.withFallback(defaultConfig).resolve();
-
-  /**
-   * Get the robot's config
-   * 
-   * @return the config
-   */
-  public static Config getConfig() {
-    return conf;
-  }
+  private SubsystemsContainer subsystemContainer;
+  private SensorsContainer sensorsContainer;
+  private OIContainer oiContainer;
 
   private Robot() {
 
@@ -75,13 +49,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    System.out.println("Robot name = " + nameConfig.getString("robot.name"));
-
-    if (conf.hasPath("subsystems.driveTrain")) {
-      System.out.println("Using real drivetrain");
-    } else {
-      System.out.println("Using fake drivetrain");
-    }
+    subsystemContainer = new SubsystemsContainer();
+    oiContainer = new OIContainer();
+    sensorsContainer = new SensorsContainer();
   }
 
   /**

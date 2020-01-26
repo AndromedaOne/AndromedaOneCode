@@ -1,22 +1,19 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.drivetrain;
+package frc.robot.sensors;
 
-public class VBusControl extends DriveTrainBase {
-  /**
-   * Creates a new VBusControl.
-   */
-  public VBusControl() {
+/**
+ * The Container that controls whether the sensors are real or mock. Uses the
+ * config to do this.
+ */
+public class SensorsContainer {
+  // TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
+  public SensorsContainer() {
 
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }
