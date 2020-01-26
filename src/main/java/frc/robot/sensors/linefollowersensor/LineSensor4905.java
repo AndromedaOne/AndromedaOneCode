@@ -14,7 +14,6 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.I2C;
 import frc.robot.Config4905;
-import frc.robot.Robot;
 
 /**
  * This line sensor is the line sensor that currently uses 8 Pololu sensors
@@ -24,7 +23,8 @@ import frc.robot.Robot;
 public class LineSensor4905 extends LineFollowerSensorBase {
 
   private static I2C i2c = new I2C(I2C.Port.kOnboard, 2);
-  private Config lineConf = Config4905.getConfig4905().getSensorConfig().getConfig("sensors.lineFollowSensor.lineFollowSensor4905");
+  private Config lineConf = Config4905.getConfig4905().getSensorConfig()
+      .getConfig("sensors.lineFollowSensor.lineFollowSensor4905");
   private final int NUM_SENSORS = lineConf.getInt("numSensors");
   private static long averageTime = 0;
   private static int timesAveraged = 50;

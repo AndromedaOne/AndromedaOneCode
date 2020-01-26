@@ -5,7 +5,6 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
-import frc.robot.Robot;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
