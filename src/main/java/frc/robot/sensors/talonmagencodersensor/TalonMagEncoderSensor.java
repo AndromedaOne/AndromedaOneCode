@@ -1,6 +1,6 @@
-package frc.robot.sensors.magencodersensor;
+package frc.robot.sensors.talonmagencodersensor;
 
-public abstract class MagEncoderSensor {
+public abstract class TalonMagEncoderSensor {
 
   /**
    * @return the distance in ticks that the MagEncoder has traveled

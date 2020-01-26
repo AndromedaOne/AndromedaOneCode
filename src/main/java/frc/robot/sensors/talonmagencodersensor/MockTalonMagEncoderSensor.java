@@ -1,6 +1,6 @@
-package frc.robot.sensors.magencodersensor;
+package frc.robot.sensors.talonmagencodersensor;
 
-public class MockMagEncoderSensor extends MagEncoderSensor {
+public class MockTalonMagEncoderSensor extends TalonMagEncoderSensor {
 
   @Override
   public double getDistanceTicks() {

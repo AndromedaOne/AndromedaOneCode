@@ -1,9 +1,9 @@
-package frc.robot.sensors.magencodersensor;
+package frc.robot.sensors.talonmagencodersensor;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-public class RealMagEncoderSensor extends MagEncoderSensor {
+public class RealTalonMagEncoderSensor extends TalonMagEncoderSensor {
   private WPI_TalonSRX talonSpeedController;
   private double initialPosition = 0;
 
@@ -14,7 +14,7 @@ public class RealMagEncoderSensor extends MagEncoderSensor {
    * 
    * @param talon Talon object to attach encoder to
    */
-  public RealMagEncoderSensor(WPI_TalonSRX talon, boolean reverseDirectionParam, boolean useAbsoluteReadings) {
+  public RealTalonMagEncoderSensor(WPI_TalonSRX talon, boolean reverseDirectionParam, boolean useAbsoluteReadings) {
     talonSpeedController = talon;
     if (!useAbsoluteReadings) {
       talonSpeedController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
