@@ -30,7 +30,7 @@ public class MoveUsingEncoder extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.move(output, 0, false)
+          drivetrain.move(output, 0, false);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
