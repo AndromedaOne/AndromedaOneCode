@@ -16,16 +16,6 @@ import edu.wpi.first.wpilibj.Joystick;
 public class DriveController {
   private Joystick m_driveController = new Joystick(0);
 
-  /*
-   * Below are a bunch of getters for the drive controller and its joystick
-   * values. getForwardBackwardStick is negative to ensure pushing the stick
-   * FORWARD (positive) returns a positive value.
-   */
-
-  public Joystick getDriveController() {
-    return m_driveController;
-  }
-
   /**
    * Returns the position of the forward/backward stick with FORWARD being a
    * positive value to stick with our conventions.
