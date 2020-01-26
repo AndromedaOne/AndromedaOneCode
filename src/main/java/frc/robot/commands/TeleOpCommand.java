@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.sensors;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class PlaceHolder extends CommandBase {
+public class TeleOpCommand extends CommandBase {
   /**
-   * Creates a new PlaceHolder.
+   * Creates a new command TeleOpCommand.
    */
-  public PlaceHolder() {
+  public TeleOpCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

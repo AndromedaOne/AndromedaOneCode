@@ -9,11 +9,11 @@ package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveTrainBase extends SubsystemBase {
+public abstract class DriveTrain extends SubsystemBase {
   /**
    * Creates a new DriveTrainBase.
    */
-  public DriveTrainBase() {
+  public DriveTrain() {
 
   }
 
@@ -21,4 +21,10 @@ public class DriveTrainBase extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public abstract void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput);
+
+  public abstract double getEncoderPositionInches();
+
+  public abstract double getEncoderVelocityInches();
 }
