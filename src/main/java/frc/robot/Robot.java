@@ -140,20 +140,20 @@ public class Robot extends TimedRobot {
 
 //getters for various OI things below
 
-public Command getAutoCommand(){
-  return m_autonomousCommand;
-}
+  public Command getAutoCommand() {
+    return m_autonomousCommand;
+  }
 
-public SubsystemsContainer getSubsystemsContainer(){
-  return m_subsystemContainer;
-}
+  public SubsystemsContainer getSubsystemsContainer() {
+    return m_subsystemContainer;
+  }
 
-public SensorsContainer getSensorsContainer(){
-  return m_sensorsContainer;
-}
+  public SensorsContainer getSensorsContainer() {
+    return m_sensorsContainer;
+  }
 
-public OIContainer getOIContainer(){
-  return m_oiContainer;
-}
+  public OIContainer getOIContainer() {
+    return m_oiContainer;
+  }
 
 }

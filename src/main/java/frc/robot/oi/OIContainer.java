@@ -21,15 +21,15 @@ public class OIContainer {
     m_subsystemController = new SubsystemController();
   }
 
-  public DriveController getDriveController(){
+  public DriveController getDriveController() {
     return m_driveController;
   }
 
-  public Smartdashboard getSmartDashboard(){
+  public Smartdashboard getSmartDashboard() {
     return m_smartDashboard;
   }
 
-  public SubsystemController getSubsystemController(){
+  public SubsystemController getSubsystemController() {
     return m_subsystemController;
   }
 }

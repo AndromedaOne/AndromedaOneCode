@@ -18,8 +18,8 @@ import frc.robot.oi.SubsystemController;
 public class TeleOpCommand extends CommandBase {
 
 //Make the controllers a little easier to get to.  
-private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
-private SubsystemController m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
+  private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
+  private SubsystemController m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
 
   /**
    * Takes inputs from the two joysticks on the drive controller.
@@ -40,7 +40,8 @@ private SubsystemController m_subsystemController = Robot.getInstance().getOICon
     double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
     double rotateStickValue = m_driveController.getRotateStick();
 
-    Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(forwardBackwardStickValue, rotateStickValue, true);
+    Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(forwardBackwardStickValue, rotateStickValue,
+        true);
   }
 
   // Called once the command ends or is interrupted.

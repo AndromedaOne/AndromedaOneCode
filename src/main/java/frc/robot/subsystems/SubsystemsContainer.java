@@ -98,7 +98,7 @@ public class SubsystemsContainer {
 
   }
 
-  public DriveTrain getDrivetrain(){
+  public DriveTrain getDrivetrain() {
     return m_driveTrain;
   }
 
