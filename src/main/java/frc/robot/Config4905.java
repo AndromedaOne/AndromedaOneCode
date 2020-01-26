@@ -40,6 +40,22 @@ public class Config4905 {
     return m_config4905;
   }
 
+  private static Config climberFactory = ConfigFactory
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/climber.conf"));
+  private static Config climberConfig = climberFactory.withFallback(defaultConfig).resolve();
+
+  public Config getClimberConfig() {
+    return climberConfig;
+  }
+
+  public boolean doesClimberExist() {
+    if (m_config.hasPath("subsystems.climber")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   private static Config drivetrainFactory = ConfigFactory.parseFile(
       new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/drivetrain.conf"));
   private static Config drivetrainConfig = drivetrainFactory.withFallback(defaultConfig).resolve();
@@ -50,6 +66,54 @@ public class Config4905 {
 
   public boolean doesDrivetrainExist() {
     if (m_config.hasPath("subsystems.driveTrain")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private static Config feederFactory = ConfigFactory
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/feeder.conf"));
+  private static Config feederConfig = feederFactory.withFallback(defaultConfig).resolve();
+
+  public Config getFeederConfig() {
+    return feederConfig;
+  }
+
+  public boolean doesFeederExist() {
+    if (m_config.hasPath("subsystems.feeder")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private static Config intakeFactory = ConfigFactory
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/intake.conf"));
+  private static Config intakeConfig = intakeFactory.withFallback(defaultConfig).resolve();
+
+  public Config getIntakeConfig() {
+    return intakeConfig;
+  }
+
+  public boolean doesIntakeExist() {
+    if (m_config.hasPath("subsystems.intake")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private static Config shooterFactory = ConfigFactory
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/shooter.conf"));
+  private static Config shooterConfig = shooterFactory.withFallback(defaultConfig).resolve();
+
+  public Config getShooterConfig() {
+    return shooterConfig;
+  }
+
+  public boolean doesShooterExist() {
+    if (m_config.hasPath("subsystems.shooter")) {
       return true;
     } else {
       return false;
