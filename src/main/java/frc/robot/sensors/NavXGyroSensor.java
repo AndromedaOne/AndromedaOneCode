@@ -8,6 +8,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
@@ -36,7 +37,7 @@ public class NavXGyroSensor {
        * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
        * details.
        */
-      Config conf = Robot.getConfig();
+      Config conf = Config4905.getConfig4905();
       Config navXConfig = conf.getConfig("sensors.navx");
       String navXPort = navXConfig.getString("port");
       System.out.println("Creating a NavX Gyro on port: " + navXPort);

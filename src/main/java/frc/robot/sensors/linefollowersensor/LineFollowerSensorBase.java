@@ -4,6 +4,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
@@ -12,7 +13,7 @@ public abstract class LineFollowerSensorBase {
 
   public abstract void getSensorReading(int[] readingBuf);
 
-  private Config lineConf = Robot.getConfig().getConfig("sensors.lineFollowSensor");
+  private Config lineConf = Config4905.getConfig4905().;
   private LineFollowArraySensorReading sensorReading = new LineFollowArraySensorReading();
   private GetSensorData sensorDataThread;
   private double currentDistanceFromCenter = 0;
