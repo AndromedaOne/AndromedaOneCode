@@ -23,4 +23,8 @@ public abstract class DriveTrain extends SubsystemBase {
   }
 
   public abstract void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput);
+
+  public abstract double getEncoderPosition();
+
+  public abstract double getEncoderVelocity();
 }

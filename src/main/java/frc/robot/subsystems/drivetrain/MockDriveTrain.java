@@ -23,4 +23,14 @@ public class MockDriveTrain extends DriveTrain {
   public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
 
   }
+
+  @Override
+  public double getEncoderPosition() {
+    return 0;
+  }
+
+  @Override
+  public double getEncoderVelocity() {
+    return 0;
+  }
 }
