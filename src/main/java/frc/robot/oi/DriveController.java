@@ -13,5 +13,10 @@ import edu.wpi.first.wpilibj.Joystick;
  * Add your docs here.
  */
 public class DriveController {
-  Joystick driveController = new Joystick(0);
+  private Joystick m_driveController = new Joystick(0);
+
+  public Joystick getDriveController(){
+    return m_driveController;
+  }
+
 }

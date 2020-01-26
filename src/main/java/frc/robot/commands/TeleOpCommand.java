@@ -7,9 +7,17 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.oi.DriveController;
+import frc.robot.oi.SubsystemController;
 
 public class TeleOpCommand extends CommandBase {
+
+private DriveController driveController = Robot.getInstance().getOIContainer().getDriveController();
+private SubsystemController subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
+
   /**
    * Creates a new command TeleOpCommand.
    */

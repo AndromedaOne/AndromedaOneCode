@@ -28,9 +28,9 @@ import frc.robot.subsystems.SubsystemsContainer;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private SubsystemsContainer subsystemContainer;
-  private SensorsContainer sensorsContainer;
-  private OIContainer oiContainer;
+  private SubsystemsContainer m_subsystemContainer;
+  private SensorsContainer m_sensorsContainer;
+  private OIContainer m_oiContainer;
   private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
   /**
@@ -81,9 +81,9 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     System.out.println("Robot name = " + nameConfig.getString("robot.name"));
-    subsystemContainer = new SubsystemsContainer();
-    oiContainer = new OIContainer();
-    sensorsContainer = new SensorsContainer();
+    m_subsystemContainer = new SubsystemsContainer();
+    m_oiContainer = new OIContainer();
+    m_sensorsContainer = new SensorsContainer();
 
   }
 
@@ -170,4 +170,23 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+
+//getters for various OI things below
+
+public Command getAutoCommand(){
+  return m_autonomousCommand;
+}
+
+public SubsystemsContainer getSubsystemsContainer(){
+  return m_subsystemContainer;
+}
+
+public SensorsContainer getSensorsContainer(){
+  return m_sensorsContainer;
+}
+
+public OIContainer getOIContainer(){
+  return m_oiContainer;
+}
+
 }
