@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
   private boolean speedDownFlag = false;
   private boolean speedSmallUpFlag = false;
   private boolean speedSmallDownFlag = false;
-  private Joystick controller;
+  private Joystick controller = new Joystick(0);
 
   private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
@@ -123,32 +123,32 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     if (controller.getRawButtonPressed(4) && !speedUpFlag) {
-      System.out.println(" - Speed: " + speed);
       speed += speed < 1 ? .1 : 0;
+      System.out.println(" - Speed: " + speed);
       speedUpFlag = true;
     } else if (controller.getRawButtonReleased(4)) {
       speedUpFlag = false;
     }
 
     if (controller.getRawButtonPressed(1) && !speedDownFlag) {
-      System.out.println(" - Speed: " + speed);
       speed -= speed > -1 ? .1 : 0;
+      System.out.println(" - Speed: " + speed);
       speedDownFlag = true;
     } else if (controller.getRawButtonReleased(1)) {
       speedDownFlag = false;
     }
 
     if (controller.getPOV() == 90 && !speedSmallUpFlag) {
-      System.out.println(" - Speed: " + speed);
       speed += speed < 1 ? .05 : 0;
+      System.out.println(" - Speed: " + speed);
       speedSmallUpFlag = true;
     } else if (controller.getPOV() == 90) {
       speedSmallUpFlag = false;
     }
 
     if (controller.getPOV() == 270 && !speedSmallDownFlag) {
-      System.out.println(" - Speed: " + speed);
       speed -= speed < 1 ? .05 : 0;
+      System.out.println(" - Speed: " + speed);
       speedSmallDownFlag = true;
     } else if (controller.getPOV() == 270) {
       speedSmallDownFlag = false;
