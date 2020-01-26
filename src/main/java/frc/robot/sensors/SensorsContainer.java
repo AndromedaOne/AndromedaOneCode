@@ -8,11 +8,12 @@
 package frc.robot.sensors;
 
 /**
- * The Container that controls whether the sensors are real or mock. Uses the config to do this.
+ * The Container that controls whether the sensors are real or mock. Uses the
+ * config to do this.
  */
 public class SensorsContainer {
-    //TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
-    public SensorsContainer() {
-        
-    }
+  // TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
+  public SensorsContainer() {
+
+  }
 }

@@ -7,10 +7,7 @@
 
 package frc.robot.subsystems;
 
-import java.io.File;
-
 import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
 import frc.robot.Robot;
 import frc.robot.subsystems.climber.ClimberBase;
@@ -40,8 +37,8 @@ public class SubsystemsContainer {
   FeederBase m_feeder;
   IntakeBase m_intake;
   ShooterBase m_shooter;
-  Config conf = Robot.getConfig(); 
- 
+  Config conf = Robot.getConfig();
+
   /**
    * The container responsible for setting all the subsystems to real or mock.
    * Uses config settings to determine this.
