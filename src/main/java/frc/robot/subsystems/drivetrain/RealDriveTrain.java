@@ -38,8 +38,15 @@ public class RealDriveTrain extends DriveTrain {
     // This method will be called once per scheduler run
   }
 
+  /**
+   * Drives the robot using arcadeDrive
+   * 
+   * @param forwardBackSpeed Positive values go forward, negative goes backwards
+   * @param rotateAmount     Per the right hand rule, positive goes
+   *                         counter-clockwise and negative goes clockwise.
+   */
   public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
-    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount);
+    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount);
   }
 
   @Override

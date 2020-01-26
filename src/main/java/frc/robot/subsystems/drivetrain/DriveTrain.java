@@ -8,13 +8,14 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.TeleOpCommand;
 
 public abstract class DriveTrain extends SubsystemBase {
   /**
    * Creates a new DriveTrainBase.
    */
   public DriveTrain() {
-
+    setDefaultCommand(new TeleOpCommand());
   }
 
   @Override
