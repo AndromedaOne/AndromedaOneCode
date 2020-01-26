@@ -1,13 +1,13 @@
-package frc.robot.sensors.anglesensor;
+package frc.robot.sensors.analogsensor;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import frc.robot.Robot;
 
-public class RealAngleSensor extends AngleSensor {
+public class RealAnalogSensor extends AnalogSensor {
   private AnalogInput angleSensor;
   private boolean useWrapAround = false;
 
-  public RealAngleSensor(int port) {
+  public RealAnalogSensor(int port) {
     angleSensor = new AnalogInput(port);
     useWrapAround = Robot.getConfig().getBoolean("ports.intake.useIntakeWrapAround");
   }

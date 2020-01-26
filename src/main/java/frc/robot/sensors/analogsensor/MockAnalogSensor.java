@@ -1,6 +1,6 @@
-package frc.robot.sensors.anglesensor;
+package frc.robot.sensors.analogsensor;
 
-public class MockAngleSensor extends AngleSensor {
+public class MockAnalogSensor extends AnalogSensor {
 
   @Override
   public double getAngle() {
