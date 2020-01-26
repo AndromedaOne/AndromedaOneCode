@@ -119,4 +119,10 @@ public class Config4905 {
       return false;
     }
   }
+  private static Config sensorFactory = ConfigFactory
+  .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/sensors.conf"));
+
+  public Config getSensorConfig() {
+    return sensorFactory.withFallback(defaultConfig).resolve();
+  }
 }

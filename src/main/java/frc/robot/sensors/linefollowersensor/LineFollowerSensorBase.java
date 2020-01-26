@@ -13,7 +13,7 @@ public abstract class LineFollowerSensorBase {
 
   public abstract void getSensorReading(int[] readingBuf);
 
-  private Config lineConf = Config4905.getConfig4905().;
+  private Config lineConf = Config4905.getConfig4905().getSensorConfig();
   private LineFollowArraySensorReading sensorReading = new LineFollowArraySensorReading();
   private GetSensorData sensorDataThread;
   private double currentDistanceFromCenter = 0;

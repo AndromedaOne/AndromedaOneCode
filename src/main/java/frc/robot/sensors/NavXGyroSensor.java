@@ -37,7 +37,7 @@ public class NavXGyroSensor {
        * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
        * details.
        */
-      Config conf = Config4905.getConfig4905();
+      Config conf = Config4905.getConfig4905().getSensorConfig();
       Config navXConfig = conf.getConfig("sensors.navx");
       String navXPort = navXConfig.getString("port");
       System.out.println("Creating a NavX Gyro on port: " + navXPort);
