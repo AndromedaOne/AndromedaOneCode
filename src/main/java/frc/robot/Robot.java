@@ -9,6 +9,7 @@ package frc.robot;
 
 import java.io.File;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -32,43 +33,42 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private CANSparkMax shooterOne;
   private CANSparkMax shooterTwo;
-  private CANSparkMax shooterSeries;
+  private WPI_TalonSRX shooterSeries;
   private double speed = 0;
   private boolean speedUpFlag = false;
   private boolean speedDownFlag = false;
   private boolean speedSmallUpFlag = false;
   private boolean speedSmallDownFlag = false;
   private Joystick controller = new Joystick(0);
-  private CANEncoder shooterEncoder = new CANEncoder(shooterOne);
-  private CANEncoder seriesEncoder = new CANEncoder(shooterSeries);
+  private CANEncoder shooterEncoder;
   private int loopCount = 0;
 
-  private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
+ // private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
   /**
    * This config should live on the robot and have hardware- specific configs.
    */
-  private static Config environmentalConfig = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/robot.conf"));
+  //private static Config environmentalConfig = ConfigFactory
+  //    .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/robot.conf"));
 
   /**
    * This config lives in the jar and has hardware-independent configs.
    */
-  private static Config defaultConfig = ConfigFactory.parseResources("application.conf");
+  //private static Config defaultConfig = ConfigFactory.parseResources("application.conf");
 
   /**
    * Combined config
    */
-  protected static Config conf = environmentalConfig.withFallback(defaultConfig).resolve();
+ // protected static Config conf = environmentalConfig.withFallback(defaultConfig).resolve();
 
   /**
    * Get the robot's config
    * 
    * @return the config
    */
-  public static Config getConfig() {
+  /*public static Config getConfig() {
     return conf;
-  }
+  }*/
 
   private Robot() {
 
@@ -92,18 +92,18 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    System.out.println("Robot name = " + nameConfig.getString("robot.name"));
+   // System.out.println("Robot name = " + nameConfig.getString("robot.name"));
 
-    if (conf.hasPath("subsystems.driveTrain")) {
+    /*if (conf.hasPath("subsystems.driveTrain")) {
       System.out.println("Using real drivetrain");
     } else {
       System.out.println("Using fake drivetrain");
-    }
+    }*/
 
-    shooterOne = new CANSparkMax(0, MotorType.kBrushless);
-    shooterTwo = new CANSparkMax(1, MotorType.kBrushless);
-    shooterSeries = new CANSparkMax(2, MotorType.kBrushless);
-
+    shooterOne = new CANSparkMax(1, MotorType.kBrushless);
+    shooterTwo = new CANSparkMax(2, MotorType.kBrushless);
+    shooterSeries = new WPI_TalonSRX(6);
+    shooterEncoder = new CANEncoder(shooterOne);
   }
 
   /**
@@ -129,7 +129,6 @@ public class Robot extends TimedRobot {
     if(loopCount > 25) {
       loopCount = 0;
       System.out.println(" --- Shooter: " + shooterEncoder.getVelocity() / 42 + " ---"); 
-      System.out.println(" --- Series: " + seriesEncoder.getVelocity() / 42 + " ---");
       System.out.println();
       System.out.println(); 
     }
