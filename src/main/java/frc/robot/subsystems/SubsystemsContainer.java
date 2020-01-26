@@ -9,11 +9,19 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.subsystems.climber.MockClimber;
+import frc.robot.subsystems.climber.RealClimber;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RealDriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
+import frc.robot.subsystems.feeder.MockFeeder;
+import frc.robot.subsystems.feeder.RealFeeder;
 import frc.robot.subsystems.intake.IntakeBase;
+import frc.robot.subsystems.intake.MockIntake;
+import frc.robot.subsystems.intake.RealIntake;
+import frc.robot.subsystems.shooter.MockShooter;
+import frc.robot.subsystems.shooter.RealShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 /**
@@ -53,26 +61,40 @@ public class SubsystemsContainer {
     }
 
     // 2. Climber
-    /*
-     * if (conf.hasPath("subsystems.climber")) {
-     * System.out.println("Using real Climber."); m_climber = new RealClimber(); }
-     * else { System.out.println("Using mock Climber."); m_climber = new
-     * MockClimber(); }
-     * 
-     * 
-     * // 3. Feeder if (conf.hasPath("subsystems.feeder")) {
-     * System.out.println("Using real Feeder."); m_feeder = new RealFeeder(); } else
-     * { System.out.println("Using mock Feeder."); m_feeder = new MockFeeder(); }
-     * 
-     * // 4. Intake if (conf.hasPath("subsystems.intake")) {
-     * System.out.println("Using real Intake."); m_intake = new RealIntake(); } else
-     * { System.out.println("Using mock Intake."); m_intake = new MockIntake(); }
-     * 
-     * // 5. Shooter if (conf.hasPath("subsystems.shooter")) {
-     * System.out.println("Using real Shooter."); m_shooter = new RealShooter(); }
-     * else { System.out.println("Using mock Shooter."); m_shooter = new
-     * MockShooter(); }
-     */
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      System.out.println("Using real Climber.");
+      m_climber = new RealClimber();
+    } else {
+      System.out.println("Using mock Climber.");
+      m_climber = new MockClimber();
+    }
+
+    // 3. Feeder
+    if (Config4905.getConfig4905().doesFeederExist()) {
+      System.out.println("Using real Feeder.");
+      m_feeder = new RealFeeder();
+    } else {
+      System.out.println("Using mock Feeder.");
+      m_feeder = new MockFeeder();
+    }
+
+    // 4. Intake
+    if (Config4905.getConfig4905().doesIntakeExist()) {
+      System.out.println("Using real Intake.");
+      m_intake = new RealIntake();
+    } else {
+      System.out.println("Using mock Intake.");
+      m_intake = new MockIntake();
+    }
+
+    // 5. Shooter
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      System.out.println("Using real Shooter.");
+      m_shooter = new RealShooter();
+    } else {
+      System.out.println("Using mock Shooter.");
+      m_shooter = new MockShooter();
+    }
 
   }
 
