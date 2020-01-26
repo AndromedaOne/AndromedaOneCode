@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class SparkMaxController implements SpeedController {
   private CANSparkMax m_sparkMaxController;
 
-  public SparkMaxController(int deviceID, MotorType type) {
-    m_sparkMaxController = new CANSparkMax(deviceID, type);
+  public SparkMaxController(String configString) {
+    m_sparkMaxController = new CANSparkMax(0, MotorType.kBrushless);
     configure();
   }
 
