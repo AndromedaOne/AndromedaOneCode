@@ -8,6 +8,7 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID;
 
 /**
  * Add your docs here.
@@ -15,8 +16,28 @@ import edu.wpi.first.wpilibj.Joystick;
 public class DriveController {
   private Joystick m_driveController = new Joystick(0);
 
+  /* Below are a bunch of getters for the drive controller and its joystick values.
+  getForwardBackwardStick is negative to ensure pushing the stick FORWARD (positive)
+  returns a positive value. */
+
   public Joystick getDriveController(){
     return m_driveController;
+  }
+
+/**
+ * Returns the position of the  forward/backward stick with FORWARD being a positive value to stick with our conventions.
+ * @return The position of the left drive stick (up and down).
+ */
+  public double getForwardBackwardStick(){
+    return -m_driveController.getY(GenericHID.Hand.kLeft);
+  }
+
+  /**
+   * Returns the position of the left/right stick with LEFT being a positive value to stick with our conventions.
+   * @return the position of the right drive stick (left to right).
+   */
+  public double getRotateStick(){
+    return -m_driveController.getX(GenericHID.Hand.kRight);
   }
 
 }
