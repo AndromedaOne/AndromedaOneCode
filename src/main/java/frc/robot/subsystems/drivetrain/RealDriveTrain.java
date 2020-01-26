@@ -7,12 +7,14 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import frc.robot.Config4905;
+
 public class RealDriveTrain extends DriveTrain {
   /**
    * Creates a new VBusControl.
    */
   public RealDriveTrain() {
-
+    Config4905 conf = Config4905.getConfig4905();
   }
 
   @Override
