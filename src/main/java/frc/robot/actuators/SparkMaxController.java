@@ -4,12 +4,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import frc.robot.Config4905;
 
 public class SparkMaxController implements SpeedController {
   private CANSparkMax m_sparkMaxController;
 
   public SparkMaxController(String configString) {
-    m_sparkMaxController = new CANSparkMax(0, MotorType.kBrushless);
+    m_sparkMaxController = new CANSparkMax(
+        Config4905.getConfig4905().getDrivetrainConfig().getInt("ports." + configString), MotorType.kBrushless);
     configure();
   }
 
