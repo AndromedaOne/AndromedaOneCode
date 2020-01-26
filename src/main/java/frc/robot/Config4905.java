@@ -40,11 +40,19 @@ public class Config4905 {
     return m_config4905;
   }
 
-  private static Config drivetrainFactory = ConfigFactory
-    .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/drivetrain.conf"));
+  private static Config drivetrainFactory = ConfigFactory.parseFile(
+      new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/drivetrain.conf"));
   private static Config drivetrainConfig = drivetrainFactory.withFallback(defaultConfig).resolve();
-  
+
   public Config getDrivetrainConfig() {
-       return drivetrainConfig;
+    return drivetrainConfig;
+  }
+
+  public boolean doesDrivetrainExist() {
+    if (m_config.hasPath("subsystems.driveTrain")) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
