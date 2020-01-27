@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -126,9 +128,12 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
+    Trace.getInstance().addTrace(true, "ShootingWheel",
+     new TracePair<Double>("Shooting Velocity", shooterEncoder.getVelocity()));
+
     if(loopCount > 25) {
       loopCount = 0;
-      System.out.println(" --- Shooter: " + shooterEncoder.getVelocity() / 42 + " ---"); 
+      System.out.println(" --- Shooter: " + shooterEncoder.getVelocity() + " RPM ---"); 
       System.out.println();
       System.out.println(); 
     }
@@ -179,6 +184,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    Trace.getInstance().flushTraceFiles();
   }
 
   @Override
