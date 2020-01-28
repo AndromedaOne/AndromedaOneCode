@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Config4905;
@@ -15,23 +17,41 @@ import frc.robot.actuators.SparkMaxController;
 public class RealDriveTrain extends DriveTrain {
   // public static SparkMaxController
 
+  private final SparkMaxController m_frontLeft;
+  private final SparkMaxController m_backLeft;
+  private final SparkMaxController m_frontRight;
+  private final SparkMaxController m_backRight;
+
   // motors on the Left side of the drive
-  private final SpeedControllerGroup m_leftmotors = new SpeedControllerGroup(new SparkMaxController("frontleft"),
-      new SparkMaxController("backleft"));
+  private final SpeedControllerGroup m_leftmotors;
 
   // motors on the right side of the drive
-  private final SpeedControllerGroup m_rightmotors = new SpeedControllerGroup(new SparkMaxController("frontright"),
-      new SparkMaxController("backright"));
+  private final SpeedControllerGroup m_rightmotors;
 
-  private final SparkMaxController m_frontLeft = new SparkMaxController("frontleft");
-  private final SparkMaxController m_backLeft = new SparkMaxController("backleft");
-  private final SparkMaxController m_frontRight = new SparkMaxController("frontright");
-  private final SparkMaxController m_backRight = new SparkMaxController("backright");
-
-  private int ticksPerInch = Config4905.getConfig4905().getDrivetrainConfig().getInt("drivetrain.ticksPerInch");
+  private int ticksPerInch;
 
   // the robot's main drive
-  private final DifferentialDrive m_drive = new DifferentialDrive(m_leftmotors, m_rightmotors);
+  private final DifferentialDrive m_drive;
+
+  public RealDriveTrain() {
+    Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+
+    m_frontLeft = new SparkMaxController(drivetrainConfig, "frontleft");
+    m_backLeft = new SparkMaxController(drivetrainConfig, "backleft");
+    m_frontRight = new SparkMaxController(drivetrainConfig, "frontright");
+    m_backRight = new SparkMaxController(drivetrainConfig, "backright");
+
+    // motors on the left side of the drive
+    m_leftmotors = new SpeedControllerGroup(m_frontLeft, m_backLeft);
+
+    // motors on the right side of the drive.
+    m_rightmotors = new SpeedControllerGroup(m_frontRight, m_backRight);
+
+    m_drive = new DifferentialDrive(m_leftmotors, m_rightmotors);
+
+    ticksPerInch = drivetrainConfig.getInt("drivetrain.ticksPerInch");
+
+  }
 
   @Override
   public void periodic() {
