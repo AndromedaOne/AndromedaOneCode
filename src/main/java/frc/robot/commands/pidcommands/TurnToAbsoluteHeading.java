@@ -30,9 +30,9 @@ public class TurnToAbsoluteHeading extends PIDCommand {
         // The controller that the command will use
         getPIDController(),
         // This should return the measurement
-        NavXGyroSensor.getInstance()::getZAngle,
+        NavXGyroSensor.getInstance()::getCompassHeading,
         // This should return the setpoint (can also be a constant)
-        compassHeading,
+        getModAngle(compassHeading),
         // This uses the output
         output -> {
           // Use the output here
@@ -56,5 +56,19 @@ public class TurnToAbsoluteHeading extends PIDCommand {
     double i = pidConfig.getDouble("TurningITerm");
     double d = pidConfig.getDouble("TurningDTerm");
     return new PIDController(p, i, d);
+  }
+
+  private static double getModAngle(double heading) {
+    double deltaAngle = heading - NavXGyroSensor.getInstance().getCompassHeading();
+    System.out.println("Raw Delta Angle: " + deltaAngle);
+    // This corrects turn that are over 180
+    if (deltaAngle > 180) {
+      deltaAngle = -(360 - deltaAngle);
+      System.out.println("Angle corrected for shortest method, New Delta: " + deltaAngle);
+    } else if (deltaAngle < -180) {
+      deltaAngle = 360 + deltaAngle;
+      System.out.println("Angle corrected for shortest method, New Delta: " + deltaAngle);
+    }
+    return deltaAngle;
   }
 }
