@@ -3,17 +3,16 @@ package frc.robot.actuators;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedController;
-import frc.robot.Config4905;
 
 public class SparkMaxController implements SpeedController {
   private CANSparkMax m_sparkMaxController;
   private CANEncoder m_sparkMaxEncoder;
 
-  public SparkMaxController(String configString) {
-    m_sparkMaxController = new CANSparkMax(
-        Config4905.getConfig4905().getDrivetrainConfig().getInt("ports." + configString), MotorType.kBrushless);
+  public SparkMaxController(Config subsystemConfig, String configString) {
+    m_sparkMaxController = new CANSparkMax(subsystemConfig.getInt("ports." + configString), MotorType.kBrushless);
     m_sparkMaxEncoder = new CANEncoder(m_sparkMaxController);
     configure();
   }
