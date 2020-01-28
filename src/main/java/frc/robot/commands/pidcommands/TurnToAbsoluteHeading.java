@@ -16,6 +16,9 @@ import frc.robot.sensors.NavXGyroSensor;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToAbsoluteHeading extends PIDCommand {
+  double m_positonTolerance = 0.1;
+  double m_velocityTolerance = 0.5;
+
   /**
    * Creates a new TurnToAbsoluteHeading.
    */
@@ -32,8 +35,10 @@ public class TurnToAbsoluteHeading extends PIDCommand {
           // Use the output here
           Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
         });
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
+    getController().setTolerance(m_positonTolerance, m_velocityTolerance);
   }
 
   // Returns true when the command should end.
