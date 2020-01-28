@@ -7,8 +7,11 @@
 
 package frc.robot.commands.pidcommands;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.sensors.NavXGyroSensor;
 
@@ -25,7 +28,7 @@ public class TurnToAbsoluteHeading extends PIDCommand {
   public TurnToAbsoluteHeading(double compassHeading) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),
+        getPIDController(),
         // This should return the measurement
         NavXGyroSensor.getInstance()::getZAngle,
         // This should return the setpoint (can also be a constant)
@@ -45,5 +48,13 @@ public class TurnToAbsoluteHeading extends PIDCommand {
   @Override
   public boolean isFinished() {
     return getController().atSetpoint();
+  }
+
+  private static PIDController getPIDController() {
+    Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+    double p = pidConfig.getDouble("TurningPTerm");
+    double i = pidConfig.getDouble("TurningITerm");
+    double d = pidConfig.getDouble("TurningDTerm");
+    return new PIDController(p, i, d);
   }
 }
