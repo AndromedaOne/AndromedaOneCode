@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
-public class RealDriveTrain extends DriveTrain {
+public class SparkMaxDriveTrain extends DriveTrain {
   // public static SparkMaxController
 
   private final SparkMaxController m_frontLeft;
@@ -33,7 +33,7 @@ public class RealDriveTrain extends DriveTrain {
   // the robot's main drive
   private final DifferentialDrive m_drive;
 
-  public RealDriveTrain() {
+  public SparkMaxDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
 
     m_frontLeft = new SparkMaxController(drivetrainConfig, "frontleft");
