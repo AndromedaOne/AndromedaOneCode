@@ -16,8 +16,10 @@ import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
  */
 public class SensorsContainer {
   // TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
+  public BallFeederSensorBase ballFeederSensor;
+
   public SensorsContainer() {
-    BallFeederSensorBase ballFeederSensor = new RealBallFeederSensor("ballFeederSensor");
-    
+    ballFeederSensor = new RealBallFeederSensor("ballFeederSensor");
+
   }
 }
