@@ -12,11 +12,29 @@ public class RealFeeder extends FeederBase {
    * Creates a new RealFeeder.
    */
   public RealFeeder() {
-
+    
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void driveStageOne() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void driveStageTwo() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void driveBothStages() {
+    // TODO Auto-generated method stub
+
   }
 }
