@@ -4,18 +4,20 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class DoubleSolenoid4905 extends DoubleSolenoid {
+public class DoubleSolenoid4905 {
+  private DoubleSolenoid m_doubleSolenoid;
+
   public DoubleSolenoid4905(Config subsystemConfig, String configString) {
-    super(subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
+    m_doubleSolenoid = new DoubleSolenoid(subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
         subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
   }
 
   public void extendPiston() {
-    set(Value.kForward);
+    m_doubleSolenoid.set(DoubleSolenoid.Value.kForward);
   }
 
   public void retractPiston() {
-    set(Value.kReverse);
+    m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
 }
