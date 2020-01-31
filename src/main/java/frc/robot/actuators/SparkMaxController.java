@@ -1,56 +1,27 @@
 package frc.robot.actuators;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.SpeedController;
-import frc.robot.Config4905;
+public class SparkMaxController extends CANSparkMax {
+  private CANEncoder m_sparkMaxEncoder;
 
-public class SparkMaxController implements SpeedController {
-  private CANSparkMax m_sparkMaxController;
-
-  public SparkMaxController(String configString) {
-    m_sparkMaxController = new CANSparkMax(
-        Config4905.getConfig4905().getDrivetrainConfig().getInt("ports." + configString), MotorType.kBrushless);
+  public SparkMaxController(Config subsystemConfig, String configString) {
+    super(subsystemConfig.getInt("ports." + configString), MotorType.kBrushless);
+    m_sparkMaxEncoder = new CANEncoder(this);
     configure();
   }
 
   private void configure() {
-    m_sparkMaxController.restoreFactoryDefaults();
+    this.restoreFactoryDefaults();
   }
 
-  @Override
-  public void pidWrite(double output) {
-    m_sparkMaxController.pidWrite(output);
+  public double getEncoderPositionTicks() {
+    return m_sparkMaxEncoder.getPosition();
   }
 
-  @Override
-  public void set(double speed) {
-    m_sparkMaxController.set(speed);
-  }
-
-  @Override
-  public double get() {
-    return m_sparkMaxController.get();
-  }
-
-  @Override
-  public void setInverted(boolean isInverted) {
-    m_sparkMaxController.setInverted(isInverted);
-  }
-
-  @Override
-  public boolean getInverted() {
-    return m_sparkMaxController.getInverted();
-  }
-
-  @Override
-  public void disable() {
-    m_sparkMaxController.disable();
-  }
-
-  @Override
-  public void stopMotor() {
-    m_sparkMaxController.stopMotor();
+  public double getEncoderVelocityTicks() {
+    return m_sparkMaxEncoder.getVelocity();
   }
 }

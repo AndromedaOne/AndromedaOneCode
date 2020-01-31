@@ -13,6 +13,5 @@ import edu.wpi.first.wpilibj.Joystick;
  * Add your docs here.
  */
 public class SubsystemController {
-  Joystick subsystemController = new Joystick(1);
-
+  private Joystick m_subsystemController = new Joystick(1);
 }
