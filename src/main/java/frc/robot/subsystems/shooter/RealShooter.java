@@ -19,7 +19,7 @@ public class RealShooter extends ShooterBase {
 
     m_shooterOne = new SparkMaxController(shooterConfig, "shooterone");
 
-    m_shooterTwo = new SparkMaxController(shooterConfig, "shootertwo")
+    m_shooterTwo = new SparkMaxController(shooterConfig, "shootertwo");
 
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
 
@@ -27,20 +27,19 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public double getShooterVelocity() {
-    // TODO Auto-generated method stub
-    return 0;
+    // Averaging Both Motor Controllers
+    double average = m_shooterOne.getEncoderVelocityTicks() + m_shooterTwo.getEncoderVelocityTicks();
+    return average / 2;
   }
 
   @Override
   public void setShooterPower(double power) {
-    // TODO Auto-generated method stub
-
+    m_shooterGroup.set(power);
   }
 
   @Override
   public double getShooterPower() {
-    // TODO Auto-generated method stub
-    return 0;
+    return m_shooterGroup.get();
   }
 
   @Override
