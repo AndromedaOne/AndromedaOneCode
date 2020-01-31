@@ -102,4 +102,8 @@ public class SubsystemsContainer {
     return m_driveTrain;
   }
 
+  public FeederBase getFeeder() {
+    return m_feeder;
+  }
+
 }

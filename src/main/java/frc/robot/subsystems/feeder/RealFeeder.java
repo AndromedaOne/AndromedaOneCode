@@ -52,7 +52,8 @@ public class RealFeeder extends FeederBase {
   @Override
   public void driveBothStages() {
     // TODO Auto-generated method stub
-
+    driveStageOne();
+    driveStageTwo();
   }
 
   public void stopBothStages() {
