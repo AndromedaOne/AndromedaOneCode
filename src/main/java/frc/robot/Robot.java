@@ -8,6 +8,7 @@
 package frc.robot;
 
 import java.io.File;
+import java.util.Scanner;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANEncoder;
@@ -41,9 +42,12 @@ public class Robot extends TimedRobot {
   private boolean speedDownFlag = false;
   private boolean speedSmallUpFlag = false;
   private boolean speedSmallDownFlag = false;
+  private boolean speedTinyUpFlag = false;
+  private boolean speedTinyDownFlag = false;
   private Joystick controller = new Joystick(0);
   private CANEncoder shooterEncoder;
   private int loopCount = 0;
+  private Scanner input = new Scanner(System.in);
 
  // private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
 
@@ -156,23 +160,37 @@ public class Robot extends TimedRobot {
       speedDownFlag = false;
     }
 
-    if (controller.getPOV() == 90 && !speedSmallUpFlag) {
+    if (controller.getRawButtonPressed(2) && !speedSmallUpFlag) {
       speed += speed < 1 ? .05 : 0;
       System.out.println(" - Speed: " + speed);
       speedSmallUpFlag = true;
-    } else if (controller.getPOV() == 90) {
+    } else if (controller.getRawButtonReleased(2)) {
       speedSmallUpFlag = false;
     }
 
-    if (controller.getPOV() == 270 && !speedSmallDownFlag) {
+    if (controller.getRawButtonPressed(3) && !speedSmallDownFlag) {
       speed -= speed < 1 ? .05 : 0;
       System.out.println(" - Speed: " + speed);
       speedSmallDownFlag = true;
-    } else if (controller.getPOV() == 270) {
+    } else if (controller.getRawButtonReleased(3)) {
       speedSmallDownFlag = false;
     }
 
-    
+    if (controller.getRawButtonPressed(6) && !speedTinyUpFlag) {
+      speed += speed < 1 ? .01 : 0;
+      System.out.println(" - Speed: " + speed);
+      speedTinyUpFlag = true;
+    } else if (controller.getRawButtonReleased(6)) {
+      speedTinyUpFlag = false;
+    }
+
+    if (controller.getRawButtonPressed(5) && !speedTinyDownFlag) {
+      speed -= speed > -1 ? .01 : 0;
+      System.out.println(" - Speed: " + speed);
+      speedTinyDownFlag = true;
+    } else if (controller.getRawButtonReleased(5)) {
+      speedTinyDownFlag = false;
+    }
 
     shooterOne.set(-speed);
     shooterTwo.set(speed);
