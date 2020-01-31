@@ -10,11 +10,10 @@ package frc.robot.subsystems.drivetrain;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
-public class SparkMaxDriveTrain extends DriveTrain {
+public class SparkMaxDriveTrain extends RealDriveTrain {
   // public static SparkMaxController
 
   private final SparkMaxController m_frontLeft;
@@ -30,9 +29,6 @@ public class SparkMaxDriveTrain extends DriveTrain {
 
   private int ticksPerInch;
 
-  // the robot's main drive
-  private final DifferentialDrive m_drive;
-
   public SparkMaxDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
 
@@ -47,8 +43,6 @@ public class SparkMaxDriveTrain extends DriveTrain {
     // motors on the right side of the drive.
     m_rightmotors = new SpeedControllerGroup(m_frontRight, m_backRight);
 
-    m_drive = new DifferentialDrive(m_leftmotors, m_rightmotors);
-
     ticksPerInch = drivetrainConfig.getInt("drivetrain.ticksPerInch");
 
   }
@@ -58,28 +52,27 @@ public class SparkMaxDriveTrain extends DriveTrain {
     // This method will be called once per scheduler run
   }
 
-  /**
-   * Drives the robot using arcadeDrive
-   * 
-   * @param forwardBackSpeed Positive values go forward, negative goes backwards
-   * @param rotateAmount     Per the right hand rule, positive goes
-   *                         counter-clockwise and negative goes clockwise.
-   */
-  public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
-    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount);
-  }
-
   @Override
-  public double getEncoderPositionInches() {
+  public double getRobotPositionInches() {
     double encoderPositionAvg = (m_frontLeft.getEncoderPositionTicks() + m_backLeft.getEncoderPositionTicks()
         + m_frontRight.getEncoderPositionTicks() + m_backRight.getEncoderPositionTicks()) / 4 * ticksPerInch;
     return encoderPositionAvg;
   }
 
   @Override
-  public double getEncoderVelocityInches() {
+  public double getRobotVelocityInches() {
     double encoderVelocityAvg = (m_frontLeft.getEncoderVelocityTicks() + m_backLeft.getEncoderVelocityTicks()
         + m_frontRight.getEncoderVelocityTicks() + m_backRight.getEncoderVelocityTicks()) / 4 * ticksPerInch;
     return encoderVelocityAvg;
+  }
+
+  @Override
+  protected SpeedControllerGroup getLeftSpeedControllerGroup() {
+    return m_leftmotors;
+  }
+
+  @Override
+  protected SpeedControllerGroup getRightSpeedControllerGroup() {
+    return m_rightmotors;
   }
 }

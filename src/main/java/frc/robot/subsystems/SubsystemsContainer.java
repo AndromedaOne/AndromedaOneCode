@@ -14,6 +14,7 @@ import frc.robot.subsystems.climber.RealClimber;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
+import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.feeder.MockFeeder;
 import frc.robot.subsystems.feeder.RealFeeder;
@@ -54,7 +55,16 @@ public class SubsystemsContainer {
     // 1. Drivetrain
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       System.out.println("Using real Drive Train.");
-      m_driveTrain = new SparkMaxDriveTrain();
+      if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController") == "sparkMax") {
+        System.out.println("Using real sparkMax Drive Train");
+        m_driveTrain = new SparkMaxDriveTrain();
+      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController") == "talonSRX") {
+        System.out.println("Using real talonSRX Drive Train");
+        m_driveTrain = new TalonSRXDriveTrain();
+      } else {
+        String drivetrainType = Config4905.getConfig4905().getDrivetrainConfig().getString("motorController");
+        throw (new RuntimeException("ERROR: Unknown drivetrain type: " + drivetrainType + " in drivetrain.conf"));
+      }
     } else {
       System.out.println("Using mock Drive Train.");
       m_driveTrain = new MockDriveTrain();
