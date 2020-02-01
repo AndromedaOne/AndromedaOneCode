@@ -55,10 +55,10 @@ public class SubsystemsContainer {
     // 1. Drivetrain
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       System.out.println("Using real Drive Train.");
-      if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController") == "sparkMax") {
+      if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController").equals("sparkMax")) {
         System.out.println("Using real sparkMax Drive Train");
         m_driveTrain = new SparkMaxDriveTrain();
-      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController") == "talonSRX") {
+      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController").equals("talonSRX")) {
         System.out.println("Using real talonSRX Drive Train");
         m_driveTrain = new TalonSRXDriveTrain();
       } else {
