@@ -14,7 +14,6 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.TalonSRXController;
@@ -34,7 +33,6 @@ public class RealControlPanel extends ControlPanelBase {
 
   private ColorMatch matcher;
 
-  
   /**
    * Creates a new RealControlPanel.
    */
@@ -43,26 +41,29 @@ public class RealControlPanel extends ControlPanelBase {
     extendSolenoid = new DoubleSolenoid4905(sensorConf, null);
     controlPanelMotor = new TalonSRXController(sensorConf, null);
     isOnboard = sensorConf.getBoolean("isOnboard");
-    
+
     if (isOnboard) {
-        colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+      colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     } else {
-        colorSensor = new ColorSensorV3(I2C.Port.kMXP);
+      colorSensor = new ColorSensorV3(I2C.Port.kMXP);
     }
 
     matcher = new ColorMatch();
     // Intialize Colors
     Config colorConf = sensorConf.atPath("colors");
-    redTarget = new Color(colorConf.getInt("redTarget.red"), colorConf.getInt("redTarget.green"), colorConf.getInt("redTarget.blue"));
-    blueTarget = new Color(colorConf.getInt("blueTarget.red"), colorConf.getInt("blueTarget.green"), colorConf.getInt("blueTarget.blue"));
-    greenTarget = new Color(colorConf.getInt("greenTarget.red"), colorConf.getInt("greenTarget.green"), colorConf.getInt("greenTarget.blue"));
-    yellowTarget = new Color(colorConf.getInt("yellowTarget.red"), colorConf.getInt("yellowTarget.green"), colorConf.getInt("yellowTarget.blue"));
+    redTarget = new Color(colorConf.getInt("redTarget.red"), colorConf.getInt("redTarget.green"),
+        colorConf.getInt("redTarget.blue"));
+    blueTarget = new Color(colorConf.getInt("blueTarget.red"), colorConf.getInt("blueTarget.green"),
+        colorConf.getInt("blueTarget.blue"));
+    greenTarget = new Color(colorConf.getInt("greenTarget.red"), colorConf.getInt("greenTarget.green"),
+        colorConf.getInt("greenTarget.blue"));
+    yellowTarget = new Color(colorConf.getInt("yellowTarget.red"), colorConf.getInt("yellowTarget.green"),
+        colorConf.getInt("yellowTarget.blue"));
 
     matcher.addColorMatch(redTarget);
     matcher.addColorMatch(blueTarget);
     matcher.addColorMatch(greenTarget);
     matcher.addColorMatch(yellowTarget);
-
 
   }
 
@@ -71,30 +72,29 @@ public class RealControlPanel extends ControlPanelBase {
     // This method will be called once per scheduler run
   }
 
-@Override
-public void extendSystem() {
-	// TODO Auto-generated method stub
-	extendSolenoid.extendPiston();
-}
+  @Override
+  public void extendSystem() {
+    // TODO Auto-generated method stub
+    extendSolenoid.extendPiston();
+  }
 
-@Override
-public void retractSystem() {
-	// TODO Auto-generated method stub
-	extendSolenoid.retractPiston();
-}
+  @Override
+  public void retractSystem() {
+    // TODO Auto-generated method stub
+    extendSolenoid.retractPiston();
+  }
 
-@Override
-public void rotateOneTime() {
-	// TODO Auto-generated method stub
-  Color detectedColor = colorSensor.getColor();
-  ColorMatchResult initialColor = matcher.matchClosestColor(detectedColor);
+  @Override
+  public void rotateOneTime() {
+    // TODO Auto-generated method stub
+    Color detectedColor = colorSensor.getColor();
+    ColorMatchResult initialColor = matcher.matchClosestColor(detectedColor);
 
-  
-}
+  }
 
-@Override
-public void rotateToColor() {
-	// TODO Auto-generated method stub
-	
-}
+  @Override
+  public void rotateToColor() {
+    // TODO Auto-generated method stub
+
+  }
 }
