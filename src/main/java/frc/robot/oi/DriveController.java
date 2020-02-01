@@ -23,12 +23,15 @@ public class DriveController {
    * @return The position of the left drive stick (up and down).
    */
   public double getForwardBackwardStick() {
-    double stickValue = -m_driveController.getY(GenericHID.Hand.kLeft);
+    return deadband( -m_driveController.getY(GenericHID.Hand.kLeft));  
+  }
+
+  private double deadband(double stickValue) {
     if(Math.abs(stickValue) < 0.01) {
       return 0.0;
     }else {
       return stickValue;
-    }  
+    }
   }
 
   /**
@@ -38,12 +41,7 @@ public class DriveController {
    * @return the position of the right drive stick (left to right).
    */
   public double getRotateStick() {
-    double stickValue = -m_driveController.getX(GenericHID.Hand.kRight);
-    if(Math.abs(stickValue) < 0.01) {
-      return 0.0;
-    }else {
-      return stickValue;
-    }  
+    return deadband(-m_driveController.getX(GenericHID.Hand.kRight));  
   }
 
 
