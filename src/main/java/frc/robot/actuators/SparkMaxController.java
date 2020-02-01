@@ -9,6 +9,7 @@ public class SparkMaxController extends CANSparkMax {
 
   public SparkMaxController(Config subsystemConfig, String configString) {
     super(subsystemConfig.getInt("ports." + configString), MotorType.kBrushless);
+    System.out.println("Enabling SparkMaxController \"" + configString + "\" for port " + subsystemConfig.getInt("ports." + configString));
     m_sparkMaxEncoder = new CANEncoder(this);
     configure();
   }
