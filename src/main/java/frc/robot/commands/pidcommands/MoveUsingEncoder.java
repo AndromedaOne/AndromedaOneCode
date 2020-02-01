@@ -23,9 +23,9 @@ public class MoveUsingEncoder extends PIDCommand {
         // The controller that the command will use
         new PIDController(0, 0, 0),
         // This should return the measurement
-        drivetrain::getEncoderPositionInches,
+        drivetrain::getRobotPositionInches,
         // This should return the setpoint (can also be a constant)
-        drivetrain.getEncoderPositionInches() + distance,
+        drivetrain.getRobotPositionInches() + distance,
         // This uses the output
         output -> {
           // Use the output here

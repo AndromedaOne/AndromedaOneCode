@@ -49,8 +49,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_oiContainer = new OIContainer();
+
     m_subsystemContainer = new SubsystemsContainer();
+    m_oiContainer = new OIContainer(m_subsystemContainer);
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer.setDefaultCommands();
   }
@@ -94,11 +95,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = null;
+
+    m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
   }
 
@@ -107,6 +109,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   @Override
