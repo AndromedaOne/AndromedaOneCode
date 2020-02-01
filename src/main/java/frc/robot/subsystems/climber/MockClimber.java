@@ -19,4 +19,22 @@ public class MockClimber extends ClimberBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  @Override
+  public void extendGrapplingHook() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void retractGrapplingHook() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void driveWinch() {
+    // TODO Auto-generated method stub
+
+  }
 }
