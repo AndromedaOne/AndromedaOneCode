@@ -28,12 +28,6 @@ public class Config4905 {
 
   private Config4905() {
     System.out.println("Robot name = " + nameConfig.getString("robot.name"));
-
-    if (m_config.hasPath("subsystems.driveTrain")) {
-      System.out.println("Using real drivetrain");
-    } else {
-      System.out.println("Using fake drivetrain");
-    }
   }
 
   public static Config4905 getConfig4905() {

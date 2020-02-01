@@ -8,13 +8,13 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * Add your docs here.
  */
 public class DriveController {
-  private Joystick m_driveController = new Joystick(0);
+  private XboxController m_driveController = new XboxController(0);
 
   /**
    * Returns the position of the forward/backward stick with FORWARD being a

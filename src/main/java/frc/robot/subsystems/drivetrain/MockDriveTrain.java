@@ -25,12 +25,21 @@ public class MockDriveTrain extends DriveTrain {
   }
 
   @Override
-  public double getEncoderPositionInches() {
+  public double getRobotPositionInches() {
     return 0;
   }
 
   @Override
-  public double getEncoderVelocityInches() {
+  public double getRobotVelocityInches() {
     return 0;
+  }
+
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
+
+  }
+
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+      double heading) {
+
   }
 }
