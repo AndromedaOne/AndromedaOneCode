@@ -13,7 +13,6 @@ import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
-
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
@@ -22,9 +21,11 @@ public class ShootFromInitiationLine extends SequentialCommandGroup {
    * Creates a new ShootFromInitiationLine.
    */
   DriveTrain driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
+
   public ShootFromInitiationLine() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new DriveBackwardTimed(0.5, Robot.getInstance().getSubsystemsContainer().getDrivetrain()), new ShooterCommand());
+    super(new DriveBackwardTimed(0.5, Robot.getInstance().getSubsystemsContainer().getDrivetrain()),
+        new ShooterCommand());
   }
 }
