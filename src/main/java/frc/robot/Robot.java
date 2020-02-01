@@ -49,8 +49,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_oiContainer = new OIContainer();
+
     m_subsystemContainer = new SubsystemsContainer();
+    m_oiContainer = new OIContainer(m_subsystemContainer);
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer.setDefaultCommands();
   }
