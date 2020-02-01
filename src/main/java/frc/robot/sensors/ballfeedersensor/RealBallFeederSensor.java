@@ -3,7 +3,6 @@ package frc.robot.sensors.ballfeedersensor;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 
 public class RealBallFeederSensor extends BallFeederSensorBase {
@@ -25,7 +24,8 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     }
     m_numSensors = lineConf.getInt("numSensors");
     m_dataBuffer = new byte[2 * m_numSensors];
-    m_detectionThreshold = lineConf.getInt("detectionThreshold");  }
+    m_detectionThreshold = lineConf.getInt("detectionThreshold");
+  }
 
   @Override
   void getSensorReading() {
