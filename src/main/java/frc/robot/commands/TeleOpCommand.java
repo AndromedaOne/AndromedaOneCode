@@ -40,8 +40,8 @@ public class TeleOpCommand extends CommandBase {
     double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
     double rotateStickValue = m_driveController.getRotateStick();
 
-    Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(forwardBackwardStickValue, rotateStickValue,
-        true);
+    Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(forwardBackwardStickValue,
+        rotateStickValue, false, false);
   }
 
   // Called once the command ends or is interrupted.

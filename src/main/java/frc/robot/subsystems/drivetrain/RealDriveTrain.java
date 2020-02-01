@@ -25,14 +25,12 @@ public class RealDriveTrain extends DriveTrain {
 
   // Gyro variables
   private NavXGyroSensor navX;
-  private DriveTrain driveTrain;
   private double savedAngle = 0;
   private double newRotateValue = 0;
   private boolean gyroCorrect = false;
   private double currentDelay = 0;
   private double kDelay = 0;
   private double kProportion = 0.0;
-  private boolean invertGyroCorrect = false;
 
   // motors on the Left side of the drive
   private final SpeedControllerGroup m_leftmotors;
@@ -63,9 +61,9 @@ public class RealDriveTrain extends DriveTrain {
 
     ticksPerInch = drivetrainConfig.getInt("drivetrain.ticksPerInch");
 
+    navX = NavXGyroSensor.getInstance();
     kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
-    invertGyroCorrect = drivetrainConfig.getBoolean("gyrocorrect.invertgyrocorrect");
   }
 
   @Override
@@ -100,7 +98,8 @@ public class RealDriveTrain extends DriveTrain {
 
     double robotDeltaAngle = navX.getCompassHeading() - heading;
     double robotAngle = navX.getZAngle() + robotDeltaAngle;
-
+    System.out.println(
+        "----------" + "\nRobot delta angle: " + robotDeltaAngle + "\nRobot angle: " + robotAngle + "\n----------");
     /*
      * If we aren't rotating or our delay time is higher than our set Delay do not
      * use gyro correct This allows the robot to rotate naturally after we turn
@@ -119,14 +118,11 @@ public class RealDriveTrain extends DriveTrain {
 
     if (gyroCorrect) {
       double correctionEquation = (savedAngle - robotAngle) * kProportion;
-      if (invertGyroCorrect) {
-        correctionEquation = -correctionEquation;
-      }
-      newRotateValue = correctionEquation;
+      newRotateValue = -correctionEquation;
     } else {
       newRotateValue = rotation;
     }
-    driveTrain.move(forwardBackward, newRotateValue, useSquaredInputs);
+    move(forwardBackward, newRotateValue, useSquaredInputs);
   }
 
   /**
