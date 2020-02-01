@@ -15,8 +15,8 @@ import frc.robot.subsystems.feeder.FeederBase;
 
 public class DefaultFeederCommand extends CommandBase {
 
-  BallFeederSensorBase feederSensor;
-  FeederBase feeder;
+  BallFeederSensorBase m_feederSensor;
+  FeederBase m_feeder;
 
   /**
    * Creates a new FeederCommand.
@@ -24,8 +24,8 @@ public class DefaultFeederCommand extends CommandBase {
   public DefaultFeederCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.getInstance().getSubsystemsContainer().getFeeder());
-    this.feeder = Robot.getInstance().getSubsystemsContainer().getFeeder();
-    feederSensor = Robot.getInstance().getSensorsContainer().ballFeederSensor;
+    this.m_feeder = Robot.getInstance().getSubsystemsContainer().getFeeder();
+    m_feederSensor = Robot.getInstance().getSensorsContainer().ballFeederSensor;
   }
 
   // Called when the command is initially scheduled.
@@ -40,11 +40,11 @@ public class DefaultFeederCommand extends CommandBase {
      * If there's nothing in stage one OR if there's a ball at the end of stage two,
      * don't run the feeder
      */
-    if ((!feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT) && !feederSensor.isBall(EnumBallLocation.STAGE_1_RIGHT))
-        || feederSensor.isBall(EnumBallLocation.STAGE_2_END)) {
-      feeder.stopBothStages();
+    if ((!m_feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT) && !m_feederSensor.isBall(EnumBallLocation.STAGE_1_RIGHT))
+        || m_feederSensor.isBall(EnumBallLocation.STAGE_2_END)) {
+      m_feeder.stopBothStages();
     } else {
-      feeder.driveBothStages();
+      m_feeder.driveBothStages();
     }
   }
 
