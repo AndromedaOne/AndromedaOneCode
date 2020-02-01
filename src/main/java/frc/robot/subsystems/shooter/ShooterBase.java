@@ -5,13 +5,35 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class ShooterBase extends SubsystemBase {
 
   /**
-   * Gets the average velocity from both shooting wheels Not from the kicker wheel
+   * Gets the average velocity from both shooting wheels <b>NOT</b> from the kicker wheel
    */
-  public abstract double getShooterVelocity();
+  public abstract double getShooterWheelVelocity();
 
-  public abstract void setShooterPower(double power);
+  /**
+   * Gets the average velocity from the kicker wheel <b>NOT</b> the shooter wheels
+   */
+  public abstract double getShooterSeriesVelocity();
 
+  /**
+   * This is the percent vbus power for the shooting wheels
+   * @param power
+   */
+  public abstract void setShooterWheelPower(double power);
+
+  /**
+   * This is the percent vbus power for the kicker wheel
+   */
+  public abstract void setShooterSeriesPower(double power);
+
+  /**
+   * This returns the velocity in rpm
+   */
   public abstract double getShooterPower();
+
+  /**
+   * This returns the velocity in rpm
+   */
+  public abstract double getSeriesPower();
 
   public abstract void openShooterHood();
 

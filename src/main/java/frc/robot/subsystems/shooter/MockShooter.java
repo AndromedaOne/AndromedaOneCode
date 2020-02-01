@@ -3,13 +3,13 @@ package frc.robot.subsystems.shooter;
 public class MockShooter extends ShooterBase {
 
   @Override
-  public double getShooterVelocity() {
+  public double getShooterWheelVelocity() {
     System.out.println("Getting Mock Shooter Velocity");
     return 0;
   }
 
   @Override
-  public void setShooterPower(double power) {
+  public void setShooterWheelPower(double power) {
     System.out.println("Setting Mock Shooter Power: " + power);
 
   }
@@ -47,6 +47,23 @@ public class MockShooter extends ShooterBase {
   public boolean isShooterHoodOpen() {
     System.out.println("Getting Mock is Shooter Hood Open");
     return false;
+  }
+
+  @Override
+  public void setShooterSeriesPower(double power) {
+    System.out.println("Setting shooter series power to: " + power);
+  }
+
+  @Override
+  public double getShooterSeriesVelocity() {
+    System.out.println("Getting Mock Shooter Series Velocity");
+    return 0;
+  }
+
+  @Override
+  public double getSeriesPower() {
+    System.out.println("Getting Mock Shooter Series Power");
+    return 0;
   }
 
 }
