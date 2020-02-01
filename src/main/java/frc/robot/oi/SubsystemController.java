@@ -7,25 +7,11 @@
 
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * Add your docs here.
  */
 public class SubsystemController {
-  private Joystick m_subsystemController;
-  private JoystickButton m_shootFromTrechFront;
-  private JoystickButton m_shootFromTrechBack;
-  private JoystickButton m_shootFromTrechInitiationLine;
-  private JoystickButton m_shootWithLimeLight;
-
-  public SubsystemController() {
-    m_subsystemController = new Joystick(1);
-
-    m_shootFromTrechFront = new JoystickButton(m_subsystemController, 1);
-  }
-
+  private XboxController m_subsystemController = new XboxController(1);
 }

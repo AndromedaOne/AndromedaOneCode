@@ -8,14 +8,12 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.TeleOpCommand;
 
 public abstract class DriveTrain extends SubsystemBase {
   /**
    * Creates a new DriveTrainBase.
    */
   public DriveTrain() {
-    setDefaultCommand(new TeleOpCommand());
   }
 
   @Override
@@ -25,7 +23,35 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput);
 
-  public abstract double getEncoderPositionInches();
+  public abstract double getRobotPositionInches();
 
-  public abstract double getEncoderVelocityInches();
+  public abstract double getRobotVelocityInches();
+
+  public void init() {
+
+  }
+
+  /**
+   * This moves the robot and corrects for any rotation using the gyro
+   * 
+   * @param useDelay The delay will delay how long the gyro will wait to correct
+   *                 after turning this allows the robot to drift naturally as you
+   *                 turn
+   */
+  public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+      boolean useSquaredInputs);
+
+  /**
+   * This moves the robot and corrects for any rotation using the gyro
+   * 
+   * @param useDelay The delay will delay how long the gyro will wait to correct
+   *                 after turning this allows the robot to drift naturally as you
+   *                 turn
+   * @param heading  Setting a heading will allow you to set what angle the robot
+   *                 will correct to. This is useful in auto after the robot turns
+   *                 you can tell it to correct to the heading it should have turn
+   *                 to.
+   */
+  public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+      boolean useSquaredInputs, double heading);
 }
