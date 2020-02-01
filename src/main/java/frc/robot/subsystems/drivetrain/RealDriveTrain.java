@@ -30,8 +30,8 @@ public class RealDriveTrain extends DriveTrain {
   private double newRotateValue = 0;
   private boolean gyroCorrect = false;
   private double currentDelay = 0;
-  private static final double kDelay = 25;
-  private static final double kProportion = 0.05;
+  private double kDelay = 0;
+  private double kProportion = 0.0;
   private boolean invertGyroCorrect = false;
 
   // motors on the Left side of the drive
@@ -63,6 +63,9 @@ public class RealDriveTrain extends DriveTrain {
 
     ticksPerInch = drivetrainConfig.getInt("drivetrain.ticksPerInch");
 
+    kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
+    kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
+    invertGyroCorrect = drivetrainConfig.getBoolean("gyrocorrect.invertgyrocorrect");
   }
 
   @Override
