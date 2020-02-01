@@ -126,4 +126,12 @@ public class Config4905 {
   public Config getSensorConfig() {
     return sensorFactory.withFallback(defaultConfig).resolve();
   }
+
+  private static Config pidConstantsFactory = ConfigFactory.parseFile(
+      new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/pidconstants.conf"));
+  private static Config pidConstantsConfig = pidConstantsFactory.withFallback(defaultConfig).resolve();
+
+  public Config getPidConstantsConfig() {
+    return pidConstantsConfig;
+  }
 }
