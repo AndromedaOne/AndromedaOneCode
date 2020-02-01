@@ -25,9 +25,7 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     }
     m_numSensors = lineConf.getInt("numSensors");
     m_dataBuffer = new byte[2 * m_numSensors];
-    m_detectionThreshold = lineConf.getInt("detectionThreshold");
-    SmartDashboard.putRaw("ballFeederSensor", m_dataBuffer);
-  }
+    m_detectionThreshold = lineConf.getInt("detectionThreshold");  }
 
   @Override
   void getSensorReading() {
@@ -50,7 +48,6 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
 
     }
 
-    SmartDashboard.putNumberArray("ballFeederSensor", dValues);
     String values = "";
     for (int i = 0; i < dValues.length; i++) {
       values += dValues[i] + ",";
