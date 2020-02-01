@@ -29,7 +29,7 @@ public abstract class FeederBase extends SubsystemBase {
   public abstract void driveBothStages();
 
   public abstract void stopStageOne();
-  
+
   public abstract void stopStageTwo();
 
   public abstract void stopBothStages();
