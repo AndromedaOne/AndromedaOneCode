@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
+import frc.robot.commands.TeleOpCommand;
 import frc.robot.subsystems.climber.ClimberBase;
 import frc.robot.subsystems.climber.MockClimber;
 import frc.robot.subsystems.climber.RealClimber;
@@ -106,4 +107,7 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public void setDefaultCommands() {
+    m_driveTrain.setDefaultCommand(new TeleOpCommand());
+  }
 }
