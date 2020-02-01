@@ -28,12 +28,6 @@ public class Config4905 {
 
   private Config4905() {
     System.out.println("Robot name = " + nameConfig.getString("robot.name"));
-
-    if (m_config.hasPath("subsystems.driveTrain")) {
-      System.out.println("Using real drivetrain");
-    } else {
-      System.out.println("Using fake drivetrain");
-    }
   }
 
   public static Config4905 getConfig4905() {
@@ -118,5 +112,20 @@ public class Config4905 {
     } else {
       return false;
     }
+  }
+
+  private static Config sensorFactory = ConfigFactory
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/sensors.conf"));
+
+  public Config getSensorConfig() {
+    return sensorFactory.withFallback(defaultConfig).resolve();
+  }
+
+  private static Config pidConstantsFactory = ConfigFactory.parseFile(
+      new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/pidconstants.conf"));
+  private static Config pidConstantsConfig = pidConstantsFactory.withFallback(defaultConfig).resolve();
+
+  public Config getPidConstantsConfig() {
+    return pidConstantsConfig;
   }
 }

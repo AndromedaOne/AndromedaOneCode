@@ -7,17 +7,31 @@
 
 package frc.robot.oi;
 
+import frc.robot.subsystems.SubsystemsContainer;
+
 /**
  * The container that controls all of the classes in package OI.
  */
 public class OIContainer {
-  DriveController m_driveController;
-  Smartdashboard m_smartDashboard;
-  SubsystemController m_subsystemController;
+  private DriveController m_driveController;
+  private Smartdashboard m_smartDashboard;
+  private SubsystemController m_subsystemController;
 
-  public OIContainer() {
+  public OIContainer(SubsystemsContainer subsystemsContainer) {
     m_driveController = new DriveController();
-    m_smartDashboard = new Smartdashboard();
+    m_smartDashboard = new Smartdashboard(subsystemsContainer);
     m_subsystemController = new SubsystemController();
+  }
+
+  public DriveController getDriveController() {
+    return m_driveController;
+  }
+
+  public Smartdashboard getSmartDashboard() {
+    return m_smartDashboard;
+  }
+
+  public SubsystemController getSubsystemController() {
+    return m_subsystemController;
   }
 }

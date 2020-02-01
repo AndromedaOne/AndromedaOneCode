@@ -7,12 +7,11 @@
 
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * Add your docs here.
  */
 public class SubsystemController {
-  Joystick subsystemController = new Joystick(1);
-
+  private XboxController m_subsystemController = new XboxController(1);
 }

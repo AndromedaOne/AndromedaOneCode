@@ -23,4 +23,23 @@ public class MockDriveTrain extends DriveTrain {
   public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
 
   }
+
+  @Override
+  public double getRobotPositionInches() {
+    return 0;
+  }
+
+  @Override
+  public double getRobotVelocityInches() {
+    return 0;
+  }
+
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
+
+  }
+
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+      double heading) {
+
+  }
 }

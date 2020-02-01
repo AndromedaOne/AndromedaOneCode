@@ -23,9 +23,9 @@ import frc.robot.subsystems.SubsystemsContainer;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private SubsystemsContainer subsystemContainer;
-  private SensorsContainer sensorsContainer;
-  private OIContainer oiContainer;
+  private SubsystemsContainer m_subsystemContainer;
+  private SensorsContainer m_sensorsContainer;
+  private OIContainer m_oiContainer;
 
   private Robot() {
 
@@ -49,9 +49,11 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    subsystemContainer = new SubsystemsContainer();
-    oiContainer = new OIContainer();
-    sensorsContainer = new SensorsContainer();
+
+    m_subsystemContainer = new SubsystemsContainer();
+    m_oiContainer = new OIContainer(m_subsystemContainer);
+    m_sensorsContainer = new SensorsContainer();
+    m_subsystemContainer.setDefaultCommands();
   }
 
   /**
@@ -137,4 +139,19 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+
+//getters for various OI things below
+
+  public SubsystemsContainer getSubsystemsContainer() {
+    return m_subsystemContainer;
+  }
+
+  public SensorsContainer getSensorsContainer() {
+    return m_sensorsContainer;
+  }
+
+  public OIContainer getOIContainer() {
+    return m_oiContainer;
+  }
+
 }

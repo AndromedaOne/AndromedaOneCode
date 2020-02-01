@@ -8,13 +8,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.oi.DriveController;
+import frc.robot.oi.SubsystemController;
 
+/**
+ * Allows you to drive the robot using the drive controller.
+ */
 public class TeleOpCommand extends CommandBase {
+
+//Make the controllers a little easier to get to.  
+  private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
+  private SubsystemController m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
+
   /**
-   * Creates a new command TeleOpCommand.
+   * Takes inputs from the two joysticks on the drive controller.
    */
   public TeleOpCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +37,11 @@ public class TeleOpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
+    double rotateStickValue = m_driveController.getRotateStick();
+
+    Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(forwardBackwardStickValue, rotateStickValue,
+        true);
   }
 
   // Called once the command ends or is interrupted.
