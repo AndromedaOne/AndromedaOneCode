@@ -28,9 +28,8 @@ public abstract class DriveTrain extends SubsystemBase {
   public abstract double getRobotVelocityInches();
 
   public void init() {
-    
+
   }
-  public abstract double getEncoderVelocityInches();
 
   /**
    * This moves the robot and corrects for any rotation using the gyro

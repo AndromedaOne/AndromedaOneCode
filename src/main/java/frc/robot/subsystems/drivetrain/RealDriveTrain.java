@@ -12,7 +12,6 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Config4905;
-import frc.robot.actuators.SparkMaxController;
 import frc.robot.sensors.NavXGyroSensor;
 
 public abstract class RealDriveTrain extends DriveTrain {
@@ -33,14 +32,14 @@ public abstract class RealDriveTrain extends DriveTrain {
   private DifferentialDrive m_drive;
 
   public RealDriveTrain() {
-
+    Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+    kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
+    kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
+    invertGyroCorrect = drivetrainConfig.getBoolean("gyrocorrect.invertgyrocorrect");
   }
 
   public void init() {
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
-    kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
-    kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
-    invertGyroCorrect = drivetrainConfig.getBoolean("gyrocorrect.invertgyrocorrect");
   }
 
   @Override
