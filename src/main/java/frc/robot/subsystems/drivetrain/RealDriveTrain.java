@@ -98,8 +98,6 @@ public class RealDriveTrain extends DriveTrain {
 
     double robotDeltaAngle = navX.getCompassHeading() - heading;
     double robotAngle = navX.getZAngle() + robotDeltaAngle;
-    System.out.println(
-        "----------" + "\nRobot delta angle: " + robotDeltaAngle + "\nRobot angle: " + robotAngle + "\n----------");
     /*
      * If we aren't rotating or our delay time is higher than our set Delay do not
      * use gyro correct This allows the robot to rotate naturally after we turn
@@ -122,7 +120,7 @@ public class RealDriveTrain extends DriveTrain {
     } else {
       newRotateValue = rotation;
     }
-    move(forwardBackward, newRotateValue, useSquaredInputs);
+   move(forwardBackward, newRotateValue, useSquaredInputs);
   }
 
   /**
