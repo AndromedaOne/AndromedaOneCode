@@ -114,6 +114,10 @@ public class SubsystemsContainer {
     return m_driveTrain;
   }
 
+  public ClimberBase getClimber() {
+    return m_climber;
+  }
+
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
   }
