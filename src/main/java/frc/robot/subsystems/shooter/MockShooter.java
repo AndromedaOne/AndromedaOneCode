@@ -32,4 +32,15 @@ public class MockShooter extends ShooterBase {
 
   }
 
+  @Override
+  public void setPIDIsReady(boolean isReady) {
+    System.out.println("Setting Mock Shooter PID Is Ready To: " + isReady);
+  }
+
+  @Override
+  public boolean shooterIsReady() {
+    System.out.println("Getting Mock Shooter is Ready Flag");
+    return false;
+  }
+
 }

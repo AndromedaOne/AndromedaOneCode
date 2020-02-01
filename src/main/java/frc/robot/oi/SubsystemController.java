@@ -8,10 +8,17 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * Add your docs here.
  */
 public class SubsystemController {
-  private Joystick m_subsystemController = new Joystick(1);
+  private Joystick m_subsystemController;
+  private JoystickButton m_shootFromTrechFront;
+
+  public SubsystemController() {
+    m_subsystemController = new Joystick(1)
+  }
+
 }

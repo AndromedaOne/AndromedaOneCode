@@ -102,4 +102,8 @@ public class SubsystemsContainer {
     return m_driveTrain;
   }
 
+  public ShooterBase getShooter() {
+    return m_shooter;
+  }
+
 }
