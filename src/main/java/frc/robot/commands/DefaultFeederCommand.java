@@ -40,7 +40,8 @@ public class DefaultFeederCommand extends CommandBase {
      * If there's nothing in stage one OR if there's a ball at the end of stage two,
      * don't run the feeder
      */
-    if ((!m_feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT) && !m_feederSensor.isBall(EnumBallLocation.STAGE_1_RIGHT))
+    if ((!m_feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT)
+        && !m_feederSensor.isBall(EnumBallLocation.STAGE_1_RIGHT))
         || m_feederSensor.isBall(EnumBallLocation.STAGE_2_END)) {
       m_feeder.stopBothStages();
     } else {
