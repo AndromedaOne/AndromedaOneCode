@@ -28,6 +28,7 @@ public class DriveBackwardTimed extends CommandBase {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     m_driveTrain = driveTrain;
+    addRequirements(driveTrain);
   }
 
   @Override
@@ -42,6 +43,7 @@ public class DriveBackwardTimed extends CommandBase {
   public void execute() {
     // TODO Auto-generated method stub
     m_driveTrain.move(-0.3, 0, false);
+    System.out.println("Drive Backward Execute");
   }
 
   @Override

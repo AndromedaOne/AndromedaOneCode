@@ -31,4 +31,8 @@ public class SmartDashboard4905 {
     m_autoChooser.addOption("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("autoModes", m_autoChooser);
   }
+
+  public Command getSelectedAutoChooserCommand() {
+    return m_autoChooser.getSelected();
+  }
 }
