@@ -23,18 +23,36 @@ public class MockFeeder extends FeederBase {
   @Override
   public void driveStageOne() {
     // TODO Auto-generated method stub
-
+    System.out.println("Driving feeder stage one");
   }
 
   @Override
   public void driveStageTwo() {
     // TODO Auto-generated method stub
-
+    System.out.println("Driving feeder stage two");
   }
 
   @Override
   public void driveBothStages() {
-    // TODO Auto-generated method stub
+    // TODO Auto-generated me hod stub
+    System.out.println("Driving both feeder stages");
+  }
 
+  @Override
+  public void stopStageOne() {
+    // TODO Auto-generated method stub
+    System.out.println("Stopping feeder stage one");
+  }
+
+  @Override
+  public void stopStageTwo() {
+    // TODO Auto-generated method stub
+    System.out.println("Stopping feeder stage two");
+  }
+
+  @Override
+  public void stopBothStages() {
+    // TODO Auto-generated method stub
+    System.out.println("Stopping both feeder stages");
   }
 }
