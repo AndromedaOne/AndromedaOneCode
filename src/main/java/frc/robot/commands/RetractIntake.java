@@ -15,6 +15,7 @@ public class RetractIntake extends CommandBase {
    * Creates a new RetractIntake.
    */
   private IntakeBase m_intakeBase;
+
   public RetractIntake(IntakeBase intakeBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);

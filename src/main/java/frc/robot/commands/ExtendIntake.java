@@ -15,6 +15,7 @@ public class ExtendIntake extends CommandBase {
    * Creates a new ExtendIntake.
    */
   private IntakeBase m_intakeBase;
+
   public ExtendIntake(IntakeBase intakeBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
