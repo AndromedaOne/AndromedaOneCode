@@ -6,5 +6,5 @@ public abstract class BallFeederSensorBase {
 
   public abstract boolean[] isThereBall();
 
-  abstract boolean isBall(EnumBallLocation location);
+  public abstract boolean isBall(EnumBallLocation location);
 }

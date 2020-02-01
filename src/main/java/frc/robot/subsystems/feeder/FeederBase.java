@@ -21,7 +21,16 @@ public abstract class FeederBase extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
   public abstract void driveStageOne();
+
   public abstract void driveStageTwo();
+
   public abstract void driveBothStages();
+
+  public abstract void stopStageOne();
+  
+  public abstract void stopStageTwo();
+
+  public abstract void stopBothStages();
 }

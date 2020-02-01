@@ -68,8 +68,13 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
   }
 
   @Override
-  boolean isBall(EnumBallLocation location) {
+  public boolean isBall(EnumBallLocation location) {
     // TODO Auto-generated method stub
-    return false;
+    boolean[] feederBallLocations = isThereBall();
+    if (feederBallLocations[location.getIndex()] == true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

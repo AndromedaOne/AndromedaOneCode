@@ -9,7 +9,6 @@ package frc.robot.subsystems.feeder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -20,6 +19,7 @@ public class RealFeeder extends FeederBase {
    */
   public TalonSRX stageOne;
   public TalonSRX stageTwo;
+
   public RealFeeder() {
     Config feederConf = Config4905.getConfig4905().getFeederConfig();
     stageOne = new TalonSRX(feederConf.getInt("ports.stageOne"));
@@ -36,6 +36,7 @@ public class RealFeeder extends FeederBase {
     // TODO Auto-generated method stub
     stageOne.set(ControlMode.PercentOutput, 1);
   }
+
   public void stopStageOne() {
     stageOne.set(ControlMode.PercentOutput, 0);
   }
@@ -45,6 +46,7 @@ public class RealFeeder extends FeederBase {
     // TODO Auto-generated method stub
     stageTwo.set(ControlMode.PercentOutput, 1);
   }
+
   public void stopStageTwo() {
     stageTwo.set(ControlMode.PercentOutput, 0);
   }

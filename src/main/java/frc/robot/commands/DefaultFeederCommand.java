@@ -9,18 +9,22 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
+import frc.robot.sensors.ballfeedersensor.EnumBallLocation;
+import frc.robot.subsystems.feeder.FeederBase;
 
 public class DefaultFeederCommand extends CommandBase {
-  
+
   BallFeederSensorBase feederSensor;
+  FeederBase feeder;
+
   /**
    * Creates a new FeederCommand.
    */
   public DefaultFeederCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.getInstance().getSubsystemsContainer().getFeeder());
+    this.feeder = Robot.getInstance().getSubsystemsContainer().getFeeder();
     feederSensor = Robot.getInstance().getSensorsContainer().ballFeederSensor;
   }
 
@@ -32,7 +36,14 @@ public class DefaultFeederCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    /*
+    If there's nothing in stage one OR if there's a ball at the end of stage two, don't run the feeder
+    */
+    if ((!feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT) && !feederSensor.isBall(EnumBallLocation.STAGE_1_RIGHT)) || feederSensor.isBall(EnumBallLocation.STAGE_2_END)) {
+      feeder.stopBothStages();
+    } else {
+      feeder.driveBothStages();
+    }
   }
 
   // Called once the command ends or is interrupted.
