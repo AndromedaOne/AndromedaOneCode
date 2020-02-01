@@ -43,4 +43,10 @@ public class MockShooter extends ShooterBase {
     return false;
   }
 
+  @Override
+  public boolean isShooterHoodOpen() {
+    System.out.println("Getting Mock is Shooter Hood Open");
+    return false;
+  }
+
 }

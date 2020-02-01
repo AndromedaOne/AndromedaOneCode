@@ -10,25 +10,22 @@ public class RealShooter extends ShooterBase {
 
   private SparkMaxController m_shooterOne;
   private SparkMaxController m_shooterTwo;
+  private TalonSRXController m_shooterSeries;
   private SpeedControllerGroup m_shooterGroup;
   private DoubleSolenoid4905 m_shooterHoodOne;
   private DoubleSolenoid4905 m_shooterHoodTwo;
   private boolean m_shooterIsReady = false;
-  // TODO Add Talon
 
   public RealShooter() {
     Config shooterConfig = Config4905.getConfig4905().getShooterConfig();
 
     m_shooterOne = new SparkMaxController(shooterConfig, "shooterone");
     m_shooterTwo = new SparkMaxController(shooterConfig, "shootertwo");
-    m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
+    m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo, m_shooterSeries);
     m_shooterHoodOne = new DoubleSolenoid4905(shooterConfig, "hoodone");
     m_shooterHoodTwo = new DoubleSolenoid4905(shooterConfig, "hoodtwo");
   }
 
-  /**
-   * Gets the average velocity from both shooting wheels Not from the kicker wheel
-   */
   @Override
   public double getShooterVelocity() {
     double average = m_shooterOne.getEncoderVelocityTicks() + m_shooterTwo.getEncoderVelocityTicks();
@@ -55,6 +52,11 @@ public class RealShooter extends ShooterBase {
   public void closeShooterHood() {
     m_shooterHoodOne.retractPiston();
     m_shooterHoodTwo.retractPiston();
+  }
+
+  @Override
+  public boolean isShooterHoodOpen() {
+    return false;
   }
 
   @Override
