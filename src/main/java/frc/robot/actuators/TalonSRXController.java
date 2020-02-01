@@ -8,12 +8,14 @@ public class TalonSRXController extends WPI_TalonSRX {
 
   public TalonSRXController(Config subsystemConfig, String configString) {
     super(subsystemConfig.getInt("ports." + configString));
-    configure();
+    configure(subsystemConfig, configString);
     hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
+    System.out.println("Creating new TalonSRX from port: " + configString);
   }
 
-  private void configure() {
+  private void configure(Config subsystemConfig, String configString) {
     this.configFactoryDefault();
+    this.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
   }
 
   public double getEncoderPositionTicks() {

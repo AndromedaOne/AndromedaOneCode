@@ -70,6 +70,7 @@ public class SubsystemsContainer {
       System.out.println("Using mock Drive Train.");
       m_driveTrain = new MockDriveTrain();
     }
+    m_driveTrain.init();
 
     // 2. Climber
     if (Config4905.getConfig4905().doesClimberExist()) {

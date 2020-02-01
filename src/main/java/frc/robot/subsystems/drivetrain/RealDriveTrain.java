@@ -17,14 +17,14 @@ public abstract class RealDriveTrain extends DriveTrain {
   private int ticksPerInch;
 
   // the robot's main drive
-  private final DifferentialDrive m_drive;
+  private DifferentialDrive m_drive;
 
   public RealDriveTrain() {
-    Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
 
+  }
+
+  public void init() {
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
-
-    ticksPerInch = drivetrainConfig.getInt("drivetrain.ticksPerInch");
   }
 
   @Override

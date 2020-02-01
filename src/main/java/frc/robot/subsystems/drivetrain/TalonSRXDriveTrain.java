@@ -22,10 +22,12 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   private final TalonSRXController m_backRight;
 
   // motors on the Left side of the drive
-  private final SpeedControllerGroup m_leftmotors;
+  private SpeedControllerGroup m_leftmotors;
 
   // motors on the right side of the drive
-  private final SpeedControllerGroup m_rightmotors;
+  private SpeedControllerGroup m_rightmotors;
+
+  private int ticksPerInch;
 
   public TalonSRXDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -40,6 +42,10 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
 
     // motors on the right side of the drive.
     m_rightmotors = new SpeedControllerGroup(m_frontRight, m_backRight);
+
+    
+    ticksPerInch = drivetrainConfig.getInt("ticksPerInch");
+    System.out.println("Done configuring TalonSRXDriveTrain");
   }
 
   @Override
