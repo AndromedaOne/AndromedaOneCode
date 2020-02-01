@@ -126,7 +126,6 @@ public class RealDriveTrain extends DriveTrain {
     driveTrain.move(forwardBackward, newRotateValue, useSquaredInputs);
   }
 
-
   /**
    * Drives the robot using arcadeDrive
    * 
