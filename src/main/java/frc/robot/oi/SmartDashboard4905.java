@@ -7,16 +7,28 @@
 
 package frc.robot.oi;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
  * Add your docs here.
  */
-public class Smartdashboard {
-  public Smartdashboard(SubsystemsContainer subsystemsContainer) {
+public class SmartDashboard4905 {
+  SendableChooser<Command> m_autoChooser = new SendableChooser<>();
+
+  public SmartDashboard4905(SubsystemsContainer subsystemsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
+    initializeAutoChooser(subsystemsContainer);
+  }
+
+  private void initializeAutoChooser(SubsystemsContainer subsystemsContainer) {
+    m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
+    m_autoChooser.addOption("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("autoModes", m_autoChooser);
   }
 }
