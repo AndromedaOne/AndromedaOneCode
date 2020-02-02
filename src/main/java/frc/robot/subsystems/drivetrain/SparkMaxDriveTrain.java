@@ -54,9 +54,9 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
       encoders++;
       encoderPositionAvg += m_frontLeft.getEncoderPositionTicks();
     }
-    if (m_backRight.hasEncoder()) {
+    if (m_backLeft.hasEncoder()) {
       encoders++;
-      encoderPositionAvg += m_backRight.getEncoderPositionTicks();
+      encoderPositionAvg += m_backLeft.getEncoderPositionTicks();
     }
     if (m_frontRight.hasEncoder()) {
       encoders++;
@@ -80,9 +80,9 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
       encoders++;
       encoderVelocityAvg += m_frontLeft.getEncoderVelocityTicks();
     }
-    if (m_backRight.hasEncoder()) {
+    if (m_backLeft.hasEncoder()) {
       encoders++;
-      encoderVelocityAvg += m_backRight.getEncoderVelocityTicks();
+      encoderVelocityAvg += m_backLeft.getEncoderVelocityTicks();
     }
     if (m_frontRight.hasEncoder()) {
       encoders++;

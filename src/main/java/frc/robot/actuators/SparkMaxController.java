@@ -14,13 +14,13 @@ public class SparkMaxController extends CANSparkMax {
 
   public SparkMaxController(Config subsystemConfig, String configString) {
     super(subsystemConfig.getInt("ports." + configString), MotorType.kBrushless);
+    hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     if (hasEncoder()) {
       m_sparkMaxEncoder = new CANEncoder(this);
     }
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;
     configure(subsystemConfig, configString);
-    hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     System.out.println("Creating new SparkMax from port: " + configString);
   }
 
@@ -30,18 +30,24 @@ public class SparkMaxController extends CANSparkMax {
   }
 
   public double getEncoderPositionTicks() {
+    if (!hasEncoder()) {
+      return 0;
+    }
     double sensorPosition = m_sparkMaxEncoder.getPosition();
     sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorPosition
         : sensorPosition);
-    SmartDashboard.putNumber(m_configString + "position", sensorPosition);
+    SmartDashboard.putNumber(m_configString + " position", sensorPosition);
     return sensorPosition;
   }
 
   public double getEncoderVelocityTicks() {
+    if (!hasEncoder()) {
+      return 0;
+    }
     double sensorVelocity = m_sparkMaxEncoder.getVelocity();
     sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorVelocity
         : sensorVelocity);
-    SmartDashboard.putNumber(m_configString + "velocity", sensorVelocity);
+    SmartDashboard.putNumber(m_configString + " velocity", sensorVelocity);
     return sensorVelocity;
   }
 
