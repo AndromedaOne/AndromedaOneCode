@@ -7,8 +7,6 @@
 
 package frc.robot.subsystems.feeder;
 
-import frc.robot.commands.DefaultFeederCommand;
-
 public class MockFeeder extends FeederBase {
   /**
    * Creates a new MockFeeder.
