@@ -7,8 +7,8 @@
 
 package frc.robot.commands.pidcommands;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,11 +21,11 @@ public class MoveUsingEncoder extends PIDCommand {
   public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),
+        new PIDController4905(0, 0, 0, 0),
         // This should return the measurement
-        drivetrain::getEncoderPositionInches,
+        drivetrain::getRobotPositionInches,
         // This should return the setpoint (can also be a constant)
-        drivetrain.getEncoderPositionInches() + distance,
+        drivetrain.getRobotPositionInches() + distance,
         // This uses the output
         output -> {
           // Use the output here
