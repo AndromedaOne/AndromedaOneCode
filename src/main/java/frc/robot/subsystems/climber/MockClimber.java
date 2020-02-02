@@ -71,6 +71,6 @@ public class MockClimber extends ClimberBase {
   @Override
   public void adjustWinch(int adjust) {
     // TODO Auto-generated method stub
-    
+
   }
 }
