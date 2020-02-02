@@ -13,6 +13,7 @@ import frc.robot.subsystems.climber.ClimberBase;
 
 public class FireGrapplingHook extends CommandBase {
   ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
+
   /**
    * Creates a new FireGrapplingHook.
    */
