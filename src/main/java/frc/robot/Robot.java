@@ -51,8 +51,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     m_subsystemContainer = new SubsystemsContainer();
-    m_oiContainer = new OIContainer(m_subsystemContainer);
     m_sensorsContainer = new SensorsContainer();
+    m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
+
     m_subsystemContainer.setDefaultCommands();
   }
 
@@ -75,7 +76,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    getSensorsContainer().ballFeederSensor.isThereBall();
+    getSensorsContainer().getBallFeederSensor().isThereBall();
   }
 
   /**

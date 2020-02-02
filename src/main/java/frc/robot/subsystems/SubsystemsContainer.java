@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.DefaultFeederCommand;
+import frc.robot.commands.RetractIntake;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.subsystems.climber.ClimberBase;
 import frc.robot.subsystems.climber.MockClimber;
@@ -119,8 +120,13 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public IntakeBase getIntake() {
+    return m_intake;
+  }
+
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
+    m_intake.setDefaultCommand(new RetractIntake(m_intake));
     m_feeder.setDefaultCommand(new DefaultFeederCommand());
   }
 }
