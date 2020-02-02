@@ -26,5 +26,13 @@ public abstract class ClimberBase extends SubsystemBase {
 
   public abstract void retractLeftGrapplingHook();
 
+  public abstract void extendRightGrapplingHook();
+
+  public abstract void retractRightGrapplingHook();
+
   public abstract void driveLeftWinch();
+
+  public abstract void driveRightWinch();
+
+  public abstract void ascend();
 }
