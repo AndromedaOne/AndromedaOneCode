@@ -21,19 +21,19 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void extendGrapplingHook() {
+  public void extendLeftGrapplingHook() {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void retractGrapplingHook() {
+  public void retractLeftGrapplingHook() {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void driveWinch() {
+  public void driveLeftWinch() {
     // TODO Auto-generated method stub
 
   }
