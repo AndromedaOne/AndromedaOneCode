@@ -13,6 +13,7 @@ public class SparkMaxController extends CANSparkMax {
         + subsystemConfig.getInt("ports." + configString));
     m_sparkMaxEncoder = new CANEncoder(this);
     configure();
+    System.out.println("Creating new SparkMax from port: " + configString);
   }
 
   private void configure() {

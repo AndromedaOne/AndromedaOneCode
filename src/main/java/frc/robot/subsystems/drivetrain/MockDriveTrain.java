@@ -25,12 +25,12 @@ public class MockDriveTrain extends DriveTrain {
   }
 
   @Override
-  public double getEncoderPositionInches() {
+  public double getRobotPositionInches() {
     return 0;
   }
 
   @Override
-  public double getEncoderVelocityInches() {
+  public double getRobotVelocityInches() {
     return 0;
   }
 

@@ -28,11 +28,11 @@ public class DriveBackwardTimed extends CommandBase {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     m_driveTrain = driveTrain;
+    addRequirements(driveTrain);
   }
 
   @Override
   public void initialize() {
-    // TODO Auto-generated method stub
     m_timer.reset();
     m_timer.start();
 
@@ -40,7 +40,6 @@ public class DriveBackwardTimed extends CommandBase {
 
   @Override
   public void execute() {
-    // TODO Auto-generated method stub
     m_driveTrain.move(-0.3, 0, false);
   }
 
