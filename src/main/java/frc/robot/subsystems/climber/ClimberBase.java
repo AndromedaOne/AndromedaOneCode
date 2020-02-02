@@ -37,4 +37,6 @@ public abstract class ClimberBase extends SubsystemBase {
   public abstract void ascend();
 
   public abstract void stopWinch();
+
+  public abstract void adjustWinch(int adjust);
 }
