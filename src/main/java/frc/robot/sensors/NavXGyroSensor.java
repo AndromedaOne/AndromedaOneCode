@@ -37,7 +37,7 @@ public class NavXGyroSensor {
        * details.
        */
       Config conf = Config4905.getConfig4905().getSensorConfig();
-      Config navXConfig = conf.getConfig("sensors.navx");
+      Config navXConfig = conf.getConfig("navx");
       String navXPort = navXConfig.getString("port");
       System.out.println("Creating a NavX Gyro on port: " + navXPort);
       if (navXPort.equals("MXP")) {
@@ -55,7 +55,7 @@ public class NavXGyroSensor {
       controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
 
     } catch (RuntimeException ex) {
-      DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+      DriverStation.reportError("Error instantiating navX MXP: " + ex.getMessage(), true);
     }
   }
 
