@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
-import frc.robot.commands.DefaultFeederCommand;
 
 public class RealFeeder extends FeederBase {
   /**
@@ -25,8 +24,6 @@ public class RealFeeder extends FeederBase {
     Config feederConf = Config4905.getConfig4905().getFeederConfig();
     m_stageOne = new TalonSRX(feederConf.getInt("ports.stageOne"));
     m_stageTwo = new TalonSRX(feederConf.getInt("ports.stageTwo"));
-
-    setDefaultCommand(new DefaultFeederCommand());
   }
 
   @Override
