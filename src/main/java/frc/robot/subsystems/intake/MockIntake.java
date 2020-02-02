@@ -1,20 +1,23 @@
 package frc.robot.subsystems.intake;
 
 public class MockIntake extends IntakeBase {
-  public void runIntake() {
-    System.out.println("Running intake.");
+  public void runIntake(double speed) {
+    System.out.println("Running intake at speed :" + speed);
   }
 
   public void stopIntake() {
     System.out.println("Stopping intake.");
   }
 
-  public boolean ballInIntake() {
-    System.out.println("Checking if ball in intake");
-    return false;
+  @Override
+  public void deployIntake() {
+    // TODO Auto-generated method stub
+    System.out.println("deploy intake");
   }
 
-  public void moveBallToHopper() {
-    System.out.println("Moving ball to hopper.");
+  @Override
+  public void retractIntake() {
+    // TODO Auto-generated method stub
+    System.out.println("retract intake");
   }
 }
