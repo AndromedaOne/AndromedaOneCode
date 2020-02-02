@@ -29,18 +29,24 @@ public class TalonSRXController extends WPI_TalonSRX {
   }
 
   public double getEncoderPositionTicks() {
+    if (!hasEncoder()) {
+      return 0;
+    }
     int sensorPosition = this.getSelectedSensorPosition();
     sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorPosition
         : sensorPosition);
-    SmartDashboard.putNumber(m_configString + "position", sensorPosition);
+    SmartDashboard.putNumber(m_configString + " position", sensorPosition);
     return sensorPosition;
   }
 
   public double getEncoderVelocityTicks() {
+    if (!hasEncoder()) {
+      return 0;
+    }
     int sensorVelocity = this.getSelectedSensorVelocity();
     sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorVelocity
         : sensorVelocity);
-    SmartDashboard.putNumber(m_configString + "velocity", sensorVelocity);
+    SmartDashboard.putNumber(m_configString + " velocity", sensorVelocity);
     return sensorVelocity;
   }
 
