@@ -17,13 +17,22 @@ public class RealClimber extends ClimberBase {
   /**
    * Creates a new RealClimber.
    */
-  public DoubleSolenoid4905 grapplingHook;
-  public SparkMaxController winch;
+  public DoubleSolenoid4905 leftGrapplingHook;
+  public DoubleSolenoid4905 rightGrapplingHook;
+  public SparkMaxController leftWinch;
+  public SparkMaxController rightWinch;
+  public DoubleSolenoid4905 leftBrake;
+  public DoubleSolenoid4905 rightBrake;
 
   public RealClimber() {
     Config climberConf = Config4905.getConfig4905().getClimberConfig();
-    grapplingHook = new DoubleSolenoid4905(climberConf, "grapplingHook");
-    winch = new SparkMaxController(climberConf, "winch");
+    leftGrapplingHook = new DoubleSolenoid4905(climberConf, "leftGrapplingHook");
+    leftWinch = new SparkMaxController(climberConf, "leftWinch");
+    rightGrapplingHook = new DoubleSolenoid4905(climberConf, "rightGrapplingHook");
+    rightWinch = new SparkMaxController(climberConf, "rightWinch");
+
+    leftBrake = new DoubleSolenoid4905(climberConf, "leftBrake");
+    rightBrake = new DoubleSolenoid4905(climberConf, "rightBrake");
   }
 
   @Override
@@ -32,20 +41,20 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void extendGrapplingHook() {
+  public void extendLeftGrapplingHook() {
     // TODO Auto-generated method stub
-    grapplingHook.extendPiston();
+    leftGrapplingHook.extendPiston();
   }
 
   @Override
-  public void retractGrapplingHook() {
+  public void retractLeftGrapplingHook() {
     // TODO Auto-generated method stub
-    grapplingHook.retractPiston();
+    leftGrapplingHook.retractPiston();
   }
 
   @Override
-  public void driveWinch() {
+  public void driveLeftWinch() {
     // TODO Auto-generated method stub
-    winch.set(1);
+    leftWinch.set(1);
   }
 }
