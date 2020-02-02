@@ -14,6 +14,8 @@ public class SparkMaxController extends CANSparkMax {
 
   public SparkMaxController(Config subsystemConfig, String configString) {
     super(subsystemConfig.getInt("ports." + configString), MotorType.kBrushless);
+    System.out.println("Enabling SparkMaxController \"" + configString + "\" for port "
+        + subsystemConfig.getInt("ports." + configString));
     hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     if (hasEncoder()) {
       m_sparkMaxEncoder = new CANEncoder(this);
@@ -21,7 +23,6 @@ public class SparkMaxController extends CANSparkMax {
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;
     configure(subsystemConfig, configString);
-    System.out.println("Creating new SparkMax from port: " + configString);
   }
 
   private void configure(Config subsystemConfig, String configString) {
