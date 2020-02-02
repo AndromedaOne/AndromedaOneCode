@@ -25,7 +25,7 @@ public class DefaultFeederCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.getInstance().getSubsystemsContainer().getFeeder());
     this.m_feeder = Robot.getInstance().getSubsystemsContainer().getFeeder();
-    m_feederSensor = Robot.getInstance().getSensorsContainer().ballFeederSensor;
+    m_feederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
   }
 
   // Called when the command is initially scheduled.

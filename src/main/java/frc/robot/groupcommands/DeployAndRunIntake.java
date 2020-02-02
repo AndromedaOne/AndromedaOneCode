@@ -10,6 +10,7 @@ package frc.robot.groupcommands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.RunIntake;
+import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.subsystems.intake.IntakeBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,18 +21,22 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
    * Creates a new DeployAndRunIntake.
    */
   private IntakeBase m_intakeBase;
+  private BallFeederSensorBase m_ballFeederSensorBase;
 
-  public DeployAndRunIntake(IntakeBase intakeBase) {
+  public DeployAndRunIntake(IntakeBase intakeBase, BallFeederSensorBase ballFeederSensorBase) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
     m_intakeBase = intakeBase;
+    m_ballFeederSensorBase = ballFeederSensorBase;
   }
 
   @Override
   public void initialize() {
     // TODO Auto-generated method stub
     super.initialize();
-    addCommands(new ExtendIntake(m_intakeBase), new RunIntake(m_intakeBase));
+    if (m_ballFeederSensorBase.getNumberOfPowerCellsInFeeder() < 5) {
+      addCommands(new ExtendIntake(m_intakeBase), new RunIntake(m_intakeBase));
+    }
   }
 }

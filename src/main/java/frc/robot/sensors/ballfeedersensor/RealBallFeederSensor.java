@@ -63,6 +63,16 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     return boolBuf;
   }
 
+  public int getNumberOfPowerCellsInFeeder() {
+    int powerCellCount = 0;
+    for (boolean isBall : isThereBall()) {
+      if (isBall) {
+        powerCellCount++;
+      }
+    }
+    return powerCellCount;
+  }
+
   @Override
   public boolean isBall(EnumBallLocation location) {
     boolean[] feederBallLocations = isThereBall();
