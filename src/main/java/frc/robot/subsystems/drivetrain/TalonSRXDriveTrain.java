@@ -49,14 +49,54 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
 
   @Override
   public double getRobotPositionInches() {
-    // TODO Auto-generated method stub
-    return 0;
+    double encoderPositionAvg = 0;
+    int encoders = 0;
+    if (m_frontLeft.hasEncoder()) {
+      encoders++;
+      encoderPositionAvg += m_frontLeft.getEncoderPositionTicks();
+    }
+    if (m_backLeft.hasEncoder()) {
+      encoders++;
+      encoderPositionAvg += m_backLeft.getEncoderPositionTicks();
+    }
+    if (m_frontRight.hasEncoder()) {
+      encoders++;
+      encoderPositionAvg += m_frontRight.getEncoderPositionTicks();
+    }
+    if (m_backRight.hasEncoder()) {
+      encoders++;
+      encoderPositionAvg += m_backRight.getEncoderPositionTicks();
+    }
+    if (encoders > 0) {
+      encoderPositionAvg = encoderPositionAvg / (ticksPerInch * encoders);
+    }
+    return encoderPositionAvg;
   }
 
   @Override
   public double getRobotVelocityInches() {
-    // TODO Auto-generated method stub
-    return 0;
+    double encoderVelocityAvg = 0;
+    int encoders = 0;
+    if (m_frontLeft.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_frontLeft.getEncoderVelocityTicks();
+    }
+    if (m_backLeft.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_backLeft.getEncoderVelocityTicks();
+    }
+    if (m_frontRight.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_frontRight.getEncoderVelocityTicks();
+    }
+    if (m_backRight.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_backRight.getEncoderVelocityTicks();
+    }
+    if (encoders > 0) {
+      encoderVelocityAvg = encoderVelocityAvg / (ticksPerInch * encoders);
+    }
+    return encoderVelocityAvg;
   }
 
   @Override

@@ -7,7 +7,9 @@
 
 package frc.robot.sensors;
 
+import frc.robot.Config4905;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
+import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
 
 /**
@@ -16,10 +18,19 @@ import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
  */
 public class SensorsContainer {
   // TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
-  public BallFeederSensorBase ballFeederSensor;
+  private BallFeederSensorBase ballFeederSensor;
 
   public SensorsContainer() {
-    ballFeederSensor = new RealBallFeederSensor("ballFeederSensor");
+    if (Config4905.getConfig4905().getSensorConfig().hasPath("ballFeederSensor")) {
+      System.out.println("Using real ball feeder sensor");
+      ballFeederSensor = new RealBallFeederSensor("ballFeederSensor");
+    } else {
+      System.out.println("Using mock ball feeder sensor");
+      ballFeederSensor = new MockBallFeederSensor();
+    }
+  }
 
+  public BallFeederSensorBase getBallFeederSensor() {
+    return ballFeederSensor;
   }
 }

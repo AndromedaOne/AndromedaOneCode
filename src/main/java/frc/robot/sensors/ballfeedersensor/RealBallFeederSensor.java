@@ -29,7 +29,6 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
 
   @Override
   void getSensorReading() {
-    // TODO Auto-generated method stub
     m_i2c.readOnly(m_dataBuffer, 2 * m_numSensors);
   }
 
@@ -52,7 +51,6 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     for (int i = 0; i < dValues.length; i++) {
       values += dValues[i] + ",";
     }
-    System.out.println(values);
     // Check for whether the line is found
     for (int i = 0; i < dValues.length; i++) {
       if (dValues[i] >= m_detectionThreshold) {
@@ -64,9 +62,18 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     return boolBuf;
   }
 
+  public int getNumberOfPowerCellsInFeeder() {
+    int powerCellCount = 0;
+    for (boolean isBall : isThereBall()) {
+      if (isBall) {
+        powerCellCount++;
+      }
+    }
+    return powerCellCount;
+  }
+
   @Override
   public boolean isBall(EnumBallLocation location) {
-    // TODO Auto-generated method stub
     boolean[] feederBallLocations = isThereBall();
     if (feederBallLocations[location.getIndex()] == true) {
       return true;
