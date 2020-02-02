@@ -1,5 +1,6 @@
 package frc.robot.lib;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -21,7 +22,7 @@ public enum ButtonsEnumerated {
     return button.getJoystickButton(joystick);
   }
 
-  public JoystickButton getJoystickButton(Joystick joystick) {
+  public JoystickButton getJoystickButton(GenericHID joystick) {
     return new JoystickButton(joystick, m_buttonValue);
   }
 
