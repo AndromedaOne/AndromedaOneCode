@@ -9,7 +9,8 @@ import frc.robot.actuators.*;
 
 public class RealShooter extends ShooterBase {
 
-  private final static double SERIES_WHEEL_TICKS_TO_ROTATION = 0;
+  private Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
+  private final double SERIES_TICKS_TO_ROTATION = m_shooterConfig.getDouble("seriesticksperrotation");
   private SparkMaxController m_shooterOne;
   private SparkMaxController m_shooterTwo;
   private TalonSRXController m_shooterSeries;
@@ -19,14 +20,13 @@ public class RealShooter extends ShooterBase {
   private boolean m_shooterIsReady = false;
 
   public RealShooter() {
-    Config shooterConfig = Config4905.getConfig4905().getShooterConfig();
-
-    m_shooterOne = new SparkMaxController(shooterConfig, "shooterone");
-    m_shooterTwo = new SparkMaxController(shooterConfig, "shootertwo");
-    m_shooterSeries = new TalonSRXController(shooterConfig, "shooterseries");
+    setDefaultCommand();
+    m_shooterOne = new SparkMaxController(m_shooterConfig, "ports.shooterone");
+    m_shooterTwo = new SparkMaxController(m_shooterConfig, "ports.shootertwo");
+    m_shooterSeries = new TalonSRXController(m_shooterConfig, "ports.shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
-    m_shooterHoodOne = new DoubleSolenoid4905(shooterConfig, "hoodone");
-    m_shooterHoodTwo = new DoubleSolenoid4905(shooterConfig, "hoodtwo");
+    m_shooterHoodOne = new DoubleSolenoid4905(m_shooterConfig, "ports.hoodone");
+    m_shooterHoodTwo = new DoubleSolenoid4905(m_shooterConfig, "ports.hoodtwo");
 
     m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
@@ -44,7 +44,7 @@ public class RealShooter extends ShooterBase {
   @Override
   public double getShooterSeriesVelocity() {
     //Converts to rpm
-    return (m_shooterSeries.getEncoderVelocityTicks() / SERIES_WHEEL_TICKS_TO_ROTATION) * 1000;
+    return (m_shooterSeries.getEncoderVelocityTicks() / SERIES_TICKS_TO_ROTATION) * 1000;
   }
 
   @Override
