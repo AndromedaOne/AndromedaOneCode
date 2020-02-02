@@ -14,7 +14,6 @@ public class MockFeeder extends FeederBase {
    * Creates a new MockFeeder.
    */
   public MockFeeder() {
-    setDefaultCommand(new DefaultFeederCommand());
   }
 
   @Override
@@ -24,31 +23,25 @@ public class MockFeeder extends FeederBase {
 
   @Override
   public void driveStageOne() {
-    System.out.println("Driving feeder stage one");
   }
 
   @Override
   public void driveStageTwo() {
-    System.out.println("Driving feeder stage two");
   }
 
   @Override
   public void driveBothStages() {
-    System.out.println("Driving both feeder stages");
   }
 
   @Override
   public void stopStageOne() {
-    System.out.println("Stopping feeder stage one");
   }
 
   @Override
   public void stopStageTwo() {
-    System.out.println("Stopping feeder stage two");
   }
 
   @Override
   public void stopBothStages() {
-    System.out.println("Stopping both feeder stages");
   }
 }
