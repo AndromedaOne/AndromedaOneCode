@@ -118,6 +118,10 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public IntakeBase getIntake() {
+    return m_intake;
+  }
+
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
   }

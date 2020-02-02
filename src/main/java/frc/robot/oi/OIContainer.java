@@ -7,6 +7,8 @@
 
 package frc.robot.oi;
 
+import frc.robot.groupcommands.DeployAndRunIntake;
+import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -21,6 +23,7 @@ public class OIContainer {
     m_driveController = new DriveController();
     m_smartDashboard = new SmartDashboard4905(subsystemsContainer);
     m_subsystemController = new SubsystemController();
+    m_subsystemController.getDeployAndRunIntakeButton().whileHeld(new DeployAndRunIntake(subsystemsContainer.getIntake()));
   }
 
   public DriveController getDriveController() {
