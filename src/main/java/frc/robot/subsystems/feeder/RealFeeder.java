@@ -36,7 +36,6 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageOne() {
-    // TODO Auto-generated method stub
     m_stageOne.set(ControlMode.PercentOutput, 1);
   }
 
@@ -46,7 +45,6 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageTwo() {
-    // TODO Auto-generated method stub
     m_stageTwo.set(ControlMode.PercentOutput, 1);
   }
 
@@ -56,7 +54,6 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveBothStages() {
-    // TODO Auto-generated method stub
     driveStageOne();
     driveStageTwo();
   }
