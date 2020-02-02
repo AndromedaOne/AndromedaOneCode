@@ -5,6 +5,7 @@ import java.util.TimerTask;
 import com.kauailabs.navx.frc.AHRS;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
@@ -28,36 +29,35 @@ public class NavXGyroSensor {
    * DriveStation.
    */
   private NavXGyroSensor() {
-    // try {
-    /* Communicate w/navX MXP via the MXP SPI Bus. */
-    /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
-    /*
-     * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
-     * details.
-     */
-    Config conf = Config4905.getConfig4905().getSensorConfig();
-    Config navXConfig = conf.getConfig("navx");
-    String navXPort = navXConfig.getString("port");
-    System.out.println("Creating a NavX Gyro on port: " + navXPort);
-    if (navXPort.equals("MXP")) {
-      gyro = new AHRS(SPI.Port.kMXP);
-    } else if (navXPort.equals("SPI")) {
-      gyro = new AHRS(SPI.Port.kOnboardCS0);
-    } else {
-      System.err.println("ERROR: Unkown NavX Port: " + navXPort);
-      return;
-    }
-    System.out.println("Created NavX instance");
-    // New thread to initialize the initial angle
-    controlLoop = new java.util.Timer();
-    SetInitialAngleReading task = new SetInitialAngleReading();
-    controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
+    try {
+      /* Communicate w/navX MXP via the MXP SPI Bus. */
+      /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
+      /*
+       * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
+       * details.
+       */
+      Config conf = Config4905.getConfig4905().getSensorConfig();
+      Config navXConfig = conf.getConfig("navx");
+      String navXPort = navXConfig.getString("port");
+      System.out.println("Creating a NavX Gyro on port: " + navXPort);
+      if (navXPort.equals("MXP")) {
+        gyro = new AHRS(SPI.Port.kMXP);
+      } else if (navXPort.equals("SPI")) {
+        gyro = new AHRS(SPI.Port.kOnboardCS0);
+      } else {
+        System.err.println("ERROR: Unkown NavX Port: " + navXPort);
+        return;
+      }
+      System.out.println("Created NavX instance");
+      // New thread to initialize the initial angle
+      controlLoop = new java.util.Timer();
+      SetInitialAngleReading task = new SetInitialAngleReading();
+      controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
 
-//    } catch (RuntimeException ex) {
-    // DriverStation.reportError("Error instantiating navX MXP: " + ex.getMessage(),
-    // true);
+    } catch (RuntimeException ex) {
+      DriverStation.reportError("Error instantiating navX MXP: " + ex.getMessage(), true);
+    }
   }
-  // }
 
   private class SetInitialAngleReading extends TimerTask {
 

@@ -89,7 +89,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     } else {
       newRotateValue = rotation;
     }
-   move(forwardBackward, newRotateValue, useSquaredInputs);
+    move(forwardBackward, newRotateValue, useSquaredInputs);
   }
 
   /**
