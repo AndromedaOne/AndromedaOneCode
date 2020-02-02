@@ -6,6 +6,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.*;
+import frc.robot.groupcommands.ShooterParallelCommandGroup;;
 
 public class RealShooter extends ShooterBase {
 
@@ -20,7 +21,6 @@ public class RealShooter extends ShooterBase {
   private boolean m_shooterIsReady = false;
 
   public RealShooter() {
-    setDefaultCommand();
     m_shooterOne = new SparkMaxController(m_shooterConfig, "ports.shooterone");
     m_shooterTwo = new SparkMaxController(m_shooterConfig, "ports.shootertwo");
     m_shooterSeries = new TalonSRXController(m_shooterConfig, "ports.shooterseries");
