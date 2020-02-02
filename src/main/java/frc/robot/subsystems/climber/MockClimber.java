@@ -61,4 +61,10 @@ public class MockClimber extends ClimberBase {
     // TODO Auto-generated method stub
 
   }
+
+  @Override
+  public void stopWinch() {
+    // TODO Auto-generated method stub
+
+  }
 }
