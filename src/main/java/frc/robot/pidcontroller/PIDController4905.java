@@ -20,4 +20,8 @@ public class PIDController4905 extends PIDControllerProposed {
     }
     return output;
   }
+
+  public void setMinOutputToMove(double minOutputToMove) {
+    m_minOutputToMove = minOutputToMove;
+  }
 }
