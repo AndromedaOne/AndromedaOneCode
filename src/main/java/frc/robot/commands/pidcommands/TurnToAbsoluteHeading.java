@@ -23,7 +23,8 @@ public class TurnToAbsoluteHeading extends PIDCommand {
   double m_velocityTolerance = 0.5;
 
   /**
-   * Creates a new TurnToAbsoluteHeading.
+   * Creates a new TurnToAbsoluteHeading. 
+   * @param compassHeading input an angle in degrees.
    */
   public TurnToAbsoluteHeading(double compassHeading) {
     super(
@@ -52,9 +53,9 @@ public class TurnToAbsoluteHeading extends PIDCommand {
 
   private static PIDController getPIDController() {
     Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
-    double p = pidConfig.getDouble("TurningPTerm");
-    double i = pidConfig.getDouble("TurningITerm");
-    double d = pidConfig.getDouble("TurningDTerm");
+    double p = pidConfig.getDouble("AbsoluteHeading.TurningPTerm");
+    double i = pidConfig.getDouble("AbsoluteHeading.TurningITerm");
+    double d = pidConfig.getDouble("AbsoluteHeading.TurningDTerm");
     return new PIDController(p, i, d);
   }
 

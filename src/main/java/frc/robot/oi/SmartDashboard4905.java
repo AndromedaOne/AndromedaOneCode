@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.pidcommands.TurnToAbsoluteHeading;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -23,6 +24,12 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
+
+    SmartDashboard.putData("North", new TurnToAbsoluteHeading(0));
+    SmartDashboard.putData("South", new TurnToAbsoluteHeading(180));
+    SmartDashboard.putData("East", new TurnToAbsoluteHeading(90));
+    SmartDashboard.putData("West", new TurnToAbsoluteHeading(270));
+
     initializeAutoChooser(subsystemsContainer);
   }
 
