@@ -7,6 +7,7 @@
 
 package frc.robot.oi;
 
+import frc.robot.commands.TestGroupCommandStarter;
 import frc.robot.groupcommands.DeployAndRunIntake;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -25,6 +26,7 @@ public class OIContainer {
     m_subsystemController = new SubsystemController();
     m_subsystemController.getDeployAndRunIntakeButton()
         .whileHeld(new DeployAndRunIntake(subsystemsContainer.getIntake(), sensorsContainer.getBallFeederSensor()));
+    m_driveController.getTestButton().whileHeld(new TestGroupCommandStarter());
   }
 
   public DriveController getDriveController() {

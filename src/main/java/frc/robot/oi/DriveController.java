@@ -45,7 +45,8 @@ public class DriveController {
   public double getRotateStick() {
     return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
   }
-    public JoystickButton getTestButton() {
-      return ButtonsEnumerated.ABUTTON.getJoystickButton(m_driveController);
-    }
+
+  public JoystickButton getTestButton() {
+    return ButtonsEnumerated.ABUTTON.getJoystickButton(m_driveController);
+  }
 }

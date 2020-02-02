@@ -16,11 +16,13 @@ public class PrintTime extends CommandBase {
    * Creates a new PrintTime.
    */
   private double m_currentTime;
+  boolean m_isFinished;
 
-  public PrintTime() {
+  public PrintTime(boolean isFinished) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_currentTime = Timer.getFPGATimestamp();
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+    m_isFinished = isFinished;
   }
 
   // Called when the command is initially scheduled.
@@ -42,6 +44,6 @@ public class PrintTime extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_isFinished;
   }
 }
