@@ -29,7 +29,6 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
 
   @Override
   void getSensorReading() {
-    // TODO Auto-generated method stub
     m_i2c.readOnly(m_dataBuffer, 2 * m_numSensors);
   }
 
@@ -66,7 +65,6 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
 
   @Override
   public boolean isBall(EnumBallLocation location) {
-    // TODO Auto-generated method stub
     boolean[] feederBallLocations = isThereBall();
     if (feederBallLocations[location.getIndex()] == true) {
       return true;

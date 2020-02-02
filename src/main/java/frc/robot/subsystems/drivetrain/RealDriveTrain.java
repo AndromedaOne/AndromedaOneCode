@@ -42,11 +42,6 @@ public abstract class RealDriveTrain extends DriveTrain {
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
   /**
    * This moves the robot and corrects for any rotation using the gyro
    * 
