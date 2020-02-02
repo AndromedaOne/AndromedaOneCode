@@ -9,6 +9,8 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.lib.ButtonsEnumerated;
 
 /**
  * Add your docs here.
@@ -43,5 +45,7 @@ public class DriveController {
   public double getRotateStick() {
     return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
   }
-
+    public JoystickButton getTestButton() {
+      return ButtonsEnumerated.ABUTTON.getJoystickButton(m_driveController);
+    }
 }
