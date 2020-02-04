@@ -1,7 +1,7 @@
 package frc.robot.sensors.ballfeedersensor;
 
 public enum EnumBallLocation {
-  STAGE_2_END(0), STAGE_2_MIDDLE(2), STAGE_2_BEGINNING(7), STAGE_1_LEFT(4), STAGE_1_RIGHT(3);
+  STAGE_2_END(0), STAGE_2_MIDDLE(8), STAGE_2_BEGINNING(7), STAGE_1_LEFT(4), STAGE_1_RIGHT(3), STAGE_1_END(2);
 
   private final int index;
 
