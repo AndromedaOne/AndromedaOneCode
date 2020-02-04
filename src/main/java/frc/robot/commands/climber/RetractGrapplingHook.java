@@ -5,19 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.feeder;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.climber.ClimberBase;
 
-public class FireGrapplingHook extends CommandBase {
+public class RetractGrapplingHook extends CommandBase {
   ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
 
   /**
-   * Creates a new FireGrapplingHook.
+   * Creates a new RetractGrapplingHook.
    */
-  public FireGrapplingHook() {
+  public RetractGrapplingHook() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
   }
@@ -30,15 +30,12 @@ public class FireGrapplingHook extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.extendLeftGrapplingHook();
+    climber.retractLeftGrapplingHook();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) {
-      climber.retractLeftGrapplingHook();
-    }
   }
 
   // Returns true when the command should end.
