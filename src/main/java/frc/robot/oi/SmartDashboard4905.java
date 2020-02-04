@@ -24,7 +24,6 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("TestGroupCommand", new TestGroupCommand());
     initializeAutoChooser(subsystemsContainer);
   }
 

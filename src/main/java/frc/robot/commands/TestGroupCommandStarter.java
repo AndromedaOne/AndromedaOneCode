@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.groupcommands.TestGroupCommand;
@@ -15,14 +17,20 @@ public class TestGroupCommandStarter extends CommandBase {
   /**
    * Creates a new TestGroupCommandStarter.
    */
-  public TestGroupCommandStarter() {
+  BooleanSupplier m_isFinishedCondition;
+  public TestGroupCommandStarter(BooleanSupplier isFinishedCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_isFinishedCondition = isFinishedCondition;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    CommandScheduler.getInstance().schedule(new TestGroupCommand());
+    System.out.println("In Initialize");
+    if(!m_isFinishedCondition.getAsBoolean()){
+      System.out.println("Scheduling this now");
+      CommandScheduler.getInstance().schedule(new TestGroupCommand(m_isFinishedCondition));
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

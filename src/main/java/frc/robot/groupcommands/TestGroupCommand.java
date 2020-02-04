@@ -7,6 +7,8 @@
 
 package frc.robot.groupcommands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.PrintTime;
 
@@ -17,16 +19,23 @@ public class TestGroupCommand extends SequentialCommandGroup {
   /**
    * Creates a new TestGroupCommand.
    */
-  public TestGroupCommand() {
+  BooleanSupplier m_isFinishedCondition;
+  public TestGroupCommand(BooleanSupplier isFinishedCondition) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
     addCommands(new PrintTime(true), new PrintTime(false));
+    m_isFinishedCondition = isFinishedCondition;
   }
 
   @Override
   public void initialize() {
     // TODO Auto-generated method stub
     super.initialize();
+  }
+  @Override
+  public boolean isFinished() {
+    // TODO Auto-generated method stub
+    return m_isFinishedCondition.getAsBoolean();
   }
 }

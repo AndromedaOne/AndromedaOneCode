@@ -15,12 +15,12 @@ public class PrintTime extends CommandBase {
   /**
    * Creates a new PrintTime.
    */
-  private double m_currentTime;
+
   boolean m_isFinished;
 
   public PrintTime(boolean isFinished) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_currentTime = Timer.getFPGATimestamp();
+    
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
     m_isFinished = isFinished;
   }
@@ -33,7 +33,8 @@ public class PrintTime extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("m_currentTime: " + m_currentTime);
+    double currentTime = Timer.getFPGATimestamp();
+    System.out.println("currentTime: " + currentTime);
   }
 
   // Called once the command ends or is interrupted.

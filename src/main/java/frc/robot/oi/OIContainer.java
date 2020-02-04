@@ -26,7 +26,7 @@ public class OIContainer {
     m_subsystemController = new SubsystemController();
     m_subsystemController.getDeployAndRunIntakeButton()
         .whileHeld(new DeployAndRunIntake(subsystemsContainer.getIntake(), sensorsContainer.getBallFeederSensor()));
-    m_driveController.getTestButton().whileHeld(new TestGroupCommandStarter());
+    m_driveController.getTestButton().whenPressed(new TestGroupCommandStarter(() -> !m_driveController.getTestButton().get()));
   }
 
   public DriveController getDriveController() {
