@@ -85,7 +85,7 @@ public abstract class RealDriveTrain extends DriveTrain {
 
     if (gyroCorrect) {
       double correctionEquation = (savedAngle - robotAngle) * kProportion;
-      newRotateValue = -correctionEquation;
+      newRotateValue = correctionEquation;
     } else {
       newRotateValue = rotation;
     }

@@ -19,13 +19,15 @@ import frc.robot.sensors.NavXGyroSensor;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnDeltaAngle extends PIDCommand {
-  double m_positionTolerance = 0.1;
-  double m_velocityTolerance = 0.5;
+  private double m_deltaTurnAngle;
+  private double m_targetAngle;
+  private double m_positionTolerance = 5;
+  private double m_velocityTolerance = 0.5;
 
   /**
    * Creates a new TurnDeltaAngle.
    */
-  public TurnDeltaAngle(double deltaTurnAngle) {
+  public TurnDeltaAngle(Double deltaTurnAngle) {
     super(
         // The controller that the command will use
         getPidController(),
@@ -42,19 +44,36 @@ public class TurnDeltaAngle extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(m_positionTolerance, m_velocityTolerance);
+    m_deltaTurnAngle = deltaTurnAngle;
+  }
+
+  @Override
+  public void initialize() {
+    super.initialize();
+    double setpoint = NavXGyroSensor.getInstance().getZAngle() + m_deltaTurnAngle;
+    double angle = NavXGyroSensor.getInstance().getZAngle();
+    System.out.println(" - Starting Angle: " + angle + " - ");
+    System.out.println(" - Setpoint: " + setpoint + " - ");
+    m_setpoint = () -> setpoint;
+    m_targetAngle = setpoint;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println(" - Finish Angled: " + NavXGyroSensor.getInstance().getZAngle() + " - ");
     return getController().atSetpoint();
+  }
+
+  private double getSetpoint() {
+    return m_targetAngle;
   }
 
   private static PIDController getPidController() {
     Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
-    double p = pidConfig.getDouble("TurningPTerm");
-    double i = pidConfig.getDouble("TurningITerm");
-    double d = pidConfig.getDouble("TurningDTerm");
+    double p = pidConfig.getDouble("GyroPIDCommands.TurningPTerm");
+    double i = pidConfig.getDouble("GyroPIDCommands.TurningITerm");
+    double d = pidConfig.getDouble("GyroPIDCommands.TurningDTerm");
     return new PIDController(p, i, d);
   }
 }

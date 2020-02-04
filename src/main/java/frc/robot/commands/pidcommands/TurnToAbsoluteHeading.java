@@ -19,7 +19,7 @@ import frc.robot.sensors.NavXGyroSensor;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToAbsoluteHeading extends PIDCommand {
-  double m_positonTolerance = 0.1;
+  double m_positonTolerance = 5;
   double m_velocityTolerance = 0.5;
 
   /**
@@ -33,7 +33,7 @@ public class TurnToAbsoluteHeading extends PIDCommand {
         // This should return the measurement
         NavXGyroSensor.getInstance()::getCompassHeading,
         // This should return the setpoint (can also be a constant)
-        getModAngle(compassHeading),
+        compassHeading,
         // This uses the output
         output -> {
           // Use the output here
@@ -43,6 +43,7 @@ public class TurnToAbsoluteHeading extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(m_positonTolerance, m_velocityTolerance);
+    getController().enableContinuousInput(0, 360);
   }
 
   // Returns true when the command should end.
@@ -53,9 +54,9 @@ public class TurnToAbsoluteHeading extends PIDCommand {
 
   private static PIDController getPIDController() {
     Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
-    double p = pidConfig.getDouble("AbsoluteHeading.TurningPTerm");
-    double i = pidConfig.getDouble("AbsoluteHeading.TurningITerm");
-    double d = pidConfig.getDouble("AbsoluteHeading.TurningDTerm");
+    double p = pidConfig.getDouble("GyroPIDCommands.TurningPTerm");
+    double i = pidConfig.getDouble("GyroPIDCommands.TurningITerm");
+    double d = pidConfig.getDouble("GyroPIDCommands.TurningDTerm");
     return new PIDController(p, i, d);
   }
 

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.pidcommands.TurnDeltaAngle;
 import frc.robot.commands.pidcommands.TurnToAbsoluteHeading;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -29,6 +30,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("South", new TurnToAbsoluteHeading(180));
     SmartDashboard.putData("East", new TurnToAbsoluteHeading(90));
     SmartDashboard.putData("West", new TurnToAbsoluteHeading(270));
+    SmartDashboard.putData("Turn 90", new TurnDeltaAngle(90));
+    SmartDashboard.putData("Turn 180", new TurnDeltaAngle(180));
 
     initializeAutoChooser(subsystemsContainer);
   }

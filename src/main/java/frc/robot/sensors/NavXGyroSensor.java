@@ -104,8 +104,9 @@ public class NavXGyroSensor {
     robotAngleCount++;
     Trace.getInstance().addTrace(false, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
         new TracePair<>("Corrected Angle", correctedAngle));
-
-    return correctedAngle;
+    // This is negative to meet our convention that counter clockwise is positive
+    // and clockwise is negative
+    return -correctedAngle;
   }
 
   public double getXAngle() {
@@ -125,6 +126,9 @@ public class NavXGyroSensor {
     double correctedAngle = getZAngle() % 360;
     if (correctedAngle < 0) {
       correctedAngle += 360;
+    }
+    if ((robotAngleCount % 10) == 0) {
+      SmartDashboard.putNumber("Robot Compass Angle", correctedAngle);
     }
     return correctedAngle;
   }
