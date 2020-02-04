@@ -47,6 +47,8 @@ public class DefaultFeederCommand extends CommandBase {
     } else {
       m_feeder.driveBothStages();
     }
+
+    System.out.println(m_feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT) + " " + m_feederSensor.isBall(EnumBallLocation.STAGE_1_RIGHT));
   }
 
   // Called once the command ends or is interrupted.
