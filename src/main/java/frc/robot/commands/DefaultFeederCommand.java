@@ -9,41 +9,44 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.oi.DriveController;
-import frc.robot.oi.SubsystemController;
-import frc.robot.subsystems.drivetrain.*;
+import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
+import frc.robot.sensors.ballfeedersensor.EnumBallLocation;
+import frc.robot.subsystems.feeder.FeederBase;
 
-/**
- * Allows you to drive the robot using the drive controller.
- */
-public class TeleOpCommand extends CommandBase {
+public class DefaultFeederCommand extends CommandBase {
 
-//Make the controllers a little easier to get to.  
-  private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
-  private SubsystemController m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
-  private DriveTrain m_driveTrain;
+  BallFeederSensorBase m_feederSensor;
+  FeederBase m_feeder;
 
   /**
-   * Takes inputs from the two joysticks on the drive controller.
+   * Creates a new FeederCommand.
    */
-  public TeleOpCommand() {
+  public DefaultFeederCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getFeeder());
+    this.m_feeder = Robot.getInstance().getSubsystemsContainer().getFeeder();
+    m_feederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
-    double rotateStickValue = m_driveController.getRotateStick();
-
-    m_driveTrain.moveUsingGyro(forwardBackwardStickValue, rotateStickValue, true, true);
+    /*
+     * If there's nothing in stage one OR if there's a ball at the end of stage two,
+     * don't run the feeder
+     */
+    if ((!m_feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT)
+        && !m_feederSensor.isBall(EnumBallLocation.STAGE_1_RIGHT))
+        || m_feederSensor.isBall(EnumBallLocation.STAGE_2_END)) {
+      m_feeder.stopBothStages();
+    } else {
+      m_feeder.driveBothStages();
+    }
   }
 
   // Called once the command ends or is interrupted.
