@@ -13,6 +13,7 @@ import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -20,6 +21,8 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class MoveUsingEncoder extends PIDCommand4905 {
   private Config pidConstantsConfig = Config4905.getConfig4905().getPidConstantsConfig();
   private DriveTrain m_driveTrain;
+  private double m_distance = 0;
+  private double m_target;
 
   /**
    * Creates a new MoveUsingEncoder.
@@ -27,16 +30,18 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
     super(
         // The controller that the command will use
-        new PIDController4905(0, 0, 0, 0),
+        new PIDController4905("MoveUsingEncoder", 0, 0, 0, 0),
         // This should return the measurement
         drivetrain::getRobotPositionInches,
         // This should return the setpoint (can also be a constant)
-        drivetrain.getRobotPositionInches() + distance,
+        0,
         // This uses the output
         output -> {
           // Use the output here
           drivetrain.move(output, 0, false);
         });
+    m_distance = distance;
+    m_setpoint = this::getSetpoint;
     m_driveTrain = drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
@@ -49,6 +54,15 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.tolerance"));
   }
 
+  public void initialize() {
+    Trace.getInstance().logCommandStart("MoveUsingEncoder");
+    m_target = m_driveTrain.getRobotPositionInches() + m_distance;
+  }
+
+  public double getSetpoint() {
+    return m_target;
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
@@ -57,5 +71,6 @@ public class MoveUsingEncoder extends PIDCommand4905 {
 
   public void end() {
     m_driveTrain.stop();
+    Trace.getInstance().logCommandStop("MoveUsingEncoder");
   }
 }
