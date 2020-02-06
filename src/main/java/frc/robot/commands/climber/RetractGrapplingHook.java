@@ -30,7 +30,7 @@ public class RetractGrapplingHook extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.retractLeftGrapplingHook();
+    climber.retractArms();
   }
 
   // Called once the command ends or is interrupted.

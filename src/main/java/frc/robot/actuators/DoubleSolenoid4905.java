@@ -24,6 +24,10 @@ public class DoubleSolenoid4905 {
     m_isSolenoidOpen = false;
   }
 
+  public void stopPiston() {
+    m_doubleSolenoid.set(DoubleSolenoid.Value.kOff);
+  }
+
   public boolean isSolenoidOpen() {
     return m_isSolenoidOpen;
   }

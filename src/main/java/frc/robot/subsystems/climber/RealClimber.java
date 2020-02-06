@@ -41,33 +41,9 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void extendLeftGrapplingHook() {
-    // TODO Auto-generated method stub
-    leftGrapplingHook.extendPiston();
-  }
-
-  @Override
-  public void retractLeftGrapplingHook() {
-    // TODO Auto-generated method stub
-    leftGrapplingHook.retractPiston();
-  }
-
-  @Override
   public void driveLeftWinch() {
     // TODO Auto-generated method stub
     leftWinch.set(1);
-  }
-
-  @Override
-  public void extendRightGrapplingHook() {
-    // TODO Auto-generated method stub
-    rightGrapplingHook.extendPiston();
-  }
-
-  @Override
-  public void retractRightGrapplingHook() {
-    // TODO Auto-generated method stub
-    rightGrapplingHook.retractPiston();
   }
 
   @Override
@@ -95,5 +71,26 @@ public class RealClimber extends ClimberBase {
     // TODO Auto-generated method stub
     leftWinch.set(adjust);
     rightWinch.set(adjust);
+  }
+
+  @Override
+  public void extendArms() {
+    // TODO Auto-generated method stub
+    leftGrapplingHook.extendPiston();
+    rightGrapplingHook.extendPiston();
+  }
+
+  @Override
+  public void retractArms() {
+    // TODO Auto-generated method stub
+    leftGrapplingHook.retractPiston();
+    rightGrapplingHook.retractPiston();
+  }
+
+  @Override
+  public void stopArms() {
+    // TODO Auto-generated method stub
+    leftGrapplingHook.stopPiston();
+    rightGrapplingHook.stopPiston();
   }
 }

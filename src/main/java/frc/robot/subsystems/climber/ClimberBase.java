@@ -22,13 +22,11 @@ public abstract class ClimberBase extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public abstract void extendLeftGrapplingHook();
+  public abstract void extendArms();
 
-  public abstract void retractLeftGrapplingHook();
+  public abstract void retractArms();
 
-  public abstract void extendRightGrapplingHook();
-
-  public abstract void retractRightGrapplingHook();
+  public abstract void stopArms();
 
   public abstract void driveLeftWinch();
 
