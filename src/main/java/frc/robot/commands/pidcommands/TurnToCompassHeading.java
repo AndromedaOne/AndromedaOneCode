@@ -9,16 +9,17 @@ package frc.robot.commands.pidcommands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.pidcontroller.*;
 import frc.robot.sensors.NavXGyroSensor;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TurnToCompassHeading extends PIDCommand {
+public class TurnToCompassHeading extends PIDCommand4905 {
   double m_positonTolerance = 5;
   double m_velocityTolerance = 0.5;
 
@@ -30,7 +31,7 @@ public class TurnToCompassHeading extends PIDCommand {
   public TurnToCompassHeading(double compassHeading) {
     super(
         // The controller that the command will use
-        getPIDController(),
+        new PIDController4905("TurnToCompassHeading", 0, 0, 0, 0),
         // This should return the measurement
         NavXGyroSensor.getInstance()::getCompassHeading,
         // This should return the setpoint (can also be a constant)
@@ -43,8 +44,20 @@ public class TurnToCompassHeading extends PIDCommand {
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(m_positonTolerance, m_velocityTolerance);
     getController().enableContinuousInput(0, 360);
+
+    Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+    getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
+    getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));
+    getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
+    getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
+    getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"));
+  }
+
+  public void initialize() {
+    super.initialize();
+    Trace.getInstance().logCommandStart("TurnToCompassHeading");
+    LiveWindow.enableTelemetry(getController());
   }
 
   // Returns true when the command should end.
@@ -53,11 +66,7 @@ public class TurnToCompassHeading extends PIDCommand {
     return getController().atSetpoint();
   }
 
-  private static PIDController getPIDController() {
-    Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
-    double p = pidConfig.getDouble("GyroPIDCommands.TurningPTerm");
-    double i = pidConfig.getDouble("GyroPIDCommands.TurningITerm");
-    double d = pidConfig.getDouble("GyroPIDCommands.TurningDTerm");
-    return new PIDController(p, i, d);
+  public void end() {
+    Trace.getInstance().logCommandStop("TurnToCompassHeading");
   }
 }
