@@ -11,14 +11,14 @@ import frc.robot.telemetries.Trace;
 public class TestDriveTrainVelocityPID extends PIDCommand4905 {
 
   private static DriveTrain m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
-  private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(0.1, 0.1);
-  private static double m_setPoint = 1000;
+  private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(0.05, 0.00001);
+  private static double m_setPoint = 3000;
   private static double m_feedForwardCalculated = 0;
 
   public TestDriveTrainVelocityPID() {
     super(
         // The controller that the command will use
-        new PIDController4905("TestShooterPID", 1, 0, 0, 0),
+        new PIDController4905("TestShooterPID", 0.0006, 0, 0, 0),
         // This should return the measurement
         m_driveTrain::getRobotVelocityRPM,
         // This should return the setpoint (can also be a constant)

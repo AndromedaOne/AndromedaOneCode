@@ -99,7 +99,7 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
       
       SmartDashboard.putNumber("VelocityTicksPer100MS", encoderVelocityAvg / encoders);
 
-      encoderVelocityAvg = encoderVelocityAvg / (600 / (encoders * 4096));
+      encoderVelocityAvg = encoderVelocityAvg * (600.0 / (encoders * 4096.0));
     }
     return encoderVelocityAvg;
   }
