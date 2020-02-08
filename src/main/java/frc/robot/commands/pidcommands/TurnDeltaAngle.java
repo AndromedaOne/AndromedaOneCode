@@ -9,10 +9,10 @@ package frc.robot.commands.pidcommands;
 
 import com.typesafe.config.Config;
 
-import frc.robot.pidcontroller.PIDController4905;
-import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.pidcontroller.PIDCommand4905;
+import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.sensors.NavXGyroSensor;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
