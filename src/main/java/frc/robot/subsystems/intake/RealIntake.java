@@ -1,20 +1,41 @@
 package frc.robot.subsystems.intake;
 
+import com.typesafe.config.Config;
+
+import frc.robot.Config4905;
+import frc.robot.actuators.DoubleSolenoid4905;
+import frc.robot.actuators.TalonSRXController;
+
 public class RealIntake extends IntakeBase {
-  public void runIntake() {
+  private TalonSRXController m_intakeController;
+
+  private DoubleSolenoid4905 m_intakeDeploymentSolenoid;
+
+  public RealIntake() {
+    Config intakeConfig = Config4905.getConfig4905().getDrivetrainConfig();
+    m_intakeController = new TalonSRXController(intakeConfig, "IntakeSRXController");
+    m_intakeDeploymentSolenoid = new DoubleSolenoid4905(intakeConfig, "IntakeSolonoid");
+  }
+
+  public void runIntake(double speed) {
     // Run intake motors in
+    m_intakeController.set(speed);
   }
 
   public void stopIntake() {
     // Stop intake motors
+    m_intakeController.stopMotor();
   }
 
-  public boolean ballInIntake() {
-    // Check if a ball is already in intake using a sensor
-    return false;
+  @Override
+  public void deployIntake() {
+    // TODO Auto-generated method stub
+    m_intakeDeploymentSolenoid.extendPiston();
   }
 
-  public void moveBallToHopper() {
-    // Run motors to move the ball to hopper
+  @Override
+  public void retractIntake() {
+    // TODO Auto-generated method stub
+    m_intakeDeploymentSolenoid.retractPiston();
   }
 }

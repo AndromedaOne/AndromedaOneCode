@@ -7,14 +7,13 @@
 
 package frc.robot;
 
-import java.io.File;
-
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.oi.OIContainer;
+import frc.robot.sensors.SensorsContainer;
+import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.telemetries.Trace;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,35 +24,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
-  private RobotContainer m_robotContainer;
-
-  private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
-
-  /**
-   * This config should live on the robot and have hardware- specific configs.
-   */
-  private static Config environmentalConfig = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/robot.conf"));
-
-  /**
-   * This config lives in the jar and has hardware-independent configs.
-   */
-  private static Config defaultConfig = ConfigFactory.parseResources("application.conf");
-
-  /**
-   * Combined config
-   */
-  protected static Config conf = environmentalConfig.withFallback(defaultConfig).resolve();
-
-  /**
-   * Get the robot's config
-   * 
-   * @return the config
-   */
-  public static Config getConfig() {
-    return conf;
-  }
+  private SubsystemsContainer m_subsystemContainer;
+  private SensorsContainer m_sensorsContainer;
+  private OIContainer m_oiContainer;
 
   private Robot() {
 
@@ -77,14 +50,12 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
-    System.out.println("Robot name = " + nameConfig.getString("robot.name"));
 
-    if (conf.hasPath("subsystems.driveTrain")) {
-      System.out.println("Using real drivetrain");
-    } else {
-      System.out.println("Using fake drivetrain");
-    }
+    m_subsystemContainer = new SubsystemsContainer();
+    m_sensorsContainer = new SensorsContainer();
+    m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
+
+    m_subsystemContainer.setDefaultCommands();
   }
 
   /**
@@ -106,6 +77,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    getSensorsContainer().getBallFeederSensor().isThereBall();
   }
 
   /**
@@ -113,6 +85,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    Trace.getInstance().flushTraceFiles();
   }
 
   @Override
@@ -125,11 +98,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
   }
 
@@ -138,6 +112,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   @Override
@@ -170,4 +145,19 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+
+//getters for various OI things below
+
+  public SubsystemsContainer getSubsystemsContainer() {
+    return m_subsystemContainer;
+  }
+
+  public SensorsContainer getSensorsContainer() {
+    return m_sensorsContainer;
+  }
+
+  public OIContainer getOIContainer() {
+    return m_oiContainer;
+  }
+
 }
