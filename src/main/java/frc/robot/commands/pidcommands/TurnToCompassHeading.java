@@ -20,8 +20,7 @@ import frc.robot.telemetries.Trace;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToCompassHeading extends PIDCommand4905 {
-  double m_positonTolerance = 5;
-  double m_velocityTolerance = 0.5;
+  Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
 
   /**
    * Creates a new TurnToCompassHeading.
@@ -46,7 +45,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
 
-    Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));
     getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
