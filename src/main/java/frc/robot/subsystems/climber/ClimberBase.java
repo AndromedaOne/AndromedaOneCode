@@ -9,7 +9,7 @@ package frc.robot.subsystems.climber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ClimberBase extends SubsystemBase {
+public abstract class ClimberBase extends SubsystemBase {
   /**
    * Creates a new ClimberBase.
    */
@@ -21,4 +21,20 @@ public class ClimberBase extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public abstract void extendArms();
+
+  public abstract void retractArms();
+
+  public abstract void stopArms();
+
+  public abstract void driveLeftWinch();
+
+  public abstract void driveRightWinch();
+
+  public abstract void ascend();
+
+  public abstract void stopWinch();
+
+  public abstract void adjustWinch(int adjust);
 }

@@ -9,7 +9,7 @@ package frc.robot.pidcontroller;
 
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpiutil.math.MathUtil;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpiutil.math.MathUtil;
  * Implements a PID control loop.
  */
 @SuppressWarnings("PMD.TooManyFields")
-public class PIDControllerProposed extends PIDController {
+public class PIDControllerProposed implements Sendable, AutoCloseable {
   private static int instances;
 
   // Factor for "proportional" control
@@ -96,7 +96,6 @@ public class PIDControllerProposed extends PIDController {
    */
   @SuppressWarnings("ParameterName")
   public PIDControllerProposed(double Kp, double Ki, double Kd, double period) {
-    super(Kp, Ki, Kd, period);
     m_Kp = Kp;
     m_Ki = Ki;
     m_Kd = Kd;

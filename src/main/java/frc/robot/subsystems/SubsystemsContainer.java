@@ -11,6 +11,7 @@ import frc.robot.Config4905;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.TeleOpCommand;
+import frc.robot.commands.TeleopClimber;
 import frc.robot.subsystems.climber.ClimberBase;
 import frc.robot.subsystems.climber.MockClimber;
 import frc.robot.subsystems.climber.RealClimber;
@@ -120,6 +121,10 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public ClimberBase getClimber() {
+    return m_climber;
+  }
+
   public IntakeBase getIntake() {
     return m_intake;
   }
@@ -128,5 +133,6 @@ public class SubsystemsContainer {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
     m_intake.setDefaultCommand(new RetractIntake(m_intake));
     m_feeder.setDefaultCommand(new DefaultFeederCommand());
+    m_climber.setDefaultCommand(new TeleopClimber(m_climber));
   }
 }

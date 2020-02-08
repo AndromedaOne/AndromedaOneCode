@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.pidcommands.TestDriveTrainVelocityPID;
+import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -24,6 +25,7 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer) {
     SmartDashboard.putData("TestVelocity", new TestDriveTrainVelocityPID());
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("MoveUsingEncoder", new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 48));
     initializeAutoChooser(subsystemsContainer);
   }
 
