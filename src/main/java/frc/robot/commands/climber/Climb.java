@@ -7,12 +7,17 @@
 
 package frc.robot.commands.climber;
 
+import com.typesafe.config.*;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.subsystems.climber.ClimberBase;
 
 public class Climb extends CommandBase {
   ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
+
+  private int m_maxHeight;
 
   /**
    * Creates a new Climb.
@@ -20,6 +25,8 @@ public class Climb extends CommandBase {
   public Climb() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
+    Config climberConf = Config4905.getConfig4905().getClimberConfig();
+    m_maxHeight = climberConf.getInt("maxHeight");
   }
 
   // Called when the command is initially scheduled.
@@ -31,6 +38,7 @@ public class Climb extends CommandBase {
   @Override
   public void execute() {
     climber.driveLeftWinch();
+    climber.driveRightWinch();
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +49,7 @@ public class Climb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (climber.getLeftWinch().getEncoderPositionTicks() >= m_maxHeight
+        || climber.getRightWinch().getEncoderPositionTicks() >= m_maxHeight);
   }
 }
