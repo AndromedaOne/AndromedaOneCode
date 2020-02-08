@@ -7,7 +7,6 @@
 
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.lib.ButtonsEnumerated;
@@ -24,15 +23,4 @@ public class SubsystemController {
     return ButtonsEnumerated.LEFTBUMPERBUTTON.getJoystickButton(m_subsystemController);
   }
 
-  public double getLeftStickForwardBackwardValue() {
-    return deadband(-m_subsystemController.getY(GenericHID.Hand.kLeft));
-  }
-
-  private double deadband(double stickValue) {
-    if (Math.abs(stickValue) < 0.05) {
-      return 0.0;
-    } else {
-      return stickValue;
-    }
-  }
 }
