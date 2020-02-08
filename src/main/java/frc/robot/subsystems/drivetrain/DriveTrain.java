@@ -57,4 +57,8 @@ public abstract class DriveTrain extends SubsystemBase {
    */
   public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
       boolean useSquaredInputs, double heading);
+
+  public void stop() {
+    move(0, 0, false);
+  }
 }
