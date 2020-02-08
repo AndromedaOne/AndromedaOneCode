@@ -65,6 +65,6 @@ public class MockClimber extends ClimberBase {
   @Override
   public void stopArms() {
     // TODO Auto-generated method stub
-    System.out.println("Stopping arms");
+    // System.out.println("Stopping arms");
   }
 }

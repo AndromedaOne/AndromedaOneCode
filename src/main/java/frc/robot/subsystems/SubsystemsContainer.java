@@ -129,6 +129,10 @@ public class SubsystemsContainer {
     return m_intake;
   }
 
+  public ShooterBase getShooter() {
+    return m_shooter;
+  }
+
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
     m_intake.setDefaultCommand(new RetractIntake(m_intake));

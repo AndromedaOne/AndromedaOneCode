@@ -26,6 +26,6 @@ public class ShootFromInitiationLine extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new DriveBackwardTimed(0.5, Robot.getInstance().getSubsystemsContainer().getDrivetrain()),
-        new ShooterCommand());
+        new ShooterCommand(Robot.getInstance().getSubsystemsContainer().getShooter(), 1));
   }
 }
