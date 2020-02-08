@@ -1,6 +1,7 @@
 package frc.robot.actuators;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.typesafe.config.Config;
 
@@ -24,6 +25,11 @@ public class TalonSRXController extends WPI_TalonSRX {
     this.configFactoryDefault();
     if (hasEncoder()) {
       this.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    }
+    if (subsystemConfig.getBoolean(configString + ".brakemode")) {
+      this.setNeutralMode(NeutralMode.Brake);
+    } else {
+      this.setNeutralMode(NeutralMode.Coast);
     }
     this.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
   }
