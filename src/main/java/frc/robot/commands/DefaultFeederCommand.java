@@ -7,10 +7,11 @@
 
 package frc.robot.commands;
 
+import static frc.robot.sensors.ballfeedersensor.EnumBallLocation.*;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
-import frc.robot.sensors.ballfeedersensor.EnumBallLocation;
 import frc.robot.subsystems.feeder.FeederBase;
 
 public class DefaultFeederCommand extends CommandBase {
@@ -40,16 +41,21 @@ public class DefaultFeederCommand extends CommandBase {
      * If there's nothing in stage one OR if there's a ball at the end of stage two,
      * don't run the feeder
      */
-    if ((!m_feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT) && !m_feederSensor.isBall(EnumBallLocation.STAGE_1_RIGHT)
-        && !m_feederSensor.isBall(EnumBallLocation.STAGE_1_END))
-        || m_feederSensor.isBall(EnumBallLocation.STAGE_2_END)) {
+    if ((!m_feederSensor.isBall(STAGE_1_LEFT) && !m_feederSensor.isBall(STAGE_1_RIGHT)
+        && !m_feederSensor.isBall(STAGE_1_END)) || m_feederSensor.isBall(STAGE_2_END)) {
       m_feeder.stopBothStages();
-    } else {
+    } else if (!m_feederSensor.isBall(STAGE_1_END)
+        && (m_feederSensor.isBall(STAGE_1_LEFT) || m_feederSensor.isBall(STAGE_1_RIGHT))) {
+      m_feeder.driveStageOne();
+      m_feeder.stopStageTwo();
+    } else if (m_feederSensor.isBall(STAGE_1_END)) {
       m_feeder.driveBothStages();
+    } else if ((m_feederSensor.isBall(STAGE_2_MIDDLE) && !m_feederSensor.isBall(STAGE_2_BEGINNING))
+        || (m_feederSensor.isBall(STAGE_2_END) && !m_feederSensor.isBall(STAGE_2_MIDDLE))) {
+      m_feeder.runReverseStageTwo();
     }
 
-    System.out.println(m_feederSensor.isBall(EnumBallLocation.STAGE_1_LEFT) + " "
-        + m_feederSensor.isBall(EnumBallLocation.STAGE_1_END));
+    System.out.println(m_feederSensor.isBall(STAGE_1_LEFT) + " " + m_feederSensor.isBall(STAGE_1_END));
   }
 
   // Called once the command ends or is interrupted.
