@@ -7,6 +7,8 @@
 
 package frc.robot.oi;
 
+import frc.robot.commands.DeployAndRunIntakeStarter;
+import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -14,20 +16,25 @@ import frc.robot.subsystems.SubsystemsContainer;
  */
 public class OIContainer {
   private DriveController m_driveController;
-  private Smartdashboard m_smartDashboard;
+  private SmartDashboard4905 m_smartDashboard;
   private SubsystemController m_subsystemController;
 
-  public OIContainer(SubsystemsContainer subsystemsContainer) {
+  public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     m_driveController = new DriveController();
-    m_smartDashboard = new Smartdashboard(subsystemsContainer);
+    m_smartDashboard = new SmartDashboard4905(subsystemsContainer);
     m_subsystemController = new SubsystemController();
+
+    m_subsystemController.getDeployAndRunIntakeButton()
+        .whenPressed(new DeployAndRunIntakeStarter(subsystemsContainer.getIntake(),
+            () -> !m_subsystemController.getDeployAndRunIntakeButton().get()
+                || sensorsContainer.getBallFeederSensor().getNumberOfPowerCellsInFeeder() >= 5));
   }
 
   public DriveController getDriveController() {
     return m_driveController;
   }
 
-  public Smartdashboard getSmartDashboard() {
+  public SmartDashboard4905 getSmartDashboard() {
     return m_smartDashboard;
   }
 

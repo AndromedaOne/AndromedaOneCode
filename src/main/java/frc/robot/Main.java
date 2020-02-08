@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.robot.telemetries.Trace;
 
 /**
  * Do NOT add any static variables to this class, or any initialization at all.
@@ -25,6 +26,7 @@ public final class Main {
    * If you change your main robot class, change the parameter type.
    */
   public static void main(String... args) {
+    Trace.getInstance();
     RobotBase.startRobot(Robot::getInstance);
   }
 }

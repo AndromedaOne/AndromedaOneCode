@@ -12,11 +12,34 @@ public class MockFeeder extends FeederBase {
    * Creates a new MockFeeder.
    */
   public MockFeeder() {
-
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void driveStageOne() {
+  }
+
+  @Override
+  public void driveStageTwo() {
+  }
+
+  @Override
+  public void driveBothStages() {
+  }
+
+  @Override
+  public void stopStageOne() {
+  }
+
+  @Override
+  public void stopStageTwo() {
+  }
+
+  @Override
+  public void stopBothStages() {
   }
 }

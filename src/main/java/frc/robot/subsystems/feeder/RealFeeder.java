@@ -7,16 +7,56 @@
 
 package frc.robot.subsystems.feeder;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.typesafe.config.Config;
+
+import frc.robot.Config4905;
+
 public class RealFeeder extends FeederBase {
   /**
    * Creates a new RealFeeder.
    */
-  public RealFeeder() {
+  public TalonSRX m_stageOne;
+  public TalonSRX m_stageTwo;
 
+  public RealFeeder() {
+    Config feederConf = Config4905.getConfig4905().getFeederConfig();
+    m_stageOne = new TalonSRX(feederConf.getInt("ports.stageOne"));
+    m_stageTwo = new TalonSRX(feederConf.getInt("ports.stageTwo"));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void driveStageOne() {
+    m_stageOne.set(ControlMode.PercentOutput, 1);
+  }
+
+  public void stopStageOne() {
+    m_stageOne.set(ControlMode.PercentOutput, 0);
+  }
+
+  @Override
+  public void driveStageTwo() {
+    m_stageTwo.set(ControlMode.PercentOutput, 1);
+  }
+
+  public void stopStageTwo() {
+    m_stageTwo.set(ControlMode.PercentOutput, 0);
+  }
+
+  @Override
+  public void driveBothStages() {
+    driveStageOne();
+    driveStageTwo();
+  }
+
+  public void stopBothStages() {
+    stopStageOne();
+    stopStageTwo();
   }
 }

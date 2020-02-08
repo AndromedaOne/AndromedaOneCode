@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.telemetries.Trace;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -51,8 +52,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     m_subsystemContainer = new SubsystemsContainer();
-    m_oiContainer = new OIContainer(m_subsystemContainer);
     m_sensorsContainer = new SensorsContainer();
+    m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
+
     m_subsystemContainer.setDefaultCommands();
   }
 
@@ -75,6 +77,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    getSensorsContainer().getBallFeederSensor().isThereBall();
   }
 
   /**
@@ -82,6 +85,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    Trace.getInstance().flushTraceFiles();
   }
 
   @Override
@@ -94,11 +98,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = null;
+
+    m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
   }
 
@@ -107,6 +112,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   @Override
