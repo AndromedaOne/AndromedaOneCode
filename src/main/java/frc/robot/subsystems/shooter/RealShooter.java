@@ -6,7 +6,6 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.*;
-import frc.robot.groupcommands.ShooterParallelCommandGroup;;
 
 public class RealShooter extends ShooterBase {
 
@@ -16,8 +15,7 @@ public class RealShooter extends ShooterBase {
   private SparkMaxController m_shooterTwo;
   private TalonSRXController m_shooterSeries;
   private SpeedControllerGroup m_shooterGroup;
-  private DoubleSolenoid4905 m_shooterHoodOne;
-  private DoubleSolenoid4905 m_shooterHoodTwo;
+  private DoubleSolenoid4905 m_shooterHood;
   private boolean m_shooterIsReady = false;
 
   public RealShooter() {
@@ -25,8 +23,7 @@ public class RealShooter extends ShooterBase {
     m_shooterTwo = new SparkMaxController(m_shooterConfig, "ports.shootertwo");
     m_shooterSeries = new TalonSRXController(m_shooterConfig, "ports.shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
-    m_shooterHoodOne = new DoubleSolenoid4905(m_shooterConfig, "ports.hoodone");
-    m_shooterHoodTwo = new DoubleSolenoid4905(m_shooterConfig, "ports.hoodtwo");
+    m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "ports.hood");
 
     m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
@@ -65,19 +62,17 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public void openShooterHood() {
-    m_shooterHoodOne.extendPiston();
-    m_shooterHoodTwo.extendPiston();
+    m_shooterHood.extendPiston();
   }
 
   @Override
   public void closeShooterHood() {
-    m_shooterHoodOne.retractPiston();
-    m_shooterHoodTwo.retractPiston();
+    m_shooterHood.retractPiston();
   }
 
   @Override
   public boolean isShooterHoodOpen() {
-    return m_shooterHoodOne.isSolenoidOpen();
+    return m_shooterHood.isSolenoidOpen();
   }
 
   @Override
