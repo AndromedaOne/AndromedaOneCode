@@ -207,8 +207,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     } else {
       m_setpoint = setpoint;
     }
-    System.out.println("Setpoint = " + setpoint);
-    System.out.println("m_setpoint = " + m_setpoint);
   }
 
   /**
