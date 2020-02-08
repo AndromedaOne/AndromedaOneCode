@@ -30,6 +30,8 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract double getRobotVelocityInches();
 
+  public abstract double getRobotVelocityRPM();
+
   public void init() {
 
   }

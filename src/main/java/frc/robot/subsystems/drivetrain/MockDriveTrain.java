@@ -42,4 +42,10 @@ public class MockDriveTrain extends DriveTrain {
       double heading) {
 
   }
+
+  @Override
+  public double getRobotVelocityRPM() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 }

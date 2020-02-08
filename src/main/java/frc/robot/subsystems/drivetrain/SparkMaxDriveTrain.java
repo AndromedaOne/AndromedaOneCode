@@ -99,6 +99,11 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   }
 
   @Override
+  public double getRobotVelocityRPM() {
+    return 0;
+  }
+
+  @Override
   protected SpeedControllerGroup getLeftSpeedControllerGroup() {
     return m_leftmotors;
   }

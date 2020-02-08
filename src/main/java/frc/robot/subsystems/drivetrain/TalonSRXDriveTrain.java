@@ -74,6 +74,32 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   }
 
   @Override
+  public double getRobotVelocityRPM() {
+    double encoderVelocityAvg = 0;
+    int encoders = 0;
+    if (m_frontLeft.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_frontLeft.getEncoderVelocityTicks();
+    }
+    if (m_backLeft.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_backLeft.getEncoderVelocityTicks();
+    }
+    if (m_frontRight.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_frontRight.getEncoderVelocityTicks();
+    }
+    if (m_backRight.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_backRight.getEncoderVelocityTicks();
+    }
+    if (encoders > 0) {
+      encoderVelocityAvg = encoderVelocityAvg / (4096 * encoders * 600);
+    }
+    return encoderVelocityAvg;
+  }
+
+  @Override
   public double getRobotVelocityInches() {
     double encoderVelocityAvg = 0;
     int encoders = 0;
