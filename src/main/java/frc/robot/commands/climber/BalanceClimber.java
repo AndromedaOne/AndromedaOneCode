@@ -21,6 +21,7 @@ public class BalanceClimber extends CommandBase {
   NavXGyroSensor gyroSensor = NavXGyroSensor.getInstance();
 
   private double tolerance;
+
   /**
    * Creates a new BalanceClimber.
    */
