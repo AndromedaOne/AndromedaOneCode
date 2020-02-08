@@ -39,7 +39,6 @@ public class TestDriveTrainVelocityPID extends PIDCommand4905 {
   @Override
   public void execute() {
     super.execute();
-    SmartDashboard.putNumber("DriveTrain VelocityRPM", m_driveTrain.getRobotVelocityRPM());
     m_feedForwardCalculated = m_feedForward.calculate(m_setPoint);
   }
 

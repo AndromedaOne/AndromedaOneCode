@@ -10,6 +10,7 @@ package frc.robot.subsystems.drivetrain;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.TalonSRXController;
 
@@ -93,8 +94,12 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
       encoders++;
       encoderVelocityAvg += m_backRight.getEncoderVelocityTicks();
     }
+
     if (encoders > 0) {
-      encoderVelocityAvg = encoderVelocityAvg / (4096 * encoders * 600);
+      
+      SmartDashboard.putNumber("VelocityTicksPer100MS", encoderVelocityAvg / encoders);
+
+      encoderVelocityAvg = encoderVelocityAvg / (600 / (encoders * 4096));
     }
     return encoderVelocityAvg;
   }
