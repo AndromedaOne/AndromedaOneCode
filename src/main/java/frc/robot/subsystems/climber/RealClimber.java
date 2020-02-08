@@ -93,4 +93,13 @@ public class RealClimber extends ClimberBase {
     leftGrapplingHook.stopPiston();
     rightGrapplingHook.stopPiston();
   }
+
+  public SparkMaxController getLeftWinch() {
+    return leftWinch;
+  }
+
+  public SparkMaxController getRightWinch() {
+    return rightWinch;
+  }
+
 }

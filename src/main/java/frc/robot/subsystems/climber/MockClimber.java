@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.climber;
 
+import frc.robot.actuators.SparkMaxController;
+
 public class MockClimber extends ClimberBase {
   /**
    * Creates a new MockClimber.
@@ -66,5 +68,17 @@ public class MockClimber extends ClimberBase {
   public void stopArms() {
     // TODO Auto-generated method stub
     System.out.println("Stopping arms");
+  }
+
+  @Override
+  public SparkMaxController getLeftWinch() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public SparkMaxController getRightWinch() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
