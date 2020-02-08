@@ -64,7 +64,8 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     return getController().atSetpoint();
   }
 
-  public void end() {
+  public void end(boolean interrupted) {
+    super.end(interrupted);
     Trace.getInstance().logCommandStop("TurnToCompassHeading");
   }
 }
