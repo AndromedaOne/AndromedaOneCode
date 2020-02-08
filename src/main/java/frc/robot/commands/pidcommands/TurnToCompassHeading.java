@@ -9,7 +9,6 @@ package frc.robot.commands.pidcommands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.*;
@@ -55,7 +54,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
   public void initialize() {
     super.initialize();
     Trace.getInstance().logCommandStart("TurnToCompassHeading");
-    LiveWindow.enableTelemetry(getController());
   }
 
   // Returns true when the command should end.

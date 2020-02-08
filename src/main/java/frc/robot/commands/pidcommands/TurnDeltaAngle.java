@@ -14,6 +14,7 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.sensors.NavXGyroSensor;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -55,22 +56,27 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
+    Trace.getInstance().logCommandStart("TurnDeltaAngle");
     double setpoint = NavXGyroSensor.getInstance().getZAngle() + m_deltaTurnAngle;
     double angle = NavXGyroSensor.getInstance().getZAngle();
     System.out.println(" - Starting Angle: " + angle + " - ");
     System.out.println(" - Setpoint: " + setpoint + " - ");
     m_setpoint = () -> setpoint;
-    m_targetAngle = NavXGyroSensor.getInstance().getZAngle() + m_deltaTurnAngle;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println(" - Finish Angled: " + NavXGyroSensor.getInstance().getZAngle() + " - ");
     return getController().atSetpoint();
   }
 
   private double getSetpoint() {
     return m_targetAngle;
+  }
+
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    System.out.println(" - Finish Angled: " + NavXGyroSensor.getInstance().getZAngle() + " - ");
+    Trace.getInstance().logCommandStop("TurnDeltaAngle");
   }
 }

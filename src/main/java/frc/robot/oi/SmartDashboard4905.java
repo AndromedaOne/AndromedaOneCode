@@ -32,6 +32,10 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("South", new TurnToCompassHeading(180));
     SmartDashboard.putData("East", new TurnToCompassHeading(90));
     SmartDashboard.putData("West", new TurnToCompassHeading(270));
+    SmartDashboard.putData("Turn -45", new TurnDeltaAngle(-45));
+    SmartDashboard.putData("Turn -90", new TurnDeltaAngle(-90));
+    SmartDashboard.putData("Turn -180", new TurnDeltaAngle(-180));
+    SmartDashboard.putData("Turn 45", new TurnDeltaAngle(45));
     SmartDashboard.putData("Turn 90", new TurnDeltaAngle(90));
     SmartDashboard.putData("Turn 180", new TurnDeltaAngle(180));
 
