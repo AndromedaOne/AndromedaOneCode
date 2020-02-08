@@ -27,7 +27,7 @@ public class TurnDeltaAngle extends PIDCommand {
   /**
    * Creates a new TurnDeltaAngle.
    */
-  public TurnDeltaAngle(Double deltaTurnAngle) {
+  public TurnDeltaAngle(double deltaTurnAngle) {
     super(
         // The controller that the command will use
         getPidController(),

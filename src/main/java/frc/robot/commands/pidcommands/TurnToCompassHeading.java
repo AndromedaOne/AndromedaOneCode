@@ -18,15 +18,16 @@ import frc.robot.sensors.NavXGyroSensor;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TurnToAbsoluteHeading extends PIDCommand {
+public class TurnToCompassHeading extends PIDCommand {
   double m_positonTolerance = 5;
   double m_velocityTolerance = 0.5;
 
   /**
-   * Creates a new TurnToAbsoluteHeading. 
+   * Creates a new TurnToCompassHeading.
+   * 
    * @param compassHeading input an angle in degrees.
    */
-  public TurnToAbsoluteHeading(double compassHeading) {
+  public TurnToCompassHeading(double compassHeading) {
     super(
         // The controller that the command will use
         getPIDController(),
@@ -58,19 +59,5 @@ public class TurnToAbsoluteHeading extends PIDCommand {
     double i = pidConfig.getDouble("GyroPIDCommands.TurningITerm");
     double d = pidConfig.getDouble("GyroPIDCommands.TurningDTerm");
     return new PIDController(p, i, d);
-  }
-
-  private static double getModAngle(double heading) {
-    double deltaAngle = heading - NavXGyroSensor.getInstance().getCompassHeading();
-    System.out.println("Raw Delta Angle: " + deltaAngle);
-    // This corrects turn that are over 180
-    if (deltaAngle > 180) {
-      deltaAngle = -(360 - deltaAngle);
-      System.out.println("Angle corrected for shortest method, New Delta: " + deltaAngle);
-    } else if (deltaAngle < -180) {
-      deltaAngle = 360 + deltaAngle;
-      System.out.println("Angle corrected for shortest method, New Delta: " + deltaAngle);
-    }
-    return deltaAngle;
   }
 }
