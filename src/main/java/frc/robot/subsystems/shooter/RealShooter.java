@@ -40,7 +40,7 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public double getShooterSeriesVelocity() {
-    //Converts to rpm
+    // Converts to rpm
     return (m_shooterSeries.getEncoderVelocityTicks() / SERIES_TICKS_TO_ROTATION) * 1000;
   }
 

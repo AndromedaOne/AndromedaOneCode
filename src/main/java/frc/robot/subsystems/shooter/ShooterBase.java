@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class ShooterBase extends SubsystemBase {
 
   /**
-   * Gets the average velocity from both shooting wheels <b>NOT</b> from the kicker wheel
+   * Gets the average velocity from both shooting wheels <b>NOT</b> from the
+   * kicker wheel
    */
   public abstract double getShooterWheelVelocity();
 
@@ -16,6 +17,7 @@ public abstract class ShooterBase extends SubsystemBase {
 
   /**
    * This is the percent vbus power for the shooting wheels
+   * 
    * @param power
    */
   public abstract void setShooterWheelPower(double power);
@@ -47,8 +49,9 @@ public abstract class ShooterBase extends SubsystemBase {
   public abstract void setPIDIsReady(boolean isReady);
 
   /**
-   * This will return true if the shooters current velocity is
-   * on target with the desired velocity 
+   * This will return true if the shooters current velocity is on target with the
+   * desired velocity
+   * 
    * @return
    */
   public abstract boolean shooterIsReady();
