@@ -53,13 +53,11 @@ public class MockClimber extends ClimberBase {
   @Override
   public void extendArms() {
     // TODO Auto-generated method stub
-    System.out.println("Extending arms");
   }
 
   @Override
   public void retractArms() {
     // TODO Auto-generated method stub
-    System.out.println("Retracting arms");
   }
 
   @Override

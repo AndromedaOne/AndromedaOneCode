@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
+<<<<<<< HEAD
 import frc.robot.sensors.LimelightCamera;
+=======
 import frc.robot.sensors.NavXGyroSensor;
+>>>>>>> origin/master
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
@@ -82,7 +85,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     getSensorsContainer().getBallFeederSensor().isThereBall();
-    NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+<<<<<<< HEAD
+
     a++;
     a = a%100;
     if(a == 0) {
@@ -91,6 +95,9 @@ public class Robot extends TimedRobot {
        camera.horizontalRadiansToTarget(), camera.verticalRadiansToTarget(), camera.distanceToTarget(81.25)));
     }
 
+=======
+    NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+>>>>>>> origin/master
   }
 
   /**

@@ -55,6 +55,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   }
 
   public void initialize() {
+    super.initialize();
     Trace.getInstance().logCommandStart("MoveUsingEncoder");
     m_target = m_driveTrain.getRobotPositionInches() + m_distance;
   }
