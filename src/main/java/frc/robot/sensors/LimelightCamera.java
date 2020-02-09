@@ -1,13 +1,17 @@
 package frc.robot.sensors;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Config4905;
 
 public class LimelightCamera {
+  Config config = Config4905.getConfig4905().getSensorConfig();
   NetworkTable limelightTable;
-  double cameraHeight = 23.0;
+  double cameraHeight = config.getDouble("limelight.cameraHeight");
   private static LimelightCamera instance;
-  double cameraAngle = 0.59;
+  double cameraAngle = config.getDouble("limelight.cameraAngleRadians");
 
   public static synchronized LimelightCamera getInstance() {
     if (instance == null) {
