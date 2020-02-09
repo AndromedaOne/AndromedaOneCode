@@ -33,4 +33,10 @@ public abstract class FeederBase extends SubsystemBase {
   public abstract void stopStageTwo();
 
   public abstract void stopBothStages();
+
+  public abstract void runReverseBothStages();
+
+  public abstract void runReverseStageOne();
+
+  public abstract void runReverseStageTwo();
 }
