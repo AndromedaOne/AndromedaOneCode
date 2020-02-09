@@ -8,13 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.feeder.FeederBase;
 
 public class FeedBothStagesIntoShooter extends CommandBase {
   /**
    * Creates a new FeedWhenReady.
    */
-  public FeedBothStagesIntoShooter() {
+  FeederBase m_feederBase; 
+  public FeedBothStagesIntoShooter(FeederBase feederBase) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_feederBase = feederBase;
+    addRequirements(m_feederBase);
   }
 
   // Called when the command is initially scheduled.
