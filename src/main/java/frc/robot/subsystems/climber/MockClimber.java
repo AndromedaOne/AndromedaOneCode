@@ -46,7 +46,6 @@ public class MockClimber extends ClimberBase {
 
   }
 
-
   @Override
   public void extendArms() {
     // TODO Auto-generated method stub

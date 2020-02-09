@@ -66,7 +66,6 @@ public class RealClimber extends ClimberBase {
     rightWinch.set(0);
   }
 
-
   @Override
   public void extendArms() {
     // TODO Auto-generated method stub
