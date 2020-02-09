@@ -46,11 +46,6 @@ public class MockClimber extends ClimberBase {
 
   }
 
-  @Override
-  public void adjustWinch(int adjust) {
-    // TODO Auto-generated method stub
-
-  }
 
   @Override
   public void extendArms() {
@@ -80,5 +75,17 @@ public class MockClimber extends ClimberBase {
   public SparkMaxController getRightWinch() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public void adjustLeftWinch(int adjust) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void adjustRightWinch(int adjust) {
+    // TODO Auto-generated method stub
+
   }
 }

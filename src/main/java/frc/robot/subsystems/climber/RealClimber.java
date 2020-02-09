@@ -66,12 +66,6 @@ public class RealClimber extends ClimberBase {
     rightWinch.set(0);
   }
 
-  @Override
-  public void adjustWinch(int adjust) {
-    // TODO Auto-generated method stub
-    leftWinch.set(adjust);
-    rightWinch.set(adjust);
-  }
 
   @Override
   public void extendArms() {
@@ -100,6 +94,18 @@ public class RealClimber extends ClimberBase {
 
   public SparkMaxController getRightWinch() {
     return rightWinch;
+  }
+
+  @Override
+  public void adjustLeftWinch(int adjust) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void adjustRightWinch(int adjust) {
+    // TODO Auto-generated method stub
+
   }
 
 }
