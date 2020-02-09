@@ -28,7 +28,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
             m_conf.getDouble("TurnToFaceCommand.minOutputToMove")),
         sensor, 0.0, (lambda) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0,
             -lambda, true, true));
-    this.getController().setTolerance(0.1);
+    this.getController().setTolerance(m_conf.getDouble("TurnToFaceCommand.tolerance"));
     this.m_sensor = sensor;
   }
 
