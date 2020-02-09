@@ -7,16 +7,16 @@
 
 package frc.robot.commands.climber;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.oi.DriveController;
 import frc.robot.subsystems.climber.ClimberBase;
 
 public class ManualClimb extends CommandBase {
   ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
   XboxController controller;
+
   /**
    * Creates a new ManualClimb.
    */
