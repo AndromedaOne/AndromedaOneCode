@@ -28,6 +28,12 @@ public class SparkMaxController extends CANSparkMax {
   private void configure(Config subsystemConfig, String configString) {
     this.restoreFactoryDefaults();
     this.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
+    this.setSmartCurrentLimit(subsystemConfig.getInt(configString + ".currentLimit"));
+    if (subsystemConfig.getBoolean(configString + ".brakeMode")) {
+      this.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    } else {
+      this.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    }
   }
 
   public double getEncoderPositionTicks() {
