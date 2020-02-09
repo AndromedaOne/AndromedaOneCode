@@ -39,9 +39,9 @@ public class DefaultFeederCommand extends CommandBase {
   public void execute() {
     /*
      * If there's nothing in stage one OR if there's a ball at the end of stage two,
-     * don't run the feeder
-     * Additionally, covers when there is a ball in the 3rd slot of stage 2 but not in the first two,
-     * and covers when there is a ball in the middle but not in the other two.
+     * don't run the feeder Additionally, covers when there is a ball in the 3rd
+     * slot of stage 2 but not in the first two, and covers when there is a ball in
+     * the middle but not in the other two.
      */
     if ((!m_feederSensor.isBall(STAGE_1_LEFT) && !m_feederSensor.isBall(STAGE_1_RIGHT)
         && !m_feederSensor.isBall(STAGE_1_END)) || m_feederSensor.isBall(STAGE_2_END)) {
