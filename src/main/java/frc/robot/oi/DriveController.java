@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
+import frc.robot.sensors.LimelightCamera;
 
 /**
  * Add your docs here.
@@ -22,6 +24,7 @@ public class DriveController {
   private JoystickButton turnToEast;
   private JoystickButton turnToSouth;
   private JoystickButton turnToWest;
+  private JoystickButton turnToFace;
 
   public DriveController() {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
@@ -32,6 +35,8 @@ public class DriveController {
     turnToSouth.whenPressed(new TurnToCompassHeading(180));
     turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
     turnToWest.whenPressed(new TurnToCompassHeading(270));
+    turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
+    turnToFace.whenPressed(new TurnToFaceCommand(LimelightCamera.getInstance()::horizontalRadiansToTarget));
   }
 
   /**

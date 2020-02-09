@@ -27,11 +27,20 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
 
   @Override
   public void initialize() {
+    // When this command is running the shooter is always idle
+    m_shooter.setShooterIsIdle(true);
   }
 
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    // When this command isnt running the shooter is not idle
+    m_shooter.setShooterIsIdle(false);
   }
 
 }
