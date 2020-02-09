@@ -16,7 +16,9 @@ public class RealShooter extends ShooterBase {
   private TalonSRXController m_shooterSeries;
   private SpeedControllerGroup m_shooterGroup;
   private DoubleSolenoid4905 m_shooterHood;
-  private boolean m_shooterIsReady = false;
+  private boolean m_shooterWheelIsReady = false;
+  private boolean m_shooterSeriesIsReady = false;
+  private boolean m_shooterIsIdle = false;
 
   public RealShooter() {
     m_shooterOne = new SparkMaxController(m_shooterConfig, "ports.shooterone");
@@ -76,12 +78,22 @@ public class RealShooter extends ShooterBase {
   }
 
   @Override
-  public void setPIDIsReady(boolean isReady) {
-    m_shooterIsReady = isReady;
+  public void setShooterPIDIsReady(boolean isReady) {
+    m_shooterWheelIsReady = isReady;
+  }
+
+  @Override
+  public void setSeriesPIDIsReady(boolean isReady) {
+    m_shooterSeriesIsReady = isReady;
+  }
+
+  @Override
+  public void setShooterIsIdle(boolean isIdle) {
+    m_shooterIsIdle = isIdle;
   }
 
   @Override
   public boolean shooterIsReady() {
-    return m_shooterIsReady;
+    return m_shooterWheelIsReady && m_shooterSeriesIsReady && m_shooterIsIdle;
   }
 }

@@ -39,7 +39,7 @@ public class RunShooterSeriesVelocity extends PIDCommand {
   @Override
   public void execute() {
     getController().calculate(m_shooter.getShooterWheelVelocity(), m_setpoint);
-    m_shooter.setPIDIsReady(getController().atSetpoint());
+    m_shooter.setSeriesPIDIsReady(getController().atSetpoint());
     m_computedFeedForward = m_feedForward.calculate(m_setpoint);
   }
 

@@ -44,9 +44,19 @@ public abstract class ShooterBase extends SubsystemBase {
   public abstract boolean isShooterHoodOpen();
 
   /**
-   * This is only to be called by the shooter commands
+   * This is <b>Only</b> to be called by the shooter commands
    */
-  public abstract void setPIDIsReady(boolean isReady);
+  public abstract void setShooterPIDIsReady(boolean isReady);
+
+  /**
+   * This is <b>Only</b> to be called by the shooter commands
+   */
+  public abstract void setSeriesPIDIsReady(boolean isReady);
+
+  /**
+   * This is <b>Only</b> to be called by the shooter commands
+   */
+  public abstract void setShooterIsIdle(boolean isIdle);
 
   /**
    * This will return true if the shooters current velocity is on target with the
