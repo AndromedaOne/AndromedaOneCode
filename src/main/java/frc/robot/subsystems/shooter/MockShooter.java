@@ -1,16 +1,67 @@
 package frc.robot.subsystems.shooter;
 
 public class MockShooter extends ShooterBase {
+
+  public MockShooter() {
+    System.out.println(" - Constructing Mock Shooter - ");
+  }
+
   @Override
-  public void tiltToDegree(double degrees) {
-    System.out.println("Tilting shooter to degree: " + degrees);
+  public double getShooterWheelVelocity() {
+    return 0;
   }
 
-  public void setShooterVelocity(double velocity) {
-    System.out.println("Setting shooter velocity to: " + velocity);
+  @Override
+  public void setShooterWheelPower(double power) {
   }
 
-  public void turnTurretToDegree(double degrees) {
-    System.out.println("Turning turret to degree: " + degrees);
+  @Override
+  public double getShooterPower() {
+    return 0;
   }
+
+  @Override
+  public void openShooterHood() {
+  }
+
+  @Override
+  public void closeShooterHood() {
+  }
+
+  @Override
+  public void setShooterPIDIsReady(boolean isReady) {
+  }
+
+  @Override
+  public boolean shooterIsReady() {
+    return false;
+  }
+
+  @Override
+  public boolean isShooterHoodOpen() {
+    return false;
+  }
+
+  @Override
+  public void setShooterSeriesPower(double power) {
+  }
+
+  @Override
+  public double getShooterSeriesVelocity() {
+    return 0;
+  }
+
+  @Override
+  public double getSeriesPower() {
+    return 0;
+  }
+
+  @Override
+  public void setSeriesPIDIsReady(boolean isReady) {
+  }
+
+  @Override
+  public void setShooterIsIdle(boolean isIdle) {
+  }
+
 }
