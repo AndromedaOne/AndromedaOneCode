@@ -39,6 +39,7 @@ public class Climb extends CommandBase {
   public void execute() {
     climber.driveLeftWinch();
     climber.driveRightWinch();
+    new BalanceClimber();
   }
 
   // Called once the command ends or is interrupted.
