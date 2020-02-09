@@ -45,6 +45,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Turn 90", new TurnDeltaAngle(90));
     SmartDashboard.putData("Turn 180", new TurnDeltaAngle(180));
 
+    SmartDashboard.putNumber("Auto Delay", 0);
+
     initializeAutoChooser(subsystemsContainer);
   }
 
