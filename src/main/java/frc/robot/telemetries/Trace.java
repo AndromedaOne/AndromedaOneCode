@@ -197,7 +197,8 @@ public class Trace {
     }
   }
 
-  public <T> void addTrace(boolean enable, String fileName, TracePair<T>... header) {
+  @SafeVarargs
+  public final <T> void addTrace(boolean enable, String fileName, TracePair<T>... header) {
     if (!enable) {
       return;
     }
