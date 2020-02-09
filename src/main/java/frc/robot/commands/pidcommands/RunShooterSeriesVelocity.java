@@ -11,8 +11,9 @@ import frc.robot.subsystems.shooter.ShooterBase;
 public class RunShooterSeriesVelocity extends PIDCommand {
 
   private SimpleMotorFeedforward m_feedForward;
+  private static double m_computedFeedForward = 0;
   private ShooterBase m_shooter;
-  private double m_setpoint;
+  private double m_setpoint = 0;
   private static Config m_pidConfig;
 
   public RunShooterSeriesVelocity(ShooterBase shooter, double setpoint) {
@@ -24,7 +25,7 @@ public class RunShooterSeriesVelocity extends PIDCommand {
         setpoint,
         // Output
         output -> {
-          shooter.setShooterSeriesPower(output);
+          shooter.setShooterSeriesPower(output + m_computedFeedForward);
         });
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
@@ -39,7 +40,7 @@ public class RunShooterSeriesVelocity extends PIDCommand {
   public void execute() {
     getController().calculate(m_shooter.getShooterWheelVelocity(), m_setpoint);
     m_shooter.setPIDIsReady(getController().atSetpoint());
-    m_feedForward.calculate(m_setpoint);
+    m_computedFeedForward = m_feedForward.calculate(m_setpoint);
   }
 
   private static PIDController createPIDController() {
