@@ -7,11 +7,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Config4905;
 
 public class LimelightCamera {
-  Config config = Config4905.getConfig4905().getSensorConfig();
-  NetworkTable limelightTable;
-  double cameraHeight = config.getDouble("limelight.cameraHeight");
+  protected Config m_config = Config4905.getConfig4905().getSensorConfig();
+  protected NetworkTable m_limelightTable;
+  protected double m_cameraHeight = m_config.getDouble("limelight.cameraHeight");
   private static LimelightCamera instance;
-  double cameraAngle = config.getDouble("limelight.cameraAngleRadians");
+  protected double m_cameraAngle = m_config.getDouble("limelight.cameraAngleRadians");
 
   public static synchronized LimelightCamera getInstance() {
     if (instance == null) {
@@ -21,29 +21,29 @@ public class LimelightCamera {
   }
 
   private LimelightCamera() {
-    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    m_limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
   }
 
   public double horizontalRadiansToTarget() {
-    if (limelightTable.getEntry("tv").getDouble(0.0) == 0.0) {
+    if (m_limelightTable.getEntry("tv").getDouble(0.0) == 0.0) {
       return Double.NaN;
     } else {
-      return Math.toRadians(limelightTable.getEntry("tx").getDouble(0.0));
+      return Math.toRadians(m_limelightTable.getEntry("tx").getDouble(0.0));
     }
 
   }
 
   public double verticalRadiansToTarget() {
-    if (limelightTable.getEntry("tv").getDouble(0.0) == 0.0) {
+    if (m_limelightTable.getEntry("tv").getDouble(0.0) == 0.0) {
       return Double.NaN;
     } else {
-      return Math.toRadians(limelightTable.getEntry("ty").getDouble(0.0));
+      return Math.toRadians(m_limelightTable.getEntry("ty").getDouble(0.0));
     }
 
   }
 
   public double distanceToTarget(double targetHeight) {
-    return (targetHeight - cameraHeight) / Math.tan(verticalRadiansToTarget() + cameraAngle);
+    return (targetHeight - m_cameraHeight) / Math.tan(verticalRadiansToTarget() + m_cameraAngle);
   }
 
   public double distanceToPowerPort() {
@@ -51,6 +51,6 @@ public class LimelightCamera {
   }
 
   public void setPipeline(int pipelineNumber) {
-    limelightTable.getEntry("pipeline").setNumber(pipelineNumber);
+    m_limelightTable.getEntry("pipeline").setNumber(pipelineNumber);
   }
 }
