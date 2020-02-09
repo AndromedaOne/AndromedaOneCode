@@ -5,8 +5,9 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimelightCamera {
   NetworkTable limelightTable;
-  double cameraHeight = 0.0;
+  double cameraHeight = 23.0;
   private static LimelightCamera instance;
+  double cameraAngle = 0.59;
 
   public static synchronized LimelightCamera getInstance() {
     if (instance == null) {
@@ -38,7 +39,7 @@ public class LimelightCamera {
   }
 
   public double distanceToTarget(double targetHeight) {
-    return (targetHeight - cameraHeight) / Math.tan(verticalRadiansToTarget());
+    return (targetHeight - cameraHeight) / Math.tan(verticalRadiansToTarget() + cameraAngle);
   }
 
   public double distanceToPowerPort() {
