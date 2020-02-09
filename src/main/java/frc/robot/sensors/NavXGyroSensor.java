@@ -80,8 +80,12 @@ public class NavXGyroSensor {
    */
   public static NavXGyroSensor getInstance() {
     if (instance == null) {
-      System.out.println("Creating NavX gyro");
-      instance = new NavXGyroSensor();
+        synchronized(NavXGyroSensor.class) {
+          if(instance == null) {
+            System.out.println("Creating NavX gyro");
+            instance = new NavXGyroSensor();
+        }
+      }
     }
     return instance;
   }
