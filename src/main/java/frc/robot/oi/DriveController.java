@@ -9,12 +9,30 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.lib.ButtonsEnumerated;
 
 /**
  * Add your docs here.
  */
 public class DriveController {
   private XboxController m_driveController = new XboxController(0);
+  private JoystickButton turnToNorth;
+  private JoystickButton turnToEast;
+  private JoystickButton turnToSouth;
+  private JoystickButton turnToWest;
+
+  public DriveController() {
+    turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
+    turnToNorth.whenPressed(new TurnToCompassHeading(0));
+    turnToEast = new JoystickButton(m_driveController, ButtonsEnumerated.BBUTTON.getValue());
+    turnToEast.whenPressed(new TurnToCompassHeading(90));
+    turnToSouth = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
+    turnToSouth.whenPressed(new TurnToCompassHeading(180));
+    turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
+    turnToWest.whenPressed(new TurnToCompassHeading(270));
+  }
 
   /**
    * Returns the position of the forward/backward stick with FORWARD being a
@@ -23,7 +41,15 @@ public class DriveController {
    * @return The position of the left drive stick (up and down).
    */
   public double getForwardBackwardStick() {
-    return -m_driveController.getY(GenericHID.Hand.kLeft);
+    return deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
+  }
+
+  private double deadband(double stickValue) {
+    if (Math.abs(stickValue) < 0.01) {
+      return 0.0;
+    } else {
+      return stickValue;
+    }
   }
 
   /**
@@ -33,7 +59,7 @@ public class DriveController {
    * @return the position of the right drive stick (left to right).
    */
   public double getRotateStick() {
-    return -m_driveController.getX(GenericHID.Hand.kRight);
+    return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
   }
 
 }

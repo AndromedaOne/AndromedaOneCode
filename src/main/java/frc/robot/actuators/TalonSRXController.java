@@ -1,6 +1,7 @@
 package frc.robot.actuators;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.typesafe.config.Config;
 
@@ -25,22 +26,33 @@ public class TalonSRXController extends WPI_TalonSRX {
     if (hasEncoder()) {
       this.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     }
+    if (subsystemConfig.getBoolean(configString + ".brakemode")) {
+      this.setNeutralMode(NeutralMode.Brake);
+    } else {
+      this.setNeutralMode(NeutralMode.Coast);
+    }
     this.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
   }
 
   public double getEncoderPositionTicks() {
+    if (!hasEncoder()) {
+      return 0;
+    }
     int sensorPosition = this.getSelectedSensorPosition();
     sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorPosition
         : sensorPosition);
-    SmartDashboard.putNumber(m_configString + "position", sensorPosition);
+    SmartDashboard.putNumber(m_configString + " position", sensorPosition);
     return sensorPosition;
   }
 
   public double getEncoderVelocityTicks() {
+    if (!hasEncoder()) {
+      return 0;
+    }
     int sensorVelocity = this.getSelectedSensorVelocity();
     sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorVelocity
         : sensorVelocity);
-    SmartDashboard.putNumber(m_configString + "velocity", sensorVelocity);
+    SmartDashboard.putNumber(m_configString + " velocity", sensorVelocity);
     return sensorVelocity;
   }
 

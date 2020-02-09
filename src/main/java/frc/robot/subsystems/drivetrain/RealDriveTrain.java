@@ -17,14 +17,12 @@ import frc.robot.sensors.NavXGyroSensor;
 public abstract class RealDriveTrain extends DriveTrain {
   // Gyro variables
   private NavXGyroSensor navX;
-  private DriveTrain driveTrain;
   private double savedAngle = 0;
   private double newRotateValue = 0;
   private boolean gyroCorrect = false;
   private double currentDelay = 0;
   private double kDelay = 0;
   private double kProportion = 0.0;
-  private boolean invertGyroCorrect = false;
 
   private int ticksPerInch;
 
@@ -33,9 +31,10 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+    navX = NavXGyroSensor.getInstance();
     kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
-    invertGyroCorrect = drivetrainConfig.getBoolean("gyrocorrect.invertgyrocorrect");
+    System.out.println("kProportion = " + kProportion);
   }
 
   public void init() {
@@ -69,7 +68,6 @@ public abstract class RealDriveTrain extends DriveTrain {
 
     double robotDeltaAngle = navX.getCompassHeading() - heading;
     double robotAngle = navX.getZAngle() + robotDeltaAngle;
-
     /*
      * If we aren't rotating or our delay time is higher than our set Delay do not
      * use gyro correct This allows the robot to rotate naturally after we turn
@@ -88,14 +86,11 @@ public abstract class RealDriveTrain extends DriveTrain {
 
     if (gyroCorrect) {
       double correctionEquation = (savedAngle - robotAngle) * kProportion;
-      if (invertGyroCorrect) {
-        correctionEquation = -correctionEquation;
-      }
       newRotateValue = correctionEquation;
     } else {
       newRotateValue = rotation;
     }
-    driveTrain.move(forwardBackward, newRotateValue, useSquaredInputs);
+    move(forwardBackward, newRotateValue, useSquaredInputs);
   }
 
   /**
@@ -106,7 +101,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                         counter-clockwise and negative goes clockwise.
    */
   public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
-    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
+    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
   }
 
   protected abstract SpeedControllerGroup getLeftSpeedControllerGroup();
