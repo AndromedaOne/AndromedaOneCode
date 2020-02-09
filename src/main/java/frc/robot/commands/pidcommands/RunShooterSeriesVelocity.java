@@ -13,16 +13,11 @@ public class RunShooterSeriesVelocity extends PIDCommand {
   private SimpleMotorFeedforward m_feedForward;
   private ShooterBase m_shooter;
   private double m_setpoint;
-  private static Config m_pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
-  private static double m_p = m_pidConfig.getDouble("commands.runshooterseriesvelocity.p");
-  private static double m_i = m_pidConfig.getDouble("commands.runshooterseriesvelocity.i");
-  private static double m_d = m_pidConfig.getDouble("commands.runshooterseriesvelocity.d");
-  private static double m_s = m_pidConfig.getDouble("commands.runshooterseriesvelocity.s");
-  private static double m_tolerance = m_pidConfig.getDouble("commands.runshooterseriesvelocity.tolerance");
+  private static Config m_pidConfig;
 
   public RunShooterSeriesVelocity(ShooterBase shooter, double setpoint) {
     // PID Controller
-    super(new PIDController(m_p, m_i, m_d),
+    super(createPIDController(),
         // Measurement
         shooter::getShooterSeriesVelocity,
         // Setpoint
@@ -30,12 +25,14 @@ public class RunShooterSeriesVelocity extends PIDCommand {
         // Output
         output -> {
           shooter.setShooterSeriesPower(output);
-        });
+      });
+    
+    getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
 
-    getController().setTolerance(m_tolerance);
+    m_feedForward = createFeedForward();
+
     m_shooter = shooter;
     m_setpoint = setpoint;
-    m_feedForward = new SimpleMotorFeedforward(m_s, 0);
   }
 
   @Override
@@ -43,6 +40,23 @@ public class RunShooterSeriesVelocity extends PIDCommand {
     getController().calculate(m_shooter.getShooterWheelVelocity(), m_setpoint);
     m_shooter.setPIDIsReady(getController().atSetpoint());
     m_feedForward.calculate(m_setpoint);
+  }
+
+  private static PIDController createPIDController() {
+    m_pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+
+    double kp = m_pidConfig.getDouble("runshooterseriesvelocity.p");
+    double ki = m_pidConfig.getDouble("runshooterseriesvelocity.i");
+    double kd = m_pidConfig.getDouble("runshooterseriesvelocity.d");
+
+    return new PIDController(kp, ki, kd);
+  }
+
+  private SimpleMotorFeedforward createFeedForward() {
+    double ks = m_pidConfig.getDouble("runshooterseriesvelocity.s");
+    double kv = m_pidConfig.getDouble("runshooterseriesvelocity.v");
+
+    return new SimpleMotorFeedforward(ks, kv);
   }
 
 }
