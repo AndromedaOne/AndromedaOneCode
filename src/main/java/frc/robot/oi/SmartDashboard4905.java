@@ -53,17 +53,28 @@ public class SmartDashboard4905 {
     ShooterBase shooter = subsystemsContainer.getShooter();
     IntakeBase intake = subsystemsContainer.getIntake();
 
-    m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
-    m_autoChooser.addOption("Strategy1", new MoveUsingEncoder(driveTrain, -12));
+    // @formatter:off
+    m_autoChooser.setDefaultOption("DoNothing", 
+                                   new DoNothingAuto());
+    m_autoChooser.addOption("Strategy1", 
+                            new MoveUsingEncoder(driveTrain, -12));
     m_autoChooser.addOption("Wait, Strategy1",
-        new SequentialCommandGroup(new WaitCommand(3), new MoveUsingEncoder(driveTrain, -12)));
+                            new SequentialCommandGroup(new WaitCommand(3),
+                                                       new MoveUsingEncoder(driveTrain, -12)));
     m_autoChooser.addOption("Strategy2",
-        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -12), new ShooterCommand(shooter, 3)));
-    m_autoChooser.addOption("Wait, Strategy2", new SequentialCommandGroup(new WaitCommand(3),
-        new MoveUsingEncoder(driveTrain, -12), new ShooterCommand(shooter, 3)));
-    m_autoChooser.addOption("Strategy3", new SequentialCommandGroup(new ShooterCommand(shooter, 3)));
-    m_autoChooser.addOption("Strategy4", new SequentialCommandGroup(new ShooterCommand(shooter, 3), new MoveUsingEncoder(driveTrain, 60)));
+                            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -12), 
+                                                       new ShooterCommand(shooter, 3)));
+    m_autoChooser.addOption("Wait, Strategy2", 
+                            new SequentialCommandGroup(new WaitCommand(3),
+                                                       new MoveUsingEncoder(driveTrain, -12), 
+                                                       new ShooterCommand(shooter, 3)));
+    m_autoChooser.addOption("Strategy3", 
+                            new SequentialCommandGroup(new ShooterCommand(shooter, 3)));
+    m_autoChooser.addOption("Strategy4", 
+                            new SequentialCommandGroup(new ShooterCommand(shooter, 3), 
+                                                       new MoveUsingEncoder(driveTrain, 60)));
     SmartDashboard.putData("autoModes", m_autoChooser);
+    // @formatter:on
   }
 
   public Command getSelectedAutoChooserCommand() {
