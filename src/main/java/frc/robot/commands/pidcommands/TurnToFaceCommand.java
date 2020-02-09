@@ -1,5 +1,6 @@
 package frc.robot.commands.pidcommands;
 
+import java.util.BitSet;
 import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
@@ -17,6 +18,8 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   boolean lastSetpoint = false;
   static Config conf = Config4905.getConfig4905().getPidConstantsConfig();
   Config conf2 = Config4905.getConfig4905().getSensorConfig();
+  int nanCounter = 0;
+  BitSet nanBuffer = new BitSet(50);
 
   public TurnToFaceCommand(DoubleSupplier sensor) {
     super(
@@ -31,6 +34,12 @@ public class TurnToFaceCommand extends PIDCommand4905 {
 
   @Override
   public boolean isFinished() {
+    nanCounter++;
+    nanCounter = nanCounter % 50;
+    nanBuffer.set(nanCounter, sensor.getAsDouble() == Double.NaN);
+    if (nanBuffer.cardinality() == 50) {
+      return true;
+    }
     if (conf2.getDouble("limelight.cameraHeight") == 0.0) {
       return true;
     } else {
