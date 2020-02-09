@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
-import frc.robot.sensors.LimelightCamera;
 import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -30,7 +29,6 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
-  
 
   private Robot() {
 
@@ -61,7 +59,7 @@ public class Robot extends TimedRobot {
 
     m_subsystemContainer.setDefaultCommands();
   }
-  int a = 1;
+
   /**
    * This function is called every robot packet, no matter the mode. Use this for
    * items like diagnostics that you want ran during disabled, autonomous,
@@ -83,13 +81,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     getSensorsContainer().getBallFeederSensor().isThereBall();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
-    a++;
-    a = a%100;
-    if(a == 0) {
-      LimelightCamera camera = LimelightCamera.getInstance();
-      System.out.println(String.format("--------------\nHorizontal: %02f \nVertical: %02f \nDistance: %02f\n------------",
-       camera.horizontalRadiansToTarget(), camera.verticalRadiansToTarget(), camera.distanceToTarget(81.25)));
-    }
 
   }
 
