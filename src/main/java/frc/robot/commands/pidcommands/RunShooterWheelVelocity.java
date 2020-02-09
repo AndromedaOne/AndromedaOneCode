@@ -24,7 +24,7 @@ public class RunShooterWheelVelocity extends PIDCommand {
         // Output
         output -> {
           shooter.setShooterWheelPower(output);
-      });
+        });
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
 

@@ -25,8 +25,8 @@ public class RunShooterSeriesVelocity extends PIDCommand {
         // Output
         output -> {
           shooter.setShooterSeriesPower(output);
-      });
-    
+        });
+
     getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
 
     m_feedForward = createFeedForward();
