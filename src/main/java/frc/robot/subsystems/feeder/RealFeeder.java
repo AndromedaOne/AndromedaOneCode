@@ -55,8 +55,27 @@ public class RealFeeder extends FeederBase {
     driveStageTwo();
   }
 
+  @Override
   public void stopBothStages() {
     stopStageOne();
     stopStageTwo();
+  }
+
+  @Override
+  public void runReverseBothStages() {
+    runReverseStageOne();
+    runReverseStageTwo();
+  }
+
+  @Override
+  public void runReverseStageOne() {
+    m_stageOne.set(ControlMode.PercentOutput, -1);
+
+  }
+
+  @Override
+  public void runReverseStageTwo() {
+    m_stageTwo.set(ControlMode.PercentOutput, -1);
+
   }
 }

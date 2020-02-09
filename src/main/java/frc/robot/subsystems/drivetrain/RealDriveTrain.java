@@ -34,6 +34,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     navX = NavXGyroSensor.getInstance();
     kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
+    System.out.println("kProportion = " + kProportion);
   }
 
   public void init() {

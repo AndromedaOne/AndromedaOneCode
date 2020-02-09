@@ -42,4 +42,19 @@ public class MockFeeder extends FeederBase {
   @Override
   public void stopBothStages() {
   }
+
+  @Override
+  public void runReverseBothStages() {
+
+  }
+
+  @Override
+  public void runReverseStageOne() {
+
+  }
+
+  @Override
+  public void runReverseStageTwo() {
+
+  }
 }
