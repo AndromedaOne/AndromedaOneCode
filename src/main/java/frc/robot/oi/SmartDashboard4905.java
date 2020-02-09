@@ -72,7 +72,7 @@ public class SmartDashboard4905 {
                                                               new TurnToCompassHeading(180),
                                                               new MoveUsingEncoder(driveTrain, 60)));
     m_autoChooser.addOption("4: Shoot and Trench Run", 
-                            new DelayedSequentialCommandGroup(new TurnToCompassHeading(15),
+                            new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
                                                               new ShooterCommand(shooter, 3),
                                                               new ExtendIntake(intake),
                                                               new TurnToCompassHeading(180),
