@@ -19,12 +19,13 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
         m_seriesIdleSpeed = m_shooterConfig.getDouble("seriesidlespeed");
         m_shooter = shooter;
         addRequirements(shooter);
+
+        addCommands(new RunShooterSeriesVelocity(m_shooter, m_seriesIdleSpeed),
+        new RunShooterWheelVelocity(m_shooter, m_shooterIdleSpeed));
     }
 
     @Override
     public void initialize() {
-        addCommands(new RunShooterSeriesVelocity(m_shooter, m_seriesIdleSpeed),
-         new RunShooterWheelVelocity(m_shooter, m_shooterIdleSpeed));
     }
 
     @Override

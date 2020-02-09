@@ -30,9 +30,7 @@ public class RunShooterSeriesVelocity extends PIDCommand {
             // Output
             output -> {
               shooter.setShooterSeriesPower(output);
-            },
-            // Requirements
-          shooter);
+            });
 
         getController().setTolerance(m_tolerance);
         m_shooter = shooter;

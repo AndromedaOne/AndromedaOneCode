@@ -30,9 +30,7 @@ public class RunShooterWheelVelocity extends PIDCommand {
         // Output
         output -> {
           shooter.setShooterWheelPower(output);
-        },
-        // Requirements
-      shooter);
+        });
 
     getController().setTolerance(m_tolerance);
     // zero is there because we are not changing acceleration
