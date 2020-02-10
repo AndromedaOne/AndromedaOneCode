@@ -36,8 +36,8 @@ public class SensorsContainer {
 
     if (sensorConfig.hasPath("cameras")) {
       if (sensorConfig.hasPath("cameras.camera0")) {
-        System.out.println("Using real camera with id: " + sensorConfig.getInt("cameras.camera0"));
-        camera0 = new RealCamera(0, sensorConfig.getInt("sensors.cameras.camera0"));
+        System.out.println("Using real camera with id: " + sensorConfig.getInt("cameras.camera0.port"));
+        camera0 = new RealCamera(0, sensorConfig.getInt("sensors.cameras.camera0.port"));
       }
     } else {
       System.out.println("Using fake cameras");
