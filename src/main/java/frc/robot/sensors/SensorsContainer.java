@@ -23,6 +23,7 @@ public class SensorsContainer {
   // TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
   private BallFeederSensorBase ballFeederSensor;
   private Camera camera0;
+  private Camera camera1;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -34,10 +35,14 @@ public class SensorsContainer {
       ballFeederSensor = new MockBallFeederSensor();
     }
 
-    if (sensorConfig.hasPath("cameras")) {
-      if (sensorConfig.hasPath("cameras.camera0")) {
-        System.out.println("Using real camera with id: " + sensorConfig.getInt("cameras.camera0.port"));
+    if (sensorConfig.hasPath("sensors.cameras")) {
+      if (sensorConfig.hasPath("sensors.cameras.camera0")) {
+        System.out.println("Using real camera with id: " + sensorConfig.getInt("sensors.cameras.camera0.port"));
         camera0 = new RealCamera(0, sensorConfig.getInt("sensors.cameras.camera0.port"));
+      }
+      if (sensorConfig.hasPath("sensors.cameras.camera1")) {
+        System.out.println("Using real camera with id: " + sensorConfig.getInt("sensors.cameras.camera1.port"));
+        camera1 = new RealCamera(1, sensorConfig.getInt("sensors.cameras.camera1.port"));
       }
     } else {
       System.out.println("Using fake cameras");
@@ -51,5 +56,9 @@ public class SensorsContainer {
 
   public Camera getCamera0() {
     return camera0;
+  }
+
+  public Camera getCamera1() {
+    return camera1;
   }
 }
