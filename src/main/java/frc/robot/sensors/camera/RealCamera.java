@@ -4,9 +4,9 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 
 public class RealCamera extends Camera {
-    public RealCamera(int port) {
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture("Camera " + port, port);
-        camera.setResolution(320, 240);
-        camera.setFPS(10);
-    }
+  public RealCamera(int port, int width, int height, int fps) {
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture("Camera " + port, port);
+    camera.setResolution(width, height);
+    camera.setFPS(fps);
+  }
 }
