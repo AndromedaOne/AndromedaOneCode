@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.groupcommands.sequentialgroup.FeedWhenReady;
@@ -20,25 +22,28 @@ public class FeedWhenReadyStarter extends CommandBase {
   private ShooterBase m_shooterBase;
   private FeederBase m_feederBase;
   private boolean commandGroupScheduledFlag = false;
+  private BooleanSupplier m_endCondition;
 
-  public FeedWhenReadyStarter(ShooterBase shooterBase, FeederBase feederBase) {
+  public FeedWhenReadyStarter(ShooterBase shooterBase, FeederBase feederBase, BooleanSupplier endCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooterBase = shooterBase;
     m_feederBase = feederBase;
+    m_endCondition = endCondition;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    commandGroupScheduledFlag = true;
-    
+    commandGroupScheduledFlag = false;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_shooterBase.shooterIsReady() && !commandGroupScheduledFlag){
-      CommandScheduler.getInstance().schedule(new FeedWhenReady(m_shooterBase, m_feederBase));
+    if (m_shooterBase.shooterIsReady() && !commandGroupScheduledFlag) {
+      CommandScheduler.getInstance().schedule(new FeedWhenReady(m_shooterBase, m_feederBase,
+          () -> m_endCondition.getAsBoolean() || !m_shooterBase.shooterIsReady()));
       commandGroupScheduledFlag = true;
     }
   }
@@ -51,6 +56,6 @@ public class FeedWhenReadyStarter extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return commandGroupScheduledFlag || m_endCondition.getAsBoolean();
   }
 }

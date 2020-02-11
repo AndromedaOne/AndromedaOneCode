@@ -14,7 +14,8 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   /**
    * Creates a new FeedWhenReady.
    */
-  FeederBase m_feederBase; 
+  FeederBase m_feederBase;
+
   public FeedBothStagesIntoShooter(FeederBase feederBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_feederBase = feederBase;
