@@ -70,7 +70,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     return getController().atSetpoint();
   }
 
-  public void end() {
+  public void end(boolean interrupted) {
+    super.end(interrupted);
     m_driveTrain.stop();
     Trace.getInstance().logCommandStop("MoveUsingEncoder");
   }
