@@ -8,6 +8,7 @@
 package frc.robot.oi;
 
 import frc.robot.commands.DeployAndRunIntakeStarter;
+import frc.robot.commands.FeedWhenReadyStarter;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -28,6 +29,9 @@ public class OIContainer {
         .whenPressed(new DeployAndRunIntakeStarter(subsystemsContainer.getIntake(),
             () -> !m_subsystemController.getDeployAndRunIntakeButton().get()
                 || sensorsContainer.getBallFeederSensor().getNumberOfPowerCellsInFeeder() >= 5));
+    m_subsystemController.getFeedWhenReadyButton()
+        .whenPressed(new FeedWhenReadyStarter(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(),
+            () -> !m_subsystemController.getFeedWhenReadyButton().get()));
   }
 
   public DriveController getDriveController() {
