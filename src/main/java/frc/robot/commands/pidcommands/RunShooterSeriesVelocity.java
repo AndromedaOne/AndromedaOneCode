@@ -2,10 +2,12 @@ package frc.robot.commands.pidcommands;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Config4905;
+import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 public class RunShooterSeriesVelocity extends PIDCommand {
@@ -16,7 +18,14 @@ public class RunShooterSeriesVelocity extends PIDCommand {
   private double m_setpoint = 0;
   private static Config m_pidConfig;
 
-  public RunShooterSeriesVelocity(ShooterBase shooter, double setpoint) {
+  /**
+   * @param shooter
+   * @param controller
+   * Requires a controller to allow the subsystem driver to tune the PID setpoint via
+   * the controller
+   * @param setpoint
+   */
+  public RunShooterSeriesVelocity(ShooterBase shooter, SubsystemController controller, double setpoint) {
     // PID Controller
     super(createPIDController(),
         // Measurement

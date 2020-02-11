@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.TeleOpCommand;
@@ -136,7 +137,8 @@ public class SubsystemsContainer {
 
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
-    m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter));
+    m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter,
+     Robot.getInstance().getOIContainer().getSubsystemController()));
     m_intake.setDefaultCommand(new RetractIntake(m_intake));
     m_feeder.setDefaultCommand(new DefaultFeederCommand());
     m_climber.setDefaultCommand(new TeleopClimber(m_climber));
