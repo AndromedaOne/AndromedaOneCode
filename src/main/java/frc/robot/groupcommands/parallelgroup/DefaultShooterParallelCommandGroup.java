@@ -22,15 +22,15 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
    * Requires a controller to allow the subsystem driver to tune the PID setpoint via
    * the controller
    */
-  public DefaultShooterParallelCommandGroup(ShooterBase shooter, SubsystemController controller) {
+  public DefaultShooterParallelCommandGroup(ShooterBase shooter) {
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
     m_shooterIdleSpeed = m_shooterConfig.getDouble("shooteridlespeed");
     m_seriesIdleSpeed = m_shooterConfig.getDouble("seriesidlespeed");
     m_shooter = shooter;
     addRequirements(shooter);
 
-    addCommands(new RunShooterSeriesVelocity(m_shooter, controller, m_seriesIdleSpeed),
-        new RunShooterWheelVelocity(m_shooter, controller, m_shooterIdleSpeed));
+    addCommands(new RunShooterSeriesVelocity(m_shooter, m_seriesIdleSpeed),
+        new RunShooterWheelVelocity(m_shooter, m_shooterIdleSpeed));
   }
 
   @Override

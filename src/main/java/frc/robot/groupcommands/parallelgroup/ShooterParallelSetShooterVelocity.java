@@ -13,16 +13,16 @@ public class ShooterParallelSetShooterVelocity extends ParallelCommandGroup {
      * This should only be run on a while held
      * Because there is no isFinished 
      * @param shooter
-     * @param controller
+     * @param m_subsystemController
      * Requires a controller to allow the subsystem driver to tune the PID setpoint via
      * the controller
      * @param seriesRPM
      * @param shooterRPM
      */
-    public ShooterParallelSetShooterVelocity(ShooterBase shooter, SubsystemController controller, double seriesRPM, double shooterRPM) {
+    public ShooterParallelSetShooterVelocity(ShooterBase shooter, double seriesRPM, double shooterRPM) {
 
-        addCommands(new RunShooterWheelVelocity(shooter, controller, shooterRPM),
-            new RunShooterSeriesVelocity(shooter, controller, seriesRPM));
+        addCommands(new RunShooterWheelVelocity(shooter, shooterRPM),
+            new RunShooterSeriesVelocity(shooter, seriesRPM));
 
         addRequirements(shooter);
     }

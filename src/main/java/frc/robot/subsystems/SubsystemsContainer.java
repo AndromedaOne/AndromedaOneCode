@@ -137,8 +137,7 @@ public class SubsystemsContainer {
 
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
-    m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter,
-     Robot.getInstance().getOIContainer().getSubsystemController()));
+    m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter));
     m_intake.setDefaultCommand(new RetractIntake(m_intake));
     m_feeder.setDefaultCommand(new DefaultFeederCommand());
     m_climber.setDefaultCommand(new TeleopClimber(m_climber));
