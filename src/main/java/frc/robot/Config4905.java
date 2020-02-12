@@ -99,7 +99,7 @@ public class Config4905 {
   }
 
   private static Config shooterFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/shooter.conf"));
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/Shooter.conf"));
   private static Config shooterConfig = shooterFactory.withFallback(defaultConfig).resolve();
 
   public Config getShooterConfig() {
