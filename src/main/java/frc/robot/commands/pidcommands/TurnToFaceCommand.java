@@ -43,7 +43,6 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     if (m_conf2.getDouble("limelight.cameraHeight") == 0.0) {
       return true;
     } else {
-      double angle = m_sensor.getAsDouble();
       boolean returnValue = this.getController().atSetpoint() && m_lastSetpoint;
       m_lastSetpoint = this.getController().atSetpoint();
       return returnValue;

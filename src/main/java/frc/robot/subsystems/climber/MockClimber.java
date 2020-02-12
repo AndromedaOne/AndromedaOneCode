@@ -22,46 +22,38 @@ public class MockClimber extends ClimberBase {
 
   @Override
   public void driveLeftWinch() {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void driveRightWinch() {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void ascend() {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void stopWinch() {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void adjustWinch(int adjust) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void extendArms() {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void retractArms() {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void stopArms() {
-    // TODO Auto-generated method stub
   }
 }

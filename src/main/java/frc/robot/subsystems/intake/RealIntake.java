@@ -29,13 +29,11 @@ public class RealIntake extends IntakeBase {
 
   @Override
   public void deployIntake() {
-    // TODO Auto-generated method stub
     m_intakeDeploymentSolenoid.extendPiston();
   }
 
   @Override
   public void retractIntake() {
-    // TODO Auto-generated method stub
     m_intakeDeploymentSolenoid.retractPiston();
   }
 }

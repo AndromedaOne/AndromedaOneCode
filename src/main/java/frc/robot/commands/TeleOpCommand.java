@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
-import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.drivetrain.*;
 import frc.robot.telemetries.Trace;
 
@@ -21,7 +20,6 @@ public class TeleOpCommand extends CommandBase {
 
 //Make the controllers a little easier to get to.  
   private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
-  private SubsystemController m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
   private DriveTrain m_driveTrain;
 
   /**

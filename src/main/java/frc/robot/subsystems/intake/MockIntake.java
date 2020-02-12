@@ -11,13 +11,11 @@ public class MockIntake extends IntakeBase {
 
   @Override
   public void deployIntake() {
-    // TODO Auto-generated method stub
     System.out.println("deploy intake");
   }
 
   @Override
   public void retractIntake() {
-    // TODO Auto-generated method stub
     System.out.println("retract intake");
   }
 }

@@ -35,21 +35,18 @@ public class FeedWhenReady extends SequentialCommandGroup {
 
   @Override
   public void initialize() {
-    // TODO Auto-generated method stub
     super.initialize();
     m_shooterBase.openShooterHood();
   }
 
   @Override
   public void end(boolean interrupted) {
-    // TODO Auto-generated method stub
     super.end(interrupted);
     m_shooterBase.closeShooterHood();
   }
 
   @Override
   public boolean isFinished() {
-    // TODO Auto-generated method stub
     return m_endCondition.getAsBoolean();
   }
 }

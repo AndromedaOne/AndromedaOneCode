@@ -14,7 +14,6 @@ import frc.robot.Config4905;
 import frc.robot.actuators.TalonSRXController;
 
 public class TalonSRXDriveTrain extends RealDriveTrain {
-  private Config drivetrainConfig;
 
   private final TalonSRXController m_frontLeft;
   private final TalonSRXController m_backLeft;

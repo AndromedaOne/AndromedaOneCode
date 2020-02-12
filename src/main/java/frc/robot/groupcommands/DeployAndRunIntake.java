@@ -36,7 +36,6 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
 
   @Override
   public boolean isFinished() {
-    // TODO Auto-generated method stub
     return m_finishedCondition.getAsBoolean();
   }
 }
