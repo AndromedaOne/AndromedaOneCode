@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
-import frc.robot.sensors.LimelightCamera;
+import frc.robot.sensors.SensorsContainer;
 
 /**
  * Add your docs here.
@@ -26,7 +26,7 @@ public class DriveController {
   private JoystickButton turnToWest;
   private JoystickButton turnToFace;
 
-  public DriveController() {
+  public DriveController(SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
     turnToNorth.whenPressed(new TurnToCompassHeading(0));
     turnToEast = new JoystickButton(m_driveController, ButtonsEnumerated.BBUTTON.getValue());
@@ -36,7 +36,7 @@ public class DriveController {
     turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
     turnToWest.whenPressed(new TurnToCompassHeading(270));
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
-    turnToFace.whenPressed(new TurnToFaceCommand(LimelightCamera.getInstance()::horizontalRadiansToTarget));
+    turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalRadiansToTarget));
   }
 
   /**
