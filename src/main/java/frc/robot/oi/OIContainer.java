@@ -21,7 +21,7 @@ public class OIContainer {
   private SubsystemController m_subsystemController;
 
   public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
-    m_driveController = new DriveController();
+    m_driveController = new DriveController(sensorsContainer);
     m_smartDashboard = new SmartDashboard4905(subsystemsContainer);
     m_subsystemController = new SubsystemController();
 
