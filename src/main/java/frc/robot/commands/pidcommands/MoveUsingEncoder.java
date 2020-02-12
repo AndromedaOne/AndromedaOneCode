@@ -56,8 +56,9 @@ public class MoveUsingEncoder extends PIDCommand4905 {
 
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("MoveUsingEncoder");
+
     m_target = m_driveTrain.getRobotPositionInches() + m_distance;
+    Trace.getInstance().logCommandStart("MoveUsingEncoder, m_distance = " + m_distance + ",m_target = " + m_target);
   }
 
   public double getSetpoint() {
@@ -73,6 +74,6 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   public void end(boolean interrupted) {
     super.end(interrupted);
     m_driveTrain.stop();
-    Trace.getInstance().logCommandStop("MoveUsingEncoder");
+    Trace.getInstance().logCommandStop("MoveUsingEncoder, Position = " + m_driveTrain.getRobotPositionInches());
   }
 }

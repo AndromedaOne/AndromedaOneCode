@@ -67,10 +67,10 @@ public class SmartDashboard4905 {
                                                               new MoveUsingEncoder(driveTrain, -12)));
     m_autoChooser.addOption("3: Back Bumper U-Turn", 
                             new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
-                                                              new MoveUsingEncoder(driveTrain, 30), new WaitCommand(1.5),
-                                                              new TurnToCompassHeading(270), new WaitCommand(1.5),
-                                                              new MoveUsingEncoder(driveTrain, 60), new WaitCommand(1.5),
-                                                              new TurnToCompassHeading(180), new WaitCommand(1.5),
+                                                              new MoveUsingEncoder(driveTrain, 30), // new WaitCommand(1.5),
+                                                              new TurnToCompassHeading(270), // new WaitCommand(1.5),
+                                                              new MoveUsingEncoder(driveTrain, 60),// new WaitCommand(1.5),
+                                                              new TurnToCompassHeading(180),// new WaitCommand(1.5),
                                                               new MoveUsingEncoder(driveTrain, 126)));
     m_autoChooser.addOption("4: Shoot and Trench Run", 
                             new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
