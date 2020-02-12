@@ -40,7 +40,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     if (m_nanBuffer.cardinality() == 50) {
       return true;
     }
-    if (m_conf2.getDouble("limelight.cameraHeight") == 0.0) {
+    if (m_conf2.getDouble("limelight.cameraHeight") == 0.0 || !m_conf2.hasPath("sensors.limelight")) {
       return true;
     } else {
       double angle = m_sensor.getAsDouble();
