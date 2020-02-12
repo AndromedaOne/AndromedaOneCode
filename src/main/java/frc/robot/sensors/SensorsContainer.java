@@ -14,6 +14,9 @@ import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
 import frc.robot.sensors.camera.*;
+import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
+import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
+import frc.robot.sensors.limelightcamera.RealLimelightCamera;
 
 /**
  * The Container that controls whether the sensors are real or mock. Uses the
@@ -24,6 +27,7 @@ public class SensorsContainer {
   private BallFeederSensorBase ballFeederSensor;
   private Camera camera0;
   private Camera camera1;
+  private LimeLightCameraBase m_limelightCameraBase;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -48,6 +52,13 @@ public class SensorsContainer {
       System.out.println("Using fake cameras");
       camera0 = new MockCamera();
     }
+
+    if (sensorConfig.hasPath("sensors.limelight")) {
+      System.out.println("Using real LimeLight");
+      m_limelightCameraBase = new RealLimelightCamera();
+    } else {
+      m_limelightCameraBase = new MockLimeLightCamera();
+    }
   }
 
   public BallFeederSensorBase getBallFeederSensor() {
@@ -60,5 +71,9 @@ public class SensorsContainer {
 
   public Camera getCamera1() {
     return camera1;
+  }
+
+  public LimeLightCameraBase getLimeLight() {
+    return m_limelightCameraBase;
   }
 }
