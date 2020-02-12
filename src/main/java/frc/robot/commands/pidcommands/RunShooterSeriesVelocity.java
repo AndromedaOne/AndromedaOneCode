@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 public class RunShooterSeriesVelocity extends PIDCommand {
@@ -24,9 +23,9 @@ public class RunShooterSeriesVelocity extends PIDCommand {
 
   /**
    * @param shooter
-   * @param m_subsystemController
-   * Requires a controller to allow the subsystem driver to tune the PID setpoint via
-   * the controller
+   * @param m_subsystemController Requires a controller to allow the subsystem
+   *                              driver to tune the PID setpoint via the
+   *                              controller
    * @param setpoint
    */
   public RunShooterSeriesVelocity(ShooterBase shooter, double setpoint) {
@@ -46,7 +45,7 @@ public class RunShooterSeriesVelocity extends PIDCommand {
     m_feedForward = createFeedForward();
 
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
-    
+
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
     m_setpoint = setpoint;
@@ -55,7 +54,7 @@ public class RunShooterSeriesVelocity extends PIDCommand {
   @Override
   public void execute() {
     double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
-    // This adjusts the setpoint while the PID is running to allow the 
+    // This adjusts the setpoint while the PID is running to allow the
     // Subsystems driver to tune the rpm on the fly
     m_setpoint += leftYAxis * kControllerScale;
 

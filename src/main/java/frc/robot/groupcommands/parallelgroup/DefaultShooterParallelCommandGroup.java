@@ -2,12 +2,10 @@ package frc.robot.groupcommands.parallelgroup;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.commands.pidcommands.RunShooterSeriesVelocity;
 import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
-import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
@@ -18,9 +16,8 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
 
   /**
    * @param shooter
-   * @param controller
-   * Requires a controller to allow the subsystem driver to tune the PID setpoint via
-   * the controller
+   * @param controller Requires a controller to allow the subsystem driver to tune
+   *                   the PID setpoint via the controller
    */
   public DefaultShooterParallelCommandGroup(ShooterBase shooter) {
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();

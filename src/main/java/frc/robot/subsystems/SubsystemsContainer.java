@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.Robot;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.TeleOpCommand;

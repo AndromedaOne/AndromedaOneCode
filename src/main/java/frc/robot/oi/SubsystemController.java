@@ -36,17 +36,21 @@ public class SubsystemController {
 
     m_shootFromInitLine = new JoystickButton(m_subsystemController, ButtonsEnumerated.XBUTTON.getValue());
     m_shootFromInitLine.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
-     m_shooterConfig.getDouble("shootingrpm.initline") * 1.5,  m_shooterConfig.getDouble("shootingrpm.initline")));
+        m_shooterConfig.getDouble("shootingrpm.initline") * 1.5, m_shooterConfig.getDouble("shootingrpm.initline")));
     m_shootFromFrontTrench = new JoystickButton(m_subsystemController, ButtonsEnumerated.BBUTTON.getValue());
-    m_shootFromFrontTrench.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem, 
-     m_shooterConfig.getDouble("shootingrpm.fronttrench") * 1.5, m_shooterConfig.getDouble("shootingrpm.fronttrench")));
+    m_shootFromFrontTrench.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
+        m_shooterConfig.getDouble("shootingrpm.fronttrench") * 1.5,
+        m_shooterConfig.getDouble("shootingrpm.fronttrench")));
     m_shootFromBackTrench = new JoystickButton(m_subsystemController, ButtonsEnumerated.ABUTTON.getValue());
-    m_shootFromBackTrench.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem, 
-     m_shooterConfig.getDouble("shootingrpm.backtrench") * 1.5, m_shooterConfig.getDouble("shootingrpm.backtrench")));
+    m_shootFromBackTrench.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
+        m_shooterConfig.getDouble("shootingrpm.backtrench") * 1.5,
+        m_shooterConfig.getDouble("shootingrpm.backtrench")));
     m_shootFromTargetZone = new JoystickButton(m_subsystemController, ButtonsEnumerated.YBUTTON.getValue());
-    m_shootFromTargetZone.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem, 
-     m_shooterConfig.getDouble("shootingrpm.targetzone") * 1.5, m_shooterConfig.getDouble("shootingrpm.targetzone")));
+    m_shootFromTargetZone.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
+        m_shooterConfig.getDouble("shootingrpm.targetzone") * 1.5,
+        m_shooterConfig.getDouble("shootingrpm.targetzone")));
   }
+
   public JoystickButton getDeployAndRunIntakeButton() {
     return ButtonsEnumerated.LEFTBUMPERBUTTON.getJoystickButton(m_subsystemController);
   }
