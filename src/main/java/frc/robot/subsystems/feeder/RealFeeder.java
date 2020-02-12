@@ -22,8 +22,8 @@ public class RealFeeder extends FeederBase {
 
   public RealFeeder() {
     Config feederConf = Config4905.getConfig4905().getFeederConfig();
-    m_stageOne = new TalonSRX(feederConf.getInt("ports.stageOne"));
-    m_stageTwo = new TalonSRX(feederConf.getInt("ports.stageTwo"));
+    m_stageOne = new TalonSRX(feederConf.getInt("stageOne"));
+    m_stageTwo = new TalonSRX(feederConf.getInt("stageTwo"));
   }
 
   @Override
