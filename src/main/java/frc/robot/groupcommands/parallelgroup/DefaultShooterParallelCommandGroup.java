@@ -14,6 +14,11 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
   private double m_seriesIdleSpeed;
   private ShooterBase m_shooter;
 
+  /**
+   * @param shooter
+   * @param controller Requires a controller to allow the subsystem driver to tune
+   *                   the PID setpoint via the controller
+   */
   public DefaultShooterParallelCommandGroup(ShooterBase shooter) {
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
     m_shooterIdleSpeed = m_shooterConfig.getDouble("shooteridlespeed");
@@ -29,6 +34,8 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
   public void initialize() {
     // When this command is running the shooter is always idle
     m_shooter.setShooterIsIdle(true);
+    // When the shooter is idle the hood will always be close
+    m_shooter.closeShooterHood();
   }
 
   @Override
