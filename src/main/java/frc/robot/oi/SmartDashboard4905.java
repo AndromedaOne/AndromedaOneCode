@@ -19,6 +19,7 @@ import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnDeltaAngle;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.groupcommands.DeployAndRunIntake;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -75,9 +76,8 @@ public class SmartDashboard4905 {
     m_autoChooser.addOption("4: Shoot and Trench Run", 
                             new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
                                                               new ShooterCommand(shooter, 3),
-                                                              new ExtendIntake(intake),
                                                               new TurnToCompassHeading(180),
-                                                              new RunIntake(intake),
+                                                              new DeployAndRunIntake(intake, () -> true),
                                                               new MoveUsingEncoder(driveTrain, 249)));
     m_autoChooser.addOption("5: Right Side Shield",
                             new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
