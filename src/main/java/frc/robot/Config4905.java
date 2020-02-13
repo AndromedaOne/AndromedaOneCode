@@ -67,7 +67,7 @@ public class Config4905 {
   }
 
   private static Config feederFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/feeder.conf"));
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/Feeder.conf"));
   private static Config feederConfig = feederFactory.withFallback(defaultConfig).resolve();
 
   public Config getFeederConfig() {
@@ -83,7 +83,7 @@ public class Config4905 {
   }
 
   private static Config intakeFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/intake.conf"));
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/Intake.conf"));
   private static Config intakeConfig = intakeFactory.withFallback(defaultConfig).resolve();
 
   public Config getIntakeConfig() {

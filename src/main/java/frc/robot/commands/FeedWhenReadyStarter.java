@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.groupcommands.sequentialgroup.FeedWhenReady;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class FeedWhenReadyStarter extends CommandBase {
   /**
@@ -34,6 +35,7 @@ public class FeedWhenReadyStarter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart("FeedWhenReadyStarter");
     commandGroupScheduledFlag = false;
 
   }
@@ -51,6 +53,8 @@ public class FeedWhenReadyStarter extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    super.end(interrupted);
+    Trace.getInstance().logCommandStop("FeedWhenReadyStarter");
   }
 
   // Returns true when the command should end.

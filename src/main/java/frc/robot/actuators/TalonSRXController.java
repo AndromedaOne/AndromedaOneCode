@@ -26,7 +26,7 @@ public class TalonSRXController extends WPI_TalonSRX {
     if (hasEncoder()) {
       this.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     }
-    if (subsystemConfig.getBoolean(configString + ".brakemode")) {
+    if (subsystemConfig.getBoolean(configString + ".brakeMode")) {
       this.setNeutralMode(NeutralMode.Brake);
     } else {
       this.setNeutralMode(NeutralMode.Coast);
