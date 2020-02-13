@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class RunShooterWheelVelocity extends PIDCommand {
   private SimpleMotorFeedforward m_feedForward;
@@ -46,6 +47,7 @@ public class RunShooterWheelVelocity extends PIDCommand {
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
     m_setpoint = setpoint;
+    Trace.getInstance().logCommandStart("RunShooterWheelVelocity");
   }
 
   @Override
