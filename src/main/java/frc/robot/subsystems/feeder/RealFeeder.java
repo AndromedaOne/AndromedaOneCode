@@ -11,7 +11,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
+import frc.robot.actuators.TalonSRXController;
 
 public class RealFeeder extends FeederBase {
   /**
@@ -19,11 +21,15 @@ public class RealFeeder extends FeederBase {
    */
   public TalonSRX m_stageOne;
   public TalonSRX m_stageTwo;
+  public TalonSRX m_stageThree;
+  private SpeedControllerGroup m_stageTwoAndThree;
 
   public RealFeeder() {
     Config feederConf = Config4905.getConfig4905().getFeederConfig();
-    m_stageOne = new TalonSRX(feederConf.getInt("stageOne"));
-    m_stageTwo = new TalonSRX(feederConf.getInt("stageTwo"));
+    m_stageOne = new TalonSRXController(feederConf, "stageOne");
+    m_stageTwo = new TalonSRXController(feederConf, "stageTwo");
+    m_stageThree = new TalonSRXController(feederConf, "stageThree");
+    //m_stageTwoAndThree = new SpeedControllerGroup(m_stageTwo, m_stageThree);
   }
 
   @Override
