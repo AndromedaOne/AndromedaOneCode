@@ -24,7 +24,23 @@ public class Config4905 {
    */
   private static Config m_config = environmentalConfig.withFallback(defaultConfig).resolve();
 
+  private static Config climberConfig;
+
+  private static Config drivetrainConfig;
+
+  private static Config feederConfig;
+
+  private static Config intakeConfig;
+
+  private static Config shooterConfig;
+
+  private static Config sensorConfig;
+
+  private static Config pidConstantsConfig;
+
   private static final Config4905 m_config4905 = new Config4905();
+
+  private static final String BASEDIRECTORY = "/home/lvuser/deploy/robotConfigs/";
 
   private Config4905() {
     System.out.println("Robot name = " + nameConfig.getString("robot.name"));
@@ -34,9 +50,21 @@ public class Config4905 {
     return m_config4905;
   }
 
-  private static Config climberFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/climber.conf"));
-  private static Config climberConfig = climberFactory.withFallback(defaultConfig).resolve();
+  private static Config load(String fileName) {
+    return ConfigFactory.parseFile(new File(BASEDIRECTORY + nameConfig.getString("robot.name") + fileName))
+        .withFallback(defaultConfig).resolve();
+
+  }
+
+  public static void reload() {
+    pidConstantsConfig = load("pidconstants.conf");
+    sensorConfig = load("sensors.conf");
+    shooterConfig = load("Shooter.conf");
+    intakeConfig = load("intake.conf");
+    feederConfig = load("feeder.conf");
+    drivetrainConfig = load("drivetrain.conf");
+    climberConfig = load("climber.conf");
+  }
 
   public Config getClimberConfig() {
     return climberConfig;
@@ -50,10 +78,6 @@ public class Config4905 {
     }
   }
 
-  private static Config drivetrainFactory = ConfigFactory.parseFile(
-      new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/drivetrain.conf"));
-  private static Config drivetrainConfig = drivetrainFactory.withFallback(defaultConfig).resolve();
-
   public Config getDrivetrainConfig() {
     return drivetrainConfig;
   }
@@ -65,10 +89,6 @@ public class Config4905 {
       return false;
     }
   }
-
-  private static Config feederFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/feeder.conf"));
-  private static Config feederConfig = feederFactory.withFallback(defaultConfig).resolve();
 
   public Config getFeederConfig() {
     return feederConfig;
@@ -82,10 +102,6 @@ public class Config4905 {
     }
   }
 
-  private static Config intakeFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/intake.conf"));
-  private static Config intakeConfig = intakeFactory.withFallback(defaultConfig).resolve();
-
   public Config getIntakeConfig() {
     return intakeConfig;
   }
@@ -97,10 +113,6 @@ public class Config4905 {
       return false;
     }
   }
-
-  private static Config shooterFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/Shooter.conf"));
-  private static Config shooterConfig = shooterFactory.withFallback(defaultConfig).resolve();
 
   public Config getShooterConfig() {
     return shooterConfig;
@@ -114,16 +126,9 @@ public class Config4905 {
     }
   }
 
-  private static Config sensorFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/sensors.conf"));
-
   public Config getSensorConfig() {
-    return sensorFactory.withFallback(defaultConfig).resolve();
+    return sensorConfig;
   }
-
-  private static Config pidConstantsFactory = ConfigFactory.parseFile(
-      new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/pidconstants.conf"));
-  private static Config pidConstantsConfig = pidConstantsFactory.withFallback(defaultConfig).resolve();
 
   public Config getPidConstantsConfig() {
     return pidConstantsConfig;

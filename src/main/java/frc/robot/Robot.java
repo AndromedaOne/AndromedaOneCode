@@ -69,6 +69,8 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
+  int counter = 0;
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
@@ -81,7 +83,11 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     getSensorsContainer().getBallFeederSensor().isThereBall();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
-
+    counter++;
+    counter %= 100;
+    if (counter == 0) {
+      System.out.println(Config4905.getConfig4905().getDrivetrainConfig().getString("Reload"));
+    }
   }
 
   /**
