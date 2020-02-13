@@ -19,9 +19,9 @@ public class RealFeeder extends FeederBase {
   /**
    * Creates a new RealFeeder.
    */
-  public TalonSRX m_stageOne;
-  public TalonSRX m_stageTwo;
-  public TalonSRX m_stageThree;
+  public TalonSRXController m_stageOne;
+  public TalonSRXController m_stageTwo;
+  public TalonSRXController m_stageThree;
   private SpeedControllerGroup m_stageTwoAndThree;
 
   public RealFeeder() {
@@ -29,7 +29,7 @@ public class RealFeeder extends FeederBase {
     m_stageOne = new TalonSRXController(feederConf, "stageOne");
     m_stageTwo = new TalonSRXController(feederConf, "stageTwo");
     m_stageThree = new TalonSRXController(feederConf, "stageThree");
-    //m_stageTwoAndThree = new SpeedControllerGroup(m_stageTwo, m_stageThree);
+    m_stageTwoAndThree = new SpeedControllerGroup(m_stageTwo, m_stageThree);
   }
 
   @Override
@@ -48,11 +48,11 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageTwo() {
-    m_stageTwo.set(ControlMode.PercentOutput, 1);
+    m_stageTwoAndThree.set(1);
   }
 
   public void stopStageTwo() {
-    m_stageTwo.set(ControlMode.PercentOutput, 0);
+    m_stageTwoAndThree.set(0);
   }
 
   @Override
@@ -81,7 +81,7 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void runReverseStageTwo() {
-    m_stageTwo.set(ControlMode.PercentOutput, -1);
+    m_stageTwoAndThree.set(-1);
 
   }
 }
