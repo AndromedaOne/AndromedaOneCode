@@ -27,7 +27,7 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   // motors on the right side of the drive
   private final SpeedControllerGroup m_rightmotors;
 
-  private int ticksPerInch;
+  private double ticksPerInch;
 
   public SparkMaxDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -43,7 +43,7 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
     // motors on the right side of the drive.
     m_rightmotors = new SpeedControllerGroup(m_frontRight, m_backRight);
 
-    ticksPerInch = drivetrainConfig.getInt("ticksPerInch");
+    ticksPerInch = drivetrainConfig.getDouble("ticksPerInch");
   }
 
   @Override

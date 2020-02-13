@@ -82,24 +82,21 @@ public class SmartDashboard4905 {
     m_autoChooser.addOption("5: Right Side Shield",
                             new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
                                                               new MoveUsingEncoder(driveTrain, -69),
-                                                              new ExtendIntake(intake),
                                                               new TurnToCompassHeading(270),
-                                                              new RunIntake(intake),
-                                                              new MoveUsingEncoder(driveTrain, 0))); // Waiting on official distance to move here from R&S
+                                                              new DeployAndRunIntake(intake, () -> true),
+                                                              new MoveUsingEncoder(driveTrain, 12))); // Waiting on official distance to move here from R&S
     m_autoChooser.addOption("6: Left Side Shield", 
                             new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
-                                                              new MoveUsingEncoder(driveTrain, 24),
+                                                              new MoveUsingEncoder(driveTrain, 30),
                                                               new TurnToCompassHeading(270),
-                                                              new MoveUsingEncoder(driveTrain, 36),
-                                                              new ExtendIntake(intake),
+                                                              new MoveUsingEncoder(driveTrain, 60),
                                                               new TurnToCompassHeading(180),
-                                                              new RunIntake(intake),
-                                                              new MoveUsingEncoder(driveTrain, 102)));
+                                                              new DeployAndRunIntake(intake, () -> true),
+                                                              new MoveUsingEncoder(driveTrain, 126)));
     m_autoChooser.addOption("7: Enemy Trench Run", 
-                            new DelayedSequentialCommandGroup(new ExtendIntake(intake),
-                                                              new TurnToCompassHeading(180),
-                                                              new RunIntake(intake),
-                                                              new MoveUsingEncoder(driveTrain, 239)));
+                            new DelayedSequentialCommandGroup(new TurnToCompassHeading(180),
+                                                              new DeployAndRunIntake(intake, () -> true),
+                                                              new MoveUsingEncoder(driveTrain, (23*12)+9)));
     SmartDashboard.putData("autoModes", m_autoChooser);
     // @formatter:on
   }
