@@ -14,17 +14,17 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 
-public class AutoModes {
-    static SendableChooser<Command> m_autoChooser;
+public class AutoModes4905 {
+  static SendableChooser<Command> m_autoChooser;
 
-    public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
-            SendableChooser<Command> autoChooser) {
-        m_autoChooser = autoChooser;
-        DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-        ShooterBase shooter = subsystemsContainer.getShooter();
-        IntakeBase intake = subsystemsContainer.getIntake();
+  public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
+      SendableChooser<Command> autoChooser) {
+    m_autoChooser = autoChooser;
+    DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
+    ShooterBase shooter = subsystemsContainer.getShooter();
+    IntakeBase intake = subsystemsContainer.getIntake();
 
-        // @formatter:off
+    // @formatter:off
         m_autoChooser.setDefaultOption("DoNothing", 
                                        new DoNothingAuto());
         m_autoChooser.addOption("1: Move Back",
@@ -65,6 +65,6 @@ public class AutoModes {
                                                                   new MoveUsingEncoder(driveTrain, (23*12)+9)));
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
-      }
+  }
 
 }

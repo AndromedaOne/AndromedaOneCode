@@ -40,7 +40,7 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putNumber("Auto Delay", 0);
 
-    AutoModes.initializeAutoChooser(subsystemsContainer, m_autoChooser);
+    AutoModes4905.initializeAutoChooser(subsystemsContainer, m_autoChooser);
   }
 
   public Command getSelectedAutoChooserCommand() {

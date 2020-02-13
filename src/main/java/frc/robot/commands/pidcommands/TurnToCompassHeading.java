@@ -49,7 +49,8 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));
     getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
     getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
-    getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"), pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
+    getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"),
+        pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
   }
 
   public void initialize() {
