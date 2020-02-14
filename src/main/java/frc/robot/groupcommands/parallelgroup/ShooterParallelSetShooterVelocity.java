@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.pidcommands.RunShooterSeriesVelocity;
 import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class ShooterParallelSetShooterVelocity extends ParallelCommandGroup {
 
@@ -22,6 +23,18 @@ public class ShooterParallelSetShooterVelocity extends ParallelCommandGroup {
     addCommands(new RunShooterWheelVelocity(shooter, shooterRPM), new RunShooterSeriesVelocity(shooter, seriesRPM));
 
     addRequirements(shooter);
+  }
+
+  @Override
+  public void initialize() {
+    super.initialize();
+    Trace.getInstance().logCommandStart("Shooter Parallel Velocity");
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    Trace.getInstance().logCommandStop("Shooter Parallel Velocity");
   }
 
 }
