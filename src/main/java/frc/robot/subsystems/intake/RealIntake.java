@@ -12,7 +12,7 @@ public class RealIntake extends IntakeBase {
   private DoubleSolenoid4905 m_intakeDeploymentSolenoid;
 
   public RealIntake() {
-    Config intakeConfig = Config4905.getConfig4905().getDrivetrainConfig();
+    Config intakeConfig = Config4905.getConfig4905().getIntakeConfig();
     m_intakeController = new TalonSRXController(intakeConfig, "IntakeSRXController");
     m_intakeDeploymentSolenoid = new DoubleSolenoid4905(intakeConfig, "IntakeSolonoid");
   }

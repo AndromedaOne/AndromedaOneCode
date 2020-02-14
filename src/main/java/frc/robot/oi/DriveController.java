@@ -8,6 +8,7 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
@@ -65,6 +66,14 @@ public class DriveController {
    */
   public double getRotateStick() {
     return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
+  }
+
+  public double getLeftTriggerValue() {
+    return deadband(m_driveController.getTriggerAxis(Hand.kLeft));
+  }
+
+  public double getRightTriggerValue() {
+    return deadband(m_driveController.getTriggerAxis(Hand.kRight));
   }
 
 }

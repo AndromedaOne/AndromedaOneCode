@@ -11,6 +11,7 @@ import java.util.BitSet;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.oi.DriveController;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.climber.ClimberBase;
 
@@ -19,6 +20,7 @@ public class TeleopClimber extends CommandBase {
    * Creates a new TeleopClimber.
    */
   private SubsystemController m_subsystemController;
+  private DriveController m_driveController;
   private BitSet m_previousSolenoidStates;
   private int m_counter;
   private final int BUFFERSIZE = 10;
@@ -27,6 +29,7 @@ public class TeleopClimber extends CommandBase {
   public TeleopClimber(ClimberBase climberBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
+    m_driveController = Robot.getInstance().getOIContainer().getDriveController();
     m_previousSolenoidStates = new BitSet(BUFFERSIZE);
     m_counter = 0;
     m_climberBase = climberBase;
@@ -54,6 +57,14 @@ public class TeleopClimber extends CommandBase {
       }
     } else {
       m_climberBase.stopArms();
+    }
+
+    if (m_driveController.getLeftTriggerValue() > 0.3) {
+      m_climberBase.driveLeftWinch();
+    }
+
+    if (m_driveController.getRightTriggerValue() > 0.3) {
+      m_climberBase.driveRightWinch();
     }
   }
 
