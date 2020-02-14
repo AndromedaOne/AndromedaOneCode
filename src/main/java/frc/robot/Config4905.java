@@ -49,11 +49,17 @@ public class Config4905 {
   public static Config4905 getConfig4905() {
     return m_config4905;
   }
-
+  
   private static Config load(String fileName) {
-    return ConfigFactory.parseFile(new File(BASEDIRECTORY + nameConfig.getString("robot.name") + fileName))
+    String filePath = BASEDIRECTORY + nameConfig.getString("robot.name") + "/" + fileName;
+    Config config = ConfigFactory
+        .parseFile(new File(filePath))
         .withFallback(defaultConfig).resolve();
 
+        System.out.println("loaded config " + fileName + " from " + filePath);
+
+        System.out.println(config);
+        return config;
   }
 
   public static void reload() {
@@ -64,6 +70,10 @@ public class Config4905 {
     feederConfig = load("feeder.conf");
     drivetrainConfig = load("drivetrain.conf");
     climberConfig = load("climber.conf");
+  }
+
+  static {
+    reload();
   }
 
   public Config getClimberConfig() {

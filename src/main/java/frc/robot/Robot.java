@@ -85,9 +85,6 @@ public class Robot extends TimedRobot {
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
     counter++;
     counter %= 100;
-    if (counter == 0) {
-      System.out.println(Config4905.getConfig4905().getDrivetrainConfig().getString("Reload"));
-    }
   }
 
   /**
