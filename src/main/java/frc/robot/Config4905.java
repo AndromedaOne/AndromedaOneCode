@@ -49,17 +49,15 @@ public class Config4905 {
   public static Config4905 getConfig4905() {
     return m_config4905;
   }
-  
+
   private static Config load(String fileName) {
     String filePath = BASEDIRECTORY + nameConfig.getString("robot.name") + "/" + fileName;
-    Config config = ConfigFactory
-        .parseFile(new File(filePath))
-        .withFallback(defaultConfig).resolve();
+    Config config = ConfigFactory.parseFile(new File(filePath)).withFallback(defaultConfig).resolve();
 
-        System.out.println("loaded config " + fileName + " from " + filePath);
+    System.out.println("loaded config " + fileName + " from " + filePath);
 
-        System.out.println(config);
-        return config;
+    System.out.println(config);
+    return config;
   }
 
   public static void reload() {
