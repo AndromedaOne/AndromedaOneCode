@@ -19,12 +19,14 @@ public class FeedBothStagesIntoShooter extends CommandBase {
    */
   FeederBase m_feederBase;
   BooleanSupplier m_endCondition;
+  BooleanSupplier m_shooterIsReady;
 
-  public FeedBothStagesIntoShooter(FeederBase feederBase, BooleanSupplier endCondition) {
+  public FeedBothStagesIntoShooter(FeederBase feederBase, BooleanSupplier endCondition, BooleanSupplier shooterIsReady) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_feederBase = feederBase;
     addRequirements(m_feederBase);
     m_endCondition = endCondition;
+    m_shooterIsReady = shooterIsReady;
   }
 
   // Called when the command is initially scheduled.
@@ -37,7 +39,9 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_feederBase.driveBothStages();
+    if(m_shooterIsReady.getAsBoolean()){
+      m_feederBase.driveBothStages();
+    }
   }
 
   // Called once the command ends or is interrupted.

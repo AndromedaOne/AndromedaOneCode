@@ -25,11 +25,11 @@ public class FeedWhenReady extends SequentialCommandGroup {
   ShooterBase m_shooterBase;
   BooleanSupplier m_endCondition;
 
-  public FeedWhenReady(ShooterBase shooterBase, FeederBase feederBase, BooleanSupplier endCondition) {
+  public FeedWhenReady(ShooterBase shooterBase, FeederBase feederBase, BooleanSupplier endCondition, BooleanSupplier shooterIsReady) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
-    addCommands(new FeedBothStagesIntoShooter(feederBase, endCondition));
+    addCommands(new FeedBothStagesIntoShooter(feederBase, endCondition, shooterIsReady));
     m_shooterBase = shooterBase;
     m_endCondition = endCondition;
   }

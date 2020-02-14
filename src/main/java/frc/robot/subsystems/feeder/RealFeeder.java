@@ -38,7 +38,7 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageOne() {
-    m_stageOne.set(ControlMode.PercentOutput, 1);
+    m_stageOne.set(ControlMode.PercentOutput, 1.0);
   }
 
   public void stopStageOne() {
@@ -47,7 +47,7 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageTwo() {
-    m_stageTwoAndThree.set(1);
+    m_stageTwoAndThree.set(1.0);
   }
 
   public void stopStageTwo() {
