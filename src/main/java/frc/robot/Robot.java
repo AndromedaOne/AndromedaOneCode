@@ -69,7 +69,6 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
-  int counter = 0;
 
   @Override
   public void robotPeriodic() {
@@ -83,8 +82,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     getSensorsContainer().getBallFeederSensor().isThereBall();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
-    counter++;
-    counter %= 100;
   }
 
   /**
