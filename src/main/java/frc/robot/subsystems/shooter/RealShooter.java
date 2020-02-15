@@ -30,7 +30,8 @@ public class RealShooter extends ShooterBase {
     m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
 
     m_shooterMap = new ShooterMap();
-    System.out.println("----------------RPM: " + m_shooterMap.getShooterMap().getInterpolated(new InterpolatingDouble(2.0)).value);
+    System.out.println(
+        "----------------RPM: " + m_shooterMap.getShooterMap().getInterpolated(new InterpolatingDouble(2.0)).value);
     m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
 
