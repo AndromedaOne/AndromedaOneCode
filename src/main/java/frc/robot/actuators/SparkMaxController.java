@@ -7,7 +7,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SparkMaxController extends CANSparkMax {
-  private boolean hasEncoder = false;
+  private boolean m_hasEncoder = false;
   private CANEncoder m_sparkMaxEncoder;
   private String m_configString;
   private Config m_subsystemConfig;
@@ -16,7 +16,7 @@ public class SparkMaxController extends CANSparkMax {
     super(subsystemConfig.getInt("ports." + configString), MotorType.kBrushless);
     System.out.println("Enabling SparkMaxController \"" + configString + "\" for port "
         + subsystemConfig.getInt("ports." + configString));
-    hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
+    m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     if (hasEncoder()) {
       m_sparkMaxEncoder = new CANEncoder(this);
     }
@@ -33,6 +33,11 @@ public class SparkMaxController extends CANSparkMax {
       this.setIdleMode(CANSparkMax.IdleMode.kBrake);
     } else {
       this.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    }
+    if (subsystemConfig.hasPath(configString + ".encoderTicksPerRotation")) {
+      double encoderTicksPerRotation = subsystemConfig.getDouble(configString + ".encoderTicksPerRotation");
+      m_sparkMaxEncoder.setPositionConversionFactor(encoderTicksPerRotation);
+      m_sparkMaxEncoder.setVelocityConversionFactor(encoderTicksPerRotation);
     }
   }
 
@@ -59,6 +64,6 @@ public class SparkMaxController extends CANSparkMax {
   }
 
   public boolean hasEncoder() {
-    return hasEncoder;
+    return m_hasEncoder;
   }
 }

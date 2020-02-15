@@ -10,6 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
@@ -26,7 +27,7 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("MoveUsingEncoder", new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 48));
+    SmartDashboard.putData("MoveUsingEncoder", new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 12));
 
     SmartDashboard.putData("North", new TurnToCompassHeading(0));
     SmartDashboard.putData("South", new TurnToCompassHeading(180));
@@ -40,6 +41,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Turn 180", new TurnDeltaAngle(180));
 
     initializeAutoChooser(subsystemsContainer);
+
+    SmartDashboard.putData("reloadConfig", new ConfigReload());
   }
 
   private void initializeAutoChooser(SubsystemsContainer subsystemsContainer) {
