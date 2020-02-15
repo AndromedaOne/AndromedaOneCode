@@ -44,7 +44,10 @@ public class DefaultFeederCommand extends CommandBase {
      * slot of stage 2 but not in the first two, and covers when there is a ball in
      * the middle but not in the other two.
      */
-    if ((!m_feederSensor.isBall(STAGE_1_LEFT) && !m_feederSensor.isBall(STAGE_1_RIGHT)
+    if ((m_feederSensor.isBall(STAGE_2_MIDDLE) && !m_feederSensor.isBall(STAGE_2_BEGINNING))
+        || (m_feederSensor.isBall(STAGE_2_END) && !m_feederSensor.isBall(STAGE_2_MIDDLE))) {
+      m_feeder.runReverseStageTwo();
+    } else if ((!m_feederSensor.isBall(STAGE_1_LEFT) && !m_feederSensor.isBall(STAGE_1_RIGHT)
         && !m_feederSensor.isBall(STAGE_1_END)) || m_feederSensor.isBall(STAGE_2_END)) {
       m_feeder.stopBothStages();
     } else if (!m_feederSensor.isBall(STAGE_1_END)
@@ -53,10 +56,7 @@ public class DefaultFeederCommand extends CommandBase {
       m_feeder.stopStageTwo();
     } else if (m_feederSensor.isBall(STAGE_1_END)) {
       m_feeder.driveBothStages();
-    } else if ((m_feederSensor.isBall(STAGE_2_MIDDLE) && !m_feederSensor.isBall(STAGE_2_BEGINNING))
-        || (m_feederSensor.isBall(STAGE_2_END) && !m_feederSensor.isBall(STAGE_2_MIDDLE))) {
-      m_feeder.runReverseStageTwo();
-    }
+    } 
   }
 
   // Called once the command ends or is interrupted.

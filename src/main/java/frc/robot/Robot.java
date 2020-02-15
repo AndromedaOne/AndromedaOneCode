@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -80,8 +82,8 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    getSensorsContainer().getBallFeederSensor().isThereBall();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    System.out.println(Arrays.toString(getSensorsContainer().getBallFeederSensor().isThereBall()));
   }
 
   /**
