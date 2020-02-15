@@ -72,7 +72,7 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void adjustWinch(int adjust) {
+  public void adjustWinch(double adjust) {
     // TODO Auto-generated method stub
     leftWinch.set(adjust);
     rightWinch.set(adjust);
@@ -98,4 +98,5 @@ public class RealClimber extends ClimberBase {
     leftGrapplingHook.stopPiston();
     rightGrapplingHook.stopPiston();
   }
+
 }
