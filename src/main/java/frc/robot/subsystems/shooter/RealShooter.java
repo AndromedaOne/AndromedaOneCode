@@ -32,7 +32,6 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public void setShooterWheelPower(double power) {
-    System.out.println("Shooter Wheel Velocity: " + getShooterWheelVelocity() + "  isShooterReady: " + shooterIsReady());
     m_shooterGroup.set(power);
   }
 
@@ -65,11 +64,13 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public void openShooterHood() {
+    System.out.println("Opening Shooter Hood");
     m_shooterHood.extendPiston();
   }
 
   @Override
   public void closeShooterHood() {
+    System.out.println("Closing Shooter Hood");
     m_shooterHood.retractPiston();
   }
 

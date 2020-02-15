@@ -44,7 +44,7 @@ public class SmartDashboard4905 {
 
   private void initializeAutoChooser(SubsystemsContainer subsystemsContainer) {
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
-    m_autoChooser.addOption("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
+    m_autoChooser.addOption("DriveBackward", new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("autoModes", m_autoChooser);
   }
 

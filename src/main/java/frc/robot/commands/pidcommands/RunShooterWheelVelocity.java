@@ -13,7 +13,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private SimpleMotorFeedforward m_feedForward;
   private static double m_computedFeedForward = 0;
   private ShooterBase m_shooter;
-  private double m_setpoint = 0;
+  private double m_target = 0;
   private static Config m_pidConfig;
   private static Config m_shooterConfig;
   private final double kControllerScale;
@@ -31,27 +31,28 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
         // Measurement
         shooter::getShooterWheelVelocity,
         // Setpoint
-        setpoint,
+        0,
         // Output
         output -> {
           shooter.setShooterWheelPower(output + m_computedFeedForward);
         });
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
-
+    
     m_feedForward = createFeedForward();
-
+    
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
 
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
-    m_setpoint = setpoint;
+    m_target = setpoint;
+    m_setpoint = this::getSetpoint;
   }
 
   @Override
   public void initialize() {
     super.initialize();
-    System.out.println(" - Shooter Setpoint: " + m_setpoint);
+    System.out.println(" - Shooter Setpoint: " + m_target);
   }
 
   @Override
@@ -59,9 +60,9 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
     // This adjusts the setpoint while the PID is running to allow the
     // Subsystems driver to tune the rpm on the fly
-    m_setpoint += leftYAxis * kControllerScale;
+    m_target += leftYAxis * kControllerScale;
     m_shooter.setShooterPIDIsReady(getController().atSetpoint());
-    m_computedFeedForward = m_feedForward.calculate(m_setpoint);
+    m_computedFeedForward = m_feedForward.calculate(m_target);
     super.execute();
 
   }
@@ -91,5 +92,9 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     double kv = m_pidConfig.getDouble("runshooterwheelvelocity.v");
 
     return new SimpleMotorFeedforward(ks, kv);
+  }
+
+  public double getSetpoint() {
+    return m_target;
   }
 }

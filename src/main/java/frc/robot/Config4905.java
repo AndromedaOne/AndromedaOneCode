@@ -35,7 +35,7 @@ public class Config4905 {
   }
 
   private static Config climberFactory = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/climber.conf"));
+      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/Climber.conf"));
   private static Config climberConfig = climberFactory.withFallback(defaultConfig).resolve();
 
   public Config getClimberConfig() {
