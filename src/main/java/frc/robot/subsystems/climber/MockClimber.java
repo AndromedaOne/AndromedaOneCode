@@ -64,4 +64,19 @@ public class MockClimber extends ClimberBase {
   public void stopArms() {
     // TODO Auto-generated method stub
   }
+
+  @Override
+  public double getLeftWinchPosition() {
+    return 0;
+  }
+
+  @Override
+  public double getRightWinchPosition() {
+    return 0;
+  }
+
+  @Override
+  public double getBarAngle() {
+    return 0;
+  }
 }

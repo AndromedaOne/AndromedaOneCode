@@ -12,6 +12,7 @@ import com.typesafe.config.Config;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.sensors.NavXGyroSensor;
 
 public class RealClimber extends ClimberBase {
   /**
@@ -92,5 +93,33 @@ public class RealClimber extends ClimberBase {
     // TODO Auto-generated method stub
     leftGrapplingHook.stopPiston();
     rightGrapplingHook.stopPiston();
+  }
+
+  public double getLeftWinchPosition() {
+    return leftWinch.getEncoderPositionTicks();
+  }
+
+  public double getRightWinchPosition() {
+    return rightWinch.getEncoderPositionTicks();
+  }
+
+  public double getLeftWinchVelocity() {
+    return leftWinch.getEncoderVelocityTicks();
+  }
+
+  public double getRightWinchVelocity() {
+    return rightWinch.getEncoderVelocityTicks();
+  }
+
+  @Override
+  public double getBarAngle() {
+    if (Math.abs(NavXGyroSensor.getInstance().getXAngle()) < 2) {
+      double widthBetweenWinches = Config4905.getConfig4905().getClimberConfig().getDouble("widthBetweenWinches");
+      double stringLengthDifference = Math.abs(getRightWinchPosition() - getLeftWinchPosition());
+      double barAngle = Math.atan(stringLengthDifference / widthBetweenWinches);
+      return barAngle;
+    } else {
+      return 0;
+    }
   }
 }
