@@ -25,11 +25,12 @@ public class FeedWhenReady extends SequentialCommandGroup {
   ShooterBase m_shooterBase;
   BooleanSupplier m_endCondition;
 
-  public FeedWhenReady(ShooterBase shooterBase, FeederBase feederBase, BooleanSupplier endCondition) {
+  public FeedWhenReady(ShooterBase shooterBase, FeederBase feederBase, BooleanSupplier endCondition,
+      BooleanSupplier shooterIsReady) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
-    addCommands(new FeedBothStagesIntoShooter(feederBase, endCondition));
+    addCommands(new FeedBothStagesIntoShooter(feederBase, endCondition, shooterIsReady, shooterBase));
     m_shooterBase = shooterBase;
     m_endCondition = endCondition;
   }
@@ -38,7 +39,6 @@ public class FeedWhenReady extends SequentialCommandGroup {
   public void initialize() {
     // TODO Auto-generated method stub
     super.initialize();
-    m_shooterBase.openShooterHood();
     Trace.getInstance().logCommandStart("FeedWhenReady");
   }
 
@@ -46,7 +46,6 @@ public class FeedWhenReady extends SequentialCommandGroup {
   public void end(boolean interrupted) {
     // TODO Auto-generated method stub
     super.end(interrupted);
-    m_shooterBase.closeShooterHood();
     Trace.getInstance().logCommandStop("FeedWhenReady");
   }
 

@@ -45,7 +45,7 @@ public class FeedWhenReadyStarter extends CommandBase {
   public void execute() {
     if (m_shooterBase.shooterIsReady() && !commandGroupScheduledFlag) {
       CommandScheduler.getInstance().schedule(new FeedWhenReady(m_shooterBase, m_feederBase,
-          () -> m_endCondition.getAsBoolean() || !m_shooterBase.shooterIsReady()));
+          () -> m_endCondition.getAsBoolean(), () -> m_shooterBase.shooterIsReady()));
       commandGroupScheduledFlag = true;
     }
   }

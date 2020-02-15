@@ -17,7 +17,7 @@ public class RunIntake extends CommandBase {
    * Creates a new RunIntake.
    */
   private IntakeBase m_intakeBase;
-  private double m_intakeSpeed = -0.3;
+  private double m_intakeSpeed = -0.7;
   private BooleanSupplier m_finishedCondition;
 
   public RunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
