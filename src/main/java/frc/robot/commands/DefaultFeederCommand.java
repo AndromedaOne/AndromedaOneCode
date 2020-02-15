@@ -33,6 +33,7 @@ public class DefaultFeederCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
     Trace.getInstance().logCommandStart("DefaultFeederCommand");
   }
 
@@ -63,6 +64,7 @@ public class DefaultFeederCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_feeder.stopBothStages();
     Trace.getInstance().logCommandStop("DefaultFeederCommand");
   }
 

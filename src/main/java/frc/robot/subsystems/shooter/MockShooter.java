@@ -34,7 +34,7 @@ public class MockShooter extends ShooterBase {
 
   @Override
   public boolean shooterIsReady() {
-    return false;
+    return true;
   }
 
   @Override

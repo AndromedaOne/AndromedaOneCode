@@ -39,7 +39,7 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void stopWinch() {
+  public void stopLeftWinch() {
     // TODO Auto-generated method stub
 
   }
@@ -63,5 +63,11 @@ public class MockClimber extends ClimberBase {
   @Override
   public void stopArms() {
     // TODO Auto-generated method stub
+  }
+
+  @Override
+  public void stopRightWinch() {
+    // TODO Auto-generated method stub
+
   }
 }

@@ -21,11 +21,11 @@ public class RealShooter extends ShooterBase {
   private boolean m_shooterIsIdle = false;
 
   public RealShooter() {
-    m_shooterOne = new SparkMaxController(m_shooterConfig, "ports.shooterone");
-    m_shooterTwo = new SparkMaxController(m_shooterConfig, "ports.shootertwo");
-    m_shooterSeries = new TalonSRXController(m_shooterConfig, "ports.shooterseries");
+    m_shooterOne = new SparkMaxController(m_shooterConfig, "shooterone");
+    m_shooterTwo = new SparkMaxController(m_shooterConfig, "shootertwo");
+    m_shooterSeries = new TalonSRXController(m_shooterConfig, "shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
-    m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "ports.hood");
+    m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
 
     m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
@@ -64,11 +64,13 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public void openShooterHood() {
+    System.out.println("Opening Shooter Hood");
     m_shooterHood.extendPiston();
   }
 
   @Override
   public void closeShooterHood() {
+    System.out.println("Closing Shooter Hood");
     m_shooterHood.retractPiston();
   }
 
@@ -94,6 +96,6 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public boolean shooterIsReady() {
-    return m_shooterWheelIsReady && m_shooterSeriesIsReady && !m_shooterIsIdle;
+    return m_shooterWheelIsReady && !m_shooterIsIdle;
   }
 }
