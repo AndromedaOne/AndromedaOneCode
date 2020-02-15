@@ -10,9 +10,11 @@ package frc.robot.subsystems.climber;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.oi.SmartDashboard4905;
 
 public class RealClimber extends ClimberBase {
   /**
@@ -24,6 +26,7 @@ public class RealClimber extends ClimberBase {
   public SparkMaxController rightWinch;
   public DoubleSolenoid4905 leftBrake;
   public DoubleSolenoid4905 rightBrake;
+
 
   public RealClimber() {
     Config climberConf = Config4905.getConfig4905().getClimberConfig();
