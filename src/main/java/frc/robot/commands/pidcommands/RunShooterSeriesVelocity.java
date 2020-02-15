@@ -9,6 +9,7 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class RunShooterSeriesVelocity extends PIDCommand4905 {
 
@@ -50,6 +51,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
     m_setpoint = setpoint;
+    Trace.getInstance().logCommandStart("RunShooterSeriesVelocity");
   }
 
   @Override

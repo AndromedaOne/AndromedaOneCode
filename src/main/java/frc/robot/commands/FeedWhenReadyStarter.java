@@ -38,6 +38,7 @@ public class FeedWhenReadyStarter extends CommandBase {
     Trace.getInstance().logCommandStart("FeedWhenReadyStarter");
     commandGroupScheduledFlag = false;
 
+    Trace.getInstance().logCommandStart("FeedWhenReadyStarter");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

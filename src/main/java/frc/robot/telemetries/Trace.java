@@ -344,7 +344,7 @@ public class Trace {
     }
     long correctedTime = System.currentTimeMillis() - m_startTime;
     String line = new String(String.valueOf(correctedTime));
-    line += "\t" + commandName + " " + startEnd + "\n";
+    line += "  " + commandName + " " + startEnd + "\n";
     System.out.print(line);
     try {
       m_commandTraceWriter.write(line);
