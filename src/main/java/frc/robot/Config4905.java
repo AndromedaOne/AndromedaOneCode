@@ -64,10 +64,10 @@ public class Config4905 {
     pidConstantsConfig = load("pidconstants.conf");
     sensorConfig = load("sensors.conf");
     shooterConfig = load("Shooter.conf");
-    intakeConfig = load("intake.conf");
-    feederConfig = load("feeder.conf");
+    intakeConfig = load("Intake.conf");
+    feederConfig = load("Feeder.conf");
     drivetrainConfig = load("drivetrain.conf");
-    climberConfig = load("climber.conf");
+    climberConfig = load("Climber.conf");
   }
 
   static {
