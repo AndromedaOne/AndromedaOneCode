@@ -11,13 +11,14 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.intake.IntakeBase;
+import frc.robot.telemetries.Trace;
 
 public class RunIntake extends CommandBase {
   /**
    * Creates a new RunIntake.
    */
   private IntakeBase m_intakeBase;
-  private double m_intakeSpeed = -0.3;
+  private double m_intakeSpeed = -0.7;
   private BooleanSupplier m_finishedCondition;
 
   public RunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
@@ -30,6 +31,7 @@ public class RunIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart("RunIntake");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +44,8 @@ public class RunIntake extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intakeBase.stopIntake();
+
+    Trace.getInstance().logCommandStop("RunIntake");
   }
 
   // Returns true when the command should end.

@@ -14,6 +14,7 @@ import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.telemetries.Trace;
 
 public class TeleopClimber extends CommandBase {
   /**
@@ -39,13 +40,17 @@ public class TeleopClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart("TeleopClimber");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_counter = (m_counter + 1) % BUFFERSIZE;
-    double percentOpenCycles = m_subsystemController.getLeftStickForwardBackwardValue();
+    double percentOpenCycles = m_subsystemController.getRightStickForwardBackwardValue();
+    if (percentOpenCycles > 0.8) {
+      percentOpenCycles = 1;
+    }
     double previousPercentOpenCycles = m_previousSolenoidStates.cardinality() / ((double) BUFFERSIZE);
     boolean openingSolenoid = previousPercentOpenCycles < Math.abs(percentOpenCycles);
     m_previousSolenoidStates.set(m_counter, openingSolenoid);
@@ -61,16 +66,21 @@ public class TeleopClimber extends CommandBase {
 
     if (m_driveController.getLeftTriggerValue() > 0.3) {
       m_climberBase.driveLeftWinch();
+    } else {
+      m_climberBase.stopLeftWinch();
     }
 
     if (m_driveController.getRightTriggerValue() > 0.3) {
       m_climberBase.driveRightWinch();
+    } else {
+      m_climberBase.stopRightWinch();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop("TeleopClimber");
   }
 
   // Returns true when the command should end.

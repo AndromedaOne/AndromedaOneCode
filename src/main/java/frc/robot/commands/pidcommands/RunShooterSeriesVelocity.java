@@ -3,14 +3,15 @@ package frc.robot.commands.pidcommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.pidcontroller.PIDCommand4905;
+import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
-public class RunShooterSeriesVelocity extends PIDCommand {
+public class RunShooterSeriesVelocity extends PIDCommand4905 {
 
   private SimpleMotorFeedforward m_feedForward;
   private static double m_computedFeedForward = 0;
@@ -37,7 +38,8 @@ public class RunShooterSeriesVelocity extends PIDCommand {
         setpoint,
         // Output
         output -> {
-          shooter.setShooterSeriesPower(output + m_computedFeedForward);
+          // TODO actually put an encoder on the series wheel
+          shooter.setShooterSeriesPower(0.75);
         });
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
@@ -49,6 +51,7 @@ public class RunShooterSeriesVelocity extends PIDCommand {
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
     m_setpoint = setpoint;
+    Trace.getInstance().logCommandStart("RunShooterSeriesVelocity");
   }
 
   @Override
@@ -57,20 +60,24 @@ public class RunShooterSeriesVelocity extends PIDCommand {
     // This adjusts the setpoint while the PID is running to allow the
     // Subsystems driver to tune the rpm on the fly
     m_setpoint += leftYAxis * kControllerScale;
-
-    getController().calculate(m_shooter.getShooterWheelVelocity(), m_setpoint);
     m_shooter.setSeriesPIDIsReady(getController().atSetpoint());
     m_computedFeedForward = m_feedForward.calculate(m_setpoint);
+    super.execute();
   }
 
-  private static PIDController createPIDController() {
+  @Override
+  public void end(boolean interrupt) {
+    m_shooter.setShooterSeriesPower(0);
+  }
+
+  private static PIDController4905 createPIDController() {
     m_pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
 
     double kp = m_pidConfig.getDouble("runshooterseriesvelocity.p");
     double ki = m_pidConfig.getDouble("runshooterseriesvelocity.i");
     double kd = m_pidConfig.getDouble("runshooterseriesvelocity.d");
 
-    return new PIDController(kp, ki, kd);
+    return new PIDController4905("ShooterSeriesWheelPID", kp, ki, kd, 0);
   }
 
   private SimpleMotorFeedforward createFeedForward() {

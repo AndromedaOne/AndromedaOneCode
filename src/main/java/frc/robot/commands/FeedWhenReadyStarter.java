@@ -38,6 +38,7 @@ public class FeedWhenReadyStarter extends CommandBase {
     Trace.getInstance().logCommandStart("FeedWhenReadyStarter");
     commandGroupScheduledFlag = false;
 
+    Trace.getInstance().logCommandStart("FeedWhenReadyStarter");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +46,7 @@ public class FeedWhenReadyStarter extends CommandBase {
   public void execute() {
     if (m_shooterBase.shooterIsReady() && !commandGroupScheduledFlag) {
       CommandScheduler.getInstance().schedule(new FeedWhenReady(m_shooterBase, m_feederBase,
-          () -> m_endCondition.getAsBoolean() || !m_shooterBase.shooterIsReady()));
+          () -> m_endCondition.getAsBoolean(), () -> m_shooterBase.shooterIsReady()));
       commandGroupScheduledFlag = true;
     }
   }

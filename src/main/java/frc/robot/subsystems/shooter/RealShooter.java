@@ -68,11 +68,13 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public void openShooterHood() {
+    System.out.println("Opening Shooter Hood");
     m_shooterHood.extendPiston();
   }
 
   @Override
   public void closeShooterHood() {
+    System.out.println("Closing Shooter Hood");
     m_shooterHood.retractPiston();
   }
 
@@ -98,6 +100,6 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public boolean shooterIsReady() {
-    return m_shooterWheelIsReady && m_shooterSeriesIsReady && !m_shooterIsIdle;
+    return m_shooterWheelIsReady && !m_shooterIsIdle;
   }
 }

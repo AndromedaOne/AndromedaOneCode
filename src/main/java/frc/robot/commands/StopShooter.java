@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class StopShooter extends CommandBase {
 
@@ -16,5 +17,11 @@ public class StopShooter extends CommandBase {
   public void initialize() {
     m_shooter.setShooterWheelPower(0);
     m_shooter.setShooterSeriesPower(0);
+    Trace.getInstance().logCommandStart("StopShooter");
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop("StopShooter");
   }
 }

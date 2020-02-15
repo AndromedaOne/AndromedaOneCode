@@ -11,6 +11,7 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.feeder.FeederBase;
+import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 
 public class FeedBothStagesIntoShooter extends CommandBase {
@@ -18,26 +19,40 @@ public class FeedBothStagesIntoShooter extends CommandBase {
    * Creates a new FeedWhenReady.
    */
   FeederBase m_feederBase;
+  ShooterBase m_shooterBase;
   BooleanSupplier m_endCondition;
+  BooleanSupplier m_shooterIsReady;
+  double counter = 0;
 
-  public FeedBothStagesIntoShooter(FeederBase feederBase, BooleanSupplier endCondition) {
+  public FeedBothStagesIntoShooter(FeederBase feederBase, BooleanSupplier endCondition, BooleanSupplier shooterIsReady,
+      ShooterBase shooterBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_feederBase = feederBase;
+    m_shooterBase = shooterBase;
     addRequirements(m_feederBase);
     m_endCondition = endCondition;
+    m_shooterIsReady = shooterIsReady;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     super.initialize();
+    counter = 0;
+    m_shooterBase.openShooterHood();
     Trace.getInstance().logCommandStart("FeedBothStagesIntoShooter");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_feederBase.driveBothStages();
+    boolean shooterIsReady = m_shooterIsReady.getAsBoolean();
+    if (shooterIsReady && (counter > 20)) {
+      m_feederBase.driveBothStages();
+    } else {
+      m_feederBase.stopBothStages();
+    }
+    counter++;
   }
 
   // Called once the command ends or is interrupted.
@@ -45,6 +60,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   public void end(boolean interrupted) {
     super.end(interrupted);
     m_feederBase.stopBothStages();
+    m_shooterBase.closeShooterHood();
     Trace.getInstance().logCommandStop("FeedBothStagesIntoShooter");
   }
 
