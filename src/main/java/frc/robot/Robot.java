@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -89,6 +90,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    if(DriverStation.getInstance().isFMSAttached()) {
+      Trace.getInstance().matchStarted();
+    }
     Trace.getInstance().flushTraceFiles();
     LiveWindow.setEnabled(false);
   }
@@ -103,12 +107,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
     m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
+    }
+    if(DriverStation.getInstance().isFMSAttached()) {
+      Trace.getInstance().matchStarted();
     }
   }
 
@@ -128,6 +134,10 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+    }
+
+    if(DriverStation.getInstance().isFMSAttached()) {
+      Trace.getInstance().matchStarted();
     }
   }
 
