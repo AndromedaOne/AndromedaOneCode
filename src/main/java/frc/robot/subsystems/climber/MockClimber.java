@@ -21,13 +21,13 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void driveLeftWinch() {
+  public void driveLeftWinch(double speed) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void driveRightWinch() {
+  public void driveRightWinch(double speed) {
     // TODO Auto-generated method stub
 
   }

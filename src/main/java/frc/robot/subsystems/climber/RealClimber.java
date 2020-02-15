@@ -41,22 +41,22 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void driveLeftWinch() {
+  public void driveLeftWinch(double speed) {
     // TODO Auto-generated method stub
-    leftWinch.set(1);
+    leftWinch.set(speed);
   }
 
   @Override
-  public void driveRightWinch() {
+  public void driveRightWinch(double speed) {
     // TODO Auto-generated method stub
-    rightWinch.set(1);
+    rightWinch.set(speed);
   }
 
   @Override
   public void ascend() {
     // TODO Auto-generated method stub
-    driveLeftWinch();
-    driveRightWinch();
+    driveLeftWinch(1);
+    driveRightWinch(1);
   }
 
   @Override

@@ -11,15 +11,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.climber.ClimberBase;
 
-public class Climb extends CommandBase {
-  ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
-
+public class DriveRightWinch extends CommandBase {
+  private double m_speed;
+  private ClimberBase m_climber = Robot.getInstance().getSubsystemsContainer().getClimber();
   /**
-   * Creates a new Climb.
+   * Creates a new DriveRightWinch.
    */
-  public Climb() {
+  public DriveRightWinch(double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climber);
+    m_speed = speed;
+    addRequirements(m_climber);
   }
 
   // Called when the command is initially scheduled.
@@ -30,12 +31,13 @@ public class Climb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.driveLeftWinch(1);
+    m_climber.driveRightWinch(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_climber.stopRightWinch();
   }
 
   // Returns true when the command should end.
