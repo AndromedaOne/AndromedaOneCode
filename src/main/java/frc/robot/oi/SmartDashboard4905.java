@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.DriveBackwardTimed;
-import frc.robot.commands.pidcommands.MoveUsingEncoder;
+import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnDeltaAngle;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -27,7 +27,7 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("MoveUsingEncoder", new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 12));
+    SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
 
     SmartDashboard.putData("North", new TurnToCompassHeading(0));
     SmartDashboard.putData("South", new TurnToCompassHeading(180));
