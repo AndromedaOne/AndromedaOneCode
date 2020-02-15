@@ -3,9 +3,7 @@ package frc.robot.commands.pidcommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
@@ -77,7 +75,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
     double ki = m_pidConfig.getDouble("runshooterseriesvelocity.i");
     double kd = m_pidConfig.getDouble("runshooterseriesvelocity.d");
 
-    return new PIDController4905("ShooterSeriesWheelPID",kp, ki, kd,0);
+    return new PIDController4905("ShooterSeriesWheelPID", kp, ki, kd, 0);
   }
 
   private SimpleMotorFeedforward createFeedForward() {

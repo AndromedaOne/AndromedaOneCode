@@ -31,8 +31,8 @@ public class RealClimber extends ClimberBase {
     rightGrapplingHook = new DoubleSolenoid4905(climberConf, "rightGrapplingHook");
     rightWinch = new SparkMaxController(climberConf, "rightWinch");
 
-    //leftBrake = new DoubleSolenoid4905(climberConf, "leftBrake");
-    //rightBrake = new DoubleSolenoid4905(climberConf, "rightBrake");
+    // leftBrake = new DoubleSolenoid4905(climberConf, "leftBrake");
+    // rightBrake = new DoubleSolenoid4905(climberConf, "rightBrake");
   }
 
   @Override
@@ -72,7 +72,7 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void adjustWinch(int adjust) {
+  public void adjustWinch(double adjust) {
     // TODO Auto-generated method stub
     leftWinch.set(adjust);
     rightWinch.set(adjust);
@@ -98,4 +98,5 @@ public class RealClimber extends ClimberBase {
     leftGrapplingHook.stopPiston();
     rightGrapplingHook.stopPiston();
   }
+
 }

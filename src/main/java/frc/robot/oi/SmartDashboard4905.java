@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.climber.SetWinchSpeed;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnDeltaAngle;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
@@ -38,6 +39,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Turn 45", new TurnDeltaAngle(45));
     SmartDashboard.putData("Turn 90", new TurnDeltaAngle(90));
     SmartDashboard.putData("Turn 180", new TurnDeltaAngle(180));
+
+    SmartDashboard.putData("Retract Winches", new SetWinchSpeed(subsystemsContainer.getClimber(), -1));
 
     initializeAutoChooser(subsystemsContainer);
   }

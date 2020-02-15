@@ -48,7 +48,7 @@ public class TeleopClimber extends CommandBase {
   public void execute() {
     m_counter = (m_counter + 1) % BUFFERSIZE;
     double percentOpenCycles = m_subsystemController.getRightStickForwardBackwardValue();
-    if(percentOpenCycles > 0.8) {
+    if (percentOpenCycles > 0.8) {
       percentOpenCycles = 1;
     }
     double previousPercentOpenCycles = m_previousSolenoidStates.cardinality() / ((double) BUFFERSIZE);
@@ -72,7 +72,7 @@ public class TeleopClimber extends CommandBase {
 
     if (m_driveController.getRightTriggerValue() > 0.3) {
       m_climberBase.driveRightWinch();
-    }  else {
+    } else {
       m_climberBase.stopRightWinch();
     }
   }
