@@ -40,4 +40,6 @@ public abstract class ClimberBase extends SubsystemBase {
 
   public abstract void adjustWinch(int adjust);
 
+  public abstract boolean isTimeToClimb();
+
 }

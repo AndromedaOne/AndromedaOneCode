@@ -9,6 +9,7 @@ package frc.robot.subsystems.climber;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.SparkMaxController;
@@ -38,64 +39,70 @@ public class RealClimber extends ClimberBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (!isTimeToClimb()) {
+      stopLeftWinch();
+      stopRightWinch();
+      retractArms();
+    }
   }
 
   @Override
   public void driveLeftWinch() {
-    // TODO Auto-generated method stub
     leftWinch.set(1);
   }
 
   @Override
   public void driveRightWinch() {
-    // TODO Auto-generated method stub
     rightWinch.set(1);
   }
 
   @Override
   public void ascend() {
-    // TODO Auto-generated method stub
     driveLeftWinch();
     driveRightWinch();
   }
 
   @Override
   public void stopLeftWinch() {
-    // TODO Auto-generated method stub
     leftWinch.set(0);
   }
 
   @Override
   public void stopRightWinch() {
-    // TODO Auto-generated method stub
     rightWinch.set(0);
   }
 
   @Override
   public void adjustWinch(int adjust) {
-    // TODO Auto-generated method stub
     leftWinch.set(adjust);
     rightWinch.set(adjust);
   }
 
   @Override
   public void extendArms() {
-    // TODO Auto-generated method stub
     leftGrapplingHook.extendPiston();
     rightGrapplingHook.extendPiston();
   }
 
   @Override
   public void retractArms() {
-    // TODO Auto-generated method stub
     leftGrapplingHook.retractPiston();
     rightGrapplingHook.retractPiston();
   }
 
   @Override
   public void stopArms() {
-    // TODO Auto-generated method stub
     leftGrapplingHook.stopPiston();
     rightGrapplingHook.stopPiston();
+  }
+
+  @Override
+  public boolean isTimeToClimb() {
+    double matchTime = DriverStation.getInstance().getMatchTime();
+    if (matchTime >= 45) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
