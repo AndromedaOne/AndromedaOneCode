@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    if(DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
     Trace.getInstance().flushTraceFiles();
@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
-    if(DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
   }
@@ -136,7 +136,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    if(DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
   }
