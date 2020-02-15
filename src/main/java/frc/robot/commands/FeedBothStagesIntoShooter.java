@@ -24,7 +24,8 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   BooleanSupplier m_shooterIsReady;
   double counter = 0;
 
-  public FeedBothStagesIntoShooter(FeederBase feederBase, BooleanSupplier endCondition, BooleanSupplier shooterIsReady, ShooterBase shooterBase) {
+  public FeedBothStagesIntoShooter(FeederBase feederBase, BooleanSupplier endCondition, BooleanSupplier shooterIsReady,
+      ShooterBase shooterBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_feederBase = feederBase;
     m_shooterBase = shooterBase;
@@ -46,7 +47,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   @Override
   public void execute() {
     boolean shooterIsReady = m_shooterIsReady.getAsBoolean();
-    if (shooterIsReady && (counter > 20)){
+    if (shooterIsReady && (counter > 20)) {
       m_feederBase.driveBothStages();
     } else {
       m_feederBase.stopBothStages();

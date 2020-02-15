@@ -1,6 +1,7 @@
 package frc.robot.lib;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 public enum POVDirectionNames {
 
@@ -82,6 +83,78 @@ public enum POVDirectionNames {
   }
 
   public static boolean getPOVNorthWest(Joystick gamepad) {
+    int povReading = gamepad.getPOV();
+
+    if (povReading == NORTHWEST.getValue()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean getPOVNorth(XboxController gamepad) {
+    int povReading = gamepad.getPOV();
+
+    if (povReading == NORTH.getValue()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean getPOVNorthEast(XboxController gamepad) {
+    int povReading = gamepad.getPOV();
+
+    if (povReading == NORTHEAST.getValue()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean getPOVEast(XboxController gamepad) {
+    int povReading = gamepad.getPOV();
+
+    if (povReading == EAST.getValue()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean getPOVSouthEast(XboxController gamepad) {
+    int povReading = gamepad.getPOV();
+
+    if (povReading == SOUTHEAST.getValue()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean getPOVSouth(XboxController gamepad) {
+    int povReading = gamepad.getPOV();
+
+    if (povReading == SOUTH.getValue()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean getPOVSouthWest(XboxController gamepad) {
+    int povReading = gamepad.getPOV();
+
+    if (povReading == SOUTHWEST.getValue()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean getPOVWest(XboxController gamepad) {
+    int povReading = gamepad.getPOV();
+
+    if (povReading == WEST.getValue()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean getPOVNorthWest(XboxController gamepad) {
     int povReading = gamepad.getPOV();
 
     if (povReading == NORTHWEST.getValue()) {

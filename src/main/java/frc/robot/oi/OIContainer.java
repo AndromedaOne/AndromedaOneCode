@@ -9,6 +9,7 @@ package frc.robot.oi;
 
 import frc.robot.commands.DeployAndRunIntakeStarter;
 import frc.robot.commands.FeedWhenReadyStarter;
+import frc.robot.commands.RunIntake;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -32,6 +33,8 @@ public class OIContainer {
     m_subsystemController.getFeedWhenReadyButton()
         .whenPressed(new FeedWhenReadyStarter(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(),
             () -> !m_subsystemController.getFeedWhenReadyButton().get()));
+    m_subsystemController.getRunIntakeOutButton().whileHeld(new RunIntake(subsystemsContainer.getIntake(),
+        () -> !m_subsystemController.getRunIntakeOutButton().get(), 0.7));
   }
 
   public DriveController getDriveController() {

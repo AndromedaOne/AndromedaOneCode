@@ -27,6 +27,11 @@ public class RunIntake extends CommandBase {
     m_finishedCondition = finishedCondition;
   }
 
+  public RunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition, double speed) {
+    this(intakeBase, finishedCondition);
+    m_intakeSpeed = speed;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
