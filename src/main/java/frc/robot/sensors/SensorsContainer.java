@@ -7,10 +7,16 @@
 
 package frc.robot.sensors;
 
+import com.typesafe.config.Config;
+
 import frc.robot.Config4905;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
+import frc.robot.sensors.camera.*;
+import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
+import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
+import frc.robot.sensors.limelightcamera.RealLimelightCamera;
 
 /**
  * The Container that controls whether the sensors are real or mock. Uses the
@@ -19,18 +25,55 @@ import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
 public class SensorsContainer {
   // TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
   private BallFeederSensorBase ballFeederSensor;
+  private Camera camera0;
+  private Camera camera1;
+  private LimeLightCameraBase m_limelightCameraBase;
 
   public SensorsContainer() {
-    if (Config4905.getConfig4905().getSensorConfig().hasPath("ballFeederSensor")) {
+    final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
+    if (sensorConfig.hasPath("ballFeederSensor")) {
       System.out.println("Using real ball feeder sensor");
       ballFeederSensor = new RealBallFeederSensor("ballFeederSensor");
     } else {
       System.out.println("Using mock ball feeder sensor");
       ballFeederSensor = new MockBallFeederSensor();
     }
+
+    if (sensorConfig.hasPath("sensors.cameras")) {
+      if (sensorConfig.hasPath("sensors.cameras.camera0")) {
+        System.out.println("Using real camera with id: " + sensorConfig.getInt("sensors.cameras.camera0.port"));
+        camera0 = new RealCamera(0, sensorConfig.getInt("sensors.cameras.camera0.port"));
+      }
+      if (sensorConfig.hasPath("sensors.cameras.camera1")) {
+        System.out.println("Using real camera with id: " + sensorConfig.getInt("sensors.cameras.camera1.port"));
+        camera1 = new RealCamera(1, sensorConfig.getInt("sensors.cameras.camera1.port"));
+      }
+    } else {
+      System.out.println("Using fake cameras");
+      camera0 = new MockCamera();
+    }
+
+    if (sensorConfig.hasPath("sensors.limelight")) {
+      System.out.println("Using real LimeLight");
+      m_limelightCameraBase = new RealLimelightCamera();
+    } else {
+      m_limelightCameraBase = new MockLimeLightCamera();
+    }
   }
 
   public BallFeederSensorBase getBallFeederSensor() {
     return ballFeederSensor;
+  }
+
+  public Camera getCamera0() {
+    return camera0;
+  }
+
+  public Camera getCamera1() {
+    return camera1;
+  }
+
+  public LimeLightCameraBase getLimeLight() {
+    return m_limelightCameraBase;
   }
 }

@@ -41,7 +41,7 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void stopWinch() {
+  public void stopLeftWinch() {
     // TODO Auto-generated method stub
 
   }
@@ -49,19 +49,22 @@ public class MockClimber extends ClimberBase {
   @Override
   public void extendArms() {
     // TODO Auto-generated method stub
-    System.out.println("Extending arms");
   }
 
   @Override
   public void retractArms() {
     // TODO Auto-generated method stub
-    System.out.println("Retracting arms");
   }
 
   @Override
   public void stopArms() {
     // TODO Auto-generated method stub
-    System.out.println("Stopping arms");
+  }
+
+  @Override
+  public void stopRightWinch() {
+    // TODO Auto-generated method stub
+
   }
 
   @Override

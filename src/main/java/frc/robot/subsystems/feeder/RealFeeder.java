@@ -8,22 +8,27 @@
 package frc.robot.subsystems.feeder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
+import frc.robot.actuators.TalonSRXController;
 
 public class RealFeeder extends FeederBase {
   /**
    * Creates a new RealFeeder.
    */
-  public TalonSRX m_stageOne;
-  public TalonSRX m_stageTwo;
+  public TalonSRXController m_stageOne;
+  public TalonSRXController m_stageTwo;
+  public TalonSRXController m_stageThree;
+  private SpeedControllerGroup m_stageTwoAndThree;
 
   public RealFeeder() {
     Config feederConf = Config4905.getConfig4905().getFeederConfig();
-    m_stageOne = new TalonSRX(feederConf.getInt("ports.stageOne"));
-    m_stageTwo = new TalonSRX(feederConf.getInt("ports.stageTwo"));
+    m_stageOne = new TalonSRXController(feederConf, "stageOne");
+    m_stageTwo = new TalonSRXController(feederConf, "stageTwo");
+    m_stageThree = new TalonSRXController(feederConf, "stageThree");
+    m_stageTwoAndThree = new SpeedControllerGroup(m_stageTwo, m_stageThree);
   }
 
   @Override
@@ -33,7 +38,7 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageOne() {
-    m_stageOne.set(ControlMode.PercentOutput, 1);
+    m_stageOne.set(ControlMode.PercentOutput, 1.0);
   }
 
   public void stopStageOne() {
@@ -42,11 +47,11 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageTwo() {
-    m_stageTwo.set(ControlMode.PercentOutput, 1);
+    m_stageTwoAndThree.set(1.0);
   }
 
   public void stopStageTwo() {
-    m_stageTwo.set(ControlMode.PercentOutput, 0);
+    m_stageTwoAndThree.set(0);
   }
 
   @Override
@@ -55,8 +60,27 @@ public class RealFeeder extends FeederBase {
     driveStageTwo();
   }
 
+  @Override
   public void stopBothStages() {
     stopStageOne();
     stopStageTwo();
+  }
+
+  @Override
+  public void runReverseBothStages() {
+    runReverseStageOne();
+    runReverseStageTwo();
+  }
+
+  @Override
+  public void runReverseStageOne() {
+    m_stageOne.set(ControlMode.PercentOutput, -1);
+
+  }
+
+  @Override
+  public void runReverseStageTwo() {
+    m_stageTwoAndThree.set(-1);
+
   }
 }

@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.intake.IntakeBase;
 
@@ -15,12 +17,14 @@ public class RunIntake extends CommandBase {
    * Creates a new RunIntake.
    */
   private IntakeBase m_intakeBase;
-  private double m_intakeSpeed = -0.3;
+  private double m_intakeSpeed = -0.7;
+  private BooleanSupplier m_finishedCondition;
 
-  public RunIntake(IntakeBase intakeBase) {
+  public RunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
+    m_finishedCondition = finishedCondition;
   }
 
   // Called when the command is initially scheduled.
@@ -43,6 +47,6 @@ public class RunIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_finishedCondition.getAsBoolean();
   }
 }

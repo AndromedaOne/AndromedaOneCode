@@ -80,8 +80,12 @@ public class NavXGyroSensor {
    */
   public static NavXGyroSensor getInstance() {
     if (instance == null) {
-      System.out.println("Creating NavX gyro");
-      instance = new NavXGyroSensor();
+      synchronized (NavXGyroSensor.class) {
+        if (instance == null) {
+          System.out.println("Creating NavX gyro");
+          instance = new NavXGyroSensor();
+        }
+      }
     }
     return instance;
   }
@@ -91,20 +95,15 @@ public class NavXGyroSensor {
   }
 
   /**
-   * Gets the Z angle and supbracts the initial angle member variable from it.
+   * Gets the Z angle and subtracts the initial angle member variable from it.
    * 
    * @return gyro.getAngle() - initialAngleReading
    */
   public double getZAngle() {
     double correctedAngle = gyro.getAngle() - initialZAngleReading;
-    if ((robotAngleCount % 10) == 0) {
-      SmartDashboard.putNumber("Raw Angle", gyro.getAngle());
-      SmartDashboard.putNumber("Get Robot Angle", correctedAngle);
-    }
     robotAngleCount++;
-    Trace.getInstance().addTrace(false, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
+    Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
         new TracePair<>("Corrected Angle", correctedAngle));
-
     return correctedAngle;
   }
 
@@ -127,5 +126,10 @@ public class NavXGyroSensor {
       correctedAngle += 360;
     }
     return correctedAngle;
+  }
+
+  public void updateSmartDashboardReadings() {
+    SmartDashboard.putNumber("Z Angle", getZAngle());
+    SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());
   }
 }

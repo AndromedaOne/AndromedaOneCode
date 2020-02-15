@@ -34,6 +34,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     navX = NavXGyroSensor.getInstance();
     kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
+    System.out.println("kProportion = " + kProportion);
   }
 
   public void init() {
@@ -85,7 +86,7 @@ public abstract class RealDriveTrain extends DriveTrain {
 
     if (gyroCorrect) {
       double correctionEquation = (savedAngle - robotAngle) * kProportion;
-      newRotateValue = -correctionEquation;
+      newRotateValue = correctionEquation;
     } else {
       newRotateValue = rotation;
     }
@@ -100,7 +101,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                         counter-clockwise and negative goes clockwise.
    */
   public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
-    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
+    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
   }
 
   protected abstract SpeedControllerGroup getLeftSpeedControllerGroup();

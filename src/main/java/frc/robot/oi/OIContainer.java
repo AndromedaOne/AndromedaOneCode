@@ -8,6 +8,7 @@
 package frc.robot.oi;
 
 import frc.robot.commands.DeployAndRunIntakeStarter;
+import frc.robot.commands.FeedWhenReadyStarter;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -20,7 +21,7 @@ public class OIContainer {
   private SubsystemController m_subsystemController;
 
   public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
-    m_driveController = new DriveController();
+    m_driveController = new DriveController(sensorsContainer);
     m_smartDashboard = new SmartDashboard4905(subsystemsContainer);
     m_subsystemController = new SubsystemController();
 
@@ -28,6 +29,9 @@ public class OIContainer {
         .whenPressed(new DeployAndRunIntakeStarter(subsystemsContainer.getIntake(),
             () -> !m_subsystemController.getDeployAndRunIntakeButton().get()
                 || sensorsContainer.getBallFeederSensor().getNumberOfPowerCellsInFeeder() >= 5));
+    m_subsystemController.getFeedWhenReadyButton()
+        .whenPressed(new FeedWhenReadyStarter(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(),
+            () -> !m_subsystemController.getFeedWhenReadyButton().get()));
   }
 
   public DriveController getDriveController() {
