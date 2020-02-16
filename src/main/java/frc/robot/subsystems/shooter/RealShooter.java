@@ -6,6 +6,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.*;
+import frc.robot.lib.interpolate.InterpolatingDouble;
 
 public class RealShooter extends ShooterBase {
 
@@ -19,6 +20,7 @@ public class RealShooter extends ShooterBase {
   private boolean m_shooterWheelIsReady = false;
   private boolean m_shooterSeriesIsReady = false;
   private boolean m_shooterIsIdle = false;
+  private ShooterMap m_shooterMap;
 
   public RealShooter() {
     m_shooterOne = new SparkMaxController(m_shooterConfig, "shooterone");
@@ -27,6 +29,9 @@ public class RealShooter extends ShooterBase {
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
     m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
 
+    m_shooterMap = new ShooterMap();
+    System.out.println(
+        "----------------RPM: " + m_shooterMap.getShooterMap().getInterpolated(new InterpolatingDouble(2.0)).value);
     m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
 
@@ -64,11 +69,13 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public void openShooterHood() {
+    System.out.println("Opening Shooter Hood");
     m_shooterHood.extendPiston();
   }
 
   @Override
   public void closeShooterHood() {
+    System.out.println("Closing Shooter Hood");
     m_shooterHood.retractPiston();
   }
 
@@ -94,6 +101,6 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public boolean shooterIsReady() {
-    return m_shooterWheelIsReady && m_shooterSeriesIsReady && !m_shooterIsIdle;
+    return m_shooterWheelIsReady && !m_shooterIsIdle;
   }
 }

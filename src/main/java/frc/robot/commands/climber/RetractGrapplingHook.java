@@ -10,6 +10,7 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.telemetries.Trace;
 
 public class RetractGrapplingHook extends CommandBase {
   ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
@@ -25,6 +26,7 @@ public class RetractGrapplingHook extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart("RetractGrapplingHook");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

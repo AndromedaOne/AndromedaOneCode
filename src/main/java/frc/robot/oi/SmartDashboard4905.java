@@ -10,6 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnDeltaAngle;
@@ -39,6 +40,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Turn 180", new TurnDeltaAngle(180));
 
     SmartDashboard.putNumber("Auto Delay", 0);
+
+    SmartDashboard.putData("reloadConfig", new ConfigReload());
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, m_autoChooser);
   }

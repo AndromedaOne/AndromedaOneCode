@@ -12,7 +12,7 @@ import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.subsystems.shooter.ShooterBase;  
+import frc.robot.subsystems.shooter.ShooterBase;
 
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
