@@ -1,17 +1,14 @@
 package frc.robot.oi;
 
-import com.ctre.phoenix.motorcontrol.SensorCollection;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DoNothingAuto;
-import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.DeployAndRunIntake;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
+import frc.robot.groupcommands.sequentialgroup.TurnAndShoot;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -21,8 +18,8 @@ import frc.robot.subsystems.shooter.ShooterBase;
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
 
-  public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
-      SendableChooser<Command> autoChooser, SensorsContainer sensorsContainer) {
+  public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer,
+      SendableChooser<Command> autoChooser) {
     m_autoChooser = autoChooser;
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     ShooterBase shooter = subsystemsContainer.getShooter();
@@ -34,11 +31,10 @@ public class AutoModes4905 {
         m_autoChooser.addOption("1: Move Back",
                                 new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, -12)));
         m_autoChooser.addOption("2: Fire and Move Back",
-                                new DelayedSequentialCommandGroup(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalRadiansToTarget)),
-                                                                  new ShooterCommand(shooter, 3),
+                                new DelayedSequentialCommandGroup(new TurnAndShoot(shooter, sensorsContainer, 3),
                                                                   new MoveUsingEncoder(driveTrain, -12)));
         m_autoChooser.addOption("3: Back Bumper U-Turn", 
-                                new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
+                                new DelayedSequentialCommandGroup(new TurnAndShoot(shooter, sensorsContainer, 3),
                                                                   new MoveUsingEncoder(driveTrain, 30),
                                                                   new TurnToCompassHeading(270),
                                                                   new MoveUsingEncoder(driveTrain, 60),
@@ -46,18 +42,18 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, 126)));
         m_autoChooser.addOption("4: Shoot and Trench Run", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
-                                                                  new ShooterCommand(shooter, 3),
+                                                                  new TurnAndShoot(shooter, sensorsContainer, 3),
                                                                   new TurnToCompassHeading(180),
                                                                   new DeployAndRunIntake(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, 249)));
         m_autoChooser.addOption("5: Right Side Shield",
-                                new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
+                                new DelayedSequentialCommandGroup(new TurnAndShoot(shooter, sensorsContainer, 3),
                                                                   new MoveUsingEncoder(driveTrain, -69),
                                                                   new TurnToCompassHeading(270),
                                                                   new DeployAndRunIntake(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, 12))); // Waiting on official distance to move here from R&S
         m_autoChooser.addOption("6: Left Side Shield", 
-                                new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
+                                new DelayedSequentialCommandGroup(new TurnAndShoot(shooter, sensorsContainer, 3),
                                                                   new MoveUsingEncoder(driveTrain, (2*12)+6),
                                                                   new TurnToCompassHeading(270),
                                                                   new MoveUsingEncoder(driveTrain, (5*12)),

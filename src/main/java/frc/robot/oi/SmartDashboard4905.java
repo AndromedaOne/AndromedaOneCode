@@ -15,6 +15,7 @@ import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnDeltaAngle;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -23,7 +24,7 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
-  public SmartDashboard4905(SubsystemsContainer subsystemsContainer) {
+  public SmartDashboard4905(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("MoveUsingEncoder", new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 12));
@@ -43,7 +44,7 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
-    AutoModes4905.initializeAutoChooser(subsystemsContainer, m_autoChooser);
+    AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
   }
 
   public Command getSelectedAutoChooserCommand() {
