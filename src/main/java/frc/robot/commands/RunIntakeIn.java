@@ -23,6 +23,7 @@ public class RunIntakeIn extends CommandBase {
   private IntakeBase m_intakeBase;
   private BooleanSupplier m_finishedCondition;
   private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
+  private double m_intakeSpeed;
 
   /**
    * Runs the intake into the robot to intake balls at speed value set in the
@@ -35,6 +36,7 @@ public class RunIntakeIn extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
+    m_intakeSpeed = m_intakeConfig.getDouble("intakespeed");
     m_finishedCondition = finishedCondition;
   }
 
@@ -47,7 +49,7 @@ public class RunIntakeIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeBase.runIntake(m_intakeConfig.getDouble("intakespeed"));
+    m_intakeBase.runIntake(m_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
