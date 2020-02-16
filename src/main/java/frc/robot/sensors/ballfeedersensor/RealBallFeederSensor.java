@@ -46,10 +46,13 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
       }
 
     }
-    /*
-     * String values = ""; for (int i = 0; i < dValues.length; i++) { values +=
-     * dValues[i] + ","; } System.out.println(values.toString());
-     */
+
+    /*String values = "";
+    for (int i = 0; i < dValues.length; i++) {
+      values += dValues[i] + ",";
+    }
+    System.out.println(values.toString());*/
+
     // Check for whether the line is found
     for (int i = 0; i < dValues.length; i++) {
       if (dValues[i] <= m_detectionThreshold) {

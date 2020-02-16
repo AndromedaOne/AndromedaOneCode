@@ -11,7 +11,9 @@ public class MockFeeder extends FeederBase {
   /**
    * Creates a new MockFeeder.
    */
+  private FeederStates m_feederState;
   public MockFeeder() {
+    m_feederState = FeederStates.EMPTY;
   }
 
   @Override
@@ -57,4 +59,5 @@ public class MockFeeder extends FeederBase {
   public void runReverseStageTwo() {
 
   }
+
 }

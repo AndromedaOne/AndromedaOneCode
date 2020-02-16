@@ -22,6 +22,7 @@ public class RealFeeder extends FeederBase {
   public TalonSRXController m_stageTwo;
   public TalonSRXController m_stageThree;
   private SpeedControllerGroup m_stageTwoAndThree;
+  private final double m_DEFAULTSPEED = 0.25;
 
   public RealFeeder() {
     Config feederConf = Config4905.getConfig4905().getFeederConfig();
@@ -38,7 +39,7 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageOne() {
-    m_stageOne.set(ControlMode.PercentOutput, 1.0);
+    m_stageOne.set(ControlMode.PercentOutput, m_DEFAULTSPEED);
   }
 
   public void stopStageOne() {
@@ -47,7 +48,7 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void driveStageTwo() {
-    m_stageTwoAndThree.set(1.0);
+    m_stageTwoAndThree.set(m_DEFAULTSPEED);
   }
 
   public void stopStageTwo() {
@@ -74,13 +75,13 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void runReverseStageOne() {
-    m_stageOne.set(ControlMode.PercentOutput, -1);
+    m_stageOne.set(ControlMode.PercentOutput, -m_DEFAULTSPEED);
 
   }
 
   @Override
   public void runReverseStageTwo() {
-    m_stageTwoAndThree.set(-1);
+    m_stageTwoAndThree.set(-m_DEFAULTSPEED);
 
   }
 }

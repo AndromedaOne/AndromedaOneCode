@@ -18,6 +18,8 @@ public class DefaultFeederCommand extends CommandBase {
 
   BallFeederSensorBase m_feederSensor;
   FeederBase m_feeder;
+  private int m_reverseCounter;
+  private int m_readyForStage2Counter;
 
   /**
    * Creates a new FeederCommand.
@@ -33,6 +35,7 @@ public class DefaultFeederCommand extends CommandBase {
   @Override
   public void initialize() {
     Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
+    m_reverseCounter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,19 +47,43 @@ public class DefaultFeederCommand extends CommandBase {
      * slot of stage 2 but not in the first two, and covers when there is a ball in
      * the middle but not in the other two.
      */
-    if ((m_feederSensor.isBall(STAGE_2_MIDDLE) && !m_feederSensor.isBall(STAGE_2_BEGINNING))
-        || (m_feederSensor.isBall(STAGE_2_END) && !m_feederSensor.isBall(STAGE_2_MIDDLE))) {
-      m_feeder.runReverseStageTwo();
-    } else if ((!m_feederSensor.isBall(STAGE_1_LEFT) && !m_feederSensor.isBall(STAGE_1_RIGHT)
-        && !m_feederSensor.isBall(STAGE_1_END)) || m_feederSensor.isBall(STAGE_2_END)) {
+    if(m_feederSensor.isBall(STAGE_2_END) && m_feederSensor.isBall(STAGE_2_END_MIDDLE) && m_feederSensor.isBall(STAGE_2_BEGINNING_MIDDLE)) {
+      System.out.println("Stopping both stages");
       m_feeder.stopBothStages();
-    } else if (!m_feederSensor.isBall(STAGE_1_END)
-        && (m_feederSensor.isBall(STAGE_1_LEFT) || m_feederSensor.isBall(STAGE_1_RIGHT))) {
+      m_reverseCounter = 0;
+      m_readyForStage2Counter = 0;
+    }else if(!m_feederSensor.isBall(STAGE_2_BEGINNING_MIDDLE) && (m_feederSensor.isBall(STAGE_2_END) || m_feederSensor.isBall(STAGE_2_END_MIDDLE))) {
+      if(m_reverseCounter >= 10){
+        m_feeder.runReverseStageTwo();
+        System.out.println("Running stage 2 reverse");
+      }
+      m_feeder.stopStageOne();
+      m_reverseCounter++;
+      
+      m_readyForStage2Counter = 0;
+    }else if(m_feederSensor.isBall(STAGE_2_BEGINNING) && !m_feederSensor.isBall(STAGE_2_BEGINNING_MIDDLE)){
+      m_feeder.driveBothStages();
+      System.out.println("Driving Stage 2 ");
+      m_readyForStage2Counter = 0;;
+      m_reverseCounter =0;
+    }else if(m_feederSensor.isBall(STAGE_1_END)){
+      System.out.println("Driving Stage 1 ");
+      m_feeder.driveStageOne();
+      m_readyForStage2Counter = 0;;
+      m_reverseCounter =0;
+    }else if(m_feederSensor.isBall(STAGE_1_LEFT) || m_feederSensor.isBall(STAGE_1_RIGHT)) {
+      System.out.println("Driving just stage 1");
       m_feeder.driveStageOne();
       m_feeder.stopStageTwo();
-    } else if (m_feederSensor.isBall(STAGE_1_END)) {
-      m_feeder.driveBothStages();
-    } 
+      m_reverseCounter = 0;
+      m_readyForStage2Counter = 0;
+    }else {
+      System.out.println("Stopping both stages");
+      m_feeder.stopBothStages();
+      m_reverseCounter = 0;
+      m_readyForStage2Counter = 0;
+    }
+
   }
 
   // Called once the command ends or is interrupted.
