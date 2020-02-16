@@ -20,6 +20,8 @@ public class DefaultFeederCommand extends CommandBase {
   BallFeederSensorBase m_feederSensor;
   FeederBase m_feeder;
   private FeederStates m_feederState;
+  private static final double DEFAULT_STAGES_ONE_AND_TWO_SPEED = 0.25;
+  private static final double DEFAULT_STAGE_THREE_SPEED = 0.35;
 
   /**
    * Creates a new FeederCommand.
@@ -55,7 +57,7 @@ public class DefaultFeederCommand extends CommandBase {
       if (m_feederSensor.isBall(STAGE_2_BEGINNING_MIDDLE) && !m_feederSensor.isBall(STAGE_2_BEGINNING)) {
         m_feederState = FeederStates.ONE_LOADED;
       }
-      m_feeder.driveBothStages();
+      m_feeder.runBothStages(DEFAULT_STAGES_ONE_AND_TWO_SPEED, DEFAULT_STAGE_THREE_SPEED);
       break;
 
     case ONE_LOADED:
@@ -70,7 +72,7 @@ public class DefaultFeederCommand extends CommandBase {
       if (m_feederSensor.isBall(STAGE_2_BEGINNING)) {
         m_feederState = FeederStates.SECOND_LOADING_2;
       }
-      m_feeder.driveStageOne();
+      m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
       m_feeder.stopStageTwo();
       break;
 
@@ -79,34 +81,36 @@ public class DefaultFeederCommand extends CommandBase {
           && !m_feederSensor.isBall(STAGE_2_BEGINNING)) {
         m_feederState = FeederStates.SECOND_LOADED;
       }
-      m_feeder.driveBothStages();
+      m_feeder.runBothStages(DEFAULT_STAGES_ONE_AND_TWO_SPEED, DEFAULT_STAGE_THREE_SPEED);
       break;
 
     case SECOND_LOADED:
-      if(m_feederSensor.isBall(STAGE_1_LEFT) || m_feederSensor.isBall(STAGE_1_RIGHT) || m_feederSensor.isBall(STAGE_2_BEGINNING)) {
+      if (m_feederSensor.isBall(STAGE_1_LEFT) || m_feederSensor.isBall(STAGE_1_RIGHT)
+          || m_feederSensor.isBall(STAGE_2_BEGINNING)) {
         m_feederState = FeederStates.THIRD_LOADING_1;
       }
       m_feeder.stopBothStages();
       break;
 
-
     case THIRD_LOADING_1:
-      if(m_feederSensor.isBall(STAGE_2_BEGINNING)) {
+      if (m_feederSensor.isBall(STAGE_2_BEGINNING)) {
         m_feederState = FeederStates.THIRD_LOADING_2;
       }
-      m_feeder.driveStageOne();
+      m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
       m_feeder.stopStageTwo();
       break;
 
     case THIRD_LOADING_2:
-      if(m_feederSensor.isBall(STAGE_2_BEGINNING) && m_feederSensor.isBall(STAGE_2_END_MIDDLE) && m_feederSensor.isBall(STAGE_2_END) && !m_feederSensor.isBall(STAGE_1_END)) {
+      if (m_feederSensor.isBall(STAGE_2_BEGINNING) && m_feederSensor.isBall(STAGE_2_END_MIDDLE)
+          && m_feederSensor.isBall(STAGE_2_END) && !m_feederSensor.isBall(STAGE_1_END)) {
         m_feederState = FeederStates.THIRD_LOADED;
       }
-      m_feeder.driveBothStages();
+      m_feeder.runBothStages(DEFAULT_STAGES_ONE_AND_TWO_SPEED, DEFAULT_STAGE_THREE_SPEED);
       break;
 
     case THIRD_LOADED:
-      if(!m_feederSensor.isBall(STAGE_2_BEGINNING) && !m_feederSensor.isBall(STAGE_2_BEGINNING_MIDDLE) && !m_feederSensor.isBall(STAGE_1_END)) {
+      if (!m_feederSensor.isBall(STAGE_2_BEGINNING) && !m_feederSensor.isBall(STAGE_2_BEGINNING_MIDDLE)
+          && !m_feederSensor.isBall(STAGE_1_END)) {
         m_feederState = FeederStates.EMPTY;
       }
       m_feeder.stopBothStages();
@@ -116,8 +120,6 @@ public class DefaultFeederCommand extends CommandBase {
       m_feeder.stopBothStages();
       break;
     }
-
-    
 
     System.out.println("m_feederState: " + m_feederState);
 

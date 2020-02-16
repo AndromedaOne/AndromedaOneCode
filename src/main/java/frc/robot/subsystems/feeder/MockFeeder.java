@@ -11,27 +11,14 @@ public class MockFeeder extends FeederBase {
   /**
    * Creates a new MockFeeder.
    */
-  private FeederStates m_feederState;
 
   public MockFeeder() {
-    m_feederState = FeederStates.EMPTY;
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
-
-  @Override
-  public void driveStageOne() {
-  }
-
-  @Override
-  public void driveStageTwo() {
-  }
-
-  @Override
-  public void driveBothStages() {
   }
 
   @Override
@@ -47,17 +34,38 @@ public class MockFeeder extends FeederBase {
   }
 
   @Override
-  public void runReverseBothStages() {
+  public void runStageOne(double speed) {
+    // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void runReverseStageOne() {
+  public void runStagesTwoAndThree(double stageTwoSpeed, double stageThreeSpeed) {
+    // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void runReverseStageTwo() {
+  public void runReverseStageOne(double speed) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void runBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void runReverseBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void runReverseStageTwo(double stageTwoSpeed, double stageThreeSpeed) {
+    // TODO Auto-generated method stub
 
   }
 
