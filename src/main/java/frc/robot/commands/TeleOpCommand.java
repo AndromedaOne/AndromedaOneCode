@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
-import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.drivetrain.*;
 import frc.robot.telemetries.Trace;
 
@@ -28,9 +27,9 @@ public class TeleOpCommand extends CommandBase {
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
   private boolean m_slowMode = false;
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
+
   private enum SlowModeStates {
-    NOTSLOWPRESSED, NOTSLOWRELEASED,
-    SLOWPRESSED, SLOWRELEASED
+    NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
   }
 
   /**
@@ -55,36 +54,39 @@ public class TeleOpCommand extends CommandBase {
     double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
     double rotateStickValue = m_driveController.getRotateStick();
 
-    switch(m_slowModeState) {
-      case NOTSLOWRELEASED:
-        if(m_driveController.getLeftBumperPressed()){
-          m_slowMode = true;
-          m_slowModeState = SlowModeStates.SLOWPRESSED;
-          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-        }
-        break;
-      case NOTSLOWPRESSED:
-        if(m_driveController.getLeftBumperReleased()) {
-          m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
-          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-        }
-        break;
-      case SLOWRELEASED:
-        if(m_driveController.getLeftBumperPressed()) {
-          m_slowMode = false;
-          m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
-          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-        }
-        break;
-      case SLOWPRESSED:
-        if(m_driveController.getLeftBumperReleased()) {
-          m_slowModeState = SlowModeStates.SLOWRELEASED;
-          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-        }
-        break;
+    switch (m_slowModeState) {
+    case NOTSLOWRELEASED:
+      if (m_driveController.getLeftBumperPressed()) {
+        m_slowMode = true;
+        m_slowModeState = SlowModeStates.SLOWPRESSED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case NOTSLOWPRESSED:
+      if (m_driveController.getLeftBumperReleased()) {
+        m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case SLOWRELEASED:
+      if (m_driveController.getLeftBumperPressed()) {
+        m_slowMode = false;
+        m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case SLOWPRESSED:
+      if (m_driveController.getLeftBumperReleased()) {
+        m_slowModeState = SlowModeStates.SLOWRELEASED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    default:
+      System.err.println("WARN: Unknown slowmode state: " + m_slowModeState.toString());
+      break;
     }
 
-    if(m_slowMode) {
+    if (m_slowMode) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
