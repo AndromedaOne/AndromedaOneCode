@@ -167,19 +167,6 @@ public class DefaultFeederCommand extends CommandBase {
       m_feeder.stopBothStages();
       break;
     }
-    if (m_previousState != m_feederState) {
-      System.out.println("");
-      System.out.println("");
-      System.out.println("");
-      System.out.println("");
-      System.out.println("");
-      System.out.println("LOOK HERE -------> m_feederState: " + m_feederState);
-      System.out.println("");
-      System.out.println("");
-      System.out.println("");
-      System.out.println("");
-      System.out.println("");
-    }
     m_previousState = m_feederState;
 
   }
