@@ -83,4 +83,10 @@ public class RealFeeder extends FeederBase {
     m_stageThree.set(ControlMode.PercentOutput, -stageThreeSpeed);
 
   }
+
+  @Override
+  public void runStageThree(double speed) {
+    // TODO Auto-generated method stub
+
+  }
 }

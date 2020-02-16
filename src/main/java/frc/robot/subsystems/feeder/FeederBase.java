@@ -39,4 +39,6 @@ public abstract class FeederBase extends SubsystemBase {
   public abstract void runReverseStageOne(double speed);
 
   public abstract void runReverseStageTwo(double stageTwoSpeed, double stageThreeSpeed);
+
+  public abstract void runStageThree(double speed);
 }
