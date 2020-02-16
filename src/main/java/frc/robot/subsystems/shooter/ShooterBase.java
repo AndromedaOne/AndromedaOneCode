@@ -1,8 +1,15 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class ShooterBase extends SubsystemBase {
+
+  @Override
+  public void periodic() {
+    super.periodic();
+    SmartDashboard.putBoolean("IsShooterReady", shooterIsReady());
+  }
 
   /**
    * Gets the average velocity from both shooting wheels <b>NOT</b> from the

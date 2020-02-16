@@ -71,6 +71,10 @@ public class SubsystemController {
     return deadband(-m_subsystemController.getY(GenericHID.Hand.kLeft));
   }
 
+  public double getRightStickForwardBackwardValue() {
+    return deadband(-m_subsystemController.getY(GenericHID.Hand.kRight));
+  }
+
   private double deadband(double stickValue) {
     if (Math.abs(stickValue) < 0.05) {
       return 0.0;

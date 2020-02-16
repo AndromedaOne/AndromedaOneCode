@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.subsystems.feeder.FeederBase;
+import frc.robot.telemetries.Trace;
 
 public class DefaultFeederCommand extends CommandBase {
 
@@ -32,6 +33,8 @@ public class DefaultFeederCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
+    Trace.getInstance().logCommandStart("DefaultFeederCommand");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,6 +65,7 @@ public class DefaultFeederCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_feeder.stopBothStages();
+    Trace.getInstance().logCommandStop("DefaultFeederCommand");
   }
 
   // Returns true when the command should end.

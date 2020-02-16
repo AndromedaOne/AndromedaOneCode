@@ -5,48 +5,50 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.climber;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.subsystems.climber.ClimberBase;
-import frc.robot.telemetries.Trace;
+import frc.robot.subsystems.shooter.ShooterBase;
 
-public class FireGrapplingHook extends CommandBase {
-  ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
+public class ShooterCommand extends CommandBase {
+  private int m_cellsToShoot;
+  private int m_shotsRemaining;
 
   /**
-   * Creates a new FireGrapplingHook.
+   * Creates a new ShooterCommand.
    */
-  public FireGrapplingHook() {
+  public ShooterCommand(ShooterBase shooter, int numberOfCells) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climber);
+    m_cellsToShoot = numberOfCells;
+    m_shotsRemaining = 0;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart("FireGrapplingHook");
+    m_shotsRemaining = m_cellsToShoot;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.extendArms();
+    System.out.println("Shoot");
+    m_shotsRemaining = m_shotsRemaining - 1;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) {
-      climber.retractArms();
-    }
-    Trace.getInstance().logCommandStop("FireGrapplingHook");
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_shotsRemaining == 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
