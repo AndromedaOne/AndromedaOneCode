@@ -16,8 +16,8 @@ public enum EnumBallLocation {
   public int getIndex() {
     return index;
   }
-  
-  public static String prettyPrint(boolean[] sensorOutput){
+
+  public static String prettyPrint(boolean[] sensorOutput) {
     StringBuffer buf = new StringBuffer();
     buf.append(sensorOutput[STAGE_1_LEFT.getIndex()] ? "1-L" : "---");
     buf.append(" ");
@@ -27,14 +27,14 @@ public enum EnumBallLocation {
     buf.append(" ");
     buf.append(sensorOutput[STAGE_2_BEGINNING.getIndex()] ? "2-B" : "---");
     buf.append(" ");
-    buf.append(sensorOutput[STAGE_2_BEGINNING_MiDDLE.getIndex()] ? "2MB" : "---");
+    buf.append(sensorOutput[STAGE_2_BEGINNING_MIDDLE.getIndex()] ? "2MB" : "---");
     buf.append(" ");
     buf.append(sensorOutput[STAGE_2_MIDDLE.getIndex()] ? "2-M" : "---");
     buf.append(" ");
     buf.append(sensorOutput[STAGE_2_END_MIDDLE.getIndex()] ? "2ME" : "---");
     buf.append(" ");
-    buf.append(sensorOutput[STAGE_1_END.getIndex()] ? "2-E" : "---");
+    buf.append(sensorOutput[STAGE_2_END.getIndex()] ? "2-E" : "---");
     buf.append(" ");
-    return buf.toString()
+    return buf.toString();
   }
 }
