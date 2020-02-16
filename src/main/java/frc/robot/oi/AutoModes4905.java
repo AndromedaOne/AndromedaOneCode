@@ -60,8 +60,7 @@ public class AutoModes4905 {
                                                                   new DeployAndRunIntake(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, (10*12) + 6)));
         m_autoChooser.addOption("7: Enemy Trench Run", 
-                                new DelayedSequentialCommandGroup(new TurnToCompassHeading(180),
-                                                                  new DeployAndRunIntake(intake, () -> true),
+                                new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, (23*12)+9)));
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
