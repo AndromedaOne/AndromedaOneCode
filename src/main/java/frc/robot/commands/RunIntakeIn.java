@@ -9,27 +9,41 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.intake.IntakeBase;
+import com.typesafe.config.Config;
 
-public class RunIntake extends CommandBase {
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Config4905;
+import frc.robot.subsystems.intake.IntakeBase;
+import frc.robot.telemetries.Trace;
+
+public class RunIntakeIn extends CommandBase {
   /**
    * Creates a new RunIntake.
    */
   private IntakeBase m_intakeBase;
-  private double m_intakeSpeed = -0.7;
   private BooleanSupplier m_finishedCondition;
+  private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
+  private double m_intakeSpeed;
 
-  public RunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
+  /**
+   * Runs the intake into the robot to intake balls at speed value set in the
+   * config
+   * 
+   * @param intakeBase
+   * @param finishedCondition
+   */
+  public RunIntakeIn(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
+    m_intakeSpeed = m_intakeConfig.getDouble("intakespeed");
     m_finishedCondition = finishedCondition;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart("RunIntakeIn");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +56,8 @@ public class RunIntake extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intakeBase.stopIntake();
+
+    Trace.getInstance().logCommandStop("RunIntakeIn");
   }
 
   // Returns true when the command should end.
