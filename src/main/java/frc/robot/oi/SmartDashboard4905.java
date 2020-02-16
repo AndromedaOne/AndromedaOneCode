@@ -41,7 +41,7 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putNumber("Auto Delay", 0);
 
-    SmartDashboard.putData("reloadConfig", new ConfigReload());
+    SmartDashboard.putData("Reload Config", new ConfigReload());
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, m_autoChooser);
   }

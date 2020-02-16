@@ -1,5 +1,7 @@
 package frc.robot.oi;
 
+import com.ctre.phoenix.motorcontrol.SensorCollection;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -7,8 +9,10 @@ import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.DeployAndRunIntake;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
+import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.intake.IntakeBase;
@@ -18,7 +22,7 @@ public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
 
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
-      SendableChooser<Command> autoChooser) {
+      SendableChooser<Command> autoChooser, SensorsContainer sensorsContainer) {
     m_autoChooser = autoChooser;
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     ShooterBase shooter = subsystemsContainer.getShooter();
@@ -30,7 +34,8 @@ public class AutoModes4905 {
         m_autoChooser.addOption("1: Move Back",
                                 new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, -12)));
         m_autoChooser.addOption("2: Fire and Move Back",
-                                new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
+                                new DelayedSequentialCommandGroup(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalRadiansToTarget)),
+                                                                  new ShooterCommand(shooter, 3),
                                                                   new MoveUsingEncoder(driveTrain, -12)));
         m_autoChooser.addOption("3: Back Bumper U-Turn", 
                                 new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
