@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import java.util.Arrays;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -72,7 +70,8 @@ public class Robot extends TimedRobot {
    * and SmartDashboard integrated updating.
    */
 
-   private int m_counter = 0;
+  private int m_counter = 0;
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
@@ -84,9 +83,9 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
-    if(m_counter == 50){
-      //System.out.println(Arrays.toString(getSensorsContainer().getBallFeederSensor().isThereBall()));
-      m_counter=0;
+    if (m_counter == 50) {
+      // System.out.println(Arrays.toString(getSensorsContainer().getBallFeederSensor().isThereBall()));
+      m_counter = 0;
     }
     m_counter++;
   }
