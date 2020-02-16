@@ -31,7 +31,7 @@ public class SubsystemController {
   private JoystickButton m_shootFromFrontTrench;
   private JoystickButton m_shootFromBackTrench;
   private JoystickButton m_shootFromTargetZone;
-  private POVButton m_runIntakeOut;
+  private JoystickButton m_runIntakeOut;
 
   public SubsystemController() {
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
@@ -52,14 +52,14 @@ public class SubsystemController {
     m_shootFromTargetZone.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
         m_shooterConfig.getDouble("shootingrpm.targetzone") * 1.5,
         m_shooterConfig.getDouble("shootingrpm.targetzone")));
-    m_runIntakeOut = new POVButton(m_subsystemController, POVDirectionNames.SOUTH.getValue());
+    m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
   }
 
   public JoystickButton getDeployAndRunIntakeButton() {
     return ButtonsEnumerated.LEFTBUMPERBUTTON.getJoystickButton(m_subsystemController);
   }
 
-  public POVButton getRunIntakeOutButton() {
+  public JoystickButton getRunIntakeOutButton() {
     return m_runIntakeOut;
   }
 
