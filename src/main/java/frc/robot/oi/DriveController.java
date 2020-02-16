@@ -76,4 +76,12 @@ public class DriveController {
     return deadband(m_driveController.getTriggerAxis(Hand.kRight));
   }
 
+  public boolean getLeftBumperPressed() {
+    return m_driveController.getBumperPressed(Hand.kLeft);
+  }
+
+  public boolean getLeftBumperReleased() {
+    return m_driveController.getBumperReleased(Hand.kLeft);
+  }
+
 }
