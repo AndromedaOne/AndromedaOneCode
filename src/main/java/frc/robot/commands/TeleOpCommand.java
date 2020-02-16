@@ -62,22 +62,26 @@ public class TeleOpCommand extends CommandBase {
           m_slowModeState = SlowModeStates.SLOWPRESSED;
           System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
         }
+        break;
       case NOTSLOWPRESSED:
         if(m_driveController.getLeftBumperReleased()) {
           m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
           System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
         }
+        break;
       case SLOWRELEASED:
         if(m_driveController.getLeftBumperPressed()) {
           m_slowMode = false;
           m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
           System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
         }
+        break;
       case SLOWPRESSED:
         if(m_driveController.getLeftBumperReleased()) {
           m_slowModeState = SlowModeStates.SLOWRELEASED;
           System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
         }
+        break;
     }
 
     if(m_slowMode) {
