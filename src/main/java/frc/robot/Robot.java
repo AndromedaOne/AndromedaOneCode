@@ -85,8 +85,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
     if(m_counter == 50){
-      System.out.println(Arrays.toString(getSensorsContainer().getBallFeederSensor().isThereBall()));
-      
+      //System.out.println(Arrays.toString(getSensorsContainer().getBallFeederSensor().isThereBall()));
       m_counter=0;
     }
     m_counter++;
