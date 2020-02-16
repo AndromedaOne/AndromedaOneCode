@@ -46,7 +46,7 @@ public class DefaultFeederCommand extends CommandBase {
   @Override
   public void initialize() {
     Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
-    m_feederState = FeederStates.EMPTY;
+    m_feederState = FeederStates.THIRD_LOADED;
     Trace.getInstance().logCommandStart("DefaultFeederCommand");
     m_previousState = null;
     emptyCounter = 0;
