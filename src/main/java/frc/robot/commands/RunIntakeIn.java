@@ -25,7 +25,9 @@ public class RunIntakeIn extends CommandBase {
   private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
 
   /**
-   * Runs the intake into the robot to intake balls at speed value set in the config
+   * Runs the intake into the robot to intake balls at speed value set in the
+   * config
+   * 
    * @param intakeBase
    * @param finishedCondition
    */

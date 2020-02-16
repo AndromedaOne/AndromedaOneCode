@@ -12,12 +12,10 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.lib.ButtonsEnumerated;
-import frc.robot.lib.POVDirectionNames;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 /**
