@@ -44,7 +44,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
       Trace.getInstance().logCommandInfo("TurnToFaceCommand", "No target found for one second");
       return true;
     }
-    if (m_conf2.getDouble("limelight.cameraHeight") == 0.0 || !m_conf2.hasPath("sensors.limelight")) {
+    if (m_conf2.getDouble("limelight.cameraHeight") == 0.0 || !m_conf2.hasPath("limelight")) {
       Trace.getInstance().logCommandInfo("TurnToFaceCommand", "No Limelight Sensor");
       return true;
     } else {

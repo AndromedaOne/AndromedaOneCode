@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -70,6 +72,7 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
+  NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
   @Override
   public void robotPeriodic() {
@@ -83,7 +86,10 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     getSensorsContainer().getBallFeederSensor().isThereBall();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
-  }
+    /*System.out.print("\nNETWORK TABLES FOR LIMELIGHT:\n(if the value is 0.0, it's not reading anything.)\ntX: " + limelightTable.getEntry("tx").getDouble(0.0) +
+     /"\ntY: " + limelightTable.getEntry("ty").getDouble(0.0) + "\ntV: " + limelightTable.getEntry("tv").getDouble(0.0) + "\n----------");
+    */
+    }
 
   /**
    * This function is called once each time the robot enters Disabled mode.
