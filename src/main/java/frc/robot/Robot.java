@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.ballfeedersensor.EnumBallLocation;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
 
@@ -71,6 +72,8 @@ public class Robot extends TimedRobot {
    * and SmartDashboard integrated updating.
    */
 
+  private int counter = 0;
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
@@ -82,6 +85,11 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+
+    if(counter == 50) {
+      System.out.println(EnumBallLocation.pr);
+    }
+    counter++;
   }
 
   /**
