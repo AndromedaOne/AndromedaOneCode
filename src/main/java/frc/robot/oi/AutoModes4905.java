@@ -33,8 +33,8 @@ public class AutoModes4905 {
         m_autoChooser.addOption("1: Move Back",
                                 new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, -12)));
         m_autoChooser.addOption("2: Fire and Move Back",
-                                new DelayedSequentialCommandGroup(new ShootWithRPM(shooter, feeder, 1000)
-                                                                  /*new MoveUsingEncoder(driveTrain, -12)*/));
+                                new DelayedSequentialCommandGroup(new ShootWithRPM(shooter, feeder, 1000),
+                                                                  new MoveUsingEncoder(driveTrain, -12)));
         m_autoChooser.addOption("3: Back Bumper U-Turn", 
                                 new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
                                                                   new MoveUsingEncoder(driveTrain, 30),

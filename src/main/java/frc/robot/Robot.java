@@ -85,11 +85,6 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
-
-    if(counter == 50) {
-      System.out.println(EnumBallLocation.pr);
-    }
-    counter++;
   }
 
   /**

@@ -117,8 +117,7 @@ public class DefaultFeederCommand extends CommandBase {
       break;
 
     case SECOND_LOADING_3:
-      if (ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING.getIndex()]
-          && ballSensorValues[STAGE_2_END_MIDDLE.getIndex()]) {
+      if (ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING.getIndex()]) {
         m_feederState = FeederStates.SECOND_LOADED;
       }
       m_feeder.runBothStages(DEFAULT_STAGES_ONE_AND_TWO_SPEED, DEFAULT_STAGE_THREE_SPEED);
