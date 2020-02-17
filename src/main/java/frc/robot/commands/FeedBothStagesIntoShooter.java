@@ -48,7 +48,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   public void execute() {
     boolean shooterIsReady = m_shooterIsReady.getAsBoolean();
     if (shooterIsReady && (counter > 20)) {
-      m_feederBase.driveBothStages();
+      m_feederBase.runBothStages(0.6, 1.0);
     } else {
       m_feederBase.stopBothStages();
     }
