@@ -86,6 +86,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     getSensorsContainer().getBallFeederSensor().isThereBall();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
+
     /*System.out.print("\nNETWORK TABLES FOR LIMELIGHT:\n(if the value is 0.0, it's not reading anything.)\ntX: " + limelightTable.getEntry("tx").getDouble(0.0) +
      /"\ntY: " + limelightTable.getEntry("ty").getDouble(0.0) + "\ntV: " + limelightTable.getEntry("tv").getDouble(0.0) + "\n----------");
     */

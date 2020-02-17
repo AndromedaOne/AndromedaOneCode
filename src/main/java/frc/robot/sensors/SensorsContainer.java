@@ -57,6 +57,7 @@ public class SensorsContainer {
       System.out.println("Using real LimeLight");
       m_limelightCameraBase = new RealLimelightCamera();
     } else {
+      System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
     }
   }

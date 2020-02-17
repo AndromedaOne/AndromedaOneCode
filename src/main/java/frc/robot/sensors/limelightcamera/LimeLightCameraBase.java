@@ -10,4 +10,6 @@ public abstract class LimeLightCameraBase {
   public abstract double distanceToPowerPort();
 
   public abstract void setPipeline(int pipelineNumber);
+
+  public abstract void updateSmartDashboardReadings();
 }

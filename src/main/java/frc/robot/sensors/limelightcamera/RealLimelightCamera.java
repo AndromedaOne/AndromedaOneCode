@@ -4,6 +4,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 
 public class RealLimelightCamera extends LimeLightCameraBase {
@@ -49,5 +50,10 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   @Override
   public void setPipeline(int pipelineNumber) {
     m_limelightTable.getEntry("pipeline").setNumber(pipelineNumber);
+  }
+
+  @Override
+  public void updateSmartDashboardReadings() {
+    SmartDashboard.putNumber("LimeAngleToTurn", horizontalRadiansToTarget());
   }
 }

@@ -31,4 +31,9 @@ public class MockLimeLightCamera extends LimeLightCameraBase {
 
   }
 
+  @Override
+  public void updateSmartDashboardReadings() {
+
+  }
+
 }
