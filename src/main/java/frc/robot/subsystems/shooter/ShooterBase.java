@@ -52,6 +52,7 @@ public abstract class ShooterBase extends SubsystemBase {
 
   /**
    * This returns the shooting map
+   * 
    * @return
    */
   public abstract ShooterMap getShooterMap();

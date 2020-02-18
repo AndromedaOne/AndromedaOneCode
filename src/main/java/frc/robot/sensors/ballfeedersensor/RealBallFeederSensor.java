@@ -44,7 +44,7 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
       } else {
         dValues[i] = m_dataBuffer[i * 2] * 256 + m_dataBuffer[i * 2 + 1] + 256;
       }
-      //System.out.println("Sensor " + i + " : " + dValues[i]);
+      // System.out.println("Sensor " + i + " : " + dValues[i]);
     }
 
     String values = "";

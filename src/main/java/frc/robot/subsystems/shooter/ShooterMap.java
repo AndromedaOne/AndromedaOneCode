@@ -2,7 +2,9 @@ package frc.robot.subsystems.shooter;
 
 import java.util.Iterator;
 import java.util.List;
+
 import com.typesafe.config.Config;
+
 import frc.robot.Config4905;
 import frc.robot.lib.interpolate.InterpolatingDouble;
 import frc.robot.lib.interpolate.InterpolatingTreeMap;
@@ -33,10 +35,10 @@ public class ShooterMap {
   }
 
   /**
-   * This method returns the interpolated rpm with a distance
-   * based off the shooter map inside the config
-   * @param distance
-   * Distance in inches to the target
+   * This method returns the interpolated rpm with a distance based off the
+   * shooter map inside the config
+   * 
+   * @param distance Distance in inches to the target
    * @return
    */
   public double getInterpolatedRPM(double distance) {

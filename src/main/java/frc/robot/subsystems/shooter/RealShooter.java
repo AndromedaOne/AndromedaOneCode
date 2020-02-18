@@ -6,7 +6,6 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.*;
-import frc.robot.lib.interpolate.InterpolatingDouble;
 
 public class RealShooter extends ShooterBase {
 

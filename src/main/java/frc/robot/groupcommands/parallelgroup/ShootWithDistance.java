@@ -6,25 +6,26 @@ import frc.robot.subsystems.shooter.ShooterBase;
 
 public class ShootWithDistance extends ParallelCommandGroup {
 
-    /**
-     * This command will shoot all balls inside the feeder with a distance to shoot to
-     * @param shooter
-     * @param feeder
-     * @param distance
-     * in inches
-     */
-    public ShootWithDistance(ShooterBase shooter, FeederBase feeder, double distance) {
-        double rpm = shooter.getShooterMap().getInterpolatedRPM(distance);
-        addCommands(new ShootWithRPM(shooter, feeder, rpm));
-    }
+  /**
+   * This command will shoot all balls inside the feeder with a distance to shoot
+   * to
+   * 
+   * @param shooter
+   * @param feeder
+   * @param distance in inches
+   */
+  public ShootWithDistance(ShooterBase shooter, FeederBase feeder, double distance) {
+    double rpm = shooter.getShooterMap().getInterpolatedRPM(distance);
+    addCommands(new ShootWithRPM(shooter, feeder, rpm));
+  }
 
-    @Override
-    public boolean isFinished() {
-        return super.isFinished();
-    }
+  @Override
+  public boolean isFinished() {
+    return super.isFinished();
+  }
 
-    @Override
-    public void end(boolean interrupted) {
-        super.end(interrupted);
-    }
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+  }
 }
