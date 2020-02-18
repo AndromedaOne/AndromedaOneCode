@@ -67,8 +67,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
     super.execute();
     int numOfCells = m_ballFeederSensor.getNumberOfPowerCellsInFeeder();
 
-    System.out.println("Number of Powercells: " + numOfCells);
-
     if (numOfCells == 0) {
       m_samples++;
     } else {
