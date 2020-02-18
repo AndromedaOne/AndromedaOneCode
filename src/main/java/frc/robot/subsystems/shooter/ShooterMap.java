@@ -23,7 +23,7 @@ public class ShooterMap {
     while (it.hasNext()) {
       double nextValue = it.next();
       if (!it.hasNext()) {
-        System.err.println("WARN: Uneven Number of ShooterMap Values in Config");
+        System.err.println("WARN: Uneven Number of Shooter Map Values in Config");
         break;
       }
       m_shooterMap.put(new InterpolatingDouble(nextValue), new InterpolatingDouble(it.next()));
@@ -32,5 +32,16 @@ public class ShooterMap {
 
   public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterMap() {
     return m_shooterMap;
+  }
+
+  /**
+   * This method returns the interpolated rpm with a distance based off the
+   * shooter map inside the config
+   * 
+   * @param distance Distance in inches to the target
+   * @return
+   */
+  public double getInterpolatedRPM(double distance) {
+    return m_shooterMap.getInterpolated(new InterpolatingDouble(distance)).value;
   }
 }

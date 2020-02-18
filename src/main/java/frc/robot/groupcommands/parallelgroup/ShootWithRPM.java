@@ -15,6 +15,7 @@ import frc.robot.subsystems.shooter.ShooterBase;
 public class ShootWithRPM extends ParallelCommandGroup {
   private BooleanSupplier m_isDoneFeedingSupplier = this::isDoneFeeding;
   private boolean m_isDone = false;
+  private ShooterBase m_shooter;
   private BallFeederSensorBase m_ballFeederSensor;
   // This is the amount of samples we need to determine whether
   // the feeder is actually empty
@@ -34,6 +35,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
     Config feederConfig = Config4905.getConfig4905().getFeederConfig();
 
+    m_shooter = shooter;
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     kNumOfSamples = feederConfig.getInt("shootWithRPM.numOfFeederTestSamples");
 
@@ -55,10 +57,17 @@ public class ShootWithRPM extends ParallelCommandGroup {
   }
 
   @Override
+  public void initialize() {
+    super.initialize();
+    m_isDone = false;
+  }
+
+  @Override
   public void execute() {
     super.execute();
+    int numOfCells = m_ballFeederSensor.getNumberOfPowerCellsInFeeder();
 
-    if (m_ballFeederSensor.getNumberOfPowerCellsInFeeder() == 0) {
+    if (numOfCells == 0) {
       m_samples++;
     } else {
       m_samples = 0;
@@ -72,6 +81,13 @@ public class ShootWithRPM extends ParallelCommandGroup {
   @Override
   public boolean isFinished() {
     return isDoneFeeding();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    m_shooter.setShooterSeriesPower(0);
+    m_shooter.setShooterWheelPower(0);
   }
 
   private boolean isDoneFeeding() {

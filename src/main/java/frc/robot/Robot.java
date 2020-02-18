@@ -71,6 +71,8 @@ public class Robot extends TimedRobot {
    * and SmartDashboard integrated updating.
    */
 
+  private int counter = 0;
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
@@ -81,7 +83,6 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    getSensorsContainer().getBallFeederSensor().isThereBall();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
   }
 

@@ -6,7 +6,6 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.*;
-import frc.robot.lib.interpolate.InterpolatingDouble;
 
 public class RealShooter extends ShooterBase {
 
@@ -28,10 +27,8 @@ public class RealShooter extends ShooterBase {
     m_shooterSeries = new TalonSRXController(m_shooterConfig, "shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
     m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
-
     m_shooterMap = new ShooterMap();
-    System.out.println(
-        "----------------RPM: " + m_shooterMap.getShooterMap().getInterpolated(new InterpolatingDouble(2.0)).value);
+
     m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
 
@@ -101,6 +98,13 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public boolean shooterIsReady() {
+    // This does not include the series wheel ready bc the series wheel currently
+    // Does not have an encoder
     return m_shooterWheelIsReady && !m_shooterIsIdle;
+  }
+
+  @Override
+  public ShooterMap getShooterMap() {
+    return m_shooterMap;
   }
 }

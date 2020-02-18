@@ -51,6 +51,13 @@ public abstract class ShooterBase extends SubsystemBase {
   public abstract boolean isShooterHoodOpen();
 
   /**
+   * This returns the shooting map
+   * 
+   * @return
+   */
+  public abstract ShooterMap getShooterMap();
+
+  /**
    * This is <b>Only</b> to be called by the shooter commands
    */
   public abstract void setShooterPIDIsReady(boolean isReady);
