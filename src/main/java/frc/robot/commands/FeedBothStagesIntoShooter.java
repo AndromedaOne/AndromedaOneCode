@@ -23,6 +23,8 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   BooleanSupplier m_endCondition;
   BooleanSupplier m_shooterIsReady;
   double counter = 0;
+  private static final double kStageOneAndTwoSpeed = 0.6;
+  private static final double kStageThreeSpeed = 1.0;
 
   public FeedBothStagesIntoShooter(FeederBase feederBase, BooleanSupplier endCondition, BooleanSupplier shooterIsReady,
       ShooterBase shooterBase) {
@@ -48,7 +50,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   public void execute() {
     boolean shooterIsReady = m_shooterIsReady.getAsBoolean();
     if (shooterIsReady && (counter > 20)) {
-      m_feederBase.runBothStages(0.6, 1.0);
+      m_feederBase.runBothStages(kStageOneAndTwoSpeed, kStageThreeSpeed);
     } else {
       m_feederBase.stopBothStages();
     }
