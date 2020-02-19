@@ -15,6 +15,7 @@ import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnDeltaAngle;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -28,16 +29,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
 
-    SmartDashboard.putData("North", new TurnToCompassHeading(0));
-    SmartDashboard.putData("South", new TurnToCompassHeading(180));
-    SmartDashboard.putData("East", new TurnToCompassHeading(90));
-    SmartDashboard.putData("West", new TurnToCompassHeading(270));
-    SmartDashboard.putData("Turn -45", new TurnDeltaAngle(-45));
-    SmartDashboard.putData("Turn -90", new TurnDeltaAngle(-90));
-    SmartDashboard.putData("Turn -180", new TurnDeltaAngle(-180));
-    SmartDashboard.putData("Turn 45", new TurnDeltaAngle(45));
-    SmartDashboard.putData("Turn 90", new TurnDeltaAngle(90));
-    SmartDashboard.putData("Turn 180", new TurnDeltaAngle(180));
+    SmartDashboard.putData("TurnToCompassHeadingTester", new TurnToCompassHeadingTester(SmartDashboard.getNumber("Compass Heading", 0)));
 
     SmartDashboard.putNumber("Auto Delay", 0);
 

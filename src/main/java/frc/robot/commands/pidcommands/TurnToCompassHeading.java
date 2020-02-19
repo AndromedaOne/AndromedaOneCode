@@ -8,6 +8,8 @@
 
 package frc.robot.commands.pidcommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -20,8 +22,8 @@ import frc.robot.telemetries.Trace;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToCompassHeading extends PIDCommand4905 {
-  Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
 
+  private double m_compassHeading;
   /**
    * Creates a new TurnToCompassHeading.
    * 
@@ -40,22 +42,27 @@ public class TurnToCompassHeading extends PIDCommand4905 {
           // Use the output here
           Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output, false, false);
         });
+    this.m_compassHeading = compassHeading;
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
 
+    m_setpoint = () -> m_compassHeading;
+
+
+  }
+
+  public void initialize() {
+    Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+    super.initialize();
+    Trace.getInstance().logCommandStart("TurnToCompassHeading");
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));
     getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
     getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"),
         pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
-  }
-
-  public void initialize() {
-    super.initialize();
-    Trace.getInstance().logCommandStart("TurnToCompassHeading");
   }
 
   // Returns true when the command should end.
@@ -68,5 +75,10 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     super.end(interrupted);
     Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
     Trace.getInstance().logCommandStop("TurnToCompassHeading");
+  }
+  
+  public void setCompassHeading(double compassHeading) {
+    this.m_compassHeading = compassHeading;
+    
   }
 }
