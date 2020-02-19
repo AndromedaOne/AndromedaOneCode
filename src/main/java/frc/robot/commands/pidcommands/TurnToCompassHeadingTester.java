@@ -3,7 +3,6 @@ package frc.robot.commands.pidcommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ConfigReload;
-import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
 
 public class TurnToCompassHeadingTester extends SequentialCommandGroup {

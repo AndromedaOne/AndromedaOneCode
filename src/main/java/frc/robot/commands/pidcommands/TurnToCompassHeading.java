@@ -8,8 +8,6 @@
 
 package frc.robot.commands.pidcommands;
 
-import java.util.function.DoubleSupplier;
-
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -24,6 +22,7 @@ import frc.robot.telemetries.Trace;
 public class TurnToCompassHeading extends PIDCommand4905 {
 
   private double m_compassHeading;
+
   /**
    * Creates a new TurnToCompassHeading.
    * 
@@ -50,7 +49,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
 
     m_setpoint = () -> m_compassHeading;
 
-
   }
 
   public void initialize() {
@@ -76,9 +74,9 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
     Trace.getInstance().logCommandStop("TurnToCompassHeading");
   }
-  
+
   public void setCompassHeading(double compassHeading) {
     this.m_compassHeading = compassHeading;
-    
+
   }
 }
