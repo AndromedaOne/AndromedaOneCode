@@ -22,11 +22,11 @@ public abstract class FeederBase extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public abstract void driveStageOne();
+  public abstract void runStageOne(double speed);
 
-  public abstract void driveStageTwo();
+  public abstract void runStagesTwoAndThree(double stageTwoSpeed, double stageThreeSpeed);
 
-  public abstract void driveBothStages();
+  public abstract void runBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed);
 
   public abstract void stopStageOne();
 
@@ -34,9 +34,11 @@ public abstract class FeederBase extends SubsystemBase {
 
   public abstract void stopBothStages();
 
-  public abstract void runReverseBothStages();
+  public abstract void runReverseBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed);
 
-  public abstract void runReverseStageOne();
+  public abstract void runReverseStageOne(double speed);
 
-  public abstract void runReverseStageTwo();
+  public abstract void runReverseStageTwo(double stageTwoSpeed, double stageThreeSpeed);
+
+  public abstract void runStageThree(double speed);
 }
