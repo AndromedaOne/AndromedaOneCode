@@ -31,4 +31,8 @@ public class MockLimeLightCamera extends LimeLightCameraBase {
 
   }
 
+  @Override
+  public void setLightState(boolean isOn) {
+    
+  }
 }

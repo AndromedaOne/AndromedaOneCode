@@ -50,4 +50,11 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   public void setPipeline(int pipelineNumber) {
     m_limelightTable.getEntry("pipeline").setNumber(pipelineNumber);
   }
+
+  @Override
+  public void setLightState(boolean isOn) {
+    m_limelightTable.getEntry("ledMode").setNumber(isOn?3:0);
+  }
+
+  
 }
