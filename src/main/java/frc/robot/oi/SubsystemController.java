@@ -72,6 +72,10 @@ public class SubsystemController {
     return ButtonsEnumerated.RIGHTBUMPERBUTTON.getJoystickButton(m_subsystemController);
   }
 
+  public JoystickButton getReverseFeederButton() {
+    return ButtonsEnumerated.STARTBUTTON.getJoystickButton(m_subsystemController);
+  }
+
   public double getLeftStickForwardBackwardValue() {
     return deadband(-m_subsystemController.getY(GenericHID.Hand.kLeft));
   }
