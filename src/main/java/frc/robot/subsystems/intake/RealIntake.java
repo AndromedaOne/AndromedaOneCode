@@ -31,6 +31,7 @@ public class RealIntake extends IntakeBase {
   public void deployIntake() {
     // TODO Auto-generated method stub
     m_intakeDeploymentSolenoid.extendPiston();
+    System.out.println("Deploying Intake");
   }
 
   @Override

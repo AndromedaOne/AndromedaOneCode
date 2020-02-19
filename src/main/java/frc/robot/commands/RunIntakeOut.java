@@ -38,6 +38,7 @@ public class RunIntakeOut extends CommandBase {
     m_intakeBase = intakeBase;
     m_outtakeSpeed = m_intakeConfig.getDouble("outtakespeed");
     m_finishedCondition = finishedCondition;
+    m_intakeBase.deployIntake();
   }
 
   // Called when the command is initially scheduled.
