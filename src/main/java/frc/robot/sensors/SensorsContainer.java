@@ -31,7 +31,7 @@ public class SensorsContainer {
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
-    if (sensorConfig.hasPath("ballFeederSensor")) {
+    if (sensorConfig.hasPath("sensors.ballFeederSensor")) {
       System.out.println("Using real ball feeder sensor");
       ballFeederSensor = new RealBallFeederSensor("ballFeederSensor");
     } else {

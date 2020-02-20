@@ -7,11 +7,13 @@ import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.groupcommands.DeployAndRunIntake;
+import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.TurnAndShoot;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 
@@ -24,6 +26,7 @@ public class AutoModes4905 {
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     ShooterBase shooter = subsystemsContainer.getShooter();
     IntakeBase intake = subsystemsContainer.getIntake();
+    FeederBase feeder = subsystemsContainer.getFeeder();
 
     // @formatter:off
         m_autoChooser.setDefaultOption("DoNothing", 
