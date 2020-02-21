@@ -38,13 +38,14 @@ public class RunIntakeOut extends CommandBase {
     m_intakeBase = intakeBase;
     m_outtakeSpeed = m_intakeConfig.getDouble("outtakespeed");
     m_finishedCondition = finishedCondition;
-    m_intakeBase.deployIntake();
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart("RunIntakeOut");
+    m_intakeBase.deployIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,7 +58,7 @@ public class RunIntakeOut extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intakeBase.stopIntake();
-
+    m_intakeBase.retractIntake();
     Trace.getInstance().logCommandStop("RunIntakeOut");
   }
 
