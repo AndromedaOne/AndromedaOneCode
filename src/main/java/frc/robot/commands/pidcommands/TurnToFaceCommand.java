@@ -26,12 +26,24 @@ public class TurnToFaceCommand extends PIDCommand4905 {
 
   public TurnToFaceCommand(DoubleSupplier sensor) {
     super(
-        new PIDController4905("Turn To Face PID", m_conf.getDouble("TurnToFaceCommand.Kp"),
-            m_conf.getDouble("TurnToFaceCommand.Ki"), m_conf.getDouble("TurnToFaceCommand.Kd"),
-            m_conf.getDouble("TurnToFaceCommand.minOutputToMove")),
-        sensor, 0.0, (lambda) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0,
+        // The controller that the command will use
+        new PIDController4905("TurnToFace", 0, 0, 0, 0),
+        // This should return the measurement
+        sensor,
+        // This should return the setpoint (can also be a constant)
+        0.0,
+        // This uses the output
+        (lambda) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0,
             -lambda, true, true));
-    this.getController().setTolerance(0.1);
+    
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+
+    getController().setP(m_conf.getDouble("TurnToFaceCommand.Kp"));
+    getController().setI(m_conf.getDouble("TurnToFaceCommand.Ki"));
+    getController().setD(m_conf.getDouble("TurnToFaceCommand.Kd"));
+    getController().setMinOutputToMove(m_conf.getDouble("TurnToFaceCommand.minOutputToMove"));
+    getController().setTolerance(m_conf.getDouble("TurnToFaceCommand.positionTolerance"),
+        m_conf.getDouble("TurnToFaceCommand.velocityTolerance"));
     this.m_sensor = sensor;
   }
 

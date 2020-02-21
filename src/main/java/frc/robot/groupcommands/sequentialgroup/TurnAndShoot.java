@@ -18,7 +18,7 @@ public class TurnAndShoot extends SequentialCommandGroup {
 
   public TurnAndShoot(ShooterBase shooter, SensorsContainer sensorsContainer, int numberOfCells) {
     super();
-    addCommands(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalRadiansToTarget),
+    addCommands(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
         new FakeShooterCommand(numberOfCells));
   }
   @Override

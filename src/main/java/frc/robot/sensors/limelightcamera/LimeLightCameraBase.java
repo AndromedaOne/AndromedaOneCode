@@ -1,7 +1,7 @@
 package frc.robot.sensors.limelightcamera;
 
 public abstract class LimeLightCameraBase {
-  public abstract double horizontalRadiansToTarget();
+  public abstract double horizontalDegreesToTarget();
 
   public abstract double verticalRadiansToTarget();
 

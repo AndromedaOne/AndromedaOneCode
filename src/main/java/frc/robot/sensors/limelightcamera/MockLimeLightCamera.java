@@ -3,7 +3,7 @@ package frc.robot.sensors.limelightcamera;
 public class MockLimeLightCamera extends LimeLightCameraBase {
 
   @Override
-  public double horizontalRadiansToTarget() {
+  public double horizontalDegreesToTarget() {
 
     return 0;
   }

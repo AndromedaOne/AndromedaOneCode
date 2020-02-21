@@ -18,11 +18,11 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   }
 
   @Override
-  public double horizontalRadiansToTarget() {
+  public double horizontalDegreesToTarget() {
     if (m_limelightTable.getEntry("tv").getDouble(0.0) == 0.0) {
       return Double.NaN;
     } else {
-      return Math.toRadians(m_limelightTable.getEntry("tx").getDouble(0.0));
+      return (m_limelightTable.getEntry("tx").getDouble(0.0));
     }
 
   }
@@ -54,6 +54,6 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public void updateSmartDashboardReadings() {
-    SmartDashboard.putNumber("LimeAngleToTurn", horizontalRadiansToTarget());
+    SmartDashboard.putNumber("LimeAngleToTurn", horizontalDegreesToTarget());
   }
 }
