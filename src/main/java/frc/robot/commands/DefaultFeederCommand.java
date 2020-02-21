@@ -30,6 +30,7 @@ public class DefaultFeederCommand extends CommandBase {
       + DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED;
   private FeederStates m_previousState;
   private int emptyCounter = 0;
+  private static int numberOfPowerCellsInFeeder = 0;
 
   /**
    * Creates a new FeederCommand.
@@ -74,6 +75,7 @@ public class DefaultFeederCommand extends CommandBase {
       emptyCounter = 0;
     }
     if (emptyCounter >= 5) {
+      numberOfPowerCellsInFeeder = 0;
       m_feederState = FeederStates.EMPTY;
     }
     switch (m_feederState) {
@@ -98,6 +100,7 @@ public class DefaultFeederCommand extends CommandBase {
         m_feederState = FeederStates.SECOND_LOADING_1;
       }
       m_feeder.stopBothStages();
+      numberOfPowerCellsInFeeder = 1;
       break;
 
     case SECOND_LOADING_1:
@@ -129,6 +132,7 @@ public class DefaultFeederCommand extends CommandBase {
         m_feederState = FeederStates.THIRD_LOADING_1;
       }
       m_feeder.stopBothStages();
+      numberOfPowerCellsInFeeder = 2;
       break;
 
     case THIRD_LOADING_1:
@@ -160,11 +164,18 @@ public class DefaultFeederCommand extends CommandBase {
         m_feederState = FeederStates.EMPTY;
       }
       m_feeder.stopBothStages();
+      numberOfPowerCellsInFeeder = 3;
       break;
 
     case UNKNOWN:
       m_feeder.stopBothStages();
       break;
+    }
+    if (ballSensorValues[STAGE_1_END.getIndex()]) {
+      numberOfPowerCellsInFeeder++;
+    }
+    if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]) {
+      numberOfPowerCellsInFeeder++;
     }
     m_previousState = m_feederState;
 
@@ -181,5 +192,9 @@ public class DefaultFeederCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public static int getNumberOfPowerCellsInFeeder() {
+    return numberOfPowerCellsInFeeder;
   }
 }

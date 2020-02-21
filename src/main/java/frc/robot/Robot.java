@@ -10,8 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
@@ -84,6 +86,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
   }
 
   /**
