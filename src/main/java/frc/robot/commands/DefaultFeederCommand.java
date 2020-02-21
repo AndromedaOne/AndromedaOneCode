@@ -61,6 +61,7 @@ public class DefaultFeederCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    numberOfPowerCellsInFeeder = 0;
     if (Robot.getInstance().isDisabled()) {
       m_feederState = FeederStates.EMPTY;
       return;
@@ -80,7 +81,6 @@ public class DefaultFeederCommand extends CommandBase {
       emptyCounter = 0;
     }
     if (emptyCounter >= 5) {
-      numberOfPowerCellsInFeeder = 0;
       m_feederState = FeederStates.EMPTY;
     }
     switch (m_feederState) {
