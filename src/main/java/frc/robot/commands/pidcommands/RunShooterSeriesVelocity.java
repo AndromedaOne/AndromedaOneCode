@@ -39,7 +39,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
         // Output
         output -> {
           // TODO actually put an encoder on the series wheel
-          shooter.setShooterSeriesPower(0.75);
+          shooter.setShooterSeriesPower(1);
         });
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
