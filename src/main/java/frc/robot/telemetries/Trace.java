@@ -361,7 +361,8 @@ public class Trace {
   public void logCommandStop(String commandName) {
     logCommand(commandName, "stop");
   }
+
   public void logCommandInfo(String commandName, String information) {
-    logCommand(commandName, "info: "  + information);
+    logCommand(commandName, "info: " + information);
   }
 }
