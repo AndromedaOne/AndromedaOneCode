@@ -63,7 +63,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     // This adjusts the setpoint while the PID is running to allow the
     // Subsystems driver to tune the rpm on the fly
     m_target += leftYAxis * kControllerScale;
-    if(m_target > 4900) {
+    if (m_target > 4900) {
       m_target = 4900;
     }
     m_shooter.setShooterPIDIsReady(getController().atSetpoint());
