@@ -10,22 +10,29 @@ package frc.robot.groupcommands.sequentialgroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 
 public class TurnAndShoot extends SequentialCommandGroup {
 
-  public TurnAndShoot(ShooterBase shooter, SensorsContainer sensorsContainer, int numberOfCells) {
+  public TurnAndShoot(ShooterBase shooter, FeederBase feeder, SensorsContainer sensorsContainer, int numberOfCells,
+      double distance) {
     super();
     addCommands(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
-        new FakeShooterCommand(numberOfCells));
+    for (int x = 0; x < numberOfCells; x++) {
+      addCommands(new ShootWithDistance(shooter, feeder, distance));
+    }
   }
+
   @Override
   public void initialize() {
     super.initialize();
     Trace.getInstance().logCommandStart("TurnAndShoot");
   }
+
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
