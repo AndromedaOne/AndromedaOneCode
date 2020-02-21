@@ -40,8 +40,6 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
 
-    m_feedForward = createFeedForward();
-
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
 
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
@@ -54,7 +52,12 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    System.out.println(" - Shooter Setpoint: " + m_target);
+    m_feedForward = createFeedForward();
+    getController().setP(m_pidConfig.getDouble("runshooterwheelvelocity.p"));
+    getController().setI(m_pidConfig.getDouble("runshooterwheelvelocity.i"));
+    getController().setD(m_pidConfig.getDouble("runshooterwheelvelocity.d"));
+    System.out.println(" - Shooter Setpoint: " + m_target + 
+      "\nShooter P = " + m_pidConfig.getDouble("runshooterwheelvelocity.p"));
   }
 
   @Override
@@ -62,6 +65,9 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
     // This adjusts the setpoint while the PID is running to allow the
     // Subsystems driver to tune the rpm on the fly
+    if (Math.abs(leftYAxis)  < .1) {
+      leftYAxis = 0;
+    }
     m_target += leftYAxis * kControllerScale;
     if (m_target > 4900) {
       m_target = 4900;
