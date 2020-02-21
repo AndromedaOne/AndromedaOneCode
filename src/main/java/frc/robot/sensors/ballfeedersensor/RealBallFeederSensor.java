@@ -36,7 +36,6 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     boolean[] boolBuf = new boolean[m_dataBuffer.length / 2];
     double[] dValues = new double[m_dataBuffer.length / 2];
 
-    m_i2c.readOnly(m_dataBuffer, (m_numSensors * 2));
     // Step through each even-numbered element in the array
     for (int i = 0; i < m_dataBuffer.length / 2; i++) {
       if (m_dataBuffer[i * 2 + 1] >= 0) {
@@ -82,5 +81,10 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public void updateSensors() {
+    m_i2c.readOnly(m_dataBuffer, (m_numSensors * 2));
   }
 }
