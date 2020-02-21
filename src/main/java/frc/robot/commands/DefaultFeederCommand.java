@@ -31,6 +31,8 @@ public class DefaultFeederCommand extends CommandBase {
   private FeederStates m_previousState;
   private int emptyCounter = 0;
   private static int numberOfPowerCellsInFeeder = 0;
+  private int m_stageOneEndSensorTriggeredCounter = 0;
+  private int m_stageOneLeftRightSensorTriggeredCounter = 0;
 
   /**
    * Creates a new FeederCommand.
@@ -51,6 +53,9 @@ public class DefaultFeederCommand extends CommandBase {
     Trace.getInstance().logCommandStart("DefaultFeederCommand");
     m_previousState = null;
     emptyCounter = 0;
+    m_stageOneEndSensorTriggeredCounter = 0;
+    m_stageOneLeftRightSensorTriggeredCounter = 0;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -172,10 +177,20 @@ public class DefaultFeederCommand extends CommandBase {
       break;
     }
     if (ballSensorValues[STAGE_1_END.getIndex()]) {
-      numberOfPowerCellsInFeeder++;
+      m_stageOneEndSensorTriggeredCounter++;
+      if (m_stageOneEndSensorTriggeredCounter > 5) {
+        numberOfPowerCellsInFeeder++;
+      }
+    } else {
+      m_stageOneEndSensorTriggeredCounter = 0;
     }
     if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]) {
-      numberOfPowerCellsInFeeder++;
+      m_stageOneLeftRightSensorTriggeredCounter++;
+      if (m_stageOneLeftRightSensorTriggeredCounter > 2) {
+        numberOfPowerCellsInFeeder++;
+      }
+    } else {
+      m_stageOneLeftRightSensorTriggeredCounter = 0;
     }
     m_previousState = m_feederState;
 
