@@ -8,11 +8,24 @@ public class PIDController4905 extends PIDControllerProposed {
   private double m_minOutputToMoveAbs;
   private String m_controllerName;
   private double m_maxOutput = Double.POSITIVE_INFINITY;
+  private int m_counter = 0;
+  private int m_samplesOnTarget = 4;
 
-  public PIDController4905(String controllerName, double Kp, double Ki, double Kd, double minOutputToMove) {
+  public PIDController4905(String controllerName, double Kp, double Ki, double Kd, double minOutputToMove,
+      int samplesOnTarget) {
     super(Kp, Ki, Kd);
     m_controllerName = controllerName;
     m_minOutputToMove = minOutputToMove;
+    m_samplesOnTarget = samplesOnTarget;
+  }
+
+  public PIDController4905(String controllerName, double Kp, double Ki, double Kd, double minOutputToMove) {
+    this(controllerName, Kp, Ki, Kd, minOutputToMove, 4);
+  }
+
+  public void reset() {
+    super.reset();
+    m_counter = 0;
   }
 
   @Override
@@ -45,5 +58,17 @@ public class PIDController4905 extends PIDControllerProposed {
 
   public void setMaxOutput(double maxOutput) {
     m_maxOutput = maxOutput;
+  }
+
+  public boolean atSetpoint() {
+    if (Math.abs(getPositionError()) < getPositionTolerance()) {
+      m_counter++;
+    } else {
+      m_counter = 0;
+    }
+    if (m_counter > m_samplesOnTarget) {
+      return true;
+    }
+    return false;
   }
 }

@@ -290,6 +290,10 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     m_velocityTolerance = velocityTolerance;
   }
 
+  public double getPositionTolerance() {
+    return m_positionTolerance;
+  }
+
   /**
    * Returns the difference between the setpoint and the measurement.
    *
