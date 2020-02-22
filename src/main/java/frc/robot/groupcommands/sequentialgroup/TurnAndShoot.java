@@ -21,7 +21,7 @@ public class TurnAndShoot extends SequentialCommandGroup {
   public TurnAndShoot(ShooterBase shooter, FeederBase feeder, SensorsContainer sensorsContainer, int numberOfCells,
       double distance) {
     super();
-    addCommands(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
+    addCommands(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
     for (int x = 0; x < numberOfCells; x++) {
       addCommands(new ShootWithDistance(shooter, feeder, distance));
     }
