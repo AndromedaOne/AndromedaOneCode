@@ -9,4 +9,6 @@ public abstract class BallFeederSensorBase {
   public abstract boolean isBall(EnumBallLocation location);
 
   public abstract int getNumberOfPowerCellsInFeeder();
+
+  public abstract void updateSensors();
 }
