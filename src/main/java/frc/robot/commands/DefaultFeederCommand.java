@@ -30,6 +30,9 @@ public class DefaultFeederCommand extends CommandBase {
       + DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED;
   private FeederStates m_previousState;
   private int emptyCounter = 0;
+  private static int numberOfPowerCellsInFeeder = 0;
+  private int m_stageOneEndSensorTriggeredCounter = 0;
+  private int m_stageOneLeftRightSensorTriggeredCounter = 0;
 
   /**
    * Creates a new FeederCommand.
@@ -50,11 +53,15 @@ public class DefaultFeederCommand extends CommandBase {
     Trace.getInstance().logCommandStart("DefaultFeederCommand");
     m_previousState = null;
     emptyCounter = 0;
+    m_stageOneEndSensorTriggeredCounter = 0;
+    m_stageOneLeftRightSensorTriggeredCounter = 0;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    numberOfPowerCellsInFeeder = 0;
     if (Robot.getInstance().isDisabled()) {
       m_feederState = FeederStates.EMPTY;
       return;
@@ -83,6 +90,7 @@ public class DefaultFeederCommand extends CommandBase {
         m_feederState = FeederStates.ONE_LOADING;
       }
       m_feeder.stopBothStages();
+      numberOfPowerCellsInFeeder = 0;
       break;
 
     case ONE_LOADING:
@@ -98,6 +106,7 @@ public class DefaultFeederCommand extends CommandBase {
         m_feederState = FeederStates.SECOND_LOADING_1;
       }
       m_feeder.stopBothStages();
+      numberOfPowerCellsInFeeder = 1;
       break;
 
     case SECOND_LOADING_1:
@@ -129,6 +138,7 @@ public class DefaultFeederCommand extends CommandBase {
         m_feederState = FeederStates.THIRD_LOADING_1;
       }
       m_feeder.stopBothStages();
+      numberOfPowerCellsInFeeder = 2;
       break;
 
     case THIRD_LOADING_1:
@@ -160,11 +170,28 @@ public class DefaultFeederCommand extends CommandBase {
         m_feederState = FeederStates.EMPTY;
       }
       m_feeder.stopBothStages();
+      numberOfPowerCellsInFeeder = 3;
       break;
 
     case UNKNOWN:
       m_feeder.stopBothStages();
       break;
+    }
+    if (ballSensorValues[STAGE_1_END.getIndex()]) {
+      m_stageOneEndSensorTriggeredCounter++;
+      if (m_stageOneEndSensorTriggeredCounter > 5) {
+        numberOfPowerCellsInFeeder++;
+      }
+    } else {
+      m_stageOneEndSensorTriggeredCounter = 0;
+    }
+    if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]) {
+      m_stageOneLeftRightSensorTriggeredCounter++;
+      if (m_stageOneLeftRightSensorTriggeredCounter > 2) {
+        numberOfPowerCellsInFeeder++;
+      }
+    } else {
+      m_stageOneLeftRightSensorTriggeredCounter = 0;
     }
     m_previousState = m_feederState;
 
@@ -181,5 +208,9 @@ public class DefaultFeederCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public static int getNumberOfPowerCellsInFeeder() {
+    return numberOfPowerCellsInFeeder;
   }
 }
