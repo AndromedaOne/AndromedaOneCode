@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.*;
 
@@ -19,7 +20,6 @@ public class RealShooter extends ShooterBase {
   private boolean m_shooterWheelIsReady = false;
   private boolean m_shooterSeriesIsReady = false;
   private boolean m_shooterIsIdle = false;
-  private ShooterMap m_shooterMap;
 
   public RealShooter() {
     m_shooterOne = new SparkMaxController(m_shooterConfig, "shooterone");
@@ -27,7 +27,6 @@ public class RealShooter extends ShooterBase {
     m_shooterSeries = new TalonSRXController(m_shooterConfig, "shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
     m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
-    m_shooterMap = new ShooterMap();
 
     m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
@@ -51,7 +50,9 @@ public class RealShooter extends ShooterBase {
   @Override
   public double getShooterWheelVelocity() {
     double average = m_shooterOne.getEncoderVelocityTicks() + m_shooterTwo.getEncoderVelocityTicks();
-    return average / 2;
+    average = average / 2;
+    SmartDashboard.putNumber("Shooter Velocity", average);
+    return average;
   }
 
   @Override
@@ -103,8 +104,4 @@ public class RealShooter extends ShooterBase {
     return m_shooterWheelIsReady && !m_shooterIsIdle;
   }
 
-  @Override
-  public ShooterMap getShooterMap() {
-    return m_shooterMap;
-  }
 }

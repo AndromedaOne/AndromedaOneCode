@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
-import frc.robot.commands.pidcommands.MoveUsingEncoder;
-import frc.robot.commands.pidcommands.TurnDeltaAngle;
-import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
+import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
+import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -26,22 +26,17 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("MoveUsingEncoder", new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 12));
+    SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
 
-    SmartDashboard.putData("North", new TurnToCompassHeading(0));
-    SmartDashboard.putData("South", new TurnToCompassHeading(180));
-    SmartDashboard.putData("East", new TurnToCompassHeading(90));
-    SmartDashboard.putData("West", new TurnToCompassHeading(270));
-    SmartDashboard.putData("Turn -45", new TurnDeltaAngle(-45));
-    SmartDashboard.putData("Turn -90", new TurnDeltaAngle(-90));
-    SmartDashboard.putData("Turn -180", new TurnDeltaAngle(-180));
-    SmartDashboard.putData("Turn 45", new TurnDeltaAngle(45));
-    SmartDashboard.putData("Turn 90", new TurnDeltaAngle(90));
-    SmartDashboard.putData("Turn 180", new TurnDeltaAngle(180));
+    SmartDashboard.putData("TurnToCompassHeadingTester",
+        new TurnToCompassHeadingTester(SmartDashboard.getNumber("Compass Heading", 0)));
 
     SmartDashboard.putNumber("Auto Delay", 0);
 
     SmartDashboard.putData("reloadConfig", new ConfigReload());
+
+    SmartDashboard.putData("Shoot 10 feet",
+        new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, m_autoChooser);
   }
