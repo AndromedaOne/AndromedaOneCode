@@ -65,7 +65,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
 
       if (m_nanCounter == 0) {
         System.out.println(("TurnToFaceCommand Target found, angle is currently " + angle
-            + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToTarget(45)));
+            + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToPowerPort()));
       }
 
       boolean returnValue = this.getController().atSetpoint() && m_lastSetpoint;
@@ -73,7 +73,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
       if (returnValue) {
         // TODO: Change the placeholder to the real number.
         Trace.getInstance().logCommandInfo("TurnToFaceCommand", "Target found, angle is currently " + angle
-            + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToTarget(45));
+            + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToPowerPort());
       }
       return returnValue;
     }

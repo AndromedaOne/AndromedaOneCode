@@ -12,6 +12,8 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   protected NetworkTable m_limelightTable;
   protected double m_cameraHeight = m_config.getDouble("limelight.cameraHeight");
   protected double m_cameraAngle = m_config.getDouble("limelight.cameraAngleRadians");
+  protected double previousXValue = 0.0;
+  protected double previousYValue = 0.0;
 
   public RealLimelightCamera() {
     m_limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -19,22 +21,18 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double horizontalDegreesToTarget() {
-    if (m_limelightTable.getEntry("tv").getDouble(0.0) == 0.0) {
-      return Double.NaN;
-    } else {
-      return (m_limelightTable.getEntry("tx").getDouble(0.0));
+    if (m_limelightTable.getEntry("tv").getDouble(0.0) != 0.0) {
+      previousXValue = (m_limelightTable.getEntry("tx").getDouble(0.0));
     }
-
+    return previousXValue;
   }
 
   @Override
   public double verticalRadiansToTarget() {
     if (m_limelightTable.getEntry("tv").getDouble(0.0) == 0.0) {
-      return Double.NaN;
-    } else {
-      return Math.toRadians(m_limelightTable.getEntry("ty").getDouble(0.0));
+      previousYValue = (m_limelightTable.getEntry("ty").getDouble(0.0));
     }
-
+    return Math.toRadians(previousYValue);
   }
 
   @Override
@@ -44,7 +42,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double distanceToPowerPort() {
-    return 0.0;
+    return distanceToTarget(83.0);
   }
 
   @Override
@@ -55,5 +53,10 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   @Override
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("LimeAngleToTurn", horizontalDegreesToTarget());
+  }
+
+  @Override
+  public boolean targetLock() {
+    return m_limelightTable.getEntry("tv").getDouble(0.0) == 0.0;
   }
 }

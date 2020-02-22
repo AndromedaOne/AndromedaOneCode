@@ -36,4 +36,9 @@ public class MockLimeLightCamera extends LimeLightCameraBase {
 
   }
 
+  @Override
+  public boolean targetLock() {
+    return false;
+  }
+
 }
