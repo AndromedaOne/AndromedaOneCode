@@ -12,4 +12,6 @@ public abstract class LimeLightCameraBase {
   public abstract void setPipeline(int pipelineNumber);
 
   public abstract void updateSmartDashboardReadings();
+
+  public abstract boolean targetLock();
 }

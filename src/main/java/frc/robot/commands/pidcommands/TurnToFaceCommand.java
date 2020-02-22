@@ -33,9 +33,9 @@ public class TurnToFaceCommand extends PIDCommand4905 {
         // This should return the setpoint (can also be a constant)
         0.0,
         // This uses the output
-        (lambda) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0,
-            -lambda, false, false));
-    
+        (lambda) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0, -lambda, false,
+            false));
+
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
 
     getController().setP(m_conf.getDouble("TurnToFaceCommand.Kp"));
@@ -52,7 +52,6 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     m_nanCounter++;
     m_nanCounter = m_nanCounter % 50;
 
-    
     m_nanBuffer.set(m_nanCounter, m_sensor.getAsDouble() == Double.NaN);
     if (m_nanBuffer.cardinality() == 50) {
       Trace.getInstance().logCommandInfo("TurnToFaceCommand", "No target found for one second");
@@ -64,9 +63,9 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     } else {
       double angle = m_sensor.getAsDouble();
 
-      if (m_nanCounter ==0){
+      if (m_nanCounter == 0) {
         System.out.println(("TurnToFaceCommand Target found, angle is currently " + angle
-        + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToTarget(45)));
+            + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToPowerPort()));
       }
 
       boolean returnValue = this.getController().atSetpoint() && m_lastSetpoint;
@@ -74,7 +73,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
       if (returnValue) {
         // TODO: Change the placeholder to the real number.
         Trace.getInstance().logCommandInfo("TurnToFaceCommand", "Target found, angle is currently " + angle
-            + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToTarget(45));
+            + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToPowerPort());
       }
       return returnValue;
     }
