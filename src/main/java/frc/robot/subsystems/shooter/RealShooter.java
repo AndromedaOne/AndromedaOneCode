@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.*;
 
@@ -51,7 +52,9 @@ public class RealShooter extends ShooterBase {
   @Override
   public double getShooterWheelVelocity() {
     double average = m_shooterOne.getEncoderVelocityTicks() + m_shooterTwo.getEncoderVelocityTicks();
-    return average / 2;
+    average = average / 2;
+    SmartDashboard.putNumber("Shooter Velocity", average);
+    return average;
   }
 
   @Override
