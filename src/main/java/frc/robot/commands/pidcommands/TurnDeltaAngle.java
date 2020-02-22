@@ -38,7 +38,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output, false, false);
         });
     m_setpoint = this::getSetpoint;
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());

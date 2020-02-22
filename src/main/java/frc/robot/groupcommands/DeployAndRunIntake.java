@@ -11,7 +11,7 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ExtendIntake;
-import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunIntakeIn;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.telemetries.Trace;
 
@@ -31,7 +31,7 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
     super();
     m_intakeBase = intakeBase;
     m_finishedCondition = finishedCondition;
-    addCommands(new ExtendIntake(m_intakeBase), new RunIntake(m_intakeBase, finishedCondition));
+    addCommands(new ExtendIntake(m_intakeBase), new RunIntakeIn(m_intakeBase, finishedCondition));
 
   }
 

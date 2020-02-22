@@ -64,4 +64,9 @@ public class MockShooter extends ShooterBase {
   public void setShooterIsIdle(boolean isIdle) {
   }
 
+  // This should not be called if we dont have a shooter
+  @Override
+  public ShooterMap getShooterMap() {
+    return null;
+  }
 }

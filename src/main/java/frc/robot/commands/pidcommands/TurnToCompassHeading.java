@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -37,7 +38,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output, false, false);
         });
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
     // Use addRequirements() here to declare subsystem dependencies.
@@ -48,7 +49,8 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));
     getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
     getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
-    getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"));
+    getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"),
+        pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
   }
 
   public void initialize() {
@@ -64,6 +66,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
 
   public void end(boolean interrupted) {
     super.end(interrupted);
+    Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
     Trace.getInstance().logCommandStop("TurnToCompassHeading");
   }
 }

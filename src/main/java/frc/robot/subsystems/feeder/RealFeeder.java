@@ -10,7 +10,6 @@ package frc.robot.subsystems.feeder;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.TalonSRXController;
 
@@ -21,14 +20,12 @@ public class RealFeeder extends FeederBase {
   public TalonSRXController m_stageOne;
   public TalonSRXController m_stageTwo;
   public TalonSRXController m_stageThree;
-  private SpeedControllerGroup m_stageTwoAndThree;
 
   public RealFeeder() {
     Config feederConf = Config4905.getConfig4905().getFeederConfig();
     m_stageOne = new TalonSRXController(feederConf, "stageOne");
     m_stageTwo = new TalonSRXController(feederConf, "stageTwo");
     m_stageThree = new TalonSRXController(feederConf, "stageThree");
-    m_stageTwoAndThree = new SpeedControllerGroup(m_stageTwo, m_stageThree);
   }
 
   @Override
@@ -37,8 +34,8 @@ public class RealFeeder extends FeederBase {
   }
 
   @Override
-  public void driveStageOne() {
-    m_stageOne.set(ControlMode.PercentOutput, 1.0);
+  public void runStageOne(double speed) {
+    m_stageOne.set(ControlMode.PercentOutput, speed);
   }
 
   public void stopStageOne() {
@@ -46,18 +43,20 @@ public class RealFeeder extends FeederBase {
   }
 
   @Override
-  public void driveStageTwo() {
-    m_stageTwoAndThree.set(1.0);
+  public void runStagesTwoAndThree(double stageTwoSpeed, double stageThreeSpeed) {
+    m_stageTwo.set(ControlMode.PercentOutput, stageTwoSpeed);
+    m_stageThree.set(ControlMode.PercentOutput, stageThreeSpeed);
   }
 
   public void stopStageTwo() {
-    m_stageTwoAndThree.set(0);
+    m_stageTwo.set(0);
+    m_stageThree.set(0);
   }
 
   @Override
-  public void driveBothStages() {
-    driveStageOne();
-    driveStageTwo();
+  public void runBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed) {
+    runStageOne(stageOneAndTwoSpeed);
+    runStagesTwoAndThree(stageOneAndTwoSpeed, stageThreeSpeed);
   }
 
   @Override
@@ -67,20 +66,27 @@ public class RealFeeder extends FeederBase {
   }
 
   @Override
-  public void runReverseBothStages() {
-    runReverseStageOne();
-    runReverseStageTwo();
+  public void runReverseBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed) {
+    runReverseStageOne(stageOneAndTwoSpeed);
+    runReverseStageTwo(stageOneAndTwoSpeed, stageThreeSpeed);
   }
 
   @Override
-  public void runReverseStageOne() {
-    m_stageOne.set(ControlMode.PercentOutput, -1);
+  public void runReverseStageOne(double speed) {
+    m_stageOne.set(ControlMode.PercentOutput, -speed);
 
   }
 
   @Override
-  public void runReverseStageTwo() {
-    m_stageTwoAndThree.set(-1);
+  public void runReverseStageTwo(double stageTwoSpeed, double stageThreeSpeed) {
+    m_stageTwo.set(ControlMode.PercentOutput, -stageTwoSpeed);
+    m_stageThree.set(ControlMode.PercentOutput, -stageThreeSpeed);
+
+  }
+
+  @Override
+  public void runStageThree(double speed) {
+    // TODO Auto-generated method stub
 
   }
 }

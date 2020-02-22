@@ -38,7 +38,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.moveUsingGyro(output, 0, false, false);
+          drivetrain.moveUsingGyro(output, 0, true, false);
         });
     m_distance = distance;
     m_setpoint = this::getSetpoint;
@@ -51,13 +51,18 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     getController().setI(pidConstantsConfig.getDouble("MoveUsingEncoder.Ki"));
     getController().setD(pidConstantsConfig.getDouble("MoveUsingEncoder.Kd"));
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingEncoder.minOutputToMove"));
-    getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.tolerance"));
+    getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"),
+        pidConstantsConfig.getDouble("MoveUsingEncoder.velocityTolerance"));
+    if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
+      getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
+    }
   }
 
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("MoveUsingEncoder");
+
     m_target = m_driveTrain.getRobotPositionInches() + m_distance;
+    Trace.getInstance().logCommandStart("MoveUsingEncoder, m_distance = " + m_distance + ",m_target = " + m_target);
   }
 
   public double getSetpoint() {
@@ -70,8 +75,9 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     return getController().atSetpoint();
   }
 
-  public void end() {
+  public void end(boolean interrupted) {
+    super.end(interrupted);
     m_driveTrain.stop();
-    Trace.getInstance().logCommandStop("MoveUsingEncoder");
+    Trace.getInstance().logCommandStop("MoveUsingEncoder, Position = " + m_driveTrain.getRobotPositionInches());
   }
 }
