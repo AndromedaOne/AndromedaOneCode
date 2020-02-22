@@ -3,15 +3,10 @@ package frc.robot.sensors.ballfeedersensor;
 public class MockBallFeederSensor extends BallFeederSensorBase {
 
   @Override
-  void getSensorReading() {
-    // Attempting to getSensorReading from MockBallFeederSensor
-  }
-
-  @Override
   public boolean[] isThereBall() {
     // Returning an empty array, implementation of ball feeder sensor *must* check
     // to see if it is returned an empty array
-    return new boolean[0];
+    return new boolean[10];
   }
 
   @Override
@@ -23,5 +18,4 @@ public class MockBallFeederSensor extends BallFeederSensorBase {
   public int getNumberOfPowerCellsInFeeder() {
     return 0;
   }
-
 }
