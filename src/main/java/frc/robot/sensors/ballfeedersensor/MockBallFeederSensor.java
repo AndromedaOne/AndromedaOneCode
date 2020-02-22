@@ -21,7 +21,6 @@ public class MockBallFeederSensor extends BallFeederSensorBase {
 
   @Override
   public int getNumberOfPowerCellsInFeeder() {
-    // TODO Auto-generated method stub
     return 0;
   }
 
