@@ -30,4 +30,10 @@ public class MockBallFeederSensor extends BallFeederSensorBase {
 
   }
 
+  @Override
+  public void updateSmartDashboard() {
+    // TODO Auto-generated method stub
+
+  }
+
 }

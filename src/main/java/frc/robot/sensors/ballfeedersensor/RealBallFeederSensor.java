@@ -3,6 +3,7 @@ package frc.robot.sensors.ballfeedersensor;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 
 public class RealBallFeederSensor extends BallFeederSensorBase {
@@ -86,5 +87,11 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
   @Override
   public void updateSensors() {
     m_i2c.readOnly(m_dataBuffer, (m_numSensors * 2));
+  }
+
+  @Override
+  public void updateSmartDashboard() {
+    SmartDashboard.putBooleanArray("FeederSensorValues", isThereBall());
+
   }
 }

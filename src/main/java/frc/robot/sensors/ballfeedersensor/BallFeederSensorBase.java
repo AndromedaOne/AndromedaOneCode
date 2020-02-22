@@ -11,4 +11,6 @@ public abstract class BallFeederSensorBase {
   public abstract int getNumberOfPowerCellsInFeeder();
 
   public abstract void updateSensors();
+
+  public abstract void updateSmartDashboard();
 }

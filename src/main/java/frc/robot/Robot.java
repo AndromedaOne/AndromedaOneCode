@@ -86,6 +86,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_sensorsContainer.getBallFeederSensor().updateSensors();
+    m_sensorsContainer.getBallFeederSensor().updateSmartDashboard();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
     SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
   }
