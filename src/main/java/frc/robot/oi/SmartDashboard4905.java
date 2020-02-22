@@ -35,7 +35,8 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("reloadConfig", new ConfigReload());
 
-    SmartDashboard.putData("Shoot 10 feet", new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
+    SmartDashboard.putData("Shoot 10 feet",
+        new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, m_autoChooser);
   }

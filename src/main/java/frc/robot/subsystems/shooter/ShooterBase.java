@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class ShooterBase extends SubsystemBase {
 
   private ShooterMap m_shooterMap = new ShooterMap();
-  
+
   @Override
   public void periodic() {
     super.periodic();
@@ -60,6 +60,7 @@ public abstract class ShooterBase extends SubsystemBase {
   public ShooterMap getShooterMap() {
     return m_shooterMap;
   }
+
   /**
    * This is <b>Only</b> to be called by the shooter commands
    */
