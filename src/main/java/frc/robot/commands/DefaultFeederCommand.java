@@ -90,6 +90,7 @@ public class DefaultFeederCommand extends CommandBase {
         m_feederState = FeederStates.ONE_LOADING;
       }
       m_feeder.stopBothStages();
+      numberOfPowerCellsInFeeder = 0;
       break;
 
     case ONE_LOADING:
