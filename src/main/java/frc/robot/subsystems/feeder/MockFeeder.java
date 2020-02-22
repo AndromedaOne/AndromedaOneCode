@@ -35,43 +35,36 @@ public class MockFeeder extends FeederBase {
 
   @Override
   public void runStageOne(double speed) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void runStagesTwoAndThree(double stageTwoSpeed, double stageThreeSpeed) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void runReverseStageOne(double speed) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void runBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void runReverseBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void runReverseStageTwo(double stageTwoSpeed, double stageThreeSpeed) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void runStageThree(double speed) {
-    // TODO Auto-generated method stub
 
   }
 
