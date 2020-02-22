@@ -7,7 +7,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.commands.FeedWhenReadyStarter;
+import frc.robot.commands.FeedBothStagesIntoShooter;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -40,7 +40,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
     kNumOfSamples = feederConfig.getInt("shootWithRPM.numOfFeederTestSamples");
 
     addCommands(new ShooterParallelSetShooterVelocity(shooter, seriesRPM, shooterRPM),
-        new FeedWhenReadyStarter(shooter, feeder, m_isDoneFeedingSupplier));
+        new FeedBothStagesIntoShooter(feeder, shooter, m_isDoneFeedingSupplier));
   }
 
   /**
