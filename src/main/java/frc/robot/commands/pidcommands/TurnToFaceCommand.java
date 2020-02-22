@@ -17,7 +17,6 @@ import frc.robot.telemetries.Trace;
  */
 public class TurnToFaceCommand extends PIDCommand4905 {
   protected DoubleSupplier m_sensor;
-  protected boolean m_lastSetpoint = false;
   protected static Config m_conf = Config4905.getConfig4905().getPidConstantsConfig();
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
   protected int m_nanCounter = 0;
@@ -51,8 +50,9 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   public boolean isFinished() {
     m_nanCounter++;
     m_nanCounter = m_nanCounter % 50;
+    boolean targetFound = m_sensorsContainer.getLimeLight().targetLock();
 
-    m_nanBuffer.set(m_nanCounter, m_sensor.getAsDouble() == Double.NaN);
+    m_nanBuffer.set(m_nanCounter, !targetFound);
     if (m_nanBuffer.cardinality() == 50) {
       Trace.getInstance().logCommandInfo("TurnToFaceCommand", "No target found for one second");
       return true;
@@ -68,8 +68,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
             + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToPowerPort()));
       }
 
-      boolean returnValue = this.getController().atSetpoint() && m_lastSetpoint;
-      m_lastSetpoint = this.getController().atSetpoint();
+      boolean returnValue = this.getController().atSetpoint() && targetFound;
       if (returnValue) {
         // TODO: Change the placeholder to the real number.
         Trace.getInstance().logCommandInfo("TurnToFaceCommand", "Target found, angle is currently " + angle
