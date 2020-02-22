@@ -100,7 +100,7 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     @Override
     public void run() {
       super.run();
-      while(true){
+      while (true) {
         updateNewDataBuffer();
         setOldBuffer();
       }
@@ -119,5 +119,4 @@ public class RealBallFeederSensor extends BallFeederSensorBase {
     }
   }
 
-  
 }
