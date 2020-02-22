@@ -3,6 +3,7 @@ package frc.robot.commands.pidcommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
@@ -75,7 +76,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_shooter.setShooterPIDIsReady(getController().atSetpoint());
     m_computedFeedForward = m_feedForward.calculate(m_target);
     super.execute();
-
+    SmartDashboard.putNumber("Shooter Wheel Velocity Setpoint", m_target);
   }
 
   @Override
