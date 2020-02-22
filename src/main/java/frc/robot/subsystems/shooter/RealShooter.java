@@ -20,7 +20,6 @@ public class RealShooter extends ShooterBase {
   private boolean m_shooterWheelIsReady = false;
   private boolean m_shooterSeriesIsReady = false;
   private boolean m_shooterIsIdle = false;
-  private ShooterMap m_shooterMap;
 
   public RealShooter() {
     m_shooterOne = new SparkMaxController(m_shooterConfig, "shooterone");
@@ -28,7 +27,6 @@ public class RealShooter extends ShooterBase {
     m_shooterSeries = new TalonSRXController(m_shooterConfig, "shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
     m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
-    m_shooterMap = new ShooterMap();
 
     m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
@@ -106,8 +104,4 @@ public class RealShooter extends ShooterBase {
     return m_shooterWheelIsReady && !m_shooterIsIdle;
   }
 
-  @Override
-  public ShooterMap getShooterMap() {
-    return m_shooterMap;
-  }
 }

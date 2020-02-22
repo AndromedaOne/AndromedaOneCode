@@ -14,6 +14,7 @@ import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
+import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -33,6 +34,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putNumber("Auto Delay", 0);
 
     SmartDashboard.putData("reloadConfig", new ConfigReload());
+
+    SmartDashboard.putData("Shoot 10 feet", new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, m_autoChooser);
   }
