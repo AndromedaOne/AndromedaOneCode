@@ -86,7 +86,6 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void runStageThree(double speed) {
-    // TODO Auto-generated method stub
 
   }
 }
