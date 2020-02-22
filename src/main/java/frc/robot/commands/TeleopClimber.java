@@ -66,15 +66,20 @@ public class TeleopClimber extends CommandBase {
 
     if (m_driveController.getLeftTriggerValue() > 0.3) {
       m_climberBase.driveLeftWinch();
+    } else if (m_driveController.getLetOutLeftWinchButton().get()) {
+      m_climberBase.adjustLeftWinch(-1);
     } else {
       m_climberBase.stopLeftWinch();
     }
 
     if (m_driveController.getRightTriggerValue() > 0.3) {
       m_climberBase.driveRightWinch();
+    } else if (m_driveController.getLetOutRightWinchButton().get()) {
+      m_climberBase.adjustRightWinch(-1);
     } else {
       m_climberBase.stopRightWinch();
     }
+
   }
 
   // Called once the command ends or is interrupted.

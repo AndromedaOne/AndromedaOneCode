@@ -11,9 +11,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.climber.Climb;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
+import frc.robot.lib.POVDirectionNames;
 import frc.robot.sensors.SensorsContainer;
 
 /**
@@ -26,6 +29,9 @@ public class DriveController {
   private JoystickButton turnToSouth;
   private JoystickButton turnToWest;
   private JoystickButton turnToFace;
+  private JoystickButton letOutLeftWinch;
+  private JoystickButton letOutRightWinch;
+  private POVButton climbLevel;
 
   public DriveController(SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
@@ -38,6 +44,10 @@ public class DriveController {
     turnToWest.whenPressed(new TurnToCompassHeading(270));
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
     turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalRadiansToTarget));
+    climbLevel = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
+    climbLevel.whileHeld(new Climb());
+    letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
+    letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
   }
 
   /**
@@ -82,6 +92,14 @@ public class DriveController {
 
   public boolean getLeftBumperReleased() {
     return m_driveController.getBumperReleased(Hand.kLeft);
+  }
+
+  public JoystickButton getLetOutLeftWinchButton() {
+    return letOutLeftWinch;
+  }
+
+  public JoystickButton getLetOutRightWinchButton() {
+    return letOutRightWinch;
   }
 
 }
