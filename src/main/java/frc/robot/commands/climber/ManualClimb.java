@@ -42,14 +42,16 @@ public class ManualClimb extends CommandBase {
       climber.adjustLeftWinch(controller.getTriggerAxis(Hand.kLeft));
     } else {
       // if neither is pressed
-      climber.stopWinch();
+      climber.stopLeftWinch();
+      climber.stopRightWinch();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber.stopWinch();
+    climber.stopLeftWinch();
+    climber.stopRightWinch();
   }
 
   // Returns true when the command should end.
