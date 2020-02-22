@@ -53,8 +53,15 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public void setLightState(boolean isOn) {
-    m_limelightTable.getEntry("ledMode").setNumber(isOn?3:0);
+    m_limelightTable.getEntry("ledMode").setNumber(isOn ? 3 : 1);
   }
 
-  
+  /**
+   * Returns the limelight state. True is on, false is off.
+   */
+  @Override
+  public boolean getLightState() {
+    return m_limelightTable.getEntry("ledMode").getNumber(Integer.valueOf(4)).intValue() == 3;
+  }
+
 }

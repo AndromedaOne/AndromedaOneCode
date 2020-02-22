@@ -33,6 +33,13 @@ public class MockLimeLightCamera extends LimeLightCameraBase {
 
   @Override
   public void setLightState(boolean isOn) {
-    
+
   }
+
+  @Override
+  public boolean getLightState() {
+    System.out.println("There is no Limelight.");
+    return false;
+  }
+
 }

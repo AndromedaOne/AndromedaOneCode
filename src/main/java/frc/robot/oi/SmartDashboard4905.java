@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.LimeLightToggle;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnDeltaAngle;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
@@ -42,6 +43,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putNumber("Auto Delay", 0);
 
     SmartDashboard.putData("reloadConfig", new ConfigReload());
+    SmartDashboard.putData("Turn On Limelight Light", new LimeLightToggle());
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, m_autoChooser);
   }

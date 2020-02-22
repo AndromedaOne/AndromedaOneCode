@@ -17,6 +17,8 @@ import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -84,6 +86,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    System.out.println(Robot.getInstance().getSensorsContainer().getLimeLight().getLightState() + "\n"
+     + NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").getNumber(Integer.valueOf(4)).intValue());
   }
 
   /**
