@@ -28,13 +28,11 @@ public class DeployAndRunIntakeStarter extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    // TODO Auto-generated method stub
     return true;
   }
 
   @Override
   public void end(boolean interrupted) {
-    // TODO Auto-generated method stub
     super.end(interrupted);
     Trace.getInstance().logCommandStop("DeployAndRunIntakeStarter");
   }
