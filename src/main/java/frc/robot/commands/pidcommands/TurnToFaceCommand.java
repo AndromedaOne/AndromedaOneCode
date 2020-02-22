@@ -34,7 +34,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
         0.0,
         // This uses the output
         (lambda) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0,
-            -lambda, true, true));
+            -lambda, false, false));
     
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
 
@@ -51,6 +51,8 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   public boolean isFinished() {
     m_nanCounter++;
     m_nanCounter = m_nanCounter % 50;
+
+    
     m_nanBuffer.set(m_nanCounter, m_sensor.getAsDouble() == Double.NaN);
     if (m_nanBuffer.cardinality() == 50) {
       Trace.getInstance().logCommandInfo("TurnToFaceCommand", "No target found for one second");
@@ -61,6 +63,12 @@ public class TurnToFaceCommand extends PIDCommand4905 {
       return true;
     } else {
       double angle = m_sensor.getAsDouble();
+
+      if (m_nanCounter ==0){
+        System.out.println(("TurnToFaceCommand Target found, angle is currently " + angle
+        + " and distance is currently " + m_sensorsContainer.getLimeLight().distanceToTarget(45)));
+      }
+
       boolean returnValue = this.getController().atSetpoint() && m_lastSetpoint;
       m_lastSetpoint = this.getController().atSetpoint();
       if (returnValue) {
