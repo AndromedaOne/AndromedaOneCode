@@ -3,6 +3,7 @@ package frc.robot.groupcommands.parallelgroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class ShootWithDistance extends ParallelCommandGroup {
 
@@ -15,6 +16,7 @@ public class ShootWithDistance extends ParallelCommandGroup {
    * @param distance in inches
    */
   public ShootWithDistance(ShooterBase shooter, FeederBase feeder, double distance) {
+    Trace.getInstance().logCommandStart(this);
     double rpm = shooter.getShooterMap().getInterpolatedRPM(distance);
     addCommands(new ShootWithRPM(shooter, feeder, rpm));
   }
@@ -26,6 +28,7 @@ public class ShootWithDistance extends ParallelCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
   }
 }
