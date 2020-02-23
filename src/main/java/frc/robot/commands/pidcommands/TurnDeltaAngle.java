@@ -51,6 +51,25 @@ public class TurnDeltaAngle extends PIDCommand4905 {
     setPIDParams();
   }
 
+  public TurnDeltaAngle(DoubleSupplier setpointSupplier) {
+    super(
+        // The controller that the command will use
+        new PIDController4905("TurnDeltaAngle", 0, 0, 0, 0),
+        // This should return the measurement
+        NavXGyroSensor.getInstance()::getZAngle,
+        // This should return the setpoint (can also be a constant)
+        setpointSupplier,
+        // This uses the output
+        output -> {
+          // Use the output here
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output, false, false);
+        });
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+    // Use addRequirements() here to declare subsystem dependencies.
+    // Configure additional PID options by calling `getController` here.
+    setPIDParams();
+  }
+
   private void setPIDParams() {
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));

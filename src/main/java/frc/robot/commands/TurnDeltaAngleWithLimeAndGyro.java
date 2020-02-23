@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.pidcommands.TurnDeltaAngle;
-import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -24,7 +23,8 @@ public class TurnDeltaAngleWithLimeAndGyro extends CommandBase {
   private NavXGyroSensor m_navXGyroSensor;
   private double m_previousAngleToTurn;
 
-  public TurnDeltaAngleWithLimeAndGyro(DriveTrain drivetrain, LimeLightCameraBase limeLight, NavXGyroSensor navXGyroSensor) {
+  public TurnDeltaAngleWithLimeAndGyro(DriveTrain drivetrain, LimeLightCameraBase limeLight,
+      NavXGyroSensor navXGyroSensor) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     m_limelight = limeLight;
@@ -36,17 +36,17 @@ public class TurnDeltaAngleWithLimeAndGyro extends CommandBase {
   public void initialize() {
     Trace.getInstance().logCommandStart(this.getClass().getName());
     double setpointInDegrees = Math.toDegrees(m_limelight.horizontalRadiansToTarget());
-    if(Double.isNaN(setpointInDegrees)) {
+    if (Double.isNaN(setpointInDegrees)) {
       return;
     }
-    CommandScheduler.getInstance().schedule(new TurnToCompassHeading(this::getSetpointToTurn));
+    CommandScheduler.getInstance().schedule(new TurnDeltaAngle(this::getSetpointToTurn));
 
   }
 
   private double getSetpointToTurn() {
-    double setpointInDegrees = m_navXGyroSensor.getCompassHeading() + Math.toDegrees(m_limelight.horizontalRadiansToTarget()) % 360;
+    double setpointInDegrees = Math.toDegrees(m_limelight.horizontalRadiansToTarget());
 
-    if(Double.isNaN(setpointInDegrees)) {
+    if (Double.isNaN(setpointInDegrees)) {
       return m_previousAngleToTurn;
     }
     m_previousAngleToTurn = setpointInDegrees;
