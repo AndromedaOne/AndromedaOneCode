@@ -8,6 +8,8 @@
 
 package frc.robot.commands.pidcommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -49,6 +51,24 @@ public class TurnToCompassHeading extends PIDCommand4905 {
 
     m_setpoint = () -> m_compassHeading;
 
+  }
+
+  public TurnToCompassHeading(DoubleSupplier setpointSupplier) {
+    super(
+        // The controller that the command will use
+        new PIDController4905("TurnDeltaAngle", 0, 0, 0, 0),
+        // This should return the measurement
+        NavXGyroSensor.getInstance()::getZAngle,
+        // This should return the setpoint (can also be a constant)
+        setpointSupplier,
+        // This uses the output
+        output -> {
+          // Use the output here
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output, false, false);
+        });
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+    // Use addRequirements() here to declare subsystem dependencies.
+    // Configure additional PID options by calling `getController` here.
   }
 
   public void initialize() {

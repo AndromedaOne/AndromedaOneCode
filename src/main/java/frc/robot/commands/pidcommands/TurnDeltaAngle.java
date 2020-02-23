@@ -7,6 +7,8 @@
 
 package frc.robot.commands.pidcommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -46,6 +48,10 @@ public class TurnDeltaAngle extends PIDCommand4905 {
     // Configure additional PID options by calling `getController` here.
     m_deltaTurnAngle = deltaTurnAngle;
 
+    setPIDParams();
+  }
+
+  private void setPIDParams() {
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));
     getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
