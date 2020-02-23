@@ -5,31 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.groupcommands;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.telemetries.Trace;
 
-public class PlaceHolder extends CommandBase {
+public class FireGrapplingHook extends CommandBase {
+  ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
+
   /**
-   * Creates a new PlaceHolder.
+   * Creates a new FireGrapplingHook.
    */
-  public PlaceHolder() {
+  public FireGrapplingHook() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart("FireGrapplingHook");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    climber.extendArms();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (interrupted) {
+      climber.retractArms();
+    }
+    Trace.getInstance().logCommandStop("FireGrapplingHook");
   }
 
   // Returns true when the command should end.

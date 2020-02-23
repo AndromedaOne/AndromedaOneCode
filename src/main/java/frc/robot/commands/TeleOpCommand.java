@@ -7,10 +7,14 @@
 
 package frc.robot.commands;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
-import frc.robot.oi.SubsystemController;
+import frc.robot.subsystems.drivetrain.*;
+import frc.robot.telemetries.Trace;
 
 /**
  * Allows you to drive the robot using the drive controller.
@@ -19,7 +23,14 @@ public class TeleOpCommand extends CommandBase {
 
 //Make the controllers a little easier to get to.  
   private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
-  private SubsystemController m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
+  private DriveTrain m_driveTrain;
+  private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+  private boolean m_slowMode = false;
+  private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
+
+  private enum SlowModeStates {
+    NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
+  }
 
   /**
    * Takes inputs from the two joysticks on the drive controller.
@@ -32,6 +43,9 @@ public class TeleOpCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart("TeleOpCommand");
+    m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+    m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,13 +54,50 @@ public class TeleOpCommand extends CommandBase {
     double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
     double rotateStickValue = m_driveController.getRotateStick();
 
-    Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(forwardBackwardStickValue, rotateStickValue,
-        true);
+    switch (m_slowModeState) {
+    case NOTSLOWRELEASED:
+      if (m_driveController.getLeftBumperPressed()) {
+        m_slowMode = true;
+        m_slowModeState = SlowModeStates.SLOWPRESSED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case NOTSLOWPRESSED:
+      if (m_driveController.getLeftBumperReleased()) {
+        m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case SLOWRELEASED:
+      if (m_driveController.getLeftBumperPressed()) {
+        m_slowMode = false;
+        m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case SLOWPRESSED:
+      if (m_driveController.getLeftBumperReleased()) {
+        m_slowModeState = SlowModeStates.SLOWRELEASED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    default:
+      System.err.println("WARN: Unknown slowmode state: " + m_slowModeState.toString());
+      break;
+    }
+
+    if (m_slowMode) {
+      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
+      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
+    }
+
+    m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop("TeleOpCommand");
   }
 
   // Returns true when the command should end.

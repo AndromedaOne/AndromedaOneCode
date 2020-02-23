@@ -19,4 +19,45 @@ public class MockClimber extends ClimberBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  @Override
+  public void driveLeftWinch() {
+
+  }
+
+  @Override
+  public void driveRightWinch() {
+
+  }
+
+  @Override
+  public void ascend() {
+
+  }
+
+  @Override
+  public void stopLeftWinch() {
+
+  }
+
+  @Override
+  public void adjustWinch(int adjust) {
+  }
+
+  @Override
+  public void extendArms() {
+  }
+
+  @Override
+  public void retractArms() {
+  }
+
+  @Override
+  public void stopArms() {
+  }
+
+  @Override
+  public void stopRightWinch() {
+
+  }
 }

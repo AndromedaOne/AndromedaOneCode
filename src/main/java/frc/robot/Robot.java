@@ -7,12 +7,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
+import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.telemetries.Trace;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -51,8 +57,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     m_subsystemContainer = new SubsystemsContainer();
-    m_oiContainer = new OIContainer(m_subsystemContainer);
     m_sensorsContainer = new SensorsContainer();
+    m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
+
     m_subsystemContainer.setDefaultCommands();
   }
 
@@ -65,6 +72,9 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
+
+  private int counter = 0;
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
@@ -75,7 +85,9 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    getSensorsContainer().ballFeederSensor.isThereBall();
+    NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    m_sensorsContainer.getBallFeederSensor().isThereBall();
+    SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
   }
 
   /**
@@ -83,6 +95,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    if (DriverStation.getInstance().isFMSAttached()) {
+      Trace.getInstance().matchStarted();
+    }
+    Trace.getInstance().flushTraceFiles();
+    LiveWindow.setEnabled(false);
   }
 
   @Override
@@ -95,12 +112,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
     m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
+    }
+    if (DriverStation.getInstance().isFMSAttached()) {
+      Trace.getInstance().matchStarted();
     }
   }
 
@@ -121,6 +140,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    if (DriverStation.getInstance().isFMSAttached()) {
+      Trace.getInstance().matchStarted();
+    }
   }
 
   /**
@@ -134,6 +157,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    LiveWindow.setEnabled(true);
   }
 
   /**

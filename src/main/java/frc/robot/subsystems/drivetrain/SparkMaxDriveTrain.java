@@ -27,7 +27,7 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   // motors on the right side of the drive
   private final SpeedControllerGroup m_rightmotors;
 
-  private int ticksPerInch;
+  private double ticksPerInch;
 
   public SparkMaxDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -43,25 +43,58 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
     // motors on the right side of the drive.
     m_rightmotors = new SpeedControllerGroup(m_frontRight, m_backRight);
 
-    ticksPerInch = drivetrainConfig.getInt("ticksPerInch");
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+    ticksPerInch = drivetrainConfig.getDouble("ticksPerInch");
   }
 
   @Override
   public double getRobotPositionInches() {
-    double encoderPositionAvg = (m_frontLeft.getEncoderPositionTicks() + m_backLeft.getEncoderPositionTicks()
-        + m_frontRight.getEncoderPositionTicks() + m_backRight.getEncoderPositionTicks()) / 4 * ticksPerInch;
+    double encoderPositionAvg = 0;
+    int encoders = 0;
+    if (m_frontLeft.hasEncoder()) {
+      encoders++;
+      encoderPositionAvg += m_frontLeft.getEncoderPositionTicks();
+    }
+    if (m_backLeft.hasEncoder()) {
+      encoders++;
+      encoderPositionAvg += m_backLeft.getEncoderPositionTicks();
+    }
+    if (m_frontRight.hasEncoder()) {
+      encoders++;
+      encoderPositionAvg += m_frontRight.getEncoderPositionTicks();
+    }
+    if (m_backRight.hasEncoder()) {
+      encoders++;
+      encoderPositionAvg += m_backRight.getEncoderPositionTicks();
+    }
+    if (encoders > 0) {
+      encoderPositionAvg = encoderPositionAvg / (ticksPerInch * encoders);
+    }
     return encoderPositionAvg;
   }
 
   @Override
   public double getRobotVelocityInches() {
-    double encoderVelocityAvg = (m_frontLeft.getEncoderVelocityTicks() + m_backLeft.getEncoderVelocityTicks()
-        + m_frontRight.getEncoderVelocityTicks() + m_backRight.getEncoderVelocityTicks()) / 4 * ticksPerInch;
+    double encoderVelocityAvg = 0;
+    int encoders = 0;
+    if (m_frontLeft.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_frontLeft.getEncoderVelocityTicks();
+    }
+    if (m_backLeft.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_backLeft.getEncoderVelocityTicks();
+    }
+    if (m_frontRight.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_frontRight.getEncoderVelocityTicks();
+    }
+    if (m_backRight.hasEncoder()) {
+      encoders++;
+      encoderVelocityAvg += m_backRight.getEncoderVelocityTicks();
+    }
+    if (encoders > 0) {
+      encoderVelocityAvg = encoderVelocityAvg / (ticksPerInch * encoders);
+    }
     return encoderVelocityAvg;
   }
 

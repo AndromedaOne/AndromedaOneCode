@@ -8,25 +8,24 @@
 package frc.robot.subsystems.feeder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
-import frc.robot.commands.DefaultFeederCommand;
+import frc.robot.actuators.TalonSRXController;
 
 public class RealFeeder extends FeederBase {
   /**
    * Creates a new RealFeeder.
    */
-  public TalonSRX m_stageOne;
-  public TalonSRX m_stageTwo;
+  public TalonSRXController m_stageOne;
+  public TalonSRXController m_stageTwo;
+  public TalonSRXController m_stageThree;
 
   public RealFeeder() {
     Config feederConf = Config4905.getConfig4905().getFeederConfig();
-    m_stageOne = new TalonSRX(feederConf.getInt("ports.stageOne"));
-    m_stageTwo = new TalonSRX(feederConf.getInt("ports.stageTwo"));
-
-    setDefaultCommand(new DefaultFeederCommand());
+    m_stageOne = new TalonSRXController(feederConf, "stageOne");
+    m_stageTwo = new TalonSRXController(feederConf, "stageTwo");
+    m_stageThree = new TalonSRXController(feederConf, "stageThree");
   }
 
   @Override
@@ -35,9 +34,8 @@ public class RealFeeder extends FeederBase {
   }
 
   @Override
-  public void driveStageOne() {
-    // TODO Auto-generated method stub
-    m_stageOne.set(ControlMode.PercentOutput, 1);
+  public void runStageOne(double speed) {
+    m_stageOne.set(ControlMode.PercentOutput, speed);
   }
 
   public void stopStageOne() {
@@ -45,24 +43,49 @@ public class RealFeeder extends FeederBase {
   }
 
   @Override
-  public void driveStageTwo() {
-    // TODO Auto-generated method stub
-    m_stageTwo.set(ControlMode.PercentOutput, 1);
+  public void runStagesTwoAndThree(double stageTwoSpeed, double stageThreeSpeed) {
+    m_stageTwo.set(ControlMode.PercentOutput, stageTwoSpeed);
+    m_stageThree.set(ControlMode.PercentOutput, stageThreeSpeed);
   }
 
   public void stopStageTwo() {
-    m_stageTwo.set(ControlMode.PercentOutput, 0);
+    m_stageTwo.set(0);
+    m_stageThree.set(0);
   }
 
   @Override
-  public void driveBothStages() {
-    // TODO Auto-generated method stub
-    driveStageOne();
-    driveStageTwo();
+  public void runBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed) {
+    runStageOne(stageOneAndTwoSpeed);
+    runStagesTwoAndThree(stageOneAndTwoSpeed, stageThreeSpeed);
   }
 
+  @Override
   public void stopBothStages() {
     stopStageOne();
     stopStageTwo();
+  }
+
+  @Override
+  public void runReverseBothStages(double stageOneAndTwoSpeed, double stageThreeSpeed) {
+    runReverseStageOne(stageOneAndTwoSpeed);
+    runReverseStageTwo(stageOneAndTwoSpeed, stageThreeSpeed);
+  }
+
+  @Override
+  public void runReverseStageOne(double speed) {
+    m_stageOne.set(ControlMode.PercentOutput, -speed);
+
+  }
+
+  @Override
+  public void runReverseStageTwo(double stageTwoSpeed, double stageThreeSpeed) {
+    m_stageTwo.set(ControlMode.PercentOutput, -stageTwoSpeed);
+    m_stageThree.set(ControlMode.PercentOutput, -stageThreeSpeed);
+
+  }
+
+  @Override
+  public void runStageThree(double speed) {
+
   }
 }

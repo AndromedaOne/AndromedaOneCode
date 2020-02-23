@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.telemetries.Trace;
 
 /**
  * Add your docs here.
@@ -33,15 +34,14 @@ public class DriveBackwardTimed extends CommandBase {
 
   @Override
   public void initialize() {
-    // TODO Auto-generated method stub
     m_timer.reset();
     m_timer.start();
+    Trace.getInstance().logCommandStart("DriveBackwardTimed");
 
   }
 
   @Override
   public void execute() {
-    // TODO Auto-generated method stub
     m_driveTrain.move(-0.3, 0, false);
   }
 
@@ -49,5 +49,10 @@ public class DriveBackwardTimed extends CommandBase {
   public boolean isFinished() {
 
     return m_timer.hasPeriodPassed(m_timeout);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop("DriveBackwardTimed");
   }
 }

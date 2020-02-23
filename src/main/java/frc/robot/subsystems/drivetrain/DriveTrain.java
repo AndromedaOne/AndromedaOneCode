@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class DriveTrain extends SubsystemBase {
@@ -19,6 +20,8 @@ public abstract class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("RobotPositionInches", getRobotPositionInches());
+    SmartDashboard.putNumber("RobotVelocityInches", getRobotVelocityInches());
   }
 
   public abstract void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput);
@@ -54,4 +57,8 @@ public abstract class DriveTrain extends SubsystemBase {
    */
   public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
       boolean useSquaredInputs, double heading);
+
+  public void stop() {
+    move(0, 0, false);
+  }
 }
