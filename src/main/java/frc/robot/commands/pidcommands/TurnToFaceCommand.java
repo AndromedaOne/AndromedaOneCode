@@ -66,9 +66,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
 
       if (m_lostCounter == 1) {
         LimeLightCameraBase limelight = m_sensorsContainer.getLimeLight();
-        System.out.println("limelight," + 
-          limelight.verticalRadiansToTarget() 
-          + " " + limelight.distanceToPowerPort());
+        System.out.println("limelight," + limelight.verticalRadiansToTarget() + " " + limelight.distanceToPowerPort());
       }
 
       boolean returnValue = this.getController().atSetpoint() && targetFound;
