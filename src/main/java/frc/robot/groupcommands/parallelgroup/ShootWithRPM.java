@@ -34,7 +34,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
    * @param seriesRPM
    */
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
-    Trace.getInstance().logCommandStart(this);
     Config feederConfig = Config4905.getConfig4905().getFeederConfig();
 
     m_shooter = shooter;
@@ -61,6 +60,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
   @Override
   public void initialize() {
     super.initialize();
+    Trace.getInstance().logCommandStart(this);
     m_isDone = false;
   }
 

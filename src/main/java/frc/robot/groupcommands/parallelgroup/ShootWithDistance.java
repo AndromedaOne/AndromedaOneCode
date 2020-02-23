@@ -16,9 +16,14 @@ public class ShootWithDistance extends ParallelCommandGroup {
    * @param distance in inches
    */
   public ShootWithDistance(ShooterBase shooter, FeederBase feeder, double distance) {
-    Trace.getInstance().logCommandStart(this);
     double rpm = shooter.getShooterMap().getInterpolatedRPM(distance);
     addCommands(new ShootWithRPM(shooter, feeder, rpm));
+  }
+
+  @Override
+  public void initialize() {
+    super.initialize();
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override

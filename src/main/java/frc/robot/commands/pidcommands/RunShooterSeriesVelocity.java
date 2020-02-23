@@ -51,7 +51,13 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
     m_setpoint = setpoint;
-    Trace.getInstance().logCommandStart("RunShooterSeriesVelocity");
+  }
+
+  
+  @Override
+  public void initialize() {
+    super.initialize();
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
