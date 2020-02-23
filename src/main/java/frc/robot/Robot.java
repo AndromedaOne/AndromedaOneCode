@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -72,6 +74,7 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
+  NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
   private int counter = 0;
 
@@ -86,8 +89,17 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
+
     m_sensorsContainer.getBallFeederSensor().isThereBall();
     SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
+    /*
+     * System.out.
+     * print("\nNETWORK TABLES FOR LIMELIGHT:\n(if the value is 0.0, it's not reading anything.)\ntX: "
+     * + limelightTable.getEntry("tx").getDouble(0.0) + /"\ntY: " +
+     * limelightTable.getEntry("ty").getDouble(0.0) + "\ntV: " +
+     * limelightTable.getEntry("tv").getDouble(0.0) + "\n----------");
+     */
   }
 
   /**

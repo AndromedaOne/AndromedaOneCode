@@ -23,7 +23,7 @@ public class OIContainer {
 
   public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     m_driveController = new DriveController(sensorsContainer);
-    m_smartDashboard = new SmartDashboard4905(subsystemsContainer);
+    m_smartDashboard = new SmartDashboard4905(subsystemsContainer, sensorsContainer);
     m_subsystemController = new SubsystemController();
 
     m_subsystemController.getDeployAndRunIntakeButton().whenPressed(new DeployAndRunIntakeStarter(
