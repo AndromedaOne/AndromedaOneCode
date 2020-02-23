@@ -32,14 +32,16 @@ public class FireGrapplingHook extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.extendArms();
+    climber.extendLeftArm();
+    climber.extendRightArm();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
-      climber.retractArms();
+      climber.retractRightArm();
+      climber.retractLeftArm();
     }
     Trace.getInstance().logCommandStop("FireGrapplingHook");
   }

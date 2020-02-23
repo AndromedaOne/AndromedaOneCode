@@ -45,19 +45,40 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void extendArms() {
+  public void extendLeftArm() {
   }
 
   @Override
-  public void retractArms() {
+  public void retractRightArms() {
   }
 
   @Override
-  public void stopArms() {
+  public void stopLeftArm() {
   }
 
   @Override
   public void stopRightWinch() {
+
+  }
+
+  @Override
+  public void extendRightArm() {
+
+  }
+
+  @Override
+  public void retractRightArm() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void retractLeftArm() {
+
+  }
+
+  @Override
+  public void stopRightArm() {
 
   }
 }
