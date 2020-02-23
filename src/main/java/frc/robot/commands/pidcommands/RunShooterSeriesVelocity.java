@@ -53,7 +53,6 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
     m_setpoint = setpoint;
   }
 
-  
   @Override
   public void initialize() {
     super.initialize();

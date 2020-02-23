@@ -65,9 +65,13 @@ public class AutoModes4905 {
         m_autoChooser.addOption("7: Enemy Trench Run", 
                                 new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, (23*12)+9)));
-        m_autoChooser.addOption("Angled Fire and Move Back",
-                                new DelayedSequentialCommandGroup(new TurnAndShoot(shooter, feeder, sensorsContainer, 3, (10*12)),
-                                                                  new TurnToCompassHeading(0),
+        m_autoChooser.addOption("8: Right Fire Move Back",
+                                new DelayedSequentialCommandGroup(new TurnToCompassHeading(350.5),
+                                                                  new TurnAndShoot(shooter, feeder, sensorsContainer, 3, (10*12)),
+                                                                  new MoveUsingEncoder(driveTrain, -12)));
+        m_autoChooser.addOption("9: Left Fire Move Back",
+                                new DelayedSequentialCommandGroup(new TurnToCompassHeading(9.5),
+                                                                  new TurnAndShoot(shooter, feeder, sensorsContainer, 3, (10*12)),
                                                                   new MoveUsingEncoder(driveTrain, -12)));
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
