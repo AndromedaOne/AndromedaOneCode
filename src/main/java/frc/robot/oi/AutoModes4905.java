@@ -3,11 +3,11 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DeployAndRunIntakeIn;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.groupcommands.DeployAndRunIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -46,13 +46,13 @@ public class AutoModes4905 {
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
                                                                   new ShooterCommand(shooter, 3),
                                                                   new TurnToCompassHeading(180),
-                                                                  new DeployAndRunIntake(intake, () -> true),
+                                                                  new DeployAndRunIntakeIn(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, 249)));
         m_autoChooser.addOption("5: Right Side Shield",
                                 new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
                                                                   new MoveUsingEncoder(driveTrain, -69),
                                                                   new TurnToCompassHeading(270),
-                                                                  new DeployAndRunIntake(intake, () -> true),
+                                                                  new DeployAndRunIntakeIn(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, 12))); // Waiting on official distance to move here from R&S
         m_autoChooser.addOption("6: Left Side Shield", 
                                 new DelayedSequentialCommandGroup(new ShooterCommand(shooter, 3),
@@ -60,10 +60,10 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(270),
                                                                   new MoveUsingEncoder(driveTrain, (5*12)),
                                                                   new TurnToCompassHeading(180),
-                                                                  new DeployAndRunIntake(intake, () -> true),
+                                                                  new DeployAndRunIntakeIn(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, (10*12) + 6)));
         m_autoChooser.addOption("7: Enemy Trench Run", 
-                                new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
+                                new DelayedSequentialCommandGroup(new DeployAndRunIntakeIn(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, (23*12)+9)));
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on

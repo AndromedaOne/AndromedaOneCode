@@ -7,7 +7,7 @@
 
 package frc.robot.oi;
 
-import frc.robot.commands.DeployAndRunIntakeStarter;
+import frc.robot.commands.DeployAndRunIntakeIn;
 import frc.robot.commands.FeedBothStagesIntoShooter;
 import frc.robot.commands.RunIntakeOut;
 import frc.robot.sensors.SensorsContainer;
@@ -26,7 +26,7 @@ public class OIContainer {
     m_smartDashboard = new SmartDashboard4905(subsystemsContainer);
     m_subsystemController = new SubsystemController();
 
-    m_subsystemController.getDeployAndRunIntakeButton().whenPressed(new DeployAndRunIntakeStarter(
+    m_subsystemController.getDeployAndRunIntakeButton().whenPressed(new DeployAndRunIntakeIn(
         subsystemsContainer.getIntake(), () -> !m_subsystemController.getDeployAndRunIntakeButton().get()));
     m_subsystemController.getFeedWhenReadyButton()
         .whenPressed(new FeedBothStagesIntoShooter(subsystemsContainer.getFeeder(), subsystemsContainer.getShooter(),
