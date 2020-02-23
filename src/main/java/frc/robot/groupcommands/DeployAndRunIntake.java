@@ -23,13 +23,15 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
    * Creates a new DeployAndRunIntake.
    */
   private IntakeBase m_intakeBase;
+  BooleanSupplier m_finishedCondition;
 
   public DeployAndRunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
     m_intakeBase = intakeBase;
-    addCommands(new ExtendIntake(m_intakeBase, finishedCondition), new RunIntakeIn(m_intakeBase, finishedCondition));
+    m_finishedCondition = finishedCondition;
+    addCommands(new ExtendIntake(m_intakeBase), new RunIntakeIn(m_intakeBase, finishedCondition));
 
   }
 
@@ -41,7 +43,7 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
 
   @Override
   public boolean isFinished() {
-    return true;
+    return m_finishedCondition.getAsBoolean();
   }
 
   @Override
