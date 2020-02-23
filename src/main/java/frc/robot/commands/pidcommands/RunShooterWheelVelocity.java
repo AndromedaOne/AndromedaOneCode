@@ -47,12 +47,12 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_shooter = shooter;
     m_target = setpoint;
     m_setpoint = this::getSetpoint;
-    Trace.getInstance().logCommandStart("RunShooterWheelVelocity");
   }
 
   @Override
   public void initialize() {
     super.initialize();
+    Trace.getInstance().logCommandStart(this);
     m_feedForward = createFeedForward();
     getController().setP(m_pidConfig.getDouble("runshooterwheelvelocity.p"));
     getController().setI(m_pidConfig.getDouble("runshooterwheelvelocity.i"));
