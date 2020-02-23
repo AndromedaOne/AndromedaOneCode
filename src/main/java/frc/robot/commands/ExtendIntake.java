@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.telemetries.Trace;
@@ -16,12 +18,13 @@ public class ExtendIntake extends CommandBase {
    * Creates a new ExtendIntake.
    */
   private IntakeBase m_intakeBase;
+  BooleanSupplier m_endCondition;
 
-  public ExtendIntake(IntakeBase intakeBase) {
+  public ExtendIntake(IntakeBase intakeBase, BooleanSupplier endCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
-
+    m_endCondition = endCondition;
   }
 
   // Called when the command is initially scheduled.
@@ -45,6 +48,6 @@ public class ExtendIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_endCondition.getAsBoolean();
   }
 }
