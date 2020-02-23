@@ -21,7 +21,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double horizontalDegreesToTarget() {
-    if (m_limelightTable.getEntry("tv").getDouble(0.0) != 0.0) {
+    if (targetLock()) {
       previousXValue = (m_limelightTable.getEntry("tx").getDouble(0.0));
     }
     return previousXValue;
@@ -29,7 +29,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double verticalRadiansToTarget() {
-    if (m_limelightTable.getEntry("tv").getDouble(0.0) == 0.0) {
+    if (targetLock()) {
       previousYValue = (m_limelightTable.getEntry("ty").getDouble(0.0));
     }
     return Math.toRadians(previousYValue);
@@ -57,6 +57,6 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public boolean targetLock() {
-    return m_limelightTable.getEntry("tv").getDouble(0.0) == 0.0;
+    return m_limelightTable.getEntry("tv").getDouble(0.0) != 0.0;
   }
 }
