@@ -21,6 +21,7 @@ import frc.robot.telemetries.Trace;
 public class MoveUsingEncoder extends PIDCommand4905 {
   private DriveTrain m_driveTrain;
   private double m_distance = 0;
+  private double m_maxOutput = 0;
   private double m_target;
 
   /**
@@ -47,6 +48,11 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     addRequirements(drivetrain);
   }
 
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
+    this(drivetrain, distance);
+    m_maxOutput = maxOutput;
+  }
+
   public void initialize() {
     Config pidConstantsConfig = Config4905.getConfig4905().getPidConstantsConfig();
     super.initialize();
@@ -59,7 +65,10 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingEncoder.minOutputToMove"));
     getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"),
         pidConstantsConfig.getDouble("MoveUsingEncoder.velocityTolerance"));
-    if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
+    // Allows anyone who calls MoveUsingEncoder to override the maxOutput defined in config (if present)
+    if (m_maxOutput != 0) {
+      getController().setMaxOutput(m_maxOutput);
+    } else if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
       getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
     }
   }
