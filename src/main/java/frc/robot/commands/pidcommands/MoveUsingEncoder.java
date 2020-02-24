@@ -65,7 +65,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingEncoder.minOutputToMove"));
     getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"),
         pidConstantsConfig.getDouble("MoveUsingEncoder.velocityTolerance"));
-    // Allows anyone who calls MoveUsingEncoder to override the maxOutput defined in config (if present)
+    // Allows anyone who calls MoveUsingEncoder to override the maxOutput defined in
+    // config (if present)
     if (m_maxOutput != 0) {
       getController().setMaxOutput(m_maxOutput);
     } else if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
