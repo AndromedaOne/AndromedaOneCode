@@ -1,8 +1,11 @@
 package frc.robot.oi;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Config4905;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
@@ -22,10 +25,16 @@ public class AutoModes4905 {
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer,
       SendableChooser<Command> autoChooser) {
     m_autoChooser = autoChooser;
+    Config driveTrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+    double maxSpeedToPickupPowerCells = 0;
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     ShooterBase shooter = subsystemsContainer.getShooter();
     IntakeBase intake = subsystemsContainer.getIntake();
     FeederBase feeder = subsystemsContainer.getFeeder();
+
+    if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
+      maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
+    }
 
     // @formatter:off
         m_autoChooser.setDefaultOption("DoNothing", 
@@ -47,13 +56,13 @@ public class AutoModes4905 {
                                                                   new ShootWithDistance(shooter, feeder, 0), // do math to figure out distance here
                                                                   new TurnToCompassHeading(180),
                                                                   new DeployAndRunIntake(intake, () -> true),
-                                                                  new MoveUsingEncoder(driveTrain, (1*12))));
+                                                                  new MoveUsingEncoder(driveTrain, (1*12), maxSpeedToPickupPowerCells)));
         m_autoChooser.addOption("5: Right Side Shield",
                                 new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (10*12)),
                                                                   new MoveUsingEncoder(driveTrain, (-5*12) - 9),
                                                                   new TurnToCompassHeading(270),
                                                                   new DeployAndRunIntake(intake, () -> true),
-                                                                  new MoveUsingEncoder(driveTrain, (1*12)))); // Waiting on official distance to move here from R&S
+                                                                  new MoveUsingEncoder(driveTrain, (1*12), maxSpeedToPickupPowerCells))); // Waiting on official distance to move here from R&S
         m_autoChooser.addOption("6: Left Side Shield", 
                                 new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (10*12)),
                                                                   new MoveUsingEncoder(driveTrain, (2*12) + 6),
@@ -61,12 +70,13 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (5*12)),
                                                                   new TurnToCompassHeading(180),
                                                                   new DeployAndRunIntake(intake, () -> true),
-                                                                  new MoveUsingEncoder(driveTrain, (10*12) + 6)));
+                                                                  new MoveUsingEncoder(driveTrain, (9*12)), // Go most of the distance full speed, slow down at end to pickup power cells
+                                                                  new MoveUsingEncoder(driveTrain, (1*12) + 6, maxSpeedToPickupPowerCells)));
         // Supposedly never going to be used, according to R&S, but kept to keep numbering system intact
         if (false) {
           m_autoChooser.addOption("7: Enemy Trench Run", 
                                 new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
-                                                                  new MoveUsingEncoder(driveTrain, (23*12) + 9)));
+                                                                  new MoveUsingEncoder(driveTrain, (23*12) + 9, maxSpeedToPickupPowerCells)));
         }
         m_autoChooser.addOption("8: Right Fire Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(350.5),
