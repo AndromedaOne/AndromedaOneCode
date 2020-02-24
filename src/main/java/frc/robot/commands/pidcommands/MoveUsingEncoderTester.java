@@ -8,11 +8,9 @@ import frc.robot.telemetries.Trace;
 
 public class MoveUsingEncoderTester extends SequentialCommandGroup {
   private MoveUsingEncoder m_command;
-  private DriveTrain m_driveTrain;
 
   public MoveUsingEncoderTester(DriveTrain drivetrain) {
     super();
-    m_driveTrain = drivetrain;
     SmartDashboard.putNumber("Distance To Move", 12);
     m_command = new MoveUsingEncoder(drivetrain, SmartDashboard.getNumber("Distance To Move", 12));
     addCommands(new ConfigReload(), m_command);
