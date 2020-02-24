@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class MockColorSensor extends ColorSensor {
 
-    public MockColorSensor() {
-        
-    }
+  public MockColorSensor() {
 
-    @Override
-    public Color getColor() {
-        return null;
-    }
+  }
+
+  @Override
+  public Color getColor() {
+    return null;
+  }
 }

@@ -9,39 +9,39 @@ import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Config4905;
 
 public class RealColorSensor extends ColorSensor {
-    private Config sensorConf;
-    
-    public ColorSensorV3 colorSensor;
+  private Config sensorConf;
 
-    private Color blue;
-    private Color red;
-    private Color green;
-    private Color yellow;
+  public ColorSensorV3 colorSensor;
 
-    private boolean isOnboard;
-    private ColorMatch matcher;
+  private Color blue;
+  private Color red;
+  private Color green;
+  private Color yellow;
 
-    public RealColorSensor() {
-        sensorConf = Config4905.getConfig4905().getControlPanelManipulatorConfig();
-        isOnboard = sensorConf.getBoolean("isOnboard");
+  private boolean isOnboard;
+  private ColorMatch matcher;
 
-        if (isOnboard) {
-          colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-        } else {
-          colorSensor = new ColorSensorV3(I2C.Port.kMXP);
-        }
-    
-        matcher = new ColorMatch();
+  public RealColorSensor() {
+    sensorConf = Config4905.getConfig4905().getControlPanelManipulatorConfig();
+    isOnboard = sensorConf.getBoolean("isOnboard");
 
-        matcher.addColorMatch(red);
-        matcher.addColorMatch(blue);
-        matcher.addColorMatch(green);
-        matcher.addColorMatch(yellow);
+    if (isOnboard) {
+      colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+    } else {
+      colorSensor = new ColorSensorV3(I2C.Port.kMXP);
     }
 
-    @Override
-    public Color getColor() {
-        return colorSensor.getColor();
-    }
+    matcher = new ColorMatch();
+
+    matcher.addColorMatch(red);
+    matcher.addColorMatch(blue);
+    matcher.addColorMatch(green);
+    matcher.addColorMatch(yellow);
+  }
+
+  @Override
+  public Color getColor() {
+    return colorSensor.getColor();
+  }
 
 }
