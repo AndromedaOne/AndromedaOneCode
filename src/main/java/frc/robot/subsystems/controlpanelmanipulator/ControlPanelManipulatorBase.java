@@ -5,15 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.controlpanel;
+package frc.robot.subsystems.controlpanelmanipulator;
 
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public abstract class ControlPanelBase extends SubsystemBase {
+public abstract class ControlPanelManipulatorBase extends SubsystemBase {
   /**
    * Creates a new ControlPanelBase.
    */
-  public ControlPanelBase() {
+  public ControlPanelManipulatorBase() {
 
   }
 
@@ -28,5 +29,7 @@ public abstract class ControlPanelBase extends SubsystemBase {
 
   public abstract void rotateOneTime();
 
-  public abstract void rotateToColor();
+  public abstract void rotateToColor(Color targetColor);
+
+  public abstract void rotateThreeTimes();
 }

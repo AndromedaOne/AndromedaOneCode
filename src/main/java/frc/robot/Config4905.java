@@ -86,6 +86,18 @@ public class Config4905 {
     }
   }
 
+  public Config getControlPanelManipulatorConfig() {
+    return climberConfig;
+  }
+
+  public boolean doesControlPanelManipulatorExist() {
+    if (m_config.hasPath("subsystems.climber")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public Config getDrivetrainConfig() {
     return drivetrainConfig;
   }

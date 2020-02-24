@@ -16,6 +16,9 @@ import frc.robot.groupcommands.parallelgroup.DefaultShooterParallelCommandGroup;
 import frc.robot.subsystems.climber.ClimberBase;
 import frc.robot.subsystems.climber.MockClimber;
 import frc.robot.subsystems.climber.RealClimber;
+import frc.robot.subsystems.controlpanelmanipulator.ControlPanelManipulatorBase;
+import frc.robot.subsystems.controlpanelmanipulator.MockControlPanelManipulator;
+import frc.robot.subsystems.controlpanelmanipulator.RealControlPanelManipulator;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
@@ -37,6 +40,7 @@ public class SubsystemsContainer {
 
   // Declare member variables.
   ClimberBase m_climber;
+  ControlPanelManipulatorBase m_controlPanelManipulator;
   DriveTrain m_driveTrain;
   FeederBase m_feeder;
   IntakeBase m_intake;
@@ -55,9 +59,28 @@ public class SubsystemsContainer {
      * The settings will be printed to the console.
      *
      * The order is the same as the package tree and is as follows: 1. Climber 2.
-     * Drive Train 3. Feeder 4. Intake 5. Shooter
+     * Control Panel Manipulator 3. Drive Train 4. Feeder 5. Intake 6. Shooter
      */
-    // 1. Drivetrain
+
+    // 1. Climber
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      System.out.println("Using real Climber.");
+      m_climber = new RealClimber();
+    } else {
+      System.out.println("Using mock Climber.");
+      m_climber = new MockClimber();
+    }
+
+    // 2. Control Panel Manipulator
+    if (Config4905.getConfig4905().doesControlPanelManipulatorExist()) {
+      System.out.println("Using real control panel manipulator.");
+      m_controlPanelManipulator = new RealControlPanelManipulator();
+    } else {
+      System.out.println("Using mock control panel manipulator");
+      m_controlPanelManipulator = new MockControlPanelManipulator();
+    }
+
+    // 3. Drive Train
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       System.out.println("Using real Drive Train.");
       if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController").equals("sparkMax")) {
@@ -76,16 +99,7 @@ public class SubsystemsContainer {
     }
     m_driveTrain.init();
 
-    // 2. Climber
-    if (Config4905.getConfig4905().doesClimberExist()) {
-      System.out.println("Using real Climber.");
-      m_climber = new RealClimber();
-    } else {
-      System.out.println("Using mock Climber.");
-      m_climber = new MockClimber();
-    }
-
-    // 3. Feeder
+    // 4. Feeder
     if (Config4905.getConfig4905().doesFeederExist()) {
       System.out.println("Using real Feeder.");
       m_feeder = new RealFeeder();
@@ -94,7 +108,7 @@ public class SubsystemsContainer {
       m_feeder = new MockFeeder();
     }
 
-    // 4. Intake
+    // 5. Intake
     if (Config4905.getConfig4905().doesIntakeExist()) {
       System.out.println("Using real Intake.");
       m_intake = new RealIntake();
@@ -103,7 +117,7 @@ public class SubsystemsContainer {
       m_intake = new MockIntake();
     }
 
-    // 5. Shooter
+    // 6. Shooter
     if (Config4905.getConfig4905().doesShooterExist()) {
       System.out.println("Using real Shooter.");
       m_shooter = new RealShooter();
