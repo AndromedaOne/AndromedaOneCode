@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.telemetries.Trace;
 
 public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
   /*
@@ -24,6 +25,7 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
 
     @Override
     public void initialize() {
+      Trace.getInstance().logCommandStart(this);
       m_duration = SmartDashboard.getNumber("Auto Delay", 0);
       System.out.println("Auto Delay = " + m_duration);
       SendableRegistry.setName(this, getName() + ": " + m_duration + " seconds");
@@ -34,6 +36,7 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
     @Override
     public void end(boolean interrupted) {
       m_timer.stop();
+      Trace.getInstance().logCommandStop(this);
     }
 
     @Override

@@ -73,6 +73,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
   @Override
   public void end(boolean interrupt) {
     m_shooter.setShooterSeriesPower(0);
+    Trace.getInstance().logCommandStop(this);
   }
 
   private static PIDController4905 createPIDController() {

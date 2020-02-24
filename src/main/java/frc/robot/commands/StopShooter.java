@@ -17,11 +17,11 @@ public class StopShooter extends CommandBase {
   public void initialize() {
     m_shooter.setShooterWheelPower(0);
     m_shooter.setShooterSeriesPower(0);
-    Trace.getInstance().logCommandStart("StopShooter");
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("StopShooter");
+    Trace.getInstance().logCommandStop(this);
   }
 }

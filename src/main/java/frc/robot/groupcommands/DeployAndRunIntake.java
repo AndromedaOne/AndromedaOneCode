@@ -38,7 +38,7 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("DeployAndRunIntake");
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
@@ -49,6 +49,6 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("DeployAndRunIntake");
+    Trace.getInstance().logCommandStop(this);
   }
 }

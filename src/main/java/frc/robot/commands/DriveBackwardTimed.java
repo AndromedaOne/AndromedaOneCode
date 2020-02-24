@@ -36,7 +36,7 @@ public class DriveBackwardTimed extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
-    Trace.getInstance().logCommandStart("DriveBackwardTimed");
+    Trace.getInstance().logCommandStart(this);
 
   }
 
@@ -53,6 +53,6 @@ public class DriveBackwardTimed extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("DriveBackwardTimed");
+    Trace.getInstance().logCommandStop(this);
   }
 }

@@ -77,12 +77,12 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("TurnToFaceCommand");
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("TurnToFaceCommand");
+    Trace.getInstance().logCommandStop(this);
   }
 }

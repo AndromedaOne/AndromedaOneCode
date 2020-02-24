@@ -27,7 +27,7 @@ public class RetractIntake extends CommandBase {
   @Override
   public void initialize() {
     m_intakeBase.retractIntake();
-    Trace.getInstance().logCommandStart("RetractIntake");
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,7 +38,7 @@ public class RetractIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("RetractIntake");
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

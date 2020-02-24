@@ -43,7 +43,7 @@ public class TeleOpCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart("TeleOpCommand");
+    Trace.getInstance().logCommandStart(this);
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
   }
@@ -97,7 +97,7 @@ public class TeleOpCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("TeleOpCommand");
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

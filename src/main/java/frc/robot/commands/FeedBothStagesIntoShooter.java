@@ -39,7 +39,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
     super.initialize();
     counter = 0;
     m_shooterBase.openShooterHood();
-    Trace.getInstance().logCommandStart("FeedBothStagesIntoShooter");
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,7 +60,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
     super.end(interrupted);
     m_feederBase.stopBothStages();
     m_shooterBase.closeShooterHood();
-    Trace.getInstance().logCommandStop("FeedBothStagesIntoShooter");
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

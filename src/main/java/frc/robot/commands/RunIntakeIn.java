@@ -43,7 +43,7 @@ public class RunIntakeIn extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart("RunIntakeIn");
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,7 +57,7 @@ public class RunIntakeIn extends CommandBase {
   public void end(boolean interrupted) {
     m_intakeBase.stopIntake();
 
-    Trace.getInstance().logCommandStop("RunIntakeIn");
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

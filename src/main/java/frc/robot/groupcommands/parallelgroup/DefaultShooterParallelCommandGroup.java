@@ -7,6 +7,7 @@ import frc.robot.Config4905;
 import frc.robot.commands.pidcommands.RunShooterSeriesVelocity;
 import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
   private Config m_shooterConfig;
@@ -36,6 +37,7 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
     m_shooter.setShooterIsIdle(true);
     // When the shooter is idle the hood will always be close
     // m_shooter.closeShooterHood();
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
@@ -48,6 +50,7 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
     super.end(interrupted);
     // When this command isnt running the shooter is not idle
     m_shooter.setShooterIsIdle(false);
+    Trace.getInstance().logCommandStop(this);
   }
 
 }

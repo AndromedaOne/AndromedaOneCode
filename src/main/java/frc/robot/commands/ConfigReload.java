@@ -12,7 +12,7 @@ public class ConfigReload extends CommandBase {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("ConfigReload");
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
@@ -28,6 +28,6 @@ public class ConfigReload extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("ConfigReload");
+    Trace.getInstance().logCommandStop(this);
   }
 }

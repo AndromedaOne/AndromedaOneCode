@@ -18,14 +18,14 @@ public class TurnToCompassHeadingTester extends SequentialCommandGroup {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("TurnToCompassHeadingTester");
+    Trace.getInstance().logCommandStart(this);
     m_command.setCompassHeading(SmartDashboard.getNumber("Compass Heading", 0));
   }
 
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("TurnToCompassHeadingTester");
+    Trace.getInstance().logCommandStop(this);
   }
 
 }

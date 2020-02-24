@@ -88,9 +88,9 @@ public class ShootWithRPM extends ParallelCommandGroup {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop(this);
     m_shooter.setShooterSeriesPower(0);
     m_shooter.setShooterWheelPower(0);
+    Trace.getInstance().logCommandStop(this);
   }
 
   private boolean isDoneFeeding() {

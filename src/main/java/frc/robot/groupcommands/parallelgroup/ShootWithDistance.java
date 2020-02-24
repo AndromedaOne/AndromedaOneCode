@@ -33,7 +33,7 @@ public class ShootWithDistance extends ParallelCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
+    Trace.getInstance().logCommandStop(this);
   }
 }

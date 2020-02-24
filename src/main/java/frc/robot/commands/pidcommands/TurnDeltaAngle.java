@@ -56,7 +56,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("TurnDeltaAngle");
+    Trace.getInstance().logCommandStart(this);
     double setpoint = NavXGyroSensor.getInstance().getZAngle() + m_deltaTurnAngle;
     double angle = NavXGyroSensor.getInstance().getZAngle();
     System.out.println(" - Starting Angle: " + angle + " - ");
@@ -76,7 +76,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
 
   public void end(boolean interrupted) {
     super.end(interrupted);
-    System.out.println(" - Finish Angled: " + NavXGyroSensor.getInstance().getZAngle() + " - ");
-    Trace.getInstance().logCommandStop("TurnDeltaAngle");
+    Trace.getInstance().logCommandStop(this);
+    Trace.getInstance().logCommandInfo(this, "finished angled: " + NavXGyroSensor.getInstance().getZAngle());
   }
 }

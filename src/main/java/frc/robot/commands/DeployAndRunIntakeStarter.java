@@ -23,7 +23,7 @@ public class DeployAndRunIntakeStarter extends CommandBase {
     if (!m_finishedCondition.getAsBoolean()) {
       CommandScheduler.getInstance().schedule(new DeployAndRunIntake(m_intakeBase, m_finishedCondition));
     }
-    Trace.getInstance().logCommandStart("DeployAndRunIntakeStarter");
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
@@ -34,7 +34,7 @@ public class DeployAndRunIntakeStarter extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("DeployAndRunIntakeStarter");
+    Trace.getInstance().logCommandStop(this);
   }
 
 }

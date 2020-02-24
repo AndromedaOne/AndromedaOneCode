@@ -28,7 +28,7 @@ public class ExtendIntake extends CommandBase {
   @Override
   public void initialize() {
     m_intakeBase.deployIntake();
-    Trace.getInstance().logCommandStart("ExtendIntake");
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +39,7 @@ public class ExtendIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("ExtendIntake");
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
