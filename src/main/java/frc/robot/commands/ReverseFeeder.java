@@ -19,7 +19,7 @@ public class ReverseFeeder extends CommandBase {
   private FeederBase m_feederBase;
   private BooleanSupplier m_endCondition;
   private static final double STAGE_ONE_AND_TWO_SPEED = 0.5;
-  private static final double STAGE_THREE_SPEED = 1;
+  private static final double STAGE_THREE_SPEED = 0.5;
 
   public ReverseFeeder(FeederBase feederbase, BooleanSupplier endCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
