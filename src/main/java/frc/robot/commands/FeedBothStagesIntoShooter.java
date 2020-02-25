@@ -22,7 +22,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   ShooterBase m_shooterBase;
   BooleanSupplier m_endCondition;
   double counter = 0;
-  private static final double kStageOneAndTwoSpeed = 0.6;
+  private static final double kStageOneAndTwoSpeed = 0.4;
   private static final double kStageThreeSpeed = 1.0;
 
   public FeedBothStagesIntoShooter(FeederBase feederBase, ShooterBase shooterBase, BooleanSupplier endCondition) {
