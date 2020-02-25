@@ -57,7 +57,7 @@ public class SubsystemController {
         m_shooterConfig.getDouble("shootingrpm.targetzone")));
     m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
     m_testAutoShoot = new JoystickButton(m_subsystemController, ButtonsEnumerated.STARTBUTTON.getValue());
-    m_testAutoShoot.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, 2000));
+    m_testAutoShoot.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, 3000));
   }
 
   public JoystickButton getDeployAndRunIntakeButton() {
