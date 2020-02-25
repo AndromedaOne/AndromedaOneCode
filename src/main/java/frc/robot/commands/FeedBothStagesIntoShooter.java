@@ -21,19 +21,16 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   FeederBase m_feederBase;
   ShooterBase m_shooterBase;
   BooleanSupplier m_endCondition;
-  BooleanSupplier m_shooterIsReady;
   double counter = 0;
   private static final double kStageOneAndTwoSpeed = 0.6;
   private static final double kStageThreeSpeed = 1.0;
 
-  public FeedBothStagesIntoShooter(FeederBase feederBase, BooleanSupplier endCondition, BooleanSupplier shooterIsReady,
-      ShooterBase shooterBase) {
+  public FeedBothStagesIntoShooter(FeederBase feederBase, ShooterBase shooterBase, BooleanSupplier endCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_feederBase = feederBase;
     m_shooterBase = shooterBase;
     addRequirements(m_feederBase);
     m_endCondition = endCondition;
-    m_shooterIsReady = shooterIsReady;
   }
 
   // Called when the command is initially scheduled.
@@ -48,7 +45,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean shooterIsReady = m_shooterIsReady.getAsBoolean();
+    boolean shooterIsReady = m_shooterBase.shooterIsReady();
     if (shooterIsReady && (counter > 20)) {
       m_feederBase.runBothStages(kStageOneAndTwoSpeed, kStageThreeSpeed);
     } else {
