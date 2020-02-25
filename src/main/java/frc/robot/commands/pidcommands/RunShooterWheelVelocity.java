@@ -1,5 +1,7 @@
 package frc.robot.commands.pidcommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -47,6 +49,11 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_shooter = shooter;
     m_target = setpoint;
     m_setpoint = this::getSetpoint;
+  }
+
+  public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpointSupplier) {
+    this(shooter, 0);
+    m_setpoint = () -> (setpointSupplier.getAsDouble() + this.getSetpoint());
   }
 
   @Override

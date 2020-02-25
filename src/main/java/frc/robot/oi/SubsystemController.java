@@ -17,6 +17,7 @@ import frc.robot.Robot;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.lib.ButtonsEnumerated;
+import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 
@@ -28,6 +29,7 @@ public class SubsystemController {
   private Config m_shooterConfig;
   private ShooterBase m_shooterSubsystem;
   private FeederBase m_feederSubsystem;
+  private SensorsContainer m_sensorsContainer;
   private JoystickButton m_shootFromInitLine;
   private JoystickButton m_shootFromFrontTrench;
   private JoystickButton m_shootFromBackTrench;
@@ -39,6 +41,7 @@ public class SubsystemController {
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
     m_shooterSubsystem = Robot.getInstance().getSubsystemsContainer().getShooter();
     m_feederSubsystem = Robot.getInstance().getSubsystemsContainer().getFeeder();
+    m_sensorsContainer = Robot.getInstance().getSensorsContainer();
 
     m_shootFromInitLine = new JoystickButton(m_subsystemController, ButtonsEnumerated.XBUTTON.getValue());
     m_shootFromInitLine.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
@@ -54,7 +57,7 @@ public class SubsystemController {
     m_shootFromTargetZone = new JoystickButton(m_subsystemController, ButtonsEnumerated.YBUTTON.getValue());
     m_shootFromTargetZone.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
         m_shooterConfig.getDouble("shootingrpm.targetzone") * 1.5,
-        m_shooterConfig.getDouble("shootingrpm.targetzone")));
+        m_sensorsContainer.getLimeLight()::distanceToTarget));
     m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
     m_testAutoShoot = new JoystickButton(m_subsystemController, ButtonsEnumerated.STARTBUTTON.getValue());
     m_testAutoShoot.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, 3000));
