@@ -57,11 +57,13 @@ public class SubsystemController {
     m_shootFromTargetZone = new JoystickButton(m_subsystemController, ButtonsEnumerated.YBUTTON.getValue());
     m_shootFromTargetZone.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
         m_shooterConfig.getDouble("shootingrpm.targetzone") * 1.5,
-        m_sensorsContainer.getLimeLight()::distanceToTarget));
+        m_sensorsContainer.getLimeLight()::distanceToPowerPort));
     m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
     m_testAutoShoot = new JoystickButton(m_subsystemController, ButtonsEnumerated.STARTBUTTON.getValue());
     m_testAutoShoot.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, 3000));
   }
+
+  
 
   public JoystickButton getDeployAndRunIntakeButton() {
     return ButtonsEnumerated.LEFTBUMPERBUTTON.getJoystickButton(m_subsystemController);

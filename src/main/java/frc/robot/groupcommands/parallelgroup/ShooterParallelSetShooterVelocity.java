@@ -17,6 +17,7 @@ public class ShooterParallelSetShooterVelocity extends ParallelCommandGroup {
    * @param seriesRPM
    * @param shooterRPM
    */
+
   public ShooterParallelSetShooterVelocity(ShooterBase shooter, double seriesRPM, double shooterRPM) {
 
     addCommands(new RunShooterWheelVelocity(shooter, shooterRPM), new RunShooterSeriesVelocity(shooter, seriesRPM));
