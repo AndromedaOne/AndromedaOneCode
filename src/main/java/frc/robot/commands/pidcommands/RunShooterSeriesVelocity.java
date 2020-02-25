@@ -39,7 +39,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
         // Output
         output -> {
           // TODO actually put an encoder on the series wheel
-          shooter.setShooterSeriesPower(0.75);
+          shooter.setShooterSeriesPower(1);
         });
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
@@ -51,7 +51,12 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
     m_setpoint = setpoint;
-    Trace.getInstance().logCommandStart("RunShooterSeriesVelocity");
+  }
+
+  @Override
+  public void initialize() {
+    super.initialize();
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override

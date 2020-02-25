@@ -19,7 +19,6 @@ import frc.robot.telemetries.Trace;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class MoveUsingEncoder extends PIDCommand4905 {
-  private Config pidConstantsConfig = Config4905.getConfig4905().getPidConstantsConfig();
   private DriveTrain m_driveTrain;
   private double m_distance = 0;
   private double m_target;
@@ -46,6 +45,13 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(drivetrain);
+  }
+
+  public void initialize() {
+    Config pidConstantsConfig = Config4905.getConfig4905().getPidConstantsConfig();
+    super.initialize();
+    Trace.getInstance().logCommandStart("MoveUsingEncoder");
+    setDistance(m_distance);
 
     getController().setP(pidConstantsConfig.getDouble("MoveUsingEncoder.Kp"));
     getController().setI(pidConstantsConfig.getDouble("MoveUsingEncoder.Ki"));
@@ -58,15 +64,13 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     }
   }
 
-  public void initialize() {
-    super.initialize();
-
-    m_target = m_driveTrain.getRobotPositionInches() + m_distance;
-    Trace.getInstance().logCommandStart("MoveUsingEncoder, m_distance = " + m_distance + ",m_target = " + m_target);
-  }
-
   public double getSetpoint() {
     return m_target;
+  }
+
+  public void setDistance(double distance) {
+    m_distance = distance;
+    m_target = m_driveTrain.getRobotPositionInches() + m_distance;
   }
 
   // Returns true when the command should end.
