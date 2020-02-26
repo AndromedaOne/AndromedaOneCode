@@ -14,7 +14,6 @@ import frc.robot.Robot;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.feeder.FeederStates;
-import frc.robot.telemetries.Trace;
 
 public class DefaultFeederCommand extends CommandBase {
 
@@ -50,7 +49,7 @@ public class DefaultFeederCommand extends CommandBase {
   public void initialize() {
     Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
     m_feederState = FeederStates.THIRD_LOADED;
-    Trace.getInstance().logCommandStart("DefaultFeederCommand");
+
     m_previousState = null;
     emptyCounter = 0;
     m_stageOneEndSensorTriggeredCounter = 0;
@@ -201,7 +200,7 @@ public class DefaultFeederCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_feeder.stopBothStages();
-    Trace.getInstance().logCommandStop("DefaultFeederCommand");
+
   }
 
   // Returns true when the command should end.
