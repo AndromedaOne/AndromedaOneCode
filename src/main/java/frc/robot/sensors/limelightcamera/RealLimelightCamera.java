@@ -42,7 +42,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double distanceToPowerPort() {
-    return distanceToTarget(83.0);
+    return distanceToTarget(82.5);
   }
 
   @Override

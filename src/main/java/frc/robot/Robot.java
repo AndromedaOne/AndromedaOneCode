@@ -93,13 +93,12 @@ public class Robot extends TimedRobot {
 
     m_sensorsContainer.getBallFeederSensor().isThereBall();
     SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
-    /*
-     * System.out.
-     * print("\nNETWORK TABLES FOR LIMELIGHT:\n(if the value is 0.0, it's not reading anything.)\ntX: "
-     * + limelightTable.getEntry("tx").getDouble(0.0) + /"\ntY: " +
-     * limelightTable.getEntry("ty").getDouble(0.0) + "\ntV: " +
-     * limelightTable.getEntry("tv").getDouble(0.0) + "\n----------");
-     */
+    SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
+    SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
+    SmartDashboard.putNumber("Distance to target", m_sensorsContainer.getLimeLight().distanceToPowerPort());
+    SmartDashboard.putNumber("Horizontal Radians To Target", m_sensorsContainer.getLimeLight().horizontalRadiansToTarget());
+    SmartDashboard.putNumber("Vertical Radians To Target", m_sensorsContainer.getLimeLight().verticalRadiansToTarget());
+     
   }
 
   /**
