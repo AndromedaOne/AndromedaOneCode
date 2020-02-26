@@ -25,8 +25,9 @@ public class ShooterParallelSetShooterVelocity extends ParallelCommandGroup {
     addRequirements(shooter);
   }
 
-  public ShooterParallelSetShooterVelocity(ShooterBase shooter, double seriesRPM, DoubleSupplier setpointSupplier) { 
-    addCommands(new RunShooterWheelVelocity(shooter, setpointSupplier), new RunShooterSeriesVelocity(shooter, seriesRPM));
+  public ShooterParallelSetShooterVelocity(ShooterBase shooter, double seriesRPM, DoubleSupplier setpointSupplier) {
+    addCommands(new RunShooterWheelVelocity(shooter, setpointSupplier),
+        new RunShooterSeriesVelocity(shooter, seriesRPM));
 
     addRequirements(shooter);
   }

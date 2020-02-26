@@ -25,6 +25,11 @@ import frc.robot.subsystems.shooter.ShooterBase;
  * Add your docs here.
  */
 public class SubsystemController {
+  // ALL OF THESE CONSTANTS ARE JUST GUESSES
+  private static final double INIT_LINE_DISTANCE = 12 * 10;
+  private static final double FRONT_TRENCH_DISTANCE = 12 * 14;
+  private static final double BACK_TRENCH_DISTANCE = 12 * 26;
+
   private XboxController m_subsystemController = new XboxController(1);
   private Config m_shooterConfig;
   private ShooterBase m_shooterSubsystem;
@@ -45,25 +50,25 @@ public class SubsystemController {
 
     m_shootFromInitLine = new JoystickButton(m_subsystemController, ButtonsEnumerated.XBUTTON.getValue());
     m_shootFromInitLine.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
-        m_shooterConfig.getDouble("shootingrpm.initline") * 1.5, m_shooterConfig.getDouble("shootingrpm.initline")));
+        m_shooterConfig.getDouble("shootingrpm.initline") * 1.5,
+        m_shooterSubsystem.getShooterMap().getInterpolatedRPM(INIT_LINE_DISTANCE)));
     m_shootFromFrontTrench = new JoystickButton(m_subsystemController, ButtonsEnumerated.BBUTTON.getValue());
     m_shootFromFrontTrench.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
         m_shooterConfig.getDouble("shootingrpm.fronttrench") * 1.5,
-        m_shooterConfig.getDouble("shootingrpm.fronttrench")));
+        m_shooterSubsystem.getShooterMap().getInterpolatedRPM(FRONT_TRENCH_DISTANCE)));
     m_shootFromBackTrench = new JoystickButton(m_subsystemController, ButtonsEnumerated.ABUTTON.getValue());
     m_shootFromBackTrench.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
         m_shooterConfig.getDouble("shootingrpm.backtrench") * 1.5,
-        m_shooterConfig.getDouble("shootingrpm.backtrench")));
+        m_shooterSubsystem.getShooterMap().getInterpolatedRPM(BACK_TRENCH_DISTANCE)));
     m_shootUsingLimeLight = new JoystickButton(m_subsystemController, ButtonsEnumerated.YBUTTON.getValue());
     m_shootUsingLimeLight.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
-        m_shooterConfig.getDouble("shootingrpm.targetzone") * 1.5,
-        () -> m_shooterSubsystem.getShooterMap().getInterpolatedRPM(m_sensorsContainer.getLimeLight().distanceToPowerPort())));
+        m_shooterConfig.getDouble("shootingrpm.targetzone") * 1.5, () -> m_shooterSubsystem.getShooterMap()
+            .getInterpolatedRPM(m_sensorsContainer.getLimeLight().distanceToPowerPort())));
+
     m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
     m_testAutoShoot = new JoystickButton(m_subsystemController, ButtonsEnumerated.STARTBUTTON.getValue());
     m_testAutoShoot.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, 3000));
   }
-
-  
 
   public JoystickButton getDeployAndRunIntakeButton() {
     return ButtonsEnumerated.LEFTBUMPERBUTTON.getJoystickButton(m_subsystemController);
