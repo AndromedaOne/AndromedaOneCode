@@ -32,7 +32,6 @@ public class SubsystemController {
   private JoystickButton m_shootFromBackTrench;
   private JoystickButton m_shootFromTargetZone;
   private JoystickButton m_runIntakeOut;
-  private JoystickButton m_testAutoShoot;
 
   public SubsystemController() {
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
