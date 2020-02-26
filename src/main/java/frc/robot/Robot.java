@@ -95,10 +95,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
     SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
     SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
-    SmartDashboard.putNumber("Distance to target", m_sensorsContainer.getLimeLight().distanceToPowerPort());
-    SmartDashboard.putNumber("Horizontal Radians To Target", m_sensorsContainer.getLimeLight().horizontalRadiansToTarget());
-    SmartDashboard.putNumber("Vertical Radians To Target", m_sensorsContainer.getLimeLight().verticalRadiansToTarget());
-     
+ 
   }
 
   /**
