@@ -26,6 +26,7 @@ public class DriveController {
   private JoystickButton turnToSouth;
   private JoystickButton turnToWest;
   private JoystickButton turnToFace;
+  private JoystickButton camaButton;
 
   public DriveController(SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
@@ -38,6 +39,7 @@ public class DriveController {
     turnToWest.whenPressed(new TurnToCompassHeading(270));
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
     turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
+    cameraButton = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTBUMPERBUTTON)
   }
 
   /**
