@@ -50,7 +50,6 @@ public class DefaultFeederCommand extends CommandBase {
     Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
     feederState = FeederStates.THIRD_LOADED;
     Trace.getInstance().logCommandStart("DefaultFeederCommand");
-    m_previousState = null;
     emptyCounter = 0;
     m_stageOneEndSensorTriggeredCounter = 0;
     m_stageOneLeftRightSensorTriggeredCounter = 0;
@@ -196,12 +195,13 @@ public class DefaultFeederCommand extends CommandBase {
   }
 
   /**
-   * This is the safest state to be in because the feeder will 
-   * not auto load any more if it is in third loaded.
+   * This is the safest state to be in because the feeder will not auto load any
+   * more if it is in third loaded.
    */
   public static void setFeederStateToThreeLoaded() {
     feederState = FeederStates.THIRD_LOADED;
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
