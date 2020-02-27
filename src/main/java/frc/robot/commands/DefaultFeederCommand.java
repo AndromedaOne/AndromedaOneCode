@@ -27,7 +27,6 @@ public class DefaultFeederCommand extends CommandBase {
   private static final double STAGE_TWO_SLOW_SPEED = 0.15;
   private static final double STAGE_THREE_SLOW_SPEED = STAGE_TWO_SLOW_SPEED
       + DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED;
-  private FeederStates m_previousState;
   private int emptyCounter = 0;
   private static int numberOfPowerCellsInFeeder = 0;
   private int m_stageOneEndSensorTriggeredCounter = 0;
@@ -49,8 +48,6 @@ public class DefaultFeederCommand extends CommandBase {
   public void initialize() {
     Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
     m_feederState = FeederStates.THIRD_LOADED;
-
-    m_previousState = null;
     emptyCounter = 0;
     m_stageOneEndSensorTriggeredCounter = 0;
     m_stageOneLeftRightSensorTriggeredCounter = 0;
@@ -192,8 +189,6 @@ public class DefaultFeederCommand extends CommandBase {
     } else {
       m_stageOneLeftRightSensorTriggeredCounter = 0;
     }
-    m_previousState = m_feederState;
-
   }
 
   // Called once the command ends or is interrupted.

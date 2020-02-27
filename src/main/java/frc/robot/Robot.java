@@ -77,8 +77,6 @@ public class Robot extends TimedRobot {
    */
   NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-  private int counter = 0;
-
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
