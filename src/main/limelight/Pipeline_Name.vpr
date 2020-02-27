@@ -11,8 +11,8 @@ contour_sort_final:0
 convexity_max:36
 convexity_min:0
 corner_approx:2
-cross_a_a:1
-cross_a_x:0
+cross_a_a:0.011866
+cross_a_x:-0.080310
 cross_a_y:0
 cross_b_a:1
 cross_b_x:0
