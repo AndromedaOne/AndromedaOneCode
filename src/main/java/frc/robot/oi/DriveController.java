@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
+import frc.robot.lib.POVDirectionNames;
 import frc.robot.sensors.SensorsContainer;
 
 /**
@@ -26,6 +27,10 @@ public class DriveController {
   private JoystickButton turnToSouth;
   private JoystickButton turnToWest;
   private JoystickButton turnToFace;
+  private JoystickButton turnToAngleForFrontOfTrench;
+  private JoystickButton turnToAngleForBackOfTrench;
+  private static final double ANGLE_TO_TURN_FOR_FRONT_OF_TRENCH = 360 - 25.496;
+  private static final double ANGLE_TO_TURN_FOR_BACK_OF_TRENCH = 360 - 25.496;
 
   public DriveController(SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
@@ -38,6 +43,12 @@ public class DriveController {
     turnToWest.whenPressed(new TurnToCompassHeading(270));
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
     turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
+
+    turnToAngleForFrontOfTrench = new JoystickButton(m_driveController, POVDirectionNames.WEST.getValue());
+    turnToAngleForFrontOfTrench.whenPressed(new TurnToCompassHeading(ANGLE_TO_TURN_FOR_FRONT_OF_TRENCH));
+
+    turnToAngleForBackOfTrench = new JoystickButton(m_driveController, POVDirectionNames.EAST.getValue());
+    turnToAngleForBackOfTrench.whenPressed(new TurnToCompassHeading(ANGLE_TO_TURN_FOR_FRONT_OF_TRENCH));
   }
 
   /**
