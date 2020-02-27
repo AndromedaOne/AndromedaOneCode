@@ -9,7 +9,7 @@ package frc.robot.oi;
 
 import frc.robot.commands.DeployAndRunIntakeStarter;
 import frc.robot.commands.FeedBothStagesIntoShooter;
-import frc.robot.commands.ReverseFeeder;
+import frc.robot.commands.ReverseFeederAndShooter;
 import frc.robot.commands.RunIntakeOut;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -34,7 +34,7 @@ public class OIContainer {
             () -> !m_subsystemController.getFeedWhenReadyButton().get()));
     m_subsystemController.getRunIntakeOutButton().whenPressed(
         new RunIntakeOut(subsystemsContainer.getIntake(), () -> !m_subsystemController.getRunIntakeOutButton().get()));
-    m_subsystemController.getReverseFeederButton().whenPressed(new ReverseFeeder(subsystemsContainer.getFeeder(),
+    m_subsystemController.getReverseFeederButton().whenPressed(new ReverseFeederAndShooter(subsystemsContainer.getFeeder(),subsystemsContainer.getShooter(),
         () -> !m_subsystemController.getReverseFeederButton().get()));
   }
 
