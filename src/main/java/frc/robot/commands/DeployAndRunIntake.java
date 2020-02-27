@@ -16,7 +16,7 @@ import frc.robot.Config4905;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.telemetries.Trace;
 
-public class RunIntakeIn extends CommandBase {
+public class DeployAndRunIntake extends CommandBase {
   /**
    * Creates a new RunIntake.
    */
@@ -32,7 +32,7 @@ public class RunIntakeIn extends CommandBase {
    * @param intakeBase
    * @param finishedCondition
    */
-  public RunIntakeIn(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
+  public DeployAndRunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
@@ -44,6 +44,7 @@ public class RunIntakeIn extends CommandBase {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart("RunIntakeIn");
+    m_intakeBase.deployIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
