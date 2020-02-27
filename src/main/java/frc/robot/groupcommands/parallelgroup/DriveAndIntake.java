@@ -26,6 +26,7 @@ public class DriveAndIntake extends ParallelCommandGroup {
     MoveUsingEncoder moveUsingEncoder = new MoveUsingEncoder(drivetrain, distance, maxSpeed);
     addCommands(moveUsingEncoder, new DeployAndRunIntake(intakeBase, () -> moveUsingEncoder.isFinished()));
   }
+
   public DriveAndIntake(DriveTrain drivetrain, IntakeBase intakeBase, double distance) {
     this(drivetrain, intakeBase, distance, 0);
   }
