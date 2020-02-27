@@ -22,6 +22,8 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
   protected int m_lostCounter = 0;
   protected BitSet m_lostBuffer = new BitSet(50);
+  protected int m_targetCounter = 0;
+  protected BitSet m_targetBuffer = new BitSet(4);
   SensorsContainer m_sensorsContainer = Robot.getInstance().getSensorsContainer();
 
   public TurnToFaceCommand(DoubleSupplier sensor) {
@@ -42,8 +44,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     getController().setI(m_conf.getDouble("TurnToFaceCommand.Ki"));
     getController().setD(m_conf.getDouble("TurnToFaceCommand.Kd"));
     getController().setMinOutputToMove(m_conf.getDouble("TurnToFaceCommand.minOutputToMove"));
-    getController().setTolerance(m_conf.getDouble("TurnToFaceCommand.positionTolerance"),
-        m_conf.getDouble("TurnToFaceCommand.velocityTolerance"));
+    getController().setTolerance(m_conf.getDouble("TurnToFaceCommand.positionTolerance"));
     this.m_sensor = sensor;
   }
 
@@ -51,9 +52,14 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   public boolean isFinished() {
     m_lostCounter++;
     m_lostCounter = m_lostCounter % 50;
-    boolean targetFound = m_sensorsContainer.getLimeLight().targetLock();
 
+    boolean targetFound = m_sensorsContainer.getLimeLight().targetLock();
     m_lostBuffer.set(m_lostCounter, !targetFound);
+
+    m_targetCounter++;
+    m_targetCounter %= 4;
+    m_targetBuffer.set(m_targetCounter, this.getController().atSetpoint());
+
     if (m_lostBuffer.cardinality() == 50) {
       Trace.getInstance().logCommandInfo(this, "No target found for one second");
       return true;
@@ -67,7 +73,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
         System.out.println("limelight," + limelight.verticalRadiansToTarget() + " " + limelight.distanceToPowerPort());
       }
 
-      boolean returnValue = this.getController().atSetpoint() && targetFound;
+      boolean returnValue = m_targetBuffer.cardinality() == 4 && targetFound;
       return returnValue;
     }
   }
