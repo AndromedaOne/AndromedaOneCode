@@ -6,10 +6,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
+import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.groupcommands.DeployAndRunIntake;
+import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.sensors.SensorsContainer;
@@ -55,8 +56,8 @@ public class AutoModes4905 {
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
                                                                   new ShootWithDistance(shooter, feeder, 11*12), // do math to figure out distance here
                                                                   new TurnToCompassHeading(180),
-                                                                  new DeployAndRunIntake(intake, () -> true),
-                                                                  new MoveUsingEncoder(driveTrain, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                  
+                                                                  new DriveAndIntake(driveTrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
                                                                   new ShootWithDistance(shooter, feeder, 29.5*12)));
         m_autoChooser.addOption("5: Right Side Shield",
