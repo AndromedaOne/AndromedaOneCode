@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.telemetries.Trace;
 
-public class RetractIntake extends CommandBase {
+public class RetractAndStopIntake extends CommandBase {
   /**
    * Creates a new RetractIntake.
    */
   private IntakeBase m_intakeBase;
 
-  public RetractIntake(IntakeBase intakeBase) {
+  public RetractAndStopIntake(IntakeBase intakeBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
@@ -27,6 +27,7 @@ public class RetractIntake extends CommandBase {
   @Override
   public void initialize() {
     m_intakeBase.retractIntake();
+    m_intakeBase.stopIntake();
     Trace.getInstance().logCommandStart("RetractIntake");
   }
 

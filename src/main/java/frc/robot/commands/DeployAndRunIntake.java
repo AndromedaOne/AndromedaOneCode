@@ -57,6 +57,7 @@ public class DeployAndRunIntake extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intakeBase.stopIntake();
+    m_intakeBase.retractIntake();
 
     Trace.getInstance().logCommandStop("RunIntakeIn");
   }
