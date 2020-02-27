@@ -79,6 +79,8 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_target += leftYAxis * kControllerScale;
     if (m_target > 4900) {
       m_target = 4900;
+    } else if (m_target < 0) {
+      m_target = 0;
     }
     m_shooter.setShooterPIDIsReady(getController().atSetpoint());
     m_computedFeedForward = m_feedForward.calculate(m_target);
