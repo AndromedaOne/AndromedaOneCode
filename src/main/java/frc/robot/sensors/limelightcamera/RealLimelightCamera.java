@@ -42,7 +42,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double distanceToPowerPort() {
-    return distanceToTarget(83.0);
+    return distanceToTarget(82.5);
   }
 
   @Override
@@ -53,6 +53,8 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   @Override
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("LimeAngleToTurn", horizontalDegreesToTarget());
+    SmartDashboard.putNumber("Vertical Radians To Target", verticalRadiansToTarget());
+    SmartDashboard.putNumber("Distance To Target", distanceToPowerPort());
   }
 
   @Override

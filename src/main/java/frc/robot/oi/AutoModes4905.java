@@ -42,7 +42,7 @@ public class AutoModes4905 {
         m_autoChooser.addOption("1: Move Back",
                                 new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, (-1*12))));
         m_autoChooser.addOption("2: Fire and Move Back",
-                                new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (10*12)),
+                                new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (10*12 + 3)),
                                                                   new MoveUsingEncoder(driveTrain, (-1*12))));
         m_autoChooser.addOption("3: Back Bumper U-Turn", 
                                 new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (10*12)),
@@ -86,6 +86,14 @@ public class AutoModes4905 {
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(9.5),
                                                                   new ShootWithDistance(shooter, feeder, (10*12)),
                                                                   new MoveUsingEncoder(driveTrain, (-1*12))));
+        m_autoChooser.addOption("10: Right Fire Further Turn Move Back",
+                                new DelayedSequentialCommandGroup(new TurnToCompassHeading(344),
+                                                                  new ShootWithDistance(shooter, feeder, (11*12)),
+                                                                  new MoveUsingEncoder(driveTrain, (-2*12))));
+        m_autoChooser.addOption("11: Left Fire Further Turn Move Back",
+                                new DelayedSequentialCommandGroup(new TurnToCompassHeading(16),
+                                                                  new ShootWithDistance(shooter, feeder, (11*12 )),
+                                                                  new MoveUsingEncoder(driveTrain, (-2*12))));
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }
