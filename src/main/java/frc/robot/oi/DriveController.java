@@ -29,8 +29,10 @@ public class DriveController {
   private JoystickButton turnToFace;
   private JoystickButton turnToAngleForFrontOfTrench;
   private JoystickButton turnToAngleForBackOfTrench;
+
+  // These values are from Rules and Strategy
   private static final double ANGLE_TO_TURN_FOR_FRONT_OF_TRENCH = 360 - 25.496;
-  private static final double ANGLE_TO_TURN_FOR_BACK_OF_TRENCH = 360 - 25.496;
+  private static final double ANGLE_TO_TURN_FOR_BACK_OF_TRENCH = 351;
 
   public DriveController(SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
