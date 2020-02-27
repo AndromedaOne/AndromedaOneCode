@@ -258,7 +258,7 @@ public class Trace {
       long correctedTime = System.currentTimeMillis() - m_startTime;
       String line = new String(String.valueOf(correctedTime));
       for (TracePair<T> entry : values) {
-        line += "," + entry.getValue();
+        line += ",\t" + entry.getValue();
       }
       traceEntry.getFile().write(line);
       traceEntry.getFile().newLine();

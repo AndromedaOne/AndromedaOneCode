@@ -299,6 +299,10 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     return getContinuousError(m_positionError);
   }
 
+  public double getPositionTolerence() {
+    return m_positionTolerance;
+  }
+
   /**
    * Returns the velocity error.
    */

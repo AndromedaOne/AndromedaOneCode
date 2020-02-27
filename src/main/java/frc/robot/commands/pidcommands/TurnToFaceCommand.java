@@ -8,7 +8,7 @@ import com.typesafe.config.Config;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
-import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.telemetries.Trace;
@@ -29,7 +29,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   public TurnToFaceCommand(DoubleSupplier sensor) {
     super(
         // The controller that the command will use
-        new PIDController4905("TurnToFace", 0, 0, 0, 0),
+        new PIDController4905SampleStop("TurnToFace", 0.0, 0.0, 0.0, 0.0),
         // This should return the measurement
         sensor,
         // This should return the setpoint (can also be a constant)
@@ -68,7 +68,6 @@ public class TurnToFaceCommand extends PIDCommand4905 {
       Trace.getInstance().logCommandInfo("TurnToFaceCommand", "No Limelight Sensor");
       return true;
     } else {
-      double angle = m_sensor.getAsDouble();
 
       if (m_lostCounter == 1) {
         LimeLightCameraBase limelight = m_sensorsContainer.getLimeLight();

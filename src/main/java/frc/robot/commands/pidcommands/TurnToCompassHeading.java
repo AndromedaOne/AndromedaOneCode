@@ -31,7 +31,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
   public TurnToCompassHeading(double compassHeading) {
     super(
         // The controller that the command will use
-        new PIDController4905("TurnToCompassHeading", 0, 0, 0, 0),
+        new PIDController4905SampleStop("TurnToCompassHeading", 0, 0, 0, 0),
         // This should return the measurement
         NavXGyroSensor.getInstance()::getCompassHeading,
         // This should return the setpoint (can also be a constant)
