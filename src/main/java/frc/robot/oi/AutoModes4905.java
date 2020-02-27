@@ -59,7 +59,7 @@ public class AutoModes4905 {
                                                                   
                                                                   new DriveAndIntake(driveTrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
-                                                                  new ShootWithDistance(shooter, feeder, 29.5*12)));
+                                                                  new ShootWithDistance(shooter, feeder, 26*12)));
         m_autoChooser.addOption("5: Right Side Shield",
                                 new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (10*12)),
                                                                   new MoveUsingEncoder(driveTrain, (-5*12) - 9),
