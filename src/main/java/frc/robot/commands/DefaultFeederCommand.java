@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import static frc.robot.sensors.ballfeedersensor.EnumBallLocation.*;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
@@ -32,6 +33,8 @@ public class DefaultFeederCommand extends CommandBase {
   private static int numberOfPowerCellsInFeeder = 0;
   private int m_stageOneEndSensorTriggeredCounter = 0;
   private int m_stageOneLeftRightSensorTriggeredCounter = 0;
+  private Timer m_timer;
+  private static final double MOVING_STAGE_TIMEOUT = 1;
 
   /**
    * Creates a new FeederCommand.
@@ -42,6 +45,7 @@ public class DefaultFeederCommand extends CommandBase {
     this.m_feeder = Robot.getInstance().getSubsystemsContainer().getFeeder();
     m_feederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     feederState = FeederStates.EMPTY;
+    m_timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
@@ -83,80 +87,102 @@ public class DefaultFeederCommand extends CommandBase {
     }
     switch (feederState) {
     case EMPTY:
-      if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]
-          || ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.ONE_LOADING;
-      }
       m_feeder.stopBothStages();
       numberOfPowerCellsInFeeder = 0;
+      m_timer.stop();
+      if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]
+          || ballSensorValues[STAGE_1_END.getIndex()]) {
+        setFeederState(FeederStates.ONE_LOADING);
+      }
       break;
 
     case ONE_LOADING:
-      if (ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING.getIndex()]) {
-        feederState = FeederStates.ONE_LOADED;
-      }
+      
       m_feeder.runBothStages(DEFAULT_STAGES_ONE_AND_TWO_SPEED, DEFAULT_STAGE_THREE_SPEED);
+      if (ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING.getIndex()]) {
+        setFeederState(FeederStates.ONE_LOADED);
+      }
       break;
 
     case ONE_LOADED:
+      m_timer.stop();
       if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]
           || ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.SECOND_LOADING_1;
+        setFeederState(FeederStates.SECOND_LOADING_1);
       }
       m_feeder.stopBothStages();
       numberOfPowerCellsInFeeder = 1;
       break;
 
     case SECOND_LOADING_1:
+      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+        feederState = FeederStates.ONE_LOADED;
+      }
       if (ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.SECOND_LOADING_2;
+        setFeederState(FeederStates.SECOND_LOADING_2);
       }
       m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
       m_feeder.stopStageTwo();
       break;
 
     case SECOND_LOADING_2:
+      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+        feederState = FeederStates.UNKNOWN;
+      }
       if (!ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.SECOND_LOADING_3;
+        setFeederState(FeederStates.SECOND_LOADING_3);
       }
       m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
       m_feeder.runStagesTwoAndThree(STAGE_TWO_SLOW_SPEED, STAGE_THREE_SLOW_SPEED);
       break;
 
     case SECOND_LOADING_3:
+      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+        feederState = FeederStates.UNKNOWN;
+      }
       if (ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING.getIndex()]) {
-        feederState = FeederStates.SECOND_LOADED;
+        setFeederState(FeederStates.SECOND_LOADED);
       }
       m_feeder.runBothStages(DEFAULT_STAGES_ONE_AND_TWO_SPEED, DEFAULT_STAGE_THREE_SPEED);
       break;
 
     case SECOND_LOADED:
+      m_timer.stop();
       if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]
           || ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.THIRD_LOADING_1;
+        setFeederState(FeederStates.THIRD_LOADING_1);
       }
       m_feeder.stopBothStages();
       numberOfPowerCellsInFeeder = 2;
       break;
 
     case THIRD_LOADING_1:
+      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+        feederState = FeederStates.SECOND_LOADED;
+      }
       if (ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.THIRD_LOADING_2;
+        setFeederState(FeederStates.THIRD_LOADING_2);
       }
       m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
       m_feeder.stopStageTwo();
       break;
 
     case THIRD_LOADING_2:
+      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+        feederState = FeederStates.UNKNOWN;
+      }
       if (!ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.THIRD_LOADING_3;
+        setFeederState(FeederStates.THIRD_LOADING_3);
       }
       m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
       m_feeder.runStagesTwoAndThree(STAGE_TWO_SLOW_SPEED, STAGE_THREE_SLOW_SPEED);
 
     case THIRD_LOADING_3:
+      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+        feederState = FeederStates.UNKNOWN;
+      }
       if (ballSensorValues[STAGE_2_BEGINNING.getIndex()] && !ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.THIRD_LOADED;
+        setFeederState(FeederStates.THIRD_LOADED);
       }
       m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
       m_feeder.runStagesTwoAndThree(STAGE_TWO_SLOW_SPEED, STAGE_THREE_SLOW_SPEED);
@@ -165,13 +191,18 @@ public class DefaultFeederCommand extends CommandBase {
     case THIRD_LOADED:
       if (!ballSensorValues[STAGE_2_BEGINNING.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()]
           && !ballSensorValues[STAGE_1_END.getIndex()]) {
-        feederState = FeederStates.EMPTY;
+        setFeederState(FeederStates.EMPTY);
       }
       m_feeder.stopBothStages();
       numberOfPowerCellsInFeeder = 3;
       break;
 
     case UNKNOWN:
+      if (!ballSensorValues[STAGE_2_BEGINNING.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()]
+          && !ballSensorValues[STAGE_1_END.getIndex()]) {
+        setFeederState(FeederStates.EMPTY);
+      }
+      numberOfPowerCellsInFeeder = 3;
       m_feeder.stopBothStages();
       break;
     }
@@ -200,6 +231,12 @@ public class DefaultFeederCommand extends CommandBase {
    */
   public static void setFeederStateToThreeLoaded() {
     feederState = FeederStates.THIRD_LOADED;
+  }
+
+  private void setFeederState(FeederStates feederStateParam) {
+    feederState = feederStateParam;
+    m_timer.reset();
+    m_timer.start();
   }
 
   // Called once the command ends or is interrupted.
