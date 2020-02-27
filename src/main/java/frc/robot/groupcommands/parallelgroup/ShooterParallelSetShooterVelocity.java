@@ -25,13 +25,13 @@ public class ShooterParallelSetShooterVelocity extends ParallelCommandGroup {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("Shooter Parallel Velocity");
+    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("Shooter Parallel Velocity");
+    Trace.getInstance().logCommandStop(this);
   }
 
 }

@@ -53,10 +53,11 @@ public class SensorsContainer {
       camera0 = new MockCamera();
     }
 
-    if (sensorConfig.hasPath("sensors.limelight")) {
+    if (sensorConfig.hasPath("limelight")) {
       System.out.println("Using real LimeLight");
       m_limelightCameraBase = new RealLimelightCamera();
     } else {
+      System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
     }
   }

@@ -361,4 +361,16 @@ public class Trace {
   public void logCommandStop(String commandName) {
     logCommand(commandName, "stop");
   }
+
+  public void logCommandStart(Object object) {
+    logCommand(object.getClass().getSimpleName(), "start");
+  }
+
+  public void logCommandStop(Object object) {
+    logCommand(object.getClass().getSimpleName(), "stop");
+  }
+
+  public void logCommandInfo(String commandName, String information) {
+    logCommand(commandName, "info: " + information);
+  }
 }
