@@ -48,7 +48,7 @@ public class DriveController {
     turnToAngleForFrontOfTrench.whenPressed(new TurnToCompassHeading(ANGLE_TO_TURN_FOR_FRONT_OF_TRENCH));
 
     turnToAngleForBackOfTrench = new JoystickButton(m_driveController, POVDirectionNames.EAST.getValue());
-    turnToAngleForBackOfTrench.whenPressed(new TurnToCompassHeading(ANGLE_TO_TURN_FOR_FRONT_OF_TRENCH));
+    turnToAngleForBackOfTrench.whenPressed(new TurnToCompassHeading(ANGLE_TO_TURN_FOR_BACK_OF_TRENCH));
   }
 
   /**
