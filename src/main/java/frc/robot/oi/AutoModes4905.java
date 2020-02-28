@@ -10,10 +10,12 @@ import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -32,6 +34,7 @@ public class AutoModes4905 {
     ShooterBase shooter = subsystemsContainer.getShooter();
     IntakeBase intake = subsystemsContainer.getIntake();
     FeederBase feeder = subsystemsContainer.getFeeder();
+    LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -57,9 +60,10 @@ public class AutoModes4905 {
                                                                   new ShootWithDistance(shooter, feeder, 11*12), // do math to figure out distance here
                                                                   new TurnToCompassHeading(180),
                                                                   
-                                                                  new DriveAndIntake(driveTrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                  new DriveAndIntake(driveTrain, intake, (11.7*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
-                                                                  new ShootWithDistance(shooter, feeder, 26*12)));
+                                                                  new TurnToFaceCommand(limelight::horizontalDegreesToTarget),
+                                                                  new ShootWithDistance(shooter, feeder, 24*12)));
         m_autoChooser.addOption("5: Right Side Shield",
                                 new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (10*12)),
                                                                   new MoveUsingEncoder(driveTrain, (-5*12) - 9),

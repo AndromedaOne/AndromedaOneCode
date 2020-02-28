@@ -18,6 +18,7 @@ import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
 
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
+  private LimeLightCameraBase limelight;
 
   private Robot() {
     CommandScheduler.getInstance().onCommandInitialize((command) -> Trace.getInstance().logCommandStart(command));
@@ -63,6 +65,7 @@ public class Robot extends TimedRobot {
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
 
     m_subsystemContainer.setDefaultCommands();
+    limelight = m_sensorsContainer.getLimeLight();
   }
 
   /**
@@ -127,6 +130,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
+    limelight.enableLED();
   }
 
   /**
@@ -150,7 +154,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
-    m_sensorsContainer.getLimeLight().enableLED();
+    limelight.disableLED();
   }
 
   /**

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
@@ -30,6 +31,8 @@ public class DriveController {
   private JoystickButton letOutLeftWinch;
   private JoystickButton letOutRightWinch;
   private POVButton climbLevel;
+  private JoystickButton turnOnLimelight;
+  private JoystickButton turnOffLimelight;
 
   public DriveController(SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
@@ -47,6 +50,10 @@ public class DriveController {
     // climbLevel.whileHeld(new Climb());
     letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
     letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
+    turnOnLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
+    turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
+    turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
+    turnOffLimelight.whenPressed(new ToggleLimelightLED(false, sensorsContainer));
   }
 
   /**
