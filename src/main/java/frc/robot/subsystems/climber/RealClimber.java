@@ -67,12 +67,6 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void adjustWinch(int adjust) {
-    leftWinch.set(adjust);
-    rightWinch.set(adjust);
-  }
-
-  @Override
   public void extendLeftArm() {
     leftGrapplingHook.extendPiston();
   }
@@ -104,4 +98,23 @@ public class RealClimber extends ClimberBase {
     rightGrapplingHook.stopPiston();
 
   }
+
+  public SparkMaxController getLeftWinch() {
+    return leftWinch;
+  }
+
+  public SparkMaxController getRightWinch() {
+    return rightWinch;
+  }
+
+  @Override
+  public void adjustLeftWinch(double adjust) {
+    leftWinch.set(adjust);
+  }
+
+  @Override
+  public void adjustRightWinch(double adjust) {
+    rightWinch.set(adjust);
+  }
+
 }

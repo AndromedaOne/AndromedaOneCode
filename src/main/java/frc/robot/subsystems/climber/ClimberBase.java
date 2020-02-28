@@ -8,6 +8,7 @@
 package frc.robot.subsystems.climber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.actuators.SparkMaxController;
 
 public abstract class ClimberBase extends SubsystemBase {
   /**
@@ -44,6 +45,11 @@ public abstract class ClimberBase extends SubsystemBase {
 
   public abstract void stopRightWinch();
 
-  public abstract void adjustWinch(int adjust);
+  public abstract void adjustLeftWinch(double adjust);
 
+  public abstract void adjustRightWinch(double adjust);
+
+  public abstract SparkMaxController getLeftWinch();
+
+  public abstract SparkMaxController getRightWinch();
 }
