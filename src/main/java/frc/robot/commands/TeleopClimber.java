@@ -48,13 +48,20 @@ public class TeleopClimber extends CommandBase {
   public void execute() {
     m_counter = (m_counter + 1) % BUFFERSIZE;
     double leftRightAdjustmentValue = m_subsystemController.getRightStickLeftRightValue();
-    double percentRightSolenoidOpenCycles = m_subsystemController.getRightStickForwardBackwardValue();
-    percentRightSolenoidOpenCycles = (percentRightSolenoidOpenCycles < 0) ? -Math.pow(percentRightSolenoidOpenCycles, 2)
-        : Math.pow(percentRightSolenoidOpenCycles, 2);
+    double forwardBackwardStickValue = m_subsystemController.getRightStickForwardBackwardValue();
+    forwardBackwardStickValue = (forwardBackwardStickValue < 0) ? -Math.pow(forwardBackwardStickValue, 2)
+        : Math.pow(forwardBackwardStickValue, 2);
+    double percentRightSolenoidOpenCycles = forwardBackwardStickValue;
+    
     leftRightAdjustmentValue = (leftRightAdjustmentValue < 0) ? -Math.pow(leftRightAdjustmentValue, 2)
         : Math.pow(leftRightAdjustmentValue, 2);
-    if (percentRightSolenoidOpenCycles < 0) {
-      percentRightSolenoidOpenCycles -= leftRightAdjustmentValue;
+    if (leftRightAdjustmentValue < 0) {
+      if(percentRightSolenoidOpenCycles > 0){
+        percentRightSolenoidOpenCycles -= leftRightAdjustmentValue;
+      }else {
+        percentRightSolenoidOpenCycles += leftRightAdjustmentValue;
+      }
+
     }
     if (percentRightSolenoidOpenCycles > 0.8) {
       percentRightSolenoidOpenCycles = 1;
@@ -72,9 +79,13 @@ public class TeleopClimber extends CommandBase {
       m_climberBase.stopRightArm();
     }
 
-    double percentLeftSolenoidOpenCycles = m_subsystemController.getRightStickForwardBackwardValue();
+    double percentLeftSolenoidOpenCycles = forwardBackwardStickValue;
     if (leftRightAdjustmentValue > 0) {
-      percentLeftSolenoidOpenCycles += leftRightAdjustmentValue;
+      if(percentLeftSolenoidOpenCycles > 0){
+        percentLeftSolenoidOpenCycles += leftRightAdjustmentValue;
+      }else {
+        percentLeftSolenoidOpenCycles -= leftRightAdjustmentValue;
+      }
     }
     if (percentLeftSolenoidOpenCycles > 0.8) {
       percentLeftSolenoidOpenCycles = 1;
