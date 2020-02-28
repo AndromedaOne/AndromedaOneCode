@@ -61,15 +61,13 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     m_targetBuffer.set(m_targetCounter, this.getController().atSetpoint());
 
     if (m_lostBuffer.cardinality() == 50) {
-      Trace.getInstance().logCommandInfo("TurnToFaceCommand", "No target found for one second");
+      Trace.getInstance().logCommandInfo(this, "No target found for one second");
       return true;
     }
     if (!m_conf2.hasPath("limelight") || m_conf2.getDouble("limelight.cameraHeight") == 0.0) {
-      Trace.getInstance().logCommandInfo("TurnToFaceCommand", "No Limelight Sensor");
+      Trace.getInstance().logCommandInfo(this, "No Limelight Sensor");
       return true;
     } else {
-      double angle = m_sensor.getAsDouble();
-
       if (m_lostCounter == 1) {
         LimeLightCameraBase limelight = m_sensorsContainer.getLimeLight();
         System.out.println("limelight," + limelight.verticalRadiansToTarget() + " " + limelight.distanceToPowerPort());
@@ -83,12 +81,10 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("TurnToFaceCommand");
   }
 
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("TurnToFaceCommand");
   }
 }

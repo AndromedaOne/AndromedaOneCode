@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.telemetries.Trace;
 
 public class ExtendIntake extends CommandBase {
   /**
@@ -28,7 +27,7 @@ public class ExtendIntake extends CommandBase {
   @Override
   public void initialize() {
     m_intakeBase.deployIntake();
-    Trace.getInstance().logCommandStart("ExtendIntake");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +38,7 @@ public class ExtendIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("ExtendIntake");
+
   }
 
   // Returns true when the command should end.

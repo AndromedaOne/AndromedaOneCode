@@ -3,7 +3,6 @@ package frc.robot.groupcommands.parallelgroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
-import frc.robot.telemetries.Trace;
 
 public class ShootWithDistance extends ParallelCommandGroup {
 
@@ -23,7 +22,6 @@ public class ShootWithDistance extends ParallelCommandGroup {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart(this);
   }
 
   @Override
@@ -33,7 +31,6 @@ public class ShootWithDistance extends ParallelCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
   }
 }

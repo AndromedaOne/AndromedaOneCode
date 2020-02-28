@@ -14,7 +14,6 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.subsystems.drivetrain.*;
-import frc.robot.telemetries.Trace;
 
 /**
  * Allows you to drive the robot using the drive controller.
@@ -43,7 +42,6 @@ public class TeleOpCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart("TeleOpCommand");
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
   }
@@ -97,7 +95,7 @@ public class TeleOpCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("TeleOpCommand");
+
   }
 
   // Returns true when the command should end.

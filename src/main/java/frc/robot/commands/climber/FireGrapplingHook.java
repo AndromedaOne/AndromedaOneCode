@@ -10,7 +10,6 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.climber.ClimberBase;
-import frc.robot.telemetries.Trace;
 
 public class FireGrapplingHook extends CommandBase {
   ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
@@ -26,7 +25,6 @@ public class FireGrapplingHook extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart("FireGrapplingHook");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,7 +39,6 @@ public class FireGrapplingHook extends CommandBase {
     if (interrupted) {
       climber.retractArms();
     }
-    Trace.getInstance().logCommandStop("FireGrapplingHook");
   }
 
   // Returns true when the command should end.
