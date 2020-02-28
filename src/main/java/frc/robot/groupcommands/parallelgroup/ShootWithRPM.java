@@ -11,7 +11,6 @@ import frc.robot.commands.FeedBothStagesIntoShooter;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
-import frc.robot.telemetries.Trace;
 
 public class ShootWithRPM extends ParallelCommandGroup {
   private BooleanSupplier m_isDoneFeedingSupplier = this::isDoneFeeding;
@@ -60,7 +59,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart(this);
     m_isDone = false;
   }
 
@@ -88,7 +86,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop(this);
     m_shooter.setShooterSeriesPower(0);
     m_shooter.setShooterWheelPower(0);
   }

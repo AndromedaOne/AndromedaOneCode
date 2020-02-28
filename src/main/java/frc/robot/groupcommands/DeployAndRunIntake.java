@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.RunIntakeIn;
 import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -38,7 +37,6 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("DeployAndRunIntake");
   }
 
   @Override
@@ -49,6 +47,5 @@ public class DeployAndRunIntake extends SequentialCommandGroup {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("DeployAndRunIntake");
   }
 }

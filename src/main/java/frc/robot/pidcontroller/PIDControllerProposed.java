@@ -17,20 +17,16 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 /**
  * Implements a PID control loop.
  */
-@SuppressWarnings("PMD.TooManyFields")
 public class PIDControllerProposed implements Sendable, AutoCloseable {
   private static int instances;
 
   // Factor for "proportional" control
-  @SuppressWarnings("MemberName")
   private double m_Kp;
 
   // Factor for "integral" control
-  @SuppressWarnings("MemberName")
   private double m_Ki;
 
   // Factor for "derivative" control
-  @SuppressWarnings("MemberName")
   private double m_Kd;
 
   // The period (in seconds) of the loop that calls the controller
@@ -81,7 +77,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    * @param Ki The integral coefficient.
    * @param Kd The derivative coefficient.
    */
-  @SuppressWarnings("ParameterName")
   public PIDControllerProposed(double Kp, double Ki, double Kd) {
     this(Kp, Ki, Kd, 0.02);
   }
@@ -94,7 +89,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    * @param Kd     The derivative coefficient.
    * @param period The period between controller updates in seconds.
    */
-  @SuppressWarnings("ParameterName")
   public PIDControllerProposed(double Kp, double Ki, double Kd, double period) {
     m_Kp = Kp;
     m_Ki = Ki;
@@ -123,7 +117,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    * @param Ki The integral coefficient.
    * @param Kd The derivative coefficient.
    */
-  @SuppressWarnings("ParameterName")
   public void setPID(double Kp, double Ki, double Kd) {
     m_Kp = Kp;
     m_Ki = Ki;
@@ -135,7 +128,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    *
    * @param Kp proportional coefficient
    */
-  @SuppressWarnings("ParameterName")
   public void setP(double Kp) {
     m_Kp = Kp;
   }
@@ -145,7 +137,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    *
    * @param Ki integral coefficient
    */
-  @SuppressWarnings("ParameterName")
   public void setI(double Ki) {
     m_Ki = Ki;
   }
@@ -155,7 +146,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    *
    * @param Kd differential coefficient
    */
-  @SuppressWarnings("ParameterName")
   public void setD(double Kd) {
     m_Kd = Kd;
   }

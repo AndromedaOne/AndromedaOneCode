@@ -23,7 +23,6 @@ import frc.robot.sensors.limelightcamera.RealLimelightCamera;
  * config to do this.
  */
 public class SensorsContainer {
-  // TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
   private BallFeederSensorBase ballFeederSensor;
   private Camera camera0;
   private Camera camera1;
