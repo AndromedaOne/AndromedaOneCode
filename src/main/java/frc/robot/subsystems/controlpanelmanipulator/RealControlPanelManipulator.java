@@ -22,6 +22,7 @@ public class RealControlPanelManipulator extends ControlPanelManipulatorBase {
   public DoubleSolenoid4905 extendSolenoid;
   public TalonSRXController controlPanelMotor;
   public ColorSensor colorSensor;
+  private double controlPanelMotorSpeed;
 
   /**
    * Creates a new RealControlPanel.
@@ -30,11 +31,12 @@ public class RealControlPanelManipulator extends ControlPanelManipulatorBase {
     controlPanelManipulatorConf = Config4905.getConfig4905().getControlPanelManipulatorConfig();
     extendSolenoid = new DoubleSolenoid4905(controlPanelManipulatorConf, "ExtendSolenoid");
     controlPanelMotor = new TalonSRXController(controlPanelManipulatorConf, "ControlPanelSRXController");
+    controlPanelMotorSpeed = controlPanelManipulatorConf.getDouble("speed");
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 
   @Override
@@ -49,18 +51,38 @@ public class RealControlPanelManipulator extends ControlPanelManipulatorBase {
 
   @Override
   public void rotateOneTime() {
-    Color detectedColor = colorSensor.getColor();
+    Color originalColor = colorSensor.getColor();
+    for (Color detectedColor = colorSensor.getColor(); originalColor == detectedColor; detectedColor = colorSensor.getColor()) {
+      runMotor(controlPanelMotorSpeed);
+    }
+    while (originalColor != colorSensor.getColor()) {
+      runMotor(controlPanelMotorSpeed);
+    }
+    stopMotor();
   }
 
   @Override
   public void rotateToColor(Color targetColor) {
-
+    for (Color detectedColor = colorSensor.getColor(); targetColor != detectedColor; detectedColor = colorSensor.getColor()) {
+      runMotor(controlPanelMotorSpeed);
+    }
+    stopMotor();
   }
 
   @Override
-  public void rotateThreeTimes() {
-    for (int x = 0; x < 3; x++) {
+  public void rotateControlPanel(int timesToRotate) {
+    for (int x = 0; x < timesToRotate; x++) {
       rotateOneTime();
     }
+  }
+
+  @Override
+  public void runMotor(double speed) {
+    controlPanelMotor.set(speed);
+  }
+
+  @Override
+  public void stopMotor() {
+    runMotor(0);
   }
 }

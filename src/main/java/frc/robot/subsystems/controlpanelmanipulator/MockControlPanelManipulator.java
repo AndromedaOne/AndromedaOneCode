@@ -25,8 +25,15 @@ public class MockControlPanelManipulator extends ControlPanelManipulatorBase {
   }
 
   @Override
-  public void rotateThreeTimes() {
-    System.out.println("Rotating control panel three times");
+  public void rotateControlPanel(int timesToRotate) {
+    System.out.println("Rotating control panel " + timesToRotate + " times");
   }
 
+  public void runMotor(double speed) {
+    System.out.println("Running control panel manipulator motor at speed " + speed);
+  }
+
+  public void stopMotor() {
+    System.out.println("Stopping control panel manipulator motor");
+  }
 }

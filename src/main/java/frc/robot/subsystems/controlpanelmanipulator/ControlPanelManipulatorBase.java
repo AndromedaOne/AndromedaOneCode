@@ -31,5 +31,9 @@ public abstract class ControlPanelManipulatorBase extends SubsystemBase {
 
   public abstract void rotateToColor(Color targetColor);
 
-  public abstract void rotateThreeTimes();
+  public abstract void rotateControlPanel(int timesToRotate);
+
+  public abstract void runMotor(double speed);
+
+  public abstract void stopMotor();
 }
