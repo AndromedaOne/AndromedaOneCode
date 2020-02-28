@@ -63,8 +63,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   }
 
   public void enableLED() {
-    m_limelightTable.getEntry("ledMode").setDouble(0);
-    System.out.println("enabling lime !!!!!!!!!!!!!!!!!!!");
+    m_limelightTable.getEntry("ledMode").setDouble(3);
   }
 
   public void disableLED() {
