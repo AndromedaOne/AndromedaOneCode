@@ -56,7 +56,6 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     this(drivetrain, distance, 0, 0);
   }
 
-
   public void initialize() {
     Config pidConstantsConfig = Config4905.getConfig4905().getPidConstantsConfig();
     super.initialize();

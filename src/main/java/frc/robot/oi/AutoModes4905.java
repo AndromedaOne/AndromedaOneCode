@@ -49,7 +49,7 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(240),
                                                                   new DriveAndIntake(driveTrain, intake, 12),
                                                                   new MoveUsingEncoder(driveTrain, -12),
-                                                                  new TurnToCompassHeading(0),
+                                                                  new TurnToCompassHeading(357),
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithDistance(shooter, feeder, (21*12))
                                                                   ));
