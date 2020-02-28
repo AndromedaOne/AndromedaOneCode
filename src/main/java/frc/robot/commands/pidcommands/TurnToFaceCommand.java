@@ -81,16 +81,12 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    limelight = m_sensorsContainer.getLimeLight();
-    limelight.enableLED();
-    System.out.println("Turning on lime light");
     m_lostCounter = 0;
   }
 
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    System.out.println("Turning off lime light");
     limelight.disableLED();
   }
 }
