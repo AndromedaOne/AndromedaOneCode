@@ -43,7 +43,6 @@ public class DeployAndRunIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart("RunIntakeIn");
     m_intakeBase.deployIntake();
   }
 
@@ -59,7 +58,6 @@ public class DeployAndRunIntake extends CommandBase {
     m_intakeBase.stopIntake();
     m_intakeBase.retractIntake();
 
-    Trace.getInstance().logCommandStop("RunIntakeIn");
   }
 
   // Returns true when the command should end.
