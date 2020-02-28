@@ -95,7 +95,7 @@ public class DefaultFeederCommand extends CommandBase {
       break;
 
     case ONE_LOADING:
-      
+
       m_feeder.runBothStages(DEFAULT_STAGES_ONE_AND_TWO_SPEED, DEFAULT_STAGE_THREE_SPEED);
       if (ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING.getIndex()]) {
         setFeederState(FeederStates.ONE_LOADED);
@@ -113,7 +113,7 @@ public class DefaultFeederCommand extends CommandBase {
       break;
 
     case SECOND_LOADING_1:
-      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
         feederState = FeederStates.ONE_LOADED;
       }
       if (ballSensorValues[STAGE_1_END.getIndex()]) {
@@ -124,7 +124,7 @@ public class DefaultFeederCommand extends CommandBase {
       break;
 
     case SECOND_LOADING_2:
-      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
         feederState = FeederStates.UNKNOWN;
       }
       if (!ballSensorValues[STAGE_1_END.getIndex()]) {
@@ -135,7 +135,7 @@ public class DefaultFeederCommand extends CommandBase {
       break;
 
     case SECOND_LOADING_3:
-      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
         feederState = FeederStates.UNKNOWN;
       }
       if (ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING.getIndex()]) {
@@ -155,7 +155,7 @@ public class DefaultFeederCommand extends CommandBase {
       break;
 
     case THIRD_LOADING_1:
-      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
         feederState = FeederStates.SECOND_LOADED;
       }
       if (ballSensorValues[STAGE_1_END.getIndex()]) {
@@ -166,7 +166,7 @@ public class DefaultFeederCommand extends CommandBase {
       break;
 
     case THIRD_LOADING_2:
-      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
         feederState = FeederStates.UNKNOWN;
       }
       if (!ballSensorValues[STAGE_1_END.getIndex()]) {
@@ -176,7 +176,7 @@ public class DefaultFeederCommand extends CommandBase {
       m_feeder.runStagesTwoAndThree(STAGE_TWO_SLOW_SPEED, STAGE_THREE_SLOW_SPEED);
 
     case THIRD_LOADING_3:
-      if(m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
+      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
         feederState = FeederStates.UNKNOWN;
       }
       if (ballSensorValues[STAGE_2_BEGINNING.getIndex()] && !ballSensorValues[STAGE_1_END.getIndex()]) {

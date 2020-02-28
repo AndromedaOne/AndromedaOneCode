@@ -34,8 +34,9 @@ public class OIContainer {
             () -> !m_subsystemController.getFeedWhenReadyButton().get()));
     m_subsystemController.getRunIntakeOutButton().whenPressed(
         new RunIntakeOut(subsystemsContainer.getIntake(), () -> !m_subsystemController.getRunIntakeOutButton().get()));
-    m_subsystemController.getReverseFeederButton().whenPressed(new ReverseFeederAndShooter(subsystemsContainer.getFeeder(),subsystemsContainer.getShooter(),
-        () -> !m_subsystemController.getReverseFeederButton().get()));
+    m_subsystemController.getReverseFeederButton()
+        .whenPressed(new ReverseFeederAndShooter(subsystemsContainer.getFeeder(), subsystemsContainer.getShooter(),
+            () -> !m_subsystemController.getReverseFeederButton().get()));
   }
 
   public DriveController getDriveController() {
