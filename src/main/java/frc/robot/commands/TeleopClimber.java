@@ -69,7 +69,7 @@ public class TeleopClimber extends CommandBase {
       m_climberBase.retractLeftArm();
       m_climberBase.extendRightArm();
     }
-    
+
     if (m_driveController.getLeftTriggerValue() > 0.3) {
       m_climberBase.driveLeftWinch();
     } else if (m_driveController.getLetOutLeftWinchButton().get()) {
