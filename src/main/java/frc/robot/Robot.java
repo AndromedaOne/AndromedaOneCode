@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
 
     m_subsystemContainer.setDefaultCommands();
     limelight = m_sensorsContainer.getLimeLight();
+    limelight.disableLED();
   }
 
   /**
