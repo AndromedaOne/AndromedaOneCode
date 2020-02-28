@@ -106,7 +106,7 @@ public class AutoModes4905 {
                                                                   new ShootWithDistance(shooter, feeder, (11*12 )),
                                                                   new TurnToCompassHeading(0),
                                                                   new MoveUsingEncoder(driveTrain, (-4.5*12)),
-                                                                  new TurnToCompassHeading(150),
+                                                                  new TurnToCompassHeading(157.2),
                                                                   new DriveAndIntake(driveTrain, intake, 12),
                                                                   new MoveUsingEncoder(driveTrain, -12),
                                                                   new TurnToCompassHeading(8),
