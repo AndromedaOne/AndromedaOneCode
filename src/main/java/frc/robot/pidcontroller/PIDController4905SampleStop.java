@@ -25,7 +25,6 @@ public class PIDController4905SampleStop extends PIDController4905 {
     } else {
       counter = 0;
     }
-    System.out.println("counter = " + counter);
     return counter >= numberOfSamplesOnTarget;
   }
 
