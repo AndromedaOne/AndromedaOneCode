@@ -26,7 +26,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput, double turningBias) {
     super(
         // The controller that the command will use
         new PIDController4905("MoveUsingEncoder", 0, 0, 0, 0),
@@ -37,7 +37,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.moveUsingGyro(output, 0, true, false);
+          drivetrain.moveUsingGyro(output, turningBias, true, false);
         });
     m_distance = distance;
     m_setpoint = this::getSetpoint;
@@ -45,12 +45,17 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(drivetrain);
+    m_maxOutput = maxOutput;
   }
 
   public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
-    this(drivetrain, distance);
-    m_maxOutput = maxOutput;
+    this(drivetrain, distance, maxOutput, 0);
   }
+
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
+    this(drivetrain, distance, 0, 0);
+  }
+
 
   public void initialize() {
     Config pidConstantsConfig = Config4905.getConfig4905().getPidConstantsConfig();
