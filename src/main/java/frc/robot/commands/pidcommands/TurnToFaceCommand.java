@@ -25,6 +25,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   protected int m_targetCounter = 0;
   protected BitSet m_targetBuffer = new BitSet(4);
   SensorsContainer m_sensorsContainer = Robot.getInstance().getSensorsContainer();
+  LimeLightCameraBase limelight;
 
   public TurnToFaceCommand(DoubleSupplier sensor) {
     super(
@@ -51,7 +52,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   @Override
   public boolean isFinished() {
     m_lostCounter++;
-    m_lostCounter = m_lostCounter % 50;
+    m_lostCounter = m_lostCounter % 250;
 
     boolean targetFound = m_sensorsContainer.getLimeLight().targetLock();
     m_lostBuffer.set(m_lostCounter, !targetFound);
@@ -60,7 +61,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     m_targetCounter %= 4;
     m_targetBuffer.set(m_targetCounter, this.getController().atSetpoint());
 
-    if (m_lostBuffer.cardinality() == 50) {
+    if (m_lostBuffer.cardinality() == 250) {
       Trace.getInstance().logCommandInfo(this, "No target found for one second");
       return true;
     }
@@ -69,7 +70,6 @@ public class TurnToFaceCommand extends PIDCommand4905 {
       return true;
     } else {
       if (m_lostCounter == 1) {
-        LimeLightCameraBase limelight = m_sensorsContainer.getLimeLight();
         System.out.println("limelight," + limelight.verticalRadiansToTarget() + " " + limelight.distanceToPowerPort());
       }
 
@@ -81,10 +81,16 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
+    limelight = m_sensorsContainer.getLimeLight();
+    limelight.enableLED();
+    System.out.println("Turning on lime light");
+    m_lostCounter = 0;
   }
 
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
+    System.out.println("Turning off lime light");
+    limelight.disableLED();
   }
 }
