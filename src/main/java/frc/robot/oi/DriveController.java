@@ -43,7 +43,7 @@ public class DriveController {
     turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
     turnToWest.whenPressed(new TurnToCompassHeading(270));
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
-    turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalRadiansToTarget));
+    turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
     climbLevel = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
     climbLevel.whileHeld(new Climb());
     letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());

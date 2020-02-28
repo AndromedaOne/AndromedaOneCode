@@ -23,7 +23,6 @@ import frc.robot.sensors.limelightcamera.RealLimelightCamera;
  * config to do this.
  */
 public class SensorsContainer {
-  // TODO: Please add the sensors and (important)ADD JAVADOCS FOR EVERYTHING kthx
   private BallFeederSensorBase ballFeederSensor;
   private Camera camera0;
   private Camera camera1;
@@ -53,10 +52,11 @@ public class SensorsContainer {
       camera0 = new MockCamera();
     }
 
-    if (sensorConfig.hasPath("sensors.limelight")) {
+    if (sensorConfig.hasPath("limelight")) {
       System.out.println("Using real LimeLight");
       m_limelightCameraBase = new RealLimelightCamera();
     } else {
+      System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
     }
   }

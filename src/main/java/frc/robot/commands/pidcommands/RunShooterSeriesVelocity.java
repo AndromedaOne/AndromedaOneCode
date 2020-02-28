@@ -2,24 +2,19 @@ package frc.robot.commands.pidcommands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
-import frc.robot.telemetries.Trace;
 
 public class RunShooterSeriesVelocity extends PIDCommand4905 {
 
-  private SimpleMotorFeedforward m_feedForward;
-  private static double m_computedFeedForward = 0;
   private ShooterBase m_shooter;
   private double m_setpoint = 0;
   private static Config m_pidConfig;
   private static Config m_shooterConfig;
-  private XboxController m_controller;
   private final double kControllerScale;
 
   /**
@@ -38,20 +33,21 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
         setpoint,
         // Output
         output -> {
-          // TODO actually put an encoder on the series wheel
           shooter.setShooterSeriesPower(1);
         });
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
-
-    m_feedForward = createFeedForward();
 
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
 
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
     m_setpoint = setpoint;
-    Trace.getInstance().logCommandStart("RunShooterSeriesVelocity");
+  }
+
+  @Override
+  public void initialize() {
+    super.initialize();
   }
 
   @Override
@@ -61,7 +57,6 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
     // Subsystems driver to tune the rpm on the fly
     m_setpoint += leftYAxis * kControllerScale;
     m_shooter.setSeriesPIDIsReady(getController().atSetpoint());
-    m_computedFeedForward = m_feedForward.calculate(m_setpoint);
     super.execute();
   }
 

@@ -20,6 +20,11 @@ public class ShootWithDistance extends ParallelCommandGroup {
   }
 
   @Override
+  public void initialize() {
+    super.initialize();
+  }
+
+  @Override
   public boolean isFinished() {
     return super.isFinished();
   }

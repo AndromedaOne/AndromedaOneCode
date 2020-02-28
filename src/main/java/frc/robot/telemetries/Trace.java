@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 
 // utility to store trace information to a file on the roborio. this class uses the 
@@ -258,7 +259,7 @@ public class Trace {
       long correctedTime = System.currentTimeMillis() - m_startTime;
       String line = new String(String.valueOf(correctedTime));
       for (TracePair<T> entry : values) {
-        line += "," + entry.getValue();
+        line += ",\t" + entry.getValue();
       }
       traceEntry.getFile().write(line);
       traceEntry.getFile().newLine();
@@ -354,11 +355,15 @@ public class Trace {
     }
   }
 
-  public void logCommandStart(String commandName) {
-    logCommand(commandName, "start");
+  public void logCommandStart(Command command) {
+    logCommand(command.getClass().getSimpleName(), "start");
   }
 
-  public void logCommandStop(String commandName) {
-    logCommand(commandName, "stop");
+  public void logCommandStop(Command command) {
+    logCommand(command.getClass().getSimpleName(), "stop");
+  }
+
+  public void logCommandInfo(Command command, String information) {
+    logCommand(command.getClass().getSimpleName(), "info: " + information);
   }
 }

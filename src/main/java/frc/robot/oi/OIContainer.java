@@ -9,6 +9,7 @@ package frc.robot.oi;
 
 import frc.robot.commands.DeployAndRunIntakeStarter;
 import frc.robot.commands.FeedBothStagesIntoShooter;
+import frc.robot.commands.ReverseFeederAndShooter;
 import frc.robot.commands.RunIntakeOut;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -23,7 +24,7 @@ public class OIContainer {
 
   public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     m_driveController = new DriveController(sensorsContainer);
-    m_smartDashboard = new SmartDashboard4905(subsystemsContainer);
+    m_smartDashboard = new SmartDashboard4905(subsystemsContainer, sensorsContainer);
     m_subsystemController = new SubsystemController();
 
     m_subsystemController.getDeployAndRunIntakeButton().whenPressed(new DeployAndRunIntakeStarter(
@@ -33,6 +34,9 @@ public class OIContainer {
             () -> !m_subsystemController.getFeedWhenReadyButton().get()));
     m_subsystemController.getRunIntakeOutButton().whenPressed(
         new RunIntakeOut(subsystemsContainer.getIntake(), () -> !m_subsystemController.getRunIntakeOutButton().get()));
+    m_subsystemController.getReverseFeederButton()
+        .whenPressed(new ReverseFeederAndShooter(subsystemsContainer.getFeeder(), subsystemsContainer.getShooter(),
+            () -> !m_subsystemController.getReverseFeederButton().get()));
   }
 
   public DriveController getDriveController() {

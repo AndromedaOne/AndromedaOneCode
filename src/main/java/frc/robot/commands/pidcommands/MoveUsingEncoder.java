@@ -13,7 +13,6 @@ import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;
-import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,6 +20,7 @@ import frc.robot.telemetries.Trace;
 public class MoveUsingEncoder extends PIDCommand4905 {
   private DriveTrain m_driveTrain;
   private double m_distance = 0;
+  private double m_maxOutput = 0;
   private double m_target;
 
   /**
@@ -47,10 +47,14 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     addRequirements(drivetrain);
   }
 
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
+    this(drivetrain, distance);
+    m_maxOutput = maxOutput;
+  }
+
   public void initialize() {
     Config pidConstantsConfig = Config4905.getConfig4905().getPidConstantsConfig();
     super.initialize();
-    Trace.getInstance().logCommandStart("MoveUsingEncoder");
     setDistance(m_distance);
 
     getController().setP(pidConstantsConfig.getDouble("MoveUsingEncoder.Kp"));
@@ -59,7 +63,11 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingEncoder.minOutputToMove"));
     getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"),
         pidConstantsConfig.getDouble("MoveUsingEncoder.velocityTolerance"));
-    if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
+    // Allows anyone who calls MoveUsingEncoder to override the maxOutput defined in
+    // config (if present)
+    if (m_maxOutput != 0) {
+      getController().setMaxOutput(m_maxOutput);
+    } else if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
       getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
     }
   }
@@ -82,6 +90,5 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   public void end(boolean interrupted) {
     super.end(interrupted);
     m_driveTrain.stop();
-    Trace.getInstance().logCommandStop("MoveUsingEncoder, Position = " + m_driveTrain.getRobotPositionInches());
   }
 }

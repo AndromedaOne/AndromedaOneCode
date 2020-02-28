@@ -43,15 +43,15 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void extendArms() {
+  public void extendLeftArm() {
   }
 
   @Override
-  public void retractArms() {
+  public void retractRightArm() {
   }
 
   @Override
-  public void stopArms() {
+  public void stopLeftArm() {
   }
 
   @Override
@@ -59,6 +59,11 @@ public class MockClimber extends ClimberBase {
 
   }
 
+  @Override
+  public void extendRightArm() {
+
+  }
+  
   @Override
   public SparkMaxController getLeftWinch() {
     return null;
@@ -68,10 +73,20 @@ public class MockClimber extends ClimberBase {
   public SparkMaxController getRightWinch() {
     return null;
   }
+  
+  @Override
+  public void retractLeftArm() {
+  
+  }
 
   @Override
   public void adjustLeftWinch(double adjust) {
 
+  }
+  
+  @Override
+  public void stopRightArm() {
+  
   }
 
   @Override

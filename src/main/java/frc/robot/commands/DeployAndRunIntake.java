@@ -7,48 +7,61 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.shooter.ShooterBase;
+import java.util.function.BooleanSupplier;
 
-public class ShooterCommand extends CommandBase {
-  private int m_cellsToShoot;
-  private int m_shotsRemaining;
+import com.typesafe.config.Config;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Config4905;
+import frc.robot.subsystems.intake.IntakeBase;
+
+public class DeployAndRunIntake extends CommandBase {
+  /**
+   * Creates a new RunIntake.
+   */
+  private IntakeBase m_intakeBase;
+  private BooleanSupplier m_finishedCondition;
+  private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
+  private double m_intakeSpeed;
 
   /**
-   * Creates a new ShooterCommand.
+   * Runs the intake into the robot to intake balls at speed value set in the
+   * config
+   * 
+   * @param intakeBase
+   * @param finishedCondition
    */
-  public ShooterCommand(ShooterBase shooter, int numberOfCells) {
+  public DeployAndRunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_cellsToShoot = numberOfCells;
-    m_shotsRemaining = 0;
+    addRequirements(intakeBase);
+    m_intakeBase = intakeBase;
+    m_intakeSpeed = m_intakeConfig.getDouble("intakespeed");
+    m_finishedCondition = finishedCondition;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shotsRemaining = m_cellsToShoot;
+    m_intakeBase.deployIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Shoot");
-    m_shotsRemaining = m_shotsRemaining - 1;
+    m_intakeBase.runIntake(m_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_intakeBase.stopIntake();
+    m_intakeBase.retractIntake();
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_shotsRemaining == 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return m_finishedCondition.getAsBoolean();
   }
 }

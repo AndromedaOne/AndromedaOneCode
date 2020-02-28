@@ -23,9 +23,6 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double currentDelay = 0;
   private double kDelay = 0;
   private double kProportion = 0.0;
-
-  private int ticksPerInch;
-
   // the robot's main drive
   private DifferentialDrive m_drive;
 

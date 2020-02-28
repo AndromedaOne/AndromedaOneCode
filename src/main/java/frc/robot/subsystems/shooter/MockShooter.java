@@ -8,7 +8,7 @@ public class MockShooter extends ShooterBase {
 
   @Override
   public double getShooterWheelVelocity() {
-    return 0;
+    return 3204;
   }
 
   @Override
@@ -48,7 +48,7 @@ public class MockShooter extends ShooterBase {
 
   @Override
   public double getShooterSeriesVelocity() {
-    return 0;
+    return 3204;
   }
 
   @Override

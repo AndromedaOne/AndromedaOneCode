@@ -14,7 +14,6 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.*;
 import frc.robot.sensors.NavXGyroSensor;
-import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,7 +30,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
   public TurnToCompassHeading(double compassHeading) {
     super(
         // The controller that the command will use
-        new PIDController4905("TurnToCompassHeading", 0, 0, 0, 0),
+        new PIDController4905SampleStop("TurnToCompassHeading", 0, 0, 0, 0),
         // This should return the measurement
         NavXGyroSensor.getInstance()::getCompassHeading,
         // This should return the setpoint (can also be a constant)
@@ -54,7 +53,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
   public void initialize() {
     Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
     super.initialize();
-    Trace.getInstance().logCommandStart("TurnToCompassHeading");
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));
     getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
@@ -72,7 +70,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
   public void end(boolean interrupted) {
     super.end(interrupted);
     Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
-    Trace.getInstance().logCommandStop("TurnToCompassHeading");
   }
 
   public void setCompassHeading(double compassHeading) {

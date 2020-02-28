@@ -14,7 +14,6 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.telemetries.Trace;
 
 public class RunIntakeOut extends CommandBase {
   /**
@@ -38,12 +37,14 @@ public class RunIntakeOut extends CommandBase {
     m_intakeBase = intakeBase;
     m_outtakeSpeed = m_intakeConfig.getDouble("outtakespeed");
     m_finishedCondition = finishedCondition;
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart("RunIntakeOut");
+
+    m_intakeBase.deployIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,8 +57,7 @@ public class RunIntakeOut extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intakeBase.stopIntake();
-
-    Trace.getInstance().logCommandStop("RunIntakeOut");
+    m_intakeBase.retractIntake();
   }
 
   // Returns true when the command should end.

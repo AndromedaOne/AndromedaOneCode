@@ -67,21 +67,36 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void extendArms() {
+  public void extendLeftArm() {
     leftGrapplingHook.extendPiston();
-    rightGrapplingHook.extendPiston();
   }
 
   @Override
-  public void retractArms() {
-    leftGrapplingHook.retractPiston();
+  public void retractRightArm() {
     rightGrapplingHook.retractPiston();
   }
 
   @Override
-  public void stopArms() {
+  public void stopLeftArm() {
     leftGrapplingHook.stopPiston();
+  }
+
+  @Override
+  public void extendRightArm() {
+    rightGrapplingHook.extendPiston();
+
+  }
+
+  @Override
+  public void retractLeftArm() {
+    leftGrapplingHook.retractPiston();
+
+  }
+
+  @Override
+  public void stopRightArm() {
     rightGrapplingHook.stopPiston();
+
   }
 
   public SparkMaxController getLeftWinch() {
