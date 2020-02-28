@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
-import frc.robot.telemetries.Trace;
 
 public class ConfigReload extends CommandBase {
   public ConfigReload() {
@@ -12,7 +11,7 @@ public class ConfigReload extends CommandBase {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart("ConfigReload");
+
   }
 
   @Override
@@ -28,6 +27,6 @@ public class ConfigReload extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("ConfigReload");
+
   }
 }

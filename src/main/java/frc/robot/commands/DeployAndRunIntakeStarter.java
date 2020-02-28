@@ -5,7 +5,6 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.telemetries.Trace;
 
 public class DeployAndRunIntakeStarter extends CommandBase {
 
@@ -22,7 +21,7 @@ public class DeployAndRunIntakeStarter extends CommandBase {
     if (!m_finishedCondition.getAsBoolean()) {
       CommandScheduler.getInstance().schedule(new DeployAndRunIntake(m_intakeBase, m_finishedCondition));
     }
-    Trace.getInstance().logCommandStart("DeployAndRunIntakeStarter");
+
   }
 
   @Override
@@ -33,7 +32,7 @@ public class DeployAndRunIntakeStarter extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandStop("DeployAndRunIntakeStarter");
+
   }
 
 }
