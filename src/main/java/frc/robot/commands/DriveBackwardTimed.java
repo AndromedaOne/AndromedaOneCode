@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
-import frc.robot.telemetries.Trace;
 
 /**
  * Add your docs here.
@@ -36,7 +35,6 @@ public class DriveBackwardTimed extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
-    Trace.getInstance().logCommandStart("DriveBackwardTimed");
 
   }
 
@@ -53,6 +51,6 @@ public class DriveBackwardTimed extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("DriveBackwardTimed");
+
   }
 }

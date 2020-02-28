@@ -5,7 +5,7 @@ public enum EnumBallLocation {
 
   STAGE_2_BEGINNING(2), STAGE_2_END_MIDDLE(7), STAGE_2_END(5),
 
-  STAGE_2_BEGINNING_MIDDLE(6), STAGE_2_MIDDLE(4);
+  STAGE_2_BEGINNING_MIDDLE(4), STAGE_2_MIDDLE(6);
 
   private final int index;
 
