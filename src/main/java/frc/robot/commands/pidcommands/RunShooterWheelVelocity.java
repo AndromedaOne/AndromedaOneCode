@@ -1,7 +1,5 @@
 package frc.robot.commands.pidcommands;
 
-import java.util.function.DoubleSupplier;
-
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -59,7 +57,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     getController().setD(m_pidConfig.getDouble("runshooterwheelvelocity.d"));
     System.out.println(
         " - Shooter Setpoint: " + m_target + "\nShooter P = " + m_pidConfig.getDouble("runshooterwheelvelocity.p"));
-    }
+  }
 
   @Override
   public void execute() {
