@@ -1,5 +1,7 @@
 package frc.robot.commands.pidcommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -26,7 +28,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
    *                              controller
    * @param setpoint
    */
-  public RunShooterWheelVelocity(ShooterBase shooter, double setpoint) {
+  public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint) {
     // PID Controller
     super(createPIDController(),
         // Measurement
@@ -44,7 +46,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
     kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
     m_shooter = shooter;
-    m_target = setpoint;
+    m_target = setpoint.getAsDouble();
     m_setpoint = this::getSetpoint;
   }
 
@@ -57,7 +59,17 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     getController().setD(m_pidConfig.getDouble("runshooterwheelvelocity.d"));
     System.out.println(
         " - Shooter Setpoint: " + m_target + "\nShooter P = " + m_pidConfig.getDouble("runshooterwheelvelocity.p"));
-  }
+  
+  /*
+  STOP WHAT YOU WERE TRYING TO DO
+
+  Call the Limelight distance function in this function and set the setpoint here.
+
+  */
+  
+  
+  
+      }
 
   @Override
   public void execute() {
