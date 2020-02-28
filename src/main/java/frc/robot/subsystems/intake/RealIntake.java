@@ -30,6 +30,7 @@ public class RealIntake extends IntakeBase {
   @Override
   public void deployIntake() {
     m_intakeDeploymentSolenoid.extendPiston();
+    System.out.println("Deploying Intake");
   }
 
   @Override
