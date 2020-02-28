@@ -40,15 +40,15 @@ public class RealColorSensor extends ColorSensor {
     matcher = new ColorMatch();
 
     matcher.addColorMatch(red);
-    matcher.addColorMatch(blue);
     matcher.addColorMatch(green);
+    matcher.addColorMatch(blue);
     matcher.addColorMatch(yellow);
 
   }
 
   @Override
-  public Color getColor() {
-    return colorSensor.getColor();
+  public ColorMatchResult getColor() {
+    return matcher.matchClosestColor(colorSensor.getColor());
   }
 
 }

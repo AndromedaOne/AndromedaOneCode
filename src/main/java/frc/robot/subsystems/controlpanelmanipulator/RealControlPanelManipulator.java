@@ -7,9 +7,9 @@
 
 package frc.robot.subsystems.controlpanelmanipulator;
 
+import com.revrobotics.ColorMatchResult;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.TalonSRXController;
@@ -51,19 +51,27 @@ public class RealControlPanelManipulator extends ControlPanelManipulatorBase {
 
   @Override
   public void rotateOneTime() {
-    Color originalColor = colorSensor.getColor();
-    for (Color detectedColor = colorSensor.getColor(); originalColor == detectedColor; detectedColor = colorSensor.getColor()) {
-      runMotor(controlPanelMotorSpeed);
-    }
-    while (originalColor != colorSensor.getColor()) {
-      runMotor(controlPanelMotorSpeed);
+    ColorMatchResult originalColor = colorSensor.getColor();
+    // Run through this twice for a full rotation
+    for (int x = 0; x < 2; x++) {
+      // Spin until not on original color
+      for (ColorMatchResult detectedColor = colorSensor
+          .getColor(); originalColor == detectedColor; detectedColor = colorSensor.getColor()) {
+        runMotor(controlPanelMotorSpeed);
+      }
+      // Continue spinning until back on original color
+      while (originalColor != colorSensor.getColor()) {
+        runMotor(controlPanelMotorSpeed);
+      }
     }
     stopMotor();
   }
 
+  // Rotates to a specific color. Wants 'red', 'blue', 'green', or 'yellow'.
   @Override
-  public void rotateToColor(Color targetColor) {
-    for (Color detectedColor = colorSensor.getColor(); targetColor != detectedColor; detectedColor = colorSensor.getColor()) {
+  public void rotateToColor(ColorMatchResult targetColor) {
+    for (ColorMatchResult detectedColor = colorSensor
+        .getColor(); targetColor != detectedColor; detectedColor = colorSensor.getColor()) {
       runMotor(controlPanelMotorSpeed);
     }
     stopMotor();

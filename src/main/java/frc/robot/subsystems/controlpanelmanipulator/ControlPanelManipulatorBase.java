@@ -7,7 +7,8 @@
 
 package frc.robot.subsystems.controlpanelmanipulator;
 
-import edu.wpi.first.wpilibj.util.Color;
+import com.revrobotics.ColorMatchResult;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class ControlPanelManipulatorBase extends SubsystemBase {
@@ -29,7 +30,7 @@ public abstract class ControlPanelManipulatorBase extends SubsystemBase {
 
   public abstract void rotateOneTime();
 
-  public abstract void rotateToColor(Color targetColor);
+  public abstract void rotateToColor(ColorMatchResult targetColor);
 
   public abstract void rotateControlPanel(int timesToRotate);
 

@@ -1,6 +1,6 @@
 package frc.robot.sensors.colorsensor;
 
-import edu.wpi.first.wpilibj.util.Color;
+import com.revrobotics.ColorMatchResult;
 
 public class MockColorSensor extends ColorSensor {
 
@@ -9,7 +9,7 @@ public class MockColorSensor extends ColorSensor {
   }
 
   @Override
-  public Color getColor() {
+  public ColorMatchResult getColor() {
     return null;
   }
 }

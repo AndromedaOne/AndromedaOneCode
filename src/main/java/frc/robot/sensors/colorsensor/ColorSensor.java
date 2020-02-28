@@ -1,7 +1,7 @@
 package frc.robot.sensors.colorsensor;
 
-import edu.wpi.first.wpilibj.util.Color;
+import com.revrobotics.ColorMatchResult;
 
 public abstract class ColorSensor {
-  public abstract Color getColor();
+  public abstract ColorMatchResult getColor();
 }

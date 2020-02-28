@@ -13,6 +13,7 @@ import frc.robot.subsystems.controlpanelmanipulator.ControlPanelManipulatorBase;
 public class RotateControlPanel extends CommandBase {
   private ControlPanelManipulatorBase m_controlPanelManipulatorBase;
   private int m_timesToRotate;
+
   /**
    * Creates a new RotateControlPanel.
    */

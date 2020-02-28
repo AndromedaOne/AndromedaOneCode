@@ -1,6 +1,6 @@
 package frc.robot.subsystems.controlpanelmanipulator;
 
-import edu.wpi.first.wpilibj.util.Color;
+import com.revrobotics.ColorMatchResult;
 
 public class MockControlPanelManipulator extends ControlPanelManipulatorBase {
 
@@ -20,7 +20,7 @@ public class MockControlPanelManipulator extends ControlPanelManipulatorBase {
   }
 
   @Override
-  public void rotateToColor(Color targetColor) {
+  public void rotateToColor(ColorMatchResult targetColor) {
     System.out.println("Rotating control panel to color: " + targetColor);
   }
 
