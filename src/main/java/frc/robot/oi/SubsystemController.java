@@ -11,6 +11,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -79,6 +80,14 @@ public class SubsystemController {
 
   public double getRightStickForwardBackwardValue() {
     return deadband(-m_subsystemController.getY(GenericHID.Hand.kRight));
+  }
+
+  public double getLeftTriggerValue() {
+    return deadband(m_subsystemController.getTriggerAxis(Hand.kLeft));
+  }
+
+  public double getRightTriggerValue() {
+    return deadband(m_subsystemController.getTriggerAxis(Hand.kRight));
   }
 
   public double getRightStickLeftRightValue() {

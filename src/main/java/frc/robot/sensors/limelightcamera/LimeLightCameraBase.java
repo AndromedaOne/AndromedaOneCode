@@ -14,4 +14,8 @@ public abstract class LimeLightCameraBase {
   public abstract void updateSmartDashboardReadings();
 
   public abstract boolean targetLock();
+
+  public abstract void enableLED();
+
+  public abstract void disableLED();
 }
