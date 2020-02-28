@@ -12,7 +12,6 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
-import frc.robot.telemetries.Trace;
 
 public class FeedBothStagesIntoShooter extends CommandBase {
   /**
@@ -39,7 +38,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
     super.initialize();
     counter = 0;
     m_shooterBase.openShooterHood();
-    Trace.getInstance().logCommandStart("FeedBothStagesIntoShooter");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,7 +59,6 @@ public class FeedBothStagesIntoShooter extends CommandBase {
     super.end(interrupted);
     m_feederBase.stopBothStages();
     m_shooterBase.closeShooterHood();
-    Trace.getInstance().logCommandStop("FeedBothStagesIntoShooter");
   }
 
   // Returns true when the command should end.

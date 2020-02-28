@@ -14,7 +14,6 @@ import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.climber.ClimberBase;
-import frc.robot.telemetries.Trace;
 
 public class TeleopClimber extends CommandBase {
   /**
@@ -42,7 +41,6 @@ public class TeleopClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart("TeleopClimber");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -105,7 +103,7 @@ public class TeleopClimber extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop("TeleopClimber");
+
   }
 
   // Returns true when the command should end.
