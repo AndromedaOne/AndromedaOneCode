@@ -49,7 +49,7 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void retractRightArms() {
+  public void retractRightArm() {
   }
 
   @Override
@@ -63,12 +63,6 @@ public class MockClimber extends ClimberBase {
 
   @Override
   public void extendRightArm() {
-
-  }
-
-  @Override
-  public void retractRightArm() {
-    // TODO Auto-generated method stub
 
   }
 

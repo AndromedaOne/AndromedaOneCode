@@ -48,11 +48,20 @@ public class TeleopClimber extends CommandBase {
   public void execute() {
     m_counter = (m_counter + 1) % BUFFERSIZE;
     double leftRightAdjustmentValue = m_subsystemController.getRightStickLeftRightValue();
-    double percentRightSolenoidOpenCycles = m_subsystemController.getRightStickForwardBackwardValue() + leftRightAdjustmentValue;
+    double percentRightSolenoidOpenCycles = m_subsystemController.getRightStickForwardBackwardValue();
+    percentRightSolenoidOpenCycles = (percentRightSolenoidOpenCycles < 0) ? -Math.pow(percentRightSolenoidOpenCycles, 2)
+        : Math.pow(percentRightSolenoidOpenCycles, 2);
+    leftRightAdjustmentValue = (leftRightAdjustmentValue < 0) ? -Math.pow(leftRightAdjustmentValue, 2)
+        : Math.pow(leftRightAdjustmentValue, 2);
+    if (percentRightSolenoidOpenCycles < 0) {
+      percentRightSolenoidOpenCycles -= leftRightAdjustmentValue;
+    }
     if (percentRightSolenoidOpenCycles > 0.8) {
       percentRightSolenoidOpenCycles = 1;
     }
-    boolean openingRightSolenoid = shouldSolenoidExtend(percentRightSolenoidOpenCycles, m_previousRightSolenoidStates, m_counter);
+    boolean openingRightSolenoid = shouldSolenoidExtend(percentRightSolenoidOpenCycles, m_previousRightSolenoidStates,
+        m_counter);
+
     if (openingRightSolenoid) {
       if (percentRightSolenoidOpenCycles > 0) {
         m_climberBase.extendRightArm();
@@ -63,11 +72,15 @@ public class TeleopClimber extends CommandBase {
       m_climberBase.stopRightArm();
     }
 
-    double percentLeftSolenoidOpenCycles = m_subsystemController.getRightStickForwardBackwardValue() - leftRightAdjustmentValue;
+    double percentLeftSolenoidOpenCycles = m_subsystemController.getRightStickForwardBackwardValue();
+    if (leftRightAdjustmentValue > 0) {
+      percentLeftSolenoidOpenCycles += leftRightAdjustmentValue;
+    }
     if (percentLeftSolenoidOpenCycles > 0.8) {
       percentLeftSolenoidOpenCycles = 1;
     }
-    boolean openingLeftSolenoid = shouldSolenoidExtend(percentLeftSolenoidOpenCycles, m_previousLeftSolenoidStates, m_counter);
+    boolean openingLeftSolenoid = shouldSolenoidExtend(percentLeftSolenoidOpenCycles, m_previousLeftSolenoidStates,
+        m_counter);
     if (openingLeftSolenoid) {
       if (percentLeftSolenoidOpenCycles > 0) {
         m_climberBase.extendLeftArm();
@@ -92,7 +105,7 @@ public class TeleopClimber extends CommandBase {
   }
 
   private boolean shouldSolenoidExtend(double percentSolenoidOpenCycles, BitSet previousSolenoidStates, int counter) {
-    
+
     double previousSolenoidPercentOpenCycles = previousSolenoidStates.cardinality() / ((double) BUFFERSIZE);
     boolean openingSolenoid = previousSolenoidPercentOpenCycles < Math.abs(percentSolenoidOpenCycles);
     m_previousLeftSolenoidStates.set(counter, openingSolenoid);

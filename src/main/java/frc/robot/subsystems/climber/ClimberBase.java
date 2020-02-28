@@ -27,7 +27,7 @@ public abstract class ClimberBase extends SubsystemBase {
   public abstract void extendRightArm();
 
   public abstract void retractRightArm();
-  
+
   public abstract void retractLeftArm();
 
   public abstract void stopLeftArm();
