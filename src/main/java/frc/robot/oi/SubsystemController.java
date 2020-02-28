@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -33,7 +32,6 @@ public class SubsystemController {
   private JoystickButton m_shootFromBackTrench;
   private JoystickButton m_shootFromTargetZone;
   private JoystickButton m_runIntakeOut;
-  private JoystickButton m_testAutoShoot;
 
   public SubsystemController() {
     m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
@@ -56,8 +54,7 @@ public class SubsystemController {
         m_shooterConfig.getDouble("shootingrpm.targetzone") * 1.5,
         m_shooterConfig.getDouble("shootingrpm.targetzone")));
     m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
-    m_testAutoShoot = new JoystickButton(m_subsystemController, ButtonsEnumerated.STARTBUTTON.getValue());
-    m_testAutoShoot.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, 3000));
+
   }
 
   public JoystickButton getDeployAndRunIntakeButton() {
@@ -70,6 +67,10 @@ public class SubsystemController {
 
   public JoystickButton getFeedWhenReadyButton() {
     return ButtonsEnumerated.RIGHTBUMPERBUTTON.getJoystickButton(m_subsystemController);
+  }
+
+  public JoystickButton getReverseFeederButton() {
+    return ButtonsEnumerated.STARTBUTTON.getJoystickButton(m_subsystemController);
   }
 
   public double getLeftStickForwardBackwardValue() {
