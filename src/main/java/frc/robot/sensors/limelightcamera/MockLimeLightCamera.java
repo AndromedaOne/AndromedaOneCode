@@ -41,4 +41,14 @@ public class MockLimeLightCamera extends LimeLightCameraBase {
     return false;
   }
 
+  @Override
+  public void enableLED() {
+
+  }
+
+  @Override
+  public void disableLED() {
+
+  }
+
 }

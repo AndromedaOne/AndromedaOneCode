@@ -34,7 +34,7 @@ public class AutoModes4905 {
     ShooterBase shooter = subsystemsContainer.getShooter();
     IntakeBase intake = subsystemsContainer.getIntake();
     FeederBase feeder = subsystemsContainer.getFeeder();
-    LimeLightCameraBase limeLight = sensorsContainer.getLimeLight();
+    LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -57,13 +57,13 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (10*12) + 6)));
         m_autoChooser.addOption("4: Shoot and Trench Run", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
-                                                                  new ShootWithDistance(shooter, feeder, 11*12), // do math to figure out distance here
+                                                                  new ShootWithDistance(shooter, feeder, 13*12), // do math to figure out distance here
                                                                   new TurnToCompassHeading(180),
                                                                   
-                                                                  new DriveAndIntake(driveTrain, intake, (11.7*12), maxSpeedToPickupPowerCells),
+                                                                  new DriveAndIntake(driveTrain, intake, (11.0*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
-                                                                  new TurnToFaceCommand(limeLight::horizontalDegreesToTarget),
-                                                                  new ShootWithDistance(shooter, feeder, 24*12)));
+                                                                  new TurnToFaceCommand(limelight::horizontalDegreesToTarget),
+                                                                  new ShootWithDistance(shooter, feeder, 24.75*12)));
         m_autoChooser.addOption("5: Right Side Shield",
                                 new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (10*12)),
                                                                   new MoveUsingEncoder(driveTrain, (-5*12) - 9),
