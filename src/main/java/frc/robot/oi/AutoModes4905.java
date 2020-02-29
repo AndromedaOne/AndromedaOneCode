@@ -47,7 +47,7 @@ public class AutoModes4905 {
         m_autoChooser.addOption("1: Move Back",
                                 new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, (-1*12))));
         m_autoChooser.addOption("2: Fire and Move Back",
-                                new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),
+                                new DelayedSequentialCommandGroup(new ShootWithDistance(shooter, feeder, (12*10 + 2.5)), // do math to figure out distance here
                                                                   new MoveUsingEncoder(driveTrain, (-1*12))));
         m_autoChooser.addOption("3: Back Bumper U-Turn", 
                                 new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),
@@ -99,7 +99,7 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
         m_autoChooser.addOption("11: Left Fire Further Turn Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(16),
-                                                                  new ShootWithLimeLight(shooter, feeder, limelight),
+                                                                  new ShootWithDistance(shooter, feeder, (12*13)), // do math to figure out distance here
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
