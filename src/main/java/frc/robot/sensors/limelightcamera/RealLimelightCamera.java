@@ -12,6 +12,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   protected NetworkTable m_limelightTable;
   protected double m_cameraHeight = m_config.getDouble("limelight.cameraHeight");
   protected double m_cameraAngle = m_config.getDouble("limelight.cameraAngleRadians");
+  protected double m_cameraDistanceHorizontalTransform = m_config.getDouble("limelight.cameraDistanceHorizontalTransform");
   protected double previousXValue = 0.0;
   protected double previousYValue = 0.0;
 
@@ -37,7 +38,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double distanceToTarget(double targetHeight) {
-    return (targetHeight - m_cameraHeight) / Math.tan(verticalRadiansToTarget() + m_cameraAngle);
+    return (targetHeight - m_cameraHeight) / Math.tan(verticalRadiansToTarget() + m_cameraAngle) - m_cameraDistanceHorizontalTransform;
   }
 
   @Override
