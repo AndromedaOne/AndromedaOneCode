@@ -34,14 +34,25 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
   @Override
   public void initialize() {
     double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
-    if(Robot.getInstance().getOIContainer().getSubsystemController().getResetShooterManuelAdjustmentButton.getValue()) {
+    RunShooterWheelVelocity.increaseManuelShooterAdjustment(leftYAxis);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getResetShooterManualAdjustmentButton().get()) {
       RunShooterWheelVelocity.resetManuelShooterAdjustment();
     }
-    
+
     // When this command is running the shooter is always idle
     m_shooter.setShooterIsIdle(true);
     // When the shooter is idle the hood will always be close
     // m_shooter.closeShooterHood();
+  }
+
+  @Override
+  public void execute() {
+    super.execute();
+    double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
+    RunShooterWheelVelocity.increaseManuelShooterAdjustment(leftYAxis);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getResetShooterManualAdjustmentButton().get()) {
+      RunShooterWheelVelocity.resetManuelShooterAdjustment();
+    }
   }
 
   @Override
