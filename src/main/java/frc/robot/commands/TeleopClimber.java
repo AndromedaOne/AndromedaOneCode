@@ -47,6 +47,11 @@ public class TeleopClimber extends CommandBase {
     m_counter = (m_counter + 1) % BUFFERSIZE;
     double percentOpenCycles = m_subsystemController.getRightStickForwardBackwardValue();
     double previousPercentOpenCycles = m_previousSolenoidStates.cardinality() / ((double) BUFFERSIZE);
+    if (percentOpenCycles > 0.8) {
+      percentOpenCycles = 1;
+    } else if (percentOpenCycles < -0.8) {
+      percentOpenCycles = -1;
+    }
     boolean openingSolenoid = previousPercentOpenCycles < Math.abs(percentOpenCycles);
     m_previousSolenoidStates.set(m_counter, openingSolenoid);
     if (openingSolenoid) {
