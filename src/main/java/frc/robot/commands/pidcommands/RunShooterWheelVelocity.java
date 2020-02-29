@@ -9,6 +9,7 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class RunShooterWheelVelocity extends PIDCommand4905 {
   private SimpleMotorFeedforward m_feedForward;
@@ -55,8 +56,11 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     getController().setP(m_pidConfig.getDouble("runshooterwheelvelocity.p"));
     getController().setI(m_pidConfig.getDouble("runshooterwheelvelocity.i"));
     getController().setD(m_pidConfig.getDouble("runshooterwheelvelocity.d"));
-    System.out.println(
-        " - Shooter Setpoint: " + m_target + "\nShooter P = " + m_pidConfig.getDouble("runshooterwheelvelocity.p"));
+    Trace.getInstance().logCommandInfo(this,
+        " - Shooter Setpoint: " + m_target + "\nShooter P = "
+            + m_pidConfig.getDouble("runshooterwheelvelocity.p" + " ---- Limelight onTarget: "
+                + Robot.getInstance().getSensorsContainer().getLimeLight().targetLock() + ", Limelight distance: "
+                + Robot.getInstance().getSensorsContainer().getLimeLight().distanceToPowerPort()));
   }
 
   @Override
