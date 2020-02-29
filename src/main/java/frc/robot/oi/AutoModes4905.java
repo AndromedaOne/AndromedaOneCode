@@ -58,7 +58,7 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (10*12) + 6)));
         m_autoChooser.addOption("4: Shoot and Trench Run", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
-                                                                  new ShootWithDistance(shooter, feeder, (12*13)), // do math to figure out distance here
+                                                                  new ShootWithDistance(shooter, feeder, (11*13)), // do math to figure out distance here
                                                                   new TurnToCompassHeading(180),
                                                                   new DriveAndIntake(driveTrain, intake, (11.0*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
