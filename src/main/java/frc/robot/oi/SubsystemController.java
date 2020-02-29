@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
+import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
@@ -44,18 +44,18 @@ public class SubsystemController {
     m_limeLight = Robot.getInstance().getSensorsContainer().getLimeLight();
 
     m_shootFromInitLine = new JoystickButton(m_subsystemController, ButtonsEnumerated.XBUTTON.getValue());
-    m_shootFromInitLine.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
-        m_shooterConfig.getDouble("shootingrpm.initline") * 1.5, m_shooterConfig.getDouble("shootingrpm.initline")));
+    m_shootFromInitLine.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem,
+        m_shooterConfig.getDouble("shootingrpm.initline"), m_shooterConfig.getDouble("shootingrpm.initline") * 1.5));
     m_shootFromFrontTrench = new JoystickButton(m_subsystemController, ButtonsEnumerated.BBUTTON.getValue());
-    m_shootFromFrontTrench.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
-        m_shooterConfig.getDouble("shootingrpm.fronttrench") * 1.5,
-        m_shooterConfig.getDouble("shootingrpm.fronttrench")));
+    m_shootFromFrontTrench.whenPressed(
+        new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, m_shooterConfig.getDouble("shootingrpm.fronttrench"),
+            m_shooterConfig.getDouble("shootingrpm.fronttrench") * 1.5));
     m_shootFromBackTrench = new JoystickButton(m_subsystemController, ButtonsEnumerated.ABUTTON.getValue());
-    m_shootFromBackTrench.whileHeld(new ShooterParallelSetShooterVelocity(m_shooterSubsystem,
-        m_shooterConfig.getDouble("shootingrpm.backtrench") * 1.5,
-        m_shooterConfig.getDouble("shootingrpm.backtrench")));
+    m_shootFromBackTrench.whenPressed(
+        new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, m_shooterConfig.getDouble("shootingrpm.backtrench"),
+            m_shooterConfig.getDouble("shootingrpm.backtrench") * 1.5));
     m_shootWithLimeDistance = new JoystickButton(m_subsystemController, ButtonsEnumerated.YBUTTON.getValue());
-    m_shootWithLimeDistance.whileHeld(new ShootWithLimeLight(m_shooterSubsystem, m_feederSubsystem, m_limeLight));
+    m_shootWithLimeDistance.whenPressed(new ShootWithLimeLight(m_shooterSubsystem, m_feederSubsystem, m_limeLight));
     m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
 
   }
@@ -96,8 +96,12 @@ public class SubsystemController {
     return deadband(-m_subsystemController.getX(GenericHID.Hand.kRight));
   }
 
+  public JoystickButton getResetShooterManualAdjustmentButton() {
+    return ButtonsEnumerated.LEFTSTICKBUTTON.getJoystickButton(m_subsystemController);
+  }
+
   private double deadband(double stickValue) {
-    if (Math.abs(stickValue) < 0.05) {
+    if (Math.abs(stickValue) < 0.1) {
       return 0.0;
     } else {
       return stickValue;

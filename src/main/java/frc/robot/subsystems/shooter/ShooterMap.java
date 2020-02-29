@@ -6,6 +6,7 @@ import java.util.List;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
+import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.lib.interpolate.InterpolatingDouble;
 import frc.robot.lib.interpolate.InterpolatingTreeMap;
 
@@ -15,6 +16,7 @@ public class ShooterMap {
 
   public ShooterMap() {
     Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
+    double rpmTranslation = m_shooterConfig.getDouble("rpmtranslation");
 
     m_shootMapList = m_shooterConfig.getDoubleList("shootingmap");
 
@@ -26,7 +28,8 @@ public class ShooterMap {
         System.err.println("WARN: Uneven Number of Shooter Map Values in Config");
         break;
       }
-      m_shooterMap.put(new InterpolatingDouble(nextValue), new InterpolatingDouble(it.next()));
+      m_shooterMap.put(new InterpolatingDouble(nextValue),
+          new InterpolatingDouble(it.next() + rpmTranslation));
     }
   }
 
@@ -42,6 +45,6 @@ public class ShooterMap {
    * @return
    */
   public double getInterpolatedRPM(double distance) {
-    return m_shooterMap.getInterpolated(new InterpolatingDouble(distance)).value;
+    return m_shooterMap.getInterpolated(new InterpolatingDouble(distance)).value + RunShooterWheelVelocity.getManualShooterAdjustment();
   }
 }

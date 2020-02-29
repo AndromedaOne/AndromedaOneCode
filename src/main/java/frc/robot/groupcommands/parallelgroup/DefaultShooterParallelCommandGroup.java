@@ -4,6 +4,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.pidcommands.RunShooterSeriesVelocity;
 import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -32,10 +33,26 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
 
   @Override
   public void initialize() {
+    double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
+    RunShooterWheelVelocity.increaseManuelShooterAdjustment(leftYAxis);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getResetShooterManualAdjustmentButton().get()) {
+      RunShooterWheelVelocity.resetManuelShooterAdjustment();
+    }
+
     // When this command is running the shooter is always idle
     m_shooter.setShooterIsIdle(true);
     // When the shooter is idle the hood will always be close
     // m_shooter.closeShooterHood();
+  }
+
+  @Override
+  public void execute() {
+    super.execute();
+    double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
+    RunShooterWheelVelocity.increaseManuelShooterAdjustment(leftYAxis);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getResetShooterManualAdjustmentButton().get()) {
+      RunShooterWheelVelocity.resetManuelShooterAdjustment();
+    }
   }
 
   @Override
