@@ -12,6 +12,7 @@ import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
+import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
 import frc.robot.sensors.SensorsContainer;
@@ -57,7 +58,7 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (10*12) + 6)));
         m_autoChooser.addOption("4: Shoot and Trench Run", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
-                                                                  new ShootWithLimeLight(shooter, feeder, limelight), // do math to figure out distance here
+                                                                  new ShootWithDistance(shooter, feeder, (12*13)), // do math to figure out distance here
                                                                   new TurnToCompassHeading(180),
                                                                   new DriveAndIntake(driveTrain, intake, (11.0*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),

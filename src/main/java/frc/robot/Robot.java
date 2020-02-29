@@ -109,12 +109,12 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     Trace.getInstance().flushTraceFiles();
-    m_sensorsContainer.getLimeLight().disableLED();
+    limelight.disableLED();
   }
 
   @Override
   public void disabledPeriodic() {
-    limelight.disableLED();
+    //limelight.disableLED();
   }
 
   /**
