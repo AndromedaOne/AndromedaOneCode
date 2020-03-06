@@ -2,6 +2,8 @@ package frc.robot.sensors.colorsensor;
 
 import com.revrobotics.ColorMatchResult;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 public class MockColorSensor extends ColorSensor {
 
   public MockColorSensor() {
@@ -10,6 +12,7 @@ public class MockColorSensor extends ColorSensor {
 
   @Override
   public ColorMatchResult getColor() {
-    return null;
+    // Color is not actually being used on the color wheel
+    return new ColorMatchResult(Color.kDarkGray, 20);
   }
 }

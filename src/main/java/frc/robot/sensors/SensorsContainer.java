@@ -14,6 +14,9 @@ import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
 import frc.robot.sensors.camera.*;
+import frc.robot.sensors.colorsensor.ColorSensor;
+import frc.robot.sensors.colorsensor.MockColorSensor;
+import frc.robot.sensors.colorsensor.RealColorSensor;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
 import frc.robot.sensors.limelightcamera.RealLimelightCamera;
@@ -27,6 +30,7 @@ public class SensorsContainer {
   private Camera camera0;
   private Camera camera1;
   private LimeLightCameraBase m_limelightCameraBase;
+  private ColorSensor m_colorSensor;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -59,6 +63,14 @@ public class SensorsContainer {
       System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
     }
+
+    if (sensorConfig.hasPath("sensors.colorSensor")) {
+      System.out.println("Using real colorSensor");
+      m_colorSensor = new RealColorSensor();
+    } else {
+      System.out.println("Using fakecolorSensor");
+      m_colorSensor = new MockColorSensor();
+    }
   }
 
   public BallFeederSensorBase getBallFeederSensor() {
@@ -75,5 +87,9 @@ public class SensorsContainer {
 
   public LimeLightCameraBase getLimeLight() {
     return m_limelightCameraBase;
+  }
+
+  public ColorSensor getColorSensor() {
+    return m_colorSensor;
   }
 }
