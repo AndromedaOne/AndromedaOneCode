@@ -1,4 +1,4 @@
-package frc.robot.sensors;
+package frc.robot.sensors.gyro;
 
 import java.util.TimerTask;
 
@@ -12,9 +12,8 @@ import frc.robot.Config4905;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
-public class NavXGyroSensor {
+public class RealNavXGyroSensor extends NavXGyroSensor{
   AHRS gyro; /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
-  static NavXGyroSensor instance;
   private double initialZAngleReading = 0.0;
   private double initialXAngleReading = 0.0;
   private double initialYAngleReading = 0.0;
@@ -27,7 +26,7 @@ public class NavXGyroSensor {
    * Trys creating the gyro and if it can not then it reports an error to the
    * DriveStation.
    */
-  private NavXGyroSensor() {
+  public RealNavXGyroSensor() {
     try {
       /* Communicate w/navX MXP via the MXP SPI Bus. */
       /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
@@ -63,7 +62,7 @@ public class NavXGyroSensor {
     @Override
     public void run() {
       System.out.println("Setting Initial Gyro Angle");
-      if (!isCalibrating()) {
+      if (!gyro.isCalibrating()) {
         initialZAngleReading = gyro.getAngle();
         initialXAngleReading = gyro.getPitch();
         initialYAngleReading = gyro.getRoll();
@@ -73,31 +72,11 @@ public class NavXGyroSensor {
   }
 
   /**
-   * Gets the instance of the NavXGyroSensor.
-   * 
-   * @return instance
-   */
-  public static NavXGyroSensor getInstance() {
-    if (instance == null) {
-      synchronized (NavXGyroSensor.class) {
-        if (instance == null) {
-          System.out.println("Creating NavX gyro");
-          instance = new NavXGyroSensor();
-        }
-      }
-    }
-    return instance;
-  }
-
-  public boolean isCalibrating() {
-    return gyro.isCalibrating();
-  }
-
-  /**
    * Gets the Z angle and subtracts the initial angle member variable from it.
    * 
    * @return gyro.getAngle() - initialAngleReading
    */
+  @Override
   public double getZAngle() {
     double correctedAngle = gyro.getAngle() - initialZAngleReading;
     Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
@@ -105,12 +84,14 @@ public class NavXGyroSensor {
     return correctedAngle;
   }
 
+  @Override
   public double getXAngle() {
     double xAngle = gyro.getPitch() - initialXAngleReading;
     SmartDashboard.putNumber("Pitch Angle", xAngle);
     return xAngle;
   }
 
+  @Override
   public double getYAngle() {
     return gyro.getRoll() - initialYAngleReading;
   }
@@ -118,6 +99,7 @@ public class NavXGyroSensor {
   /**
    * Returns the current compass heading of the robot Between 0 - 360
    */
+  @Override
   public double getCompassHeading() {
     double correctedAngle = getZAngle() % 360;
     if (correctedAngle < 0) {
@@ -126,6 +108,7 @@ public class NavXGyroSensor {
     return correctedAngle;
   }
 
+  @Override
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("Z Angle", getZAngle());
     SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());

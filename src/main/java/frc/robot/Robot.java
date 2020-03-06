@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
-import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -90,7 +89,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    m_sensorsContainer.getNavXGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
 
     m_sensorsContainer.getBallFeederSensor().isThereBall();

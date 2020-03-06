@@ -12,13 +12,13 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.sensors.NavXGyroSensor;
+import frc.robot.sensors.gyro.NavXGyroSensor;
 import frc.robot.subsystems.climber.ClimberBase;
 
 public class BalanceClimber extends CommandBase {
 
   ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
-  NavXGyroSensor gyroSensor = NavXGyroSensor.getInstance();
+  NavXGyroSensor gyroSensor = Robot.getInstance().getSensorsContainer().getNavXGyro();
 
   private double tolerance;
 
