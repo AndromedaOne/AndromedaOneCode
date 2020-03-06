@@ -28,8 +28,7 @@ public class ShooterMap {
         System.err.println("WARN: Uneven Number of Shooter Map Values in Config");
         break;
       }
-      m_shooterMap.put(new InterpolatingDouble(nextValue),
-          new InterpolatingDouble(it.next() + rpmTranslation));
+      m_shooterMap.put(new InterpolatingDouble(nextValue), new InterpolatingDouble(it.next() + rpmTranslation));
     }
   }
 
@@ -45,6 +44,7 @@ public class ShooterMap {
    * @return
    */
   public double getInterpolatedRPM(double distance) {
-    return m_shooterMap.getInterpolated(new InterpolatingDouble(distance)).value + RunShooterWheelVelocity.getManualShooterAdjustment();
+    return m_shooterMap.getInterpolated(new InterpolatingDouble(distance)).value
+        + RunShooterWheelVelocity.getManualShooterAdjustment();
   }
 }
