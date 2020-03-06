@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.climber;
 
+import frc.robot.actuators.SparkMaxController;
+
 public class MockClimber extends ClimberBase {
   /**
    * Creates a new MockClimber.
@@ -41,10 +43,6 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void adjustWinch(int adjust) {
-  }
-
-  @Override
   public void extendLeftArm() {
   }
 
@@ -67,12 +65,32 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
+  public SparkMaxController getLeftWinch() {
+    return null;
+  }
+
+  @Override
+  public SparkMaxController getRightWinch() {
+    return null;
+  }
+
+  @Override
   public void retractLeftArm() {
 
   }
 
   @Override
+  public void adjustLeftWinch(double adjust) {
+
+  }
+
+  @Override
   public void stopRightArm() {
+
+  }
+
+  @Override
+  public void adjustRightWinch(double adjust) {
 
   }
 }

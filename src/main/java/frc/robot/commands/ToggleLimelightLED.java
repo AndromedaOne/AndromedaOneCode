@@ -5,54 +5,48 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.climber;
-
-import com.typesafe.config.*;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Config4905;
-import frc.robot.Robot;
-import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 
-public class Climb extends CommandBase {
-  ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
-
-  private int m_maxHeight;
+public class ToggleLimelightLED extends CommandBase {
+  private boolean m_ledStatus;
+  private LimeLightCameraBase limelight;
 
   /**
-   * Creates a new Climb.
+   * Creates a new ToggleLimelightLED.
    */
-  public Climb() {
+  public ToggleLimelightLED(boolean ledStatus, SensorsContainer sensorsContainer) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climber);
-    Config climberConf = Config4905.getConfig4905().getClimberConfig();
-    m_maxHeight = climberConf.getInt("maxHeight");
+    limelight = sensorsContainer.getLimeLight();
+    m_ledStatus = ledStatus;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.driveLeftWinch();
-    climber.driveRightWinch();
-    new BalanceClimber();
+    if (m_ledStatus) {
+      limelight.enableLED();
+    } else {
+      limelight.disableLED();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (climber.getLeftWinch().getEncoderPositionTicks() >= m_maxHeight
-        || climber.getRightWinch().getEncoderPositionTicks() >= m_maxHeight);
+    return true;
   }
 }

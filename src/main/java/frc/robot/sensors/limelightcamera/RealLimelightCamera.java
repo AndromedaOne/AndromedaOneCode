@@ -42,7 +42,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double distanceToPowerPort() {
-    return distanceToTarget(82.5) - m_config.getDouble("limelight.cameraDistToFrame");
+    return distanceToTarget(81.125) - m_config.getDouble("limelight.cameraDistToFrame");
   }
 
   @Override
@@ -60,5 +60,13 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   @Override
   public boolean targetLock() {
     return m_limelightTable.getEntry("tv").getDouble(0.0) != 0.0;
+  }
+
+  public void enableLED() {
+    m_limelightTable.getEntry("ledMode").setDouble(3);
+  }
+
+  public void disableLED() {
+    m_limelightTable.getEntry("ledMode").setDouble(1);
   }
 }
