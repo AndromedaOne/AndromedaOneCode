@@ -7,7 +7,9 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Config4905;
+import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.SetGyroAdjustment;
@@ -61,7 +63,8 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
                                                                   new TurnToCompassHeading(180),
-                                                                  new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                  new WaitCommand(3),
+                                                                  new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells, 180),
                                                                   new TurnToCompassHeading(351),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
