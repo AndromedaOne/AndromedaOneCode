@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.ToggleLimelightLED;
-import frc.robot.commands.TurnToFaceScheduler;
+import frc.robot.commands.TurnUsingLimeToTargetScheduler;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.commands.pidcommands.TurnUsingLimeToTarget;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.SensorsContainer;
 
@@ -45,7 +45,7 @@ public class DriveController {
     turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
     turnToWest.whenPressed(new TurnToCompassHeading(270));
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
-    turnToFace.whenPressed(new TurnToFaceScheduler(1, sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
+    turnToFace.whenPressed(new TurnUsingLimeToTargetScheduler(sensorsContainer.getLimeLight()));
     // climbLevel = new POVButton(m_driveController,
     // POVDirectionNames.NORTH.getValue());
     // climbLevel.whileHeld(new Climb());

@@ -16,7 +16,7 @@ import frc.robot.telemetries.Trace;
 /**
  * Limelight Turn To Face Command.
  */
-public class TurnToFaceCommand extends PIDCommand4905 {
+public class TurnUsingLimeToTarget extends PIDCommand4905 {
   protected DoubleSupplier m_sensor;
   protected static Config m_conf = Config4905.getConfig4905().getPidConstantsConfig();
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
@@ -26,8 +26,12 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   protected BitSet m_targetBuffer = new BitSet(4);
   SensorsContainer m_sensorsContainer = Robot.getInstance().getSensorsContainer();
   LimeLightCameraBase limelight;
+  private final int cyclesWithoutTargetLockTimeout = 50;
 
-  public TurnToFaceCommand(DoubleSupplier sensor) {
+  // assumming one cyle is 20 milliseconds
+  private final double timeInSecondsWithoutTargetLockTimeout = cyclesWithoutTargetLockTimeout / 50.0;
+
+  public TurnUsingLimeToTarget(DoubleSupplier sensor) {
     super(
         // The controller that the command will use
         new PIDController4905("TurnToFace", 0.0, 0.0, 0.0, 0.0),
@@ -52,7 +56,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   @Override
   public boolean isFinished() {
     m_lostCounter++;
-    m_lostCounter = m_lostCounter % 250;
+    m_lostCounter = m_lostCounter % cyclesWithoutTargetLockTimeout;
 
     boolean targetFound = m_sensorsContainer.getLimeLight().targetLock();
     m_lostBuffer.set(m_lostCounter, !targetFound);
@@ -61,8 +65,8 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     m_targetCounter %= 4;
     m_targetBuffer.set(m_targetCounter, this.getController().atSetpoint());
 
-    if (m_lostBuffer.cardinality() == 250) {
-      Trace.getInstance().logCommandInfo(this, "No target found for one second");
+    if (m_lostBuffer.cardinality() == cyclesWithoutTargetLockTimeout) {
+      Trace.getInstance().logCommandInfo(this, "No target found for " + timeInSecondsWithoutTargetLockTimeout + " seconds");
       return true;
     }
     if (!m_conf2.hasPath("limelight") || m_conf2.getDouble("limelight.cameraHeight") == 0.0) {

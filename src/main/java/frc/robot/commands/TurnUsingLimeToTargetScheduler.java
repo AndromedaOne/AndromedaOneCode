@@ -7,19 +7,17 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.commands.pidcommands.TurnUsingLimeToTarget;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 
-public class TurnToFaceScheduler extends CommandBase {
-  private double m_timeout;
+public class TurnUsingLimeToTargetScheduler extends CommandBase {
+  // After 1 second we want to stop looking for the target
+  private final double m_timeout = 1.0;
   private Timer m_timer;
   private LimeLightCameraBase m_limelight;
-  private DoubleSupplier m_sensor;
   private boolean isDone;
 
   /**
@@ -29,10 +27,9 @@ public class TurnToFaceScheduler extends CommandBase {
    * @param sensor  Double supplier.
    * 
    */
-  public TurnToFaceScheduler(double timeout, DoubleSupplier sensor) {
-    m_timeout = timeout;
+  public TurnUsingLimeToTargetScheduler(LimeLightCameraBase limeLightCameraBase) {
     m_timer = new Timer();
-    m_sensor = sensor;
+    m_limelight = limeLightCameraBase;
     isDone = false;
   }
 
@@ -41,13 +38,14 @@ public class TurnToFaceScheduler extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
+    isDone =false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (m_limelight.targetLock()) {
-      CommandScheduler.getInstance().schedule(new TurnToFaceCommand(m_sensor));
+      CommandScheduler.getInstance().schedule(new TurnUsingLimeToTarget(m_limelight::horizontalDegreesToTarget));
       isDone = true;
     } else if (m_timer.hasPeriodPassed(m_timeout)) {
       isDone = true;

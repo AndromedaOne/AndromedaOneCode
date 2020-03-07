@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
+import frc.robot.commands.TurnUsingLimeToTargetScheduler;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.commands.pidcommands.TurnUsingLimeToTarget;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
@@ -58,12 +59,12 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (10*12) + 6)));
         m_autoChooser.addOption("4: Shoot and Trench Run", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
-                                                                  new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
+                                                                  new TurnUsingLimeToTargetScheduler(sensorsContainer.getLimeLight()),
                                                                   new ShootWithDistance(shooter, feeder, (12*11.5)), // do math to figure out distance here
                                                                   new TurnToCompassHeading(180),
                                                                   new DriveAndIntake(driveTrain, intake, (11.0*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
-                                                                  new TurnToFaceCommand(limelight::horizontalDegreesToTarget),
+                                                                  new TurnUsingLimeToTargetScheduler(limelight),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
         m_autoChooser.addOption("5: Right Side Shield",
                                 new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),
@@ -100,7 +101,7 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
         m_autoChooser.addOption("11: Left Fire Further Turn Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(16),
-                                                                  new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
+                                                                  new TurnUsingLimeToTargetScheduler(sensorsContainer.getLimeLight()),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
         SmartDashboard.putData("autoModes", m_autoChooser);
