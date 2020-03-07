@@ -59,8 +59,8 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
 
-    m_subsystemContainer = new SubsystemsContainer();
     m_sensorsContainer = new SensorsContainer();
+    m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
 
     m_subsystemContainer.setDefaultCommands();
