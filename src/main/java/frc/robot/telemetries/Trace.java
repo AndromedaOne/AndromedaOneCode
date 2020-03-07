@@ -72,6 +72,7 @@ public class Trace {
   private static String m_commandTraceFname = "CommandTrace";
   private BufferedWriter m_commandTraceWriter;
   private static int m_dirNumb = 0;
+  private boolean m_enabled = false;
 
   private class TraceEntry {
     private BufferedWriter m_file;
@@ -104,6 +105,14 @@ public class Trace {
     createNewTraceDir();
     redirectOutput();
     createCommandTraceFile();
+  }
+
+  public void enableTrace() {
+    m_enabled = true;
+  }
+
+  public void disableTrace() {
+    m_enabled = false;
   }
 
   private void createCommandTraceFile() {
@@ -200,7 +209,7 @@ public class Trace {
 
   @SafeVarargs
   public final <T> void addTrace(boolean enable, String fileName, TracePair<T>... header) {
-    if (!enable) {
+    if (!enable || !m_enabled) {
       return;
     }
     if (m_pathOfTraceDir == null) {

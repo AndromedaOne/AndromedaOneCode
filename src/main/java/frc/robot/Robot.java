@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
   private Robot() {
     CommandScheduler.getInstance().onCommandInitialize((command) -> Trace.getInstance().logCommandStart(command));
     CommandScheduler.getInstance().onCommandFinish((command) -> Trace.getInstance().logCommandStop(command));
+    Trace.getInstance().disableTrace();
   }
 
   static Robot m_instance;

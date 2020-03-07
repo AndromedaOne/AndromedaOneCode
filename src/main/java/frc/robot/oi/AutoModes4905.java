@@ -138,7 +138,7 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(0),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
         // @formatter:on
-        SmartDashboard.putData("Auto Modes", m_autoChooser);
+    SmartDashboard.putData("Auto Modes", m_autoChooser);
   }
 
 }
