@@ -21,7 +21,7 @@ import frc.robot.sensors.NavXGyroSensor;
 public class TurnDeltaAngle extends PIDCommand4905 {
   private double m_deltaTurnAngle;
   private double m_targetAngle;
-  Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+  Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
   /**
    * Creates a new TurnDeltaAngle.

@@ -51,7 +51,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
   }
 
   public void initialize() {
-    Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+    Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
     super.initialize();
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));

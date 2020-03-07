@@ -107,7 +107,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   }
 
   private static PIDController4905 createPIDController() {
-    m_pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+    m_pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
     double kp = m_pidConfig.getDouble("runshooterwheelvelocity.p");
     double ki = m_pidConfig.getDouble("runshooterwheelvelocity.i");
