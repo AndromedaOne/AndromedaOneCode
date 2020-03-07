@@ -19,7 +19,7 @@ import frc.robot.telemetries.Trace;
  */
 public class TurnUsingLimeToTarget extends PIDCommand4905 {
   protected DoubleSupplier m_sensor;
-  protected static Config m_conf = Config4905.getConfig4905().getPidConstantsConfig();
+  protected static Config m_conf = Config4905.getConfig4905().getCommandConstantsConfig();
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
   protected int m_lostCounter = 0;
   protected BitSet m_lostBuffer = new BitSet(50);

@@ -53,7 +53,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   }
 
   public void initialize() {
-    Config pidConstantsConfig = Config4905.getConfig4905().getPidConstantsConfig();
+    Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
     super.initialize();
     setDistance(m_distance);
 

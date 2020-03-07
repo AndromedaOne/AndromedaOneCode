@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
-import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLEDRegistrar;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
@@ -63,8 +62,8 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
 
-    m_subsystemContainer = new SubsystemsContainer();
     m_sensorsContainer = new SensorsContainer();
+    m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
 
     m_subsystemContainer.setDefaultCommands();
@@ -93,7 +92,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    m_sensorsContainer.getNavXGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
 
     m_sensorsContainer.getBallFeederSensor().isThereBall();

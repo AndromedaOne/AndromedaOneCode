@@ -35,7 +35,7 @@ public class RunIntakeOut extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
-    m_outtakeSpeed = m_intakeConfig.getDouble("outtakespeed");
+    m_outtakeSpeed = Config4905.getConfig4905().getCommandConstantsConfig().getDouble("RunIntakeOut.outtakespeed");
     m_finishedCondition = finishedCondition;
 
   }
