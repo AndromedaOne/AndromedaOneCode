@@ -12,7 +12,7 @@ import frc.robot.Config4905;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
-public class RealNavXGyroSensor extends NavXGyroSensor{
+public class RealNavXGyroSensor extends NavXGyroSensor {
   AHRS gyro; /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
   private double initialZAngleReading = 0.0;
   private double initialXAngleReading = 0.0;
