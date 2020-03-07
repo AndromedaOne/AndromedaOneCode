@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
+import frc.robot.commands.SetGyroAdjustment;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
@@ -48,7 +49,8 @@ public class AutoModes4905 {
         m_autoChooser.setDefaultOption("DoNothing", 
                                        new DoNothingAuto());
         m_autoChooser.addOption("1: Move Back",
-                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(drivetrain, (-1*12))));
+                                new DelayedSequentialCommandGroup(new SetGyroAdjustment(0),
+                                                                  new MoveUsingEncoder(drivetrain, (-1*12))));
 
         m_autoChooser.addOption("2: Fire and Move Back",
                                 new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),

@@ -130,4 +130,8 @@ public class NavXGyroSensor {
     SmartDashboard.putNumber("Z Angle", getZAngle());
     SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());
   }
+  
+  public void setAngleAdjustment(double angle) {
+    gyro.setAngleAdjustment(angle);
+  }
 }
