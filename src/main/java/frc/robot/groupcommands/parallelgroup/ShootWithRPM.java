@@ -53,7 +53,8 @@ public class ShootWithRPM extends ParallelCommandGroup {
    *                scale factor in the config
    */
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double rpm) {
-    this(shooter, feeder, rpm, rpm * Config4905.getConfig4905().getShooterConfig().getDouble("seriesRPMScale"));
+    this(shooter, feeder, rpm,
+        rpm * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale"));
   }
 
   @Override
