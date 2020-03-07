@@ -52,7 +52,7 @@ public class AutoModes4905 {
         m_autoChooser.addOption("2: Fire and Move Back",
                                 new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(drivetrain, (-1*12))));
-        m_autoChooser.addOption("3: Shoot and Trench Run", 
+        m_autoChooser.addOption("4: Shoot and Trench Run", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
@@ -61,30 +61,30 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(351),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
-        m_autoChooser.addOption("4: Enemy Trench Run", 
+        m_autoChooser.addOption("7: Enemy Trench Run", 
                                 new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
                                                                   new MoveUsingEncoder(drivetrain, (23*12) + 9, maxSpeedToPickupPowerCells)));
-        m_autoChooser.addOption("5: Right Fire Move Back",
+        m_autoChooser.addOption("8: Right Fire Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(350.5),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(drivetrain, (-1*12))));
-        m_autoChooser.addOption("6: Left Fire Move Back",
+        m_autoChooser.addOption("9: Left Fire Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(9.5),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(drivetrain, (-1*12))));
-        m_autoChooser.addOption("7: Far Left Fire Move Back",
+        m_autoChooser.addOption("10: Far Left Fire Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(16),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(drivetrain, (-2*12))));
         // TODO 0.001 = temp value
-        m_autoChooser.addOption("8: Left 5-Ball", 
+        m_autoChooser.addOption("11: Left 5-Ball", 
                                 new DelayedSequentialCommandGroup(new DriveAndIntake(drivetrain, intake, 0.001, maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(-0.001),
                                                                   new MoveUsingEncoder(drivetrain, 0.001),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
-        m_autoChooser.addOption("9: Left 8-Ball", 
+        m_autoChooser.addOption("12: Left 8-Ball", 
                                 new DelayedSequentialCommandGroup(new DriveAndIntake(drivetrain, intake, 0.001, maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(-0.001),
                                                                   new MoveUsingEncoder(drivetrain, 0.001),
@@ -95,7 +95,7 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(0),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
-        m_autoChooser.addOption("10: 6-Ball Home", 
+        m_autoChooser.addOption("13: 6-Ball Home", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
@@ -104,7 +104,7 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(-0.001),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
-        m_autoChooser.addOption("11: 8-Ball Home", 
+        m_autoChooser.addOption("14: 8-Ball Home", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
