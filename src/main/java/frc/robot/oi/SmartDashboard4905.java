@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
-import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
@@ -39,10 +38,6 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Shoot 10 feet",
         new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
-
-    SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
-
-    SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
   }

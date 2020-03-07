@@ -8,6 +8,7 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
+import frc.robot.sensors.limelightcamera.LimeLEDRegistrar;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -32,12 +33,12 @@ public class FireAllPowerCellsWithLimeDistance extends SequentialCommandGroup {
     m_feeder = feeder;
     m_limeLight = limeLight;
     kNumOfSamples = feederConfig.getInt("shootWithRPM.numOfFeederTestSamples");
+    LimeLEDRegistrar.getInstance().addCommands(this);
   }
 
   @Override
   public void initialize() {
     super.initialize();
-    m_limeLight.enableLED();
     m_isDone = false;
     CommandScheduler.getInstance().schedule(new ShootWithRPM(m_shooter, m_feeder,
         m_shooter.getShooterMap().getInterpolatedRPM(m_limeLight.distanceToPowerPort())));
@@ -67,7 +68,6 @@ public class FireAllPowerCellsWithLimeDistance extends SequentialCommandGroup {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    m_limeLight.disableLED();
   }
 
 }

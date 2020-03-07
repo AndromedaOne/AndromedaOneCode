@@ -18,6 +18,7 @@ import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.limelightcamera.LimeLEDRegistrar;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
@@ -35,10 +36,12 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase limelight;
+  private LimeLEDRegistrar limeLEDRegistrar;
 
   private Robot() {
     CommandScheduler.getInstance().onCommandInitialize((command) -> Trace.getInstance().logCommandStart(command));
     CommandScheduler.getInstance().onCommandFinish((command) -> Trace.getInstance().logCommandStop(command));
+    limeLEDRegistrar = LimeLEDRegistrar.getInstance();
   }
 
   static Robot m_instance;
@@ -98,6 +101,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
     SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
 
+    if(limeLEDRegistrar.isLimeLedCommandRunning()) {
+      m_sensorsContainer.getLimeLight().enableLED();
+    }else {
+      m_sensorsContainer.getLimeLight().disableLED();
+    }
+
   }
 
   /**
@@ -132,7 +141,6 @@ public class Robot extends TimedRobot {
     if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
-    limelight.enableLED();
   }
 
   /**

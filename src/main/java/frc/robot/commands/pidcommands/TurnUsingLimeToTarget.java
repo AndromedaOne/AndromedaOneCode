@@ -10,6 +10,7 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.limelightcamera.LimeLEDRegistrar;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.telemetries.Trace;
 
@@ -51,6 +52,7 @@ public class TurnUsingLimeToTarget extends PIDCommand4905 {
     getController().setMinOutputToMove(m_conf.getDouble("TurnToFaceCommand.minOutputToMove"));
     getController().setTolerance(m_conf.getDouble("TurnToFaceCommand.positionTolerance"));
     this.m_sensor = sensor;
+    LimeLEDRegistrar.getInstance().addCommands(this);
   }
 
   @Override
@@ -86,7 +88,6 @@ public class TurnUsingLimeToTarget extends PIDCommand4905 {
   public void initialize() {
     super.initialize();
     limelight = m_sensorsContainer.getLimeLight();
-    limelight.enableLED();
     System.out.println("Turning on lime light");
     m_lostCounter = 0;
   }
@@ -95,6 +96,5 @@ public class TurnUsingLimeToTarget extends PIDCommand4905 {
   public void end(boolean interrupted) {
     super.end(interrupted);
     System.out.println("Turning off lime light");
-    limelight.disableLED();
   }
 }

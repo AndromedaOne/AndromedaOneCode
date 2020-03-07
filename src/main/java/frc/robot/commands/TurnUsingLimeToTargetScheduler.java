@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.pidcommands.TurnUsingLimeToTarget;
+import frc.robot.sensors.limelightcamera.LimeLEDRegistrar;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 
 public class TurnUsingLimeToTargetScheduler extends CommandBase {
@@ -33,6 +34,7 @@ public class TurnUsingLimeToTargetScheduler extends CommandBase {
     m_limelight = limeLightCameraBase;
     isDone = false;
     turnUsingLimeToTarget = new TurnUsingLimeToTarget(limeLightCameraBase::horizontalDegreesToTarget);
+    LimeLEDRegistrar.getInstance().addCommands(this);
   }
 
   // Called when the command is initially scheduled.
@@ -41,7 +43,6 @@ public class TurnUsingLimeToTargetScheduler extends CommandBase {
     m_timer.reset();
     m_timer.start();
     isDone = false;
-    m_limelight.enableLED();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
