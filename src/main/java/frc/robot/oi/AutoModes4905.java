@@ -1,5 +1,7 @@
 package frc.robot.oi;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -36,6 +38,7 @@ public class AutoModes4905 {
     IntakeBase intake = subsystemsContainer.getIntake();
     FeederBase feeder = subsystemsContainer.getFeeder();
     LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
+    DoubleSupplier limelightHorizontalDegrees = sensorsContainer.getLimeLight()::horizontalDegreesToTarget;
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -49,58 +52,29 @@ public class AutoModes4905 {
         m_autoChooser.addOption("2: Fire and Move Back",
                                 new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-1*12))));
-        m_autoChooser.addOption("3: Back Bumper U-Turn", 
-                                new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),
-                                                                  new MoveUsingEncoder(driveTrain, (2*12) + 6),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, (5*12)),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, (10*12) + 6)));
-        m_autoChooser.addOption("4: Shoot and Trench Run", 
+        m_autoChooser.addOption("3: Shoot and Trench Run", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
-                                                                  new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
+                                                                  new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (12*11.5)), // do math to figure out distance here
                                                                   new TurnToCompassHeading(180),
                                                                   new DriveAndIntake(driveTrain, intake, (11.0*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
                                                                   new TurnToFaceCommand(limelight::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
-        m_autoChooser.addOption("5: Right Side Shield",
-                                new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),
-                                                                  new MoveUsingEncoder(driveTrain, (-5*12) - 9),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new DeployAndRunIntake(intake, () -> true),
-                                                                  new MoveUsingEncoder(driveTrain, (1*12), maxSpeedToPickupPowerCells))); // Waiting on official distance to move here from R&S
-        m_autoChooser.addOption("6: Left Side Shield", 
-                                new DelayedSequentialCommandGroup(new ShootWithLimeLight(shooter, feeder, limelight),
-                                                                  new MoveUsingEncoder(driveTrain, (2*12) + 6),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, (5*12)),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new DeployAndRunIntake(intake, () -> true),
-                                                                  new MoveUsingEncoder(driveTrain, (9*12)), // Go most of the distance full speed, slow down at end to pickup power cells
-                                                                  new MoveUsingEncoder(driveTrain, (1*12) + 6, maxSpeedToPickupPowerCells)));
-        // Supposedly never going to be used, according to R&S, but kept to keep numbering system intact
-        if (false) {
-          m_autoChooser.addOption("7: Enemy Trench Run", 
+        m_autoChooser.addOption("4: Enemy Trench Run", 
                                 new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
                                                                   new MoveUsingEncoder(driveTrain, (23*12) + 9, maxSpeedToPickupPowerCells)));
-        }
-        m_autoChooser.addOption("8: Right Fire Move Back",
+        m_autoChooser.addOption("5: Right Fire Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(350.5),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-1*12))));
-        m_autoChooser.addOption("9: Left Fire Move Back",
+        m_autoChooser.addOption("6: Left Fire Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(9.5),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-1*12))));
-        m_autoChooser.addOption("10: Right Fire Further Turn Move Back",
-                                new DelayedSequentialCommandGroup(new TurnToCompassHeading(344),
-                                                                  new ShootWithLimeLight(shooter, feeder, limelight),
-                                                                  new MoveUsingEncoder(driveTrain, (-2*12))));
-        m_autoChooser.addOption("11: Left Fire Further Turn Move Back",
+        m_autoChooser.addOption("7: Far Left Fire Move Back",
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(16),
-                                                                  new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
+                                                                  new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
         SmartDashboard.putData("autoModes", m_autoChooser);
