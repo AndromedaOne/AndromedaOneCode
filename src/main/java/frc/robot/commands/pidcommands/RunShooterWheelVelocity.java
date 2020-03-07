@@ -51,9 +51,8 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
 
-    m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
-
-    kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
+    kControllerScale = Config4905.getConfig4905().getCommandConstantsConfig()
+        .getDouble("RunShooterWheelVelocity.shooterwheeljoystickscale");
     m_shooter = shooter;
     m_target = setpoint;
     m_setpoint = this::getSetpoint;

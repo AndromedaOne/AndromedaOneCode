@@ -35,7 +35,7 @@ public class DeployAndRunIntake extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
-    m_intakeSpeed = m_intakeConfig.getDouble("intakespeed");
+    m_intakeSpeed = Config4905.getConfig4905().getCommandConstantsConfig().getDouble("DeployAndRunIntake.intakespeed");
     m_finishedCondition = finishedCondition;
   }
 
