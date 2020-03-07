@@ -15,6 +15,10 @@ public class ShooterMap {
   private List<Double> m_shootMapList;
 
   public ShooterMap() {
+    if (!Config4905.getConfig4905().doesShooterExist()) {
+      m_shooterMap.put(new InterpolatingDouble(1.0), new InterpolatingDouble(1.0));
+      return;
+    }
     Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
     double rpmTranslation = m_shooterConfig.getDouble("rpmtranslation");
 
