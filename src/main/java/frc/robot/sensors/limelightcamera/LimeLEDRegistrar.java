@@ -1,5 +1,6 @@
 package frc.robot.sensors.limelightcamera;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -9,7 +10,7 @@ public class LimeLEDRegistrar {
     private static LimeLEDRegistrar instance;
 
     private LimeLEDRegistrar() {
-
+        commandsThatUseLimeLEDs = new ArrayList<>();
     }
 
     public static synchronized LimeLEDRegistrar getInstance() {
