@@ -1,7 +1,5 @@
 package frc.robot.groupcommands.sequentialgroup;
 
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Config4905;
@@ -25,13 +23,13 @@ public class ShootWithLimeLight extends SequentialCommandGroup {
   private final int kNumOfSamples;
 
   public ShootWithLimeLight(ShooterBase shooter, FeederBase feeder, LimeLightCameraBase limeLight) {
-    Config feederConfig = Config4905.getConfig4905().getFeederConfig();
 
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     m_shooter = shooter;
     m_feeder = feeder;
     m_limeLight = limeLight;
-    kNumOfSamples = feederConfig.getInt("shootWithRPM.numOfFeederTestSamples");
+    kNumOfSamples = Config4905.getConfig4905().getCommandConstantsConfig()
+        .getInt("ShootWithLimeLight.numOfFeederTestSamples");
   }
 
   @Override

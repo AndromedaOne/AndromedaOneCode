@@ -10,7 +10,6 @@ import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
-  private Config m_shooterConfig;
   private double m_shooterIdleSpeed;
   private double m_seriesIdleSpeed;
   private ShooterBase m_shooter;
@@ -21,9 +20,9 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
    *                   the PID setpoint via the controller
    */
   public DefaultShooterParallelCommandGroup(ShooterBase shooter) {
-    m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
-    m_shooterIdleSpeed = m_shooterConfig.getDouble("shooteridlespeed");
-    m_seriesIdleSpeed = m_shooterConfig.getDouble("seriesidlespeed");
+    Config constConfig = Config4905.getConfig4905().getCommandConstantsConfig();
+    m_shooterIdleSpeed = constConfig.getDouble("DefaultShooterParallelCommandGroup.shooteridlespeed");
+    m_seriesIdleSpeed = constConfig.getDouble("DefaultShooterParallelCommandGroup.seriesidlespeed");
     m_shooter = shooter;
     addRequirements(shooter);
 

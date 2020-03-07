@@ -13,7 +13,7 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
-import frc.robot.sensors.NavXGyroSensor;
+import frc.robot.sensors.gyro.NavXGyroSensor;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,7 +21,8 @@ import frc.robot.sensors.NavXGyroSensor;
 public class TurnDeltaAngle extends PIDCommand4905 {
   private double m_deltaTurnAngle;
   private double m_targetAngle;
-  Config pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+  Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
+  private NavXGyroSensor m_gyro;
 
   /**
    * Creates a new TurnDeltaAngle.
@@ -31,7 +32,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
         // The controller that the command will use
         new PIDController4905("TurnDeltaAngle", 0, 0, 0, 0),
         // This should return the measurement
-        NavXGyroSensor.getInstance()::getZAngle,
+        Robot.getInstance().getSensorsContainer().getNavXGyro()::getZAngle,
         // This should return the setpoint (can also be a constant)
         0,
         // This uses the output
@@ -44,7 +45,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     m_deltaTurnAngle = deltaTurnAngle;
-
+    m_gyro = Robot.getInstance().getSensorsContainer().getNavXGyro();
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
     getController().setI(pidConfig.getDouble("GyroPIDCommands.TurningITerm"));
     getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
@@ -55,8 +56,8 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    double setpoint = NavXGyroSensor.getInstance().getZAngle() + m_deltaTurnAngle;
-    double angle = NavXGyroSensor.getInstance().getZAngle();
+    double setpoint = m_gyro.getZAngle() + m_deltaTurnAngle;
+    double angle = m_gyro.getZAngle();
     System.out.println(" - Starting Angle: " + angle + " - ");
     System.out.println(" - Setpoint: " + setpoint + " - ");
     m_setpoint = () -> setpoint;
@@ -74,6 +75,6 @@ public class TurnDeltaAngle extends PIDCommand4905 {
 
   public void end(boolean interrupted) {
     super.end(interrupted);
-    System.out.println(" - Finish Angled: " + NavXGyroSensor.getInstance().getZAngle() + " - ");
+    System.out.println(" - Finish Angled: " + m_gyro.getZAngle() + " - ");
   }
 }
