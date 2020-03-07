@@ -19,6 +19,7 @@ public class TurnUsingLimeToTargetScheduler extends CommandBase {
   private Timer m_timer;
   private LimeLightCameraBase m_limelight;
   private boolean isDone;
+  TurnUsingLimeToTarget turnUsingLimeToTarget;
 
   /**
    * Schedules the TTF Command.
@@ -31,6 +32,7 @@ public class TurnUsingLimeToTargetScheduler extends CommandBase {
     m_timer = new Timer();
     m_limelight = limeLightCameraBase;
     isDone = false;
+    turnUsingLimeToTarget = new TurnUsingLimeToTarget(limeLightCameraBase::horizontalDegreesToTarget);
   }
 
   // Called when the command is initially scheduled.
@@ -38,16 +40,18 @@ public class TurnUsingLimeToTargetScheduler extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
-    isDone =false;
+    isDone = false;
+    m_limelight.enableLED();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (m_limelight.targetLock()) {
-      CommandScheduler.getInstance().schedule(new TurnUsingLimeToTarget(m_limelight::horizontalDegreesToTarget));
+      CommandScheduler.getInstance().schedule(turnUsingLimeToTarget);
       isDone = true;
     } else if (m_timer.hasPeriodPassed(m_timeout)) {
+      m_limelight.disableLED();
       isDone = true;
     }
   }
