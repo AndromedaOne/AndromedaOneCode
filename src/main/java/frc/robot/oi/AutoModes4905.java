@@ -5,7 +5,6 @@ import java.util.function.DoubleSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntake;
@@ -106,7 +105,7 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
 
-        m_autoChooser.addOption("13: 8-Ball Home", 
+        m_autoChooser.addOption("13: 8-Ball Trench/SG", 
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
@@ -118,8 +117,25 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(0.001),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
-                                                                  
-        SmartDashboard.putData("autoModes", m_autoChooser);
+        m_autoChooser.addOption("14: 8-Ball Home Trench", 
+                                new DelayedSequentialCommandGroup(
+                                                                  new TurnToCompassHeading(334.5),
+                                                                  new TurnToFaceCommand(limelightHorizontalDegrees),
+                                                                  new ShootWithDistance(shooter, feeder, (11.5*12)),
+                                                                  new TurnToCompassHeading(180),
+                                                                  new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                  new TurnToCompassHeading(351),
+                                                                  new TurnToFaceCommand(limelightHorizontalDegrees),
+                                                                  new ShootWithLimeLight(shooter, feeder, limelight)));
+        m_autoChooser.addOption("15: 5-Ball Center", 
+                                new DelayedSequentialCommandGroup(
+                                                                  new ShootWithLimeLight(shooter, feeder, limelight),
+                                                                  new MoveUsingEncoder(drivetrain, (-5*12) - 9),
+                                                                  new TurnToCompassHeading(270),
+                                                                  new DriveAndIntake(drivetrain, intake, (1*12), maxSpeedToPickupPowerCells),
+                                                                  new MoveUsingEncoder(drivetrain, (-1*12)),
+                                                                  new TurnToCompassHeading(0),
+                                                                  new ShootWithLimeLight(shooter, feeder, limelight)));
         // @formatter:on
   }
 
