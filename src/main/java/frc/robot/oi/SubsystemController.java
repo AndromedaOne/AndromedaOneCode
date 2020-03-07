@@ -15,8 +15,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.commands.FireAllPowerCellsWithLimeDistanceScheduler;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
-import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
+import frc.robot.groupcommands.sequentialgroup.FireAllPowerCellsWithLimeDistance;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -55,7 +56,8 @@ public class SubsystemController {
         new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem, m_shooterConfig.getDouble("shootingrpm.backtrench"),
             m_shooterConfig.getDouble("shootingrpm.backtrench") * 1.5));
     m_shootWithLimeDistance = new JoystickButton(m_subsystemController, ButtonsEnumerated.YBUTTON.getValue());
-    m_shootWithLimeDistance.whenPressed(new ShootWithLimeLight(m_shooterSubsystem, m_feederSubsystem, m_limeLight));
+    m_shootWithLimeDistance.whenPressed(
+        new FireAllPowerCellsWithLimeDistanceScheduler(m_shooterSubsystem, m_feederSubsystem, m_limeLight));
     m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
 
   }

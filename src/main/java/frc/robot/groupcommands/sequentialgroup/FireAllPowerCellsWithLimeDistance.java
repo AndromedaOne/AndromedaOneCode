@@ -12,7 +12,7 @@ import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 
-public class ShootWithLimeLight extends SequentialCommandGroup {
+public class FireAllPowerCellsWithLimeDistance extends SequentialCommandGroup {
 
   private ShooterBase m_shooter;
   private FeederBase m_feeder;
@@ -24,7 +24,7 @@ public class ShootWithLimeLight extends SequentialCommandGroup {
   // the feeder is actually empty
   private final int kNumOfSamples;
 
-  public ShootWithLimeLight(ShooterBase shooter, FeederBase feeder, LimeLightCameraBase limeLight) {
+  public FireAllPowerCellsWithLimeDistance(ShooterBase shooter, FeederBase feeder, LimeLightCameraBase limeLight) {
     Config feederConfig = Config4905.getConfig4905().getFeederConfig();
 
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
