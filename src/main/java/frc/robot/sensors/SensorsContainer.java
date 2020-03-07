@@ -31,12 +31,11 @@ public class SensorsContainer {
   private Camera m_camera1;
   private LimeLightCameraBase m_limelightCameraBase;
   private NavXGyroSensor m_gyro;
-  
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
-    
-    if(sensorConfig.hasPath("navx")) {
+
+    if (sensorConfig.hasPath("navx")) {
       System.out.println("Using real NavX Gyro sensor");
       m_gyro = new RealNavXGyroSensor();
     } else {
