@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntake;
@@ -137,6 +138,7 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(0),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
         // @formatter:on
+        SmartDashboard.putData("Auto Modes", m_autoChooser);
   }
 
 }
