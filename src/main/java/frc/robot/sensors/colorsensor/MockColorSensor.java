@@ -10,9 +10,17 @@ public class MockColorSensor extends ColorSensor {
 
   }
 
+
+  
   @Override
   public ColorMatchResult getColor() {
     // Color is not actually being used on the color wheel
     return new ColorMatchResult(Color.kDarkGray, 20);
+  }
+
+  @Override
+  public Color getRawColor() {
+    // TODO Auto-generated method stub
+    return Color.kDarkGray;
   }
 }

@@ -14,22 +14,12 @@ public class RealColorSensor extends ColorSensor {
 
   public ColorSensorV3 colorSensor;
 
-  private Color red;
-  private Color green;
-  private Color blue;
-  private Color yellow;
-
   private boolean isOnboard;
   private ColorMatch matcher;
 
   public RealColorSensor() {
     sensorConf = Config4905.getConfig4905().getSensorConfig();
     isOnboard = sensorConf.getBoolean("sensors.colorSensor.isOnboard");
-
-    red = ColorMatch.makeColor(255, 0, 0);
-    green = ColorMatch.makeColor(0, 255, 0);
-    blue = ColorMatch.makeColor(0, 255, 255);
-    yellow = ColorMatch.makeColor(255, 255, 0);
 
     if (isOnboard) {
       colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
@@ -48,7 +38,15 @@ public class RealColorSensor extends ColorSensor {
 
   @Override
   public ColorMatchResult getColor() {
-    return matcher.matchClosestColor(colorSensor.getColor());
+    //Color c = colorSensor.getColor();
+    //System.out.println(String.format("%2f %2f %2f",c.red,c.green, c.blue));
+    return matcher.matchClosestColor(getRawColor());
+  }
+
+  @Override
+  public Color getRawColor() {
+    // TODO Auto-generated method stub
+    return colorSensor.getColor();
   }
 
 }

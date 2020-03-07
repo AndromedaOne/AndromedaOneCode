@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.colorsensor.ColorSensor;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
@@ -96,7 +97,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
     SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
     SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
-    SmartDashboard.putString("Color Sensor", m_sensorsContainer.getColorSensor().getColor().color.toString());
+    SmartDashboard.putString("Color Sensor",
+        ColorSensor.colormatchtostring(m_sensorsContainer.getColorSensor().getColor(), m_sensorsContainer.getColorSensor().getRawColor()));
 
   }
 
