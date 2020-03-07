@@ -5,54 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.climber;
-
-import com.typesafe.config.*;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Config4905;
-import frc.robot.Robot;
-import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.subsystems.intake.IntakeBase;
 
-public class Climb extends CommandBase {
-  ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
-
-  private int m_maxHeight;
-
+public class RetractAndStopIntake extends CommandBase {
   /**
-   * Creates a new Climb.
+   * Creates a new RetractIntake.
    */
-  public Climb() {
+  private IntakeBase m_intakeBase;
+
+  public RetractAndStopIntake(IntakeBase intakeBase) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climber);
-    Config climberConf = Config4905.getConfig4905().getClimberConfig();
-    m_maxHeight = climberConf.getInt("maxHeight");
+    addRequirements(intakeBase);
+    m_intakeBase = intakeBase;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    m_intakeBase.retractIntake();
+    m_intakeBase.stopIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.driveLeftWinch();
-    climber.driveRightWinch();
-    new BalanceClimber();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (climber.getLeftWinch().getEncoderPositionTicks() >= m_maxHeight
-        || climber.getRightWinch().getEncoderPositionTicks() >= m_maxHeight);
+    return false;
   }
 }

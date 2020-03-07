@@ -46,33 +46,51 @@ public class TeleopClimber extends CommandBase {
   public void execute() {
     m_counter = (m_counter + 1) % BUFFERSIZE;
     double percentOpenCycles = m_subsystemController.getRightStickForwardBackwardValue();
+    double previousPercentOpenCycles = m_previousSolenoidStates.cardinality() / ((double) BUFFERSIZE);
     if (percentOpenCycles > 0.8) {
       percentOpenCycles = 1;
+    } else if (percentOpenCycles < -0.8) {
+      percentOpenCycles = -1;
     }
-    double previousPercentOpenCycles = m_previousSolenoidStates.cardinality() / ((double) BUFFERSIZE);
     boolean openingSolenoid = previousPercentOpenCycles < Math.abs(percentOpenCycles);
     m_previousSolenoidStates.set(m_counter, openingSolenoid);
     if (openingSolenoid) {
       if (percentOpenCycles > 0) {
-        m_climberBase.extendArms();
+        m_climberBase.extendLeftArm();
+        m_climberBase.extendRightArm();
       } else {
-        m_climberBase.retractArms();
+        m_climberBase.retractLeftArm();
+        m_climberBase.retractRightArm();
       }
     } else {
-      m_climberBase.stopArms();
+      m_climberBase.stopLeftArm();
+      m_climberBase.stopRightArm();
+    }
+
+    if (m_subsystemController.getLeftTriggerValue() > 0.3) {
+      m_climberBase.extendLeftArm();
+      m_climberBase.retractRightArm();
+    } else if (m_subsystemController.getRightTriggerValue() > 0.3) {
+      m_climberBase.retractLeftArm();
+      m_climberBase.extendRightArm();
     }
 
     if (m_driveController.getLeftTriggerValue() > 0.3) {
       m_climberBase.driveLeftWinch();
+    } else if (m_driveController.getLetOutLeftWinchButton().get()) {
+      m_climberBase.adjustLeftWinch(-1);
     } else {
       m_climberBase.stopLeftWinch();
     }
 
     if (m_driveController.getRightTriggerValue() > 0.3) {
       m_climberBase.driveRightWinch();
+    } else if (m_driveController.getLetOutRightWinchButton().get()) {
+      m_climberBase.adjustRightWinch(-1);
     } else {
       m_climberBase.stopRightWinch();
     }
+
   }
 
   // Called once the command ends or is interrupted.

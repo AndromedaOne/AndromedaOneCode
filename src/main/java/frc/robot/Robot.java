@@ -11,14 +11,13 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
-import frc.robot.sensors.NavXGyroSensor;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
 
@@ -34,6 +33,7 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
+  private LimeLightCameraBase limelight;
 
   private Robot() {
     CommandScheduler.getInstance().onCommandInitialize((command) -> Trace.getInstance().logCommandStart(command));
@@ -59,11 +59,13 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
 
-    m_subsystemContainer = new SubsystemsContainer();
     m_sensorsContainer = new SensorsContainer();
+    m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
 
     m_subsystemContainer.setDefaultCommands();
+    limelight = m_sensorsContainer.getLimeLight();
+    limelight.disableLED();
   }
 
   /**
@@ -87,7 +89,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    NavXGyroSensor.getInstance().updateSmartDashboardReadings();
+    m_sensorsContainer.getNavXGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
 
     m_sensorsContainer.getBallFeederSensor().isThereBall();
@@ -106,11 +108,12 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     Trace.getInstance().flushTraceFiles();
-    LiveWindow.setEnabled(false);
+    limelight.disableLED();
   }
 
   @Override
   public void disabledPeriodic() {
+    // limelight.disableLED();
   }
 
   /**
@@ -128,6 +131,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
+    limelight.enableLED();
   }
 
   /**
@@ -151,6 +155,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
+    limelight.disableLED();
   }
 
   /**
@@ -164,7 +169,6 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    LiveWindow.setEnabled(true);
   }
 
   /**

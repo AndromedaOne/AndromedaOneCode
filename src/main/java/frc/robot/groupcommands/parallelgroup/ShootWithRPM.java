@@ -2,8 +2,6 @@ package frc.robot.groupcommands.parallelgroup;
 
 import java.util.function.BooleanSupplier;
 
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -33,11 +31,11 @@ public class ShootWithRPM extends ParallelCommandGroup {
    * @param seriesRPM
    */
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
-    Config feederConfig = Config4905.getConfig4905().getFeederConfig();
 
     m_shooter = shooter;
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
-    kNumOfSamples = feederConfig.getInt("shootWithRPM.numOfFeederTestSamples");
+    kNumOfSamples = Config4905.getConfig4905().getCommandConstantsConfig()
+        .getInt("ShootWithRPM.numOfFeederTestSamples");
 
     addCommands(new ShooterParallelSetShooterVelocity(shooter, seriesRPM, shooterRPM),
         new FeedBothStagesIntoShooter(feeder, shooter, m_isDoneFeedingSupplier));
@@ -53,13 +51,15 @@ public class ShootWithRPM extends ParallelCommandGroup {
    *                scale factor in the config
    */
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double rpm) {
-    this(shooter, feeder, rpm, rpm * Config4905.getConfig4905().getShooterConfig().getDouble("seriesRPMScale"));
+    this(shooter, feeder, rpm,
+        rpm * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale"));
   }
 
   @Override
   public void initialize() {
     super.initialize();
     m_isDone = false;
+    m_samples = 0;
   }
 
   @Override
@@ -73,7 +73,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
       m_samples = 0;
     }
 
-    if (m_samples == kNumOfSamples) {
+    if (m_samples >= kNumOfSamples) {
       m_isDone = true;
     }
   }
@@ -86,8 +86,10 @@ public class ShootWithRPM extends ParallelCommandGroup {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
+    m_isDone = true;
     m_shooter.setShooterSeriesPower(0);
     m_shooter.setShooterWheelPower(0);
+    System.out.println("In ShootWithRPM end()");
   }
 
   private boolean isDoneFeeding() {

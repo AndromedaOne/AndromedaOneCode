@@ -8,41 +8,45 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.intake.IntakeBase;
+import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 
-public class RetractIntake extends CommandBase {
+public class ToggleLimelightLED extends CommandBase {
+  private boolean m_ledStatus;
+  private LimeLightCameraBase limelight;
+
   /**
-   * Creates a new RetractIntake.
+   * Creates a new ToggleLimelightLED.
    */
-  private IntakeBase m_intakeBase;
-
-  public RetractIntake(IntakeBase intakeBase) {
+  public ToggleLimelightLED(boolean ledStatus, SensorsContainer sensorsContainer) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeBase);
-    m_intakeBase = intakeBase;
+    limelight = sensorsContainer.getLimeLight();
+    m_ledStatus = ledStatus;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeBase.retractIntake();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (m_ledStatus) {
+      limelight.enableLED();
+    } else {
+      limelight.disableLED();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -36,7 +36,7 @@ public class Config4905 {
 
   private static Config sensorConfig;
 
-  private static Config pidConstantsConfig;
+  private static Config commandConstantsConfig;
 
   private static final Config4905 m_config4905 = new Config4905();
 
@@ -61,7 +61,7 @@ public class Config4905 {
   }
 
   public static void reload() {
-    pidConstantsConfig = load("pidconstants.conf");
+    commandConstantsConfig = load("commandconstants.conf");
     sensorConfig = load("sensors.conf");
     shooterConfig = load("Shooter.conf");
     intakeConfig = load("Intake.conf");
@@ -138,7 +138,7 @@ public class Config4905 {
     return sensorConfig;
   }
 
-  public Config getPidConstantsConfig() {
-    return pidConstantsConfig;
+  public Config getCommandConstantsConfig() {
+    return commandConstantsConfig;
   }
 }

@@ -4,12 +4,12 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.pidcommands.RunShooterSeriesVelocity;
 import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
-  private Config m_shooterConfig;
   private double m_shooterIdleSpeed;
   private double m_seriesIdleSpeed;
   private ShooterBase m_shooter;
@@ -20,9 +20,9 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
    *                   the PID setpoint via the controller
    */
   public DefaultShooterParallelCommandGroup(ShooterBase shooter) {
-    m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
-    m_shooterIdleSpeed = m_shooterConfig.getDouble("shooteridlespeed");
-    m_seriesIdleSpeed = m_shooterConfig.getDouble("seriesidlespeed");
+    Config constConfig = Config4905.getConfig4905().getCommandConstantsConfig();
+    m_shooterIdleSpeed = constConfig.getDouble("DefaultShooterParallelCommandGroup.shooteridlespeed");
+    m_seriesIdleSpeed = constConfig.getDouble("DefaultShooterParallelCommandGroup.seriesidlespeed");
     m_shooter = shooter;
     addRequirements(shooter);
 
@@ -32,10 +32,26 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
 
   @Override
   public void initialize() {
+    double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
+    RunShooterWheelVelocity.increaseManuelShooterAdjustment(leftYAxis);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getResetShooterManualAdjustmentButton().get()) {
+      RunShooterWheelVelocity.resetManuelShooterAdjustment();
+    }
+
     // When this command is running the shooter is always idle
     m_shooter.setShooterIsIdle(true);
     // When the shooter is idle the hood will always be close
     // m_shooter.closeShooterHood();
+  }
+
+  @Override
+  public void execute() {
+    super.execute();
+    double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
+    RunShooterWheelVelocity.increaseManuelShooterAdjustment(leftYAxis);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getResetShooterManualAdjustmentButton().get()) {
+      RunShooterWheelVelocity.resetManuelShooterAdjustment();
+    }
   }
 
   @Override

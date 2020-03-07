@@ -5,7 +5,6 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
-import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -18,6 +17,18 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private static Config m_pidConfig;
   private static Config m_shooterConfig;
   private final double kControllerScale;
+  private static double manuelShooterAdjustment = 0;
+  private double scaledManualShooterAdjustment;
+  private static boolean resettingManualShooterAdjustment = false;
+  private double m_initialSetpoint;
+
+  public static void increaseManuelShooterAdjustment(double amountToIncrease) {
+    manuelShooterAdjustment += amountToIncrease;
+  }
+
+  public static void resetManuelShooterAdjustment() {
+    resettingManualShooterAdjustment = true;
+  }
 
   /**
    * @param shooter
@@ -40,12 +51,12 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
 
-    m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
-
-    kControllerScale = m_shooterConfig.getDouble("shooterwheeljoystickscale");
+    kControllerScale = Config4905.getConfig4905().getCommandConstantsConfig()
+        .getDouble("RunShooterWheelVelocity.shooterwheeljoystickscale");
     m_shooter = shooter;
     m_target = setpoint;
     m_setpoint = this::getSetpoint;
+    m_initialSetpoint = setpoint;
   }
 
   @Override
@@ -61,20 +72,27 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
   @Override
   public void execute() {
-    double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
     // This adjusts the setpoint while the PID is running to allow the
     // Subsystems driver to tune the rpm on the fly
-    if (Math.abs(leftYAxis) < .1) {
-      leftYAxis = 0;
+    if (resettingManualShooterAdjustment) {
+      m_target = m_initialSetpoint;
+      manuelShooterAdjustment = 0;
+      resettingManualShooterAdjustment = false;
     }
-    m_target += leftYAxis * kControllerScale;
-    if (m_target > 4900) {
-      m_target = 4900;
+    scaledManualShooterAdjustment = manuelShooterAdjustment * kControllerScale;
+    m_target += scaledManualShooterAdjustment;
+    double maxRPM = 4900;
+    double minRPM = 0;
+    if (m_target > maxRPM) {
+      m_target = maxRPM;
+    } else if (m_target < minRPM) {
+      m_target = minRPM;
     }
     m_shooter.setShooterPIDIsReady(getController().atSetpoint());
     m_computedFeedForward = m_feedForward.calculate(m_target);
     super.execute();
     SmartDashboard.putNumber("Shooter Wheel Velocity Setpoint", m_target);
+    SmartDashboard.putNumber("Manual Shooter Adjustment", manuelShooterAdjustment);
   }
 
   @Override
@@ -88,7 +106,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   }
 
   private static PIDController4905 createPIDController() {
-    m_pidConfig = Config4905.getConfig4905().getPidConstantsConfig();
+    m_pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
     double kp = m_pidConfig.getDouble("runshooterwheelvelocity.p");
     double ki = m_pidConfig.getDouble("runshooterwheelvelocity.i");
@@ -106,5 +124,9 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
   public double getSetpoint() {
     return m_target;
+  }
+
+  public static double getManualShooterAdjustment() {
+    return manuelShooterAdjustment;
   }
 }

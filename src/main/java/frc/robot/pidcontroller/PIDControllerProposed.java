@@ -285,8 +285,16 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    *
    * @return The error.
    */
-  public double getPositionError() {
+  public double getContinuousPositionError() {
     return getContinuousError(m_positionError);
+  }
+
+  public double getPositionError() {
+    return (m_positionError);
+  }
+
+  public double getPositionTolerence() {
+    return m_positionTolerance;
   }
 
   /**
