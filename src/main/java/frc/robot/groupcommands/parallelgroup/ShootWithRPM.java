@@ -58,6 +58,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
   @Override
   public void initialize() {
     super.initialize();
+    System.out.println("ShootWithRPM Start");
     m_isDone = false;
     m_samples = 0;
   }
@@ -89,7 +90,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_isDone = true;
     m_shooter.setShooterSeriesPower(0);
     m_shooter.setShooterWheelPower(0);
-    System.out.println("In ShootWithRPM end()");
+    System.out.println("ShootWithRPM End");
   }
 
   private boolean isDoneFeeding() {

@@ -61,7 +61,7 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
                                                                   new TurnToCompassHeading(180),
-                                                                  new DriveAndIntake(drivetrain, intake, (11.0*12), maxSpeedToPickupPowerCells),
+                                                                  new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
@@ -124,7 +124,7 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
                                                                   new TurnToCompassHeading(180),
-                                                                  new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                  new DriveAndIntake(drivetrain, intake, (18*12), maxSpeedToPickupPowerCells),
                                                                   new TurnToCompassHeading(351),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
