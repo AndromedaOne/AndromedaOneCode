@@ -24,7 +24,7 @@ public class DriveAndIntake extends ParallelCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     MoveUsingEncoder moveUsingEncoder = new MoveUsingEncoder(drivetrain, distance, maxSpeed);
-    addCommands(moveUsingEncoder, new DeployAndRunIntake(intakeBase, () -> moveUsingEncoder.isFinished()));
+    addCommands(moveUsingEncoder.deadlineWith(new DeployAndRunIntake(intakeBase, () -> (false))));
   }
 
   public DriveAndIntake(DriveTrain drivetrain, IntakeBase intakeBase, double distance) {
