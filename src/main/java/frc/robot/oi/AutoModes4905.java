@@ -63,13 +63,13 @@ public class AutoModes4905 {
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
-                                                                  startDefaultCommandThenRunOtherCommands(
-                                                                                                          new DefaultFeederCommand(), 
-                                                                                                          new TurnToCompassHeading(180),
-                                                                                                          new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
-                                                                                                          new TurnToCompassHeading(351),
-                                                                                                          new TurnToFaceCommand(limelightHorizontalDegrees),
-                                                                                                          new ShootWithLimeLight(shooter, feeder, limelight))
+                                                                  runFirstCommandUntilOtherCommandsInterruptIt(
+                                                                  new DefaultFeederCommand(), 
+                                                                  new TurnToCompassHeading(180),
+                                                                  new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                  new TurnToCompassHeading(351),
+                                                                  new TurnToFaceCommand(limelightHorizontalDegrees),
+                                                                  new ShootWithLimeLight(shooter, feeder, limelight))
                                                                   ));
                                                                   
         m_autoChooser.addOption("7: Enemy Trench Run (WARNING: EXTREMELY RISKY, DO NOT SELECT UNLESS 100% CONFIDENT)", 
@@ -147,9 +147,9 @@ public class AutoModes4905 {
     SmartDashboard.putData("Auto Modes", m_autoChooser);
   }
 
-  private static ParallelCommandGroup startDefaultCommandThenRunOtherCommands(Command defaultCommand, Command... otherCommands) {
+  private static ParallelCommandGroup runFirstCommandUntilOtherCommandsInterruptIt(Command firstCommand, Command... otherCommands) {
     SequentialCommandGroup otherCommandsSequentialCommandGroup = new SequentialCommandGroup(otherCommands);
-    return new ParallelCommandGroup(defaultCommand, otherCommandsSequentialCommandGroup);
+    return new ParallelCommandGroup(firstCommand, otherCommandsSequentialCommandGroup);
   }
 
 }
