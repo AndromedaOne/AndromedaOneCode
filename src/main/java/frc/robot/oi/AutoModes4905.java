@@ -19,6 +19,7 @@ import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
+import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
 import frc.robot.sensors.SensorsContainer;
@@ -31,6 +32,7 @@ import frc.robot.subsystems.shooter.ShooterBase;
 
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
+  private static final double goodSpeedToRevShooterTo = 3500;
 
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer,
       SendableChooser<Command> autoChooser) {
@@ -43,6 +45,7 @@ public class AutoModes4905 {
     FeederBase feeder = subsystemsContainer.getFeeder();
     LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
     DoubleSupplier limelightHorizontalDegrees = limelight::horizontalDegreesToTarget;
+    
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -60,17 +63,21 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(drivetrain, (-1*12))));
 
         m_autoChooser.addOption("4: Shoot and Trench Run", 
-                                new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
+                                new DelayedSequentialCommandGroup(runFirstCommandUntilOtherCommandsInterruptIt(
+                                                                  new ShooterParallelSetShooterVelocity(shooter, goodSpeedToRevShooterTo, goodSpeedToRevShooterTo),
+                                                                  new TurnToCompassHeading(334.5),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
                                                                   runFirstCommandUntilOtherCommandsInterruptIt(
                                                                   new DefaultFeederCommand(), 
                                                                   new TurnToCompassHeading(180),
                                                                   new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                  runFirstCommandUntilOtherCommandsInterruptIt(
+                                                                  new ShooterParallelSetShooterVelocity(shooter, goodSpeedToRevShooterTo, goodSpeedToRevShooterTo),
                                                                   new TurnToCompassHeading(351),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight))
-                                                                  ));
+                                                                  ))));
                                                                   
         m_autoChooser.addOption("7: Enemy Trench Run (WARNING: EXTREMELY RISKY, DO NOT SELECT UNLESS 100% CONFIDENT)", 
                                 new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
