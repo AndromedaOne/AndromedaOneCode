@@ -28,7 +28,8 @@ public class FireAllPowerCellsWithLimeDistanceScheduler extends CommandBase {
   ShooterBase m_shooter;
   private FireAllPowerCellsWithLimeDistance fireAllPowerCellsWithLimeDistance;
 
-  public FireAllPowerCellsWithLimeDistanceScheduler(ShooterBase shooter, FeederBase feeder, LimeLightCameraBase limeLight) {
+  public FireAllPowerCellsWithLimeDistanceScheduler(ShooterBase shooter, FeederBase feeder,
+      LimeLightCameraBase limeLight) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_timer = new Timer();
     m_limelight = limeLight;
@@ -44,7 +45,7 @@ public class FireAllPowerCellsWithLimeDistanceScheduler extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
-    isDone =false;
+    isDone = false;
     m_limelight.disableLED();
   }
 

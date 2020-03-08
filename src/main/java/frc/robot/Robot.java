@@ -100,9 +100,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
     SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
 
-    if(limeLEDRegistrar.isLimeLedCommandRunning()) {
+    if (limeLEDRegistrar.isLimeLedCommandRunning()) {
       m_sensorsContainer.getLimeLight().enableLED();
-    }else {
+    } else {
       m_sensorsContainer.getLimeLight().disableLED();
     }
 

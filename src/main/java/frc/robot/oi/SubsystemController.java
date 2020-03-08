@@ -17,7 +17,6 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.FireAllPowerCellsWithLimeDistanceScheduler;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
-import frc.robot.groupcommands.sequentialgroup.FireAllPowerCellsWithLimeDistance;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.feeder.FeederBase;

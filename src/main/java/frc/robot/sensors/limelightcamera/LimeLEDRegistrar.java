@@ -6,28 +6,28 @@ import java.util.List;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class LimeLEDRegistrar {
-    List<Command> commandsThatUseLimeLEDs;
-    private static LimeLEDRegistrar instance;
+  List<Command> commandsThatUseLimeLEDs;
+  private static LimeLEDRegistrar instance;
 
-    private LimeLEDRegistrar() {
-        commandsThatUseLimeLEDs = new ArrayList<>();
-    }
+  private LimeLEDRegistrar() {
+    commandsThatUseLimeLEDs = new ArrayList<>();
+  }
 
-    public static synchronized LimeLEDRegistrar getInstance() {
-        if(instance == null) {
-            instance = new LimeLEDRegistrar();
-        }
-        return instance;
+  public static synchronized LimeLEDRegistrar getInstance() {
+    if (instance == null) {
+      instance = new LimeLEDRegistrar();
     }
+    return instance;
+  }
 
-    public synchronized void addCommands(Command... commands) {
-        for(Command command : commands) {
-            commandsThatUseLimeLEDs.add(command);
-        }
+  public synchronized void addCommands(Command... commands) {
+    for (Command command : commands) {
+      commandsThatUseLimeLEDs.add(command);
     }
+  }
 
-    public synchronized boolean isLimeLedCommandRunning() {
-        return commandsThatUseLimeLEDs.stream().anyMatch(c -> c.isScheduled());
-    }
+  public synchronized boolean isLimeLedCommandRunning() {
+    return commandsThatUseLimeLEDs.stream().anyMatch(c -> c.isScheduled());
+  }
 
 }

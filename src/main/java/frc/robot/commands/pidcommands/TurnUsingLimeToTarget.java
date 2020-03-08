@@ -68,7 +68,8 @@ public class TurnUsingLimeToTarget extends PIDCommand4905 {
     m_targetBuffer.set(m_targetCounter, this.getController().atSetpoint());
 
     if (m_lostBuffer.cardinality() == cyclesWithoutTargetLockTimeout) {
-      Trace.getInstance().logCommandInfo(this, "No target found for " + timeInSecondsWithoutTargetLockTimeout + " seconds");
+      Trace.getInstance().logCommandInfo(this,
+          "No target found for " + timeInSecondsWithoutTargetLockTimeout + " seconds");
       return true;
     }
     if (!m_conf2.hasPath("limelight") || m_conf2.getDouble("limelight.cameraHeight") == 0.0) {
