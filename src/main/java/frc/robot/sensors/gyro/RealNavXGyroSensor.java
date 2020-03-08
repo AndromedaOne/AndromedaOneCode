@@ -113,4 +113,9 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
     SmartDashboard.putNumber("Z Angle", getZAngle());
     SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());
   }
+
+  @Override
+  public void setAngleAdjustment(double angle) {
+    gyro.setAngleAdjustment(angle);
+  }
 }

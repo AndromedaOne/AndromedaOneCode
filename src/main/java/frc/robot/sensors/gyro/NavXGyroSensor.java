@@ -19,4 +19,6 @@ public abstract class NavXGyroSensor {
   public abstract double getCompassHeading();
 
   public abstract void updateSmartDashboardReadings();
+
+  public abstract void setAngleAdjustment(double angle);
 }

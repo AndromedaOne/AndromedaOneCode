@@ -36,6 +36,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   @Override
   public void initialize() {
     super.initialize();
+    System.out.println("FeedBothStagesIntoShooter Start");
     counter = 0;
     m_shooterBase.openShooterHood();
 
@@ -57,6 +58,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
+    System.out.println("FeedBothStagesIntoShooter End");
     m_feederBase.stopBothStages();
     m_shooterBase.closeShooterHood();
   }

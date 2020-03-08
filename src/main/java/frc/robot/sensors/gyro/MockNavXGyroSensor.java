@@ -26,4 +26,7 @@ public class MockNavXGyroSensor extends NavXGyroSensor {
   public void updateSmartDashboardReadings() {
   }
 
+  @Override
+  public void setAngleAdjustment(double angle) {
+  }
 }

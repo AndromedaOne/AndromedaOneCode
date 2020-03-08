@@ -36,5 +36,6 @@ public class RealIntake extends IntakeBase {
   @Override
   public void retractIntake() {
     m_intakeDeploymentSolenoid.retractPiston();
+    System.out.println("Retracting Intake");
   }
 }
