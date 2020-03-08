@@ -25,6 +25,7 @@ public class TeleopClimber extends CommandBase {
   private int m_counter;
   private final int BUFFERSIZE = 10;
   private ClimberBase m_climberBase;
+  private final double leftRightAdjustmentInchingRate = 0.75;
 
   public TeleopClimber(ClimberBase climberBase) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -53,7 +54,7 @@ public class TeleopClimber extends CommandBase {
       percentOpenCycles = -1;
     }
     boolean openingSolenoid = previousPercentOpenCycles < Math.abs(percentOpenCycles);
-    m_previousSolenoidStates.set(m_counter, openingSolenoid);
+    
     if (openingSolenoid) {
       if (percentOpenCycles > 0) {
         m_climberBase.extendLeftArm();
@@ -62,18 +63,30 @@ public class TeleopClimber extends CommandBase {
         m_climberBase.retractLeftArm();
         m_climberBase.retractRightArm();
       }
-    } else {
+    } else if (m_subsystemController.getLeftTriggerValue() > 0.3) {
+      if(previousPercentOpenCycles < leftRightAdjustmentInchingRate){
+        m_climberBase.extendLeftArm();
+        m_climberBase.retractRightArm();
+        openingSolenoid = true;
+      }else {
+        m_climberBase.stopLeftArm();
+        m_climberBase.stopRightArm();
+      }
+    } else if (m_subsystemController.getRightTriggerValue() > 0.3) {
+      if(previousPercentOpenCycles < leftRightAdjustmentInchingRate){
+        m_climberBase.retractLeftArm();
+        m_climberBase.extendRightArm();
+        openingSolenoid = true;
+      }else {
+        m_climberBase.stopLeftArm();
+        m_climberBase.stopRightArm();
+      }
+    }else {
       m_climberBase.stopLeftArm();
       m_climberBase.stopRightArm();
     }
 
-    if (m_subsystemController.getLeftTriggerValue() > 0.3) {
-      m_climberBase.extendLeftArm();
-      m_climberBase.retractRightArm();
-    } else if (m_subsystemController.getRightTriggerValue() > 0.3) {
-      m_climberBase.retractLeftArm();
-      m_climberBase.extendRightArm();
-    }
+    m_previousSolenoidStates.set(m_counter, openingSolenoid);
 
     if (m_driveController.getLeftTriggerValue() > 0.3) {
       m_climberBase.driveLeftWinch();
