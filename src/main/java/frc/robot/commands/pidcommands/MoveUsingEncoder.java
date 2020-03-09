@@ -9,7 +9,9 @@ package frc.robot.commands.pidcommands;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -26,7 +28,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput, double heading) {
     super(
         // The controller that the command will use
         new PIDController4905("MoveUsingEncoder", 0, 0, 0, 0),
@@ -37,19 +39,25 @@ public class MoveUsingEncoder extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.moveUsingGyro(output, 0, true, false);
+          drivetrain.moveUsingGyro(output, 0, false, false, heading);
         });
     m_distance = distance;
     m_setpoint = this::getSetpoint;
     m_driveTrain = drivetrain;
+    m_maxOutput = maxOutput;
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(drivetrain);
   }
 
   public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
-    this(drivetrain, distance);
-    m_maxOutput = maxOutput;
+    // Sends the current Heading to hold that heading
+    this(drivetrain, distance, maxOutput, Robot.getInstance().getSensorsContainer().getNavXGyro().getCompassHeading());
+  }
+
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
+    // This sets the max output to 1
+    this(drivetrain, distance, 1);
   }
 
   public void initialize() {

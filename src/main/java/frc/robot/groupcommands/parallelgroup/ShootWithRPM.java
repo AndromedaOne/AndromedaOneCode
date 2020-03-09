@@ -86,7 +86,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
-    super.end(interrupted);
+    super.end(true);
     m_isDone = true;
     m_shooter.setShooterSeriesPower(0);
     m_shooter.setShooterWheelPower(0);

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Config4905;
@@ -67,7 +68,8 @@ public class AutoModes4905 {
                                                                   new ParallelDeadlineGroup(
                                                                     new SequentialCommandGroup(
                                                                       new TurnToCompassHeading(180),
-                                                                      new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                      new WaitCommand(3),
+                                                                      new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells, 180),
                                                                       new TurnToCompassHeading(351),
                                                                       new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                       new ShootWithLimeLight(shooter, feeder, limelight))), 
