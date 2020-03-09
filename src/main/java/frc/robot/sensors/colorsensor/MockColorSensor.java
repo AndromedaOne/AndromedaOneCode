@@ -10,8 +10,6 @@ public class MockColorSensor extends ColorSensor {
 
   }
 
-
-  
   @Override
   public ColorMatchResult getColor() {
     // Color is not actually being used on the color wheel

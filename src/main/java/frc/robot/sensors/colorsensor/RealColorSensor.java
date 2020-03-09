@@ -38,8 +38,8 @@ public class RealColorSensor extends ColorSensor {
 
   @Override
   public ColorMatchResult getColor() {
-    //Color c = colorSensor.getColor();
-    //System.out.println(String.format("%2f %2f %2f",c.red,c.green, c.blue));
+    // Color c = colorSensor.getColor();
+    // System.out.println(String.format("%2f %2f %2f",c.red,c.green, c.blue));
     return matcher.matchClosestColor(getRawColor());
   }
 
