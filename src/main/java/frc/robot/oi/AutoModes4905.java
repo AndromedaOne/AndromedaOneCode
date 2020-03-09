@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.commands.DefaultFeederCommand;
@@ -63,14 +64,15 @@ public class AutoModes4905 {
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(334.5),
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
-                                                                  runFirstCommandUntilOtherCommandsInterruptIt(
-                                                                  new DefaultFeederCommand(), 
-                                                                  new TurnToCompassHeading(180),
-                                                                  new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
-                                                                  new TurnToCompassHeading(351),
-                                                                  new TurnToFaceCommand(limelightHorizontalDegrees),
-                                                                  new ShootWithLimeLight(shooter, feeder, limelight))
-                                                                  ));
+                                                                  new ParallelDeadlineGroup(
+                                                                    new SequentialCommandGroup(
+                                                                      new TurnToCompassHeading(180),
+                                                                      new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells),
+                                                                      new TurnToCompassHeading(351),
+                                                                      new TurnToFaceCommand(limelightHorizontalDegrees),
+                                                                      new ShootWithLimeLight(shooter, feeder, limelight))), 
+                                                                    new DefaultFeederCommand())
+                                                                  );
                                                                   
         m_autoChooser.addOption("7: Enemy Trench Run (WARNING: EXTREMELY RISKY, DO NOT SELECT UNLESS 100% CONFIDENT)", 
                                 new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
@@ -145,11 +147,6 @@ public class AutoModes4905 {
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
         // @formatter:on
     SmartDashboard.putData("Auto Modes", m_autoChooser);
-  }
-
-  private static ParallelCommandGroup runFirstCommandUntilOtherCommandsInterruptIt(Command firstCommand, Command... otherCommands) {
-    SequentialCommandGroup otherCommandsSequentialCommandGroup = new SequentialCommandGroup(otherCommands);
-    return new ParallelCommandGroup(firstCommand, otherCommandsSequentialCommandGroup);
   }
 
 }
