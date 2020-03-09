@@ -44,6 +44,12 @@ public abstract class DriveTrain extends SubsystemBase {
   public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
       boolean useSquaredInputs);
 
+  public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+      boolean useSquaredInputs, boolean limitAcceleration);
+
+  public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+      boolean useSquaredInputs, boolean limitAcceleration, double heading);
+
   /**
    * This moves the robot and corrects for any rotation using the gyro
    * 

@@ -42,4 +42,14 @@ public class MockDriveTrain extends DriveTrain {
       double heading) {
 
   }
+
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+      boolean limitAcceleration) {
+
+  }
+
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+      boolean limitAcceleration, double heading) {
+
+  }
 }
