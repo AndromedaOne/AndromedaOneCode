@@ -24,6 +24,7 @@ import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
 import frc.robot.groupcommands.sequentialgroup.AutonomousCommands.CenterFiveBallAuto;
+import frc.robot.groupcommands.sequentialgroup.AutonomousCommands.LeftFiveBallAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -108,7 +109,7 @@ public class AutoModes4905 {
 
         // TODO 0.001 = temp value, negative = backwards or left
         m_autoChooser.addOption("11: Left 5-Ball", 
-                                new DelayedSequentialCommandGroup();
+                                new LeftFiveBallAuto(autoSubsystemsAndParameters));
 
         m_autoChooser.addOption("12: Left 8-Ball", 
                                 new DelayedSequentialCommandGroup(new DriveAndIntake(drivetrain, intake, 0.001, maxSpeedToPickupPowerCells),

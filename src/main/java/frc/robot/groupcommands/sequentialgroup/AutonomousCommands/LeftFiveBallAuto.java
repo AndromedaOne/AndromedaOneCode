@@ -7,11 +7,16 @@
 
 package frc.robot.groupcommands.sequentialgroup.AutonomousCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DefaultFeederCommand;
+import frc.robot.commands.DeployAndRunIntake;
+import frc.robot.commands.SetGyroAdjustment;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
+import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
 import frc.robot.oi.AutoSubsystemsAndParameters;
@@ -34,12 +39,23 @@ public class LeftFiveBallAuto extends DelayedSequentialCommandGroup {
     m_autoSubsystemsAndParameters = autoSubsystemsAndParameters;
 
     addCommands(
-      new DriveAndIntake(m_autoSubsystemsAndParameters.getDriveTrain(), m_autoSubsystemsAndParameters.getIntake(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells()),
-      new TurnToCompassHeading(-0.001),
-      
-      
+      new SetGyroAdjustment(180),
+      new ParallelDeadlineGroup(
+        getCommandsToDriveToBallsAndThenShoot(), 
+        new DeployAndRunIntake(m_autoSubsystemsAndParameters.getIntake(), () -> false)
+      )
+    );
+  }
+
+  private SequentialCommandGroup getCommandsToDriveToBallsAndThenShoot() {
+    return new SequentialCommandGroup(
+      new ParallelDeadlineGroup(
+        getCommandsToDriveUpToBallsAndThenDriveToShootingPosition(), 
+        new DefaultFeederCommand(),
+        new ShooterParallelSetShooterVelocity(m_autoSubsystemsAndParameters.getShooter(), 3500, 3500)
+      ),
       new ShootWithLimeLight(m_autoSubsystemsAndParameters.getShooter(), m_autoSubsystemsAndParameters.getFeeder(), m_autoSubsystemsAndParameters.getLimelight())
-      );
+    );
   }
 
   private SequentialCommandGroup getCommandsToDriveUpToBallsAndThenDriveToShootingPosition() {
