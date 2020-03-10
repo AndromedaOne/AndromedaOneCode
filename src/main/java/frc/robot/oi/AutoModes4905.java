@@ -33,18 +33,27 @@ import frc.robot.subsystems.shooter.ShooterBase;
 
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
+  
+  private static DriveTrain drivetrain;
+  private static ShooterBase shooter;
+  private static IntakeBase intake;
+  private static FeederBase feeder;
+  private static LimeLightCameraBase limelight;
+  private static DoubleSupplier limelightHorizontalDegrees;
+  private static double maxSpeedToPickupPowerCells;
+  
 
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer,
       SendableChooser<Command> autoChooser) {
     m_autoChooser = autoChooser;
     Config driveTrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
-    double maxSpeedToPickupPowerCells = 0;
-    DriveTrain drivetrain = subsystemsContainer.getDrivetrain();
-    ShooterBase shooter = subsystemsContainer.getShooter();
-    IntakeBase intake = subsystemsContainer.getIntake();
-    FeederBase feeder = subsystemsContainer.getFeeder();
-    LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
-    DoubleSupplier limelightHorizontalDegrees = limelight::horizontalDegreesToTarget;
+    maxSpeedToPickupPowerCells = 0;
+    drivetrain = subsystemsContainer.getDrivetrain();
+    shooter = subsystemsContainer.getShooter();
+    intake = subsystemsContainer.getIntake();
+    feeder = subsystemsContainer.getFeeder();
+    limelight = sensorsContainer.getLimeLight();
+    limelightHorizontalDegrees = limelight::horizontalDegreesToTarget;
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -66,15 +75,9 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithDistance(shooter, feeder, (11.5*12)),
                                                                   new ParallelDeadlineGroup(
-                                                                    new SequentialCommandGroup(
-                                                                      new TurnToCompassHeading(180),
-                                                                      new WaitCommand(3),
-                                                                      new DriveAndIntake(drivetrain, intake, (14.5*12), maxSpeedToPickupPowerCells, 180),
-                                                                      new TurnToCompassHeading(351),
-                                                                      new TurnToFaceCommand(limelightHorizontalDegrees),
-                                                                      new ShootWithLimeLight(shooter, feeder, limelight))), 
-                                                                    new DefaultFeederCommand())
-                                                                  );
+                                                                    getCommandsToRunDownTrench(),
+                                                                    new DeployAndRunIntake(intake, () -> false))
+                                                                  ));
                                                                   
         m_autoChooser.addOption("7: Enemy Trench Run (WARNING: EXTREMELY RISKY, DO NOT SELECT UNLESS 100% CONFIDENT)", 
                                 new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
@@ -149,6 +152,19 @@ public class AutoModes4905 {
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
         // @formatter:on
     SmartDashboard.putData("Auto Modes", m_autoChooser);
+  }
+
+  public static SequentialCommandGroup getCommandsToRunDownTrench() {
+    return new SequentialCommandGroup(
+      new ParallelDeadlineGroup(
+        new SequentialCommandGroup(
+          new TurnToCompassHeading(180),
+          new WaitCommand(1),
+          new MoveUsingEncoder(drivetrain, (14.5*12), maxSpeedToPickupPowerCells, 180),
+          new TurnToCompassHeading(351),
+          new TurnToFaceCommand(limelightHorizontalDegrees)), 
+        new DefaultFeederCommand()),
+      new ShootWithLimeLight(shooter, feeder, limelight));
   }
 
 }

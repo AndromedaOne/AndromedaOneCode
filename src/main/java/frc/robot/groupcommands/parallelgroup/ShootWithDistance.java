@@ -34,6 +34,7 @@ public class ShootWithDistance extends ParallelCommandGroup {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
+    System.out.println("In the end for shoot with distance!!!");
     // CommandScheduler.getInstance().schedule(new DefaultFeederCommand());
   }
 }
