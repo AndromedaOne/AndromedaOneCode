@@ -15,7 +15,6 @@ import frc.robot.commands.SetGyroAdjustment;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
-import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
@@ -38,34 +37,28 @@ public class LeftFiveBallAuto extends DelayedSequentialCommandGroup {
     super();
     m_autoSubsystemsAndParameters = autoSubsystemsAndParameters;
 
-    addCommands(
-      new SetGyroAdjustment(180),
-      new ParallelDeadlineGroup(
-        getCommandsToDriveToBallsAndThenShoot(), 
-        new DeployAndRunIntake(m_autoSubsystemsAndParameters.getIntake(), () -> false)
-      )
-    );
+    addCommands(new SetGyroAdjustment(180), new ParallelDeadlineGroup(getCommandsToDriveToBallsAndThenShoot(),
+        new DeployAndRunIntake(m_autoSubsystemsAndParameters.getIntake(), () -> false)));
   }
 
   private SequentialCommandGroup getCommandsToDriveToBallsAndThenShoot() {
     return new SequentialCommandGroup(
-      new ParallelDeadlineGroup(
-        getCommandsToDriveUpToBallsAndThenDriveToShootingPosition(), 
-        new DefaultFeederCommand(),
-        new ShooterParallelSetShooterVelocity(m_autoSubsystemsAndParameters.getShooter(), 3500, 3500)
-      ),
-      new ShootWithLimeLight(m_autoSubsystemsAndParameters.getShooter(), m_autoSubsystemsAndParameters.getFeeder(), m_autoSubsystemsAndParameters.getLimelight())
-    );
+        new ParallelDeadlineGroup(getCommandsToDriveUpToBallsAndThenDriveToShootingPosition(),
+            new DefaultFeederCommand(),
+            new ShooterParallelSetShooterVelocity(m_autoSubsystemsAndParameters.getShooter(), 3500, 3500)),
+        new ShootWithLimeLight(m_autoSubsystemsAndParameters.getShooter(), m_autoSubsystemsAndParameters.getFeeder(),
+            m_autoSubsystemsAndParameters.getLimelight()));
   }
 
   private SequentialCommandGroup getCommandsToDriveUpToBallsAndThenDriveToShootingPosition() {
     return new SequentialCommandGroup(
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (6.0 * 12), m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180),
-      new TurnToCompassHeading(angleToTurnToForPickingUpSecondPowerCell), 
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (0.5 * 12), m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), angleToTurnToForPickingUpSecondPowerCell),
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), -(10 * 12), 0, angleToTurnToForDrivingToShootingPosition),
-      new TurnToCompassHeading(45),
-      new TurnToFaceCommand(m_autoSubsystemsAndParameters.getLimelight())
-    );
+        new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (6.0 * 12),
+            m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180),
+        new TurnToCompassHeading(angleToTurnToForPickingUpSecondPowerCell),
+        new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (0.5 * 12),
+            m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), angleToTurnToForPickingUpSecondPowerCell),
+        new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), -(10 * 12), 0,
+            angleToTurnToForDrivingToShootingPosition),
+        new TurnToCompassHeading(45), new TurnToFaceCommand(m_autoSubsystemsAndParameters.getLimelight()));
   }
 }
