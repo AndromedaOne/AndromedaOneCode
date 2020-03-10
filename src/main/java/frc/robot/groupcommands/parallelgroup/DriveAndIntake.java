@@ -21,7 +21,8 @@ public class DriveAndIntake extends ParallelCommandGroup {
   /**
    * Creates a new DriveAndIntake.
    */
-  public DriveAndIntake(DriveTrain drivetrain, IntakeBase intakeBase, double distance, double maxSpeed, double heading) {
+  public DriveAndIntake(DriveTrain drivetrain, IntakeBase intakeBase, double distance, double maxSpeed,
+      double heading) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     MoveUsingEncoder moveUsingEncoder = new MoveUsingEncoder(drivetrain, distance, maxSpeed, heading);
@@ -30,7 +31,8 @@ public class DriveAndIntake extends ParallelCommandGroup {
 
   public DriveAndIntake(DriveTrain drivetrain, IntakeBase intakeBase, double distance, double maxSpeed) {
     // Sends the current heading to hold that heading
-    this(drivetrain, intakeBase, distance, 1, Robot.getInstance().getSensorsContainer().getNavXGyro().getCompassHeading());
+    this(drivetrain, intakeBase, distance, 1,
+        Robot.getInstance().getSensorsContainer().getNavXGyro().getCompassHeading());
   }
 
   public DriveAndIntake(DriveTrain drivetrain, IntakeBase intakeBase, double distance) {

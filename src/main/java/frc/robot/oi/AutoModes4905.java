@@ -7,10 +7,9 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Config4905;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.DeployAndRunIntake;
@@ -35,7 +34,7 @@ import frc.robot.subsystems.shooter.ShooterBase;
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
   private static final double goodSpeedToRevShooterTo = 3500;
-  
+
   private static DriveTrain drivetrain;
   private static ShooterBase shooter;
   private static IntakeBase intake;
@@ -43,7 +42,6 @@ public class AutoModes4905 {
   private static LimeLightCameraBase limelight;
   private static DoubleSupplier limelightHorizontalDegrees;
   private static double maxSpeedToPickupPowerCells;
-  
 
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer,
       SendableChooser<Command> autoChooser) {
@@ -56,7 +54,6 @@ public class AutoModes4905 {
     feeder = subsystemsContainer.getFeeder();
     limelight = sensorsContainer.getLimeLight();
     limelightHorizontalDegrees = limelight::horizontalDegreesToTarget;
-    
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -83,7 +80,7 @@ public class AutoModes4905 {
                                                                       ), new ShooterParallelSetShooterVelocity(shooter, 3500, 3500)),
                                                                     new ShootWithDistance(shooter, feeder, (11.5*12)),
                                                                     new ParallelDeadlineGroup(
-                                                                      getCommandsToRunDownTrench(),
+                                                                      getCommandsToRunDownTrenchAndShoot(),
                                                                       new DeployAndRunIntake(intake, () -> false))
                                                                         ));
                                                                   
@@ -162,18 +159,13 @@ public class AutoModes4905 {
     SmartDashboard.putData("Auto Modes", m_autoChooser);
   }
 
-  public static SequentialCommandGroup getCommandsToRunDownTrench() {
+  public static SequentialCommandGroup getCommandsToRunDownTrenchAndShoot() {
     return new SequentialCommandGroup(
-        new ParallelDeadlineGroup(
-          new ParallelDeadlineGroup(
-            new SequentialCommandGroup(
-              new TurnToCompassHeading(180),
-              new WaitCommand(0.1),
-              new MoveUsingEncoder(drivetrain, (14.5*12), maxSpeedToPickupPowerCells, 180),
-              new TurnToCompassHeading(351),
-              new TurnToFaceCommand(limelightHorizontalDegrees)), 
-            new DefaultFeederCommand()),
-          new ShooterParallelSetShooterVelocity(shooter, 4000, 4000)),
+        new ParallelDeadlineGroup(new ParallelDeadlineGroup(
+            new SequentialCommandGroup(new TurnToCompassHeading(180), new WaitCommand(0.1),
+                new MoveUsingEncoder(drivetrain, (14.5 * 12), maxSpeedToPickupPowerCells, 180),
+                new TurnToCompassHeading(351), new TurnToFaceCommand(limelightHorizontalDegrees)),
+            new DefaultFeederCommand()), new ShooterParallelSetShooterVelocity(shooter, 4000, 4000)),
         new ShootWithLimeLight(shooter, feeder, limelight));
   }
 
