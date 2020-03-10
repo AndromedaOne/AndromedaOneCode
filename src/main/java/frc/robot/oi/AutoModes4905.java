@@ -23,6 +23,7 @@ import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
+import frc.robot.groupcommands.sequentialgroup.AutonomousCommands.CenterFiveBallAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -54,6 +55,7 @@ public class AutoModes4905 {
     feeder = subsystemsContainer.getFeeder();
     limelight = sensorsContainer.getLimeLight();
     limelightHorizontalDegrees = limelight::horizontalDegreesToTarget;
+    AutoSubsystemsAndParameters autoSubsystemsAndParameters = new AutoSubsystemsAndParameters(shooter, feeder, limelight, intake, maxSpeedToPickupPowerCells, drivetrain);
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -147,14 +149,7 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(limelightHorizontalDegrees),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight)));
         m_autoChooser.addOption("15: 5-Ball Center", 
-                                new DelayedSequentialCommandGroup(
-                                                                  new ShootWithLimeLight(shooter, feeder, limelight),
-                                                                  new MoveUsingEncoder(drivetrain, (-5*12) - 9),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new DriveAndIntake(drivetrain, intake, (1*12), maxSpeedToPickupPowerCells),
-                                                                  new MoveUsingEncoder(drivetrain, (-1*12)),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new ShootWithLimeLight(shooter, feeder, limelight)));
+                                new CenterFiveBallAuto(autoSubsystemsAndParameters));
         // @formatter:on
     SmartDashboard.putData("Auto Modes", m_autoChooser);
   }
