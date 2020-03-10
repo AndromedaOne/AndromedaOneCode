@@ -24,6 +24,9 @@ public class LeftFiveBallAuto extends DelayedSequentialCommandGroup {
    * Creates a new LeftFiveBallAuto.
    */
   AutoSubsystemsAndParameters m_autoSubsystemsAndParameters;
+  private final double angleToTurnToForPickingUpSecondPowerCell = 240;
+  private final double angleToTurnToForDrivingToShootingPosition = angleToTurnToForPickingUpSecondPowerCell;
+
   public LeftFiveBallAuto(AutoSubsystemsAndParameters autoSubsystemsAndParameters) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
@@ -34,17 +37,19 @@ public class LeftFiveBallAuto extends DelayedSequentialCommandGroup {
       new DriveAndIntake(m_autoSubsystemsAndParameters.getDriveTrain(), m_autoSubsystemsAndParameters.getIntake(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells()),
       new TurnToCompassHeading(-0.001),
       
-      new TurnToFaceCommand(m_autoSubsystemsAndParameters.getLimelight()),
+      
       new ShootWithLimeLight(m_autoSubsystemsAndParameters.getShooter(), m_autoSubsystemsAndParameters.getFeeder(), m_autoSubsystemsAndParameters.getLimelight())
       );
   }
 
   private SequentialCommandGroup getCommandsToDriveUpToBallsAndThenDriveToShootingPosition() {
     return new SequentialCommandGroup(
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180),
-      new TurnToCompassHeading(180.001), 
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180),
-      new MoveUsingEncoder(drivetrain, distance)
+      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (6.0 * 12), m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180),
+      new TurnToCompassHeading(angleToTurnToForPickingUpSecondPowerCell), 
+      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (0.5 * 12), m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), angleToTurnToForPickingUpSecondPowerCell),
+      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), -(10 * 12), 0, angleToTurnToForDrivingToShootingPosition),
+      new TurnToCompassHeading(45),
+      new TurnToFaceCommand(m_autoSubsystemsAndParameters.getLimelight())
     );
   }
 }
