@@ -108,11 +108,7 @@ public class AutoModes4905 {
 
         // TODO 0.001 = temp value, negative = backwards or left
         m_autoChooser.addOption("11: Left 5-Ball", 
-                                new DelayedSequentialCommandGroup(new DriveAndIntake(drivetrain, intake, 0.001, maxSpeedToPickupPowerCells),
-                                                                  new TurnToCompassHeading(-0.001),
-                                                                  new MoveUsingEncoder(drivetrain, 0.001),
-                                                                  new TurnToFaceCommand(limelightHorizontalDegrees),
-                                                                  new ShootWithLimeLight(shooter, feeder, limelight)));
+                                new DelayedSequentialCommandGroup();
 
         m_autoChooser.addOption("12: Left 8-Ball", 
                                 new DelayedSequentialCommandGroup(new DriveAndIntake(drivetrain, intake, 0.001, maxSpeedToPickupPowerCells),
