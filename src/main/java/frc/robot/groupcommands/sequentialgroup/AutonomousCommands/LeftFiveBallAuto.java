@@ -43,7 +43,8 @@ public class LeftFiveBallAuto extends DelayedSequentialCommandGroup {
     return new SequentialCommandGroup(
       new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180),
       new TurnToCompassHeading(180.001), 
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180)
+      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180),
+      new MoveUsingEncoder(drivetrain, distance)
     );
   }
 }
