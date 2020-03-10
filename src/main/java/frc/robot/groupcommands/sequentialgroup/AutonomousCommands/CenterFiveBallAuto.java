@@ -14,12 +14,10 @@ import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.SetGyroAdjustment;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-
 import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
 import frc.robot.oi.AutoSubsystemsAndParameters;
-
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -30,40 +28,34 @@ public class CenterFiveBallAuto extends DelayedSequentialCommandGroup {
    */
   AutoSubsystemsAndParameters m_autoSubsystemsAndParameters;
   private final double angleToTurnToShieldGenerator = 270;
+
   public CenterFiveBallAuto(AutoSubsystemsAndParameters autoSubsystemsAndParameters) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
     m_autoSubsystemsAndParameters = autoSubsystemsAndParameters;
     new DeployAndRunIntake(autoSubsystemsAndParameters.getIntake(), () -> false);
-    addCommands(
-      new SetGyroAdjustment(180),
-      new ParallelDeadlineGroup(
-        getCommandsToDriveToBallsAndShoot(), 
-        new DeployAndRunIntake(m_autoSubsystemsAndParameters.getIntake(), () -> false))
-    );
+    addCommands(new SetGyroAdjustment(180), new ParallelDeadlineGroup(getCommandsToDriveToBallsAndShoot(),
+        new DeployAndRunIntake(m_autoSubsystemsAndParameters.getIntake(), () -> false)));
 
   }
 
   private SequentialCommandGroup getCommandsToDriveToBallsAndShoot() {
     return new SequentialCommandGroup(
-      new ParallelDeadlineGroup(
-        getCommandsToGoGetTwoPowerCellsFromCenter(),
-        new DefaultFeederCommand(),
-        new ShooterParallelSetShooterVelocity(m_autoSubsystemsAndParameters.getShooter(), 3500, 3500)
-        ),
-      new ShootWithLimeLight(m_autoSubsystemsAndParameters.getShooter(), m_autoSubsystemsAndParameters.getFeeder(), m_autoSubsystemsAndParameters.getLimelight())
-    );
+        new ParallelDeadlineGroup(getCommandsToGoGetTwoPowerCellsFromCenter(), new DefaultFeederCommand(),
+            new ShooterParallelSetShooterVelocity(m_autoSubsystemsAndParameters.getShooter(), 3500, 3500)),
+        new ShootWithLimeLight(m_autoSubsystemsAndParameters.getShooter(), m_autoSubsystemsAndParameters.getFeeder(),
+            m_autoSubsystemsAndParameters.getLimelight()));
   }
 
   private SequentialCommandGroup getCommandsToGoGetTwoPowerCellsFromCenter() {
-    
+
     return new SequentialCommandGroup(
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (5*12) + 9, 0, 180),
-      new TurnToCompassHeading(angleToTurnToShieldGenerator),
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (1*12), m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), angleToTurnToShieldGenerator),
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (-1*12), 0, angleToTurnToShieldGenerator),
-      new TurnToCompassHeading(0)
-    );
+        new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (5 * 12) + 9, 0, 180),
+        new TurnToCompassHeading(angleToTurnToShieldGenerator),
+        new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (1 * 12),
+            m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), angleToTurnToShieldGenerator),
+        new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (-1 * 12), 0, angleToTurnToShieldGenerator),
+        new TurnToCompassHeading(0));
   }
 }

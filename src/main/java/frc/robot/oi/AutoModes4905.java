@@ -21,9 +21,9 @@ import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
+import frc.robot.groupcommands.sequentialgroup.AutonomousCommands.CenterFiveBallAuto;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
-import frc.robot.groupcommands.sequentialgroup.AutonomousCommands.CenterFiveBallAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -55,7 +55,8 @@ public class AutoModes4905 {
     feeder = subsystemsContainer.getFeeder();
     limelight = sensorsContainer.getLimeLight();
     limelightHorizontalDegrees = limelight::horizontalDegreesToTarget;
-    AutoSubsystemsAndParameters autoSubsystemsAndParameters = new AutoSubsystemsAndParameters(shooter, feeder, limelight, intake, maxSpeedToPickupPowerCells, drivetrain);
+    AutoSubsystemsAndParameters autoSubsystemsAndParameters = new AutoSubsystemsAndParameters(shooter, feeder,
+        limelight, intake, maxSpeedToPickupPowerCells, drivetrain);
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
