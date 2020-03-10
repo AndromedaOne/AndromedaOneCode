@@ -27,6 +27,10 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   SensorsContainer m_sensorsContainer = Robot.getInstance().getSensorsContainer();
   LimeLightCameraBase limelight;
 
+  public TurnToFaceCommand(LimeLightCameraBase limelight) {
+    this(limelight::horizontalDegreesToTarget);
+  }
+
   public TurnToFaceCommand(DoubleSupplier sensor) {
     super(
         // The controller that the command will use

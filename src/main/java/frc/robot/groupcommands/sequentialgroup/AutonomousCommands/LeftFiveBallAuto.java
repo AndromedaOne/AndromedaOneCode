@@ -7,6 +7,7 @@
 
 package frc.robot.groupcommands.sequentialgroup.AutonomousCommands;
 
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
@@ -32,10 +33,17 @@ public class LeftFiveBallAuto extends DelayedSequentialCommandGroup {
     addCommands(
       new DriveAndIntake(m_autoSubsystemsAndParameters.getDriveTrain(), m_autoSubsystemsAndParameters.getIntake(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells()),
       new TurnToCompassHeading(-0.001),
-      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), 0.001),
-      new TurnToFaceCommand(limelightHorizontalDegrees),
+      
+      new TurnToFaceCommand(m_autoSubsystemsAndParameters.getLimelight()),
       new ShootWithLimeLight(m_autoSubsystemsAndParameters.getShooter(), m_autoSubsystemsAndParameters.getFeeder(), m_autoSubsystemsAndParameters.getLimelight())
       );
-    )
+  }
+
+  private SequentialCommandGroup getCommandsToDriveUpToBallsAndThenDriveToShootingPosition() {
+    return new SequentialCommandGroup(
+      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180),
+      new TurnToCompassHeading(180.001), 
+      new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), 0.001, m_autoSubsystemsAndParameters.getMaxSpeedToPickupPowerCells(), 180)
+    );
   }
 }
