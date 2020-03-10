@@ -14,7 +14,7 @@ import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.SetGyroAdjustment;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
+
 import frc.robot.groupcommands.parallelgroup.ShooterParallelSetShooterVelocity;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
@@ -29,6 +29,7 @@ public class CenterFiveBallAuto extends DelayedSequentialCommandGroup {
    * Creates a new CenterFiveBallAuto.
    */
   AutoSubsystemsAndParameters m_autoSubsystemsAndParameters;
+  private final double angleToTurnToShieldGenerator = 270;
   public CenterFiveBallAuto(AutoSubsystemsAndParameters autoSubsystemsAndParameters) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
@@ -56,7 +57,7 @@ public class CenterFiveBallAuto extends DelayedSequentialCommandGroup {
   }
 
   private SequentialCommandGroup getCommandsToGoGetTwoPowerCellsFromCenter() {
-    double angleToTurnToShieldGenerator = 270;
+    
     return new SequentialCommandGroup(
       new MoveUsingEncoder(m_autoSubsystemsAndParameters.getDriveTrain(), (5*12) + 9, 0, 180),
       new TurnToCompassHeading(angleToTurnToShieldGenerator),
