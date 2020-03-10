@@ -15,6 +15,12 @@ public class ShooterMap {
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> m_shooterFeedForwardMap = new InterpolatingTreeMap<>();
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> m_shooterToleranceMap = new InterpolatingTreeMap<>();
 
+  public class ShootingParameters {
+    public double rpm = 0;
+    public double feedForward = 0;
+    public double tolerance = 0;
+  }
+
   public ShooterMap() {
     if (!Config4905.getConfig4905().doesShooterExist()) {
       m_shooterRPMMap.put(new InterpolatingDouble(1.0), new InterpolatingDouble(1.0));
@@ -95,5 +101,21 @@ public class ShooterMap {
    */
   public double getInterpolatedTolerance(double distance) {
     return m_shooterToleranceMap.getInterpolated(new InterpolatingDouble(distance)).value;
+  }
+
+  /**
+   * Takes in a distance and calculates all the shooting parameters.
+   * This includes the rpm, tolerance and the feedforward values.
+   * @param distance in inches
+   * @return
+   */
+  public ShootingParameters getShootingParameters(double distance) {
+    ShootingParameters parameters = new ShootingParameters();
+    double rpm = getInterpolatedRPM(distance);
+    parameters.rpm = rpm;
+    parameters.tolerance = getInterpolatedTolerance(distance);
+    parameters.feedForward = getInterpolatedFeedForward(rpm);
+
+    return parameters;
   }
 }
