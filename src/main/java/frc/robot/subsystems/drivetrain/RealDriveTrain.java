@@ -24,6 +24,8 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double currentDelay = 0;
   private double kDelay = 0;
   private double kProportion = 0.0;
+  private double m_forwardBackward = 0;
+  private double limitedAccelerationConst = 0.1;
   // the robot's main drive
   private DifferentialDrive m_drive;
 
@@ -32,11 +34,22 @@ public abstract class RealDriveTrain extends DriveTrain {
     navX = Robot.getInstance().getSensorsContainer().getNavXGyro();
     kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
+    limitedAccelerationConst = drivetrainConfig.getDouble("limitAccelerationConst");
     System.out.println("kProportion = " + kProportion);
   }
 
   public void init() {
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
+  }
+
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+      double heading) {
+    moveUsingGyro(forwardBackward, rotation, useDelay, useSquaredInputs, false, heading);
+  }
+
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+      boolean limitAcceleration) {
+    moveUsingGyro(forwardBackward, rotation, useDelay, useSquaredInputs, limitAcceleration, navX.getCompassHeading());
   }
 
   /**
@@ -62,7 +75,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                 to.
    */
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
-      double heading) {
+      boolean limitAcceleration, double heading) {
 
     double robotDeltaAngle = navX.getCompassHeading() - heading;
     double robotAngle = navX.getZAngle() + robotDeltaAngle;
@@ -88,6 +101,16 @@ public abstract class RealDriveTrain extends DriveTrain {
     } else {
       newRotateValue = rotation;
     }
+    if (limitAcceleration) {
+      if (Math.abs(forwardBackward) > (Math.abs(m_forwardBackward) + limitedAccelerationConst)) {
+        if (forwardBackward < 0) {
+          forwardBackward = m_forwardBackward - limitedAccelerationConst;
+        } else if (forwardBackward > 0) {
+          forwardBackward = m_forwardBackward + limitedAccelerationConst;
+        }
+      }
+    }
+    m_forwardBackward = forwardBackward;
     move(forwardBackward, newRotateValue, useSquaredInputs);
   }
 
