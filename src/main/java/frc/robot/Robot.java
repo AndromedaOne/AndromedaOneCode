@@ -66,6 +66,10 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
+
+    System.out.println(" -= RPM: " + m_subsystemContainer.getShooter().getShooterMap().getInterpolatedRPM(120));
+    System.out.println(" -= Tolerance: " + m_subsystemContainer.getShooter().getShooterMap().getInterpolatedTolerance(150));
+    System.out.println(" -= FeedForward: " + m_subsystemContainer.getShooter().getShooterMap().getInterpolatedFeedForward(150));
   }
 
   /**
