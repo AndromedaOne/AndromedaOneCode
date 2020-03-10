@@ -159,7 +159,7 @@ public class AutoModes4905 {
       new ParallelDeadlineGroup(
         new SequentialCommandGroup(
           new TurnToCompassHeading(180),
-          new WaitCommand(1),
+          new WaitCommand(0.1),
           new MoveUsingEncoder(drivetrain, (14.5*12), maxSpeedToPickupPowerCells, 180),
           new TurnToCompassHeading(351),
           new TurnToFaceCommand(limelightHorizontalDegrees)), 

@@ -39,7 +39,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.moveUsingGyro(output, 0, true, false, true);
+          drivetrain.moveUsingGyro(output, 0, false, false, true, heading);
         });
     m_distance = distance;
     m_setpoint = this::getSetpoint;
