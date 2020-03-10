@@ -34,16 +34,25 @@ public class CenterFiveBallAuto extends DelayedSequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super();
     m_autoSubsystemsAndParameters = autoSubsystemsAndParameters;
+    new DeployAndRunIntake(autoSubsystemsAndParameters.getIntake(), () -> false);
     addCommands(
       new SetGyroAdjustment(180),
       new ParallelDeadlineGroup(
+        getCommandsToDriveToBallsAndShoot(), 
+        new DeployAndRunIntake(m_autoSubsystemsAndParameters.getIntake(), () -> false))
+    );
+
+  }
+
+  private SequentialCommandGroup getCommandsToDriveToBallsAndShoot() {
+    return new SequentialCommandGroup(
+      new ParallelDeadlineGroup(
         getCommandsToGoGetTwoPowerCellsFromCenter(),
         new DefaultFeederCommand(),
-        new ShooterParallelSetShooterVelocity(autoSubsystemsAndParameters.getShooter(), 3500, 3500),
-        new DeployAndRunIntake(autoSubsystemsAndParameters.getIntake(), () -> false)
+        new ShooterParallelSetShooterVelocity(m_autoSubsystemsAndParameters.getShooter(), 3500, 3500)
         ),
-      new ShootWithLimeLight(autoSubsystemsAndParameters.getShooter(), autoSubsystemsAndParameters.getFeeder(), autoSubsystemsAndParameters.getLimelight())
-      );
+      new ShootWithLimeLight(m_autoSubsystemsAndParameters.getShooter(), m_autoSubsystemsAndParameters.getFeeder(), m_autoSubsystemsAndParameters.getLimelight())
+    );
   }
 
   private SequentialCommandGroup getCommandsToGoGetTwoPowerCellsFromCenter() {
