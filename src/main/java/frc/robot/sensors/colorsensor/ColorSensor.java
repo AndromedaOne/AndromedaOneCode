@@ -5,20 +5,12 @@ import com.revrobotics.ColorMatchResult;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.Config4905;
 
 public abstract class ColorSensor {
-  protected static Color red;
-  protected static Color green;
-  protected static Color blue;
-  protected static Color yellow;
-  static {
-    Config config = Config4905.getConfig4905().getSensorConfig().getConfig("sensors.colorSensor.swatchColors");
-    red = makeColorFromConfig(config.getConfig("red"));
-    green = makeColorFromConfig(config.getConfig("green"));
-    blue = makeColorFromConfig(config.getConfig("blue"));
-    yellow = makeColorFromConfig(config.getConfig("yellow"));
-  }
+  protected static Color red = ColorMatch.makeColor(1, 0, 0);
+  protected static Color green = ColorMatch.makeColor(0, 1, 0);
+  protected static Color blue = ColorMatch.makeColor(0, 0, 1);
+  protected static Color yellow = ColorMatch.makeColor(1, 1, 0);
 
   public abstract ColorMatchResult getColor();
 

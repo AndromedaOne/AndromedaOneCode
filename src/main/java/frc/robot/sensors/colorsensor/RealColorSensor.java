@@ -27,6 +27,12 @@ public class RealColorSensor extends ColorSensor {
       colorSensor = new ColorSensorV3(I2C.Port.kMXP);
     }
 
+    Config colorSwatchConfig = sensorConf.getConfig("sensors.colorSensor.swatchColors");
+    red = makeColorFromConfig(colorSwatchConfig.getConfig("red"));
+    green = makeColorFromConfig(colorSwatchConfig.getConfig("green"));
+    blue = makeColorFromConfig(colorSwatchConfig.getConfig("blue"));
+    yellow = makeColorFromConfig(colorSwatchConfig.getConfig("yellow"));
+
     matcher = new ColorMatch();
 
     matcher.addColorMatch(red);
