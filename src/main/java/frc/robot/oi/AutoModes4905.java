@@ -74,17 +74,18 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(drivetrain, (-1*12))));
 
         m_autoChooser.addOption("4: Shoot and Trench Run", 
-                                new DelayedSequentialCommandGroup(runFirstCommandUntilOtherCommandsInterruptIt(
-                                                                  new ShooterParallelSetShooterVelocity(shooter, goodSpeedToRevShooterTo, goodSpeedToRevShooterTo),
-                                                                  new TurnToCompassHeading(334.5),
-                                                                  new TurnToFaceCommand(limelightHorizontalDegrees),
-                                                                  new ShootWithDistance(shooter, feeder, (11.5*12)),
-                                                                  new ParallelDeadlineGroup(
-                                                                    getCommandsToRunDownTrench(),
-                                                                    new DeployAndRunIntake(intake, () -> false))
-                                                                  runFirstCommandUntilOtherCommandsInterruptIt(
-                                                                  new ShooterParallelSetShooterVelocity(shooter, goodSpeedToRevShooterTo, goodSpeedToRevShooterTo),
-                                                                  ))));
+                                new DelayedSequentialCommandGroup(
+
+                                                                    new ParallelDeadlineGroup(
+                                                                      new SequentialCommandGroup(
+                                                                        new TurnToCompassHeading(334.5),
+                                                                        new TurnToFaceCommand(limelightHorizontalDegrees)
+                                                                      ), new ShooterParallelSetShooterVelocity(shooter, 3500, 3500)),
+                                                                    new ShootWithDistance(shooter, feeder, (11.5*12)),
+                                                                    new ParallelDeadlineGroup(
+                                                                      getCommandsToRunDownTrench(),
+                                                                      new DeployAndRunIntake(intake, () -> false))
+                                                                        ));
                                                                   
         m_autoChooser.addOption("7: Enemy Trench Run (WARNING: EXTREMELY RISKY, DO NOT SELECT UNLESS 100% CONFIDENT)", 
                                 new DelayedSequentialCommandGroup(new DeployAndRunIntake(intake, () -> true),
@@ -163,15 +164,22 @@ public class AutoModes4905 {
 
   public static SequentialCommandGroup getCommandsToRunDownTrench() {
     return new SequentialCommandGroup(
-      new ParallelDeadlineGroup(
-        new SequentialCommandGroup(
-          new TurnToCompassHeading(180),
-          new WaitCommand(0.1),
-          new MoveUsingEncoder(drivetrain, (14.5*12), maxSpeedToPickupPowerCells, 180),
-          new TurnToCompassHeading(351),
-          new TurnToFaceCommand(limelightHorizontalDegrees)), 
-        new DefaultFeederCommand()),
-      new ShootWithLimeLight(shooter, feeder, limelight));
+        new ParallelDeadlineGroup(
+          new ParallelDeadlineGroup(
+            new SequentialCommandGroup(
+              new TurnToCompassHeading(180),
+              new WaitCommand(0.1),
+              new MoveUsingEncoder(drivetrain, (14.5*12), maxSpeedToPickupPowerCells, 180),
+              new TurnToCompassHeading(351),
+              new TurnToFaceCommand(limelightHorizontalDegrees)), 
+            new DefaultFeederCommand()),
+          new ShooterParallelSetShooterVelocity(shooter, 4000, 4000)),
+        new ShootWithLimeLight(shooter, feeder, limelight));
+  }
+
+  public static ParallelDeadlineGroup runFirstCommandUntilOtherCommandsInteruptIt(Command firstCommand, Command... otherCommands) {
+    SequentialCommandGroup otherCommandsInSequentialGroup = new SequentialCommandGroup(otherCommands);
+    return new ParallelDeadlineGroup(otherCommandsInSequentialGroup, firstCommand);
   }
 
 }
