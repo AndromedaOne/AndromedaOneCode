@@ -177,9 +177,4 @@ public class AutoModes4905 {
         new ShootWithLimeLight(shooter, feeder, limelight));
   }
 
-  public static ParallelDeadlineGroup runFirstCommandUntilOtherCommandsInteruptIt(Command firstCommand, Command... otherCommands) {
-    SequentialCommandGroup otherCommandsInSequentialGroup = new SequentialCommandGroup(otherCommands);
-    return new ParallelDeadlineGroup(otherCommandsInSequentialGroup, firstCommand);
-  }
-
 }
