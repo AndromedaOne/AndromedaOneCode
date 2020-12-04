@@ -91,5 +91,3 @@ spotless {
     eclipse().configFile 'frc4905.eclipseformat.xml'	// XML file dumped out by the Eclipse formatter
   }
 }
-
-
