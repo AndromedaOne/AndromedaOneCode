@@ -5,23 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.groupcommands.parallelgroup;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.DefaultFeederCommand;
-import frc.robot.commands.pidcommands.MoveUsingEncoder;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class FirstTestCase extends ParallelCommandGroup {
+public class FirstTestCase extends CommandBase {
   /**
    * Creates a new FirstTestCase.
    */
   public FirstTestCase(DriveTrain driveTrain) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    addCommands(new MoveUsingEncoder(driveTrain, 30), new DefaultFeederCommand());
+  }
+
+  @Override
+  public boolean isFinished() {
+
+    return false;
   }
 }
