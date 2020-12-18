@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.MasonsCommand;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
@@ -30,6 +31,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(3, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
 
+    SmartDashboard.putData("MasonsButton", new MasonsCommand(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("TurnToCompassHeadingTester",
         new TurnToCompassHeadingTester(SmartDashboard.getNumber("Compass Heading", 0)));
 
