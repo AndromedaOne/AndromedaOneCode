@@ -15,6 +15,7 @@ import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
+import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -45,6 +46,9 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+
+    SmartDashboard.putData("Galactic Search Path A",
+        new GalacticSearchPathA(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
   }
 
   public Command getSelectedAutoChooserCommand() {
