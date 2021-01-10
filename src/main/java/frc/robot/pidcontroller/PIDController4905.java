@@ -31,11 +31,13 @@ public class PIDController4905 extends PIDControllerProposed {
         output = m_maxOutput;
       }
     }
-    Trace.getInstance().addTrace(true, m_controllerName, new TracePair<Double>("pError", super.getPError()),
-        new TracePair<Double>("iError", super.getIError()), new TracePair<Double>("dError", super.getDError()),
-        new TracePair<Double>("Output", output), new TracePair<Double>("preCalculationOutput", preCalculationOutput),
-        new TracePair<Double>("Measurement", measurement), new TracePair<Double>("Setpoint", super.getSetpoint()),
-        new TracePair<Double>("Velocity Error", super.getVelocityError()));
+    if (m_controllerName == "ShooterWheelPID") {
+      Trace.getInstance().addTrace(true, m_controllerName, new TracePair<Double>("pError", super.getPError()),
+          new TracePair<Double>("iError", super.getIError()), new TracePair<Double>("dError", super.getDError()),
+          new TracePair<Double>("Output", output), new TracePair<Double>("preCalculationOutput", preCalculationOutput),
+          new TracePair<Double>("Measurement", measurement), new TracePair<Double>("Setpoint", super.getSetpoint()),
+          new TracePair<Double>("Velocity Error", super.getVelocityError()));
+    }
     return output;
   }
 
