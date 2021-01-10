@@ -19,11 +19,7 @@ public class GalacticSearchPathA extends SequentialCommandGroup {
 
   public GalacticSearchPathA(DriveTrain driveTrain, IntakeBase intake) {
     m_driveTrain = driveTrain;
-    addCommands(new ParallelDeadlineGroup(
-                        getDriveTrainpathWay(), 
-                        new DeployAndRunIntake(intake, () -> false)
-                    )
-                );
+    addCommands(new ParallelDeadlineGroup(getDriveTrainpathWay(), new DeployAndRunIntake(intake, () -> false)));
   }
 
   public SequentialCommandGroup getDriveTrainpathWay() {
