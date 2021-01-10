@@ -11,14 +11,16 @@ public class GalacticSearchPathA extends SequentialCommandGroup{
     
     public GalacticSearchPathA(DriveTrain driveTrain, IntakeBase intake) {
         m_driveTrain = driveTrain;
-        addCommands();
+        addCommands(new ParallelDeadlineGroupCommand(getDriveTrainpathWay(), new deployAndRunIntake()));
     }
 
     public SequentialCommandGroup getDriveTrainpathWay(){
         return new SequentialCommandGroup(
             new MoveUsingEncoder(m_driveTrain, 12),
-            new TurnToCompassHeading(270)
-
+            new TurnToCompassHeading(270),
+            new MoveUsingEncoder(m_driveTrain, 12),
+            new TurnToCompassHeading(45),
+            new MoveUsingEncoder(m_driveTrain, 12)
         );
     }
 
