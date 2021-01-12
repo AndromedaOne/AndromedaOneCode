@@ -67,10 +67,11 @@ public abstract class RealDriveTrain extends DriveTrain {
     double robotDeltaAngle = navX.getCompassHeading() - heading;
     double robotAngle = navX.getZAngle() + robotDeltaAngle;
     /*
-     * If we are rotating or our delay time is lower than our set Delay do not
-     * use gyro correct This allows the robot to rotate naturally after we turn
+     * If we are rotating or our delay time is lower than our set Delay do not use
+     * gyro correct This allows the robot to rotate naturally after we turn
      */
-    if (isRotating(rotation) || (useDelay && !delayGreaterThanThreshold(currentDelay, kDelay)) || (forwardBackward == 0.0)) {
+    if (isRotating(rotation) || (useDelay && !delayGreaterThanThreshold(currentDelay, kDelay))
+        || (forwardBackward == 0.0)) {
       gyroCorrect = false;
       savedAngle = robotAngle;
       currentDelay++;
@@ -93,15 +94,15 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   public void moveUsingGyroAuto(double forwardBackward, double rotation, double heading) {
     double zAngle = navX.getZAngle();
-    
+
     double robotDeltaAngle = convertHeadingToAbsoulteAngle(heading, zAngle) - zAngle;
-    
+
     boolean gyroCorrect = true;
-    if(isRotating(rotation)) {
+    if (isRotating(rotation)) {
       gyroCorrect = false;
-    } 
+    }
     newRotateValue = rotation;
-    if(gyroCorrect) {
+    if (gyroCorrect) {
       double correctionEquation = robotDeltaAngle * kProportion;
       newRotateValue = correctionEquation;
     }
@@ -118,9 +119,9 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   private double convertHeadingToAbsoulteAngle(double heading, double zAngle) {
     int completeRotations = (int) zAngle / 360;
-    double answer =  heading + completeRotations * 360;
+    double answer = heading + completeRotations * 360;
 
-    if(zAngle - completeRotations * 360 > 180) {
+    if (zAngle - completeRotations * 360 > 180) {
       answer += 360;
     }
 
