@@ -46,8 +46,6 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
-
-    SmartDashboard.putData("90 degree heading moveUsingEncoder", new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 48, true, 90));
   }
 
   public Command getSelectedAutoChooserCommand() {

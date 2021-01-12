@@ -94,8 +94,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   public void moveUsingGyroAuto(double forwardBackward, double rotation, double heading) {
     double zAngle = navX.getZAngle();
     
-    double robotDeltaAngle = zAngle - convertHeadingToAbsoulteAngle(heading, zAngle);
-
+    double robotDeltaAngle = convertHeadingToAbsoulteAngle(heading, zAngle) - zAngle;
     
     boolean gyroCorrect = true;
     if(isRotating(rotation)) {
