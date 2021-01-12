@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.ToggleLimelightLED;
+import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
@@ -45,6 +46,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+
+    SmartDashboard.putData("90 degree heading moveUsingEncoder", new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 48, true, 90));
   }
 
   public Command getSelectedAutoChooserCommand() {

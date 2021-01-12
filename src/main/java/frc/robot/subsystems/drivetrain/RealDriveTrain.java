@@ -46,8 +46,8 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                 after turning this allows the robot to drift naturally as you
    *                 turn
    */
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
-    moveUsingGyro(forwardBackward, rotation, useDelay, useSquaredInputs, navX.getCompassHeading());
+  public void moveUsingGyroTeleop(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
+    moveUsingGyroTeleop(forwardBackward, rotation, useDelay, useSquaredInputs, navX.getCompassHeading());
   }
 
   /**
@@ -61,16 +61,16 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                 you can tell it to correct to the heading it should have turn
    *                 to.
    */
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+  public void moveUsingGyroTeleop(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
       double heading) {
 
     double robotDeltaAngle = navX.getCompassHeading() - heading;
     double robotAngle = navX.getZAngle() + robotDeltaAngle;
     /*
-     * If we aren't rotating or our delay time is higher than our set Delay do not
+     * If we are rotating or our delay time is lower than our set Delay do not
      * use gyro correct This allows the robot to rotate naturally after we turn
      */
-    if ((rotation != 0) || (useDelay && !(currentDelay > kDelay)) || (forwardBackward == 0.0)) {
+    if (isRotating(rotation) || (useDelay && !delayGreaterThanThreshold(currentDelay, kDelay)) || (forwardBackward == 0.0)) {
       gyroCorrect = false;
       savedAngle = robotAngle;
       currentDelay++;
@@ -89,6 +89,43 @@ public abstract class RealDriveTrain extends DriveTrain {
       newRotateValue = rotation;
     }
     move(forwardBackward, newRotateValue, useSquaredInputs);
+  }
+
+  public void moveUsingGyroAuto(double forwardBackward, double rotation, double heading) {
+    double zAngle = navX.getZAngle();
+    
+    double robotDeltaAngle = zAngle - convertHeadingToAbsoulteAngle(heading, zAngle);
+
+    
+    boolean gyroCorrect = true;
+    if(isRotating(rotation)) {
+      gyroCorrect = false;
+    } 
+    newRotateValue = rotation;
+    if(gyroCorrect) {
+      double correctionEquation = robotDeltaAngle * kProportion;
+      newRotateValue = correctionEquation;
+    }
+    move(forwardBackward, newRotateValue, false);
+  }
+
+  private boolean isRotating(double rotation) {
+    return rotation != 0;
+  }
+
+  private boolean delayGreaterThanThreshold(double delay, double threshold) {
+    return delay > threshold;
+  }
+
+  private double convertHeadingToAbsoulteAngle(double heading, double zAngle) {
+    int completeRotations = (int) zAngle / 360;
+    double answer =  heading + completeRotations * 360;
+
+    if(zAngle - completeRotations * 360 > 180) {
+      answer += 360;
+    }
+
+    return answer;
   }
 
   /**

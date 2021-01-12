@@ -41,7 +41,7 @@ public abstract class DriveTrain extends SubsystemBase {
    *                 after turning this allows the robot to drift naturally as you
    *                 turn
    */
-  public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+  public abstract void moveUsingGyroTeleop(double forwardBackward, double rotation, boolean useDelay,
       boolean useSquaredInputs);
 
   /**
@@ -55,8 +55,10 @@ public abstract class DriveTrain extends SubsystemBase {
    *                 you can tell it to correct to the heading it should have turn
    *                 to.
    */
-  public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+  public abstract void moveUsingGyroTeleop(double forwardBackward, double rotation, boolean useDelay,
       boolean useSquaredInputs, double heading);
+
+  public abstract void moveUsingGyroAuto(double forwardBackward, double rotation, double heading);
 
   public void stop() {
     move(0, 0, false);
