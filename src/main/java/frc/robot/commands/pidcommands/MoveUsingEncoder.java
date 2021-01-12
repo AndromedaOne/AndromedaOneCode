@@ -37,7 +37,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          if(useCompassHeading){
+          if (useCompassHeading) {
             drivetrain.moveUsingGyroAuto(output, 0, heading);
           } else {
             drivetrain.moveUsingGyroTeleop(output, 0, false, false);
