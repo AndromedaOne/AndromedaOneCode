@@ -124,7 +124,29 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(270),
                                                                   new MoveUsingEncoder(driveTrain, 60), // step 10
                                                                   new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60))); // step 11                                                 
+                                                                  new MoveUsingEncoder(driveTrain, 60))); // step 11         
+        m_autoChooser.addOption("2: navChallenge2",
+                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 180),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 60),
+                                                                  new TurnToCompassHeading(180),
+                                                                  new MoveUsingEncoder(driveTrain, 60),
+                                                                  new TurnToCompassHeading(270),
+                                                                  new MoveUsingEncoder(driveTrain, 60),
+                                                                  new TurnToCompassHeading(315),
+                                                                  new MoveUsingEncoder(driveTrain, 156),
+                                                                  new TurnToCompassHeading(225),
+                                                                  new MoveUsingEncoder(driveTrain, 60),
+                                                                  new TurnToCompassHeading(135),
+                                                                  new MoveUsingEncoder(driveTrain, 60),
+                                                                  new TurnToCompassHeading(45),
+                                                                  new MoveUsingEncoder(driveTrain, 156),
+                                                                  new TurnToCompassHeading(315),
+                                                                  new MoveUsingEncoder(driveTrain, 60),
+                                                                  new TurnToCompassHeading(225),
+                                                                  new MoveUsingEncoder(driveTrain, 72),
+                                                                  new TurnToCompassHeading(180),
+                                                                  new MoveUsingEncoder(driveTrain, 240)));                                        
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }
