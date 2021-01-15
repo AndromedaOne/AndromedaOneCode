@@ -94,9 +94,10 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   public void moveUsingGyroAuto(double forwardBackward, double rotation, double heading) {
     double zAngle = navX.getZAngle();
-
-    double robotDeltaAngle = convertHeadingToAbsoulteAngle(heading, zAngle) - zAngle;
-
+    double absoluteHeading = convertHeadingToAbsoluteAngle(heading, zAngle);
+    double robotDeltaAngle = absoluteHeading - zAngle;
+    System.out.println("absoluteHeading: " + absoluteHeading);
+    System.out.println("zAngle: " + zAngle);
     boolean gyroCorrect = true;
     if (isRotating(rotation)) {
       gyroCorrect = false;
@@ -117,12 +118,23 @@ public abstract class RealDriveTrain extends DriveTrain {
     return delay > threshold;
   }
 
-  private double convertHeadingToAbsoulteAngle(double heading, double zAngle) {
-    int completeRotations = (int) zAngle / 360;
-    double answer = heading + completeRotations * 360;
+  private double convertHeadingToAbsoluteAngle(double heading, double zAngle) {
+    
+    double headingCenteredAt0 = heading;
+    if(heading >= 180) {
+      headingCenteredAt0 -= 360;
+    }
 
-    if (zAngle - completeRotations * 360 > 180) {
-      answer += 360;
+    int completeRotations = (int) (zAngle / 360);
+    double answer = headingCenteredAt0 + completeRotations * 360;
+
+    if (Math.abs(zAngle - answer) > 180) {
+      
+      if(zAngle > 0){
+        answer += 360;
+      }else {
+        answer -= 360;
+      }
     }
 
     return answer;

@@ -78,6 +78,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     } else if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
       getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
     }
+
+    System.out.println("------------Move With Encoder---------------");
   }
 
   public double getSetpoint() {
