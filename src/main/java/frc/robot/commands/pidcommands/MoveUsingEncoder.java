@@ -41,7 +41,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
             // this is newer code that every new creation of move using encoder should use
             drivetrain.moveUsingGyro(output, 0, heading);
           } else {
-            // this is older code that every new creation of move using encoder should not use\
+            // this is older code that every new creation of move using encoder should not
+            // use\
             // it only exists right now to make sure that past autonomous modes still work
             drivetrain.moveUsingGyro(output, 0, false, false);
           }

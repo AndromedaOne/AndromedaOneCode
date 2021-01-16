@@ -34,17 +34,17 @@ public class MockDriveTrain extends DriveTrain {
     return 0;
   }
 
-  public void moveUsingGyroTeleop(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
 
   }
 
-  public void moveUsingGyroTeleop(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
       double heading) {
 
   }
 
   @Override
-  public void moveUsingGyroAuto(double forwardBackward, double rotation, double heading) {
+  public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
     // TODO Auto-generated method stub
 
   }
