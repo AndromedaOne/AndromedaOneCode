@@ -5,41 +5,42 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.drivetrainpathgeneration.waypoints.Waypoint;
-import frc.robot.drivetrainpathgeneration.waypoints.Waypoints;
+import frc.robot.drivetrainpathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class RectangularPathGenerator extends PathGeneratorBase {
 
-    public RectangularPathGenerator(DriveTrain drivetrain, Waypoints waypoints) {
+    private double m_currentX;
+    private double m_currentY;
+    private SequentialCommandGroup m_path;
+
+    public RectangularPathGenerator(DriveTrain drivetrain, WaypointsBase waypoints) {
         super(drivetrain, waypoints);
-        // TODO Auto-generated constructor stub
+        m_currentX = 0;
+        m_currentY = 0;
+        m_path = new SequentialCommandGroup();
     }
 
     @Override
-    public CommandBase generatePath() {
+    protected void generatePathForNextWaypoint(Waypoint waypoint) {
+        double deltaY = waypoint.getY() - m_currentY;
+        double deltaX = waypoint.getX() - m_currentX;
+
+        m_path.addCommands(
+            new TurnToCompassHeading(0),
+            new MoveUsingEncoder(getDriveTrain(), deltaY),
+            new TurnToCompassHeading(90),
+            new MoveUsingEncoder(getDriveTrain(), deltaX)
+        );
+
+        m_currentX += deltaX;
+        m_currentY += deltaY;
+    }
+
+    @Override
+    protected CommandBase getGeneratedPath() {
         // TODO Auto-generated method stub
-        SequentialCommandGroup path = new SequentialCommandGroup();
-        double currentX = 0;
-        double currentY = 0;
-
-        while(super.hasNextWaypoint()) {
-            Waypoint waypoint = super.getNextWaypointpoint();
-
-            double deltaY = waypoint.getY() - currentY;
-            double deltaX = waypoint.getX() - currentX;
-
-            path.addCommands(
-                new MoveUsingEncoder(getDriveTrain(), deltaY),
-                new TurnToCompassHeading(90),
-                new MoveUsingEncoder(getDriveTrain(), deltaX),
-                new TurnToCompassHeading(0)
-            );
-
-            currentX += deltaX;
-            currentY += deltaY;
-        }
-
-        return path;
+        return m_path;
     }
 
     

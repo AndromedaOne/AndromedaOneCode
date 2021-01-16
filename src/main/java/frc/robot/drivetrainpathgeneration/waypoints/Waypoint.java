@@ -1,7 +1,5 @@
 package frc.robot.drivetrainpathgeneration.waypoints;
 
-import java.util.Iterator;
-
 public class Waypoint {
     private double m_x;
     private double m_y;
