@@ -46,8 +46,8 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                 after turning this allows the robot to drift naturally as you
    *                 turn
    */
-  public void moveUsingGyroTeleop(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
-    moveUsingGyroTeleop(forwardBackward, rotation, useDelay, useSquaredInputs, navX.getCompassHeading());
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
+    moveUsingGyro(forwardBackward, rotation, useDelay, useSquaredInputs, navX.getCompassHeading());
   }
 
   /**
@@ -61,7 +61,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                 you can tell it to correct to the heading it should have turn
    *                 to.
    */
-  public void moveUsingGyroTeleop(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
       double heading) {
 
     double robotDeltaAngle = navX.getCompassHeading() - heading;
@@ -97,7 +97,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    * 
    * 
    */
-  public void moveUsingGyroAuto(double forwardBackward, double rotation, double heading) {
+  public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
     double zAngle = navX.getZAngle();
     double absoluteHeading = convertHeadingToAbsoluteAngle(heading, zAngle);
     double robotDeltaAngle = absoluteHeading - zAngle;
