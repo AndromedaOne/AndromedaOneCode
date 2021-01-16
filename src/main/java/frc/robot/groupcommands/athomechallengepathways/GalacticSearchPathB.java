@@ -24,12 +24,12 @@ public class GalacticSearchPathB extends SequentialCommandGroup {
   }
 
   public SequentialCommandGroup getDriveTrainpathWay() {
-    return new SequentialCommandGroup(new MoveUsingEncoder(m_driveTrain, B1_TO_B3_POWER_CELL_DISTANCE),
-        new TurnToCompassHeading(90), new MoveUsingEncoder(m_driveTrain, B_TO_D_VERTICALDISTANCE),
-        new TurnToCompassHeading(0), new MoveUsingEncoder(m_driveTrain, D3_TO_D6_POWER_CELL_DISTANCE),
-        new TurnToCompassHeading(270), new MoveUsingEncoder(m_driveTrain, B_TO_D_VERTICALDISTANCE),
-        new TurnToCompassHeading(0), new MoveUsingEncoder(m_driveTrain, B6_TO_B9_POWER_CELL_DISTANCE),
-        new TurnToCompassHeading(90), new MoveUsingEncoder(m_driveTrain, B_TO_D_VERTICALDISTANCE),
-        new TurnToCompassHeading(0), new MoveUsingEncoder(m_driveTrain, D9_TO_D11_POWER_CELL_DISTANCE));
+    return new SequentialCommandGroup(new MoveUsingEncoder(m_driveTrain, B1_TO_B3_POWER_CELL_DISTANCE, true, 0),
+        new TurnToCompassHeading(90), new MoveUsingEncoder(m_driveTrain, B_TO_D_VERTICALDISTANCE, true, 90),
+        new TurnToCompassHeading(0), new MoveUsingEncoder(m_driveTrain, D3_TO_D6_POWER_CELL_DISTANCE, true, 0),
+        new TurnToCompassHeading(270), new MoveUsingEncoder(m_driveTrain, B_TO_D_VERTICALDISTANCE, true, 270),
+        new TurnToCompassHeading(0), new MoveUsingEncoder(m_driveTrain, B6_TO_B9_POWER_CELL_DISTANCE, true, 0),
+        new TurnToCompassHeading(90), new MoveUsingEncoder(m_driveTrain, B_TO_D_VERTICALDISTANCE, true, 90),
+        new TurnToCompassHeading(0), new MoveUsingEncoder(m_driveTrain, D9_TO_D11_POWER_CELL_DISTANCE, true, 0));
   }
 }
