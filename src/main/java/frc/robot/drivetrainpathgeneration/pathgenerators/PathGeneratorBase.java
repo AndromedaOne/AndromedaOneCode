@@ -8,12 +8,9 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public abstract class PathGeneratorBase {
 
     private WaypointsBase m_waypoints;
-    private DriveTrain m_drivetrain;
-    private CommandBase m_path;
 
-    public PathGeneratorBase(DriveTrain driveTrain, WaypointsBase waypoints) {
+    public PathGeneratorBase(WaypointsBase waypoints) {
         m_waypoints = waypoints;
-        m_drivetrain = driveTrain;
     }
 
     public CommandBase getPath() {
@@ -30,7 +27,4 @@ public abstract class PathGeneratorBase {
     protected abstract void generatePathForNextWaypoint(Waypoint waypoint);
     protected abstract CommandBase getGeneratedPath();
 
-    protected DriveTrain getDriveTrain() {
-        return m_drivetrain;
-    }
 }

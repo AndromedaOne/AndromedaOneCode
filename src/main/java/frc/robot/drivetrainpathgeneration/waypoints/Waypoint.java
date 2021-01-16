@@ -1,6 +1,8 @@
 package frc.robot.drivetrainpathgeneration.waypoints;
 
-public class Waypoint {
+import java.awt.geom.Point2D;
+
+public class Waypoint extends Point2D{
     private double m_x;
     private double m_y;
 
@@ -15,5 +17,12 @@ public class Waypoint {
 
     public double getY() {
         return m_y;
+    }
+
+    @Override
+    public void setLocation(double x, double y) {
+        x = m_x;
+        y = m_y;
+
     }
 }

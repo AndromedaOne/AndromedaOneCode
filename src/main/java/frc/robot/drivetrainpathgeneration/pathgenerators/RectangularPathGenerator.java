@@ -13,12 +13,14 @@ public class RectangularPathGenerator extends PathGeneratorBase {
     private double m_currentX;
     private double m_currentY;
     private SequentialCommandGroup m_path;
+    private DriveTrain m_driveTrain;
 
     public RectangularPathGenerator(DriveTrain drivetrain, WaypointsBase waypoints) {
-        super(drivetrain, waypoints);
+        super(waypoints);
         m_currentX = 0;
         m_currentY = 0;
         m_path = new SequentialCommandGroup();
+        m_driveTrain = drivetrain;
     }
 
     @Override
@@ -28,9 +30,9 @@ public class RectangularPathGenerator extends PathGeneratorBase {
 
         m_path.addCommands(
             new TurnToCompassHeading(0),
-            new MoveUsingEncoder(getDriveTrain(), deltaY),
+            new MoveUsingEncoder(m_driveTrain, deltaY),
             new TurnToCompassHeading(90),
-            new MoveUsingEncoder(getDriveTrain(), deltaX)
+            new MoveUsingEncoder(m_driveTrain, deltaX)
         );
 
         m_currentX += deltaX;
