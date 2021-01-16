@@ -36,6 +36,7 @@ public class AutoModes4905 {
     IntakeBase intake = subsystemsContainer.getIntake();
     FeederBase feeder = subsystemsContainer.getFeeder();
     LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
+    double maximumPower = 0.3;
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -103,28 +104,28 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
-        m_autoChooser.addOption("1: navChallenge1", 
-                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 60, true, 0), // step 1
+        m_autoChooser.addOption("slalom", 
+                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 60, 0, maximumPower), // step 1
                                                                   new TurnToCompassHeading(270), 
-                                                                  new MoveUsingEncoder(driveTrain, 60, true, 270), //step 2
+                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower), //step 2
                                                                   new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 210, true, 0), //step 3
+                                                                  new MoveUsingEncoder(driveTrain, 180, 0, maximumPower), //step 3
                                                                   new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, true, 90), // step 4
+                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower), // step 4
                                                                   new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 60, true, 0), // step 5
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0, maximumPower), // step 5
                                                                   new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, true, 270), // step 6
+                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower), // step 6
                                                                   new TurnToCompassHeading(180), 
-                                                                  new MoveUsingEncoder(driveTrain, 60, true, 180), // step 7
+                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower), // step 7
                                                                   new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, true, 90), // step 8 
+                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower), // step 8 
                                                                   new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 210, true, 180), // tep 9 
+                                                                  new MoveUsingEncoder(driveTrain, 180, 180, maximumPower), // tep 9 
                                                                   new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, true, 270), // step 10
+                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower), // step 10
                                                                   new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60, true, 180))); // step 11                                                 
+                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower))); // step 11                                                 
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }
