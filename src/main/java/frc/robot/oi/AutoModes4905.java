@@ -104,27 +104,27 @@ public class AutoModes4905 {
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
         m_autoChooser.addOption("1: navChallenge1", 
-                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 60), // step 1
+                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 60, true, 0), // step 1
                                                                   new TurnToCompassHeading(270), 
-                                                                  new MoveUsingEncoder(driveTrain, 60), //step 2
+                                                                  new MoveUsingEncoder(driveTrain, 60, true, 270), //step 2
                                                                   new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 210), //step 3
+                                                                  new MoveUsingEncoder(driveTrain, 210, true, 0), //step 3
                                                                   new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60), // step 4
+                                                                  new MoveUsingEncoder(driveTrain, 60, true, 90), // step 4
                                                                   new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 60), // step 5
+                                                                  new MoveUsingEncoder(driveTrain, 60, true, 0), // step 5
                                                                   new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60), // step 6
+                                                                  new MoveUsingEncoder(driveTrain, 60, true, 270), // step 6
                                                                   new TurnToCompassHeading(180), 
-                                                                  new MoveUsingEncoder(driveTrain, 60), // step 7
+                                                                  new MoveUsingEncoder(driveTrain, 60, true, 180), // step 7
                                                                   new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60), // step 8 
+                                                                  new MoveUsingEncoder(driveTrain, 60, true, 90), // step 8 
                                                                   new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 210), // tep 9 
+                                                                  new MoveUsingEncoder(driveTrain, 210, true, 180), // tep 9 
                                                                   new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60), // step 10
+                                                                  new MoveUsingEncoder(driveTrain, 60, true, 270), // step 10
                                                                   new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60))); // step 11                                                 
+                                                                  new MoveUsingEncoder(driveTrain, 60, true, 180))); // step 11                                                 
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }

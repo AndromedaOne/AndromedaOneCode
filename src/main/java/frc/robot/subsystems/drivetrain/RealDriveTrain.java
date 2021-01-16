@@ -67,10 +67,11 @@ public abstract class RealDriveTrain extends DriveTrain {
     double robotDeltaAngle = navX.getCompassHeading() - heading;
     double robotAngle = navX.getZAngle() + robotDeltaAngle;
     /*
-     * If we aren't rotating or our delay time is higher than our set Delay do not
-     * use gyro correct This allows the robot to rotate naturally after we turn
+     * If we are rotating or our delay time is lower than our set Delay do not use
+     * gyro correct This allows the robot to rotate naturally after we turn
      */
-    if ((rotation != 0) || (useDelay && !(currentDelay > kDelay)) || (forwardBackward == 0.0)) {
+    if (isRotating(rotation) || (useDelay && !delayGreaterThanThreshold(currentDelay, kDelay))
+        || (forwardBackward == 0.0)) {
       gyroCorrect = false;
       savedAngle = robotAngle;
       currentDelay++;
@@ -89,6 +90,57 @@ public abstract class RealDriveTrain extends DriveTrain {
       newRotateValue = rotation;
     }
     move(forwardBackward, newRotateValue, useSquaredInputs);
+  }
+
+  /**
+   * @param heading The heading is assumed to be an angle x such that 0<= x < 360
+   * 
+   * 
+   */
+  public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
+    double zAngle = navX.getZAngle();
+    double absoluteHeading = convertHeadingToAbsoluteAngle(heading, zAngle);
+    double robotDeltaAngle = absoluteHeading - zAngle;
+    boolean gyroCorrect = true;
+    if (isRotating(rotation)) {
+      gyroCorrect = false;
+    }
+    newRotateValue = rotation;
+    if (gyroCorrect) {
+      double correctionEquation = robotDeltaAngle * kProportion;
+      newRotateValue = correctionEquation;
+    }
+    move(forwardBackward, newRotateValue, false);
+  }
+
+  private boolean isRotating(double rotation) {
+    return rotation != 0;
+  }
+
+  private boolean delayGreaterThanThreshold(double delay, double threshold) {
+    return delay > threshold;
+  }
+
+  private double convertHeadingToAbsoluteAngle(double heading, double zAngle) {
+
+    double headingCenteredAt0 = heading;
+    if (heading >= 180) {
+      headingCenteredAt0 -= 360;
+    }
+
+    int completeRotations = (int) (zAngle / 360);
+    double answer = headingCenteredAt0 + completeRotations * 360;
+
+    if (Math.abs(zAngle - answer) > 180) {
+
+      if (zAngle > 0) {
+        answer += 360;
+      } else {
+        answer -= 360;
+      }
+    }
+
+    return answer;
   }
 
   /**

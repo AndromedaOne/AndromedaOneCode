@@ -42,4 +42,10 @@ public class MockDriveTrain extends DriveTrain {
       double heading) {
 
   }
+
+  @Override
+  public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
+    // TODO Auto-generated method stub
+
+  }
 }
