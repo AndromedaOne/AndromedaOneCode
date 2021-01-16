@@ -101,8 +101,6 @@ public abstract class RealDriveTrain extends DriveTrain {
     double zAngle = navX.getZAngle();
     double absoluteHeading = convertHeadingToAbsoluteAngle(heading, zAngle);
     double robotDeltaAngle = absoluteHeading - zAngle;
-    System.out.println("absoluteHeading: " + absoluteHeading);
-    System.out.println("zAngle: " + zAngle);
     boolean gyroCorrect = true;
     if (isRotating(rotation)) {
       gyroCorrect = false;
