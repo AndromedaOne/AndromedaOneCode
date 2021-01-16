@@ -23,7 +23,7 @@ public class GalacticSearchPathA extends SequentialCommandGroup {
   }
 
   public SequentialCommandGroup getDriveTrainpathWay() {
-    return new SequentialCommandGroup(new MoveUsingEncoder(m_driveTrain, START_TO_E6_POWER_CELL_DISTANCE, true, 0),
+    return new SequentialCommandGroup(new MoveUsingEncoder(m_driveTrain, START_TO_E6_POWER_CELL_DISTANCE, true, ANGLE_TO_LINE_UP_WITH_FINAL_CELLS),
         new TurnToCompassHeading(270), new MoveUsingEncoder(m_driveTrain, E6_TO_A6_DISTANCE, true, 270),
         new TurnToCompassHeading(ANGLE_TO_LINE_UP_WITH_FINAL_CELLS),
         new MoveUsingEncoder(m_driveTrain, A6_TO_FINISH_LINE_DISTANCE, true, ANGLE_TO_LINE_UP_WITH_FINAL_CELLS));
