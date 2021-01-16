@@ -38,9 +38,13 @@ public class MoveUsingEncoder extends PIDCommand4905 {
         output -> {
           // Use the output here
           if (useCompassHeading) {
-            drivetrain.moveUsingGyroAuto(output, 0, heading);
+            // this is newer code that every new creation of move using encoder should use
+            drivetrain.moveUsingGyro(output, 0, heading);
           } else {
-            drivetrain.moveUsingGyroTeleop(output, 0, false, false);
+            // this is older code that every new creation of move using encoder should not
+            // use\
+            // it only exists right now to make sure that past autonomous modes still work
+            drivetrain.moveUsingGyro(output, 0, false, false);
           }
         });
     m_distance = distance;
@@ -51,11 +55,18 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     addRequirements(drivetrain);
   }
 
+  @Deprecated
   public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
     this(drivetrain, distance, false, 0);
     m_maxOutput = maxOutput;
   }
 
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading, double maxOutput) {
+    this(drivetrain, distance, true, heading);
+    m_maxOutput = maxOutput;
+  }
+
+  @Deprecated
   public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
     this(drivetrain, distance, false, 0);
   }
@@ -79,7 +90,6 @@ public class MoveUsingEncoder extends PIDCommand4905 {
       getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
     }
 
-    System.out.println("------------Move With Encoder---------------");
   }
 
   public double getSetpoint() {

@@ -89,7 +89,7 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
 
-    m_driveTrain.moveUsingGyroTeleop(forwardBackwardStickValue, -rotateStickValue, true, false);
+    m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
   }
 
   // Called once the command ends or is interrupted.
