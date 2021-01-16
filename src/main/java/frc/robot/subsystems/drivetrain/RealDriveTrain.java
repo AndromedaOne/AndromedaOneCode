@@ -92,6 +92,11 @@ public abstract class RealDriveTrain extends DriveTrain {
     move(forwardBackward, newRotateValue, useSquaredInputs);
   }
 
+  /**
+   * @param heading The heading is assumed to be an angle x such that 0<= x < 360
+   * 
+   * 
+   */
   public void moveUsingGyroAuto(double forwardBackward, double rotation, double heading) {
     double zAngle = navX.getZAngle();
     double absoluteHeading = convertHeadingToAbsoluteAngle(heading, zAngle);
@@ -119,9 +124,9 @@ public abstract class RealDriveTrain extends DriveTrain {
   }
 
   private double convertHeadingToAbsoluteAngle(double heading, double zAngle) {
-    
+
     double headingCenteredAt0 = heading;
-    if(heading >= 180) {
+    if (heading >= 180) {
       headingCenteredAt0 -= 360;
     }
 
@@ -129,10 +134,10 @@ public abstract class RealDriveTrain extends DriveTrain {
     double answer = headingCenteredAt0 + completeRotations * 360;
 
     if (Math.abs(zAngle - answer) > 180) {
-      
-      if(zAngle > 0){
+
+      if (zAngle > 0) {
         answer += 360;
-      }else {
+      } else {
         answer -= 360;
       }
     }
