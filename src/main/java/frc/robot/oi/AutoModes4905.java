@@ -36,6 +36,7 @@ public class AutoModes4905 {
     IntakeBase intake = subsystemsContainer.getIntake();
     FeederBase feeder = subsystemsContainer.getFeeder();
     LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
+    double robotLengthInches = 38;
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -150,7 +151,57 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(270),
                                                                   new MoveUsingEncoder(driveTrain, 60, 0.3),
                                                                   new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 240, 0.3)));                                        
+                                                                  new MoveUsingEncoder(driveTrain, 240, 0.3))); 
+        m_autoChooser.addOption("3: navChallenge3",
+                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 30 + robotLengthInches / 2, 0.3),
+                                                                  new TurnToCompassHeading(270),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(0),
+                                                                  new MoveUsingEncoder(driveTrain, 30, 0.3),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(0),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(270),
+                                                                  new MoveUsingEncoder(driveTrain, 120, 0.3),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 120, 0.3),
+                                                                  new TurnToCompassHeading(0),
+                                                                  new MoveUsingEncoder(driveTrain, 90, 0.3),
+                                                                  new TurnToCompassHeading(270),
+                                                                  new MoveUsingEncoder(driveTrain, 120, 0.3),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(0),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3)));
+        m_autoChooser.addOption("Hyper Drive Challenge", 
+                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 30, 0.3),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 90, 0.3),
+                                                                  new TurnToCompassHeading(180),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 90, 0.3),
+                                                                  new TurnToCompassHeading(0),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(270),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(0),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 30, 0.3),
+                                                                  new TurnToCompassHeading(0),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(90),
+                                                                  new MoveUsingEncoder(driveTrain, 180, 0.3),
+                                                                  new TurnToCompassHeading(180),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3),
+                                                                  new TurnToCompassHeading(270),
+                                                                  new MoveUsingEncoder(driveTrain, 90, 0.3),
+                                                                  new TurnToCompassHeading(180),
+                                                                  new MoveUsingEncoder(driveTrain, 60, 0.3)));                                    
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }
