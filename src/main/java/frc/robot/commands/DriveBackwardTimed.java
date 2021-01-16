@@ -40,7 +40,7 @@ public class DriveBackwardTimed extends CommandBase {
 
   @Override
   public void execute() {
-    m_driveTrain.move(-0.3, 0, false);
+    m_driveTrain.move(-1.0, 0, false);
   }
 
   @Override
