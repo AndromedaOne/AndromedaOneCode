@@ -17,7 +17,7 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
   }
 
   public DriveTrainRectangularPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
-    this(waypoints, driveTrain, new Waypoint(0, 0, 0));
+    this(waypoints, driveTrain, new Waypoint(0, 0));
   }
 
   /**

@@ -28,7 +28,7 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
     double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan2(deltaY, deltaX));
 
-    double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
+    double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0 - initialWaypoint.getHeading());
 
     m_path.addCommands(createTurnCommand(compassAngle), createMoveCommand(distance, compassAngle));
 
