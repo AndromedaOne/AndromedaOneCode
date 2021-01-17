@@ -9,34 +9,34 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
 
-    private DriveTrain m_driveTrain;
+  private DriveTrain m_driveTrain;
 
-    public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
-        super(waypoints, initialWaypoint);
-        m_driveTrain = driveTrain;
-    }
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
+    super(waypoints, initialWaypoint);
+    m_driveTrain = driveTrain;
+  }
 
-    public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
-        this(waypoints, driveTrain, new Waypoint(0,0,0));
-    }
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
+    this(waypoints, driveTrain, new Waypoint(0, 0, 0));
+  }
 
-    /**
-     * @param angle is a compassheading x such that 0<= x < 360 degrees
-     */
-    @Override
-    protected CommandBase createTurnCommand(double angle) {
-        return new TurnToCompassHeading(angle);
-    }
+  /**
+   * @param angle is a compassheading x such that 0<= x < 360 degrees
+   */
+  @Override
+  protected CommandBase createTurnCommand(double angle) {
+    return new TurnToCompassHeading(angle);
+  }
 
-    /**
-     * @param angle is a compassheading x such that 0<= x < 360 degrees
-     * 
-     * @param distance is a distance in inches
-     */
-    @Override
-    protected CommandBase createMoveCommand(double distance, double angle) {
-        // TODO Auto-generated method stub
-        return new MoveUsingEncoder(m_driveTrain, distance, true, angle);
-    }
-    
+  /**
+   * @param angle    is a compassheading x such that 0<= x < 360 degrees
+   * 
+   * @param distance is a distance in inches
+   */
+  @Override
+  protected CommandBase createMoveCommand(double distance, double angle) {
+    // TODO Auto-generated method stub
+    return new MoveUsingEncoder(m_driveTrain, distance, true, angle);
+  }
+
 }
