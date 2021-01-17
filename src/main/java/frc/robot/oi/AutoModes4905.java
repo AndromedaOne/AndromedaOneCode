@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
+import frc.robot.commands.GalacticSearchWithDetection;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
@@ -125,7 +126,9 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, 60), // step 10
                                                                   new TurnToCompassHeading(180),
                                                                   new MoveUsingEncoder(driveTrain, 60))); // step 11                                                 
-        SmartDashboard.putData("autoModes", m_autoChooser);
+          m_autoChooser.addOption("13: galactic Search With Detector",
+            new DelayedSequentialCommandGroup(new GalacticSearchWithDetection()));
+                                                                  SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }
 
