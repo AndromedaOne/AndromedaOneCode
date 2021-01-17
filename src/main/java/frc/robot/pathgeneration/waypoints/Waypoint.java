@@ -9,10 +9,9 @@ public class Waypoint extends Point2D {
   private double m_y;
   private double m_heading;
 
-  public Waypoint(double x, double y, double heading) {
+  public Waypoint(double x, double y) {
     m_x = x;
     m_y = y;
-    m_heading = AngleConversionUtils.ConvertAngleToCompassHeading(heading);
   }
 
   public double getX() {
@@ -30,15 +29,10 @@ public class Waypoint extends Point2D {
 
   }
 
-  public double getHeading() {
-    return m_heading;
-  }
-
   public Waypoint subtract(Waypoint w) {
     double deltaX = m_x - w.getX();
     double deltaY = m_y - w.getY();
-    double deltaHeading = AngleConversionUtils.ConvertAngleToCompassHeading(m_heading - w.getHeading());
-
-    return new Waypoint(deltaX, deltaY, deltaHeading);
+   
+    return new Waypoint(deltaX, deltaY);
   }
 }
