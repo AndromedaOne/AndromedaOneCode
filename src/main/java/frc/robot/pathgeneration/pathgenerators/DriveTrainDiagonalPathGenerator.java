@@ -3,7 +3,6 @@ package frc.robot.pathgeneration.pathgenerators;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 

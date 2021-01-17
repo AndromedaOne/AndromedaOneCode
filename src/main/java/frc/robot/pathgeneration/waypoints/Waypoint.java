@@ -5,10 +5,12 @@ import java.awt.geom.Point2D;
 public class Waypoint extends Point2D{
     private double m_x;
     private double m_y;
+    private double m_heading;
 
-    public Waypoint(double x, double y) {
+    public Waypoint(double x, double y, double heading) {
         m_x = x;
         m_y = y;
+        m_heading = heading;
     }
 
     public double getX() {
@@ -24,5 +26,9 @@ public class Waypoint extends Point2D{
         x = m_x;
         y = m_y;
 
+    }
+
+    public double getHeading() {
+        return m_heading;
     }
 }
