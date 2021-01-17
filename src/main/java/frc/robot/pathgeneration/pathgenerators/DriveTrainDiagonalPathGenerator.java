@@ -17,7 +17,7 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
   }
 
   public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
-    this(waypoints, driveTrain, new Waypoint(0, 0, 0));
+    this(waypoints, driveTrain, new WaypointWithHeading(0, 0, 0));
   }
 
   /**

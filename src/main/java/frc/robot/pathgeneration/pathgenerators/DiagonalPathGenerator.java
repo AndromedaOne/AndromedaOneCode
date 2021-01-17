@@ -8,10 +8,10 @@ import frc.robot.utils.AngleConversionUtils;
 
 public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
-  private Waypoint m_currentWaypoint;
+  private WaypointWithHeading m_currentWaypoint;
   private SequentialCommandGroup m_path;
 
-  public DiagonalPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint) {
+  public DiagonalPathGenerator(WaypointsBase waypoints, WaypointWithHeading initialWaypoint) {
     super(waypoints, initialWaypoint);
 
     m_currentWaypoint = initialWaypoint;
@@ -28,7 +28,7 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
     double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan2(deltaY, deltaX));
 
-    double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0 - initialWaypoint.getHeading());
+    double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
 
     m_path.addCommands(createTurnCommand(compassAngle), createMoveCommand(distance, compassAngle));
 
