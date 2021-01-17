@@ -8,15 +8,13 @@ import frc.robot.utils.AngleConversionUtils;
 
 public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
-  private WaypointWithHeading m_currentWaypoint;
+  private Waypoint m_currentWaypoint;
   private SequentialCommandGroup m_path;
-  private double initalWaypointDirection;
 
-  public DiagonalPathGenerator(WaypointsBase waypoints, WaypointWithHeading initialWaypoint) {
+  public DiagonalPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint, double initialHeading) {
     super(waypoints, initialWaypoint);
 
-    m_currentWaypoint = initialWaypoint;
-    m_initalWaypointDirection = AngleConversionUtils.ConvertAngleToCompassHeading(initialWaypoint.getHeading());
+    m_currentWaypoint = new Waypoint(0, 0);
     m_path = new SequentialCommandGroup();
   }
 
@@ -28,10 +26,16 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
     double deltaY = waypoint.getY() - m_currentWaypoint.getY();
 
-    double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan2(deltaY, deltaX));
+    double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan(deltaX / deltaY));
+
+    
 
     double compassAngle = AngleConversionUtils
-        .ConvertAngleToCompassHeading(angleInDegreesCenteredAt0 - m_initalWaypointDirection);
+        .ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
+
+    System.out.println("compassAngle"  + compassAngle);
+    System.out.println("angleInDegreesCenteredAt0"  + angleInDegreesCenteredAt0);
+    System.out.println("distance: " + distance);
 
     m_path.addCommands(createTurnCommand(compassAngle), createMoveCommand(distance, compassAngle));
 
