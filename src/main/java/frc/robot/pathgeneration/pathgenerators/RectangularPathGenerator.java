@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.pathgeneration.waypoints.WayPointWithHeading;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
+import frc.robot.utils.AngleConversionUtils;
 
 public abstract class RectangularPathGenerator extends PathGeneratorBase {
 
