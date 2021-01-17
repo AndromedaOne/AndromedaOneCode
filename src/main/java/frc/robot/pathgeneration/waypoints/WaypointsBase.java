@@ -22,4 +22,6 @@ public abstract class WaypointsBase implements Iterable<Waypoint>{
     protected void addWayPoint(Waypoint e) {
         m_waypoints.add(e);
     }
+
+    
 }

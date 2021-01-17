@@ -2,6 +2,7 @@ package frc.robot.pathgeneration.pathgenerators;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
@@ -10,9 +11,13 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
 
     private DriveTrain m_driveTrain;
 
-    public DriveTrainRectangularPathGenerator(DriveTrain driveTrain, WaypointsBase waypoints) {
-        super(waypoints);
+    public DriveTrainRectangularPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
+        super(waypoints, initialWaypoint);
         m_driveTrain = driveTrain;
+    }
+
+    public DriveTrainRectangularPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
+        this(waypoints, driveTrain, new Waypoint(0, 0, 0));
     }
 
     /**
@@ -30,7 +35,7 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
      */
     @Override
     protected CommandBase createMoveCommand(double distance, double angle) {
-        return new MoveUsingEncoder(m_driveTrain, distance, angle);
+        return new MoveUsingEncoder(m_driveTrain, distance, true, angle);
     }
     
 }

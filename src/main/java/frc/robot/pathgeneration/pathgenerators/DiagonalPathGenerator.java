@@ -10,23 +10,17 @@ import frc.robot.utils.AngleConversionUtils;
 public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
     private Waypoint m_currentWaypoint;
-    private Waypoint m_initialWaypoint;
     private SequentialCommandGroup m_path;
 
     public DiagonalPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint) {
-        super(waypoints);
+        super(waypoints, initialWaypoint);
 
         m_currentWaypoint = initialWaypoint;
-        m_initialWaypoint = initialWaypoint;
         m_path = new SequentialCommandGroup();
     }
 
-    public DiagonalPathGenerator(WaypointsBase waypoints) {
-        this(waypoints, new Waypoint(0, 0, 0));
-    }
-
     @Override
-    protected void generatePathForNextWaypoint(Waypoint waypoint) {
+    protected void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint) {
 
         double distance = m_currentWaypoint.distance(waypoint);
 
@@ -34,13 +28,12 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
         double deltaY = waypoint.getY() - m_currentWaypoint.getY();
 
         double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan2(deltaY, deltaX));
-        double angleInDegreesRelativeToStart = angleInDegreesCenteredAt0 - m_initialWaypoint.getHeading();
 
-        double compassAngleRelativeToStart = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesRelativeToStart);
+        double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
 
         m_path.addCommands(
-            createTurnCommand(compassAngleRelativeToStart),
-            createMoveCommand(distance, compassAngleRelativeToStart));
+            createTurnCommand(compassAngle),
+            createMoveCommand(distance, compassAngle));
     
         m_currentWaypoint = waypoint;
     }
