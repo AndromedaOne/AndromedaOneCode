@@ -11,13 +11,15 @@ public abstract class RectangularPathGenerator extends PathGeneratorBase {
   private double m_currentX;
   private double m_currentY;
   private SequentialCommandGroup m_path;
-  private double initalWaypointDirection;
+  private double m_initalWaypointDirection;
+  private double m_rightAngleDegrees;
 
   public RectangularPathGenerator(WaypointsBase waypoints, WayPointWithHeading initialWaypoint) {
     super(waypoints, initialWaypoint);
     m_currentX = 0;
     m_currentY = 0;
-    initalWaypointDirection = AngleConversionUtils.ConvertAngleToCompassHeading(initialWaypoint.getHeading());
+    m_initalWaypointDirection = AngleConversionUtils.ConvertAngleToCompassHeading(initialWaypoint.getHeading());
+    m_rightAngleDegrees = AngleConversionUtils.ConvertAngleToCompassHeading(m_initalWaypointDirection + 90);
     m_path = new SequentialCommandGroup();
   }
 
@@ -26,10 +28,9 @@ public abstract class RectangularPathGenerator extends PathGeneratorBase {
     double deltaY = waypoint.getY() - m_currentY;
     double deltaX = waypoint.getX() - m_currentX;
 
-    double RightAngleDegrees = AngleConversionUtils.ConvertAngleToCompassHeading(initalWaypointDirection + 90);
-
-    m_path.addCommands(createTurnCommand(initalWaypointDirection), createMoveCommand(deltaY, initalWaypointDirection), createTurnCommand(RightAngleDegrees),
-        createMoveCommand(deltaX, RightAngleDegrees));
+    m_path.addCommands(createTurnCommand(m_initalWaypointDirection),
+        createMoveCommand(deltaY, m_initalWaypointDirection), createTurnCommand(m_rightAngleDegrees),
+        createMoveCommand(deltaX, m_rightAngleDegrees));
 
     m_currentX += deltaX;
     m_currentY += deltaY;

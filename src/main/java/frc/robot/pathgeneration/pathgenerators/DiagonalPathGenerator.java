@@ -10,11 +10,13 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
   private WaypointWithHeading m_currentWaypoint;
   private SequentialCommandGroup m_path;
+  private double initalWaypointDirection;
 
   public DiagonalPathGenerator(WaypointsBase waypoints, WaypointWithHeading initialWaypoint) {
     super(waypoints, initialWaypoint);
 
     m_currentWaypoint = initialWaypoint;
+    m_initalWaypointDirection = AngleConversionUtils.ConvertAngleToCompassHeading(initialWaypoint.getHeading());
     m_path = new SequentialCommandGroup();
   }
 
@@ -28,7 +30,8 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
     double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan2(deltaY, deltaX));
 
-    double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
+    double compassAngle = AngleConversionUtils
+        .ConvertAngleToCompassHeading(angleInDegreesCenteredAt0 - m_initalWaypointDirection);
 
     m_path.addCommands(createTurnCommand(compassAngle), createMoveCommand(distance, compassAngle));
 

@@ -29,7 +29,7 @@ public class Waypoint extends Point2D {
   public Waypoint subtract(Waypoint w) {
     double deltaX = m_x - w.getX();
     double deltaY = m_y - w.getY();
-   
+
     return new Waypoint(deltaX, deltaY);
   }
 }
