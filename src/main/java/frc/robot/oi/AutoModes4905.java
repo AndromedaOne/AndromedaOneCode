@@ -5,6 +5,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
@@ -36,7 +37,7 @@ public class AutoModes4905 {
     IntakeBase intake = subsystemsContainer.getIntake();
     FeederBase feeder = subsystemsContainer.getFeeder();
     LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
-    double maximumPower = 0.3;
+    double maximumPower = 0.5;
     double robotLengthInches = 38;
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
@@ -128,7 +129,7 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(180),
                                                                   new MoveUsingEncoder(driveTrain, 60, 180, maximumPower))); // step 11                                                 
         m_autoChooser.addOption("Barrel Racing Path",
-                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 160, 0, maximumPower),
+                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 120 + robotLengthInches / 2, 0, maximumPower),
                                                                   new TurnToCompassHeading(90),
                                                                   new MoveUsingEncoder(driveTrain, 60, 90, maximumPower),
                                                                   new TurnToCompassHeading(180),
@@ -152,7 +153,7 @@ public class AutoModes4905 {
                                                                   new TurnToCompassHeading(270),
                                                                   new MoveUsingEncoder(driveTrain, 60, 270, maximumPower),
                                                                   new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 240, 180, maximumPower))); 
+                                                                  new MoveUsingEncoder(driveTrain, 240, 180, maximumPower)));                            
         m_autoChooser.addOption("Bounce Path",
                                 new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 30 + robotLengthInches / 2, 0, maximumPower),
                                                                   new TurnToCompassHeading(270),
