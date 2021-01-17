@@ -1,9 +1,9 @@
-package frc.robot.drivetrainpathgeneration.pathgenerators;
+package frc.robot.pathgeneration.pathgenerators;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.drivetrainpathgeneration.waypoints.Waypoint;
-import frc.robot.drivetrainpathgeneration.waypoints.WaypointsBase;
+import frc.robot.pathgeneration.waypoints.Waypoint;
+import frc.robot.pathgeneration.waypoints.WaypointsBase;
 
 
 public abstract class DiagonalPathGenerator extends PathGeneratorBase {

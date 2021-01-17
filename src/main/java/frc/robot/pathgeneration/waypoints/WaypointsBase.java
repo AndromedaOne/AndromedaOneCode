@@ -1,4 +1,4 @@
-package frc.robot.drivetrainpathgeneration.waypoints;
+package frc.robot.pathgeneration.waypoints;
 
 import java.util.ArrayList;
 import java.util.Iterator;
