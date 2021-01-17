@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
+import frc.robot.utils.AngleConversionUtils;
 
 
 public abstract class DiagonalPathGenerator extends PathGeneratorBase {
@@ -35,7 +36,7 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
         double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan2(deltaY, deltaX));
         double angleInDegreesRelativeToStart = angleInDegreesCenteredAt0 - m_initialWaypoint.getHeading();
 
-        double compassAngleRelativeToStart = getCompassHeadingFromAngle(angleInDegreesRelativeToStart);
+        double compassAngleRelativeToStart = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesRelativeToStart);
 
         m_path.addCommands(
             createTurnCommand(compassAngleRelativeToStart),
@@ -44,17 +45,11 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
         m_currentWaypoint = waypoint;
     }
 
-    private double getCompassHeadingFromAngle(double angle) {
-        
-        return 0;
-    }
-
     protected abstract CommandBase createTurnCommand(double angle);
     protected abstract CommandBase createMoveCommand(double distance, double angle);
 
     @Override
     protected CommandBase getGeneratedPath() {
-        // TODO Auto-generated method stub
         return m_path;
     }
     
