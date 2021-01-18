@@ -170,4 +170,79 @@ public class DiagonalPathGeneratorTests {
 
         createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
     }
+
+    @Test
+    public void twoPointsDiagonalFromEachOther() {
+
+        Waypoint initialPoint = new Waypoint(0,0);
+        Waypoint[] waypoints = {
+            new Waypoint(2, 2)
+        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        solution.add(new DummyTurnCommand(45));
+        solution.add(new DummyMoveCommand(Math.sqrt(8), 45));
+
+        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+    }
+    @Test
+    public void twoPointsDiagonalFromEachOther2() {
+
+        Waypoint initialPoint = new Waypoint(0,0);
+        Waypoint[] waypoints = {
+            new Waypoint(2, -2)
+        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        solution.add(new DummyTurnCommand(135));
+        solution.add(new DummyMoveCommand(Math.sqrt(8), 135));
+
+        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+    }
+
+    @Test
+    public void newInitialPosition1() {
+
+        Waypoint initialPoint = new Waypoint(5,5);
+        Waypoint[] waypoints = {
+            new Waypoint(7, 7)
+        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        solution.add(new DummyTurnCommand(45));
+        solution.add(new DummyMoveCommand(Math.sqrt(8), 45));
+
+        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+    }
+
+    @Test
+    public void newInitialPosition2() {
+
+        Waypoint initialPoint = new Waypoint(1,4);
+        Waypoint[] waypoints = {
+            new Waypoint(4, 8)
+        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        double angleToTurnTo = Math.toDegrees(Math.atan(3.0/4.0));
+        solution.add(new DummyTurnCommand(angleToTurnTo));
+        solution.add(new DummyMoveCommand(5, angleToTurnTo));
+
+        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+    }
+
+    @Test
+    public void multiPoint1() {
+
+        Waypoint initialPoint = new Waypoint(0,0);
+        Waypoint[] waypoints = {
+            new Waypoint(1, 1),
+            new Waypoint(0, 2),
+            new Waypoint(7, 9)
+        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        solution.add(new DummyTurnCommand(45));
+        solution.add(new DummyMoveCommand(Math.sqrt(2), 45));
+        solution.add(new DummyTurnCommand(360-45));
+        solution.add(new DummyMoveCommand(Math.sqrt(2), 360-45));
+        solution.add(new DummyTurnCommand(45));
+        solution.add(new DummyMoveCommand(Math.sqrt(98), 45));
+        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+    }
 }
