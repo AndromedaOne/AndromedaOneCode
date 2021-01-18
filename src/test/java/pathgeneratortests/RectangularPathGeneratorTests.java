@@ -7,19 +7,18 @@ import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.pathgeneration.pathgenerators.DiagonalPathGenerator;
+import frc.robot.pathgeneration.pathgenerators.RectangularPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 
-public class DiagonalPathGeneratorTests {
-
+public class RectangularPathGeneratorTests {
     private List<Waypoint> m_waypoints = new ArrayList<Waypoint>();
 
-    private class DiagonalPathGeneratorTester extends DiagonalPathGenerator {
+    private class RectangularPathGeneratorTester extends RectangularPathGenerator {
 
         List<CommandBase> m_commands;
 
-		public DiagonalPathGeneratorTester(WaypointsBase waypoints, Waypoint initialWaypoint) {
+		public RectangularPathGeneratorTester(WaypointsBase waypoints, Waypoint initialWaypoint) {
             super(waypoints, initialWaypoint);
             m_commands = new ArrayList<CommandBase>();
 		}
@@ -55,18 +54,17 @@ public class DiagonalPathGeneratorTests {
 
     }
 
-    private void createSimpleDiagonalPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint, List<CommandBase> solution) {
+    private void createSimpleRectangularPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint, List<CommandBase> solution) {
         for(Waypoint w : waypoints){
             m_waypoints.add(w);
         }
         TestWaypoints testPoints = new TestWaypoints();
 
-        DiagonalPathGeneratorTester diagonalPathGeneratorTester = new DiagonalPathGeneratorTester(testPoints, initialPoint);
+        RectangularPathGeneratorTester rectangularPathGeneratorTester = new RectangularPathGeneratorTester(testPoints, initialPoint);
        
-        diagonalPathGeneratorTester.getPath();
+        rectangularPathGeneratorTester.getPath();
         
-        DummyPathChecker.CompareDummyCommands(solution, diagonalPathGeneratorTester.getCommandsAdded());
-        
+        DummyPathChecker.CompareDummyCommands(solution, rectangularPathGeneratorTester.getCommandsAdded());
     }
 
     @BeforeEach
@@ -85,21 +83,7 @@ public class DiagonalPathGeneratorTests {
         solution.add(new DummyTurnCommand(0));
         solution.add(new DummyMoveCommand(5, 0));
 
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
-    }
-
-    @Test
-    public void twoPointsHorizontallyAlligned() {
-
-        Waypoint initialPoint = new Waypoint(0,0);
-        Waypoint[] waypoints = {
-            new Waypoint(5, 0)
-        };
-        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-        solution.add(new DummyTurnCommand(90));
-        solution.add(new DummyMoveCommand(5, 90));
-
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+        createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
     }
 
     @Test
@@ -113,7 +97,7 @@ public class DiagonalPathGeneratorTests {
         solution.add(new DummyTurnCommand(270));
         solution.add(new DummyMoveCommand(5, 270));
 
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+        createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
     }
 
     @Test
@@ -127,7 +111,7 @@ public class DiagonalPathGeneratorTests {
         solution.add(new DummyTurnCommand(180));
         solution.add(new DummyMoveCommand(4, 180));
 
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+        createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
     }
 
     @Test
@@ -138,10 +122,12 @@ public class DiagonalPathGeneratorTests {
             new Waypoint(2, 2)
         };
         ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-        solution.add(new DummyTurnCommand(45));
-        solution.add(new DummyMoveCommand(Math.sqrt(8), 45));
+        solution.add(new DummyTurnCommand(0));
+        solution.add(new DummyMoveCommand(2, 0));
+        solution.add(new DummyTurnCommand(90));
+        solution.add(new DummyMoveCommand(2, 90));
 
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+        createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
     }
     @Test
     public void twoPointsDiagonalFromEachOther2() {
@@ -151,10 +137,12 @@ public class DiagonalPathGeneratorTests {
             new Waypoint(2, -2)
         };
         ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-        solution.add(new DummyTurnCommand(135));
-        solution.add(new DummyMoveCommand(Math.sqrt(8), 135));
+        solution.add(new DummyTurnCommand(180));
+        solution.add(new DummyMoveCommand(2, 180));
+        solution.add(new DummyTurnCommand(90));
+        solution.add(new DummyMoveCommand(2, 90));
 
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+        createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
     }
 
     @Test
@@ -165,10 +153,12 @@ public class DiagonalPathGeneratorTests {
             new Waypoint(7, 7)
         };
         ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-        solution.add(new DummyTurnCommand(45));
-        solution.add(new DummyMoveCommand(Math.sqrt(8), 45));
+        solution.add(new DummyTurnCommand(0));
+        solution.add(new DummyMoveCommand(2, 0));
+        solution.add(new DummyTurnCommand(90));
+        solution.add(new DummyMoveCommand(2, 90));
 
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+        createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
     }
 
     @Test
@@ -179,11 +169,12 @@ public class DiagonalPathGeneratorTests {
             new Waypoint(4, 8)
         };
         ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-        double angleToTurnTo = Math.toDegrees(Math.atan(3.0/4.0));
-        solution.add(new DummyTurnCommand(angleToTurnTo));
-        solution.add(new DummyMoveCommand(5, angleToTurnTo));
+        solution.add(new DummyTurnCommand(0));
+        solution.add(new DummyMoveCommand(4, 0));
+        solution.add(new DummyTurnCommand(90));
+        solution.add(new DummyMoveCommand(3, 90));
 
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+        createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
     }
 
     @Test
@@ -196,12 +187,19 @@ public class DiagonalPathGeneratorTests {
             new Waypoint(7, 9)
         };
         ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-        solution.add(new DummyTurnCommand(45));
-        solution.add(new DummyMoveCommand(Math.sqrt(2), 45));
-        solution.add(new DummyTurnCommand(360-45));
-        solution.add(new DummyMoveCommand(Math.sqrt(2), 360-45));
-        solution.add(new DummyTurnCommand(45));
-        solution.add(new DummyMoveCommand(Math.sqrt(98), 45));
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+        solution.add(new DummyTurnCommand(0));
+        solution.add(new DummyMoveCommand(1, 0));
+        solution.add(new DummyTurnCommand(90));
+        solution.add(new DummyMoveCommand(1, 90));
+        solution.add(new DummyTurnCommand(0));
+        solution.add(new DummyMoveCommand(1, 0));
+        solution.add(new DummyTurnCommand(270));
+        solution.add(new DummyMoveCommand(1, 270));
+        solution.add(new DummyTurnCommand(0));
+        solution.add(new DummyMoveCommand(7, 0));
+        solution.add(new DummyTurnCommand(90));
+        solution.add(new DummyMoveCommand(7, 90));
+        createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
     }
 }
+
