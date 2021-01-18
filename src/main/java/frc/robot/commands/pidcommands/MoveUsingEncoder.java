@@ -26,7 +26,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading, double heading) {
     super(
         // The controller that the command will use
         new PIDController4905("MoveUsingEncoder", 0, 0, 0, 0),
@@ -37,7 +37,15 @@ public class MoveUsingEncoder extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.moveUsingGyro(output, 0, true, false);
+          if (useCompassHeading) {
+            // this is newer code that every new creation of move using encoder should use
+            drivetrain.moveUsingGyro(output, 0, heading);
+          } else {
+            // this is older code that every new creation of move using encoder should not
+            // use\
+            // it only exists right now to make sure that past autonomous modes still work
+            drivetrain.moveUsingGyro(output, 0, false, false);
+          }
         });
     m_distance = distance;
     m_setpoint = this::getSetpoint;
@@ -47,9 +55,20 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     addRequirements(drivetrain);
   }
 
+  @Deprecated
   public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
-    this(drivetrain, distance);
+    this(drivetrain, distance, false, 0);
     m_maxOutput = maxOutput;
+  }
+
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading, double maxOutput) {
+    this(drivetrain, distance, true, heading);
+    m_maxOutput = maxOutput;
+  }
+
+  @Deprecated
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
+    this(drivetrain, distance, false, 0);
   }
 
   public void initialize() {
@@ -70,6 +89,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     } else if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
       getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
     }
+
   }
 
   public double getSetpoint() {
