@@ -32,4 +32,36 @@ public class Waypoint extends Point2D {
 
     return new Waypoint(deltaX, deltaY);
   }
+
+
+  public Waypoint add(Waypoint w) {
+    double xSum = m_x + w.getX();
+    double ySum = m_y + w.getY();
+
+    return new Waypoint(xSum, ySum);
+  }
+
+  /**
+   * 
+   * @param factor
+   * @return a new waypoint in which each coordinate has been multiplied by factor
+   */
+  public Waypoint multiply(double factor) {
+    double xTerm = m_x * factor;
+    double yTerm = m_y * factor;
+
+    return new Waypoint(xTerm, yTerm);
+  }
+
+  /**
+   * 
+   * @param factor
+   * @return a new waypoint in which each coordinate has been divided by factor
+   */
+  public Waypoint divide(double factor) {
+    double xTerm = m_x / factor;
+    double yTerm = m_y / factor;
+
+    return new Waypoint(xTerm, yTerm);
+  }
 }
