@@ -33,7 +33,6 @@ public class Waypoint extends Point2D {
     return new Waypoint(deltaX, deltaY);
   }
 
-
   public Waypoint add(Waypoint w) {
     double xSum = m_x + w.getX();
     double ySum = m_y + w.getY();
