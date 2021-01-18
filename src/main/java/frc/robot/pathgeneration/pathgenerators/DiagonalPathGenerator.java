@@ -15,7 +15,6 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
     super(waypoints, initialWaypoint);
 
     m_currentWaypoint = new Waypoint(0, 0);
-    System.out.println("Creating a new path");
     m_path = new SequentialCommandGroup();
   }
 
@@ -26,14 +25,17 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
     double deltaY = waypoint.getY() - m_currentWaypoint.getY();
-
     double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan(deltaX / deltaY));
+
+    if(deltaY < 0) {
+      angleInDegreesCenteredAt0 += 180;
+    }
 
     double compassAngle = AngleConversionUtils
         .ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
-    System.out.println("Adding some commands");
-    m_path.addCommands(createTurnCommand(compassAngle), createMoveCommand(distance, compassAngle));
-    System.out.println("Done Adding some commands");
+
+    m_path.addCommands(createTurnCommand(compassAngle));
+    m_path.addCommands(createMoveCommand(distance, compassAngle));
     m_currentWaypoint = waypoint;
   }
 

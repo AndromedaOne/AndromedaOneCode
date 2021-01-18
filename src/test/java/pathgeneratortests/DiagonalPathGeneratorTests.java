@@ -13,6 +13,9 @@ import frc.robot.pathgeneration.waypoints.WaypointsBase;
 
 public class DiagonalPathGeneratorTests {
 
+    private List<Waypoint> m_waypoints = new ArrayList<Waypoint>();
+    public static final double TOLERANCE = 0.01;
+
     private class DiagonalPathGeneratorTester extends DiagonalPathGenerator {
 
         List<CommandBase> m_commands;
@@ -53,15 +56,7 @@ public class DiagonalPathGeneratorTests {
 
     }
 
-    private List<Waypoint> m_waypoints = new ArrayList<>();
-    
-    @BeforeEach
-    public void clearWaypoints() {
-        m_waypoints.clear();
-
-    }
-
-    private void createSimpleDiagonalPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint, CommandBase[] solution, boolean testMode) {
+    private void createSimpleDiagonalPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint, List<CommandBase> solution) {
         
         for(Waypoint w : waypoints){
             m_waypoints.add(w);
@@ -69,34 +64,55 @@ public class DiagonalPathGeneratorTests {
         TestWaypoints testPoints = new TestWaypoints();
 
         DiagonalPathGeneratorTester diagonalPathGeneratorTester = new DiagonalPathGeneratorTester(testPoints, initialPoint);
-
-        List<CommandBase> correctCommands = new ArrayList<CommandBase>();
-        for (CommandBase c : solution){
-            correctCommands.add(c);
-        }
-        if(testMode) {
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("Getting path.");
-        }
+       
         diagonalPathGeneratorTester.getPath();
-        int index = 0;
-        if(testMode) {
-            for(CommandBase c : diagonalPathGeneratorTester.getCommandsAdded()) {
-                System.out.println(c.toString());
-            }
+        
+        try{
+            checkDummyCommandsAreEqual(solution, diagonalPathGeneratorTester.getCommandsAdded());
+        }catch(AssertionError e) {
+
+            printFailureInformation(solution, diagonalPathGeneratorTester.getCommandsAdded());
+            throw(e);
         }
-        for(CommandBase c : solution) {
-            assert c.equals(diagonalPathGeneratorTester.getCommandsAdded().get(index));
-            index++;
-        }
-        assert solution.length == diagonalPathGeneratorTester.getCommandsAdded().size();
     }
 
-    private void createSimpleDiagonalPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint, CommandBase[] solution) {
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution, false);
+    private void checkDummyCommandsAreEqual(List<CommandBase> commands1, List<CommandBase> commands2) {
+        int index = 0;
+        for(CommandBase solutionCommand : commands1) {
+            CommandBase generatedCommand = commands2.get(index);
+            if (solutionCommand instanceof DummyMoveCommand && generatedCommand instanceof DummyMoveCommand) {
+                DummyMoveCommand c1 = (DummyMoveCommand) solutionCommand;
+                DummyMoveCommand c2 = (DummyMoveCommand) generatedCommand;
+                assert (Math.abs(c1.getAngle() - c2.getAngle()) <= TOLERANCE && Math.abs(c1.getDistance() - c2.getDistance()) <= TOLERANCE);
+
+            }else if(solutionCommand instanceof DummyTurnCommand && generatedCommand instanceof DummyTurnCommand){
+                DummyTurnCommand c1 = (DummyTurnCommand) solutionCommand;
+                DummyTurnCommand c2 = (DummyTurnCommand) generatedCommand;
+                assert (Math.abs(c1.getAngle() - c2.getAngle()) <= TOLERANCE);
+
+            }else{
+                assert false;
+            }
+            index++;
+        }
+        assert commands1.size() == commands2.size();
+    }
+
+    private void printFailureInformation(List<CommandBase> solution, List<CommandBase> generatedOutput){
+        System.out.println("---------------------------------------");
+        System.out.println("Expected: ");
+        for(CommandBase c : solution) {
+            System.out.println(c.toString());
+        }
+        System.out.println("Received: ");
+        for(CommandBase c : generatedOutput) {
+            System.out.println(c.toString());
+        }
+    }
+
+    @BeforeEach
+    public void clearWaypoints() {
+        m_waypoints.clear();
     }
 
     @Test
@@ -104,27 +120,25 @@ public class DiagonalPathGeneratorTests {
 
         Waypoint initialPoint = new Waypoint(0,0);
         Waypoint[] waypoints = {
-            new Waypoint(0, 4)
+            new Waypoint(0, 5)
         };
-        CommandBase[] solution = {
-            new DummyTurnCommand(0),
-            new DummyMoveCommand(4, 0)
-        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        solution.add(new DummyTurnCommand(0));
+        solution.add(new DummyMoveCommand(5, 0));
 
         createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
     }
 
-    /*@Test
+    @Test
     public void twoPointsHorizontallyAlligned() {
 
         Waypoint initialPoint = new Waypoint(0,0);
         Waypoint[] waypoints = {
             new Waypoint(5, 0)
         };
-        CommandBase[] solution = {
-            new DummyTurnCommand(90),
-            new DummyMoveCommand(5, 90)
-        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        solution.add(new DummyTurnCommand(90));
+        solution.add(new DummyMoveCommand(5, 90));
 
         createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
     }
@@ -136,26 +150,24 @@ public class DiagonalPathGeneratorTests {
         Waypoint[] waypoints = {
             new Waypoint(-5, 0)
         };
-        CommandBase[] solution = {
-            new DummyTurnCommand(270),
-            new DummyMoveCommand(5, 270)
-        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        solution.add(new DummyTurnCommand(270));
+        solution.add(new DummyMoveCommand(5, 270));
 
         createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
-    }*/
+    }
 
     @Test
     public void twoPointsVerticallyAllignedTurnAround() {
 
         Waypoint initialPoint = new Waypoint(0,0);
         Waypoint[] waypoints = {
-            new Waypoint(0, -5)
+            new Waypoint(0, -4)
         };
-        CommandBase[] solution = {
-            new DummyTurnCommand(180),
-            new DummyMoveCommand(5, 180)
-        };
+        ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+        solution.add(new DummyTurnCommand(180));
+        solution.add(new DummyMoveCommand(4, 180));
 
-        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution, true);
+        createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
     }
 }

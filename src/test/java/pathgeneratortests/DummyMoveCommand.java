@@ -5,22 +5,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DummyMoveCommand extends CommandBase{
     private double m_distance;
     private double m_angle; 
-    public static final double TOLERANCE = 0.01;
+    public static int numberOfDummyMoveCommandInstances = 0;
     
     public DummyMoveCommand(double distance, double angle) {
         m_distance = distance;
         m_angle = angle;
+        numberOfDummyMoveCommandInstances++;
+        
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        DummyMoveCommand dummyMoveCommand;
-        try{
-            dummyMoveCommand = (DummyMoveCommand) obj;
-            return Math.abs(m_distance - dummyMoveCommand.m_distance) <= TOLERANCE && Math.abs(m_angle - dummyMoveCommand.m_angle) <= TOLERANCE;
-        } catch(ClassCastException c) {
-            return super.equals(obj);
-        }
+    public double getDistance() {
+        return m_distance;
+    }
+    public double getAngle() {
+        return m_angle;
     }
 
     public String toString() {
