@@ -57,7 +57,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Galactic Search Path B",
         new GalacticSearchPathB(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
 
-    DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.B3);
+    DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(
+        new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.B3);
     SmartDashboard.putData("Go to C3", driveTrainDiagonalPathGenerator.getPath());
   }
 

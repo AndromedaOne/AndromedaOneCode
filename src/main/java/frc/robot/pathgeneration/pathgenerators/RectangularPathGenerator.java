@@ -21,14 +21,14 @@ public abstract class RectangularPathGenerator extends PathGeneratorBase {
     double deltaY = waypoint.getY() - m_currentWaypoint.getY();
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
 
-    if(deltaY > 0){
+    if (deltaY > 0) {
       m_path.addCommands(createTurnCommand(0), createMoveCommand(deltaY, 0));
-    }else if(deltaY < 0) {
+    } else if (deltaY < 0) {
       m_path.addCommands(createTurnCommand(180), createMoveCommand(Math.abs(deltaY), 180));
     }
-    if(deltaX > 0) {
+    if (deltaX > 0) {
       m_path.addCommands(createTurnCommand(90), createMoveCommand(deltaX, 90));
-    }else if(deltaX < 0) {
+    } else if (deltaX < 0) {
       m_path.addCommands(createTurnCommand(270), createMoveCommand(Math.abs(deltaX), 270));
     }
 
