@@ -64,7 +64,6 @@ public class Waypoint extends Point2D {
     return new Waypoint(xTerm, yTerm);
   }
 
-
   public Waypoint average(Waypoint... waypoints) {
     double sumOfX = m_x;
     double sumOfY = m_y;
