@@ -25,7 +25,7 @@ public abstract class PathGeneratorBase {
     }
   }
 
-  protected void setInitialPoint(Waypoint initialPoint){
+  protected void setInitialPoint(Waypoint initialPoint) {
     m_initialPoint = initialPoint;
   }
 
