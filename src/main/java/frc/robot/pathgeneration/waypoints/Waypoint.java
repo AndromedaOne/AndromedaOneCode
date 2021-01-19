@@ -63,4 +63,18 @@ public class Waypoint extends Point2D {
 
     return new Waypoint(xTerm, yTerm);
   }
+
+
+  public Waypoint average(Waypoint... waypoints) {
+    double sumOfX = m_x;
+    double sumOfY = m_y;
+    double count = 1;
+    for (Waypoint w : waypoints) {
+      sumOfX += w.getX();
+      sumOfY += w.getY();
+      count++;
+    }
+
+    return new Waypoint((sumOfX / count), (sumOfY / count));
+  }
 }
