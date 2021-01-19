@@ -11,9 +11,32 @@ public class WaypointWithRobotSide extends Waypoint{
         m_robotSides = robotside;
     }
 
+    public WaypointWithRobotSide(Waypoint w, RobotSections robotside)  {
+        this(w.getX(), w.getY(), robotside);
+    }
+
+
     public RobotSections getSide() {
         return m_robotSides;
     }
 
-    
+    @Override
+    public Waypoint subtract(Waypoint w) {
+        return new WaypointWithRobotSide(super.subtract(w), m_robotSides);
+    }
+
+    @Override
+    public Waypoint add(Waypoint w) {
+        return new WaypointWithRobotSide(super.add(w), m_robotSides);
+    }
+
+    @Override
+    public Waypoint multiply(double factor) {
+        return new WaypointWithRobotSide(super.multiply(factor), m_robotSides);
+    }
+
+    @Override
+    public Waypoint divide(double factor) {
+        return new WaypointWithRobotSide(super.divide(factor), m_robotSides);
+    }
 }

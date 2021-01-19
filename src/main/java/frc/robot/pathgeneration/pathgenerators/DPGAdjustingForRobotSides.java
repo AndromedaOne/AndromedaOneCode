@@ -8,20 +8,21 @@ import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.utils.RobotDimensions;
 
 public abstract class DPGAdjustingForRobotSides extends DiagonalPathGenerator {
+    private RobotDimensions m_robotDimensions;
 
-    public DPGAdjustingForRobotSides(WaypointsBase waypoints, Waypoint initialWaypoint) {
+    public DPGAdjustingForRobotSides(WaypointsBase waypoints, Waypoint initialWaypoint, double initialHeading, RobotDimensions robotDimensions) {
         super(waypoints, initialWaypoint);
-        if(initialWaypoint instanceof WaypointWithRobotSide) {
-            throw new InvalidParameterException("When giving a waypoint with robot side you must include an intial heading!");
-        }
+        Waypoint initialWaypointAdjustedForRobotSide = getWaypointAdjustedForRobotSide(initialWaypoint, initialHeading);
+        super.setInitialPoint(initialWaypointAdjustedForRobotSide);
+        m_robotDimensions = robotDimensions;
     }
 
-    public DPGAdjustingForRobotSides(WaypointsBase waypoints, WaypointWithRobotSide initialWaypoint, double intialHeading) {
-        super(waypoints, initialWaypoint);
+    public DPGAdjustingForRobotSides(WaypointsBase waypoints, Waypoint initialWaypoint,  RobotDimensions robotDimensions) {
+        this(waypoints, initialWaypoint, Double.NaN, robotDimensions);
+        if(initialWaypoint instanceof WaypointWithRobotSide) {
+            throw new InvalidParameterException("When giving a waypoint with robot side you must include the initial heading of the robot!");
+        }
         
-        Waypoint initialWaypointAdjustedForRobotSide = getWaypointAdjustedForRobotSide(initialWaypoint, intialHeading);
-
-        super.setInitialPoint(initialWaypointAdjustedForRobotSide);
     }
 
     @Override
@@ -34,25 +35,25 @@ public abstract class DPGAdjustingForRobotSides extends DiagonalPathGenerator {
     private Waypoint getWaypointAdjustedForRobotSide(Waypoint waypoint, double angle) {
         Waypoint adjustedWaypoint = waypoint.copy();
         if(waypoint instanceof WaypointWithRobotSide) {
-            WaypointWithRobotSide waypointWithRobotSide = (WaypointWithRobotSide) adjustedWaypoint;
+            WaypointWithRobotSide waypointWithRobotSide = (WaypointWithRobotSide) waypoint;
             double distance = 0;
             switch(waypointWithRobotSide.getSide()){
                 case CENTER:
                     break;
                 case BACKOFBUMPER:
-                    distance += RobotDimensions.getInstance().getLength() *  0.5 + RobotDimensions.getInstance().getBumperThickness();
+                    distance += m_robotDimensions.getLength() *  0.5 + m_robotDimensions.getBumperThickness();
                     adjustedWaypoint = getNewWaypointMovedInDirection(waypointWithRobotSide, distance ,angle);
                     break;
                 case BACKOFFRAME:
-                    distance += RobotDimensions.getInstance().getLength() *  0.5;
+                    distance += m_robotDimensions.getLength() *  0.5;
                     adjustedWaypoint = getNewWaypointMovedInDirection(waypointWithRobotSide, distance ,angle);
                     break;
                 case FRONTOFFRAME:
-                    distance -= RobotDimensions.getInstance().getLength() *  0.5;
+                    distance -= m_robotDimensions.getLength() *  0.5;
                     adjustedWaypoint = getNewWaypointMovedInDirection(waypointWithRobotSide, distance ,angle);
                     break;
                 case FRONTOFBUMPER:
-                    distance -= (RobotDimensions.getInstance().getLength() *  0.5 + RobotDimensions.getInstance().getBumperThickness());
+                    distance -= m_robotDimensions.getLength() *  0.5 + m_robotDimensions.getBumperThickness();
                     adjustedWaypoint = getNewWaypointMovedInDirection(waypointWithRobotSide, distance ,angle);
                     break;
             }
