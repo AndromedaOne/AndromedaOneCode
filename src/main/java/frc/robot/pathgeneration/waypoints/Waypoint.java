@@ -64,6 +64,13 @@ public class Waypoint extends Point2D {
     return new Waypoint(xTerm, yTerm);
   }
 
+  /**
+   * 
+   * @param waypoints
+   * @return a new waypoint that has components which are each the sum of this
+   *         waypoint and all the waypoint's passed in components divided by the
+   *         total number of waypoints.
+   */
   public Waypoint average(Waypoint... waypoints) {
     double sumOfX = m_x;
     double sumOfY = m_y;
