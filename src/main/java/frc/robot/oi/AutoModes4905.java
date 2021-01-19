@@ -105,33 +105,6 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
-        
-        m_autoChooser.addOption("Hyper Drive Challenge", 
-                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 30 + robotLengthInches / 2, 0, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 90, 90, maximumPower),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 90, 90, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 0, maximumPower),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 0, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 30, 90, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 0, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 180, 90, maximumPower),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 90, 270, maximumPower),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower)));                                    
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }
