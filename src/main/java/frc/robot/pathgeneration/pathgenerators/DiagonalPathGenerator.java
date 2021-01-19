@@ -44,6 +44,14 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
     return AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
   }
 
+  protected Waypoint getCurrentPoint() {
+    return m_currentWaypoint;
+  }
+
+  protected void setCurrentWaypoint(Waypoint w) {
+    m_currentWaypoint = w;
+  }
+
   protected abstract CommandBase createTurnCommand(double angle);
 
   protected abstract CommandBase createMoveCommand(double distance, double angle);

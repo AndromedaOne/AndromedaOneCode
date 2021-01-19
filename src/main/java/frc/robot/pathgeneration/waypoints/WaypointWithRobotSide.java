@@ -16,7 +16,7 @@ public class WaypointWithRobotSide extends Waypoint{
     }
 
 
-    public RobotSections getSide() {
+    public RobotSections getSection() {
         return m_robotSides;
     }
 

@@ -242,4 +242,13 @@ public class DiagonalPathGeneratorTests {
 
   }
 
+  @Test
+  public void TwoPointsOnEachOther() {
+    Waypoint initialPoint = new Waypoint(0, 0);
+    Waypoint[] waypoints = { new Waypoint(0, 0), new Waypoint(0, 0) };
+    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+    createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+
+  }
+
 }
