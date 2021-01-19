@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.groupcommands.athomechallengepathways.AtHomeChallengePoints;
 import frc.robot.pathgeneration.pathgenerators.DiagonalPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
@@ -186,4 +187,22 @@ public class DiagonalPathGeneratorTests {
     solution.add(new DummyMoveCommand(Math.sqrt(98), 45));
     createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
   }
+
+  @Test
+  public void DiagonalPathATest() {
+    Waypoint initialPoint = AtHomeChallengePoints.B2;
+
+    Waypoint[] waypoints = { AtHomeChallengePoints.E6, AtHomeChallengePoints.A6, AtHomeChallengePoints.D11 };
+    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+    solution.add(new DummyTurnCommand(36.9));
+    solution.add(new DummyMoveCommand(150, 36.9));
+    solution.add(new DummyTurnCommand(270));
+    solution.add(new DummyMoveCommand(120, 270));
+    solution.add(new DummyTurnCommand(31.0));
+    solution.add(new DummyMoveCommand(175, 31.0));
+
+    createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
+
+  }
+
 }

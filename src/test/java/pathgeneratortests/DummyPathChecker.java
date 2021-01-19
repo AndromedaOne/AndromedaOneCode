@@ -5,7 +5,7 @@ import java.util.List;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DummyPathChecker {
-  public static final double TOLERANCE = 0.01;
+  public static final double TOLERANCE = 0.1;
 
   private static void checkDummyCommandsAreEqual(List<CommandBase> commands1, List<CommandBase> commands2) {
     int index = 0;
