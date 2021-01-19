@@ -33,8 +33,10 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
     double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
 
-    m_path.addCommands(createTurnCommand(compassAngle));
-    m_path.addCommands(createMoveCommand(distance, compassAngle));
+    if (distance != 0) {
+      m_path.addCommands(createTurnCommand(compassAngle));
+      m_path.addCommands(createMoveCommand(distance, compassAngle));
+    }
     m_currentWaypoint = waypoint;
   }
 
