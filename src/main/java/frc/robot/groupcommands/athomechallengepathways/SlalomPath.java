@@ -21,8 +21,8 @@ public class SlalomPath extends SequentialCommandGroup {
   /**
    * Creates a new SlalomPath.
    */
-  public SlalomPath() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public SlalomPath(DriveTrain driveTrain) {
+    m_driveTrain = driveTrain;
     addCommands(new DelayedSequentialCommandGroup(
         new MoveUsingEncoder(m_driveTrain, 30 + robotLengthInches / 2, 0, maximumPower), // step 1
         new TurnToCompassHeading(270), new MoveUsingEncoder(m_driveTrain, 60, 270, maximumPower), // step 2

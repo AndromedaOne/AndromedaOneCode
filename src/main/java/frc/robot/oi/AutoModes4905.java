@@ -105,78 +105,7 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12))));
-        m_autoChooser.addOption("slalom", 
-                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 30 + robotLengthInches / 2, 0, maximumPower), // step 1
-                                                                  new TurnToCompassHeading(270), 
-                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower), //step 2
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 180, 0, maximumPower), //step 3
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower), // step 4
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 0, maximumPower), // step 5
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower), // step 6
-                                                                  new TurnToCompassHeading(180), 
-                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower), // step 7
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower), // step 8 
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 180, 180, maximumPower), // tep 9 
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower), // step 10
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower))); // step 11                                                 
-        m_autoChooser.addOption("Barrel Racing Path",
-                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 120 + robotLengthInches / 2, 0, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60 , 180, maximumPower),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 150, 0, maximumPower),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 120, 0, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 180, maximumPower),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower),
-                                                                  new TurnToCompassHeading(180),
-                                                                  new MoveUsingEncoder(driveTrain, 240, 180, maximumPower)));                            
-        m_autoChooser.addOption("Bounce Path",
-                                new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 30 + robotLengthInches / 2, 0, maximumPower),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 270, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 30, 0, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 0, maximumPower),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 120, 270, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 120, 90, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 90, 0, maximumPower),
-                                                                  new TurnToCompassHeading(270),
-                                                                  new MoveUsingEncoder(driveTrain, 120, 270, maximumPower),
-                                                                  new TurnToCompassHeading(90),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 90, maximumPower),
-                                                                  new TurnToCompassHeading(0),
-                                                                  new MoveUsingEncoder(driveTrain, 60, 0, maximumPower)));
+        
         m_autoChooser.addOption("Hyper Drive Challenge", 
                                 new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, 30 + robotLengthInches / 2, 0, maximumPower),
                                                                   new TurnToCompassHeading(90),

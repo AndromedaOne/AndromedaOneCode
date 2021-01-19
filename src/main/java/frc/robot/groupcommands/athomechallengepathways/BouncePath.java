@@ -21,7 +21,8 @@ public class BouncePath extends SequentialCommandGroup {
   /**
    * Creates a new BouncePath.
    */
-  public BouncePath() {
+  public BouncePath(DriveTrain driveTrain) {
+    m_driveTrain = driveTrain;
     addCommands(new DelayedSequentialCommandGroup(
         new MoveUsingEncoder(m_driveTrain, 30 + robotLengthInches / 2, 0, maximumPower), new TurnToCompassHeading(270),
         new MoveUsingEncoder(m_driveTrain, 60, 270, maximumPower), new TurnToCompassHeading(90),

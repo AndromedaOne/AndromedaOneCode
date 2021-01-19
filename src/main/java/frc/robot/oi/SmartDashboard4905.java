@@ -15,8 +15,11 @@ import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
+import frc.robot.groupcommands.athomechallengepathways.BarrelRacingPath;
+import frc.robot.groupcommands.athomechallengepathways.BouncePath;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
+import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -53,6 +56,9 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Galactic Search Path B",
         new GalacticSearchPathB(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
+    SmartDashboard.putData("Bounce Path", new BouncePath(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("Slalom Path", new SlalomPath(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("Barrel Racing Path", new BarrelRacingPath(subsystemsContainer.getDrivetrain()));
   }
 
   public Command getSelectedAutoChooserCommand() {

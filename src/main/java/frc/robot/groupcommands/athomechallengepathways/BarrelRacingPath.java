@@ -5,7 +5,6 @@ import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.drivetrain.DriveTrain;
-import frc.robot.subsystems.intake.IntakeBase;
 
 public class BarrelRacingPath extends SequentialCommandGroup {
 
@@ -19,7 +18,7 @@ public class BarrelRacingPath extends SequentialCommandGroup {
   double maximumPower = 0.5;
   double robotLengthInches = 38;
 
-  public BarrelRacingPath(DriveTrain driveTrain, IntakeBase intake) {
+  public BarrelRacingPath(DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
     addCommands(new DelayedSequentialCommandGroup(
         new MoveUsingEncoder(driveTrain, 120 + robotLengthInches / 2, 0, maximumPower), new TurnToCompassHeading(90),
