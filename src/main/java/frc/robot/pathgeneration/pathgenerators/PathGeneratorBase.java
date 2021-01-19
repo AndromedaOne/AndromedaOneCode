@@ -11,7 +11,7 @@ public abstract class PathGeneratorBase {
 
   public PathGeneratorBase(WaypointsBase waypoints, Waypoint initialPoint) {
     m_waypoints = waypoints;
-    m_initialPoint = initialPoint;
+    setInitialPoint(initialPoint);
   }
 
   public CommandBase getPath() {
@@ -23,6 +23,10 @@ public abstract class PathGeneratorBase {
     for (Waypoint w : m_waypoints) {
       generatePathForNextRelativeToStartWaypoint(w.subtract(m_initialPoint));
     }
+  }
+
+  protected void setInitialPoint(Waypoint initialPoint){
+    m_initialPoint = initialPoint;
   }
 
   protected abstract void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint);

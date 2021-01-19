@@ -83,4 +83,8 @@ public class Waypoint extends Point2D {
 
     return new Waypoint((sumOfX / count), (sumOfY / count));
   }
+
+  public Waypoint copy() {
+    return new Waypoint(m_x, m_y);
+  }
 }

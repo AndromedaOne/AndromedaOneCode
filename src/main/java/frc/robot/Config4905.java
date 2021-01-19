@@ -38,6 +38,8 @@ public class Config4905 {
 
   private static Config commandConstantsConfig;
 
+  private static Config robotDimensionsConfig;
+
   private static final Config4905 m_config4905 = new Config4905();
 
   private static final String BASEDIRECTORY = "/home/lvuser/deploy/robotConfigs/";
@@ -68,6 +70,7 @@ public class Config4905 {
     feederConfig = load("Feeder.conf");
     drivetrainConfig = load("drivetrain.conf");
     climberConfig = load("Climber.conf");
+    robotDimensionsConfig = load("Dimensions.conf");
   }
 
   static {
@@ -140,5 +143,9 @@ public class Config4905 {
 
   public Config getCommandConstantsConfig() {
     return commandConstantsConfig;
+  }
+
+  public Config getRobotDimensionsConfig() {
+    return robotDimensionsConfig;
   }
 }

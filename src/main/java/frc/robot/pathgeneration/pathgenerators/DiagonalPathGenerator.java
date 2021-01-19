@@ -23,6 +23,16 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
     double distance = m_currentWaypoint.distance(waypoint);
 
+    double compassAngle = getAngleToTurn(waypoint);
+
+    if (distance != 0) {
+      m_path.addCommands(createTurnCommand(compassAngle));
+      m_path.addCommands(createMoveCommand(distance, compassAngle));
+    }
+    m_currentWaypoint = waypoint;
+  }
+
+  protected double getAngleToTurn(Waypoint waypoint) {
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
     double deltaY = waypoint.getY() - m_currentWaypoint.getY();
     double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan(deltaX / deltaY));
@@ -31,13 +41,7 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
       angleInDegreesCenteredAt0 += 180;
     }
 
-    double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
-
-    if (distance != 0) {
-      m_path.addCommands(createTurnCommand(compassAngle));
-      m_path.addCommands(createMoveCommand(distance, compassAngle));
-    }
-    m_currentWaypoint = waypoint;
+    return AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
   }
 
   protected abstract CommandBase createTurnCommand(double angle);
