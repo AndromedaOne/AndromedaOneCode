@@ -21,6 +21,15 @@ public abstract class DPGAdjustingForRobotSections extends DiagonalPathGenerator
 
   }
 
+  public DPGAdjustingForRobotSections(WaypointsBase waypoints, Waypoint initialWaypoint,
+      RobotDimensions robotDimensions) {
+    this(waypoints, initialWaypoint, Double.NaN, robotDimensions);
+    if (initialWaypoint instanceof WaypointWithRobotSide) {
+      throw new InvalidParameterException(
+          "When giving a waypoint with robot side you must include the initial heading of the robot!");
+    }
+  }
+
   private Waypoint getInitialPointAdjustedForRobotSide(Waypoint initialWaypoint, double initialHeading) {
     Waypoint adjustedWaypoint = initialWaypoint.copy();
     if (initialWaypoint instanceof WaypointWithRobotSide) {
@@ -32,18 +41,7 @@ public abstract class DPGAdjustingForRobotSections extends DiagonalPathGenerator
         adjustedWaypoint = getNewWaypointMovedInDirection(waypointWithRobotSide, distance, initialHeading);
       }
     }
-
     return adjustedWaypoint;
-  }
-
-  public DPGAdjustingForRobotSections(WaypointsBase waypoints, Waypoint initialWaypoint,
-      RobotDimensions robotDimensions) {
-    this(waypoints, initialWaypoint, Double.NaN, robotDimensions);
-    if (initialWaypoint instanceof WaypointWithRobotSide) {
-      throw new InvalidParameterException(
-          "When giving a waypoint with robot side you must include the initial heading of the robot!");
-    }
-
   }
 
   @Override
@@ -54,55 +52,52 @@ public abstract class DPGAdjustingForRobotSections extends DiagonalPathGenerator
     if (Double.isNaN(angle)) {
       return;
     }
-    if (waypoint instanceof WaypointWithRobotSide) {
-      WaypointWithRobotSide waypointWithRobotSide = (WaypointWithRobotSide) waypoint;
-      if (isWaypointWithinTurningRadius(waypoint)) {
-        addCommandsForPointWithinTurningRadiusAndSetCurrentWaypoint(waypointWithRobotSide, angle);
-        return;
-      }
 
-      if (!robotSectionAtFrontOfRobot(waypointWithRobotSide.getSection())) {
-        
-        Waypoint adjustedWaypoint = getWaypointAdjustedForRobotSide(waypoint, angle);
-        double distance = getCurrentPoint().distance(adjustedWaypoint);
-        angle += 180;
-        angle = AngleConversionUtils.ConvertAngleToCompassHeading(angle);
-        super.addCommandToPath(createTurnCommand(angle));
-        super.addCommandToPath(createMoveCommand(-distance, angle));
-        setCurrentWaypoint(adjustedWaypoint);
-        return;
-      }
+    WaypointWithRobotSide waypointWithRobotSide;
+    if(!(waypoint instanceof WaypointWithRobotSide)) {
+      waypointWithRobotSide = new WaypointWithRobotSide(waypoint, RobotSections.CENTER);
+    }else {
+      waypointWithRobotSide = (WaypointWithRobotSide) waypoint.copy();
     }
-    
-    Waypoint adjustedWaypoint = getWaypointAdjustedForRobotSide(waypoint, angle);
+
+    if (isWaypointOnOrWithinTurningRadius(waypointWithRobotSide)) {
+      addCommandsForPointWithinTurningRadius(waypointWithRobotSide, angle);
+      return;
+    }
+
+    Waypoint adjustedWaypoint = getWaypointAdjustedForRobotSide(waypointWithRobotSide, angle);
+
+    if (!robotSectionAtFrontOfRobot(waypointWithRobotSide.getSection())) {
+      addCommandsForMovingBackOfRobot(adjustedWaypoint, angle);
+      return;
+    }
     super.generatePathForNextRelativeToStartWaypoint(adjustedWaypoint);
   }
 
-  private boolean isWaypointWithinTurningRadius(Waypoint waypoint) {
-    if (waypoint instanceof WaypointWithRobotSide) {
-      WaypointWithRobotSide waypointWithRobotSide = (WaypointWithRobotSide) waypoint;
-      double distanceAdjustmentFromRobotSection = getDistanceAdjustmentFromRobotSection(
-          waypointWithRobotSide.getSection());
-      return waypoint.distance(getCurrentPoint()) <= distanceAdjustmentFromRobotSection;
-    }
-    return false;
+  private boolean isWaypointOnOrWithinTurningRadius(WaypointWithRobotSide waypoint) {
+    double distanceAdjustmentFromRobotSection = getDistanceAdjustmentFromRobotSection(waypoint.getSection());
+    return waypoint.distance(getCurrentPoint()) <= distanceAdjustmentFromRobotSection;
   }
 
-  private void addCommandsForPointWithinTurningRadiusAndSetCurrentWaypoint(WaypointWithRobotSide waypoint,
+  private void addCommandsForPointWithinTurningRadius(WaypointWithRobotSide waypoint,
       double angle) {
     double distanceAdjustmentFromRobotSection = getDistanceAdjustmentFromRobotSection(waypoint.getSection());
     double distance = getCurrentPoint().distance(waypoint);
     if (robotSectionAtFrontOfRobot(waypoint.getSection())) {
-      super.addCommandToPath(createTurnCommand(angle));
       distance -= distanceAdjustmentFromRobotSection;
-      super.addCommandToPath(createMoveCommand(distance, angle));
     } else {
       angle = AngleConversionUtils.ConvertAngleToCompassHeading(angle + 180);
-      super.addCommandToPath(createTurnCommand(angle));
       distance = distanceAdjustmentFromRobotSection - distance;
-      super.addCommandToPath(createMoveCommand(distance, angle));
     }
-    setCurrentWaypoint(getNewWaypointMovedInDirection(getCurrentPoint(), distance, angle));
+    super.addTurnMoveCommands(distance, angle);
+  }
+
+  public void addCommandsForMovingBackOfRobot(Waypoint waypoint, double angle) {
+    double distance = getCurrentPoint().distance(waypoint);
+    angle += 180;
+    angle = AngleConversionUtils.ConvertAngleToCompassHeading(angle);
+    distance *= -1.0;
+    super.addTurnMoveCommands(distance, angle);
   }
 
   private boolean robotSectionAtFrontOfRobot(RobotSections robotSections) {
@@ -121,13 +116,9 @@ public abstract class DPGAdjustingForRobotSections extends DiagonalPathGenerator
     return true;
   }
 
-  private Waypoint getWaypointAdjustedForRobotSide(Waypoint waypoint, double angle) {
-    Waypoint adjustedWaypoint = waypoint.copy();
-    if (waypoint instanceof WaypointWithRobotSide) {
-      WaypointWithRobotSide waypointWithRobotSide = (WaypointWithRobotSide) waypoint;
-      double distance = getDistanceAdjustmentFromRobotSection(waypointWithRobotSide.getSection());
-      adjustedWaypoint = getNewWaypointMovedInDirection(waypointWithRobotSide, -distance, angle);
-    }
+  private Waypoint getWaypointAdjustedForRobotSide(WaypointWithRobotSide waypoint, double angle) {
+    double distance = getDistanceAdjustmentFromRobotSection(waypoint.getSection());
+    Waypoint adjustedWaypoint = getNewWaypointMovedInDirection(waypoint, -distance, angle);
 
     return adjustedWaypoint;
 
@@ -147,18 +138,6 @@ public abstract class DPGAdjustingForRobotSections extends DiagonalPathGenerator
       return m_robotDimensions.getLength() * 0.5 + m_robotDimensions.getBumperThickness();
     }
     return 0;
-  }
-
-  private Waypoint getNewWaypointMovedInDirection(Waypoint waypoint, double distance, double direction) {
-    // sin and cos are resversed in these calculations because it assumes direction
-    // is being measured from North i.e. pointed in a direction of East would result
-    // in a direction measurement of 90˚ rather than tha traditional polar
-    // coordinate system which would assign East and angle of 0˚
-
-    double newX = waypoint.getX() + distance * Math.sin(Math.toRadians(direction));
-    double newY = waypoint.getY() + distance * Math.cos(Math.toRadians(direction));
-
-    return new Waypoint(newX, newY);
   }
 
 }

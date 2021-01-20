@@ -38,4 +38,9 @@ public class WaypointWithRobotSide extends Waypoint {
   public Waypoint divide(double factor) {
     return new WaypointWithRobotSide(super.divide(factor), m_robotSides);
   }
+
+  @Override
+  public WaypointWithRobotSide copy() {
+    return new WaypointWithRobotSide(super.getX(), super.getY(), m_robotSides);
+  }
 }

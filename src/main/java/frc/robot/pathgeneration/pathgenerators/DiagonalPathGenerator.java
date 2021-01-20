@@ -20,16 +20,15 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
   @Override
   protected void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint) {
-
     double distance = m_currentWaypoint.distance(waypoint);
 
     double compassAngle = getAngleToTurn(waypoint);
 
-    if (distance != 0) {
-      m_path.addCommands(createTurnCommand(compassAngle));
-      m_path.addCommands(createMoveCommand(distance, compassAngle));
+    if (Math.abs(distance) > 0.001) {
+      addTurnMoveCommands(distance, compassAngle);
     }
-    m_currentWaypoint = waypoint;
+
+    
   }
 
   protected double getAngleToTurn(Waypoint waypoint) {
@@ -50,6 +49,25 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
   protected void setCurrentWaypoint(Waypoint w) {
     m_currentWaypoint = w;
+  }
+
+  protected void addTurnMoveCommands(double distance, double angle) {
+    addCommandToPath(createTurnCommand(angle));
+    addCommandToPath(createMoveCommand(distance, angle));
+    
+    m_currentWaypoint = getNewWaypointMovedInDirection(getCurrentPoint(), distance, angle);
+  }
+
+  protected Waypoint getNewWaypointMovedInDirection(Waypoint waypoint, double distance, double direction) {
+    // sin and cos are resversed in these calculations because it assumes direction
+    // is being measured from North i.e. pointed in a direction of East would result
+    // in a direction measurement of 90˚ rather than tha traditional polar
+    // coordinate system which would assign East and angle of 0˚
+
+    double newX = waypoint.getX() + distance * Math.sin(Math.toRadians(direction));
+    double newY = waypoint.getY() + distance * Math.cos(Math.toRadians(direction));
+
+    return new Waypoint(newX, newY);
   }
 
   protected abstract CommandBase createTurnCommand(double angle);
