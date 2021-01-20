@@ -6,7 +6,11 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import dummycommands.DummyMoveCommand;
+import dummycommands.DummyPathChecker;
+import dummycommands.DummyTurnCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.pathgeneration.pathgenerators.RectangularPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
@@ -16,29 +20,20 @@ public class RectangularPathGeneratorTests {
 
   private class RectangularPathGeneratorTester extends RectangularPathGenerator {
 
-    List<CommandBase> m_commands;
-
     public RectangularPathGeneratorTester(WaypointsBase waypoints, Waypoint initialWaypoint) {
       super(waypoints, initialWaypoint);
-      m_commands = new ArrayList<CommandBase>();
     }
 
     @Override
     protected CommandBase createTurnCommand(double angle) {
       DummyTurnCommand dummyTurnCommand = new DummyTurnCommand(angle);
-      m_commands.add(dummyTurnCommand);
       return dummyTurnCommand;
     }
 
     @Override
     protected CommandBase createMoveCommand(double distance, double angle) {
       DummyMoveCommand dummyMoveCommand = new DummyMoveCommand(distance, angle);
-      m_commands.add(dummyMoveCommand);
       return dummyMoveCommand;
-    }
-
-    public List<CommandBase> getCommandsAdded() {
-      return m_commands;
     }
 
   }
@@ -55,7 +50,7 @@ public class RectangularPathGeneratorTests {
   }
 
   private void createSimpleRectangularPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint,
-      List<CommandBase> solution) {
+      SequentialCommandGroup solution) {
     for (Waypoint w : waypoints) {
       m_waypoints.add(w);
     }
@@ -64,9 +59,9 @@ public class RectangularPathGeneratorTests {
     RectangularPathGeneratorTester rectangularPathGeneratorTester = new RectangularPathGeneratorTester(testPoints,
         initialPoint);
 
-    rectangularPathGeneratorTester.getPath();
+    CommandBase generatedOutput = rectangularPathGeneratorTester.getPath();
 
-    DummyPathChecker.CompareDummyCommands(solution, rectangularPathGeneratorTester.getCommandsAdded());
+    DummyPathChecker.checkDummyCommandGroupsAreEquivalent(solution, generatedOutput);
   }
 
   @BeforeEach
@@ -79,9 +74,7 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(0, 5) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(5, 0));
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(0), new DummyMoveCommand(5, 0));
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
@@ -91,9 +84,8 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(-5, 0) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(270));
-    solution.add(new DummyMoveCommand(5, 270));
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(270),
+        new DummyMoveCommand(5, 270));
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
@@ -103,9 +95,8 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(0, -4) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(180));
-    solution.add(new DummyMoveCommand(4, 180));
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(180),
+        new DummyMoveCommand(4, 180));
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
@@ -115,11 +106,7 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(2, 2) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(2, 0));
-    solution.add(new DummyTurnCommand(90));
-    solution.add(new DummyMoveCommand(2, 90));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
@@ -129,11 +116,8 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(2, -2) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(180));
-    solution.add(new DummyMoveCommand(2, 180));
-    solution.add(new DummyTurnCommand(90));
-    solution.add(new DummyMoveCommand(2, 90));
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(180),
+        new DummyMoveCommand(2, 180), new DummyTurnCommand(90), new DummyMoveCommand(2, 90));
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
@@ -143,11 +127,8 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(5, 5);
     Waypoint[] waypoints = { new Waypoint(7, 7) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(2, 0));
-    solution.add(new DummyTurnCommand(90));
-    solution.add(new DummyMoveCommand(2, 90));
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(0), new DummyMoveCommand(2, 0),
+        new DummyTurnCommand(90), new DummyMoveCommand(2, 90));
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
@@ -157,11 +138,8 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(1, 4);
     Waypoint[] waypoints = { new Waypoint(4, 8) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(4, 0));
-    solution.add(new DummyTurnCommand(90));
-    solution.add(new DummyMoveCommand(3, 90));
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(0), new DummyMoveCommand(4, 0),
+        new DummyTurnCommand(90), new DummyMoveCommand(3, 90));
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
@@ -171,19 +149,10 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(1, 1), new Waypoint(0, 2), new Waypoint(7, 9) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(1, 0));
-    solution.add(new DummyTurnCommand(90));
-    solution.add(new DummyMoveCommand(1, 90));
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(1, 0));
-    solution.add(new DummyTurnCommand(270));
-    solution.add(new DummyMoveCommand(1, 270));
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(7, 0));
-    solution.add(new DummyTurnCommand(90));
-    solution.add(new DummyMoveCommand(7, 90));
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(0), new DummyMoveCommand(1, 0),
+        new DummyTurnCommand(90), new DummyMoveCommand(1, 90), new DummyTurnCommand(0), new DummyMoveCommand(1, 0),
+        new DummyTurnCommand(270), new DummyMoveCommand(1, 270), new DummyTurnCommand(0), new DummyMoveCommand(7, 0),
+        new DummyTurnCommand(90), new DummyMoveCommand(7, 90));
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
 }
