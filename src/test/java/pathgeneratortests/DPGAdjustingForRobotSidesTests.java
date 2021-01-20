@@ -1,79 +1,58 @@
 package pathgeneratortests;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
+import dummycommands.DummyMoveCommand;
+import dummycommands.DummyPathChecker;
+import dummycommands.DummyTurnCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.pathgeneration.pathgenerators.DPGAdjustingForRobotSections;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointWithRobotSide;
+import frc.robot.pathgeneration.waypoints.Waypoints;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.utils.RobotDimensions;
 import frc.robot.utils.RobotSections;
 import mockedclasses.RobotDimensionsMocked;
 
 public class DPGAdjustingForRobotSidesTests {
-  private List<Waypoint> m_waypoints = new ArrayList<Waypoint>();
-  private RobotDimensions m_robotDimensions = RobotDimensionsMocked.getMockedRobotDimensions();
+  private static RobotDimensions m_robotDimensions = RobotDimensionsMocked.getMockedRobotDimensions();
 
   private class DPGAdjustingForRobotSectionsTester extends DPGAdjustingForRobotSections {
-
-    List<CommandBase> m_commands;
 
     public DPGAdjustingForRobotSectionsTester(WaypointsBase waypoints, Waypoint initialWaypoint, double initialHeading,
         RobotDimensions robotDimensions) {
       super(waypoints, initialWaypoint, initialHeading, robotDimensions);
-      m_commands = new ArrayList<CommandBase>();
     }
 
     public DPGAdjustingForRobotSectionsTester(WaypointsBase waypoints, Waypoint initialWaypoint,
         RobotDimensions robotDimensions) {
       super(waypoints, initialWaypoint, robotDimensions);
-      m_commands = new ArrayList<CommandBase>();
     }
 
     @Override
     protected CommandBase createTurnCommand(double angle) {
       DummyTurnCommand dummyTurnCommand = new DummyTurnCommand(angle);
-      m_commands.add(dummyTurnCommand);
       return dummyTurnCommand;
     }
 
     @Override
     protected CommandBase createMoveCommand(double distance, double angle) {
       DummyMoveCommand dummyMoveCommand = new DummyMoveCommand(distance, angle);
-      m_commands.add(dummyMoveCommand);
       return dummyMoveCommand;
-    }
-
-    public List<CommandBase> getCommandsAdded() {
-      return m_commands;
-    }
-
-  }
-
-  private class TestWaypoints extends WaypointsBase {
-
-    @Override
-    protected void loadWaypoints() {
-      for (Waypoint w : m_waypoints) {
-        addWayPoint(w);
-      }
     }
 
   }
 
   private void createSimpleDPGWithRobotSideTest(Waypoint[] waypoints, Waypoint initialPoint, double initialHeading,
-      List<CommandBase> solution) {
-    for (Waypoint w : waypoints) {
-      m_waypoints.add(w);
-    }
-    TestWaypoints testPoints = new TestWaypoints();
+      SequentialCommandGroup solution) {
+
+    Waypoints testPoints = new Waypoints(waypoints);
     DPGAdjustingForRobotSectionsTester dPGAdjustingForRobotSectionsTester;
+
     if (!Double.isNaN(initialHeading)) {
       dPGAdjustingForRobotSectionsTester = new DPGAdjustingForRobotSectionsTester(testPoints, initialPoint,
           initialHeading, m_robotDimensions);
@@ -81,27 +60,23 @@ public class DPGAdjustingForRobotSidesTests {
       dPGAdjustingForRobotSectionsTester = new DPGAdjustingForRobotSectionsTester(testPoints, initialPoint,
           m_robotDimensions);
     }
-    dPGAdjustingForRobotSectionsTester.getPath();
 
-    DummyPathChecker.CompareDummyCommands(solution, dPGAdjustingForRobotSectionsTester.getCommandsAdded());
+    CommandBase generatedOutput = dPGAdjustingForRobotSectionsTester.getPath();
+
+    DummyPathChecker.checkDummyCommandGroupsAreEquivalent(solution, generatedOutput);
 
   }
 
   private void createSimpleDPGWithRobotSideTest(Waypoint[] waypoints, Waypoint initialPoint,
-      List<CommandBase> solution) {
+      SequentialCommandGroup solution) {
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, Double.NaN, solution);
-  }
-
-  @BeforeEach
-  public void clearWaypoints() {
-    m_waypoints.clear();
   }
 
   @Test
   public void intialPointNoHeading() {
     WaypointWithRobotSide initialPoint = new WaypointWithRobotSide(0, 0, RobotSections.CENTER);
 
-    TestWaypoints testPoints = new TestWaypoints();
+    Waypoints testPoints = new Waypoints();
 
     boolean threwException = false;
     try {
@@ -118,7 +93,7 @@ public class DPGAdjustingForRobotSidesTests {
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 0, RobotSections.CENTER),
         new WaypointWithRobotSide(0, 0, RobotSections.CENTER) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+    SequentialCommandGroup solution = new SequentialCommandGroup();
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -128,9 +103,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 20, RobotSections.FRONTOFFRAME) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(20 - RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2, 0));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(0));
+    solution.addCommands(new DummyMoveCommand(20 - RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2, 0));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -140,9 +115,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 20, RobotSections.CENTER) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(20, 0));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(0));
+    solution.addCommands(new DummyMoveCommand(20, 0));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -152,9 +127,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 20, RobotSections.BACKOFBUMPER) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(0));
+    solution.addCommands(new DummyMoveCommand(
         20 + RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2 + RobotDimensionsMocked.MOCKED_ROBOT_BUMPER_DEPTH, 0));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
@@ -165,9 +140,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 5, RobotSections.FRONTOFBUMPER) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(0));
+    solution.addCommands(new DummyMoveCommand(
         5 - (RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2 + RobotDimensionsMocked.MOCKED_ROBOT_BUMPER_DEPTH), 0));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
@@ -178,9 +153,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 5, RobotSections.BACKOFBUMPER) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(180));
-    solution.add(new DummyMoveCommand(1, 180));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(180));
+    solution.addCommands(new DummyMoveCommand(1, 180));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -190,9 +165,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(5, 0, RobotSections.FRONTOFFRAME) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(90));
-    solution.add(new DummyMoveCommand(5 - (RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2), 90));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(90));
+    solution.addCommands(new DummyMoveCommand(5 - (RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2), 90));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -202,9 +177,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new Waypoint(1, 1);
     Waypoint[] waypoints = { new WaypointWithRobotSide(6, 1, RobotSections.FRONTOFFRAME) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(90));
-    solution.add(new DummyMoveCommand(5 - (RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2), 90));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(90));
+    solution.addCommands(new DummyMoveCommand(5 - (RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2), 90));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -214,9 +189,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(-1, -1, RobotSections.FRONTOFFRAME) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(225));
-    solution.add(new DummyMoveCommand(Math.sqrt(2) - (RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2), 225));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(225));
+    solution.addCommands(new DummyMoveCommand(Math.sqrt(2) - (RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2), 225));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -226,9 +201,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new WaypointWithRobotSide(0, 0, RobotSections.BACKOFBUMPER);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 20, RobotSections.CENTER) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(0));
-    solution.add(new DummyMoveCommand(14, 0));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(0));
+    solution.addCommands(new DummyMoveCommand(14, 0));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 0, solution);
   }
@@ -240,13 +215,13 @@ public class DPGAdjustingForRobotSidesTests {
     Waypoint[] waypoints = { new WaypointWithRobotSide(-1, 0, RobotSections.BACKOFBUMPER),
         new WaypointWithRobotSide(19, 20, RobotSections.CENTER),
         new WaypointWithRobotSide(18, 21, RobotSections.FRONTOFBUMPER) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(45));
-    solution.add(new DummyMoveCommand(0, 45));
-    solution.add(new DummyTurnCommand(45));
-    solution.add(new DummyMoveCommand(Math.sqrt(800) - 6, 45));
-    solution.add(new DummyTurnCommand(360 - 45));
-    solution.add(new DummyMoveCommand(Math.sqrt(2) - 6, 360 - 45));
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(45));
+    solution.addCommands(new DummyMoveCommand(0, 45));
+    solution.addCommands(new DummyTurnCommand(45));
+    solution.addCommands(new DummyMoveCommand(Math.sqrt(800) - 6, 45));
+    solution.addCommands(new DummyTurnCommand(360 - 45));
+    solution.addCommands(new DummyMoveCommand(Math.sqrt(2) - 6, 360 - 45));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 45, solution);
   }
@@ -256,9 +231,9 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new WaypointWithRobotSide(-1, -1, RobotSections.CENTER);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 0, RobotSections.BACKOFBUMPER) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
-    solution.add(new DummyTurnCommand(225));
-    solution.add(new DummyMoveCommand(
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(225));
+    solution.addCommands(new DummyMoveCommand(
         m_robotDimensions.getLength() / 2 + m_robotDimensions.getBumperThickness() - Math.sqrt(2), 225));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 0, solution);

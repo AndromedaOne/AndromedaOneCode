@@ -1,10 +1,6 @@
 package pathgeneratortests;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import dummycommands.DummyMoveCommand;
 import dummycommands.DummyPathChecker;
@@ -201,7 +197,7 @@ public class DiagonalPathGeneratorTests {
   public void TwoPointsOnEachOther() {
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(0, 0), new Waypoint(0, 0) };
-    ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
+    SequentialCommandGroup solution = new SequentialCommandGroup();
     createSimpleDiagonalPathGeneratorTest(waypoints, initialPoint, solution);
 
   }

@@ -66,14 +66,14 @@ public abstract class DPGAdjustingForRobotSections extends DiagonalPathGenerator
     double distanceAdjustmentFromRobotSection = getDistanceAdjustmentFromRobotSection(waypoint.getSection());
     double distance = getCurrentPoint().distance(waypoint);
     if (robotSectionAtFrontOfRobot(waypoint.getSection())) {
-      createTurnCommand(angle);
+      super.addCommandToPath(createTurnCommand(angle));
       distance -= distanceAdjustmentFromRobotSection;
-      createMoveCommand(distance, angle);
+      super.addCommandToPath(createMoveCommand(distance, angle));
     } else {
       angle = AngleConversionUtils.ConvertAngleToCompassHeading(angle + 180);
-      createTurnCommand(angle);
+      super.addCommandToPath(createTurnCommand(angle));
       distance = distanceAdjustmentFromRobotSection - distance;
-      createMoveCommand(distance, angle);
+      super.addCommandToPath(createMoveCommand(distance, angle));
     }
     setCurrentWaypoint(getNewWaypointMovedInDirection(getCurrentPoint(), distance, angle));
   }

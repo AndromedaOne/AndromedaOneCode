@@ -18,6 +18,7 @@ public class DummyPathChecker {
   public static void checkDummyCommandGroupsAreEquivalent(CommandBase solution, CommandBase generatedOutput) {
     checkCommandIsSequentialGroupCommand(solution);
     checkCommandIsSequentialGroupCommand(generatedOutput);
+
     List<DummyCommandBase> solutionCommands = runAndRecordSequentialCommandGroup(solution);
     List<DummyCommandBase> generatedCommands = runAndRecordSequentialCommandGroup(generatedOutput);
     CompareDummyCommands(solutionCommands, generatedCommands);
@@ -29,7 +30,6 @@ public class DummyPathChecker {
       assert (c instanceof SequentialCommandGroup);
     } catch (AssertionError e) {
       System.out.println("The command " + c.getName() + " is not a command group!");
-      ;
       throw (e);
     }
   }
@@ -62,8 +62,10 @@ public class DummyPathChecker {
   private static void runSequentialCommandGroup(CommandBase c) {
     commandsScheduled.clear();
     int i = 0;
+
     c.initialize();
     c.execute();
+
     while (!c.isFinished() && i <= 1000) {
       i++;
       c.execute();

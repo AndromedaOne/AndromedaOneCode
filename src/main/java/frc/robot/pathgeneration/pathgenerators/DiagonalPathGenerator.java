@@ -56,6 +56,10 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
   protected abstract CommandBase createMoveCommand(double distance, double angle);
 
+  protected void addCommandToPath(CommandBase c) {
+    m_path.addCommands(c);
+  }
+
   @Override
   protected CommandBase getGeneratedPath() {
     return m_path;

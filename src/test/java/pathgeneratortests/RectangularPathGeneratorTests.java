@@ -1,10 +1,6 @@
 package pathgeneratortests;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import dummycommands.DummyMoveCommand;
 import dummycommands.DummyPathChecker;
@@ -40,7 +36,7 @@ public class RectangularPathGeneratorTests {
 
   private void createSimpleRectangularPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint,
       SequentialCommandGroup solution) {
-    
+
     Waypoints testPoints = new Waypoints(waypoints);
 
     RectangularPathGeneratorTester rectangularPathGeneratorTester = new RectangularPathGeneratorTester(testPoints,
@@ -88,7 +84,8 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(2, 2) };
-    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(0),new DummyMoveCommand(2,0), new DummyTurnCommand(90), new DummyMoveCommand(2,90));
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(0), new DummyMoveCommand(2, 0),
+        new DummyTurnCommand(90), new DummyMoveCommand(2, 90));
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }
