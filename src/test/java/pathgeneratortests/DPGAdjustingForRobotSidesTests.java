@@ -128,9 +128,9 @@ public class DPGAdjustingForRobotSidesTests {
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new WaypointWithRobotSide(0, 20, RobotSections.BACKOFBUMPER) };
     SequentialCommandGroup solution = new SequentialCommandGroup();
-    solution.addCommands(new DummyTurnCommand(0));
+    solution.addCommands(new DummyTurnCommand(180));
     solution.addCommands(new DummyMoveCommand(
-        20 + RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2 + RobotDimensionsMocked.MOCKED_ROBOT_BUMPER_DEPTH, 0));
+        -(20 - RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2 - RobotDimensionsMocked.MOCKED_ROBOT_BUMPER_DEPTH), 180));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -164,10 +164,10 @@ public class DPGAdjustingForRobotSidesTests {
   public void twoPointsHorizontallyAlligned() {
 
     Waypoint initialPoint = new Waypoint(0, 0);
-    Waypoint[] waypoints = { new WaypointWithRobotSide(5, 0, RobotSections.FRONTOFFRAME) };
+    Waypoint[] waypoints = { new WaypointWithRobotSide(RobotDimensionsMocked.MOCKED_ROBOT_LENGTH /2, 0, RobotSections.FRONTOFFRAME) };
     SequentialCommandGroup solution = new SequentialCommandGroup();
     solution.addCommands(new DummyTurnCommand(90));
-    solution.addCommands(new DummyMoveCommand(5 - (RobotDimensionsMocked.MOCKED_ROBOT_LENGTH / 2), 90));
+    solution.addCommands(new DummyMoveCommand(0, 90));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, solution);
   }
@@ -213,15 +213,15 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new WaypointWithRobotSide(-1, 0, RobotSections.BACKOFBUMPER);
     Waypoint[] waypoints = { new WaypointWithRobotSide(-1, 0, RobotSections.BACKOFBUMPER),
-        new WaypointWithRobotSide(19, 20, RobotSections.CENTER),
-        new WaypointWithRobotSide(18, 21, RobotSections.FRONTOFBUMPER) };
+        /*new WaypointWithRobotSide(19, 20, RobotSections.CENTER),
+    new WaypointWithRobotSide(18, 21, RobotSections.FRONTOFBUMPER) */};
     SequentialCommandGroup solution = new SequentialCommandGroup();
     solution.addCommands(new DummyTurnCommand(45));
     solution.addCommands(new DummyMoveCommand(0, 45));
-    solution.addCommands(new DummyTurnCommand(45));
+    /*solution.addCommands(new DummyTurnCommand(45));
     solution.addCommands(new DummyMoveCommand(Math.sqrt(800) - 6, 45));
     solution.addCommands(new DummyTurnCommand(360 - 45));
-    solution.addCommands(new DummyMoveCommand(Math.sqrt(2) - 6, 360 - 45));
+    solution.addCommands(new DummyMoveCommand(Math.sqrt(2) - 6, 360 - 45));*/
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 45, solution);
   }
@@ -235,6 +235,43 @@ public class DPGAdjustingForRobotSidesTests {
     solution.addCommands(new DummyTurnCommand(225));
     solution.addCommands(new DummyMoveCommand(
         m_robotDimensions.getLength() / 2 + m_robotDimensions.getBumperThickness() - Math.sqrt(2), 225));
+
+    createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 0, solution);
+  }
+
+  @Test
+  public void backOfRobotMove1() {
+
+    Waypoint initialPoint = new WaypointWithRobotSide(0, 0, RobotSections.CENTER);
+    Waypoint[] waypoints = { new WaypointWithRobotSide(-20, -20, RobotSections.BACKOFFRAME) };
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(45));
+    solution.addCommands(new DummyMoveCommand(
+        -(Math.sqrt(800) - m_robotDimensions.getLength()/2), 45));
+
+    createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 0, solution);
+  }
+
+  @Test
+  public void backOfRobotMove2() {
+
+    Waypoint initialPoint = new WaypointWithRobotSide(4, 8, RobotSections.FRONTOFBUMPER);
+    Waypoint[] waypoints = { new WaypointWithRobotSide(4, -10.0, RobotSections.BACKOFFRAME) };
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(0));
+    solution.addCommands(new DummyMoveCommand(-7, 0));
+
+    createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 0, solution);
+  }
+
+  @Test
+  public void backOfRobotMove3() {
+
+    Waypoint initialPoint = new WaypointWithRobotSide(0, 0, RobotSections.CENTER);
+    Waypoint[] waypoints = { new WaypointWithRobotSide(0, 20, RobotSections.BACKOFBUMPER) };
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(180));
+    solution.addCommands(new DummyMoveCommand(-14, 180));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 0, solution);
   }
