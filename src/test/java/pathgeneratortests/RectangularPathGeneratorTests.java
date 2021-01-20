@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.pathgeneration.pathgenerators.RectangularPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
+import frc.robot.pathgeneration.waypoints.Waypoints;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 
 public class RectangularPathGeneratorTests {
-  private List<Waypoint> m_waypoints = new ArrayList<Waypoint>();
 
   private class RectangularPathGeneratorTester extends RectangularPathGenerator {
 
@@ -38,23 +38,10 @@ public class RectangularPathGeneratorTests {
 
   }
 
-  private class TestWaypoints extends WaypointsBase {
-
-    @Override
-    protected void loadWaypoints() {
-      for (Waypoint w : m_waypoints) {
-        addWayPoint(w);
-      }
-    }
-
-  }
-
   private void createSimpleRectangularPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint,
       SequentialCommandGroup solution) {
-    for (Waypoint w : waypoints) {
-      m_waypoints.add(w);
-    }
-    TestWaypoints testPoints = new TestWaypoints();
+    
+    Waypoints testPoints = new Waypoints(waypoints);
 
     RectangularPathGeneratorTester rectangularPathGeneratorTester = new RectangularPathGeneratorTester(testPoints,
         initialPoint);
@@ -62,11 +49,6 @@ public class RectangularPathGeneratorTests {
     CommandBase generatedOutput = rectangularPathGeneratorTester.getPath();
 
     DummyPathChecker.checkDummyCommandGroupsAreEquivalent(solution, generatedOutput);
-  }
-
-  @BeforeEach
-  public void clearWaypoints() {
-    m_waypoints.clear();
   }
 
   @Test
@@ -106,7 +88,7 @@ public class RectangularPathGeneratorTests {
 
     Waypoint initialPoint = new Waypoint(0, 0);
     Waypoint[] waypoints = { new Waypoint(2, 2) };
-    SequentialCommandGroup solution = new SequentialCommandGroup();
+    SequentialCommandGroup solution = new SequentialCommandGroup(new DummyTurnCommand(0),new DummyMoveCommand(2,0), new DummyTurnCommand(90), new DummyMoveCommand(2,90));
 
     createSimpleRectangularPathGeneratorTest(waypoints, initialPoint, solution);
   }

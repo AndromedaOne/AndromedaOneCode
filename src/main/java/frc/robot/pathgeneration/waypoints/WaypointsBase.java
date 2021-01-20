@@ -10,13 +10,13 @@ public abstract class WaypointsBase implements Iterable<Waypoint> {
 
   public WaypointsBase() {
     m_waypoints = new ArrayList<Waypoint>();
-    loadWaypoints();
   }
 
   protected abstract void loadWaypoints();
 
   @Override
   public Iterator<Waypoint> iterator() {
+    loadWaypoints();
     return m_waypoints.iterator();
   }
 

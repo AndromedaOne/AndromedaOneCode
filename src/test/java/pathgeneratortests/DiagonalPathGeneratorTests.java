@@ -14,11 +14,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.groupcommands.athomechallengepathways.AtHomeChallengePoints;
 import frc.robot.pathgeneration.pathgenerators.DiagonalPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
+import frc.robot.pathgeneration.waypoints.Waypoints;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 
 public class DiagonalPathGeneratorTests {
-
-  private List<Waypoint> m_waypoints = new ArrayList<Waypoint>();
 
   private class DiagonalPathGeneratorTester extends DiagonalPathGenerator {
 
@@ -40,23 +39,9 @@ public class DiagonalPathGeneratorTests {
 
   }
 
-  private class TestWaypoints extends WaypointsBase {
-
-    @Override
-    protected void loadWaypoints() {
-      for (Waypoint w : m_waypoints) {
-        addWayPoint(w);
-      }
-    }
-
-  }
-
   private void createSimpleDiagonalPathGeneratorTest(Waypoint[] waypoints, Waypoint initialPoint,
       SequentialCommandGroup solution) {
-    for (Waypoint w : waypoints) {
-      m_waypoints.add(w);
-    }
-    TestWaypoints testPoints = new TestWaypoints();
+    Waypoints testPoints = new Waypoints(waypoints);
 
     DiagonalPathGeneratorTester diagonalPathGeneratorTester = new DiagonalPathGeneratorTester(testPoints, initialPoint);
 
@@ -64,11 +49,6 @@ public class DiagonalPathGeneratorTests {
 
     DummyPathChecker.checkDummyCommandGroupsAreEquivalent(solution, generatedOutput);
 
-  }
-
-  @BeforeEach
-  public void clearWaypoints() {
-    m_waypoints.clear();
   }
 
   @Test
