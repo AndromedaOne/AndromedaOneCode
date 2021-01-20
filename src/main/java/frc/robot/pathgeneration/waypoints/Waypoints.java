@@ -2,16 +2,16 @@ package frc.robot.pathgeneration.waypoints;
 
 public class Waypoints extends WaypointsBase {
 
-    Waypoint[] m_waypoints;
+  Waypoint[] m_waypoints;
 
-    public Waypoints(Waypoint... waypoints) {
-      m_waypoints = waypoints;
-    }
+  public Waypoints(Waypoint... waypoints) {
+    m_waypoints = waypoints;
+  }
 
-    @Override
-    protected void loadWaypoints() {
-      for(Waypoint w : m_waypoints) {
-        addWayPoint(w);
-      }
+  @Override
+  protected void loadWaypoints() {
+    for (Waypoint w : m_waypoints) {
+      addWayPoint(w);
     }
+  }
 }
