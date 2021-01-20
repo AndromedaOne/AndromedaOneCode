@@ -213,15 +213,15 @@ public class DPGAdjustingForRobotSidesTests {
 
     Waypoint initialPoint = new WaypointWithRobotSide(-1, 0, RobotSections.BACKOFBUMPER);
     Waypoint[] waypoints = { new WaypointWithRobotSide(-1, 0, RobotSections.BACKOFBUMPER),
-        /*new WaypointWithRobotSide(19, 20, RobotSections.CENTER),
-    new WaypointWithRobotSide(18, 21, RobotSections.FRONTOFBUMPER) */};
+        new WaypointWithRobotSide(19, 20, RobotSections.CENTER),
+    new WaypointWithRobotSide(18, 21, RobotSections.FRONTOFBUMPER) };
     SequentialCommandGroup solution = new SequentialCommandGroup();
     solution.addCommands(new DummyTurnCommand(45));
     solution.addCommands(new DummyMoveCommand(0, 45));
-    /*solution.addCommands(new DummyTurnCommand(45));
+    solution.addCommands(new DummyTurnCommand(45));
     solution.addCommands(new DummyMoveCommand(Math.sqrt(800) - 6, 45));
     solution.addCommands(new DummyTurnCommand(360 - 45));
-    solution.addCommands(new DummyMoveCommand(Math.sqrt(2) - 6, 360 - 45));*/
+    solution.addCommands(new DummyMoveCommand(Math.sqrt(2) - 6, 360 - 45));
 
     createSimpleDPGWithRobotSideTest(waypoints, initialPoint, 45, solution);
   }
