@@ -18,7 +18,7 @@ public abstract class WaypointsBase implements Iterable<Waypoint> {
 
   @Override
   public Iterator<Waypoint> iterator() {
-    if(!waypointsLoaded){
+    if (!waypointsLoaded) {
       loadWaypoints();
       waypointsLoaded = true;
     }

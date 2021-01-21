@@ -28,7 +28,6 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
       addTurnMoveCommands(distance, compassAngle);
     }
 
-    
   }
 
   protected double getAngleToTurn(Waypoint waypoint) {
@@ -54,7 +53,7 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
   protected void addTurnMoveCommands(double distance, double angle) {
     addCommandToPath(createTurnCommand(angle));
     addCommandToPath(createMoveCommand(distance, angle));
-    
+
     m_currentWaypoint = getNewWaypointMovedInDirection(getCurrentPoint(), distance, angle);
   }
 
