@@ -28,12 +28,10 @@ public class BarrelRacingPath extends SequentialCommandGroup {
         new MoveUsingEncoder(driveTrain, 150, 0, maximumPower), new TurnToCompassHeading(270),
         new MoveUsingEncoder(driveTrain, 60, 270, maximumPower), new TurnToCompassHeading(180),
         new MoveUsingEncoder(driveTrain, 60, 180, maximumPower), new TurnToCompassHeading(90),
-        new MoveUsingEncoder(driveTrain, 60, 90, maximumPower), new TurnToCompassHeading(0),
-        new MoveUsingEncoder(driveTrain, 120, 0, maximumPower), new TurnToCompassHeading(90),
-        new MoveUsingEncoder(driveTrain, 60, 90, maximumPower), new TurnToCompassHeading(180),
-        new MoveUsingEncoder(driveTrain, 60, 180, maximumPower), new TurnToCompassHeading(270),
+        new MoveUsingEncoder(driveTrain, 120, 90, maximumPower), new TurnToCompassHeading(0),
+        new MoveUsingEncoder(driveTrain, 60, 0, maximumPower), new TurnToCompassHeading(270),
         new MoveUsingEncoder(driveTrain, 60, 270, maximumPower), new TurnToCompassHeading(180),
-        new MoveUsingEncoder(driveTrain, 240, 180, maximumPower)));
+        new MoveUsingEncoder(driveTrain, 210, 180, maximumPower)));
   }
 
 }
