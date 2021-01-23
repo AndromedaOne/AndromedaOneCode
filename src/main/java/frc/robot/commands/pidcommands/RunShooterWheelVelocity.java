@@ -81,7 +81,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     }
     scaledManualShooterAdjustment = manuelShooterAdjustment * kControllerScale;
     m_target += scaledManualShooterAdjustment;
-    double maxRPM = 4900;
+    double maxRPM = 4500;
     double minRPM = 0;
     if (m_target > maxRPM) {
       m_target = maxRPM;
