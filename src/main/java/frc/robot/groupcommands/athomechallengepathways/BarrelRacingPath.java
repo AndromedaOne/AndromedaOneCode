@@ -7,18 +7,6 @@ import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class BarrelRacingPath extends SequentialCommandGroup {
-
-  private DriveTrain m_driveTrain;
-  private static final double MINIMIZING_FACTOR = 1.0;
-  private static final double B1_TO_B3_POWER_CELL_DISTANCE = 60 * MINIMIZING_FACTOR; // in inches
-  private static final double B_TO_D_VERTICALDISTANCE = 60 * MINIMIZING_FACTOR; // in inches
-  private static final double D3_TO_D6_POWER_CELL_DISTANCE = 90 * MINIMIZING_FACTOR; // in inches
-  private static final double B6_TO_B9_POWER_CELL_DISTANCE = 90 * MINIMIZING_FACTOR; // in inches
-  private static final double D9_TO_D11_POWER_CELL_DISTANCE = 60 * MINIMIZING_FACTOR; // in inches
-  private static final double C2_ROW = 90;
-  private static final double C2_COL = 60;
-  private static final double C6_ROW = 90;
-  private static final double C6_COL = 180;
   double maximumPower = 0.5;
   double robotLengthInches = 38;
 
@@ -42,9 +30,6 @@ public class BarrelRacingPath extends SequentialCommandGroup {
 
     double distance = 0;
     String col = position.substring(1);
-    System.out.println("position = " + position);
-    System.out.println("CharAt = " + position.charAt(0));
-    System.out.println("subString = " + col);
     if (col.equals("1")) {
       distance = 30;
     } else if (col.equals("2")) {
@@ -68,12 +53,10 @@ public class BarrelRacingPath extends SequentialCommandGroup {
     } else if (col.equals("11")) {
       distance = 330;
     }
-    System.out.println("distance = " + distance);
     return distance;
   }
 
   public BarrelRacingPath(DriveTrain driveTrain) {
-    m_driveTrain = driveTrain;
     addCommands(new DelayedSequentialCommandGroup(
         new MoveUsingEncoder(driveTrain, Math.abs(compute_col("C6") - compute_col("C2")) + robotLengthInches / 2, 0,
             maximumPower),
