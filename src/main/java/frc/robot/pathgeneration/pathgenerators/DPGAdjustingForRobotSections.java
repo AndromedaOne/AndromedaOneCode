@@ -76,12 +76,12 @@ public abstract class DPGAdjustingForRobotSections extends DiagonalPathGenerator
 
   private boolean isWaypointOnOrWithinTurningRadius(WaypointWithRobotSide waypoint) {
     double distanceAdjustmentFromRobotSection = getDistanceAdjustmentFromRobotSection(waypoint.getSection());
-    return waypoint.distance(getCurrentPoint()) <= distanceAdjustmentFromRobotSection;
+    return waypoint.distance(getCurrentPointRelativeToInitialPoint()) <= distanceAdjustmentFromRobotSection;
   }
 
   private void addCommandsForPointWithinTurningRadius(WaypointWithRobotSide waypoint, double angle) {
     double distanceAdjustmentFromRobotSection = getDistanceAdjustmentFromRobotSection(waypoint.getSection());
-    double distance = getCurrentPoint().distance(waypoint);
+    double distance = getCurrentPointRelativeToInitialPoint().distance(waypoint);
     if (robotSectionAtFrontOfRobot(waypoint.getSection())) {
       distance -= distanceAdjustmentFromRobotSection;
     } else {
@@ -92,7 +92,7 @@ public abstract class DPGAdjustingForRobotSections extends DiagonalPathGenerator
   }
 
   public void addCommandsForMovingBackOfRobot(Waypoint waypoint, double angle) {
-    double distance = getCurrentPoint().distance(waypoint);
+    double distance = getCurrentPointRelativeToInitialPoint().distance(waypoint);
     angle += 180;
     angle = AngleConversionUtils.ConvertAngleToCompassHeading(angle);
     distance *= -1.0;
