@@ -80,8 +80,9 @@ public class DPGAdjustingForRobotSectionsToMoveTests {
 
     try {
       new DPGForWaypointsWithRobotSectionsToMoveTester(testPoints, initialPoint, m_robotDimensions);
-    } catch (InvalidParameterException e) {
       assert false;
+    } catch (InvalidParameterException e) {
+
     }
   }
 
@@ -234,6 +235,26 @@ public class DPGAdjustingForRobotSectionsToMoveTests {
     solution.addCommands(new DummyTurnCommand(225));
     solution.addCommands(new DummyMoveCommand(
         m_robotDimensions.getLength() / 2 + m_robotDimensions.getBumperThickness() - Math.sqrt(2), 225));
+
+    createTest(waypoints, initialPoint, 0, solution);
+  }
+
+  @Test
+  public void multiPoint3() {
+
+    Waypoint initialPoint = new WaypointWithRobotSectionToMove(1, 1, RobotSectionsForWaypointsToMove.CENTER);
+    Waypoint[] waypoints = { 
+      new WaypointWithRobotSectionToMove(1, 21, RobotSectionsForWaypointsToMove.CENTER),
+      new WaypointWithRobotSectionToMove(21, 21, RobotSectionsForWaypointsToMove.CENTER),
+      new WaypointWithRobotSectionToMove(1, 21, RobotSectionsForWaypointsToMove.CENTER)
+    };
+    SequentialCommandGroup solution = new SequentialCommandGroup();
+    solution.addCommands(new DummyTurnCommand(0));
+    solution.addCommands(new DummyMoveCommand(20, 0));
+    solution.addCommands(new DummyTurnCommand(90));
+    solution.addCommands(new DummyMoveCommand(20, 90));
+    solution.addCommands(new DummyTurnCommand(90));
+    solution.addCommands(new DummyMoveCommand(-20, 90));
 
     createTest(waypoints, initialPoint, 0, solution);
   }

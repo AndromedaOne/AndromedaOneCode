@@ -22,6 +22,16 @@ public class WaypointWithRobotSectionToMove extends Waypoint {
   }
 
   @Override
+  public Waypoint add(Waypoint w) {
+    return new WaypointWithRobotSectionToMove(super.add(w), m_robotSectionToMove);
+  }
+
+  @Override
+  public Waypoint subtract(Waypoint w) {
+    return new WaypointWithRobotSectionToMove(super.subtract(w), m_robotSectionToMove);
+  }
+
+  @Override
   public Waypoint multiply(double factor) {
     return new WaypointWithRobotSectionToMove(super.multiply(factor), m_robotSectionToMove);
   }
