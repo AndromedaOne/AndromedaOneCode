@@ -10,14 +10,24 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
 
   private DriveTrain m_driveTrain;
+  private double m_maxOutput;
 
-  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint, double maxOutputs) {
     super(waypoints, initialWaypoint);
+    m_maxOutput = maxOutputs;
     m_driveTrain = driveTrain;
   }
 
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, double maxOutput) {
+    this(waypoints, driveTrain, new Waypoint(0, 0), maxOutput);
+  }
+
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
+    this(waypoints, driveTrain, initialWaypoint, 0);
+  }
+
   public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
-    this(waypoints, driveTrain, new Waypoint(0, 0));
+    this(waypoints, driveTrain, new Waypoint(0, 0), 0);
   }
 
   /**
@@ -35,7 +45,9 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
    */
   @Override
   protected CommandBase createMoveCommand(double distance, double angle) {
-    // TODO Auto-generated method stub
+    if(m_maxOutput != 0){
+      return new MoveUsingEncoder(m_driveTrain, distance, angle, m_maxOutput);
+    }
     return new MoveUsingEncoder(m_driveTrain, distance, true, angle);
   }
 
