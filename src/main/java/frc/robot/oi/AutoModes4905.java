@@ -102,7 +102,8 @@ public class AutoModes4905 {
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(16),
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
-                                                                  new MoveUsingEncoder(driveTrain, (-2*12))));                                           
+                                                                  new MoveUsingEncoder(driveTrain, (-2*12)))); 
+                                                                
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }
