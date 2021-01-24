@@ -40,7 +40,7 @@ public class DefaultFeederCommand extends CommandBase {
   /**
    * Creates a new FeederCommand.
    */
-  public DefaultFeederCommand(FeederBase feeder,ShooterBase shooterBase) {
+  public DefaultFeederCommand(FeederBase feeder, ShooterBase shooterBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(feeder);
     this.m_feeder = feeder;
