@@ -12,7 +12,8 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
   private DriveTrain m_driveTrain;
   private double m_maxOutput;
 
-  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint, double maxOutputs) {
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint,
+      double maxOutputs) {
     super(waypoints, initialWaypoint);
     m_maxOutput = maxOutputs;
     m_driveTrain = driveTrain;
@@ -45,7 +46,7 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
    */
   @Override
   protected CommandBase createMoveCommand(double distance, double angle) {
-    if(m_maxOutput != 0){
+    if (m_maxOutput != 0) {
       return new MoveUsingEncoder(m_driveTrain, distance, angle, m_maxOutput);
     }
     return new MoveUsingEncoder(m_driveTrain, distance, true, angle);

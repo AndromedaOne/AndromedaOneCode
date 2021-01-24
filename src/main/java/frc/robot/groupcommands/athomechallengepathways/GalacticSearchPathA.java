@@ -23,7 +23,7 @@ public class GalacticSearchPathA extends SequentialCommandGroup {
       addWayPoint(AtHomeChallengePoints.B7);
       addWayPoint(AtHomeChallengePoints.C9);
       addWayPoint(AtHomeChallengePoints.C11);
-      
+
     }
 
   }
@@ -31,8 +31,10 @@ public class GalacticSearchPathA extends SequentialCommandGroup {
   public GalacticSearchPathA(DriveTrain driveTrain, IntakeBase intake) {
     Waypoint initialPoint = AtHomeChallengePoints.C1;
     double maxOutput = 0.5;
-    PathGeneratorBase diagonalPathGenerator = new DriveTrainDiagonalPathGenerator(new GalacticSearchWaypoints(), driveTrain,  initialPoint, maxOutput);
-    addCommands(new ParallelDeadlineGroup(diagonalPathGenerator.getPath(), new DeployAndRunIntake(intake, () -> false)));
+    PathGeneratorBase diagonalPathGenerator = new DriveTrainDiagonalPathGenerator(new GalacticSearchWaypoints(),
+        driveTrain, initialPoint, maxOutput);
+    addCommands(
+        new ParallelDeadlineGroup(diagonalPathGenerator.getPath(), new DeployAndRunIntake(intake, () -> false)));
   }
 
 }
