@@ -8,7 +8,7 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class BarrelRacingPath extends SequentialCommandGroup {
   double maximumPower = 0.5;
-  double robotLengthInches = 38;
+  double robotLengthInches = 40;
 
   public static double compute_row(String position) {
     if (position.charAt(0) == 'A') {
@@ -79,7 +79,7 @@ public class BarrelRacingPath extends SequentialCommandGroup {
         new TurnToCompassHeading(270),
         new MoveUsingEncoder(driveTrain, Math.abs(compute_row("C11") - compute_row("E11")), 270, maximumPower),
         new TurnToCompassHeading(180),
-        new MoveUsingEncoder(driveTrain, Math.abs(compute_col("C2") - compute_col("C11")), 180, maximumPower)));
+        new MoveUsingEncoder(driveTrain, Math.abs(compute_col("C1") - compute_col("C11")), 180, maximumPower)));
 
   }
 

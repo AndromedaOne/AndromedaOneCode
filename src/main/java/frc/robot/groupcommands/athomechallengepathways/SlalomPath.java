@@ -15,7 +15,7 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class SlalomPath extends SequentialCommandGroup {
   private DriveTrain m_driveTrain;
-  double robotLengthInches = 38;
+  double robotLengthInches = 40;
   double maximumPower = 0.5;
 
   /**

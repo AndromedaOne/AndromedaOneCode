@@ -16,7 +16,7 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class BouncePath extends SequentialCommandGroup {
   private DriveTrain m_driveTrain;
   double maximumPower = 0.5;
-  double robotLengthInches = 38;
+  double robotLengthInches = 40;
 
   /**
    * Creates a new BouncePath.
