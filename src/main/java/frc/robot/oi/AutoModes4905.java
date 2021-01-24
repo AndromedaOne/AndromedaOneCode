@@ -107,7 +107,7 @@ public class AutoModes4905 {
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(16),
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
-                                                                  new MoveUsingEncoder(driveTrain, (-2*12))));                                           
+                                                                  new MoveUsingEncoder(driveTrain, (-2*12)))); 
         m_autoChooser.addOption("12: AutoNav: Barrel", new BarrelRacingPath(driveTrain));
         m_autoChooser.addOption("13: AutoNav: Slalom", new SlalomPath(driveTrain));
         m_autoChooser.addOption("14: AutoNav: Bounce", new BouncePath(driveTrain));
