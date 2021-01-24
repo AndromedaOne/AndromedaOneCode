@@ -11,6 +11,8 @@ import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
+import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
@@ -102,7 +104,10 @@ public class AutoModes4905 {
                                 new DelayedSequentialCommandGroup(new TurnToCompassHeading(16),
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
-                                                                  new MoveUsingEncoder(driveTrain, (-2*12))));                                           
+                                                                  new MoveUsingEncoder(driveTrain, (-2*12)))); 
+                                                                  
+        m_autoChooser.addOption("Galactic Search Path A", new GalacticSearchPathA(driveTrain, intake));
+        m_autoChooser.addOption("Galactic Search Path B", new GalacticSearchPathB(driveTrain, intake));
         SmartDashboard.putData("autoModes", m_autoChooser);
         // @formatter:on
   }

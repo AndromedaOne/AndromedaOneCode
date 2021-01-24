@@ -15,20 +15,21 @@ public class GalacticSearchPathA extends SequentialCommandGroup {
 
     @Override
     protected void loadWaypoints() {
-      addWayPoint(AtHomeChallengePoints.B1.average(AtHomeChallengePoints.D1));
+      addWayPoint(AtHomeChallengePoints.C1);
       addWayPoint(AtHomeChallengePoints.C3);
       addWayPoint(AtHomeChallengePoints.D5);
       addWayPoint(AtHomeChallengePoints.E6);
       addWayPoint(AtHomeChallengePoints.A6);
       addWayPoint(AtHomeChallengePoints.B7);
       addWayPoint(AtHomeChallengePoints.C9);
-      addWayPoint(AtHomeChallengePoints.B11.average(AtHomeChallengePoints.D11));
+      addWayPoint(AtHomeChallengePoints.C11);
+      
     }
 
   }
 
   public GalacticSearchPathA(DriveTrain driveTrain, IntakeBase intake) {
-    Waypoint initialPoint = AtHomeChallengePoints.B1.average(AtHomeChallengePoints.D1);
+    Waypoint initialPoint = AtHomeChallengePoints.C1;
     double maxOutput = 0.5;
     PathGeneratorBase diagonalPathGenerator = new DriveTrainDiagonalPathGenerator(new GalacticSearchWaypoints(), driveTrain,  initialPoint, maxOutput);
     addCommands(new ParallelDeadlineGroup(diagonalPathGenerator.getPath(), new DeployAndRunIntake(intake, () -> false)));
