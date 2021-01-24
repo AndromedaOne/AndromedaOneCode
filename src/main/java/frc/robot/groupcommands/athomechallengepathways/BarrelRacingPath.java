@@ -11,9 +11,10 @@ public class BarrelRacingPath extends SequentialCommandGroup {
   private static double maximumPower = 0.5;
   private static double robotLengthInches = 40;
   private static Waypoint initialPoint = AtHomeChallengePoints.C2.subtract(new Waypoint(0, robotLengthInches / 2));
+
   private class BarrelWaypoints extends WaypointsBase {
     @Override
-    protected void loadWaypoints(){
+    protected void loadWaypoints() {
       addWayPoint(initialPoint);
       addWayPoint(AtHomeChallengePoints.C6);
       addWayPoint(AtHomeChallengePoints.E6);
@@ -28,8 +29,10 @@ public class BarrelRacingPath extends SequentialCommandGroup {
       addWayPoint(AtHomeChallengePoints.C2);
     }
   }
-  public BarrelRacingPath(DriveTrain driveTrain){
-    PathGeneratorBase pathGenerator = new DriveTrainDiagonalPathGenerator(new BarrelWaypoints(), driveTrain, initialPoint, maximumPower);
+
+  public BarrelRacingPath(DriveTrain driveTrain) {
+    PathGeneratorBase pathGenerator = new DriveTrainDiagonalPathGenerator(new BarrelWaypoints(), driveTrain,
+        initialPoint, maximumPower);
     addCommands(pathGenerator.getPath());
   }
 }

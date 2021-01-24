@@ -8,33 +8,42 @@
 package frc.robot.groupcommands.athomechallengepathways;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.pidcommands.MoveUsingEncoder;
-import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
+import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
+import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
+import frc.robot.pathgeneration.waypoints.Waypoint;
+import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class BouncePath extends SequentialCommandGroup {
-  private DriveTrain m_driveTrain;
-  double maximumPower = 0.5;
-  double robotLengthInches = 40;
+  private static double maximumPower = 0.5;
+  private static double robotLengthInches = 40;
+  private static Waypoint initialPoint = AtHomeChallengePoints.C1.subtract(new Waypoint(0, robotLengthInches / 2));
+
+  private class BounceWaypoints extends WaypointsBase {
+    @Override
+    protected void loadWaypoints() {
+      addWayPoint(initialPoint);
+      addWayPoint(AtHomeChallengePoints.C3);
+      addWayPoint(AtHomeChallengePoints.A3);
+      addWayPoint(AtHomeChallengePoints.C3);
+      addWayPoint(AtHomeChallengePoints.C4);
+      addWayPoint(AtHomeChallengePoints.E4);
+      addWayPoint(AtHomeChallengePoints.E6);
+      addWayPoint(AtHomeChallengePoints.A6);
+      addWayPoint(AtHomeChallengePoints.E6);
+      addWayPoint(AtHomeChallengePoints.E9);
+      addWayPoint(AtHomeChallengePoints.A9);
+      addWayPoint(AtHomeChallengePoints.C9);
+      addWayPoint(AtHomeChallengePoints.C11);
+    }
+  }
 
   /**
    * Creates a new BouncePath.
    */
   public BouncePath(DriveTrain driveTrain) {
-    m_driveTrain = driveTrain;
-    addCommands(new DelayedSequentialCommandGroup(
-        new MoveUsingEncoder(m_driveTrain, 30 + robotLengthInches / 2, 0, maximumPower), new TurnToCompassHeading(270),
-        new MoveUsingEncoder(m_driveTrain, 60, 270, maximumPower), new TurnToCompassHeading(90),
-        new MoveUsingEncoder(m_driveTrain, 60, 90, maximumPower), new TurnToCompassHeading(0),
-        new MoveUsingEncoder(m_driveTrain, 30, 0, maximumPower), new TurnToCompassHeading(90),
-        new MoveUsingEncoder(m_driveTrain, 60, 90, maximumPower), new TurnToCompassHeading(0),
-        new MoveUsingEncoder(m_driveTrain, 60, 0, maximumPower), new TurnToCompassHeading(270),
-        new MoveUsingEncoder(m_driveTrain, 120, 270, maximumPower), new TurnToCompassHeading(90),
-        new MoveUsingEncoder(m_driveTrain, 120, 90, maximumPower), new TurnToCompassHeading(0),
-        new MoveUsingEncoder(m_driveTrain, 90, 0, maximumPower), new TurnToCompassHeading(270),
-        new MoveUsingEncoder(m_driveTrain, 120, 270, maximumPower), new TurnToCompassHeading(90),
-        new MoveUsingEncoder(m_driveTrain, 60, 90, maximumPower), new TurnToCompassHeading(0),
-        new MoveUsingEncoder(m_driveTrain, 60, 0, maximumPower)));
+    PathGeneratorBase pathGenerator = new DriveTrainDiagonalPathGenerator(new BounceWaypoints(), driveTrain,
+        initialPoint, maximumPower);
+    addCommands(pathGenerator.getPath());
   }
 }
