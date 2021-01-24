@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.RunAllFeederMotors;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
@@ -21,6 +22,7 @@ import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
 import frc.robot.groupcommands.athomechallengepathways.TestPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
+import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -44,7 +46,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
     SmartDashboard.putData("Shoot 10 feet",
-        new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
+        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 4600));
 
     SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
 
@@ -61,6 +63,9 @@ public class SmartDashboard4905 {
     DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(
         new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.E3);
     SmartDashboard.putData("Drive Test Path", driveTrainDiagonalPathGenerator.getPath());
+
+    SmartDashboard.putData("Run All feeder motors",
+        new RunAllFeederMotors(subsystemsContainer.getFeeder()));
   }
 
   public Command getSelectedAutoChooserCommand() {
