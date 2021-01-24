@@ -55,7 +55,7 @@ public abstract class DPGForWaypointsWithRobotSectionsToMove extends DiagonalPat
     double angleToNextWaypoint = getAngleToTurn(nextWaypointRelativeToInitialPoint);
 
     // Only occurs when the robot does not have to move at all.
-    if (Double.isNaN(angleToNextWaypoint)) { 
+    if (Double.isNaN(angleToNextWaypoint)) {
       return;
     }
 

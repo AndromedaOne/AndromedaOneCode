@@ -243,11 +243,9 @@ public class DPGAdjustingForRobotSectionsToMoveTests {
   public void multiPoint3() {
 
     Waypoint initialPoint = new WaypointWithRobotSectionToMove(1, 1, RobotSectionsForWaypointsToMove.CENTER);
-    Waypoint[] waypoints = { 
-      new WaypointWithRobotSectionToMove(1, 21, RobotSectionsForWaypointsToMove.CENTER),
-      new WaypointWithRobotSectionToMove(21, 21, RobotSectionsForWaypointsToMove.CENTER),
-      new WaypointWithRobotSectionToMove(1, 21, RobotSectionsForWaypointsToMove.CENTER)
-    };
+    Waypoint[] waypoints = { new WaypointWithRobotSectionToMove(1, 21, RobotSectionsForWaypointsToMove.CENTER),
+        new WaypointWithRobotSectionToMove(21, 21, RobotSectionsForWaypointsToMove.CENTER),
+        new WaypointWithRobotSectionToMove(1, 21, RobotSectionsForWaypointsToMove.CENTER) };
     SequentialCommandGroup solution = new SequentialCommandGroup();
     solution.addCommands(new DummyTurnCommand(0));
     solution.addCommands(new DummyMoveCommand(20, 0));
