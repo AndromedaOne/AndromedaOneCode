@@ -58,8 +58,7 @@ public class SmartDashboard4905 {
         new GalacticSearchPathB(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
 
     DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(
-        new TestPath(), subsystemsContainer.getDrivetrain(),
-        AtHomeChallengePoints.E3);
+        new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.E3);
     SmartDashboard.putData("Drive Test Path", driveTrainDiagonalPathGenerator.getPath());
   }
 
