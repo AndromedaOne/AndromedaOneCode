@@ -138,7 +138,7 @@ public class SubsystemsContainer {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
     m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter));
     m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
-    m_feeder.setDefaultCommand(new DefaultFeederCommand(m_feeder, m_shooter));
+    m_feeder.setDefaultCommand(new DefaultFeederCommand());
     m_climber.setDefaultCommand(new TeleopClimber(m_climber));
   }
 }
