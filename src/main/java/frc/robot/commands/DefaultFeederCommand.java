@@ -15,7 +15,6 @@ import frc.robot.Robot;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.feeder.FeederStates;
-import frc.robot.subsystems.shooter.ShooterBase;
 
 public class DefaultFeederCommand extends CommandBase {
 
@@ -35,26 +34,23 @@ public class DefaultFeederCommand extends CommandBase {
   private int m_stageOneLeftRightSensorTriggeredCounter = 0;
   private Timer m_timer;
   private static final double MOVING_STAGE_TIMEOUT = 1;
-  private ShooterBase m_shooterBase;
 
   /**
    * Creates a new FeederCommand.
    */
-  public DefaultFeederCommand(FeederBase feeder, BallFeederSensorBase ballFeederSensorBase, Timer timer,
-      ShooterBase shooterBase) {
+  public DefaultFeederCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(feeder);
-    this.m_feeder = feeder;
-    m_feederSensor = ballFeederSensorBase;
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getFeeder());
+    this.m_feeder = Robot.getInstance().getSubsystemsContainer().getFeeder();
+    m_feederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     feederState = FeederStates.EMPTY;
-    m_timer = timer;
-    m_shooterBase = shooterBase;
+    m_timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterBase.closeShooterHood();
+    Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
     feederState = FeederStates.THIRD_LOADED;
     emptyCounter = 0;
     m_stageOneEndSensorTriggeredCounter = 0;
@@ -255,9 +251,5 @@ public class DefaultFeederCommand extends CommandBase {
 
   public static int getNumberOfPowerCellsInFeeder() {
     return numberOfPowerCellsInFeeder;
-  }
-
-  public int callAndReturnSomething() {
-    return m_feederSensor.getNumberOfPowerCellsInFeeder();
   }
 }

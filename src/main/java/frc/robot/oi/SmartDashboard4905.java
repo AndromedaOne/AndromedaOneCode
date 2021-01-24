@@ -18,9 +18,9 @@ import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.athomechallengepathways.AtHomeChallengePoints;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
+import frc.robot.groupcommands.athomechallengepathways.TestPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
-import frc.robot.pathgeneration.waypoints.TestPath;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -58,8 +58,8 @@ public class SmartDashboard4905 {
         new GalacticSearchPathB(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
 
     DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(
-        new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.B3);
-    SmartDashboard.putData("Go to C3", driveTrainDiagonalPathGenerator.getPath());
+        new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.E3);
+    SmartDashboard.putData("Drive Test Path", driveTrainDiagonalPathGenerator.getPath());
   }
 
   public Command getSelectedAutoChooserCommand() {
