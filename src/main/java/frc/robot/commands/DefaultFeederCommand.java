@@ -40,14 +40,13 @@ public class DefaultFeederCommand extends CommandBase {
   /**
    * Creates a new FeederCommand.
    */
-  public DefaultFeederCommand(FeederBase feeder, BallFeederSensorBase ballFeederSensorBase, Timer timer,
-      ShooterBase shooterBase) {
+  public DefaultFeederCommand(FeederBase feeder,ShooterBase shooterBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(feeder);
     this.m_feeder = feeder;
-    m_feederSensor = ballFeederSensorBase;
+    m_feederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     feederState = FeederStates.EMPTY;
-    m_timer = timer;
+    m_timer = new Timer();
     m_shooterBase = shooterBase;
   }
 
@@ -255,9 +254,5 @@ public class DefaultFeederCommand extends CommandBase {
 
   public static int getNumberOfPowerCellsInFeeder() {
     return numberOfPowerCellsInFeeder;
-  }
-
-  public int callAndReturnSomething() {
-    return m_feederSensor.getNumberOfPowerCellsInFeeder();
   }
 }
