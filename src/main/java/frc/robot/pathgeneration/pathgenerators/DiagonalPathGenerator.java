@@ -22,10 +22,10 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
   protected void generatePathForNextRelativeToStartWaypoint(Waypoint nextWaypointRelativeToInitialPoint) {
     double distance = m_currentWaypointRelativeToInitalPoint.distance(nextWaypointRelativeToInitialPoint);
 
-    double compassAngle = getAngleToTurn(nextWaypointRelativeToInitialPoint);
+    double angleToNextWaypoint = getAngleToTurn(nextWaypointRelativeToInitialPoint);
 
     if (Math.abs(distance) > 0.001) {
-      addTurnMoveCommands(distance, compassAngle);
+      addTurnMoveCommandsToPathAndMoveCurrentPoint(distance, angleToNextWaypoint);
     }
 
   }
@@ -49,11 +49,16 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
     m_currentWaypointRelativeToInitalPoint = w;
   }
 
-  protected void addTurnMoveCommands(double distance, double angle) {
+  protected void addTurnMoveCommandsToPathAndMoveCurrentPoint(double distance, double angle) {
     addCommandToPath(createTurnCommand(angle));
     addCommandToPath(createMoveCommand(distance, angle));
 
-    m_currentWaypointRelativeToInitalPoint = getNewWaypointMovedInDirection(getCurrentPointRelativeToInitialPoint(), distance, angle);
+    moveCurrentPoint(distance, angle);
+  }
+
+  private void moveCurrentPoint(double distance, double angle) {
+    m_currentWaypointRelativeToInitalPoint = getNewWaypointMovedInDirection(getCurrentPointRelativeToInitialPoint(),
+        distance, angle);
   }
 
   protected Waypoint getNewWaypointMovedInDirection(Waypoint waypoint, double distance, double direction) {
