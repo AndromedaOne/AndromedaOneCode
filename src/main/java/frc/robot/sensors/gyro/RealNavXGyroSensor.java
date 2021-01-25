@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
+import frc.robot.utils.AngleConversionUtils;
 
 public class RealNavXGyroSensor extends NavXGyroSensor {
   AHRS gyro; /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
@@ -101,11 +102,7 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
    */
   @Override
   public double getCompassHeading() {
-    double correctedAngle = getZAngle() % 360;
-    if (correctedAngle < 0) {
-      correctedAngle += 360;
-    }
-    return correctedAngle;
+    return AngleConversionUtils.ConvertAngleToCompassHeading(getZAngle());
   }
 
   @Override
