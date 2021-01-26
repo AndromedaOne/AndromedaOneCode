@@ -87,7 +87,10 @@ public class TeleOpCommand extends CommandBase {
     if (m_slowMode) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
+    } else {
+      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotatefastscale");
     }
+
 
     m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
   }
