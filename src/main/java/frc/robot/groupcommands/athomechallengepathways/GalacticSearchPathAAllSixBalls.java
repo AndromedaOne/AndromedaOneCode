@@ -10,7 +10,7 @@ import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.intake.IntakeBase;
 
-public class GalacticSearchPathA extends SequentialCommandGroup {
+public class GalacticSearchPathAAllSixBalls extends SequentialCommandGroup {
   private class GalacticSearchWaypoints extends WaypointsBase {
 
     @Override
@@ -28,7 +28,7 @@ public class GalacticSearchPathA extends SequentialCommandGroup {
 
   }
 
-  public GalacticSearchPathA(DriveTrain driveTrain, IntakeBase intake) {
+  public GalacticSearchPathAAllSixBalls(DriveTrain driveTrain, IntakeBase intake) {
     Waypoint initialPoint = AtHomeChallengePoints.C1;
     double maxOutput = 0.5;
     PathGeneratorBase diagonalPathGenerator = new DriveTrainDiagonalPathGenerator(new GalacticSearchWaypoints(),
