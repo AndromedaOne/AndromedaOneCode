@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.InvertDrive;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
@@ -23,37 +24,33 @@ import frc.robot.sensors.SensorsContainer;
  */
 public class DriveController {
   private XboxController m_driveController = new XboxController(0);
-  private JoystickButton turnToNorth;
-  private JoystickButton turnToEast;
-  private JoystickButton turnToSouth;
-  private JoystickButton turnToWest;
+  private JoystickButton invertDrive;
   private JoystickButton turnToFace;
   private JoystickButton letOutLeftWinch;
   private JoystickButton letOutRightWinch;
   private POVButton climbLevel;
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
+  private double m_inversionToggle;
 
   public DriveController(SensorsContainer sensorsContainer) {
-    turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
-    turnToNorth.whenPressed(new TurnToCompassHeading(0));
-    turnToEast = new JoystickButton(m_driveController, ButtonsEnumerated.BBUTTON.getValue());
-    turnToEast.whenPressed(new TurnToCompassHeading(90));
-    turnToSouth = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
-    turnToSouth.whenPressed(new TurnToCompassHeading(180));
-    turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
-    turnToWest.whenPressed(new TurnToCompassHeading(270));
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
     turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
     // climbLevel = new POVButton(m_driveController,
     // POVDirectionNames.NORTH.getValue());
     // climbLevel.whileHeld(new Climb());
+    invertDrive = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
+    invertDrive.whenPressed(new InvertDrive(this));
     letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
     letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
     turnOnLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
     turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
     turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
     turnOffLimelight.whenPressed(new ToggleLimelightLED(false, sensorsContainer));
+    m_inversionToggle = 1;
+  }
+  public void invertJoySticks(){
+    m_inversionToggle *= -1;
   }
 
   /**
@@ -63,7 +60,7 @@ public class DriveController {
    * @return The position of the left drive stick (up and down).
    */
   public double getForwardBackwardStick() {
-    return deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
+    return m_inversionToggle*deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
   }
 
   private double deadband(double stickValue) {
@@ -81,7 +78,7 @@ public class DriveController {
    * @return the position of the right drive stick (left to right).
    */
   public double getRotateStick() {
-    return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
+    return m_inversionToggle*deadband(-m_driveController.getX(GenericHID.Hand.kRight));
   }
 
   public double getLeftTriggerValue() {
