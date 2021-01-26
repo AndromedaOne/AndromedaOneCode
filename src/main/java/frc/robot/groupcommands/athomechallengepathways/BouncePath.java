@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -17,7 +17,7 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class BouncePath extends SequentialCommandGroup {
   private static double maximumPower = 0.5;
   private static double robotLengthInches = 40;
-  private static Waypoint initialPoint = AtHomeChallengePoints.C1.subtract(new Waypoint(0, robotLengthInches / 2));
+  private static Waypoint initialPoint = AtHomeChallengePoints.C2.subtract(new Waypoint(0, robotLengthInches / 2));
 
   private class BounceWaypoints extends WaypointsBase {
     @Override

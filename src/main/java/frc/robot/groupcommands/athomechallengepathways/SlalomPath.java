@@ -25,7 +25,7 @@ public class SlalomPath extends SequentialCommandGroup {
       addWayPoint(initialPoint);
       addWayPoint(AtHomeChallengePoints.E3);
       addWayPoint(AtHomeChallengePoints.C3);
-      addWayPoint(AtHomeChallengePoints.C6);
+      addWayPoint(AtHomeChallengePoints.C9);
       addWayPoint(AtHomeChallengePoints.E9);
       addWayPoint(AtHomeChallengePoints.E11);
       addWayPoint(AtHomeChallengePoints.C11);
