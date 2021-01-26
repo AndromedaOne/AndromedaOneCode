@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.InvertDrive;
 import frc.robot.commands.ToggleLimelightLED;
-import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.SensorsContainer;
@@ -34,12 +33,12 @@ public class DriveController {
   private double m_inversionToggle;
 
   public DriveController(SensorsContainer sensorsContainer) {
-    turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
+    turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
     turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
     // climbLevel = new POVButton(m_driveController,
     // POVDirectionNames.NORTH.getValue());
     // climbLevel.whileHeld(new Climb());
-    invertDrive = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
+    invertDrive = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
     invertDrive.whenPressed(new InvertDrive(this));
     letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
     letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
@@ -49,7 +48,8 @@ public class DriveController {
     turnOffLimelight.whenPressed(new ToggleLimelightLED(false, sensorsContainer));
     m_inversionToggle = 1;
   }
-  public void invertJoySticks(){
+
+  public void invertForwardBackwardStick() {
     m_inversionToggle *= -1;
   }
 
@@ -60,7 +60,7 @@ public class DriveController {
    * @return The position of the left drive stick (up and down).
    */
   public double getForwardBackwardStick() {
-    return m_inversionToggle*deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
+    return m_inversionToggle * deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
   }
 
   private double deadband(double stickValue) {
@@ -78,7 +78,7 @@ public class DriveController {
    * @return the position of the right drive stick (left to right).
    */
   public double getRotateStick() {
-    return m_inversionToggle*deadband(-m_driveController.getX(GenericHID.Hand.kRight));
+    return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
   }
 
   public double getLeftTriggerValue() {
