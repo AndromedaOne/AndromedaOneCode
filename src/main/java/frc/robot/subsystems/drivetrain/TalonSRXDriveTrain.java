@@ -106,4 +106,14 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   protected SpeedControllerGroup getRightSpeedControllerGroup() {
     return m_rightmotors;
   }
+
+  @Override
+  protected double getLeftRate() {
+    return (m_backLeft.getEncoderVelocityTicks() + m_frontLeft.getEncoderVelocityTicks()) * 0.5;
+  }
+
+  @Override
+  protected double getRightRate() {
+    return (m_backRight.getEncoderVelocityTicks() + m_frontRight.getEncoderVelocityTicks()) * 0.5;
+  }
 }

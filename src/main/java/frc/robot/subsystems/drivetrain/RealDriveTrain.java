@@ -11,6 +11,10 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.NavXGyroSensor;
@@ -26,6 +30,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double kProportion = 0.0;
   // the robot's main drive
   private DifferentialDrive m_drive;
+  private final DifferentialDriveOdometry m_odometry; 
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -33,10 +38,12 @@ public abstract class RealDriveTrain extends DriveTrain {
     kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
     System.out.println("kProportion = " + kProportion);
+
+    m_odometry = new DifferentialDriveOdometry(navX.getRotation2d());
+
   }
 
   public void init() {
-    m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
   }
 
   /**
@@ -157,4 +164,26 @@ public abstract class RealDriveTrain extends DriveTrain {
   protected abstract SpeedControllerGroup getLeftSpeedControllerGroup();
 
   protected abstract SpeedControllerGroup getRightSpeedControllerGroup();
+
+  protected abstract double getLeftRate();
+  
+  protected abstract double getRightRate();
+
+  @Override
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  @Override
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    // TODO Auto-generated method stub
+    return new DifferentialDriveWheelSpeeds(getLeftRate(), getRightRate());
+  }
+
+  @Override
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    getLeftSpeedControllerGroup().setVoltage(leftVolts);
+    getRightSpeedControllerGroup().setVoltage(rightVolts);
+
+  }
 }

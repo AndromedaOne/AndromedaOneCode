@@ -2,6 +2,8 @@ package frc.robot.sensors.gyro;
 
 import java.util.TimerTask;
 
+import javax.management.RuntimeErrorException;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.typesafe.config.Config;
 
@@ -109,5 +111,32 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("Z Angle", getZAngle());
     SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());
+  }
+
+  @Override
+  public void calibrate() {
+    throw new RuntimeException("Calibrate is not implemented in realNaNavX so you should implement it if you are trying to call it.");
+  }
+
+  @Override
+  public void reset() {
+    gyro.reset();
+
+  }
+
+  @Override
+  public double getAngle() {
+    return getZAngle();
+  }
+
+  @Override
+  public double getRate() {
+    return gyro.getRate();
+  }
+
+  @Override
+  public void close() throws Exception {
+    // TODO Auto-generated method stub
+
   }
 }
