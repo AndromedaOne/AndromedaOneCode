@@ -17,6 +17,7 @@ import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
+import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChallenge;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -53,6 +54,8 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Galactic Search Path B",
         new GalacticSearchPathB(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
+    SmartDashboard.putData("InterstellerAccuracyChallenge", new InterstellarAccuracyChallenge(
+        subsystemsContainer.getDrivetrain(), subsystemsContainer.getShooter(), subsystemsContainer.getFeeder()));
   }
 
   public Command getSelectedAutoChooserCommand() {

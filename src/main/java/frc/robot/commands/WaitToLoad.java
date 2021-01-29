@@ -41,7 +41,7 @@ public class WaitToLoad extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Robot.getInstance().getOIContainer().getDriveController().getLeftBumperPressed()) {
+    if (Robot.getInstance().getOIContainer().getDriveController().getInterstellerWaitButton().get()) {
       return true;
     }
     return false;
