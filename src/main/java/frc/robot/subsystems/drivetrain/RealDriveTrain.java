@@ -44,6 +44,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   }
 
   public void init() {
+    m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
   }
 
   /**
