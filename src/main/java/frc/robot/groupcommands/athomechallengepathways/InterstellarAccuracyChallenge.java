@@ -46,12 +46,17 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
   private final double reloadToBlue = 100;
   private final double reloadToRed = 40;
 
+  private final double greenZoneShootingDistance = 70;
+  private final double yellowZoneShootingDistance = 130;
+  private final double blueZoneShootingDistance = 190;
+  private final double redZoneShootingDistance = 250;
+
   public InterstellarAccuracyChallenge(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder) {
 
     addCommands(new DelayedSequentialCommandGroup(
         // 1. start at 70 inches
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithDistance(shooter, feeder, 70),
+        new ShootWithDistance(shooter, feeder, greenZoneShootingDistance),
         // 2.
         new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
         // 3.
@@ -60,7 +65,7 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
         new MoveUsingEncoder(driveTrain, reloadToYellow, 0, m_maxOutPut),
         // 5.
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithDistance(shooter, feeder, 70),
+        new ShootWithDistance(shooter, feeder, yellowZoneShootingDistance),
         // 6.
         new MoveUsingEncoder(driveTrain, -reloadToYellow, 0, m_maxOutPut),
         // 7.
@@ -69,7 +74,7 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
         new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
         // 9.
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithDistance(shooter, feeder, 70),
+        new ShootWithDistance(shooter, feeder, blueZoneShootingDistance),
         // 10.
         new MoveUsingEncoder(driveTrain, -reloadToBlue, 0, m_maxOutPut),
         // 11.
@@ -78,7 +83,7 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
         new MoveUsingEncoder(driveTrain, reloadToRed, 0, m_maxOutPut),
         // 13.
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithDistance(shooter, feeder, 70),
+        new ShootWithDistance(shooter, feeder, redZoneShootingDistance),
         // 14.
         new MoveUsingEncoder(driveTrain, -reloadToRed, 0, m_maxOutPut),
         // 15.
@@ -87,7 +92,7 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
         new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
         // 17.
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithDistance(shooter, feeder, 70)));
+        new ShootWithDistance(shooter, feeder, blueZoneShootingDistance)));
 
   }
 }
