@@ -11,7 +11,7 @@ import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
-import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -29,7 +29,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading, double heading) {
     super(
         // The controller that the command will use
-        new PIDController4905("MoveUsingEncoder", 0, 0, 0, 0),
+        new PIDController4905SampleStop("MoveUsingEncoder", 0, 0, 0, 0),
         // This should return the measurement
         drivetrain::getRobotPositionInches,
         // This should return the setpoint (can also be a constant)
@@ -80,8 +80,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     getController().setI(pidConstantsConfig.getDouble("MoveUsingEncoder.Ki"));
     getController().setD(pidConstantsConfig.getDouble("MoveUsingEncoder.Kd"));
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingEncoder.minOutputToMove"));
-    getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"),
-        pidConstantsConfig.getDouble("MoveUsingEncoder.velocityTolerance"));
+    getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"));
     // Allows anyone who calls MoveUsingEncoder to override the maxOutput defined in
     // config (if present)
     if (m_maxOutput != 0) {
@@ -89,6 +88,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     } else if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
       getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
     }
+
+    System.out.println("Moving with encoder to position: " + getSetpoint());
 
   }
 
