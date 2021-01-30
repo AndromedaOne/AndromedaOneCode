@@ -20,7 +20,7 @@ import frc.robot.subsystems.shooter.ShooterBase;
 // NOTE: Back button ends the wait.
 //1. Shoot all balls at Green distance
 //2. Drive backward to Reload
-//3. Wain until drive input
+//3. Wait until drive input
 //4. Drive forward to yellow
 //5. Shoot
 //6. Drive backward to reload
@@ -41,7 +41,7 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
    * Creates a new InterstellarAccuracyChallenge.
    */
   private final double m_maxOutPut = 0.5;
-  private final double greenToReload = 220;
+  private final double reloadToGreen = 220;
   private final double reloadToYellow = 160;
   private final double reloadToBlue = 100;
   private final double reloadToRed = 40;
@@ -51,43 +51,43 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
     addCommands(new DelayedSequentialCommandGroup(
         // 1. start at 70 inches
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithDistance(shooter, feeder, 0),
+        new ShootWithDistance(shooter, feeder, 70),
         // 2.
-        new MoveUsingEncoder(driveTrain, -greenToReload, 180, m_maxOutPut)));
-        // // 3.
-        // new WaitToLoad(driveTrain),
-        // // 4.
-        // new MoveUsingEncoder(driveTrain, reloadToYellow, 0, m_maxOutPut),
-        // // 5.
-        // new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        // new ShootWithDistance(shooter, feeder, 0),
-        // // 6.
-        // new MoveUsingEncoder(driveTrain, -reloadToYellow, 180, m_maxOutPut),
-        // // 7.
-        // new WaitToLoad(driveTrain),
-        // // 8.
-        // new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
-        // // 9.
-        // new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        // new ShootWithDistance(shooter, feeder, 0),
-        // // 10.
-        // new MoveUsingEncoder(driveTrain, -reloadToBlue, 180, m_maxOutPut),
-        // // 11.
-        // new WaitToLoad(driveTrain),
-        // // 12.
-        // new MoveUsingEncoder(driveTrain, reloadToRed, 0, m_maxOutPut),
-        // // 13.
-        // new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        // new ShootWithDistance(shooter, feeder, 0),
-        // // 14.
-        // new MoveUsingEncoder(driveTrain, -reloadToRed, 180, m_maxOutPut),
-        // // 15.
-        // new WaitToLoad(driveTrain),
-        // // 16.
-        // new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
-        // // 17.
-        // new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        // new ShootWithDistance(shooter, feeder, 0)));
+        new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
+        // 3.
+        new WaitToLoad(driveTrain),
+        // 4.
+        new MoveUsingEncoder(driveTrain, reloadToYellow, 0, m_maxOutPut),
+        // 5.
+        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
+        new ShootWithDistance(shooter, feeder, 70),
+        // 6.
+        new MoveUsingEncoder(driveTrain, -reloadToYellow, 0, m_maxOutPut),
+        // 7.
+        new WaitToLoad(driveTrain),
+        // 8.
+        new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
+        // 9.
+        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
+        new ShootWithDistance(shooter, feeder, 70),
+        // 10.
+        new MoveUsingEncoder(driveTrain, -reloadToBlue, 0, m_maxOutPut),
+        // 11.
+        new WaitToLoad(driveTrain),
+        // 12.
+        new MoveUsingEncoder(driveTrain, reloadToRed, 0, m_maxOutPut),
+        // 13.
+        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
+        new ShootWithDistance(shooter, feeder, 70),
+        // 14.
+        new MoveUsingEncoder(driveTrain, -reloadToRed, 0, m_maxOutPut),
+        // 15.
+        new WaitToLoad(driveTrain),
+        // 16.
+        new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
+        // 17.
+        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
+        new ShootWithDistance(shooter, feeder, 70)));
 
   }
 }
