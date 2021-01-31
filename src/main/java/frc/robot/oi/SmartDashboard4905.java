@@ -40,6 +40,8 @@ import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
 
 /**
  * Add your docs here.
@@ -133,8 +135,8 @@ public class SmartDashboard4905 {
                                    kaVoltSecondsSquaredPerMeter),
         kDriveKinematics,
         subsystemsContainer.getDrivetrain()::getWheelSpeeds,
-        new PIDController(kPDriveVel, 0.0, 0.0),
-        new PIDController(kPDriveVel, 0.0, 0.0),
+        new TracingPIDController("Left Velocity",kPDriveVel, 0.0, 0.0),
+        new TracingPIDController("Right Velocity", kPDriveVel, 0.0, 0.0),
         // RamseteCommand passes volts to the callback
         subsystemsContainer.getDrivetrain()::tankDriveVolts,
         subsystemsContainer.getDrivetrain()
@@ -143,6 +145,25 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Drive Path planning test", ramseteCommand);
 
+  }
+
+  private class TracingPIDController extends PIDController {
+    private String m_name;
+
+    public TracingPIDController(String name, double p, double i, double d) {
+        super(p, i, d);
+        m_name = name;
+    }
+    
+    @Override
+    public double calculate(double measurement) {
+        double output = super.calculate(measurement);
+        Trace.getInstance().addTrace(true, m_name,
+        new TracePair<Double>("Output", output),
+        new TracePair<Double>("Measurement", measurement), 
+        new TracePair<Double>("Setpoint", super.getSetpoint()));
+        return output;
+    }
   }
 
 

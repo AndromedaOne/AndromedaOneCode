@@ -47,10 +47,11 @@ public abstract class RealDriveTrain extends DriveTrain {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    double leftMeters = getLeftTicksMeters();
+    double leftMeters = getLeftSideMeters();
+    double rightMeters = getRightsSideMeters();
 
     m_odometry.update(navX.getRotation2d(), leftMeters,
-                      getRightTicksMeters());
+    rightMeters);
   }
 
   public void init() {
@@ -172,6 +173,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    */
   public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
     m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
+    
   }
 
   protected abstract SpeedControllerGroup getLeftSpeedControllerGroup();
@@ -185,20 +187,15 @@ public abstract class RealDriveTrain extends DriveTrain {
   @Override
   public Pose2d getPose() {
     Pose2d pose = m_odometry.getPoseMeters();
-    System.out.println(pose.toString());
+    System.out.println(pose);
     return pose;
   }
 
   @Override
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(getLeftRateMetersPerSecond(), getRightRateMetersPerSecond());
-  }
-
-  @Override
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
-    getLeftSpeedControllerGroup().setVoltage(leftVolts);
-    getRightSpeedControllerGroup().setVoltage(rightVolts);
-
+    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(getLeftRateMetersPerSecond(), getRightRateMetersPerSecond());
+    System.out.println(wheelSpeeds);
+    return wheelSpeeds;
   }
 
   /**
@@ -211,8 +208,15 @@ public abstract class RealDriveTrain extends DriveTrain {
     m_odometry.resetPosition(pose, navX.getRotation2d());
   }
 
-  protected abstract void resetEncoders();
-  protected abstract double getLeftTicksMeters();
+  @Override
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    getLeftSpeedControllerGroup().setVoltage(leftVolts);
+    getRightSpeedControllerGroup().setVoltage(rightVolts);
+    m_drive.feed();
+  }
 
-  protected abstract double getRightTicksMeters();
+  protected abstract void resetEncoders();
+  protected abstract double getLeftSideMeters();
+
+  protected abstract double getRightsSideMeters();
 }
