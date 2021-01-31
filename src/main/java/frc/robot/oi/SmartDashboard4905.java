@@ -15,13 +15,11 @@ import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.RunAllFeederMotors;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
-import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.athomechallengepathways.AtHomeChallengePoints;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
 import frc.robot.groupcommands.athomechallengepathways.TestPath;
-import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.sensors.SensorsContainer;
@@ -64,8 +62,7 @@ public class SmartDashboard4905 {
         new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.E3);
     SmartDashboard.putData("Drive Test Path", driveTrainDiagonalPathGenerator.getPath());
 
-    SmartDashboard.putData("Run All feeder motors",
-        new RunAllFeederMotors(subsystemsContainer.getFeeder()));
+    SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
   }
 
   public Command getSelectedAutoChooserCommand() {
