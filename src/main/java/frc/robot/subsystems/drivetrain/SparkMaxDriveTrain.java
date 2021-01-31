@@ -112,13 +112,13 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   @Override
   protected double getLeftRateMetersPerSecond() {
     // TODO Auto-generated method stub
-    return ticksToMeters((m_backLeft.getEncoderVelocityTicks() + m_frontLeft.getEncoderVelocityTicks()) * 0.5);
+    return ticksPerMinuteToMetersPerSecond((m_backLeft.getEncoderVelocityTicks() + m_frontLeft.getEncoderVelocityTicks()) * 0.5);
   }
 
   @Override
   protected double getRightRateMetersPerSecond() {
     // TODO Auto-generated method stub
-    return ticksToMeters((m_backRight.getEncoderVelocityTicks() + m_frontRight.getEncoderVelocityTicks()) * 0.5);
+    return ticksPerMinuteToMetersPerSecond((m_backRight.getEncoderVelocityTicks() + m_frontRight.getEncoderVelocityTicks()) * 0.5);
   }
 
   @Override
@@ -132,7 +132,7 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   @Override
   protected double getRightsSideMeters() {
     // TODO Auto-generated method stub
-    double averageTicks = (m_frontLeft.getEncoderPositionTicks() + m_frontRight.getEncoderPositionTicks());
+    double averageTicks = (m_backRight.getEncoderPositionTicks() + m_frontRight.getEncoderPositionTicks());
     double averageMeters = ticksToMeters(averageTicks);
     return averageMeters;
   }
@@ -141,11 +141,15 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
     return ticks * (1.0 / ticksPerInch) * metersPerInch;
   }
 
+  private double ticksPerMinuteToMetersPerSecond(double ticksPerMinute) {
+    return ticksToMeters(ticksPerMinute * (1.0 / 60));
+  }
+
   @Override
   protected void resetEncoders() {
    m_backLeft.getEncoder().setPosition(0);
    m_frontLeft.getEncoder().setPosition(0);
-   m_frontLeft.getEncoder().setPosition(0);
+   m_backRight.getEncoder().setPosition(0);
    m_frontRight.getEncoder().setPosition(0);
   }
 }

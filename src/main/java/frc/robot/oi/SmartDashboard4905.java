@@ -117,11 +117,12 @@ public class SmartDashboard4905 {
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
-            new Translation2d(1, 1),
-            new Translation2d(2, -1)
+            new Translation2d(2, 2),
+            new Translation2d(4, -2),
+            new Translation2d(6, 2)
         ),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(8, 0, new Rotation2d(0)),
         // Pass config
         config
     );
@@ -135,8 +136,8 @@ public class SmartDashboard4905 {
                                    kaVoltSecondsSquaredPerMeter),
         kDriveKinematics,
         subsystemsContainer.getDrivetrain()::getWheelSpeeds,
-        new TracingPIDController("Left Velocity",kPDriveVel, 0.0, 0.0),
-        new TracingPIDController("Right Velocity", kPDriveVel, 0.0, 0.0),
+        new TracingPIDController("LeftVelocity",kPDriveVel, 0.0, 0.0),
+        new TracingPIDController("RightVelocity", kPDriveVel, 0.0, 0.0),
         // RamseteCommand passes volts to the callback
         subsystemsContainer.getDrivetrain()::tankDriveVolts,
         subsystemsContainer.getDrivetrain()

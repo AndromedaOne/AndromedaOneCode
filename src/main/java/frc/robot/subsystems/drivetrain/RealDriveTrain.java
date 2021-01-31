@@ -12,6 +12,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
@@ -30,7 +31,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double kProportion = 0.0;
   // the robot's main drive
   private DifferentialDrive m_drive;
-  private final DifferentialDriveOdometry m_odometry; 
+  private DifferentialDriveOdometry m_odometry; 
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -39,22 +40,26 @@ public abstract class RealDriveTrain extends DriveTrain {
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
     System.out.println("kProportion = " + kProportion);
 
-    m_odometry = new DifferentialDriveOdometry(navX.getRotation2d());
-    
-
   }
 
+  private static int count = 0;
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     double leftMeters = getLeftSideMeters();
     double rightMeters = getRightsSideMeters();
-
     m_odometry.update(navX.getRotation2d(), leftMeters,
     rightMeters);
+    count++;
+    if(count >= 50) {
+      System.out.println(m_odometry.getPoseMeters() + " " + leftMeters + rightMeters);
+      count = 0;
+    }
+    
   }
 
   public void init() {
+    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
     resetEncoders();
 
@@ -172,7 +177,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                         counter-clockwise and negative goes clockwise.
    */
   public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
-    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
+    m_drive.arcadeDrive(rotateAmount,forwardBackSpeed, squaredInput);
     
   }
 
@@ -187,14 +192,12 @@ public abstract class RealDriveTrain extends DriveTrain {
   @Override
   public Pose2d getPose() {
     Pose2d pose = m_odometry.getPoseMeters();
-    System.out.println(pose);
     return pose;
   }
 
   @Override
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(getLeftRateMetersPerSecond(), getRightRateMetersPerSecond());
-    System.out.println(wheelSpeeds);
     return wheelSpeeds;
   }
 

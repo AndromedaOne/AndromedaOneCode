@@ -60,6 +60,8 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
     }
   }
 
+  private boolean calibrated = false;
+
   private class SetInitialAngleReading extends TimerTask {
 
     @Override
@@ -69,6 +71,7 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
         initialZAngleReading = gyro.getAngle();
         initialXAngleReading = gyro.getPitch();
         initialYAngleReading = gyro.getRoll();
+        calibrated = true;
         cancel();
       }
     }
@@ -81,10 +84,13 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
    */
   @Override
   public double getZAngle() {
-    double correctedAngle = gyro.getAngle() - initialZAngleReading;
-    Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
-        new TracePair<>("Corrected Angle", correctedAngle));
-    return correctedAngle;
+    if(calibrated){
+      double correctedAngle = gyro.getAngle() - initialZAngleReading;
+      Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
+          new TracePair<>("Corrected Angle", correctedAngle));
+      return correctedAngle;
+    }
+    return 0;
   }
 
   @Override
