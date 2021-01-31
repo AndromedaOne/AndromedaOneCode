@@ -71,4 +71,6 @@ public abstract class DriveTrain extends SubsystemBase {
   public void stop() {
     move(0, 0, false);
   }
+
+  public abstract void resetOdometry(Pose2d pose);
 }

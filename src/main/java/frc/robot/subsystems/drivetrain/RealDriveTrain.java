@@ -40,11 +40,23 @@ public abstract class RealDriveTrain extends DriveTrain {
     System.out.println("kProportion = " + kProportion);
 
     m_odometry = new DifferentialDriveOdometry(navX.getRotation2d());
+    
 
+  }
+
+  @Override
+  public void periodic() {
+    // Update the odometry in the periodic block
+    double leftMeters = getLeftTicksMeters();
+
+    m_odometry.update(navX.getRotation2d(), leftMeters,
+                      getRightTicksMeters());
   }
 
   public void init() {
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
+    resetEncoders();
+
   }
 
   /**
@@ -166,19 +178,20 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   protected abstract SpeedControllerGroup getRightSpeedControllerGroup();
 
-  protected abstract double getLeftRate();
+  protected abstract double getLeftRateMetersPerSecond();
   
-  protected abstract double getRightRate();
+  protected abstract double getRightRateMetersPerSecond();
 
   @Override
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    Pose2d pose = m_odometry.getPoseMeters();
+    System.out.println(pose.toString());
+    return pose;
   }
 
   @Override
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    // TODO Auto-generated method stub
-    return new DifferentialDriveWheelSpeeds(getLeftRate(), getRightRate());
+    return new DifferentialDriveWheelSpeeds(getLeftRateMetersPerSecond(), getRightRateMetersPerSecond());
   }
 
   @Override
@@ -187,4 +200,19 @@ public abstract class RealDriveTrain extends DriveTrain {
     getRightSpeedControllerGroup().setVoltage(rightVolts);
 
   }
+
+  /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose The pose to which to set the odometry.
+   */
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    m_odometry.resetPosition(pose, navX.getRotation2d());
+  }
+
+  protected abstract void resetEncoders();
+  protected abstract double getLeftTicksMeters();
+
+  protected abstract double getRightTicksMeters();
 }

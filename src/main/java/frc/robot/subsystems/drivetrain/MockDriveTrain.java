@@ -69,4 +69,10 @@ public class MockDriveTrain extends DriveTrain {
     // TODO Auto-generated method stub
 
   }
+
+  @Override
+  public void resetOdometry(Pose2d pose) {
+    // TODO Auto-generated method stub
+
+  }
 }

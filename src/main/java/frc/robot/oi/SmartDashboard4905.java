@@ -139,6 +139,7 @@ public class SmartDashboard4905 {
         subsystemsContainer.getDrivetrain()::tankDriveVolts,
         subsystemsContainer.getDrivetrain()
     );
+    subsystemsContainer.getDrivetrain().resetOdometry(exampleTrajectory.getInitialPose());
 
     SmartDashboard.putData("Drive Path planning test", ramseteCommand);
 
