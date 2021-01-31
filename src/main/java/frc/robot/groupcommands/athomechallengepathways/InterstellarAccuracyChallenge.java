@@ -7,8 +7,10 @@
 
 package frc.robot.groupcommands.athomechallengepathways;
 
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
+import frc.robot.commands.*;
 import frc.robot.commands.WaitToLoad;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
@@ -58,40 +60,40 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
         new ShootWithDistance(shooter, feeder, greenZoneShootingDistance),
         // 2.
-        new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
-        // 3.
-        new WaitToLoad(driveTrain),
-        // 4.
-        new MoveUsingEncoder(driveTrain, reloadToYellow, 0, m_maxOutPut),
-        // 5.
-        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
+                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToYellow, 0, m_maxOutPut),
+                new TurnToFaceCommand(
+                    Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
+            new DefaultFeederCommand()),
+
         new ShootWithDistance(shooter, feeder, yellowZoneShootingDistance),
-        // 6.
-        new MoveUsingEncoder(driveTrain, -reloadToYellow, 0, m_maxOutPut),
-        // 7.
-        new WaitToLoad(driveTrain),
-        // 8.
-        new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
-        // 9.
-        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
+
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToYellow, 0, m_maxOutPut),
+                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
+                new TurnToFaceCommand(
+                    Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
+            new DefaultFeederCommand()),
+
         new ShootWithDistance(shooter, feeder, blueZoneShootingDistance),
-        // 10.
-        new MoveUsingEncoder(driveTrain, -reloadToBlue, 0, m_maxOutPut),
-        // 11.
-        new WaitToLoad(driveTrain),
-        // 12.
-        new MoveUsingEncoder(driveTrain, reloadToRed, 0, m_maxOutPut),
-        // 13.
-        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
+
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToBlue, 0, m_maxOutPut),
+                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToRed, 0, m_maxOutPut),
+                new TurnToFaceCommand(
+                    Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
+            new DefaultFeederCommand()),
+
         new ShootWithDistance(shooter, feeder, redZoneShootingDistance),
-        // 14.
-        new MoveUsingEncoder(driveTrain, -reloadToRed, 0, m_maxOutPut),
-        // 15.
-        new WaitToLoad(driveTrain),
-        // 16.
-        new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
-        // 17.
-        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
+
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToRed, 0, m_maxOutPut),
+                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
+                new TurnToFaceCommand(
+                    Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
+            new DefaultFeederCommand()),
+
         new ShootWithDistance(shooter, feeder, blueZoneShootingDistance)));
 
   }
