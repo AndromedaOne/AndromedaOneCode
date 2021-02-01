@@ -111,13 +111,9 @@ public class SmartDashboard4905 {
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(
-            new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(-30)),
+        List.of(new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(-30)),
             new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-60)),
-            new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(-30))
-        ),
-        // End 3 meters straight ahead of where we started, facing forward
+            new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(-30))),
         new Pose2d(0, 0, new Rotation2d(180)),
         // Pass config
         config);

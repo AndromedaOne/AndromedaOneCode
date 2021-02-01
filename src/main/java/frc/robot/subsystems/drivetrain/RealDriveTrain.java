@@ -60,6 +60,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   public void init() {
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
+    m_drive.setRightSideInverted(false);
     resetEncoders();
 
   }
@@ -176,7 +177,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                         counter-clockwise and negative goes clockwise.
    */
   public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
-    m_drive.arcadeDrive(rotateAmount, forwardBackSpeed, squaredInput);
+    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
 
   }
 
