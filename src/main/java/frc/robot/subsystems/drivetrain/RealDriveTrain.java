@@ -213,7 +213,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   }
 
   @Override
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
+  public void tankDriveVolts(double rightVolts, double leftVolts) {
     getLeftSpeedControllerGroup().setVoltage(leftVolts);
     getRightSpeedControllerGroup().setVoltage(rightVolts);
     m_drive.feed();
