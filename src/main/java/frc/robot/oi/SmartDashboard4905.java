@@ -11,6 +11,11 @@ import java.util.List;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,12 +23,6 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Config4905;
@@ -85,66 +84,50 @@ public class SmartDashboard4905 {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     double ksVolts = drivetrainConfig.getDouble("pathplanningconstants.ksVolts");
     double kvVoltSecondsPerMeter = drivetrainConfig.getDouble("pathplanningconstants.kvVoltSecondsPerMeter");
-    double kaVoltSecondsSquaredPerMeter = drivetrainConfig.getDouble("pathplanningconstants.kaVoltSecondsSquaredPerMeter");
+    double kaVoltSecondsSquaredPerMeter = drivetrainConfig
+        .getDouble("pathplanningconstants.kaVoltSecondsSquaredPerMeter");
     double kPDriveVel = drivetrainConfig.getDouble("pathplanningconstants.kPDriveVel");
 
     double kTrackwidthMeters = drivetrainConfig.getDouble("pathplanningconstants.kTrackwidthMeters");
     DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
 
     double kMaxSpeedMetersPerSecond = drivetrainConfig.getDouble("pathplanningconstants.kMaxSpeedMetersPerSecond");
-    double kMaxAccelerationMetersPerSecondSquared = drivetrainConfig.getDouble("pathplanningconstants.kMaxAccelerationMetersPerSecondSquared");
+    double kMaxAccelerationMetersPerSecondSquared = drivetrainConfig
+        .getDouble("pathplanningconstants.kMaxAccelerationMetersPerSecondSquared");
     double kRamseteB = drivetrainConfig.getDouble("pathplanningconstants.kRamseteB");
     double kRamseteZeta = drivetrainConfig.getDouble("pathplanningconstants.kRamseteZeta");
 
-    DifferentialDriveVoltageConstraint autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(ksVolts,
-                                       kvVoltSecondsPerMeter,
-                                       kaVoltSecondsSquaredPerMeter),
-            kDriveKinematics,
-            10);
-    
-    TrajectoryConfig config =
-            new TrajectoryConfig(kMaxSpeedMetersPerSecond,
-                                 kMaxAccelerationMetersPerSecondSquared)
-                // Add kinematics to ensure max speed is actually obeyed
-                .setKinematics(kDriveKinematics)
-                // Apply the voltage constraint
-                .addConstraint(autoVoltageConstraint);
-    
+    DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+        new SimpleMotorFeedforward(ksVolts, kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter), kDriveKinematics, 10);
+
+    TrajectoryConfig config = new TrajectoryConfig(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared)
+        // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(kDriveKinematics)
+        // Apply the voltage constraint
+        .addConstraint(autoVoltageConstraint);
+
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-        
+
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(
-            new Pose2d(0, 0, new Rotation2d(0)),
-            pose2dInchesToMeters(150, -30, new Rotation2d(270)),
-            pose2dInchesToMeters(120, -60, new Rotation2d(180)),
-            pose2dInchesToMeters(90, -30, new Rotation2d(90)),
+        List.of(new Pose2d(0, 0, new Rotation2d(0)), pose2dInchesToMeters(150, -30, new Rotation2d(270)),
+            pose2dInchesToMeters(120, -60, new Rotation2d(180)), pose2dInchesToMeters(90, -30, new Rotation2d(90)),
             pose2dInchesToMeters(0, 0, new Rotation2d(180))
-            
+
         ),
         // End 3 meters straight ahead of where we started, facing forward
-        //new Pose2d(8, 0, new Rotation2d(0)),
+        // new Pose2d(8, 0, new Rotation2d(0)),
         // Pass config
-        config
-    );
+        config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(
-        exampleTrajectory,
-        subsystemsContainer.getDrivetrain()::getPose,
+    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, subsystemsContainer.getDrivetrain()::getPose,
         new RamseteController(kRamseteB, kRamseteZeta),
-        new SimpleMotorFeedforward(ksVolts,
-                                   kvVoltSecondsPerMeter,
-                                   kaVoltSecondsSquaredPerMeter),
-        kDriveKinematics,
+        new SimpleMotorFeedforward(ksVolts, kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter), kDriveKinematics,
         subsystemsContainer.getDrivetrain()::getWheelSpeeds,
-        new TracingPIDController("LeftVelocity",kPDriveVel, 0.0, 0.0),
+        new TracingPIDController("LeftVelocity", kPDriveVel, 0.0, 0.0),
         new TracingPIDController("RightVelocity", kPDriveVel, 0.0, 0.0),
         // RamseteCommand passes volts to the callback
-        subsystemsContainer.getDrivetrain()::tankDriveVolts,
-        subsystemsContainer.getDrivetrain()
-    );
+        subsystemsContainer.getDrivetrain()::tankDriveVolts, subsystemsContainer.getDrivetrain());
     subsystemsContainer.getDrivetrain().resetOdometry(exampleTrajectory.getInitialPose());
 
     SmartDashboard.putData("Drive Path planning test", ramseteCommand);
@@ -154,31 +137,27 @@ public class SmartDashboard4905 {
   private static final double metersPerInch = 0.0254;
 
   private Pose2d pose2dInchesToMeters(double xInches, double yInches, Rotation2d angle) {
-      double xMeters = xInches * metersPerInch;
-      double yMeters = yInches * metersPerInch;
-      return new Pose2d(xMeters, yMeters, angle);
+    double xMeters = xInches * metersPerInch;
+    double yMeters = yInches * metersPerInch;
+    return new Pose2d(xMeters, yMeters, angle);
   }
 
   private class TracingPIDController extends PIDController {
     private String m_name;
 
     public TracingPIDController(String name, double p, double i, double d) {
-        super(p, i, d);
-        m_name = name;
+      super(p, i, d);
+      m_name = name;
     }
-    
+
     @Override
     public double calculate(double measurement) {
-        double output = super.calculate(measurement);
-        Trace.getInstance().addTrace(true, m_name,
-        new TracePair<Double>("Output", output),
-        new TracePair<Double>("Measurement", measurement), 
-        new TracePair<Double>("Setpoint", super.getSetpoint()));
-        return output;
+      double output = super.calculate(measurement);
+      Trace.getInstance().addTrace(true, m_name, new TracePair<Double>("Output", output),
+          new TracePair<Double>("Measurement", measurement), new TracePair<Double>("Setpoint", super.getSetpoint()));
+      return output;
     }
   }
-
-
 
   public Command getSelectedAutoChooserCommand() {
     return m_autoChooser.getSelected();

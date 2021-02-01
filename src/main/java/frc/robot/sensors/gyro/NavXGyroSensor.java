@@ -22,7 +22,7 @@ public abstract class NavXGyroSensor implements Gyro {
   public abstract double getCompassHeading();
 
   public abstract void updateSmartDashboardReadings();
-  
+
   public Rotation2d getRotation2d() {
     double zAngle = -getZAngle();
     return Rotation2d.fromDegrees(zAngle);

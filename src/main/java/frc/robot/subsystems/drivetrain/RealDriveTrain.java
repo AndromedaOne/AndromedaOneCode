@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Config4905;
@@ -31,7 +30,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double kProportion = 0.0;
   // the robot's main drive
   private DifferentialDrive m_drive;
-  private DifferentialDriveOdometry m_odometry; 
+  private DifferentialDriveOdometry m_odometry;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -43,19 +42,19 @@ public abstract class RealDriveTrain extends DriveTrain {
   }
 
   private static int count = 0;
+
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     double leftMeters = getLeftSideMeters();
     double rightMeters = getRightsSideMeters();
-    m_odometry.update(navX.getRotation2d(), leftMeters,
-    rightMeters);
+    m_odometry.update(navX.getRotation2d(), leftMeters, rightMeters);
     count++;
-    if(count >= 50) {
+    if (count >= 50) {
       System.out.println(m_odometry.getPoseMeters() + " " + leftMeters + rightMeters);
       count = 0;
     }
-    
+
   }
 
   public void init() {
@@ -177,8 +176,8 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                         counter-clockwise and negative goes clockwise.
    */
   public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
-    m_drive.arcadeDrive(rotateAmount,forwardBackSpeed, squaredInput);
-    
+    m_drive.arcadeDrive(rotateAmount, forwardBackSpeed, squaredInput);
+
   }
 
   protected abstract SpeedControllerGroup getLeftSpeedControllerGroup();
@@ -186,7 +185,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   protected abstract SpeedControllerGroup getRightSpeedControllerGroup();
 
   protected abstract double getLeftRateMetersPerSecond();
-  
+
   protected abstract double getRightRateMetersPerSecond();
 
   @Override
@@ -197,7 +196,8 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(getLeftRateMetersPerSecond(), getRightRateMetersPerSecond());
+    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(getLeftRateMetersPerSecond(),
+        getRightRateMetersPerSecond());
     return wheelSpeeds;
   }
 
@@ -219,6 +219,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   }
 
   protected abstract void resetEncoders();
+
   protected abstract double getLeftSideMeters();
 
   protected abstract double getRightsSideMeters();

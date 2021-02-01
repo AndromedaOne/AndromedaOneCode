@@ -2,8 +2,6 @@ package frc.robot.sensors.gyro;
 
 import java.util.TimerTask;
 
-import javax.management.RuntimeErrorException;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.typesafe.config.Config;
 
@@ -84,7 +82,7 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
    */
   @Override
   public double getZAngle() {
-    if(calibrated){
+    if (calibrated) {
       double correctedAngle = gyro.getAngle() - initialZAngleReading;
       Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
           new TracePair<>("Corrected Angle", correctedAngle));
@@ -121,7 +119,8 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
 
   @Override
   public void calibrate() {
-    throw new RuntimeException("Calibrate is not implemented in realNaNavX so you should implement it if you are trying to call it.");
+    throw new RuntimeException(
+        "Calibrate is not implemented in realNaNavX so you should implement it if you are trying to call it.");
   }
 
   @Override

@@ -137,6 +137,6 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
 
   @Override
   protected void resetEncoders() {
-   throw new RuntimeException("Need to fill in the method ot reset encoders in talonsrx drivetrain");
+    throw new RuntimeException("Need to fill in the method ot reset encoders in talonsrx drivetrain");
   }
 }

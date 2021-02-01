@@ -37,7 +37,7 @@ public abstract class DriveTrain extends SubsystemBase {
   }
 
   public abstract Pose2d getPose();
-  
+
   public abstract DifferentialDriveWheelSpeeds getWheelSpeeds();
 
   public abstract void tankDriveVolts(double leftVolts, double rightVolts);

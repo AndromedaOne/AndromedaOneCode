@@ -111,12 +111,14 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
 
   @Override
   protected double getLeftRateMetersPerSecond() {
-    return ticksPerMinuteToMetersPerSecond((m_backLeft.getEncoderVelocityTicks() + m_frontLeft.getEncoderVelocityTicks()) * 0.5);
+    return ticksPerMinuteToMetersPerSecond(
+        (m_backLeft.getEncoderVelocityTicks() + m_frontLeft.getEncoderVelocityTicks()) * 0.5);
   }
 
   @Override
   protected double getRightRateMetersPerSecond() {
-    return ticksPerMinuteToMetersPerSecond((m_backRight.getEncoderVelocityTicks() + m_frontRight.getEncoderVelocityTicks()) * 0.5);
+    return ticksPerMinuteToMetersPerSecond(
+        (m_backRight.getEncoderVelocityTicks() + m_frontRight.getEncoderVelocityTicks()) * 0.5);
   }
 
   @Override
@@ -143,9 +145,9 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
 
   @Override
   protected void resetEncoders() {
-   m_backLeft.getEncoder().setPosition(0);
-   m_frontLeft.getEncoder().setPosition(0);
-   m_backRight.getEncoder().setPosition(0);
-   m_frontRight.getEncoder().setPosition(0);
+    m_backLeft.getEncoder().setPosition(0);
+    m_frontLeft.getEncoder().setPosition(0);
+    m_backRight.getEncoder().setPosition(0);
+    m_frontRight.getEncoder().setPosition(0);
   }
 }
