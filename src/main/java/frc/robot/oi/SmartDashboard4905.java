@@ -122,8 +122,12 @@ public class SmartDashboard4905 {
         new RamseteController(kRamseteB, kRamseteZeta),
         new SimpleMotorFeedforward(ksVolts, kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter), kDriveKinematics,
         subsystemsContainer.getDrivetrain()::getWheelSpeeds,
+        // the following two pidcontrollers are intentionally reversed in order so that
+        // positive angle from the gyro correspons to rotating clockwise looking down on
+        // the robot.
         new TracingPIDController("RightVelocity", kPDriveVel, 0.0, 0.0),
         new TracingPIDController("LeftVelocity", kPDriveVel, 0.0, 0.0),
+
         // RamseteCommand passes volts to the callback
         subsystemsContainer.getDrivetrain()::tankDriveVolts, subsystemsContainer.getDrivetrain());
     subsystemsContainer.getDrivetrain().resetOdometry(exampleTrajectory.getInitialPose());
