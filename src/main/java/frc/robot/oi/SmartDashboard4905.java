@@ -41,8 +41,6 @@ import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.pidcontroller.TracingPIDController;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.telemetries.Trace;
-import frc.robot.telemetries.TracePair;
 
 /**
  * Add your docs here.
