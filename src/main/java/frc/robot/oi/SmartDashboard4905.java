@@ -11,7 +11,6 @@ import java.util.List;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -39,6 +38,7 @@ import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
 import frc.robot.groupcommands.athomechallengepathways.TestPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
+import frc.robot.pidcontroller.TracingPIDController;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
@@ -134,23 +134,6 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Drive Path planning test", ramseteCommand);
 
-  }
-
-  private class TracingPIDController extends PIDController {
-    private String m_name;
-
-    public TracingPIDController(String name, double p, double i, double d) {
-      super(p, i, d);
-      m_name = name;
-    }
-
-    @Override
-    public double calculate(double measurement) {
-      double output = super.calculate(measurement);
-      Trace.getInstance().addTrace(true, m_name, new TracePair<Double>("Output", output),
-          new TracePair<Double>("Measurement", measurement), new TracePair<Double>("Setpoint", super.getSetpoint()));
-      return output;
-    }
   }
 
   public Command getSelectedAutoChooserCommand() {
