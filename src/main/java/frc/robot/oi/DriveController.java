@@ -33,6 +33,7 @@ public class DriveController {
   private POVButton climbLevel;
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
+  private JoystickButton interstellerAccuracyWait;
 
   public DriveController(SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
@@ -54,6 +55,7 @@ public class DriveController {
     turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
     turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
     turnOffLimelight.whenPressed(new ToggleLimelightLED(false, sensorsContainer));
+    interstellerAccuracyWait = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
   }
 
   /**
@@ -108,4 +110,7 @@ public class DriveController {
     return letOutRightWinch;
   }
 
+  public JoystickButton getInterstellerWaitButton() {
+    return interstellerAccuracyWait;
+  }
 }
