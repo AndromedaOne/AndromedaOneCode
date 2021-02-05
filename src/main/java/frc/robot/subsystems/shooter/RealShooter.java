@@ -51,7 +51,8 @@ public class RealShooter extends ShooterBase {
   public double getShooterWheelVelocity() {
     double average = m_shooterOne.getEncoderVelocityTicks() + m_shooterTwo.getEncoderVelocityTicks();
     average = average / 2;
-    SmartDashboard.putNumber("Shooter Velocity", average);
+    SmartDashboard.putNumber("ShooterOne Velocity", m_shooterOne.getEncoderVelocityTicks());
+    SmartDashboard.putNumber("ShooterTwo Velocity", m_shooterTwo.getEncoderVelocityTicks());
     return average;
   }
 

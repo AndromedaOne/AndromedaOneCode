@@ -7,7 +7,7 @@ public class PIDController4905 extends PIDControllerProposed {
   private double m_minOutputToMove;
   private double m_minOutputToMoveAbs;
   private String m_controllerName;
-  private double m_maxOutput = Double.POSITIVE_INFINITY;
+  private double m_maxOutput = 1.0;
 
   public PIDController4905(String controllerName, double Kp, double Ki, double Kd, double minOutputToMove) {
     super(Kp, Ki, Kd);
