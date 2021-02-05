@@ -110,11 +110,20 @@ public class SmartDashboard4905 {
 
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        List.of(new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(-30)),
-            new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-60)),
-            new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(-30))),
-        new Pose2d(0, 0, new Rotation2d(180)),
+        
+        List.of(
+            new Pose2d(0, 0, new Rotation2d(0)),
+            new Pose2d(2, 0, new Rotation2d(90)),
+            new Pose2d(2, 3, new Rotation2d(180)),
+            new Pose2d(0, 2, new Rotation2d(270)),
+            new Pose2d(0, 0, new Rotation2d(0))
+        
+            // new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(-30)),
+            // new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-60)),
+            // new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(-30))
+            ),
+        //new Pose2d(0, 0, new Rotation2d(180)),
+        
         // Pass config
         config);
 
