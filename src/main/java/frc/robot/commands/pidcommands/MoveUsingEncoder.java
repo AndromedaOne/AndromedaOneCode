@@ -13,6 +13,7 @@ import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -72,6 +73,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   }
 
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
     Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
     super.initialize();
     setDistance(m_distance);
@@ -112,5 +114,6 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   public void end(boolean interrupted) {
     super.end(interrupted);
     m_driveTrain.stop();
+    Trace.getInstance().logCommandStop(this);
   }
 }

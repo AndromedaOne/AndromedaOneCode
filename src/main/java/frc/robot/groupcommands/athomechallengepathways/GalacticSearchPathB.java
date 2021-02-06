@@ -8,6 +8,7 @@ import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
+import frc.robot.telemetries.Trace;
 
 public class GalacticSearchPathB extends CommandBase {
   private final double robotLength = 40;
@@ -37,6 +38,10 @@ public class GalacticSearchPathB extends CommandBase {
     }
   }
 
+  public void initialize() {
+    Trace.getInstance().logCommandStart(this);
+  }
+
   public void end(final boolean interrupted) {
     final double distanceToPowercell = Robot.getInstance().getSensorsContainer().getPowercellDetector()
         .getDistanceInches();
@@ -55,6 +60,12 @@ public class GalacticSearchPathB extends CommandBase {
           new DeployAndRunIntake(Robot.getInstance().getSubsystemsContainer().getIntake(), () -> false));
       CommandScheduler.getInstance().schedule(cmdblue);
     }
+    Trace.getInstance().logCommandStop(this);
   }
 
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return true;
+  }
 }
