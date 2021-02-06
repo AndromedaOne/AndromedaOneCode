@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
-import frc.robot.commands.GalacticSearchWithDetection;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
+import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
@@ -104,10 +105,13 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12)))); 
-          m_autoChooser.addOption("13: galactic Search With Detector",
-            new DelayedSequentialCommandGroup(new GalacticSearchWithDetection()));
-                                                                  SmartDashboard.putData("autoModes", m_autoChooser);
-        // @formatter:on
+          m_autoChooser.addOption("13: galactic Search Path A",
+            new DelayedSequentialCommandGroup(new GalacticSearchPathA()));
+            m_autoChooser.addOption("14: galactic Search Path B",
+            new DelayedSequentialCommandGroup(new GalacticSearchPathB()));
+
+          SmartDashboard.putData("autoModes", m_autoChooser);
+                                                              // @formatter:on
   }
 
 }

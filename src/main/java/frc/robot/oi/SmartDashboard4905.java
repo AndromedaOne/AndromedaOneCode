@@ -16,8 +16,10 @@ import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.athomechallengepathways.AtHomeChallengePoints;
+import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathAAllSixBalls;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
+import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathBAllSixBalls;
 import frc.robot.groupcommands.athomechallengepathways.TestPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
@@ -51,11 +53,15 @@ public class SmartDashboard4905 {
 
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
 
-    SmartDashboard.putData("Galactic Search Path A",
+    SmartDashboard.putData("Galactic Search Path A All Six Balls",
         new GalacticSearchPathAAllSixBalls(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
 
-    SmartDashboard.putData("Galactic Search Path B",
-        new GalacticSearchPathB(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
+    SmartDashboard.putData("Galactic Search Path A", new GalacticSearchPathA());
+
+    SmartDashboard.putData("Galactic Search Path B All Six Balls",
+        new GalacticSearchPathBAllSixBalls(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
+
+    SmartDashboard.putData("Galactic Search Path B", new GalacticSearchPathB());
 
     DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(
         new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.E3);
