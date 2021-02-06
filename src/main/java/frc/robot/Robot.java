@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    
+
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or

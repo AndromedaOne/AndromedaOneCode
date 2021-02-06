@@ -2,6 +2,7 @@ package frc.robot.groupcommands.parallelgroup;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -53,6 +54,12 @@ public class ShootWithRPM extends ParallelCommandGroup {
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double rpm) {
     this(shooter, feeder, rpm,
         rpm * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale"));
+  }
+
+  public ShootWithRPM(ShooterBase shooter, FeederBase feeder) {
+    this(shooter, feeder, SmartDashboard.getNumber("ShooterRPMTarget", 0),
+        SmartDashboard.getNumber("ShooterRPMTarget", 0)
+            * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale"));
   }
 
   @Override
