@@ -37,7 +37,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     kNumOfSamples = Config4905.getConfig4905().getCommandConstantsConfig()
         .getInt("ShootWithRPM.numOfFeederTestSamples");
-
+    System.out.println("ShooterRPM = " + shooterRPM);
     addCommands(new ShooterParallelSetShooterVelocity(shooter, seriesRPM, shooterRPM),
         new FeedBothStagesIntoShooter(feeder, shooter, m_isDoneFeedingSupplier));
   }
