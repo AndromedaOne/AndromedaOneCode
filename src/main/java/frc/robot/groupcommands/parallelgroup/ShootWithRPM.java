@@ -49,7 +49,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_seriesRPM = seriesRPM;
     m_useSmartDashboardForRPM = useSmartDashboardForRPM;
   }
-
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
     this(shooter, feeder, shooterRPM, seriesRPM, false);
   }
@@ -85,6 +84,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
       seriesRPM = shooterRPM
           * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale");
     }
+    System.out.println("ShooterRPM = " + shooterRPM);
     CommandScheduler.getInstance()
         .schedule(new ParallelCommandGroup(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, shooterRPM),
             new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier)));
