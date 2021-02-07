@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
-import frc.robot.groupcommands.athomechallengepathways.PowerPort;
+import frc.robot.groupcommands.athomechallengepathways.PowerPortTriggerCommand;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -61,8 +61,8 @@ public class DriveController {
     interstellerAccuracyWait = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
     turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
     powerPortButton = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTBUMPERBUTTON.getValue());
-    powerPortButton.whenPressed(new PowerPort(subsystemsContainer.getDrivetrain(), subsystemsContainer.getShooter(),
-        subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
+    powerPortButton.whenPressed(new PowerPortTriggerCommand(subsystemsContainer.getDrivetrain(),
+        subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
   }
 
   /**
