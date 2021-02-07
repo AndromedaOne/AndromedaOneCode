@@ -31,6 +31,7 @@ public class DriveController {
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
   private double m_inversionToggle;
+  private JoystickButton interstellerAccuracyWait;
 
   public DriveController(SensorsContainer sensorsContainer) {
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
@@ -47,6 +48,7 @@ public class DriveController {
     turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
     turnOffLimelight.whenPressed(new ToggleLimelightLED(false, sensorsContainer));
     m_inversionToggle = 1;
+    interstellerAccuracyWait = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
   }
 
   public void invertForwardBackwardStick() {
@@ -105,4 +107,7 @@ public class DriveController {
     return letOutRightWinch;
   }
 
+  public JoystickButton getInterstellerWaitButton() {
+    return interstellerAccuracyWait;
+  }
 }
