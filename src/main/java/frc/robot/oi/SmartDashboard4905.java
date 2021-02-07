@@ -39,6 +39,7 @@ import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
 import frc.robot.groupcommands.athomechallengepathways.TestPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
+import frc.robot.pidcontroller.RamseteCommand4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
@@ -110,36 +111,39 @@ public class SmartDashboard4905 {
 
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-        
+        new Pose2d(0, 0, new Rotation2d(0)),
         List.of(
-            new Pose2d(0, 0, new Rotation2d(0)),
-            new Pose2d(2, 0, new Rotation2d(90)),
-            new Pose2d(2, 3, new Rotation2d(180)),
-            new Pose2d(0, 2, new Rotation2d(270)),
-            new Pose2d(0, 0, new Rotation2d(0))
-        
-            // new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(-30)),
-            // new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-60)),
-            // new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(-30))
+
+            //new Translation2d(1, 1),
+            //new Translation2d(0, 2),
+            //new Translation2d(-1, 1)
+            
+            //new Pose2d(2, 0, new Rotation2d(90)),
+            //new Pose2d(2, 3, new Rotation2d(180)),
+            //new Pose2d(0, 2, new Rotation2d(270)),
+            //new Translation2d(Units.inchesToMeters(0), Units.inchesToMeters(0))
+            //new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(-30)),
+            //new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-60)),
+            //new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(-30))
             ),
+        new Pose2d(1, 1, new Rotation2d(90)),
         //new Pose2d(0, 0, new Rotation2d(180)),
         
         // Pass config
         config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, subsystemsContainer.getDrivetrain()::getPose,
+    RamseteCommand4905 ramseteCommand = new RamseteCommand4905(exampleTrajectory, subsystemsContainer.getDrivetrain()::getPose,
         new RamseteController(kRamseteB, kRamseteZeta),
         new SimpleMotorFeedforward(ksVolts, kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter), kDriveKinematics,
         subsystemsContainer.getDrivetrain()::getWheelSpeeds,
-        // the following two pidcontrollers are intentionally reversed in order so that
-        // positive angle from the gyro correspons to rotating clockwise looking down on
-        // the robot.
-        new TracingPIDController("RightVelocity", kPDriveVel, 0.0, 0.0),
         new TracingPIDController("LeftVelocity", kPDriveVel, 0.0, 0.0),
+        new TracingPIDController("RightVelocity", kPDriveVel, 0.0, 0.0),
 
         // RamseteCommand passes volts to the callback
         subsystemsContainer.getDrivetrain()::tankDriveVolts, subsystemsContainer.getDrivetrain());
     subsystemsContainer.getDrivetrain().resetOdometry(exampleTrajectory.getInitialPose());
+
+    ramseteCommand.setLogName("RamseteTesting");
 
     SmartDashboard.putData("Drive Path planning test", ramseteCommand);
 
