@@ -109,7 +109,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   @Override
   public boolean isFinished() {
-    return isDoneFeeding();
+    return false;
   }
 
   @Override
