@@ -69,18 +69,18 @@ public class RealShooter extends ShooterBase {
   @Override
   public void openShooterHood() {
     System.out.println("Opening Shooter Hood");
-    //m_shooterHood.extendPiston();
+    // m_shooterHood.extendPiston();
   }
 
   @Override
   public void closeShooterHood() {
     System.out.println("Closing Shooter Hood");
-    //m_shooterHood.retractPiston();
+    // m_shooterHood.retractPiston();
   }
 
   @Override
   public boolean isShooterHoodOpen() {
-    return true; //m_shooterHood.isSolenoidOpen();
+    return true; // m_shooterHood.isSolenoidOpen();
   }
 
   @Override

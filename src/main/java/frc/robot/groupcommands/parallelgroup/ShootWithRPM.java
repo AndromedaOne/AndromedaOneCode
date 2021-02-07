@@ -49,6 +49,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_seriesRPM = seriesRPM;
     m_useSmartDashboardForRPM = useSmartDashboardForRPM;
   }
+
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
     this(shooter, feeder, shooterRPM, seriesRPM, false);
   }
