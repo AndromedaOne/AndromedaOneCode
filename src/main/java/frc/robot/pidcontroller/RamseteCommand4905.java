@@ -200,10 +200,10 @@ public class RamseteCommand4905 extends CommandBase {
     Trace.getInstance().addTrace(true, m_name, 
         new TracePair<Double>("CurrentX", currentPos.getTranslation().getX()),
         new TracePair<Double>("CurrentY", currentPos.getTranslation().getY()),
-        new TracePair<Double>("CurrentRot", currentPos.getRotation().getDegrees()),
+        new TracePair<Double>("CurrentRot", currentPos.getRotation().getDegrees() / 90.0),
         new TracePair<Double>("DesiredX", desiredState.poseMeters.getTranslation().getX()),
         new TracePair<Double>("DesiredY", desiredState.poseMeters.getTranslation().getY()),
-        new TracePair<Double>("DesiredRot", desiredState.poseMeters.getRotation().getDegrees())
+        new TracePair<Double>("DesiredRot", desiredState.poseMeters.getRotation().getDegrees() / 90.0)
         );
 
     m_prevTime = curTime;
