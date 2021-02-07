@@ -14,7 +14,7 @@ import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 
-public class PowerPortTriggerCommand extends CommandBase {
+public class PowerPortTrigger extends CommandBase {
   private DriveTrain m_driveTrain;
   private ShooterBase m_shooter;
   private FeederBase m_feeder;
@@ -23,7 +23,7 @@ public class PowerPortTriggerCommand extends CommandBase {
   /**
    * Creates a new PowerPortTriggerCommand.
    */
-  public PowerPortTriggerCommand(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
+  public PowerPortTrigger(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
     m_shooter = shooter;
@@ -39,11 +39,7 @@ public class PowerPortTriggerCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveTrain.getCurrentCommand().cancel();
-    m_shooter.getCurrentCommand().cancel();
-    m_feeder.getCurrentCommand().cancel();
-    m_intake.getCurrentCommand().cancel();
-    CommandScheduler.getInstance().schedule(new PowerPort(m_driveTrain, m_shooter, m_feeder, m_intake));
+    CommandScheduler.getInstance().schedule(new PowerPortContinue(m_driveTrain, m_shooter, m_feeder, m_intake));
   }
 
   // Called once the command ends or is interrupted.

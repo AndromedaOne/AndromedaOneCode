@@ -22,7 +22,7 @@ import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
 import frc.robot.groupcommands.athomechallengepathways.HyperDriveChallenge;
 import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChallenge;
-import frc.robot.groupcommands.athomechallengepathways.PowerPortShoot;
+import frc.robot.groupcommands.athomechallengepathways.PowerPortStart;
 import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
 import frc.robot.groupcommands.athomechallengepathways.TestPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
@@ -68,7 +68,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Slalom Path", new SlalomPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Barrel Racing Path", new BarrelRacingPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Hyper Drive Challenge", new HyperDriveChallenge(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("Power Port Shoot", new PowerPortShoot(subsystemsContainer.getDrivetrain(),
+    SmartDashboard.putData("Power Port Start", new PowerPortStart(subsystemsContainer.getDrivetrain(),
         subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
 
     DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(
