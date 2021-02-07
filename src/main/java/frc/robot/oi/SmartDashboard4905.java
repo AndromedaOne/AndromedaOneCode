@@ -44,7 +44,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
     SmartDashboard.putData("ShootRPM",
-        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder()));
+        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), true));
 
     SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
 

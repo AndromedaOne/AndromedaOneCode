@@ -8,6 +8,7 @@ import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class RunShooterWheelVelocity extends PIDCommand4905 {
   private SimpleMotorFeedforward m_feedForward;
@@ -48,7 +49,6 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
         output -> {
           shooter.setShooterWheelPower(output + m_computedFeedForward);
         });
-
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
 
     kControllerScale = Config4905.getConfig4905().getCommandConstantsConfig()
@@ -61,6 +61,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
     super.initialize();
     m_feedForward = createFeedForward();
     getController().setP(m_pidConfig.getDouble("runshooterwheelvelocity.p"));
@@ -103,6 +104,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   @Override
   public void end(boolean interrupt) {
     m_shooter.setShooterWheelPower(0);
+    Trace.getInstance().logCommandStop(this);
   }
 
   private static PIDController4905 createPIDController() {

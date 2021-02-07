@@ -8,6 +8,7 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class RunShooterSeriesVelocity extends PIDCommand4905 {
 
@@ -46,6 +47,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
 
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
     super.initialize();
   }
 
@@ -62,6 +64,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
   @Override
   public void end(boolean interrupt) {
     m_shooter.setShooterSeriesPower(0);
+    Trace.getInstance().logCommandStop(this);
   }
 
   private static PIDController4905 createPIDController() {
