@@ -93,6 +93,7 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.getNavXGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
     m_sensorsContainer.getBallFeederSensor().isThereBall();
+    SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
   }
 
   /**
@@ -174,7 +175,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 
-//getters for various OI things below
+  // getters for various OI things below
 
   public SubsystemsContainer getSubsystemsContainer() {
     return m_subsystemContainer;
