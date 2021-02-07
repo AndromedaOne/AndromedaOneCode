@@ -221,6 +221,7 @@ public class RamseteCommand4905 extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_timer.stop();
+    m_output.accept(0.0, 0.0);
   }
 
   @Override
