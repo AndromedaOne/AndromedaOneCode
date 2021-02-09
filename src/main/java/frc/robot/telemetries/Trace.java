@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
@@ -73,13 +74,39 @@ public class Trace {
   private BufferedWriter m_commandTraceWriter;
   private static int m_dirNumb = 0;
 
-  private class TraceEntry {
+  public static <T> Function<TracePair<T>[], String> defaultFormatter(long startTime) {
+    return (values -> {
+      long correctedTime = System.currentTimeMillis() - startTime;
+      String line = new String(String.valueOf(correctedTime));
+      for (TracePair<T> entry : values) {
+        line += ",\t" + entry.getValue();
+      }
+      return line;
+    });
+  }
+
+  public static <T> Function<TracePair<T>[], String> defaultHeaderFormatter() {
+    return (values -> {
+      String line = new String("Time");
+      for (TracePair<T> pair : values) {
+        line += "," + pair.getColumnName();
+      }
+      return line;
+    });
+  }
+
+  private class TraceEntry<T> {
     private BufferedWriter m_file;
     private int m_numbOfValues;
+    private Function<TracePair<T>[], String> formatter;
+    private Function<TracePair<T>[], String> headerFormatter;
 
-    public TraceEntry(BufferedWriter file, int numbOfValues) {
+    public TraceEntry(BufferedWriter file, int numbOfValues, Function<TracePair<T>[], String> formatter,
+        Function<TracePair<T>[], String> headerFormatter) {
       m_file = file;
       m_numbOfValues = numbOfValues;
+      this.formatter = formatter;
+      this.headerFormatter = headerFormatter;
     }
 
     public BufferedWriter getFile() {
@@ -89,6 +116,15 @@ public class Trace {
     public long getNumbOfValues() {
       return (m_numbOfValues);
     }
+
+    public String format(TracePair<T>... tracePair) {
+      return formatter.apply(tracePair);
+    }
+
+    public String formatHeader(TracePair<T>... header) {
+      return headerFormatter.apply(header);
+    }
+
   }
 
   public synchronized static Trace getInstance() {
@@ -206,25 +242,29 @@ public class Trace {
     if (m_pathOfTraceDir == null) {
       return;
     }
-    TraceEntry traceEntry = getTraceEntry(fileName, header);
+    TraceEntry<T> traceEntry = registerTraceEntry(fileName, header);
     addEntry(traceEntry, header);
   }
 
   @SafeVarargs
-  private final synchronized <T> TraceEntry getTraceEntry(String fileName, TracePair<T>... header) {
-    TraceEntry traceEntry = null;
+  public final synchronized <T> TraceEntry<T> registerTraceEntry(String fileName, TracePair<T>... header) {
+    return registerTraceEntry(fileName, defaultFormatter(m_startTime), defaultHeaderFormatter(), header);
+  }
+
+  @SafeVarargs
+  public final synchronized <T> TraceEntry<T> registerTraceEntry(String fileName,
+      Function<TracePair<T>[], String> formatter, Function<TracePair<T>[], String> headerFormatter,
+      TracePair<T>... header) {
+    TraceEntry<T> traceEntry = null;
     try {
       if (!m_traces.containsKey(fileName)) {
         BufferedWriter outputFile = null;
         String fullFileName = new String(m_pathOfTraceDir + "/" + fileName + ".csv");
         FileWriter fstream = new FileWriter(fullFileName, false);
         outputFile = new BufferedWriter(fstream);
-        traceEntry = new TraceEntry(outputFile, header.length);
+        traceEntry = new TraceEntry<T>(outputFile, header.length, formatter, headerFormatter);
         m_traces.put(fileName, traceEntry);
-        String line = new String("Time");
-        for (TracePair<T> pair : header) {
-          line += "," + pair.getColumnName();
-        }
+        String line = traceEntry.formatHeader(header);
         outputFile.write(line);
         outputFile.newLine();
         System.out.println("Opened trace file " + m_pathOfTraceDir + "/" + fileName);
@@ -257,10 +297,7 @@ public class Trace {
         throw (new Exception(err));
       }
       long correctedTime = System.currentTimeMillis() - m_startTime;
-      String line = new String(String.valueOf(correctedTime));
-      for (TracePair<T> entry : values) {
-        line += ",\t" + entry.getValue();
-      }
+      String line = traceEntry.format(values);
       traceEntry.getFile().write(line);
       traceEntry.getFile().newLine();
     } catch (IOException e) {
