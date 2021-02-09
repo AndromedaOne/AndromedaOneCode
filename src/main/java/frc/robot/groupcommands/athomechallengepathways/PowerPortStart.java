@@ -24,7 +24,7 @@ public class PowerPortStart extends SequentialCommandGroup {
   /**
    * Creates a new PowerPortShoot.
    */
-  private final double m_maxOutPut = 0.5;
+  private final double m_maxOutPut = 1;
   private final double greenZoneShootingDistance = 180;
   private final double reIntroductionZoneDistance = 300;
   private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
@@ -35,15 +35,5 @@ public class PowerPortStart extends SequentialCommandGroup {
         new ShootWithDistance(shooter, feeder, greenZoneShootingDistance),
         new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
             new DeployAndRunIntake(intake, () -> false))));
-  }
-
-  public void initialize() {
-    super.initialize();
-    System.out.println("Power Port Shoot Initialize");
-  }
-
-  public void end(boolean interrupted) {
-    super.end(interrupted);
-    System.out.println("Power Port Shoot End " + interrupted);
   }
 }

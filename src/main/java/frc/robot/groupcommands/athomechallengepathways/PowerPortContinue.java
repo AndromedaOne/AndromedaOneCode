@@ -19,7 +19,7 @@ public class PowerPortContinue extends SequentialCommandGroup {
   /**
    * Creates a new PowerPort.
    */
-  private final double m_maxOutPut = 0.5;
+  private final double m_maxOutPut = 1;
   private final double greenZoneShootingDistance = 180;
   private final double reIntroductionZoneDistance = 300;
   private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
