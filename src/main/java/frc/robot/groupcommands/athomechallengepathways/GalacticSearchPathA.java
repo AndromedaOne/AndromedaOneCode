@@ -8,11 +8,15 @@ import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
+import frc.robot.telemetries.Trace;
 
 public class GalacticSearchPathA extends CommandBase {
   private final double robotLength = 40;
-  private final Waypoint startPoint = AtHomeChallengePoints.C2.subtract(new Waypoint(0, robotLength / 2));
-  private final double maxSpeed = 0.5;
+  private final Waypoint startPoint = AtHomeChallengePoints.C1.average(AtHomeChallengePoints.C2);
+  private final double maxSpeed = 1;
+  private double sumOfUltrasonicDistances;
+  private int count;
+  private final int countThreshold = 5;
 
   private class BluePath extends WaypointsBase {
     // Waypoints for the blue path
@@ -20,10 +24,8 @@ public class GalacticSearchPathA extends CommandBase {
     protected void loadWaypoints() {
       addWayPoint(AtHomeChallengePoints.E6);
       addWayPoint(AtHomeChallengePoints.B7);
-      addWayPoint(AtHomeChallengePoints.C9);
-      addWayPoint(AtHomeChallengePoints.C11);
+      addWayPoint(AtHomeChallengePoints.D12.average(AtHomeChallengePoints.E12));
     }
-
   }
 
   private class RedPath extends WaypointsBase {
@@ -33,25 +35,31 @@ public class GalacticSearchPathA extends CommandBase {
       addWayPoint(AtHomeChallengePoints.C3);
       addWayPoint(AtHomeChallengePoints.D5);
       addWayPoint(AtHomeChallengePoints.A6);
-      addWayPoint(AtHomeChallengePoints.A11);
+      addWayPoint(AtHomeChallengePoints.A12);
     }
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
+  public GalacticSearchPathA() {
+    sumOfUltrasonicDistances = 0;
+    count = 0;
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  public void initialize() {
+    sumOfUltrasonicDistances = 0;
+    count = 0;
+    Trace.getInstance().logCommandStart(this);
+  }
+
   @Override
   public void execute() {
+    count++;
+    sumOfUltrasonicDistances += Robot.getInstance().getSensorsContainer().getPowercellDetector().getDistanceInches();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
-    final double distanceToPowercell = Robot.getInstance().getSensorsContainer().getPowercellDetector()
-        .getDistanceInches();
+    final double distanceToPowercell = sumOfUltrasonicDistances / count;
     if (distanceToPowercell <= 30) {
       DriveTrainDiagonalPathGenerator red = new DriveTrainDiagonalPathGenerator(new RedPath(),
           Robot.getInstance().getSubsystemsContainer().getDrivetrain(), startPoint, maxSpeed);
@@ -72,6 +80,6 @@ public class GalacticSearchPathA extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return count >= countThreshold;
   }
 }

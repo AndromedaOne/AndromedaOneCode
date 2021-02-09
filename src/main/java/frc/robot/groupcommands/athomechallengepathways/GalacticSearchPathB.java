@@ -12,17 +12,19 @@ import frc.robot.telemetries.Trace;
 
 public class GalacticSearchPathB extends CommandBase {
   private final double robotLength = 40;
-  private final Waypoint startPoint = AtHomeChallengePoints.C2.subtract(new Waypoint(0, robotLength / 2));
-  private final double maxSpeed = 0.5;
+  private final Waypoint startPoint = AtHomeChallengePoints.B1.average(AtHomeChallengePoints.B2);
+  private final double maxSpeed = 1;
+  private double sumOfUltrasonicDistances;
+  private int count;
+  private final int countThreshold = 5;
 
   private class BluePath extends WaypointsBase {
     @Override
     // Waypoints for the blue path
     protected void loadWaypoints() {
-      addWayPoint(AtHomeChallengePoints.B1);
       addWayPoint(AtHomeChallengePoints.D6);
       addWayPoint(AtHomeChallengePoints.B8);
-      addWayPoint(AtHomeChallengePoints.E11);
+      addWayPoint(AtHomeChallengePoints.E12.add(new Waypoint(30, 0)));
     }
   }
 
@@ -30,21 +32,32 @@ public class GalacticSearchPathB extends CommandBase {
     @Override
     // Waypoints for the red path
     protected void loadWaypoints() {
-      addWayPoint(AtHomeChallengePoints.B1);
       addWayPoint(AtHomeChallengePoints.B3);
       addWayPoint(AtHomeChallengePoints.D5);
       addWayPoint(AtHomeChallengePoints.B7);
-      addWayPoint(AtHomeChallengePoints.B11);
+      addWayPoint(AtHomeChallengePoints.B12);
     }
   }
 
+  public GalacticSearchPathB() {
+    sumOfUltrasonicDistances = 0;
+    count = 0;
+  }
+
   public void initialize() {
+    sumOfUltrasonicDistances = 0;
+    count = 0;
     Trace.getInstance().logCommandStart(this);
   }
 
+  @Override
+  public void execute() {
+    count++;
+    sumOfUltrasonicDistances += Robot.getInstance().getSensorsContainer().getPowercellDetector().getDistanceInches();
+  }
+
   public void end(final boolean interrupted) {
-    final double distanceToPowercell = Robot.getInstance().getSensorsContainer().getPowercellDetector()
-        .getDistanceInches();
+    final double distanceToPowercell = sumOfUltrasonicDistances / count;
     if (distanceToPowercell <= 30) {
       DriveTrainDiagonalPathGenerator red = new DriveTrainDiagonalPathGenerator(new RedPath(),
           Robot.getInstance().getSubsystemsContainer().getDrivetrain(), startPoint, maxSpeed);
@@ -66,6 +79,6 @@ public class GalacticSearchPathB extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return count >= countThreshold;
   }
 }
