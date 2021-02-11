@@ -7,9 +7,7 @@
 
 package frc.robot.oi;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -29,9 +27,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Config4905;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
@@ -116,39 +112,38 @@ public class SmartDashboard4905 {
 
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        List.of(
+        new Pose2d(0, 0, new Rotation2d(0)), List.of(
 
             new Translation2d(1, 1)
-            
-            //new Pose2d(2, 0, new Rotation2d(90)),
-            //new Pose2d(2, 3, new Rotation2d(180)),
-            //new Pose2d(0, 2, new Rotation2d(270)),
-            //new Translation2d(Units.inchesToMeters(0), Units.inchesToMeters(0))
-            //new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(-30)),
-            //new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-60)),
-            //new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(-30))
-            ),
-        new Pose2d(1, 2, new Rotation2d(90)),
-        //new Pose2d(0, 0, new Rotation2d(180)),
-        
+
+        // new Pose2d(2, 0, new Rotation2d(90)),
+        // new Pose2d(2, 3, new Rotation2d(180)),
+        // new Pose2d(0, 2, new Rotation2d(270)),
+        // new Translation2d(Units.inchesToMeters(0), Units.inchesToMeters(0))
+        // new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(-30)),
+        // new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-60)),
+        // new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(-30))
+        ), new Pose2d(1, 2, new Rotation2d(90)),
+        // new Pose2d(0, 0, new Rotation2d(180)),
+
         // Pass config
         config);
 
     Trajectory newTrajectory = null;
     try {
-        newTrajectory = TrajectoryUtil
-                .fromPathweaverJson(Paths.get("/home/lvuser/deploy/paths/straight_road.json"));
-        /*newTrajectory = TrajectoryUtil
-                .fromPathweaverJson(Paths.get("/home/lvuser/deploy/paths/CurvePath.wpilib.json"));*/
-        
+      newTrajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/paths/straight_road.json"));
+      /*
+       * newTrajectory = TrajectoryUtil .fromPathweaverJson(Paths.get(
+       * "/home/lvuser/deploy/paths/CurvePath.wpilib.json"));
+       */
+
     } catch (IOException e1) {
-        // TODO Auto-generated catch block
-        e1.printStackTrace();
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
     }
 
-    RamseteCommand4905 ramseteCommand = new RamseteCommand4905(newTrajectory, subsystemsContainer.getDrivetrain()::getPose,
-        new RamseteController(kRamseteB, kRamseteZeta),
+    RamseteCommand4905 ramseteCommand = new RamseteCommand4905(newTrajectory,
+        subsystemsContainer.getDrivetrain()::getPose, new RamseteController(kRamseteB, kRamseteZeta),
         new SimpleMotorFeedforward(ksVolts, kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter), kDriveKinematics,
         subsystemsContainer.getDrivetrain()::getWheelSpeeds,
         new TracingPIDController("LeftVelocity", kPDriveVel, 0.0, 0.0),

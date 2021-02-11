@@ -7,6 +7,8 @@ package frc.robot.pidcontroller;
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
+
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -19,26 +21,26 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
-import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
-
-import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 
 /**
- * A command that uses a RAMSETE controller ({@link RamseteController}) to follow a trajectory
- * {@link Trajectory} with a differential drive.
+ * A command that uses a RAMSETE controller ({@link RamseteController}) to
+ * follow a trajectory {@link Trajectory} with a differential drive.
  *
- * <p>The command handles trajectory-following, PID calculations, and feedforwards internally.  This
- * is intended to be a more-or-less "complete solution" that can be used by teams without a great
- * deal of controls expertise.
+ * <p>
+ * The command handles trajectory-following, PID calculations, and feedforwards
+ * internally. This is intended to be a more-or-less "complete solution" that
+ * can be used by teams without a great deal of controls expertise.
  *
- * <p>Advanced teams seeking more flexibility (for example, those who wish to use the onboard
- * PID functionality of a "smart" motor controller) may use the secondary constructor that omits
- * the PID and feedforward functionality, returning only the raw wheel speeds from the RAMSETE
- * controller.
+ * <p>
+ * Advanced teams seeking more flexibility (for example, those who wish to use
+ * the onboard PID functionality of a "smart" motor controller) may use the
+ * secondary constructor that omits the PID and feedforward functionality,
+ * returning only the raw wheel speeds from the RAMSETE controller.
  */
 @SuppressWarnings("PMD.TooManyFields")
 public class RamseteCommand4905 extends CommandBase {
@@ -58,13 +60,14 @@ public class RamseteCommand4905 extends CommandBase {
   private String m_name;
 
   /**
-   * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
-   * PID control and feedforward are handled internally, and outputs are scaled -12 to 12
-   * representing units of volts.
+   * Constructs a new RamseteCommand that, when executed, will follow the provided
+   * trajectory. PID control and feedforward are handled internally, and outputs
+   * are scaled -12 to 12 representing units of volts.
    *
-   * <p>Note: The controller will *not* set the outputVolts to zero upon completion of the path -
-   * this
-   * is left to the user, since it is not appropriate for paths with nonstationary endstates.
+   * <p>
+   * Note: The controller will *not* set the outputVolts to zero upon completion
+   * of the path - this is left to the user, since it is not appropriate for paths
+   * with nonstationary endstates.
    *
    * @param trajectory      The trajectory to follow.
    * @param pose            A function that supplies the robot pose - use one of
@@ -74,23 +77,19 @@ public class RamseteCommand4905 extends CommandBase {
    * @param kinematics      The kinematics for the robot drivetrain.
    * @param wheelSpeeds     A function that supplies the speeds of the left and
    *                        right sides of the robot drive.
-   * @param leftController  The PIDController for the left side of the robot drive.
-   * @param rightController The PIDController for the right side of the robot drive.
+   * @param leftController  The PIDController for the left side of the robot
+   *                        drive.
+   * @param rightController The PIDController for the right side of the robot
+   *                        drive.
    * @param outputVolts     A function that consumes the computed left and right
    *                        outputs (in volts) for the robot drive.
    * @param requirements    The subsystems to require.
    */
   @SuppressWarnings("PMD.ExcessiveParameterList")
-  public RamseteCommand4905(Trajectory trajectory,
-                        Supplier<Pose2d> pose,
-                        RamseteController controller,
-                        SimpleMotorFeedforward feedforward,
-                        DifferentialDriveKinematics kinematics,
-                        Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds,
-                        PIDController leftController,
-                        PIDController rightController,
-                        BiConsumer<Double, Double> outputVolts,
-                        Subsystem... requirements) {
+  public RamseteCommand4905(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller,
+      SimpleMotorFeedforward feedforward, DifferentialDriveKinematics kinematics,
+      Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds, PIDController leftController, PIDController rightController,
+      BiConsumer<Double, Double> outputVolts, Subsystem... requirements) {
     m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
     m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
     m_follower = requireNonNullParam(controller, "controller", "RamseteCommand");
@@ -107,25 +106,24 @@ public class RamseteCommand4905 extends CommandBase {
   }
 
   /**
-   * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
-   * Performs no PID control and calculates no feedforwards; outputs are the raw wheel speeds
-   * from the RAMSETE controller, and will need to be converted into a usable form by the user.
+   * Constructs a new RamseteCommand that, when executed, will follow the provided
+   * trajectory. Performs no PID control and calculates no feedforwards; outputs
+   * are the raw wheel speeds from the RAMSETE controller, and will need to be
+   * converted into a usable form by the user.
    *
    * @param trajectory            The trajectory to follow.
-   * @param pose                  A function that supplies the robot pose - use one of
-   *                              the odometry classes to provide this.
-   * @param follower              The RAMSETE follower used to follow the trajectory.
+   * @param pose                  A function that supplies the robot pose - use
+   *                              one of the odometry classes to provide this.
+   * @param follower              The RAMSETE follower used to follow the
+   *                              trajectory.
    * @param kinematics            The kinematics for the robot drivetrain.
-   * @param outputMetersPerSecond A function that consumes the computed left and right
-   *                              wheel speeds.
+   * @param outputMetersPerSecond A function that consumes the computed left and
+   *                              right wheel speeds.
    * @param requirements          The subsystems to require.
    */
-  public RamseteCommand4905(Trajectory trajectory,
-                        Supplier<Pose2d> pose,
-                        RamseteController follower,
-                        DifferentialDriveKinematics kinematics,
-                        BiConsumer<Double, Double> outputMetersPerSecond,
-                        Subsystem... requirements) {
+  public RamseteCommand4905(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController follower,
+      DifferentialDriveKinematics kinematics, BiConsumer<Double, Double> outputMetersPerSecond,
+      Subsystem... requirements) {
     m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
     m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
     m_follower = requireNonNullParam(follower, "follower", "RamseteCommand");
@@ -146,11 +144,8 @@ public class RamseteCommand4905 extends CommandBase {
   public void initialize() {
     m_prevTime = 0;
     var initialState = m_trajectory.sample(0);
-    m_prevSpeeds = m_kinematics.toWheelSpeeds(
-        new ChassisSpeeds(initialState.velocityMetersPerSecond,
-            0,
-            initialState.curvatureRadPerMeter
-                * initialState.velocityMetersPerSecond));
+    m_prevSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(initialState.velocityMetersPerSecond, 0,
+        initialState.curvatureRadPerMeter * initialState.velocityMetersPerSecond));
     m_timer.reset();
     m_timer.start();
     if (m_usePID) {
@@ -166,8 +161,7 @@ public class RamseteCommand4905 extends CommandBase {
     Pose2d currentPos = m_pose.get();
     State desiredState = m_trajectory.sample(curTime);
 
-    var targetWheelSpeeds = m_kinematics.toWheelSpeeds(
-        m_follower.calculate(currentPos, desiredState));
+    var targetWheelSpeeds = m_kinematics.toWheelSpeeds(m_follower.calculate(currentPos, desiredState));
 
     var leftSpeedSetpoint = targetWheelSpeeds.leftMetersPerSecond;
     var rightSpeedSetpoint = targetWheelSpeeds.rightMetersPerSecond;
@@ -176,47 +170,37 @@ public class RamseteCommand4905 extends CommandBase {
     double rightOutput;
 
     if (m_usePID) {
-      double leftFeedforward =
-          m_feedforward.calculate(leftSpeedSetpoint,
-              (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
+      double leftFeedforward = m_feedforward.calculate(leftSpeedSetpoint,
+          (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
 
-      double rightFeedforward =
-          m_feedforward.calculate(rightSpeedSetpoint,
-              (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
+      double rightFeedforward = m_feedforward.calculate(rightSpeedSetpoint,
+          (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
-      leftOutput = leftFeedforward
-          + m_leftController.calculate(m_speeds.get().leftMetersPerSecond,
-          leftSpeedSetpoint);
+      leftOutput = leftFeedforward + m_leftController.calculate(m_speeds.get().leftMetersPerSecond, leftSpeedSetpoint);
 
       rightOutput = rightFeedforward
-          + m_rightController.calculate(m_speeds.get().rightMetersPerSecond,
-          rightSpeedSetpoint);
+          + m_rightController.calculate(m_speeds.get().rightMetersPerSecond, rightSpeedSetpoint);
     } else {
       leftOutput = leftSpeedSetpoint;
       rightOutput = rightSpeedSetpoint;
     }
 
     m_output.accept(leftOutput, rightOutput);
-    Trace.getInstance().addTrace(true, m_name, 
-        new TracePair<Double>("CurrentX", currentPos.getTranslation().getX()),
+    Trace.getInstance().addTrace(true, m_name, new TracePair<Double>("CurrentX", currentPos.getTranslation().getX()),
         new TracePair<Double>("CurrentY", currentPos.getTranslation().getY()),
         new TracePair<Double>("CurrentRot", currentPos.getRotation().getDegrees() / 90.0),
         new TracePair<Double>("DesiredX", desiredState.poseMeters.getTranslation().getX()),
         new TracePair<Double>("DesiredY", desiredState.poseMeters.getTranslation().getY()),
-        new TracePair<Double>("DesiredRot", desiredState.poseMeters.getRotation().getDegrees() / 90.0)
-        );
+        new TracePair<Double>("DesiredRot", desiredState.poseMeters.getRotation().getDegrees() / 90.0));
 
     m_prevTime = curTime;
     m_prevSpeeds = targetWheelSpeeds;
 
-    
-
   }
 
   public void setLogName(String name) {
-      m_name = name;
+    m_name = name;
   }
-
 
   @Override
   public void end(boolean interrupted) {
@@ -229,5 +213,3 @@ public class RamseteCommand4905 extends CommandBase {
     return m_timer.hasElapsed(m_trajectory.getTotalTimeSeconds());
   }
 }
-
-
