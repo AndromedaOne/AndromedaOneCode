@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.telemetries.Trace;
 
@@ -26,6 +30,21 @@ public final class Main {
    * If you change your main robot class, change the parameter type.
    */
   public static void main(String... args) {
+    System.out.println("OS is " + System.getProperty("os.name"));
+    if (Files.exists(Paths.get("/home/lvusers"))) {
+      System.out.println("home/lvusers exists...");
+    } else {
+      System.out.println("home/lvusers does not exist");
+    }
+    String rootDir = System.getProperty("user.dir");
+    System.out.println("current dir = " + rootDir);
+    File currentDir = new File(rootDir + "/src/main/deploy");
+    String[] files = currentDir.list();
+    for (String file : files) {
+      System.out.println(file);
+    }
+    String tmpDir = System.getProperty("java.io.tmpdir");
+    System.out.println("TEMP dir: " + tmpDir);
     Trace.getInstance();
     RobotBase.startRobot(Robot::getInstance);
   }
