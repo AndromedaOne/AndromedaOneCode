@@ -51,10 +51,6 @@ public class DriveController {
     // climbLevel.whileHeld(new Climb());
     letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
     letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
-    turnOnLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
-    turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
-    turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
-    turnOffLimelight.whenPressed(new ToggleLimelightLED(false, sensorsContainer));
     interstellerAccuracyWait = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
   }
 
