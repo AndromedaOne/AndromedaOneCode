@@ -1,66 +1,97 @@
 package frc.robot;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+// implemented as a singleton
 public class Config4905 {
-  private static Config nameConfig = ConfigFactory.parseFile(new File("/home/lvuser/name.conf"));
+
+  private Config m_nameConfig;
 
   /**
    * This config should live on the robot and have hardware- specific configs.
    */
-  private static Config environmentalConfig = ConfigFactory
-      .parseFile(new File("/home/lvuser/deploy/robotConfigs/" + nameConfig.getString("robot.name") + "/robot.conf"));
+  private Config m_environmentalConfig;
 
   /**
    * This config lives in the jar and has hardware-independent configs.
    */
-  private static Config defaultConfig = ConfigFactory.parseResources("application.conf");
+  private Config m_defaultConfig = ConfigFactory.parseResources("application.conf");
 
   /**
    * Combined config
    */
-  private static Config m_config = environmentalConfig.withFallback(defaultConfig).resolve();
+  private Config m_config;
 
-  private static Config climberConfig;
+  private Config climberConfig;
 
-  private static Config drivetrainConfig;
+  private Config drivetrainConfig;
 
-  private static Config feederConfig;
+  private Config feederConfig;
 
-  private static Config intakeConfig;
+  private Config intakeConfig;
 
-  private static Config shooterConfig;
+  private Config shooterConfig;
 
-  private static Config sensorConfig;
+  private Config sensorConfig;
 
-  private static Config commandConstantsConfig;
+  private Config commandConstantsConfig;
 
-  private static final Config4905 m_config4905 = new Config4905();
+  private static Config4905 m_config4905 = null;
 
-  private static final String BASEDIRECTORY = "/home/lvuser/deploy/robotConfigs/";
+  // current linux home dir on a roborio
+  private final String m_linuxPathToHomeStr = "/home/lvuser/";
+
+  private String m_baseDir;
+
+  String m_robotName;
 
   private Config4905() {
-    System.out.println("Robot name = " + nameConfig.getString("robot.name"));
+    // first look to see if this is a roborio
+    if (Files.exists(Paths.get(m_linuxPathToHomeStr))) {
+      m_baseDir = m_linuxPathToHomeStr;
+      m_nameConfig = ConfigFactory.parseFile(new File(m_linuxPathToHomeStr + "name.conf"));
+      m_robotName = m_nameConfig.getString("robot.name");
+    } else {
+      // for now assume we're running a Romi robot
+      // the next line retrieves the path to the jar file that is being
+      // executed. this should be in a standard place in the repo. from there
+      // we can find the deploy directory and the configs
+      String jarDir = System.getProperty("user.dir");
+      if (!Files.exists(Paths.get(jarDir + "src/main/deploy"))) {
+        System.out.println("ERROR: could not find robot config directory");
+      }
+      // don't look for name.conf file, just use Romi
+      m_baseDir = jarDir + "src/main/";
+      m_robotName = "Romi";
+    }
+    m_environmentalConfig = ConfigFactory
+        .parseFile(new File(m_baseDir + "deploy/robotConfigs/" + m_robotName + "/robot.conf"));
+    m_config = m_environmentalConfig.withFallback(m_defaultConfig).resolve();
+    reload();
+    System.out.println("Robot name = " + m_robotName);
   }
 
   public static Config4905 getConfig4905() {
+    if (m_config4905 == null) {
+      m_config4905 = new Config4905();
+    }
     return m_config4905;
   }
 
-  private static Config load(String fileName) {
-    String filePath = BASEDIRECTORY + nameConfig.getString("robot.name") + "/" + fileName;
-    Config config = ConfigFactory.parseFile(new File(filePath)).withFallback(defaultConfig).resolve();
-
+  private Config load(String fileName) {
+    String filePath = m_baseDir + "deploy/robotConfigs/" + m_robotName + "/" + fileName;
+    Config config = ConfigFactory.parseFile(new File(filePath)).withFallback(m_defaultConfig).resolve();
     System.out.println("loaded config " + fileName + " from " + filePath);
-
     System.out.println(config);
     return config;
   }
 
-  public static void reload() {
+  public void reload() {
     commandConstantsConfig = load("commandconstants.conf");
     sensorConfig = load("sensors.conf");
     shooterConfig = load("Shooter.conf");
@@ -68,10 +99,6 @@ public class Config4905 {
     feederConfig = load("Feeder.conf");
     drivetrainConfig = load("drivetrain.conf");
     climberConfig = load("Climber.conf");
-  }
-
-  static {
-    reload();
   }
 
   public Config getClimberConfig() {
