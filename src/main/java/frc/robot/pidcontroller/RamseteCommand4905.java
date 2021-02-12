@@ -152,6 +152,12 @@ public class RamseteCommand4905 extends CommandBase {
       m_leftController.reset();
       m_rightController.reset();
     }
+    Trace.getInstance().registerTraceEntry(m_name + "DesiredTracking", (pairs)  -> pairs[0].getValue() + ", " + pairs[1].getValue() , (pairs) -> "x, y", 
+    new TracePair<Double>("DesiredX", 0.0),
+    new TracePair<Double>("DesiredY", 0.0));
+    Trace.getInstance().registerTraceEntry(m_name + "ActualTracking", (pairs)  -> pairs[0].getValue() + ", " + pairs[1].getValue() , (pairs) -> "x, y", 
+    new TracePair<Double>("ActualX", 0.0),
+    new TracePair<Double>("ActualY", 0.0));
   }
 
   @Override
@@ -184,7 +190,6 @@ public class RamseteCommand4905 extends CommandBase {
       leftOutput = leftSpeedSetpoint;
       rightOutput = rightSpeedSetpoint;
     }
-
     m_output.accept(leftOutput, rightOutput);
     Trace.getInstance().addTrace(true, m_name, new TracePair<Double>("CurrentX", currentPos.getTranslation().getX()),
         new TracePair<Double>("CurrentY", currentPos.getTranslation().getY()),
@@ -192,6 +197,14 @@ public class RamseteCommand4905 extends CommandBase {
         new TracePair<Double>("DesiredX", desiredState.poseMeters.getTranslation().getX()),
         new TracePair<Double>("DesiredY", desiredState.poseMeters.getTranslation().getY()),
         new TracePair<Double>("DesiredRot", desiredState.poseMeters.getRotation().getDegrees() / 90.0));
+
+    Trace.getInstance().addTrace(true, m_name + "DesiredTracking", 
+        new TracePair<Double>("DesiredX", desiredState.poseMeters.getTranslation().getX()),
+        new TracePair<Double>("DesiredY", desiredState.poseMeters.getTranslation().getY()));
+
+    Trace.getInstance().addTrace(true, m_name + "ActualTracking", 
+        new TracePair<Double>("ActualX", currentPos.getTranslation().getX()),
+        new TracePair<Double>("ActualY", currentPos.getTranslation().getY()));
 
     m_prevTime = curTime;
     m_prevSpeeds = targetWheelSpeeds;

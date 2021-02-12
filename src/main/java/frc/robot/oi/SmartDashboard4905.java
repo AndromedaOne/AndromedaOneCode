@@ -131,7 +131,7 @@ public class SmartDashboard4905 {
 
     Trajectory newTrajectory = null;
     try {
-      newTrajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/paths/straight_road.json"));
+      newTrajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/paths/TwoCircles.json"));
       /*
        * newTrajectory = TrajectoryUtil .fromPathweaverJson(Paths.get(
        * "/home/lvuser/deploy/paths/CurvePath.wpilib.json"));
@@ -170,7 +170,7 @@ public class SmartDashboard4905 {
     @Override
     public double calculate(double measurement) {
       double output = super.calculate(measurement);
-      Trace.getInstance().addTrace(true, m_name, new TracePair<Double>("Output", output),
+      Trace.getInstance().addTrace(true, m_name, 
           new TracePair<Double>("Measurement", measurement), new TracePair<Double>("Setpoint", super.getSetpoint()));
       return output;
     }
