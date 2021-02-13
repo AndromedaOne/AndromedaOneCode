@@ -8,23 +8,23 @@ import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class BarrelRacingPath extends SequentialCommandGroup {
-  private static double maximumPower = 0.5;
+  private static double maximumPower = .5;
   private static double robotLengthInches = 40;
   private static Waypoint initialPoint = AtHomeChallengePoints.C2.subtract(new Waypoint(0, robotLengthInches / 2));
 
   private class BarrelWaypoints extends WaypointsBase {
     @Override
     protected void loadWaypoints() {
-      addWayPoint(initialPoint);
-      addWayPoint(AtHomeChallengePoints.C6);
-      addWayPoint(AtHomeChallengePoints.E6);
-      addWayPoint(AtHomeChallengePoints.E4);
-      addWayPoint(AtHomeChallengePoints.C4);
-      addWayPoint(AtHomeChallengePoints.C9);
-      addWayPoint(AtHomeChallengePoints.A9);
-      addWayPoint(AtHomeChallengePoints.A7);
+      addWayPoint(AtHomeChallengePoints.C5);
       addWayPoint(AtHomeChallengePoints.E7);
+      addWayPoint(AtHomeChallengePoints.E3);
+      addWayPoint(AtHomeChallengePoints.C5);
+      addWayPoint(AtHomeChallengePoints.C8);
+      addWayPoint(AtHomeChallengePoints.A10);
+      addWayPoint(AtHomeChallengePoints.A6);
+      addWayPoint(AtHomeChallengePoints.C8);
       addWayPoint(AtHomeChallengePoints.E11);
+      addWayPoint(AtHomeChallengePoints.D11);
       addWayPoint(AtHomeChallengePoints.C11);
       addWayPoint(AtHomeChallengePoints.C2);
     }
