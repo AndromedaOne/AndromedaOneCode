@@ -23,7 +23,7 @@ import frc.robot.Robot;
 
 // utility to store trace information to a file on the roborio. this class uses the 
 // singleton pattern. on the first call to Trace.getInstance(), the utility will
-// create a trace directory in /home/lvuser/traceLogs/trace<next number>. the utility
+// create a trace directory in TEMP/traceLogs/trace<next number>. the utility
 // uses a file, .traceNumb, that is written in the traceLogs dir to store the next 
 // number to use. if the .traceNumb file does not exist, the next number will be 0
 // and a .traceNumb file will be created containing the number 1. when the robot
@@ -58,7 +58,7 @@ import frc.robot.Robot;
 // file so that at least something will be written out before the robot it turned 
 // off.
 public class Trace {
-  private String m_basePathOfTraceDirs = "/home/lvuser/traceLogs";
+  private String m_basePathOfTraceDirs;
   private static String m_traceDirNumberFile = ".traceNumb";
   private String m_pathOfTraceDir;
   private static String m_consoleOutput = "ConsoleOutput";
@@ -99,6 +99,8 @@ public class Trace {
   }
 
   private Trace() {
+    m_basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
+    System.out.println("Trace Base Directory: " + m_basePathOfTraceDirs);
     m_traces = new TreeMap<String, TraceEntry>();
     m_startTime = System.currentTimeMillis();
     createNewTraceDir();
