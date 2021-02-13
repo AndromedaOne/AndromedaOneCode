@@ -47,19 +47,14 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
   private final double reloadToGreen = 220;
   private final double reloadToYellow = 160;
   private final double reloadToBlue = 100;
-  private final double reloadToRed = 40;
-
-  private final double greenZoneShootingDistance = 70;
-  private final double yellowZoneShootingDistance = 130;
-  private final double blueZoneShootingDistance = 190;
-  private final double redZoneShootingDistance = 250;
+  private final double reloadToRed = 45;
 
   public InterstellarAccuracyChallenge(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder) {
 
     addCommands(new DelayedSequentialCommandGroup(
         // 1. start at 70 inches
         new ShootWithRPM(shooter, feeder,
-            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.backOfGreenZone")),
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.backOfGreenZone") - 200),
         // 2.
         new ParallelDeadlineGroup(
             new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
@@ -82,7 +77,7 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
             Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfBlueZone")),
 
         new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToBlue, 0, m_maxOutPut),
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToBlue - 5, 0, m_maxOutPut),
                 new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToRed, 0, m_maxOutPut),
                 new TurnToFaceCommand(
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),

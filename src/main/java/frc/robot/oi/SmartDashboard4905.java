@@ -24,7 +24,7 @@ import frc.robot.groupcommands.athomechallengepathways.HyperDriveChallenge;
 import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChallenge;
 import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
 import frc.robot.groupcommands.athomechallengepathways.TestPath;
-import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
+import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -47,8 +47,8 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
-    SmartDashboard.putData("Shoot 10 feet",
-        new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
+    SmartDashboard.putData("ShootRPM",
+        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 3000));
 
     SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
 
