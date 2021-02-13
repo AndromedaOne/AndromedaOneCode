@@ -13,6 +13,9 @@ import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
+import frc.robot.groupcommands.athomechallengepathways.BarrelRacingPath;
+import frc.robot.groupcommands.athomechallengepathways.BouncePath;
+import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
@@ -38,6 +41,8 @@ public class AutoModes4905 {
     IntakeBase intake = subsystemsContainer.getIntake();
     FeederBase feeder = subsystemsContainer.getFeeder();
     LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
+    double maximumPower = 0.5;
+    double robotLengthInches = 38;
 
     if (driveTrainConfig.hasPath("maxSpeedToPickupPowerCells")) {
       maxSpeedToPickupPowerCells = driveTrainConfig.getDouble("maxSpeedToPickupPowerCells");
@@ -108,8 +113,11 @@ public class AutoModes4905 {
           m_autoChooser.addOption("13: galactic Search Path A",
             new DelayedSequentialCommandGroup(new GalacticSearchPathA()));
             m_autoChooser.addOption("14: galactic Search Path B",
+        m_autoChooser.addOption("15: AutoNav: Barrel", new BarrelRacingPath(driveTrain));
+        m_autoChooser.addOption("16: AutoNav: Slalom", new SlalomPath(driveTrain));
+        m_autoChooser.addOption("17: AutoNav: Bounce", new BouncePath(driveTrain));
             new DelayedSequentialCommandGroup(new GalacticSearchPathB()));
-
+                                                                
           SmartDashboard.putData("autoModes", m_autoChooser);
                                                               // @formatter:on
   }
