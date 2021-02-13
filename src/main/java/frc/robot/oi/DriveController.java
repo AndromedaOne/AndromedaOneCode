@@ -14,8 +14,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.groupcommands.athomechallengepathways.PowerPortTrigger;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.subsystems.SubsystemsContainer;
 
 /**
  * Add your docs here.
@@ -33,8 +35,9 @@ public class DriveController {
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
   private JoystickButton interstellerAccuracyWait;
+  private JoystickButton powerPortButton;
 
-  public DriveController(SensorsContainer sensorsContainer) {
+  public DriveController(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
     turnToNorth.whenPressed(new TurnToCompassHeading(0));
     turnToEast = new JoystickButton(m_driveController, ButtonsEnumerated.BBUTTON.getValue());
@@ -50,7 +53,17 @@ public class DriveController {
     // climbLevel.whileHeld(new Climb());
     letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
     letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
+    // turnOnLimelight = new JoystickButton(m_driveController,
+    // ButtonsEnumerated.BACKBUTTON.getValue());
+    // turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
+    // turnOffLimelight = new JoystickButton(m_driveController,
+    // ButtonsEnumerated.STARTBUTTON.getValue());
+    // turnOffLimelight.whenPressed(new ToggleLimelightLED(false,
+    // sensorsContainer));
     interstellerAccuracyWait = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
+    powerPortButton = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
+    powerPortButton.whenPressed(new PowerPortTrigger(subsystemsContainer.getDrivetrain(),
+        subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
   }
 
   /**
