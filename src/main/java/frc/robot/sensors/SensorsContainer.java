@@ -20,6 +20,9 @@ import frc.robot.sensors.gyro.RealNavXGyroSensor;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
 import frc.robot.sensors.limelightcamera.RealLimelightCamera;
+import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
+import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
+import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
 
 /**
  * The Container that controls whether the sensors are real or mock. Uses the
@@ -31,6 +34,7 @@ public class SensorsContainer {
   private Camera m_camera1;
   private LimeLightCameraBase m_limelightCameraBase;
   private NavXGyroSensor m_gyro;
+  private UltrasonicSensor m_powerCellDetector;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -72,6 +76,13 @@ public class SensorsContainer {
       System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
     }
+    if (sensorConfig.hasPath("sensors.ultrasonicSensor.powerCellDetector")) {
+      m_powerCellDetector = new RealUltrasonicSensor("ultrasonicSensor.powerCellDetector");
+      System.out.println("Using Real Power Cell Detector");
+    } else {
+      m_powerCellDetector = new MockUltrasonicSensor();
+      System.out.println("Using Fake Power Cell Detector");
+    }
   }
 
   public NavXGyroSensor getNavXGyro() {
@@ -92,5 +103,9 @@ public class SensorsContainer {
 
   public LimeLightCameraBase getLimeLight() {
     return m_limelightCameraBase;
+  }
+
+  public UltrasonicSensor getPowercellDetector() {
+    return m_powerCellDetector;
   }
 }
