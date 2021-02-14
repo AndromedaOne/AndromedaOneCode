@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.RunWheels;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
@@ -131,7 +132,7 @@ public class SmartDashboard4905 {
 
     Trajectory newTrajectory = null;
     try {
-      newTrajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/paths/TwoCircles.json"));
+      newTrajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/paths/BarrelRacing.wpilib.json"));
       /*
        * newTrajectory = TrajectoryUtil .fromPathweaverJson(Paths.get(
        * "/home/lvuser/deploy/paths/CurvePath.wpilib.json"));
@@ -156,6 +157,8 @@ public class SmartDashboard4905 {
     ramseteCommand.setLogName("RamseteTesting");
 
     SmartDashboard.putData("Drive Path planning test", ramseteCommand);
+
+    SmartDashboard.putData("RunDriveTrainWheels", new RunWheels(subsystemsContainer.getDrivetrain()));
 
   }
 
