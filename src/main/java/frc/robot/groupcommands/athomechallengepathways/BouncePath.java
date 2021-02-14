@@ -17,23 +17,27 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class BouncePath extends SequentialCommandGroup {
   private static double maximumPower = 0.5;
   private static double robotLengthInches = 40;
+  private static double intakeLengthInches = 8;
   private static Waypoint initialPoint = AtHomeChallengePoints.C2.subtract(new Waypoint(0, robotLengthInches / 2));
 
   private class BounceWaypoints extends WaypointsBase {
     @Override
     protected void loadWaypoints() {
-      addWayPoint(initialPoint);
       addWayPoint(AtHomeChallengePoints.C3);
-      addWayPoint(AtHomeChallengePoints.A3);
+      addWayPoint(AtHomeChallengePoints.A3.add(new Waypoint(robotLengthInches/2 - intakeLengthInches, 0)));
       addWayPoint(AtHomeChallengePoints.C3);
+
       addWayPoint(AtHomeChallengePoints.C4);
       addWayPoint(AtHomeChallengePoints.E4);
+
       addWayPoint(AtHomeChallengePoints.E6);
-      addWayPoint(AtHomeChallengePoints.A6);
+      addWayPoint(AtHomeChallengePoints.A6.add(new Waypoint(robotLengthInches/2 - intakeLengthInches, 0)));
       addWayPoint(AtHomeChallengePoints.E6);
+
       addWayPoint(AtHomeChallengePoints.E9);
-      addWayPoint(AtHomeChallengePoints.A9);
+      addWayPoint(AtHomeChallengePoints.A9.add(new Waypoint(robotLengthInches/2 - intakeLengthInches, 0)));
       addWayPoint(AtHomeChallengePoints.C9);
+
       addWayPoint(AtHomeChallengePoints.C11);
     }
   }
