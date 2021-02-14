@@ -63,7 +63,7 @@ dependencies {
 
     // Websocket extensions require additional configuration.
     // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)
-    // simulation wpi.deps.sim.ws_client(wpi.platforms.desktop, false)
+    simulation wpi.deps.sim.ws_client(wpi.platforms.desktop, false)
 
     compile group: 'com.typesafe', name: 'config', version: '1.4.1'
     testImplementation "org.mockito:mockito-junit-jupiter:3.6.0"
