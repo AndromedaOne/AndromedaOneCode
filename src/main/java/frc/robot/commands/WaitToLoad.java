@@ -7,66 +7,46 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.feeder.FeederBase;
-import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.Robot;
+import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
 
-public class FeedBothStagesIntoShooter extends CommandBase {
-  /**
-   * Creates a new FeedWhenReady.
-   */
-  FeederBase m_feederBase;
-  ShooterBase m_shooterBase;
-  BooleanSupplier m_endCondition;
-  double counter = 0;
-  private static final double kStageOneAndTwoSpeed = 0.4;
-  private static final double kStageThreeSpeed = 1.0;
+public class WaitToLoad extends CommandBase {
+  private DriveTrain m_driveTrain;
 
-  public FeedBothStagesIntoShooter(FeederBase feederBase, ShooterBase shooterBase, BooleanSupplier endCondition) {
+  /**
+   * Creates a new WaitToLoad.
+   */
+  public WaitToLoad(DriveTrain driveTrain) {
+    m_driveTrain = driveTrain;
     // Use addRequirements() here to declare subsystem dependencies.
-    m_feederBase = feederBase;
-    m_shooterBase = shooterBase;
-    addRequirements(m_feederBase);
-    m_endCondition = endCondition;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    super.initialize();
-    counter = 0;
-    m_shooterBase.openShooterHood();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean shooterIsReady = m_shooterBase.shooterIsReady();
-    if (shooterIsReady && (counter > 20)) {
-      m_feederBase.runBothStages(kStageOneAndTwoSpeed, kStageThreeSpeed);
-    } else {
-      m_feederBase.stopBothStages();
-    }
-    counter++;
+    m_driveTrain.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
-    super.end(interrupted);
-    m_feederBase.stopBothStages();
-    m_shooterBase.closeShooterHood();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_endCondition.getAsBoolean();
+    if (Robot.getInstance().getOIContainer().getDriveController().getInterstellerWaitButton().get()) {
+      return true;
+    }
+    return false;
   }
 }
