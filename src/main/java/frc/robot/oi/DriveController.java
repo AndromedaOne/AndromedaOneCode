@@ -13,10 +13,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.InvertDrive;
-import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.groupcommands.athomechallengepathways.PowerPortTrigger;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.subsystems.SubsystemsContainer;
 
 /**
  * Add your docs here.
@@ -32,8 +33,9 @@ public class DriveController {
   private JoystickButton turnOffLimelight;
   private double m_inversionToggle;
   private JoystickButton interstellerAccuracyWait;
+  private JoystickButton powerPortButton;
 
-  public DriveController(SensorsContainer sensorsContainer) {
+  public DriveController(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
     turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
     // climbLevel = new POVButton(m_driveController,
@@ -43,12 +45,18 @@ public class DriveController {
     invertDrive.whenPressed(new InvertDrive(this));
     letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
     letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
-    turnOnLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
-    turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
-    turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
-    turnOffLimelight.whenPressed(new ToggleLimelightLED(false, sensorsContainer));
+    // turnOnLimelight = new JoystickButton(m_driveController,
+    // ButtonsEnumerated.BACKBUTTON.getValue());
+    // turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
+    // turnOffLimelight = new JoystickButton(m_driveController,
     m_inversionToggle = 1;
+    // ButtonsEnumerated.STARTBUTTON.getValue());
+    // turnOffLimelight.whenPressed(new ToggleLimelightLED(false,
+    // sensorsContainer));
     interstellerAccuracyWait = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
+    powerPortButton = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
+    powerPortButton.whenPressed(new PowerPortTrigger(subsystemsContainer.getDrivetrain(),
+        subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
   }
 
   public void invertForwardBackwardStick() {
