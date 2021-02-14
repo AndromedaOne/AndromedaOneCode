@@ -152,6 +152,7 @@ public class DefaultFeederCommand extends CommandBase {
           || ballSensorValues[STAGE_1_END.getIndex()]) {
         setFeederState(FeederStates.SECOND_LOADED);
       }
+      System.out.println("In Second Loaded");
       m_feeder.stopBothStages();
       numberOfPowerCellsInFeeder = 2;
       break;

@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.DefaultFeederCommand;
+import frc.robot.commands.DeployAndRunIntake;
+import frc.robot.commands.RunIntakeOut;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
@@ -25,7 +27,7 @@ public class PowerPortStart extends SequentialCommandGroup {
    * Creates a new PowerPortShoot.
    */
   private final double m_maxOutPut = 1;
-  private final double greenZoneShootingRPM = 2150;
+  private final double greenZoneShootingRPM = 2100;
   private final double reIntroductionZoneDistance = 330;
   private final double greenZoneShootingDistance = 180;
   private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
@@ -34,6 +36,6 @@ public class PowerPortStart extends SequentialCommandGroup {
     addCommands(new DelayedSequentialCommandGroup(
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
         new ShootWithRPM(shooter, feeder, greenZoneShootingRPM), new ParallelCommandGroup(
-            new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut), new DefaultFeederCommand())));
+            new MoveUsingEncoder(driveTrain, -reloadToGreen, 1.5, m_maxOutPut), new DefaultFeederCommand(), new DeployAndRunIntake(intake, () -> false))));
   }
 }
