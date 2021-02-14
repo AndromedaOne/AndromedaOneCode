@@ -17,6 +17,7 @@ import frc.robot.sensors.camera.*;
 import frc.robot.sensors.gyro.MockNavXGyroSensor;
 import frc.robot.sensors.gyro.NavXGyroSensor;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
+import frc.robot.sensors.gyro.RomiGyro;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
 import frc.robot.sensors.limelightcamera.RealLimelightCamera;
@@ -42,6 +43,9 @@ public class SensorsContainer {
     if (sensorConfig.hasPath("navx")) {
       System.out.println("Using real NavX Gyro sensor");
       m_gyro = new RealNavXGyroSensor();
+    } else if (sensorConfig.hasPath("RomiGyro")) {
+      System.out.println("Using RomiGyro");
+      m_gyro = new RomiGyro();
     } else {
       System.out.println("Using mock Navx Gyro sensor");
       m_gyro = new MockNavXGyroSensor();
