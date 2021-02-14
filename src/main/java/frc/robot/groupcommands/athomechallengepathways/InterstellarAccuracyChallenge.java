@@ -9,12 +9,13 @@ package frc.robot.groupcommands.athomechallengepathways;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.*;
 import frc.robot.commands.WaitToLoad;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
-import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
+import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -46,19 +47,14 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
   private final double reloadToGreen = 220;
   private final double reloadToYellow = 160;
   private final double reloadToBlue = 100;
-  private final double reloadToRed = 40;
-
-  private final double greenZoneShootingDistance = 70;
-  private final double yellowZoneShootingDistance = 130;
-  private final double blueZoneShootingDistance = 190;
-  private final double redZoneShootingDistance = 250;
+  private final double reloadToRed = 45;
 
   public InterstellarAccuracyChallenge(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder) {
 
     addCommands(new DelayedSequentialCommandGroup(
         // 1. start at 70 inches
-        new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithDistance(shooter, feeder, greenZoneShootingDistance),
+        new ShootWithRPM(shooter, feeder,
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.backOfGreenZone") - 200),
         // 2.
         new ParallelDeadlineGroup(
             new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
@@ -67,7 +63,8 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
             new DefaultFeederCommand()),
 
-        new ShootWithDistance(shooter, feeder, yellowZoneShootingDistance),
+        new ShootWithRPM(shooter, feeder,
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfYellowZone")),
 
         new ParallelDeadlineGroup(
             new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToYellow, 0, m_maxOutPut),
@@ -76,16 +73,18 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
             new DefaultFeederCommand()),
 
-        new ShootWithDistance(shooter, feeder, blueZoneShootingDistance),
+        new ShootWithRPM(shooter, feeder,
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfBlueZone")),
 
         new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToBlue, 0, m_maxOutPut),
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToBlue - 5, 0, m_maxOutPut),
                 new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToRed, 0, m_maxOutPut),
                 new TurnToFaceCommand(
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
             new DefaultFeederCommand()),
 
-        new ShootWithDistance(shooter, feeder, redZoneShootingDistance),
+        new ShootWithRPM(shooter, feeder,
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.frontOfRedZone")),
 
         new ParallelDeadlineGroup(
             new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToRed, 0, m_maxOutPut),
@@ -94,7 +93,8 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
             new DefaultFeederCommand()),
 
-        new ShootWithDistance(shooter, feeder, blueZoneShootingDistance)));
+        new ShootWithRPM(shooter, feeder,
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfBlueZone"))));
 
   }
 }
