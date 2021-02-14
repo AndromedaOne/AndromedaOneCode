@@ -20,8 +20,8 @@ public class SparkController extends Spark {
         + subsystemConfig.getInt("ports." + configString));
     m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     if (m_hasEncoder) {
-      m_encoder = new Encoder(subsystemConfig.getInt(configString + "channelA"),
-          subsystemConfig.getInt(configString + "channelB"));
+      m_encoder = new Encoder(subsystemConfig.getInt(configString + ".channelA"),
+          subsystemConfig.getInt(configString + ".channelB"));
     }
   }
 

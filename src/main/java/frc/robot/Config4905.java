@@ -61,13 +61,14 @@ public class Config4905 {
       // the next line retrieves the path to the jar file that is being
       // executed. this should be in a standard place in the repo. from there
       // we can find the deploy directory and the configs
+      String relativePathToDeploy = "/src/main/deploy";
       String jarDir = System.getProperty("user.dir");
-      if (!Files.exists(Paths.get(jarDir + "src/main/deploy"))) {
-        System.out.println("ERROR: could not find robot config directory");
+      if (!Files.exists(Paths.get(jarDir + relativePathToDeploy))) {
+        System.out.println("ERROR: could not find robot config directory: " + jarDir + relativePathToDeploy);
       }
       // don't look for name.conf file, just use Romi
-      m_baseDir = jarDir + "src/main/";
-      m_robotName = "Romi";
+      m_baseDir = jarDir + "/src/main/";
+      m_robotName = "RomiRobot";
     }
     m_environmentalConfig = ConfigFactory
         .parseFile(new File(m_baseDir + "deploy/robotConfigs/" + m_robotName + "/robot.conf"));

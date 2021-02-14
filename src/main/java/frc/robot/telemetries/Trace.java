@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -172,12 +173,14 @@ public class Trace {
           return;
         }
       }
-
-      Path link = Paths.get(m_basePathOfTraceDirs + "/latest");
-      if (Files.exists(link)) {
-        Files.delete(link);
+      System.out.println("OS is " + System.getProperty("os.name"));
+      if (!Objects.equals(System.getProperty("os.name"), "Windows 10")) {
+        Path link = Paths.get(m_basePathOfTraceDirs + "/latest");
+        if (Files.exists(link)) {
+          Files.delete(link);
+        }
+        Files.createSymbolicLink(link, traceDir.toPath());
       }
-      Files.createSymbolicLink(link, traceDir.toPath());
 
       FileWriter fstream = new FileWriter(traceNumFileName, false);
       BufferedWriter dirNumbFile = new BufferedWriter(fstream);

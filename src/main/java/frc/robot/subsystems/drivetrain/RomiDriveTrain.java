@@ -28,7 +28,7 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_right = new SpeedControllerGroup(m_rightMotor);
 
     double ticksPerRevolution = drivetrainConfig.getInt("ticksPerRevolution");
-    double wheelDiameterInch = drivetrainConfig.getDouble("wheelDiamaterInch");
+    double wheelDiameterInch = drivetrainConfig.getDouble("wheelDiameterInch");
     m_ticksPerInch = wheelDiameterInch / ticksPerRevolution;
   }
 
