@@ -70,7 +70,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Galactic Search Path B", new GalacticSearchPathB());
     SmartDashboard.putData("InterstellerAccuracyChallenge", new InterstellarAccuracyChallenge(
         subsystemsContainer.getDrivetrain(), subsystemsContainer.getShooter(), subsystemsContainer.getFeeder()));
-    SmartDashboard.putData("Bounce Path", new BouncePath(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("Bounce Path",
+        new BouncePath(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
     SmartDashboard.putData("Slalom Path", new SlalomPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Barrel Racing Path", new BarrelRacingPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Hyper Drive Challenge", new HyperDriveChallenge(subsystemsContainer.getDrivetrain()));
