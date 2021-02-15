@@ -41,6 +41,7 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
     SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
 
     SmartDashboard.putData("TurnToCompassHeadingTester",

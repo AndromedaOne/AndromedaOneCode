@@ -7,6 +7,7 @@ package frc.robot.subsystems.drivetrain;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
 
@@ -29,7 +30,7 @@ public class RomiDriveTrain extends RealDriveTrain {
 
     double ticksPerRevolution = drivetrainConfig.getInt("ticksPerRevolution");
     double wheelDiameterInch = drivetrainConfig.getDouble("wheelDiameterInch");
-    m_ticksPerInch = wheelDiameterInch / ticksPerRevolution;
+    m_ticksPerInch = ticksPerRevolution / (wheelDiameterInch * Math.PI);
   }
 
   @Override
@@ -54,10 +55,12 @@ public class RomiDriveTrain extends RealDriveTrain {
     if (m_leftMotor.hasEncoder()) {
       ++encoders;
       encoderPositionAvg += m_leftMotor.getEncoderPositionTicks();
+      SmartDashboard.putNumber("left encoder", m_leftMotor.getEncoderPositionTicks());
     }
     if (m_rightMotor.hasEncoder()) {
       ++encoders;
       encoderPositionAvg += m_rightMotor.getEncoderPositionTicks();
+      SmartDashboard.putNumber("right encoder", m_rightMotor.getEncoderPositionTicks());
     }
     if (encoders > 0) {
       encoderPositionAvg = encoderPositionAvg / (m_ticksPerInch * encoders);

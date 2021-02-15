@@ -9,17 +9,13 @@ import edu.wpi.first.hal.SimDevice.Direction;
 import edu.wpi.first.hal.SimDouble;
 
 /** Add your docs here. */
-public class RomiGyro extends NavXGyroSensor {
+public class RomiGyro extends Gyro {
   private SimDouble m_simRateX;
   private SimDouble m_simRateY;
   private SimDouble m_simRateZ;
   private SimDouble m_simAngleX;
   private SimDouble m_simAngleY;
   private SimDouble m_simAngleZ;
-
-  private double m_angleXOffset;
-  private double m_angleYOffset;
-  private double m_angleZOffset;
 
   /** Create a new RomiGyro. */
   public RomiGyro() {
@@ -33,6 +29,10 @@ public class RomiGyro extends NavXGyroSensor {
       m_simAngleX = gyroSimDevice.createDouble("angle_x", Direction.kInput, 0.0);
       m_simAngleY = gyroSimDevice.createDouble("angle_y", Direction.kInput, 0.0);
       m_simAngleZ = gyroSimDevice.createDouble("angle_z", Direction.kInput, 0.0);
+
+      setInitialXAngleReading(m_simAngleX.get());
+      setInitialYAngleReading(m_simAngleY.get());
+      setInitialZAngleReading(m_simAngleZ.get());
       System.out.println("Created RomiGyro");
     } else {
       System.out.println("NOTE: did not create RomiGyro");
@@ -40,39 +40,27 @@ public class RomiGyro extends NavXGyroSensor {
   }
 
   @Override
-  public double getZAngle() {
+  protected double getRawZAngle() {
     if (m_simAngleZ != null) {
-      return m_simAngleZ.get() - m_angleZOffset;
+      return m_simAngleZ.get();
     }
     return 0.0;
   }
 
   @Override
-  public double getXAngle() {
+  protected double getRawXAngle() {
     if (m_simAngleX != null) {
-      return m_simAngleX.get() - m_angleXOffset;
+      return m_simAngleX.get();
     }
     return 0.0;
   }
 
   @Override
-  public double getYAngle() {
+  protected double getRawYAngle() {
     if (m_simAngleY != null) {
-      return m_simAngleY.get() - m_angleYOffset;
+      return m_simAngleY.get();
     }
     return 0.0;
-  }
-
-  @Override
-  public double getCompassHeading() {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
-  @Override
-  public void updateSmartDashboardReadings() {
-    // TODO Auto-generated method stub
-
   }
 
   /**
