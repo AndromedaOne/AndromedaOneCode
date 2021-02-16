@@ -8,7 +8,7 @@ import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class BarrelRacingPath extends SequentialCommandGroup {
-  private static double maximumPower = .5;
+  private static double maximumPower = 0.5;
   private static double robotLengthInches = 40;
   private static Waypoint initialPoint = AtHomeChallengePoints.C2.subtract(new Waypoint(0, robotLengthInches / 2));
 
