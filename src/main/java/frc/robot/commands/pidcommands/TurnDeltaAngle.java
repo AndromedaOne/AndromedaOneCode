@@ -12,7 +12,7 @@ import com.typesafe.config.Config;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
-import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.gyro.Gyro;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -30,7 +30,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   public TurnDeltaAngle(double deltaTurnAngle) {
     super(
         // The controller that the command will use
-        new PIDController4905("TurnDeltaAngle", 0, 0, 0, 0),
+        new PIDController4905SampleStop("TurnDeltaAngle", 0, 0, 0, 0),
         // This should return the measurement
         Robot.getInstance().getSensorsContainer().getGyro()::getZAngle,
         // This should return the setpoint (can also be a constant)
