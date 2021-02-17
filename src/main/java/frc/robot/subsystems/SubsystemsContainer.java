@@ -26,6 +26,7 @@ import frc.robot.subsystems.feeder.RealFeeder;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.intake.MockIntake;
 import frc.robot.subsystems.intake.RealIntake;
+import frc.robot.subsystems.ledlights.*;
 import frc.robot.subsystems.shooter.MockShooter;
 import frc.robot.subsystems.shooter.RealShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -41,6 +42,7 @@ public class SubsystemsContainer {
   FeederBase m_feeder;
   IntakeBase m_intake;
   ShooterBase m_shooter;
+  LEDs m_LED;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -112,6 +114,15 @@ public class SubsystemsContainer {
       m_shooter = new MockShooter();
     }
 
+    // 6. LED
+    if (Config4905.getConfig4905().doesLEDExist()) {
+      System.out.println("Using real LED.");
+      m_LED = new RealLEDs("EnableLED");
+    } else {
+      System.out.println("Using mock LED.");
+      m_LED = new MockLEDs();
+    }
+
   }
 
   public DriveTrain getDrivetrain() {
@@ -132,6 +143,10 @@ public class SubsystemsContainer {
 
   public IntakeBase getIntake() {
     return m_intake;
+  }
+
+  public LEDs getLEDs() {
+    return m_LED;
   }
 
   public void setDefaultCommands() {

@@ -38,6 +38,8 @@ public class Config4905 {
 
   private static Config commandConstantsConfig;
 
+  private static Config ledConfig;
+
   private static final Config4905 m_config4905 = new Config4905();
 
   private static final String BASEDIRECTORY = "/home/lvuser/deploy/robotConfigs/";
@@ -68,6 +70,7 @@ public class Config4905 {
     feederConfig = load("Feeder.conf");
     drivetrainConfig = load("drivetrain.conf");
     climberConfig = load("Climber.conf");
+    ledConfig = load("LED.conf");
   }
 
   static {
@@ -104,6 +107,18 @@ public class Config4905 {
 
   public boolean doesFeederExist() {
     if (m_config.hasPath("subsystems.feeder")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getLEDConfig() {
+    return ledConfig;
+  }
+
+  public boolean doesLEDExist() {
+    if (m_config.hasPath("subsystems.LED")) {
       return true;
     } else {
       return false;
