@@ -10,11 +10,11 @@ public class RealLEDs extends LEDs {
 
     Config conf = Config4905.getConfig4905().getLEDConfig();
 
-    red = new DigitalOutput(conf.getInt("subsystems.led." + led + ".Red"));
+    red = new DigitalOutput(conf.getInt("Red"));
     red.enablePWM(0);
-    green = new DigitalOutput(conf.getInt("subsystems.led." + led + ".Green"));
+    green = new DigitalOutput(conf.getInt("Green"));
     green.enablePWM(0);
-    blue = new DigitalOutput(conf.getInt("subsystems.led." + led + ".Blue"));
+    blue = new DigitalOutput(conf.getInt("Blue"));
     blue.enablePWM(0);
     setPurple(1.0);
 
