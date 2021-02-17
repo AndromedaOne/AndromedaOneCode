@@ -5,6 +5,7 @@
 package frc.robot.groupcommands.RomiCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.waypoints.Waypoint;
@@ -18,9 +19,9 @@ public class RomiExamplePath extends SequentialCommandGroup {
     @Override
     protected void loadWaypoints() {
       addWayPoint(new Waypoint(0, 0));
-      addWayPoint(new Waypoint(8, 2));
-      addWayPoint(new Waypoint(-4, 20));
-      addWayPoint(new Waypoint(12, -6));
+      addWayPoint(new Waypoint(0, 28));
+      addWayPoint(new Waypoint(28, 28));
+      addWayPoint(new Waypoint(28, 0));
       addWayPoint(new Waypoint(0, 0));
     }
 
@@ -29,7 +30,7 @@ public class RomiExamplePath extends SequentialCommandGroup {
   /** Creates a new RomiExamplePath. */
   public RomiExamplePath(DriveTrain driveTrain) {
     PathGeneratorBase path = new DriveTrainDiagonalPathGenerator(new ExampleWayPoints(), driveTrain, new Waypoint(0, 0),
-        0.75);
-    addCommands(path.getPath());
+        0.5);
+    addCommands(path.getPath(), new TurnToCompassHeading(0));
   }
 }
