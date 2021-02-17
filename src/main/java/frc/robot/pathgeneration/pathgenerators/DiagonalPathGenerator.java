@@ -10,10 +10,20 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
   private Waypoint m_currentWaypoint;
   private SequentialCommandGroup m_path;
+  private boolean m_useReverse = false;
+  private double m_previousCompassHeading;
 
-  public DiagonalPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint) {
+  private enum RobotDirection {
+    forward, reverse
+  }
+
+  private RobotDirection m_lastDirection = RobotDirection.forward;
+
+   
+
+  public DiagonalPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint, boolean useReverse) {
     super(waypoints, initialWaypoint);
-
+    m_useReverse = useReverse;
     m_currentWaypoint = new Waypoint(0, 0);
     m_path = new SequentialCommandGroup();
   }
@@ -30,9 +40,14 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
     if (deltaY < 0) {
       angleInDegreesCenteredAt0 += 180;
     }
-
     double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
-
+    if (m_useReverse && (Math.abs(compassAngle - m_previousCompassHeading) > 90)) {
+      compassAngle = 360 - compassAngle;
+      if (m_lastDirection == RobotDirection.forward) {
+        distance = -distance;
+      }
+      m_previousCompassHeading = compassAngle;
+    }
     if (distance != 0) {
       m_path.addCommands(createTurnCommand(compassAngle));
       m_path.addCommands(createMoveCommand(distance, compassAngle));

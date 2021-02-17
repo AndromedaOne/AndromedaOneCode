@@ -11,10 +11,10 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
 
   private DriveTrain m_driveTrain;
   private double m_maxOutput;
-
+  private boolean m_useReverse = false;
   public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint,
       double maxOutputs) {
-    super(waypoints, initialWaypoint);
+    super(waypoints, initialWaypoint, m_useReverse);
     m_maxOutput = maxOutputs;
     m_driveTrain = driveTrain;
   }
@@ -23,14 +23,10 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
     this(waypoints, driveTrain, new Waypoint(0, 0), maxOutput);
   }
 
-  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
-    this(waypoints, driveTrain, initialWaypoint, 0);
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, double maxOutput, boolean useReverse) {
+    this(waypoints, driveTrain, new Waypoint(0, 0), maxOutput);
+    m_useReverse = useReverse;
   }
-
-  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
-    this(waypoints, driveTrain, new Waypoint(0, 0), 0);
-  }
-
   /**
    * @param angle is a compassheading x such that 0<= x < 360 degrees
    */
