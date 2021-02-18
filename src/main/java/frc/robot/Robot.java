@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    enabledSensorLED.setRGB(1.0, 0, 0);
+    enabledSensorLED.setRGB(0, 1.0, 0);
 
   }
 

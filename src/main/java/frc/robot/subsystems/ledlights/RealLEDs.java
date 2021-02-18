@@ -8,7 +8,7 @@ import frc.robot.Config4905;
 public class RealLEDs extends LEDs {
   public RealLEDs(String led) {
 
-    Config conf = Config4905.getConfig4905().getLEDConfig();
+    Config conf = Config4905.getConfig4905().getLEDConfig().getConfig(led);
 
     red = new DigitalOutput(conf.getInt("Red"));
     red.enablePWM(0);
