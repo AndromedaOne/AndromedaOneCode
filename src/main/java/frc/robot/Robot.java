@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
     enabledSensorLED.clearColor();
-
+    Robot.getInstance().getSubsystemsContainer().getLEDs().setRGB(1.0, 1.0, 1.0);
   }
 
   /**
@@ -113,14 +113,11 @@ public class Robot extends TimedRobot {
     }
     Trace.getInstance().flushTraceFiles();
     limelight.disableLED();
-    enabledSensorLED.clearColor();
-
   }
 
   @Override
   public void disabledPeriodic() {
     // limelight.disableLED();
-    enabledSensorLED.setRed(1.0);
   }
 
   /**
@@ -139,8 +136,6 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.enableLED();
-    enabledSensorLED.clearColor();
-
   }
 
   /**
@@ -148,7 +143,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    enabledSensorLED.setRGB(0, 1.0, 0);
+    Robot.getInstance().getSubsystemsContainer().getLEDs().setRGB(0, 1.0, 0);
 
   }
 
@@ -166,7 +161,6 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.disableLED();
-    enabledSensorLED.clearColor();
   }
 
   /**
@@ -174,14 +168,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    enabledSensorLED.setRGB(0, 0, 1.0);
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    enabledSensorLED.clearColor();
   }
 
   /**

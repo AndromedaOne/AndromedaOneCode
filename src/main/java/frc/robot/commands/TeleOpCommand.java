@@ -9,11 +9,13 @@ package frc.robot.commands;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.subsystems.drivetrain.*;
+import frc.robot.subsystems.ledlights.LEDs;
 
 /**
  * Allows you to drive the robot using the drive controller.
@@ -26,6 +28,7 @@ public class TeleOpCommand extends CommandBase {
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
   private boolean m_slowMode = false;
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
+  private int rainbowCounter = 0;
 
   private enum SlowModeStates {
     NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
@@ -88,7 +91,14 @@ public class TeleOpCommand extends CommandBase {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
+    rainbowCounter = (rainbowCounter + 1) % 100;
 
+    if (m_slowMode) {
+      Color color = LEDs.rainbow(rainbowCounter, 100);
+      Robot.getInstance().getSubsystemsContainer().getLEDs().setRGB(color.red, color.green, color.blue);
+    } else {
+      Robot.getInstance().getSubsystemsContainer().getLEDs().setRGB(0, 1.0, 0);
+    }
     m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
   }
 

@@ -1,6 +1,7 @@
 package frc.robot.subsystems.ledlights;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class LEDs extends SubsystemBase {
@@ -126,4 +127,39 @@ public abstract class LEDs extends SubsystemBase {
     blueValue = brightness;
   }
 
+//#get the i'th color, of n colors. 
+  public static Color rainbow(int i, int n) {
+    int r = 0;
+    int g = 0;
+    int b = 0;
+    int stepsize = (int) Math.floor((255 * 6) / n);
+    int progress = i * stepsize;
+    switch ((int) Math.floor(progress / 255)) {
+    case 0:
+      b = 255;
+      r = progress % 255;
+      break;
+    case 1:
+      r = 255;
+      b = progress % 255;
+      break;
+    case 2:
+      r = 255;
+      g = progress % 255;
+      break;
+    case 3:
+      g = 255;
+      r = progress % 255;
+      break;
+    case 4:
+      g = 255;
+      b = progress % 255;
+      break;
+    case 5:
+      b = 255;
+      g = progress % 255;
+      break;
+    }
+    return new Color(r / 256.0, g / 256.0, b / 256.0);
+  }
 }
