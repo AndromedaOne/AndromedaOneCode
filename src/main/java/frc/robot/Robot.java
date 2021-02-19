@@ -19,7 +19,6 @@ import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.telemetries.Trace;
 
 /**
@@ -35,7 +34,6 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase limelight;
-  private LEDs enabledSensorLED;
 
   private Robot() {
     CommandScheduler.getInstance().onCommandInitialize((command) -> Trace.getInstance().logCommandStart(command));
@@ -64,12 +62,11 @@ public class Robot extends TimedRobot {
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
-    enabledSensorLED = m_subsystemContainer.getLEDs();
     m_subsystemContainer.setDefaultCommands();
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
-    enabledSensorLED.clearColor();
-    Robot.getInstance().getSubsystemsContainer().getLEDs().setRGB(1.0, 1.0, 1.0);
+    Robot.getInstance().getSubsystemsContainer().getLEDs("SlowmodeLED").clearColor();
+    Robot.getInstance().getSubsystemsContainer().getLEDs("SlowmodeLED").setRGB(1.0, 1.0, 1.0);
   }
 
   /**
@@ -143,7 +140,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Robot.getInstance().getSubsystemsContainer().getLEDs().setRGB(0, 1.0, 0);
+    Robot.getInstance().getSubsystemsContainer().getLEDs("SlowmodeLED").setRGB(0, 1.0, 0);
 
   }
 

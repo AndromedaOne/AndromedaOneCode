@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import frc.robot.Config4905;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractAndStopIntake;
@@ -42,7 +45,7 @@ public class SubsystemsContainer {
   FeederBase m_feeder;
   IntakeBase m_intake;
   ShooterBase m_shooter;
-  LEDs m_LED;
+  Map<String, RealLEDs> m_leds;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -114,14 +117,10 @@ public class SubsystemsContainer {
       m_shooter = new MockShooter();
     }
 
-    // 6. LED
-    if (Config4905.getConfig4905().doesLEDExist()) {
-      System.out.println("Using real LED.");
-      m_LED = new RealLEDs("EnableLED");
-    } else {
-      System.out.println("Using mock LED.");
-      m_LED = new MockLEDs();
-    }
+    // 6. LEDs
+
+    m_leds = Config4905.getConfig4905().getLEDConfig().entrySet().stream().map(entry -> entry.getKey().split("\\.")[0])
+        .distinct().collect(Collectors.toMap(name -> name, name -> new RealLEDs(name)));
 
   }
 
@@ -145,8 +144,8 @@ public class SubsystemsContainer {
     return m_intake;
   }
 
-  public LEDs getLEDs() {
-    return m_LED;
+  public LEDs getLEDs(String name) {
+    return m_leds.get(name);
   }
 
   public void setDefaultCommands() {
