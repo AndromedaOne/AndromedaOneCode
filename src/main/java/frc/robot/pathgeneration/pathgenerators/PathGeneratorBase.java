@@ -13,6 +13,13 @@ public abstract class PathGeneratorBase {
     m_waypoints = waypoints;
     m_initialPoint = initialPoint;
   }
+  protected void setInitialWaypoint(Waypoint initialPoint) {
+    m_initialPoint = initialPoint;
+  }
+
+  protected Waypoint getInitialWaypoint() {
+    return m_initialPoint;
+  }
 
   public CommandBase getPath() {
     iterateThroughWaypointsToGeneratePath();
