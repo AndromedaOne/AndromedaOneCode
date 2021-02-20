@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
     SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
     SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
-
+    SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
   }
 
   /**

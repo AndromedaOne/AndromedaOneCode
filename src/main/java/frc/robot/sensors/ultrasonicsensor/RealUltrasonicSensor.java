@@ -25,11 +25,12 @@ public class RealUltrasonicSensor extends UltrasonicSensor {
     ultrasonic = new Ultrasonic(ping, echo);
     ultrasonic.setEnabled(true);
     ultrasonic.setAutomaticMode(true);
+    sensorName = confString;
   }
 
   @Override
   public double getDistanceInches() {
-    SmartDashboard.putNumber("Front Ultrasonic", ultrasonic.getRangeInches());
+    SmartDashboard.putNumber(sensorName, ultrasonic.getRangeInches());
     double distance = ultrasonic.getRangeInches();
     return distance;
   }
