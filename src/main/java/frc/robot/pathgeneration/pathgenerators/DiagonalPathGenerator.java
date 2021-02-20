@@ -11,15 +11,14 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
   private Waypoint m_currentWaypoint;
   private SequentialCommandGroup m_path;
   private boolean m_useReverse = false;
-  private double m_previousCompassHeading;
+  private double m_oldAngle;
+  private double m_nextAngle;
 
   private enum RobotDirection {
     forward, reverse
   }
 
   private RobotDirection m_lastDirection = RobotDirection.forward;
-
-   
 
   public DiagonalPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint, boolean useReverse) {
     super(waypoints, initialWaypoint);
@@ -32,23 +31,41 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
   protected void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint) {
 
     double distance = m_currentWaypoint.distance(waypoint);
-
+    System.out.println("Intitial distance = " + distance);
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
     double deltaY = waypoint.getY() - m_currentWaypoint.getY();
     double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan(deltaX / deltaY));
-
     if (deltaY < 0) {
+      // the atan function will only return an angle between -pi/2 and pi/2, which
+      // translates
+      // to a compass heading between 270 and 90 degrees through due north (0). so it
+      // will
+      // never return a compass heading in the direction of south (180). if the robot
+      // needs to
+      // move in a southerly direction, which translates to a delta y that is
+      // negative, we need
+      // to flip the angle.
       angleInDegreesCenteredAt0 += 180;
     }
-    double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
-    if (m_useReverse && (Math.abs(compassAngle - m_previousCompassHeading) > 90)) {
-      compassAngle = 360 - compassAngle;
+    m_nextAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
+    double newAngle = m_nextAngle;
+    if (m_useReverse && (AngleConversionUtils.isTurnToCompassHeadingGreaterThan90(m_oldAngle, newAngle))) {
+      newAngle = 180 - m_nextAngle;
       if (m_lastDirection == RobotDirection.forward) {
+        m_lastDirection = RobotDirection.reverse;
         distance = -distance;
+      } else {
+        m_lastDirection = RobotDirection.forward;
+
       }
-      m_previousCompassHeading = compassAngle;
     }
+    m_oldAngle = m_nextAngle;
+    double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(newAngle);
+
+    System.out.println("initial Angle = " + compassAngle);
     if (distance != 0) {
+      System.out.println("final Distance = " + distance + "\nfinal Angle = " + compassAngle);
+
       m_path.addCommands(createTurnCommand(compassAngle));
       m_path.addCommands(createMoveCommand(distance, compassAngle));
     }

@@ -32,7 +32,7 @@ public class BarrelRacingPath extends SequentialCommandGroup {
 
   public BarrelRacingPath(DriveTrain driveTrain) {
     PathGeneratorBase pathGenerator = new DriveTrainDiagonalPathGenerator(new BarrelWaypoints(), driveTrain,
-        initialPoint, maximumPower);
+        initialPoint, maximumPower, true);
     addCommands(pathGenerator.getPath());
   }
 }
