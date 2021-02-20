@@ -95,9 +95,9 @@ public class TeleOpCommand extends CommandBase {
 
     if (m_slowMode) {
       Color color = LEDs.rainbow(rainbowCounter, 100);
-      Robot.getInstance().getSubsystemsContainer().getLEDs("SlowmodeLED").setRGB(color.red, color.green, color.blue);
+      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(color.red, color.green, color.blue);
     } else {
-      Robot.getInstance().getSubsystemsContainer().getLEDs("SlowmodeLED").setRGB(0, 1.0, 0);
+      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 1.0, 0);
     }
     m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
   }

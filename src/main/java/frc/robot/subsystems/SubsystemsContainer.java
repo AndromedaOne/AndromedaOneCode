@@ -45,7 +45,8 @@ public class SubsystemsContainer {
   FeederBase m_feeder;
   IntakeBase m_intake;
   ShooterBase m_shooter;
-  Map<String, RealLEDs> m_leds;
+  Map<String, LEDs> m_leds;
+  MockLEDs m_mockLEDs;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -118,7 +119,7 @@ public class SubsystemsContainer {
     }
 
     // 6. LEDs
-
+    m_mockLEDs = new MockLEDs();
     m_leds = Config4905.getConfig4905().getLEDConfig().entrySet().stream().map(entry -> entry.getKey().split("\\.")[0])
         .distinct().collect(Collectors.toMap(name -> name, name -> new RealLEDs(name)));
 
@@ -145,7 +146,7 @@ public class SubsystemsContainer {
   }
 
   public LEDs getLEDs(String name) {
-    return m_leds.get(name);
+    return m_leds.getOrDefault(name, m_mockLEDs);
   }
 
   public void setDefaultCommands() {

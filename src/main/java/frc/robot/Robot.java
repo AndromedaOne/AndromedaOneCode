@@ -65,8 +65,8 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
-    Robot.getInstance().getSubsystemsContainer().getLEDs("SlowmodeLED").clearColor();
-    Robot.getInstance().getSubsystemsContainer().getLEDs("SlowmodeLED").setRGB(1.0, 1.0, 1.0);
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").clearColor();
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(1.0, 1.0, 1.0);
   }
 
   /**
@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Robot.getInstance().getSubsystemsContainer().getLEDs("SlowmodeLED").setRGB(0, 1.0, 0);
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 1.0, 0);
 
   }
 
