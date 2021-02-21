@@ -22,7 +22,6 @@ public class BarrelRacingPath extends SequentialCommandGroup {
       addWayPoint(AtHomeChallengePoints.C8);
       addWayPoint(AtHomeChallengePoints.A10);
       addWayPoint(AtHomeChallengePoints.A6);
-      addWayPoint(AtHomeChallengePoints.C8);
       addWayPoint(AtHomeChallengePoints.E11);
       addWayPoint(AtHomeChallengePoints.C11);
       addWayPoint(AtHomeChallengePoints.C2);
