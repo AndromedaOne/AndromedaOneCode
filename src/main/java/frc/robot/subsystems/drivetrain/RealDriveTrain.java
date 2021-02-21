@@ -51,7 +51,8 @@ public abstract class RealDriveTrain extends DriveTrain {
     m_odometry.update(navX.getRotation2d(), leftMeters, rightMeters);
     count++;
     if (count >= 50) {
-      //System.out.println(m_odometry.getPoseMeters() + " " + leftMeters + rightMeters);
+      // System.out.println(m_odometry.getPoseMeters() + " " + leftMeters +
+      // rightMeters);
       count = 0;
     }
 

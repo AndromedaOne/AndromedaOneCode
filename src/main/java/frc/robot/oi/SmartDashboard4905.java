@@ -7,30 +7,11 @@
 
 package frc.robot.oi;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
-
-import com.typesafe.config.Config;
-
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Config4905;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.RunWheels;
@@ -52,12 +33,8 @@ import frc.robot.groupcommands.athomechallengepathways.TestPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
-import frc.robot.pidcontroller.RamseteCommand4905;
-import frc.robot.pidcontroller.TracingPIDController;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.telemetries.Trace;
-import frc.robot.telemetries.TracePair;
 
 /**
  * Add your docs here.
@@ -108,25 +85,28 @@ public class SmartDashboard4905 {
         new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.E3);
     SmartDashboard.putData("Drive Test Path", driveTrainDiagonalPathGenerator.getPath());
 
-    
-
-    CommandBase barrelRacing = (new TwoDDriveTrainPathGenerator("BarrelRacing.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase barrelRacing = (new TwoDDriveTrainPathGenerator("BarrelRacing.wpilib.json",
+        subsystemsContainer.getDrivetrain())).getPath();
 
     SmartDashboard.putData("Barrel Racing 2d", barrelRacing);
 
-    CommandBase slalom = (new TwoDDriveTrainPathGenerator("Slalom.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase slalom = (new TwoDDriveTrainPathGenerator("Slalom.wpilib.json", subsystemsContainer.getDrivetrain()))
+        .getPath();
 
     SmartDashboard.putData("Slalom 2d", slalom);
 
-    CommandBase bounce1 = (new TwoDDriveTrainPathGenerator("BouncePart1.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
-    CommandBase bounce2 = (new TwoDDriveTrainPathGenerator("BouncePart2.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
-    CommandBase bounce3 = (new TwoDDriveTrainPathGenerator("BouncePart3.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
-    CommandBase bounce4 = (new TwoDDriveTrainPathGenerator("BouncePart4.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase bounce1 = (new TwoDDriveTrainPathGenerator("BouncePart1.wpilib.json",
+        subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase bounce2 = (new TwoDDriveTrainPathGenerator("BouncePart2.wpilib.json",
+        subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase bounce3 = (new TwoDDriveTrainPathGenerator("BouncePart3.wpilib.json",
+        subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase bounce4 = (new TwoDDriveTrainPathGenerator("BouncePart4.wpilib.json",
+        subsystemsContainer.getDrivetrain())).getPath();
 
     SequentialCommandGroup fullBounce = new SequentialCommandGroup(bounce1, bounce2, bounce3, bounce4);
 
     SmartDashboard.putData("Bounce 2d", fullBounce);
-    
 
     SmartDashboard.putData("RunDriveTrainWheels", new RunWheels(subsystemsContainer.getDrivetrain()));
 
