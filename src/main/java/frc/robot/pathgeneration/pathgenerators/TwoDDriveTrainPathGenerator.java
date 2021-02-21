@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Config4905;
-import frc.robot.pathgeneration.waypoints.WayPointWithHeading;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class TwoDDriveTrainPathGenerator extends TwoDPathGenerator {

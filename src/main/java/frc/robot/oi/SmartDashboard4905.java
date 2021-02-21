@@ -112,7 +112,21 @@ public class SmartDashboard4905 {
 
     CommandBase barrelRacing = (new TwoDDriveTrainPathGenerator("BarrelRacing.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
 
-    SmartDashboard.putData("Barrel Racing", barrelRacing);
+    SmartDashboard.putData("Barrel Racing 2d", barrelRacing);
+
+    CommandBase slalom = (new TwoDDriveTrainPathGenerator("Slalom.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
+
+    SmartDashboard.putData("Slalom 2d", slalom);
+
+    CommandBase bounce1 = (new TwoDDriveTrainPathGenerator("BouncePart1.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase bounce2 = (new TwoDDriveTrainPathGenerator("BouncePart2.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase bounce3 = (new TwoDDriveTrainPathGenerator("BouncePart3.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
+    CommandBase bounce4 = (new TwoDDriveTrainPathGenerator("BouncePart4.wpilib.json", subsystemsContainer.getDrivetrain())).getPath();
+
+    SequentialCommandGroup fullBounce = new SequentialCommandGroup(bounce1, bounce2, bounce3, bounce4);
+
+    SmartDashboard.putData("Bounce 2d", fullBounce);
+    
 
     SmartDashboard.putData("RunDriveTrainWheels", new RunWheels(subsystemsContainer.getDrivetrain()));
 
