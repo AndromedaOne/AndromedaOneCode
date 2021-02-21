@@ -1,6 +1,9 @@
 package frc.robot;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -57,7 +60,28 @@ public class Config4905 {
       m_nameConfig = ConfigFactory.parseFile(new File(m_linuxPathToHomeStr + "name.conf"));
       m_robotName = m_nameConfig.getString("robot.name");
     } else {
-      // for now assume we're running a Romi robot
+      // try to figure out which Romi we're on by looking at the SSID's we're
+      // connected to
+      // all of our Romi's will start with "4905_Romi" and potentially have some
+      // identifier
+      // after Romi. so search for 4905_Romi and extract the romi name and use this
+      // as the robot name
+      try {
+        Process proc = Runtime.getRuntime().exec("netsh wlan show interfaces");
+        BufferedReader bReader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        String line;
+        while ((line = bReader.readLine()) != null) {
+          if (line.matches("(.*)SSID(.*)4905_Romi(.*)")) {
+            System.out.println("SSID line: " + line);
+            String[] tokens = line.trim().split("\\s+");
+            System.out.println("Romi Robot name = " + tokens[2]);
+            m_robotName = tokens[2];
+          }
+        }
+      } catch (IOException e) {
+        System.out.println("ERROR: cannot find name of Romi via SSID");
+        e.printStackTrace();
+      }
       // the next line retrieves the path to the jar file that is being
       // executed. this should be in a standard place in the repo. from there
       // we can find the deploy directory and the configs
@@ -68,7 +92,6 @@ public class Config4905 {
       }
       // don't look for name.conf file, just use Romi
       m_baseDir = jarDir + "/src/main/";
-      m_robotName = "RomiRobot";
     }
     m_environmentalConfig = ConfigFactory
         .parseFile(new File(m_baseDir + "deploy/robotConfigs/" + m_robotName + "/robot.conf"));
