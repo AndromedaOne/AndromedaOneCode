@@ -17,15 +17,20 @@ public class RomiChallenge1 extends SequentialCommandGroup {
 
     @Override
     protected void loadWaypoints() {
-      addWayPoint(new Waypoint(0, 0));
-      addWayPoint(new Waypoint(0, 50));
-
+      addWayPoint(new Waypoint(0,0));
+      addWayPoint(new Waypoint(0,18.0));   // 0,18.5
+      addWayPoint(new Waypoint(-18,18.5));
+      addWayPoint(new Waypoint(-7,-8));  // -8,-8 
+      addWayPoint(new Waypoint(-25.75,-7.25));  // -26, -8
+      addWayPoint(new Waypoint(-27,10));
+  
     }
   }
 
   public RomiChallenge1(DriveTrain drivetrain) {
     PathGeneratorBase generaterbase = new DriveTrainDiagonalPathGenerator(new ChallengePath(), drivetrain,
-        new Waypoint(0, 0));
+        //new Waypoint(0, 0));  // 0, 0
+        new Waypoint(0,0), 0.50);  // was 0.75
     addCommands(generaterbase.getPath());
   }
 }
