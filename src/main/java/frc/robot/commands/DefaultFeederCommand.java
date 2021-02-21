@@ -122,7 +122,7 @@ public class DefaultFeederCommand extends CommandBase {
         setFeederState(FeederStates.SECOND_LOADING_2);
       }
       m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
-      m_feeder.stopStageTwo();
+      m_feeder.stopStageTwoAndThree();
       break;
 
     case SECOND_LOADING_2:
@@ -164,7 +164,7 @@ public class DefaultFeederCommand extends CommandBase {
         setFeederState(FeederStates.THIRD_LOADING_2);
       }
       m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
-      m_feeder.stopStageTwo();
+      m_feeder.stopStageTwoAndThree();
       break;
 
     case THIRD_LOADING_2:

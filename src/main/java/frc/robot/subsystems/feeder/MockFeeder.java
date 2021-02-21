@@ -26,7 +26,7 @@ public class MockFeeder extends FeederBase {
   }
 
   @Override
-  public void stopStageTwo() {
+  public void stopStageTwoAndThree() {
   }
 
   @Override
@@ -59,7 +59,7 @@ public class MockFeeder extends FeederBase {
   }
 
   @Override
-  public void runReverseStageTwo(double stageTwoSpeed, double stageThreeSpeed) {
+  public void runReverseStageTwoAndThree(double stageTwoSpeed, double stageThreeSpeed) {
 
   }
 
