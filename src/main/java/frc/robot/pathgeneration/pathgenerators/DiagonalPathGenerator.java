@@ -50,13 +50,12 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
     m_nextAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
     double newAngle = m_nextAngle;
     if (m_useReverse && (AngleConversionUtils.isTurnToCompassHeadingGreaterThan90(m_oldAngle, newAngle))) {
-      newAngle = 180 - m_nextAngle;
       if (m_lastDirection == RobotDirection.forward) {
         m_lastDirection = RobotDirection.reverse;
+        newAngle = m_nextAngle - 180;
         distance = -distance;
       } else {
         m_lastDirection = RobotDirection.forward;
-
       }
     }
     m_oldAngle = m_nextAngle;

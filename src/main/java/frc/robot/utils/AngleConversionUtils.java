@@ -14,19 +14,9 @@ public class AngleConversionUtils {
   }
 
   public static boolean isTurnToCompassHeadingGreaterThan90(double initialAngle, double finalAngle) {
-    double deltaAngle = 0;
-    if (initialAngle > finalAngle) {
-      if ((initialAngle - finalAngle) > 180) {
-        deltaAngle = (360 - initialAngle) + finalAngle;
-      } else {
-        deltaAngle = initialAngle - finalAngle;
-      }
-    } else {
-      if ((finalAngle - initialAngle) > 180) {
-        deltaAngle = (360 - finalAngle) + initialAngle;
-      } else {
-        deltaAngle = finalAngle - initialAngle;
-      }
+    double deltaAngle = Math.abs(initialAngle - finalAngle);
+    if (deltaAngle > 180) {
+      deltaAngle = 360 - deltaAngle;
     }
     return deltaAngle > 90;
   }
