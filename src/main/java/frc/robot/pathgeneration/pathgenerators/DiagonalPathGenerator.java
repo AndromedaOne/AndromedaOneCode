@@ -31,7 +31,6 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
   protected void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint) {
 
     double distance = m_currentWaypoint.distance(waypoint);
-    System.out.println("Intitial distance = " + distance);
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
     double deltaY = waypoint.getY() - m_currentWaypoint.getY();
     double angleInDegreesCenteredAt0 = Math.toDegrees(Math.atan(deltaX / deltaY));
@@ -50,22 +49,19 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
     m_nextAngle = AngleConversionUtils.ConvertAngleToCompassHeading(angleInDegreesCenteredAt0);
     double newAngle = m_nextAngle;
     if (m_useReverse && (AngleConversionUtils.isTurnToCompassHeadingGreaterThan90(m_oldAngle, newAngle))) {
-      newAngle = 180 - m_nextAngle;
       if (m_lastDirection == RobotDirection.forward) {
         m_lastDirection = RobotDirection.reverse;
-        distance = -distance;
       } else {
         m_lastDirection = RobotDirection.forward;
-
       }
+    }
+    if (m_lastDirection == RobotDirection.reverse) {
+      newAngle = m_nextAngle - 180;
+      distance = -distance;
     }
     m_oldAngle = m_nextAngle;
     double compassAngle = AngleConversionUtils.ConvertAngleToCompassHeading(newAngle);
-
-    System.out.println("initial Angle = " + compassAngle);
     if (distance != 0) {
-      System.out.println("final Distance = " + distance + "\nfinal Angle = " + compassAngle);
-
       m_path.addCommands(createTurnCommand(compassAngle));
       m_path.addCommands(createMoveCommand(distance, compassAngle));
     }
