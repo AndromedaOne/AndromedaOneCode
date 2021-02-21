@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.NavXGyroSensor;
+import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
 
 public abstract class RealDriveTrain extends DriveTrain {
   // Gyro variables
@@ -46,6 +48,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
+    super.periodic();
     double leftMeters = getLeftSideMeters();
     double rightMeters = getRightsSideMeters();
     m_odometry.update(navX.getRotation2d(), leftMeters, rightMeters);
@@ -55,14 +58,21 @@ public abstract class RealDriveTrain extends DriveTrain {
       // rightMeters);
       count = 0;
     }
+    Trace.getInstance().addTrace(true, "DriveOdometry", 
+    new TracePair<Double>("X", m_odometry.getPoseMeters().getTranslation().getX()),
+    new TracePair<Double>("Y", m_odometry.getPoseMeters().getTranslation().getY()));
 
   }
 
   public void init() {
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
-    m_drive.setRightSideInverted(false);
+    //m_drive.setRightSideInverted(false);
     resetEncoders();
+
+    Trace.getInstance().registerTraceEntry("DriveOdometry",
+        (pairs) -> pairs[0].getValue() + ", " + pairs[1].getValue(), (pairs) -> "x, y",
+        new TracePair<Double>("X", 0.0), new TracePair<Double>("Y", 0.0));
 
   }
 

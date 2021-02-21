@@ -12,6 +12,8 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
 
 public class SparkMaxDriveTrain extends RealDriveTrain {
   // public static SparkMaxController
@@ -67,6 +69,7 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
       encoders++;
       encoderPositionAvg += m_backRight.getEncoderPositionTicks();
     }
+    
     if (encoders > 0) {
       encoderPositionAvg = encoderPositionAvg / (ticksPerInch * encoders);
     }

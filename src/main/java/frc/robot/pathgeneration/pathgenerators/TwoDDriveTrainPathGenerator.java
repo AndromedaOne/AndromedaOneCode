@@ -11,9 +11,13 @@ public class TwoDDriveTrainPathGenerator extends TwoDPathGenerator {
 
   DriveTrain m_driveTrain;
 
-  public TwoDDriveTrainPathGenerator(String jsonFileName, DriveTrain driveTrain) {
-    super(jsonFileName, Config4905.getConfig4905().getDrivetrainConfig());
+  public TwoDDriveTrainPathGenerator(String jsonFileName, DriveTrain driveTrain, boolean resetOdometry, String name) {
+    super(jsonFileName, Config4905.getConfig4905().getDrivetrainConfig(), resetOdometry, name);
     m_driveTrain = driveTrain;
+  }
+
+  public TwoDDriveTrainPathGenerator(String jsonFileName, DriveTrain driveTrain, String name) {
+    this(jsonFileName, driveTrain, true, name);
   }
 
   @Override
@@ -37,8 +41,8 @@ public class TwoDDriveTrainPathGenerator extends TwoDPathGenerator {
   }
 
   @Override
-  protected void resetOdometryToZero() {
-    m_driveTrain.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+  protected void resetOdometryToZero(Pose2d initialPosition) {
+    m_driveTrain.resetOdometry(initialPosition);
   }
 
 }
