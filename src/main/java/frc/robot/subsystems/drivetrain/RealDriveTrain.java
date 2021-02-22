@@ -152,7 +152,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    */
   public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
     m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
-    if (forwardBackSpeed < 0 ) {
+    if (forwardBackSpeed < 0) {
       Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(1.0, 1.0, 1.0);
     } else if (forwardBackSpeed > 0) {
       Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 0, 1.0);
