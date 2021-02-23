@@ -16,19 +16,17 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 
 public class SlalomPath extends SequentialCommandGroup {
   private static double robotLengthInches = 40;
-  private static double maximumPower = 0.5;
+  private static double maximumPower = 1;
   private static Waypoint initialPoint = AtHomeChallengePoints.E2.subtract(new Waypoint(0, robotLengthInches / 2));
 
   private class SlalomWaypoints extends WaypointsBase {
     @Override
     protected void loadWaypoints() {
       addWayPoint(initialPoint);
-      addWayPoint(AtHomeChallengePoints.E3);
-      addWayPoint(AtHomeChallengePoints.C3);
-      addWayPoint(AtHomeChallengePoints.C9);
-      addWayPoint(AtHomeChallengePoints.E9);
+      addWayPoint(AtHomeChallengePoints.E2);
+      addWayPoint(AtHomeChallengePoints.A6);
+      addWayPoint(AtHomeChallengePoints.E10);
       addWayPoint(AtHomeChallengePoints.E11);
-      addWayPoint(AtHomeChallengePoints.C11);
       addWayPoint(AtHomeChallengePoints.C11);
       addWayPoint(AtHomeChallengePoints.C9);
       addWayPoint(AtHomeChallengePoints.E9);

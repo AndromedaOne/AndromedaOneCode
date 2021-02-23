@@ -13,6 +13,7 @@ import com.typesafe.config.Config;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.*;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -50,6 +51,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
   }
 
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
     Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
     super.initialize();
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
@@ -58,8 +60,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"),
         pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
-
-    System.out.println("Turning to Compass Heading: " + m_compassHeading);
+    Trace.getInstance().logCommandInfo(this, "Turning to Compass Heading: " + m_compassHeading);
   }
 
   // Returns true when the command should end.
@@ -70,6 +71,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
 
   public void end(boolean interrupted) {
     super.end(interrupted);
+    Trace.getInstance().logCommandStop(this);
     Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
   }
 
