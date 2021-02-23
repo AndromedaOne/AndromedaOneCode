@@ -44,7 +44,8 @@ public class Config4905 {
 
   private Config commandConstantsConfig;
 
-  private static Config4905 m_config4905 = null;
+  private static Config ledConfig;
+
 
   // current linux home dir on a roborio
   private final String m_linuxPathToHomeStr = "/home/lvuser/";
@@ -123,6 +124,7 @@ public class Config4905 {
     feederConfig = load("Feeder.conf");
     drivetrainConfig = load("drivetrain.conf");
     climberConfig = load("Climber.conf");
+    ledConfig = load("LED.conf");
   }
 
   public Config getClimberConfig() {
@@ -155,6 +157,18 @@ public class Config4905 {
 
   public boolean doesFeederExist() {
     if (m_config.hasPath("subsystems.feeder")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getLEDConfig() {
+    return ledConfig;
+  }
+
+  public boolean doesLEDExist() {
+    if (m_config.hasPath("subsystems.LED")) {
       return true;
     } else {
       return false;
