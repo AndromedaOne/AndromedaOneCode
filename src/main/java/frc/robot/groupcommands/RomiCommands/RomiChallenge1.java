@@ -18,11 +18,11 @@ public class RomiChallenge1 extends SequentialCommandGroup {
     @Override
     protected void loadWaypoints() {
       addWayPoint(new Waypoint(0,0));
-      addWayPoint(new Waypoint(0,18.0));   // 0,18.5
-      addWayPoint(new Waypoint(-18,18.5));
+      addWayPoint(new Waypoint(0,18));   // 0,18.5
+      addWayPoint(new Waypoint(-16.5,18.5));
       addWayPoint(new Waypoint(-7,-8));  // -8,-8 
-      addWayPoint(new Waypoint(-25.75,-7.25));  // -26, -8
-      addWayPoint(new Waypoint(-27,10));
+      addWayPoint(new Waypoint(-25.75,-6.5));  // -26, -8
+      addWayPoint(new Waypoint(-26.5,10.5));
   
     }
   }
