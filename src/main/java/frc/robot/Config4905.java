@@ -44,8 +44,9 @@ public class Config4905 {
 
   private Config commandConstantsConfig;
 
-  private static Config ledConfig;
+  private Config ledConfig;
 
+  private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
   private final String m_linuxPathToHomeStr = "/home/lvuser/";
