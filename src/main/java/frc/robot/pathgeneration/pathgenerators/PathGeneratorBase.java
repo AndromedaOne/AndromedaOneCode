@@ -15,6 +15,7 @@ public abstract class PathGeneratorBase {
   }
 
   public CommandBase getPath() {
+    System.out.println("\nGenerating New Path");
     iterateThroughWaypointsToGeneratePath();
     return getGeneratedPath();
   }

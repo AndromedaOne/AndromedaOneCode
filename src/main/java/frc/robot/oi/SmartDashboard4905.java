@@ -15,7 +15,6 @@ import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
-import frc.robot.groupcommands.athomechallengepathways.AtHomeChallengePoints;
 import frc.robot.groupcommands.athomechallengepathways.BarrelRacingPath;
 import frc.robot.groupcommands.athomechallengepathways.BouncePath;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
@@ -26,9 +25,7 @@ import frc.robot.groupcommands.athomechallengepathways.HyperDriveChallenge;
 import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChallenge;
 import frc.robot.groupcommands.athomechallengepathways.PowerPortStart;
 import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
-import frc.robot.groupcommands.athomechallengepathways.TestPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
-import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -70,16 +67,14 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Galactic Search Path B", new GalacticSearchPathB());
     SmartDashboard.putData("InterstellerAccuracyChallenge", new InterstellarAccuracyChallenge(
         subsystemsContainer.getDrivetrain(), subsystemsContainer.getShooter(), subsystemsContainer.getFeeder()));
-    SmartDashboard.putData("Bounce Path", new BouncePath(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("Bounce Path",
+        new BouncePath(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
     SmartDashboard.putData("Slalom Path", new SlalomPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Barrel Racing Path", new BarrelRacingPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Hyper Drive Challenge", new HyperDriveChallenge(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Power Port Start", new PowerPortStart(subsystemsContainer.getDrivetrain(),
         subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
 
-    DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(
-        new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.E3);
-    SmartDashboard.putData("Drive Test Path", driveTrainDiagonalPathGenerator.getPath());
   }
 
   public Command getSelectedAutoChooserCommand() {
