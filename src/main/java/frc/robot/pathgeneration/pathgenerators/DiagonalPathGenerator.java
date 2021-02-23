@@ -21,14 +21,14 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
   private RobotDirection m_lastDirection = RobotDirection.forward;
 
   public DiagonalPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint, boolean useReverse) {
-    super(waypoints, initialWaypoint);
+    super(waypoints);
     m_useReverse = useReverse;
-    m_currentWaypoint = new Waypoint(0, 0);
+    m_currentWaypoint = initialWaypoint;
     m_path = new SequentialCommandGroup();
   }
 
   @Override
-  protected void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint) {
+  protected void generatePathForNextWaypoint(Waypoint waypoint) {
 
     double distance = m_currentWaypoint.distance(waypoint);
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
