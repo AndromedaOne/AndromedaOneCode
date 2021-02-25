@@ -20,8 +20,9 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
   private RobotDirection m_lastDirection = RobotDirection.forward;
 
-  public DiagonalPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint, boolean useReverse) {
+  public DiagonalPathGenerator(String pathName, WaypointsBase waypoints, Waypoint initialWaypoint, boolean useReverse) {
     super(waypoints);
+    System.out.println("Generating path for " + pathName);
     m_useReverse = useReverse;
     m_currentWaypoint = initialWaypoint;
     m_path = new SequentialCommandGroup();

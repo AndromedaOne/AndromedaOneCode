@@ -15,9 +15,9 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
   private double m_maxOutput;
   private boolean m_pauseAfterTurn = false;
 
-  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint,
-      double maxOutputs, boolean useReverse, boolean pauseAfterTurn) {
-    super(waypoints, initialWaypoint, useReverse);
+  public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
+      Waypoint initialWaypoint, double maxOutputs, boolean useReverse, boolean pauseAfterTurn) {
+    super(pathName, waypoints, initialWaypoint, useReverse);
     m_maxOutput = maxOutputs;
     m_driveTrain = driveTrain;
     m_pauseAfterTurn = pauseAfterTurn;
