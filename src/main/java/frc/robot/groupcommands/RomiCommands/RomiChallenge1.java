@@ -28,9 +28,10 @@ public class RomiChallenge1 extends SequentialCommandGroup {
   }
 
   public RomiChallenge1(DriveTrain drivetrain) {
+    System.out.println("Generating RomiChallenge1 path");
     PathGeneratorBase generaterbase = new DriveTrainDiagonalPathGenerator(new ChallengePath(), drivetrain,
         //new Waypoint(0, 0));  // 0, 0
-        new Waypoint(0,0), 0.50, true);  // was 0.75
+        new Waypoint(0,0), 0.50, false);  // was 0.75
     addCommands(generaterbase.getPath());
   }
 }

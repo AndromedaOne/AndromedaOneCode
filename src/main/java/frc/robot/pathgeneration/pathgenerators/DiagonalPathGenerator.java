@@ -29,7 +29,11 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
 
   @Override
   protected void generatePathForNextWaypoint(Waypoint waypoint) {
-
+    System.out.print("Waypoint 1: ");
+    m_currentWaypoint.prettyPrint();
+    System.out.print("Waypoint 2: ");
+    waypoint.prettyPrint();
+    
     double distance = m_currentWaypoint.distance(waypoint);
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
     double deltaY = waypoint.getY() - m_currentWaypoint.getY();
@@ -66,6 +70,7 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
       m_path.addCommands(createMoveCommand(distance, compassAngle));
     }
     m_currentWaypoint = waypoint;
+    System.out.println("Direction: " + m_lastDirection.toString() + "\tdistance: " + distance + "\tangle: " + compassAngle);
   }
 
   protected abstract CommandBase createTurnCommand(double angle);
