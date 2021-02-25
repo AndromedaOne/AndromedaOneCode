@@ -62,14 +62,14 @@ public class GalacticSearchPathA extends CommandBase {
     final double distanceToPowercell = sumOfUltrasonicDistances / count;
     if (distanceToPowercell <= 30) {
       DriveTrainDiagonalPathGenerator red = new DriveTrainDiagonalPathGenerator(new RedPath(),
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain(), startPoint, maxSpeed, false);
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain(), startPoint, maxSpeed, false, false);
       CommandBase redPath = red.getPath();
       CommandBase cmd = new ParallelDeadlineGroup(redPath,
           new DeployAndRunIntake(Robot.getInstance().getSubsystemsContainer().getIntake(), () -> false));
       CommandScheduler.getInstance().schedule(cmd);
     } else {
       DriveTrainDiagonalPathGenerator blue = new DriveTrainDiagonalPathGenerator(new BluePath(),
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain(), startPoint, maxSpeed, false);
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain(), startPoint, maxSpeed, false, false);
       CommandBase bluePath = blue.getPath();
       CommandBase cmdblue = new ParallelDeadlineGroup(bluePath,
           new DeployAndRunIntake(Robot.getInstance().getSubsystemsContainer().getIntake(), () -> false));

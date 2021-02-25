@@ -51,7 +51,7 @@ public class BouncePath extends SequentialCommandGroup {
   public BouncePath(DriveTrain driveTrain, IntakeBase intake) {
     System.out.println("Generating Path for Bounce");
     PathGeneratorBase pathGenerator = new DriveTrainDiagonalPathGenerator(new BounceWaypoints(), driveTrain,
-        initialPoint, maximumPower, true);
+        initialPoint, maximumPower, true, false);
     addCommands(new ParallelCommandGroup(pathGenerator.getPath(), new DeployAndRunIntake(intake, () -> false)));
   }
 }

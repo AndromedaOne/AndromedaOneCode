@@ -38,7 +38,7 @@ public class SlalomPath extends SequentialCommandGroup {
 
   public SlalomPath(DriveTrain driveTrain) {
     PathGeneratorBase pathGenerator = new DriveTrainDiagonalPathGenerator(new SlalomWaypoints(), driveTrain,
-        initialPoint, maximumPower);
+        initialPoint, maximumPower, false, false);
     addCommands(pathGenerator.getPath());
   }
 }

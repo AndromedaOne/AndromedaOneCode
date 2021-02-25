@@ -30,7 +30,7 @@ public class RomiExamplePath extends SequentialCommandGroup {
   /** Creates a new RomiExamplePath. */
   public RomiExamplePath(DriveTrain driveTrain) {
     PathGeneratorBase path = new DriveTrainDiagonalPathGenerator(new ExampleWayPoints(), driveTrain, new Waypoint(0, 0),
-        0.5);
+        0.5, true, true);
     addCommands(path.getPath(), new TurnToCompassHeading(0));
   }
 }
