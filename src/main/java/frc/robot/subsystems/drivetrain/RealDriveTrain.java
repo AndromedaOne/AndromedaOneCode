@@ -10,6 +10,7 @@ package frc.robot.subsystems.drivetrain;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -58,12 +59,33 @@ public abstract class RealDriveTrain extends DriveTrain {
       // rightMeters);
       count = 0;
     }
-    Trace.getInstance().addTrace(true, "DriveOdometry", 
+    Trace.getInstance().addTrace(false, "DriveOdometry", 
     new TracePair<Double>("X", m_odometry.getPoseMeters().getTranslation().getX()),
     new TracePair<Double>("Y", m_odometry.getPoseMeters().getTranslation().getY()));
 
+    double currentTime = timer.get();
+    double dt = currentTime - m_prevTime;
+    double leftSpeed = getLeftRateMetersPerSecond();
+    double rightSpeed = getRightRateMetersPerSecond();
+    double leftAcceleration = (leftSpeed - prevLeftSpeed) / dt;
+    double rightAcceleration = (rightSpeed - prevRightSpeed) / dt;
+
+
+    Trace.getInstance().addTrace(true, "DriveVelocities", 
+    new TracePair<Double>("LeftVelocity", leftSpeed),
+    new TracePair<Double>("RightVelocity", rightSpeed),
+    new TracePair<Double>("RightAcceleration", rightAcceleration),
+    new TracePair<Double>("LeftAcceleration", leftAcceleration));
+
+    prevLeftSpeed = leftSpeed;
+    prevRightSpeed = rightSpeed;
+    m_prevTime = currentTime;
   }
 
+  private Timer timer;
+  private double m_prevTime;
+  private double prevLeftSpeed = 0;
+  private double prevRightSpeed = 0;
   public void init() {
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
@@ -73,7 +95,11 @@ public abstract class RealDriveTrain extends DriveTrain {
     Trace.getInstance().registerTraceEntry("DriveOdometry",
         (pairs) -> pairs[0].getValue() + ", " + pairs[1].getValue(), (pairs) -> "x, y",
         new TracePair<Double>("X", 0.0), new TracePair<Double>("Y", 0.0));
-
+    timer = new Timer();
+    timer.start();
+    m_prevTime = timer.get();
+    prevLeftSpeed = 0;
+    prevRightSpeed = 0;
   }
 
   /**
@@ -226,7 +252,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   @Override
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     getLeftSpeedControllerGroup().setVoltage(leftVolts);
-    getRightSpeedControllerGroup().setVoltage(rightVolts);
+    getRightSpeedControllerGroup().setVoltage(-rightVolts);
     m_drive.feed();
   }
 

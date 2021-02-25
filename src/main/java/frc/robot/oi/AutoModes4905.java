@@ -5,6 +5,8 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntake;
 import frc.robot.commands.DoNothingAuto;
@@ -20,6 +22,7 @@ import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
+import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -112,9 +115,21 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (-2*12)))); 
         m_autoChooser.addOption("13: galactic Search Path A", new GalacticSearchPathA());
         m_autoChooser.addOption("14: galactic Search Path B", new GalacticSearchPathB());
-        m_autoChooser.addOption("15: AutoNav: Barrel", new BarrelRacingPath(driveTrain));
-        m_autoChooser.addOption("16: AutoNav: Slalom", new SlalomPath(driveTrain));
-        m_autoChooser.addOption("17: AutoNav: Bounce", new BouncePath(driveTrain));
+        m_autoChooser.addOption("15: AutoNav: Barrel", (new TwoDDriveTrainPathGenerator("BarrelRacing.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "BarrelRacing")).getPath());
+        m_autoChooser.addOption("16: AutoNav: Slalom", new TwoDDriveTrainPathGenerator("Slalom.wpilib.json", subsystemsContainer.getDrivetrain(), "Slalom")
+        .getPath());
+        CommandBase bounce1 = (new TwoDDriveTrainPathGenerator("BouncePart1.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "BounceP1")).getPath();
+        CommandBase bounce2 = (new TwoDDriveTrainPathGenerator("BouncePart2.wpilib.json",
+            subsystemsContainer.getDrivetrain(), false, "BounceP2")).getPath();
+        CommandBase bounce3 = (new TwoDDriveTrainPathGenerator("BouncePart3.wpilib.json",
+            subsystemsContainer.getDrivetrain(), false, "BounceP3")).getPath();
+        CommandBase bounce4 = (new TwoDDriveTrainPathGenerator("BouncePart4.wpilib.json",
+            subsystemsContainer.getDrivetrain(), false, "BounceP4")).getPath();
+
+        SequentialCommandGroup fullBounce = new SequentialCommandGroup(bounce1, bounce2, bounce3, bounce4);
+        m_autoChooser.addOption("17: AutoNav: Bounce", fullBounce);
 
                                                                 
           SmartDashboard.putData("autoModes", m_autoChooser);
