@@ -95,38 +95,6 @@ public class Trace {
     });
   }
 
-  private class TraceEntry<T> {
-    private BufferedWriter m_file;
-    private int m_numbOfValues;
-    private Function<TracePair<T>[], String> formatter;
-    private Function<TracePair<T>[], String> headerFormatter;
-
-    public TraceEntry(BufferedWriter file, int numbOfValues, Function<TracePair<T>[], String> formatter,
-        Function<TracePair<T>[], String> headerFormatter) {
-      m_file = file;
-      m_numbOfValues = numbOfValues;
-      this.formatter = formatter;
-      this.headerFormatter = headerFormatter;
-    }
-
-    public BufferedWriter getFile() {
-      return (m_file);
-    }
-
-    public long getNumbOfValues() {
-      return (m_numbOfValues);
-    }
-
-    public String format(TracePair<T>... tracePair) {
-      return formatter.apply(tracePair);
-    }
-
-    public String formatHeader(TracePair<T>... header) {
-      return headerFormatter.apply(header);
-    }
-
-  }
-
   public synchronized static Trace getInstance() {
     if (m_instance == null) {
       m_instance = new Trace();
@@ -262,7 +230,7 @@ public class Trace {
         String fullFileName = new String(m_pathOfTraceDir + "/" + fileName + ".csv");
         FileWriter fstream = new FileWriter(fullFileName, false);
         outputFile = new BufferedWriter(fstream);
-        traceEntry = new TraceEntry<T>(outputFile, header.length, formatter, headerFormatter);
+        traceEntry = new TraceEntry<T>(outputFile, header.length, formatter, headerFormatter, fileName);
         m_traces.put(fileName, traceEntry);
         String line = traceEntry.formatHeader(header);
         outputFile.write(line);
@@ -288,6 +256,9 @@ public class Trace {
         return;
       }
       if (traceEntry == null) {
+        return;
+      }
+      if (!traceEntry.getActivated()) {
         return;
       }
       if (values.length != traceEntry.getNumbOfValues()) {
