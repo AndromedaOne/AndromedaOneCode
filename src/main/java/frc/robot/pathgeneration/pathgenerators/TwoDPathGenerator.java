@@ -41,7 +41,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
         // Do Nothing, Path is already generated within the json file.
       }
 
-    }, new Waypoint(0, 0)); // Inital Waypoint is set to 0,0 because the intial point is taken care of
+    }); // Inital Waypoint is set to 0,0 because the intial point is taken care of
                             // within get generated path.
     trajectory = null;
     try {
@@ -58,13 +58,12 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
     m_driveKinematics = new DifferentialDriveKinematics(m_trackwidthMeters);
     m_ramseteB = config.getDouble("pathplanningconstants.kRamseteB");
     m_ramseteZeta = config.getDouble("pathplanningconstants.kRamseteZeta");
-    setInitialWaypoint(new Waypoint(trajectory.getInitialPose()));
     m_resetOdometryToZero = resetOdometryToZero;
     m_name = name;
   }
 
   @Override
-  protected void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint) {
+  protected void generatePathForNextWaypoint(Waypoint waypoint) {
     // Do Nothing, Path is already generated within the json file.
 
   }

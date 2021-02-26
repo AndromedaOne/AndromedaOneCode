@@ -12,14 +12,6 @@ public abstract class PathGeneratorBase {
     m_waypoints = waypoints;
   }
 
-  protected void setInitialWaypoint(Waypoint initialPoint) {
-    m_initialPoint = initialPoint;
-  }
-
-  protected Waypoint getInitialWaypoint() {
-    return m_initialPoint;
-  }
-
   public CommandBase getPath() {
     System.out.println("\nGenerating New Path");
     iterateThroughWaypointsToGeneratePath();

@@ -8,12 +8,12 @@ import frc.robot.pathgeneration.waypoints.WaypointsBase;
 
 public class DriveTrain2DPathPlanning extends PathGeneratorBase {
 
-  public DriveTrain2DPathPlanning(WaypointsBase waypoints, Waypoint initalPoint, Config driveTrainConfig) {
-    super(waypoints, initalPoint);
+  public DriveTrain2DPathPlanning(WaypointsBase waypoints, Config driveTrainConfig) {
+    super(waypoints);
   }
 
   @Override
-  protected void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint) {
+  protected void generatePathForNextWaypoint(Waypoint waypoint) {
 
   }
 
