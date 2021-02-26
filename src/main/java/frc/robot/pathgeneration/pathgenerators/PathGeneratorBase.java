@@ -7,11 +7,9 @@ import frc.robot.pathgeneration.waypoints.WaypointsBase;
 public abstract class PathGeneratorBase {
 
   private WaypointsBase m_waypoints;
-  private Waypoint m_initialPoint;
 
-  public PathGeneratorBase(WaypointsBase waypoints, Waypoint initialPoint) {
+  public PathGeneratorBase(WaypointsBase waypoints) {
     m_waypoints = waypoints;
-    m_initialPoint = initialPoint;
   }
 
   protected void setInitialWaypoint(Waypoint initialPoint) {
@@ -23,17 +21,18 @@ public abstract class PathGeneratorBase {
   }
 
   public CommandBase getPath() {
+    System.out.println("\nGenerating New Path");
     iterateThroughWaypointsToGeneratePath();
     return getGeneratedPath();
   }
 
   private void iterateThroughWaypointsToGeneratePath() {
     for (Waypoint w : m_waypoints) {
-      generatePathForNextRelativeToStartWaypoint(w.subtract(m_initialPoint));
+      generatePathForNextWaypoint(w);
     }
   }
 
-  protected abstract void generatePathForNextRelativeToStartWaypoint(Waypoint waypoint);
+  protected abstract void generatePathForNextWaypoint(Waypoint waypoint);
 
   protected abstract CommandBase getGeneratedPath();
 

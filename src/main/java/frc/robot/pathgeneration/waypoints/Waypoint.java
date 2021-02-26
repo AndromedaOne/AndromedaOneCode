@@ -89,4 +89,8 @@ public class Waypoint extends Point2D {
 
     return new Waypoint((sumOfX / count), (sumOfY / count));
   }
+
+  public void prettyPrint() {
+    System.out.println("(" + getX() + ", " + getY() + ")");
+  }
 }
