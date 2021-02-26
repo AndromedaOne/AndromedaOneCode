@@ -36,8 +36,7 @@ public class Robot extends TimedRobot {
   private LimeLightCameraBase limelight;
 
   private Robot() {
-    CommandScheduler.getInstance().onCommandInitialize((command) -> Trace.getInstance().logCommandStart(command));
-    CommandScheduler.getInstance().onCommandFinish((command) -> Trace.getInstance().logCommandStop(command));
+
   }
 
   static Robot m_instance;
@@ -62,10 +61,11 @@ public class Robot extends TimedRobot {
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
-
     m_subsystemContainer.setDefaultCommands();
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").clearColor();
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(1.0, 1.0, 1.0);
   }
 
   /**
@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
     SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
     SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
-
+    SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
   }
 
   /**
@@ -139,6 +139,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 1.0, 0);
 
   }
 
