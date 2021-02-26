@@ -55,6 +55,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     // Configure additional PID options by calling `getController` here.
     addRequirements(drivetrain);
   }
+
   public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
     this(drivetrain, distance, false, 0);
     m_maxOutput = maxOutput;
