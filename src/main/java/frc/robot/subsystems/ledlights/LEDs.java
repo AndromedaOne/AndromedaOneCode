@@ -9,19 +9,20 @@ public abstract class LEDs extends SubsystemBase {
   protected DigitalOutput m_red;
   protected DigitalOutput m_green;
   protected DigitalOutput m_blue;
-  protected final double KBLINKSPEEDMULTIPLIER = 1.5;
+  protected final int KBLINKPERIOD = 100;
   protected int m_blinkCounter = 0;
   private double m_redValue = 0;
   private double m_greenValue = 0;
   private double m_blueValue = 0;
   private boolean m_ledsOn = false;
   private int m_rainbowCounter = 0;
+  protected boolean m_readyForPeriodic;
 
   enum Mode {
     SOLID, BLINKING, RAINBOW,
   };
 
-  Mode m_mode;
+  Mode m_mode = Mode.BLINKING;
 
   public void setSolid() {
     m_mode = Mode.SOLID;
@@ -35,22 +36,38 @@ public abstract class LEDs extends SubsystemBase {
     m_mode = Mode.RAINBOW;
   }
 
-  public void update() {
+  @Override
+  public void periodic() {
+    if (!m_readyForPeriodic) {
+      return;
+    }
+    Color color;
     switch (m_mode) {
 
     case SOLID:
+    color = new Color(m_redValue, m_greenValue, m_blueValue);
       break;
 
     case BLINKING:
-
+      if (m_blinkCounter < KBLINKPERIOD / 2) {
+        color = new Color(0, 0, 0);
+      } else {
+        color = new Color(m_redValue, m_greenValue, m_blueValue);
+      }
+      m_blinkCounter = (m_blinkCounter + 1) % KBLINKPERIOD;
       break;
 
     case RAINBOW:
       m_rainbowCounter = (m_rainbowCounter + 1) % 100;
-      Color color = rainbow(m_rainbowCounter, 100);
-      setRGB(color.red, color.green, color.blue);
+      color = rainbow(m_rainbowCounter, 100);
       break;
+
+    default: 
+      color = new Color(1.0, .8, .8);  //Pink
     }
+    m_red.updateDutyCycle(validateBrightness(color.red));
+    m_green.updateDutyCycle(validateBrightness(color.green));
+    m_blue.updateDutyCycle(validateBrightness(color.blue));
 
   }
 
@@ -59,9 +76,6 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void clearColor() {
     m_ledsOn = false;
-    m_red.updateDutyCycle(0);
-    m_green.updateDutyCycle(0);
-    m_blue.updateDutyCycle(0);
     m_redValue = 0;
     m_blueValue = 0;
     m_greenValue = 0;
@@ -105,9 +119,6 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setRGB(double red, double green, double blue) {
     clearColor();
-    this.m_red.updateDutyCycle(validateBrightness(red));
-    this.m_green.updateDutyCycle(validateBrightness(green));
-    this.m_blue.updateDutyCycle(validateBrightness(blue));
     m_redValue = red;
     m_greenValue = green;
     m_blueValue = blue;
@@ -119,8 +130,16 @@ public abstract class LEDs extends SubsystemBase {
   public void setRed(double brightness) {
     clearColor();
     m_redValue = brightness;
-    m_red.updateDutyCycle(validateBrightness(brightness));
   }
+  /**
+   * This method takes a brightness value from 0 - 1 for yellow
+   */
+  public void setYellow(double brightness) {
+    clearColor();
+    m_redValue = brightness;
+    m_greenValue = brightness / 1.5;
+  }
+
 
   /**
    * This method takes a brightness value from 0 - 1 for green
@@ -128,7 +147,6 @@ public abstract class LEDs extends SubsystemBase {
   public void setGreen(double brightness) {
     clearColor();
     m_greenValue = brightness;
-    m_green.updateDutyCycle(validateBrightness(brightness));
   }
 
   /**
@@ -137,7 +155,6 @@ public abstract class LEDs extends SubsystemBase {
   public void setBlue(double brightness) {
     clearColor();
     m_blueValue = brightness;
-    m_blue.updateDutyCycle(validateBrightness(brightness));
   }
 
   /**
@@ -145,9 +162,6 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setWhite(double brightness) {
     clearColor();
-    m_red.updateDutyCycle(validateBrightness(brightness));
-    m_green.updateDutyCycle(validateBrightness(brightness));
-    m_blue.updateDutyCycle(validateBrightness(brightness));
     m_redValue = brightness;
     m_greenValue = brightness;
     m_blueValue = brightness;
@@ -159,8 +173,6 @@ public abstract class LEDs extends SubsystemBase {
   public void setPurple(double brightness) {
     clearColor();
     System.out.println("Setting purple to: " + validateBrightness(brightness));
-    m_blue.updateDutyCycle(validateBrightness(brightness));
-    m_red.updateDutyCycle(validateBrightness(brightness));
     m_redValue = brightness;
     m_blueValue = brightness;
   }

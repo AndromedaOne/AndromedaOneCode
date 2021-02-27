@@ -19,5 +19,6 @@ public class RealLEDs extends LEDs {
     m_blue.enablePWM(0);
     setPurple(1.0);
 
+    m_readyForPeriodic = true;
   }
 }
