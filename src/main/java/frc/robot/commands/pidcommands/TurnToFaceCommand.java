@@ -36,8 +36,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
         // This should return the setpoint (can also be a constant)
         0.0,
         // This uses the output
-        (lambda) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0, -lambda, false,
-            false));
+        (lambda) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0.0, -lambda, false));
 
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
 

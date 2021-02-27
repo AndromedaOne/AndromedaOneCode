@@ -47,6 +47,7 @@ public class TeleOpCommand extends CommandBase {
   public void initialize() {
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
+    m_driveTrain.resetCurrentDelay();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -99,7 +100,7 @@ public class TeleOpCommand extends CommandBase {
     } else {
       Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 1.0, 0);
     }
-    m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
+    m_driveTrain.moveUsingGyroForHumanDriver(forwardBackwardStickValue, -rotateStickValue, true, false);
   }
 
   // Called once the command ends or is interrupted.

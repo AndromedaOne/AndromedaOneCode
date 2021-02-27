@@ -38,7 +38,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output, false, false);
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
         });
     this.m_compassHeading = compassHeading;
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());

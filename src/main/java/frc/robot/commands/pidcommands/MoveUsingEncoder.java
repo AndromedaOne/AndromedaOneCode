@@ -40,12 +40,12 @@ public class MoveUsingEncoder extends PIDCommand4905 {
           // Use the output here
           if (useCompassHeading) {
             // this is newer code that every new creation of move using encoder should use
-            drivetrain.moveUsingGyro(output, 0, heading);
+            drivetrain.moveUsingGyroForAutomated(output, 0, heading);
           } else {
             // this is older code that every new creation of move using encoder should not
             // use\
             // it only exists right now to make sure that past autonomous modes still work
-            drivetrain.moveUsingGyro(output, 0, false, false);
+            drivetrain.moveUsingGyroForHumanDriver(output, 0, false, false);
           }
         });
     m_distance = distance;

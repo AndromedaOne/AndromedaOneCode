@@ -41,26 +41,14 @@ public abstract class DriveTrain extends SubsystemBase {
    *                 after turning this allows the robot to drift naturally as you
    *                 turn
    */
-  public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+  public abstract void moveUsingGyroForHumanDriver(double forwardBackward, double rotation, boolean useDelay,
       boolean useSquaredInputs);
 
-  /**
-   * This moves the robot and corrects for any rotation using the gyro
-   * 
-   * @param useDelay The delay will delay how long the gyro will wait to correct
-   *                 after turning this allows the robot to drift naturally as you
-   *                 turn
-   * @param heading  Setting a heading will allow you to set what angle the robot
-   *                 will correct to. This is useful in auto after the robot turns
-   *                 you can tell it to correct to the heading it should have turn
-   *                 to.
-   */
-  public abstract void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
-      boolean useSquaredInputs, double heading);
-
-  public abstract void moveUsingGyro(double forwardBackward, double rotation, double heading);
+  public abstract void moveUsingGyroForAutomated(double forwardBackward, double rotation, double heading);
 
   public void stop() {
     move(0, 0, false);
   }
+
+  public abstract void resetCurrentDelay();
 }
