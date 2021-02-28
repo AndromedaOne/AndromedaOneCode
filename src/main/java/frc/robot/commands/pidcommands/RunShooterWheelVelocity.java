@@ -9,6 +9,7 @@ import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
+import frc.robot.utils.InterpolatingMap;
 
 public class RunShooterWheelVelocity extends PIDCommand4905 {
   private SimpleMotorFeedforward m_feedForward;
@@ -118,8 +119,10 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   }
 
   private SimpleMotorFeedforward createFeedForward() {
-    double ks = m_pidConfig.getDouble("runshooterwheelvelocity.s");
-    double kv = m_pidConfig.getDouble("runshooterwheelvelocity.v");
+    double ks = 0;
+    InterpolatingMap kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+        "shooterTargetRPMAndKValues");
+    double kv = kMap.getInterpolatedValue(m_target);
 
     return new SimpleMotorFeedforward(ks, kv);
   }
