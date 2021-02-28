@@ -17,12 +17,20 @@ public class RomiChallenge1 extends SequentialCommandGroup {
 
     @Override
     protected void loadWaypoints() {
-      addWayPoint(new Waypoint(0,0));
-      addWayPoint(new Waypoint(0,18));   // 0,18.5
-      addWayPoint(new Waypoint(-16.5,18.5));
-      addWayPoint(new Waypoint(-7,-8));  // -8,-8 
-      addWayPoint(new Waypoint(-25.75,-6.5));  // -26, -8
-      addWayPoint(new Waypoint(-26.5,10.5));
+      
+      //
+      // Autonomouse code
+      // this code is to be used with 0.65 and true as values into the constructor
+      // it also stops at the mid point of the circle
+      //   
+      addWayPoint(new Waypoint(0,0));  // home base
+      addWayPoint(new Waypoint(0,18.0));   // straight forward
+      addWayPoint(new Waypoint(-17.75,18.0)); // turn left straight into yellow
+      addWayPoint(new Waypoint(-11.32, 8));  // from yellow into mid point of circle
+      addWayPoint(new Waypoint(-4.5,-5.50));  // mid point circle to blue section
+      addWayPoint(new Waypoint(-21.85,-3));  // from blue go left to the corner
+      addWayPoint(new Waypoint(-22.6,14)); // from corner to the target zone
+  
   
     }
   }
@@ -30,7 +38,7 @@ public class RomiChallenge1 extends SequentialCommandGroup {
   public RomiChallenge1(DriveTrain drivetrain) {
     PathGeneratorBase generaterbase = new DriveTrainDiagonalPathGenerator(new ChallengePath(), drivetrain,
         //new Waypoint(0, 0));  // 0, 0
-        new Waypoint(0,0), 0.50, true);  // was 0.75
-    addCommands(generaterbase.getPath());
+        new Waypoint(0,0), 0.65, true); 
+        addCommands(generaterbase.getPath());
   }
 }
