@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.DeployAndRunIntake;
-import frc.robot.commands.RunIntakeOut;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
@@ -35,7 +34,8 @@ public class PowerPortStart extends SequentialCommandGroup {
   public PowerPortStart(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
     addCommands(new DelayedSequentialCommandGroup(
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithRPM(shooter, feeder, greenZoneShootingRPM), new ParallelCommandGroup(
-            new MoveUsingEncoder(driveTrain, -reloadToGreen, 1.5, m_maxOutPut), new DefaultFeederCommand(), new DeployAndRunIntake(intake, () -> false))));
+        new ShootWithRPM(shooter, feeder, greenZoneShootingRPM),
+        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, 1.5, m_maxOutPut),
+            new DefaultFeederCommand(), new DeployAndRunIntake(intake, () -> false))));
   }
 }
