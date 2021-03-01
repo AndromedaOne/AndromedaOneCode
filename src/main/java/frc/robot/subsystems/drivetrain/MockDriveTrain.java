@@ -8,6 +8,7 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 
 public class MockDriveTrain extends DriveTrain {
@@ -48,31 +49,26 @@ public class MockDriveTrain extends DriveTrain {
 
   @Override
   public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public Pose2d getPose() {
-    // TODO Auto-generated method stub
-    return null;
+    return new Pose2d(0,0, new Rotation2d(0));
   }
 
   @Override
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    // TODO Auto-generated method stub
-    return null;
+    return new DifferentialDriveWheelSpeeds(0,0);
   }
 
   @Override
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void resetOdometry(Pose2d pose) {
-    // TODO Auto-generated method stub
 
   }
 }

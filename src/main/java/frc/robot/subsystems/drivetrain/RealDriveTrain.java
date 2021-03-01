@@ -34,6 +34,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   // the robot's main drive
   private DifferentialDrive m_drive;
   private DifferentialDriveOdometry m_odometry;
+  private int m_rightSideInvertedMultiplier = 1;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -89,7 +90,12 @@ public abstract class RealDriveTrain extends DriveTrain {
   public void init() {
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
-    //m_drive.setRightSideInverted(false);
+    Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+    if(drivetrainConfig.hasPath("rightSideInverted")){
+      boolean rightSideInverted = drivetrainConfig.getBoolean("rightSideInverted");
+      m_drive.setRightSideInverted(rightSideInverted);
+      m_rightSideInvertedMultiplier = rightSideInverted ? -1: 1;
+    } 
     resetEncoders();
 
     Trace.getInstance().registerTraceEntry("DriveOdometry",
@@ -262,7 +268,7 @@ public abstract class RealDriveTrain extends DriveTrain {
       Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 0, 1.0);
     }
     getLeftSpeedControllerGroup().setVoltage(leftVolts);
-    getRightSpeedControllerGroup().setVoltage(-rightVolts);
+    getRightSpeedControllerGroup().setVoltage(m_rightSideInvertedMultiplier * rightVolts);
     m_drive.feed();
   }
 

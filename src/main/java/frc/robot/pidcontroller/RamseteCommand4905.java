@@ -21,7 +21,9 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.telemetries.Trace;
@@ -58,6 +60,7 @@ public class RamseteCommand4905 extends CommandBase {
   private DifferentialDriveWheelSpeeds m_prevSpeeds;
   private double m_prevTime;
   private String m_name;
+  TrajectoryGenerator a;
 
   /**
    * Constructs a new RamseteCommand that, when executed, will follow the provided
@@ -166,8 +169,15 @@ public class RamseteCommand4905 extends CommandBase {
     double dt = curTime - m_prevTime;
     Pose2d currentPos = m_pose.get();
     State desiredState = m_trajectory.sample(curTime);
+    currentPos = desiredState.poseMeters;
 
-    var targetWheelSpeeds = m_kinematics.toWheelSpeeds(m_follower.calculate(currentPos, desiredState));
+    ChassisSpeeds chassisSpeeds = m_follower.calculate(currentPos, desiredState);
+
+    Trace.getInstance().addTrace(true, m_name + "ChassisSpeeds",
+        new TracePair<Double>("vxMetersPerSecond", chassisSpeeds.vxMetersPerSecond),
+        new TracePair<Double>("omegaRadiansPerSecond", chassisSpeeds.omegaRadiansPerSecond));
+
+    var targetWheelSpeeds = m_kinematics.toWheelSpeeds(chassisSpeeds);
 
     var leftSpeedSetpoint = targetWheelSpeeds.leftMetersPerSecond;
     var rightSpeedSetpoint = targetWheelSpeeds.rightMetersPerSecond;
@@ -182,7 +192,8 @@ public class RamseteCommand4905 extends CommandBase {
       double rightFeedforward = m_feedforward.calculate(rightSpeedSetpoint,
           (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
-      leftOutput = leftFeedforward + m_leftController.calculate(m_speeds.get().leftMetersPerSecond, leftSpeedSetpoint);
+      leftOutput = leftFeedforward + m_leftController.calculate(
+        m_speeds.get().leftMetersPerSecond, leftSpeedSetpoint);
 
       rightOutput = rightFeedforward
           + m_rightController.calculate(m_speeds.get().rightMetersPerSecond, rightSpeedSetpoint);

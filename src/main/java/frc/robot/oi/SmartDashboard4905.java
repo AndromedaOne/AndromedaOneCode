@@ -110,9 +110,9 @@ public class SmartDashboard4905 {
     MoveUsingEncoder drive120Inches = new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 120, 0, 0.3);
     SmartDashboard.putData("drive120Inches", drive120Inches);
 
-    MoveUsingEncoder drive36Inches = new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), 36, 0, 0.3);
-    TurnDeltaAngle turn90 = new TurnDeltaAngle(90);
-    MoveUsingEncoder drive36Inchesbackwards = new MoveUsingEncoder(subsystemsContainer.getDrivetrain(), -36, 0, 0.3);
+    CommandBase testCommand = (new TwoDDriveTrainPathGenerator("CircleByHand.json",
+    subsystemsContainer.getDrivetrain(), false, "TestCommand")).getPath();
+    SmartDashboard.putData("Test Command", testCommand);
 
 
   }

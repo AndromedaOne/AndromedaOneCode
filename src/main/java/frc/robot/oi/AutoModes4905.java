@@ -115,10 +115,8 @@ public class AutoModes4905 {
                                                                   new MoveUsingEncoder(driveTrain, (-2*12)))); 
         m_autoChooser.addOption("13: galactic Search Path A", new GalacticSearchPathA());
         m_autoChooser.addOption("14: galactic Search Path B", new GalacticSearchPathB());
-        m_autoChooser.addOption("15: AutoNav: Barrel", (new TwoDDriveTrainPathGenerator("BarrelRacing.wpilib.json",
-        subsystemsContainer.getDrivetrain(), "BarrelRacing")).getPath());
-        m_autoChooser.addOption("16: AutoNav: Slalom", new TwoDDriveTrainPathGenerator("Slalom.wpilib.json", subsystemsContainer.getDrivetrain(), "Slalom")
-        .getPath());
+        m_autoChooser.addOption("15: AutoNav: Barrel", new BarrelRacingPath(driveTrain));
+        m_autoChooser.addOption("16: AutoNav: Slalom", new SlalomPath(driveTrain));
         CommandBase bounce1 = (new TwoDDriveTrainPathGenerator("BouncePart1.wpilib.json",
         subsystemsContainer.getDrivetrain(), "BounceP1")).getPath();
         CommandBase bounce2 = (new TwoDDriveTrainPathGenerator("BouncePart2.wpilib.json",
