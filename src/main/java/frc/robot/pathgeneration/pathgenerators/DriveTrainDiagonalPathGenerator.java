@@ -13,22 +13,24 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
   private double m_maxOutput;
 
   public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint,
-      double maxOutputs) {
-    super(waypoints, initialWaypoint);
+      double maxOutputs, boolean useReverse) {
+    super(waypoints, initialWaypoint, useReverse);
     m_maxOutput = maxOutputs;
     m_driveTrain = driveTrain;
   }
 
   public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, double maxOutput) {
-    this(waypoints, driveTrain, new Waypoint(0, 0), maxOutput);
+    this(waypoints, driveTrain, new Waypoint(0, 0), maxOutput, false);
   }
 
-  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
-    this(waypoints, driveTrain, initialWaypoint, 0);
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, double maxOutput,
+      boolean useReverse) {
+    this(waypoints, driveTrain, new Waypoint(0, 0), maxOutput, useReverse);
   }
 
-  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
-    this(waypoints, driveTrain, new Waypoint(0, 0), 0);
+  public DriveTrainDiagonalPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint,
+      double maxOutputs) {
+    this(waypoints, driveTrain, initialWaypoint, maxOutputs, false);
   }
 
   /**
