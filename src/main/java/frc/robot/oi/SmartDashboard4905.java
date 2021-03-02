@@ -28,7 +28,6 @@ import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChall
 import frc.robot.groupcommands.athomechallengepathways.PowerPortStart;
 import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
-import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -77,7 +76,6 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Hyper Drive Challenge", new HyperDriveChallenge(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Power Port Start", new PowerPortStart(subsystemsContainer.getDrivetrain(),
         subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
-
 
     SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
     SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));
