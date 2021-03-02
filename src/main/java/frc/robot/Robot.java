@@ -58,6 +58,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
+    m_subsystemContainer.getDrivetrain().getCoast(false);
 
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
@@ -107,6 +108,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
+    m_subsystemContainer.getDrivetrain().getCoast(true);
     Trace.getInstance().flushTraceFiles();
     limelight.disableLED();
   }

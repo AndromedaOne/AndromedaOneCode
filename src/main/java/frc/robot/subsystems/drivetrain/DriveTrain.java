@@ -63,4 +63,8 @@ public abstract class DriveTrain extends SubsystemBase {
   public void stop() {
     move(0, 0, false);
   }
+
+  public void setCoast(boolean p) {
+    System.out.println("coast set to " + p);
+  }
 }
