@@ -5,64 +5,51 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-
-import java.util.function.BooleanSupplier;
-
-import com.typesafe.config.Config;
+package frc.robot.groupcommands.athomechallengepathways;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Config4905;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.intake.IntakeBase;
+import frc.robot.subsystems.shooter.ShooterBase;
 
-public class RunIntakeOut extends CommandBase {
-  /**
-   * Creates a new RunIntake.
-   */
-  private IntakeBase m_intakeBase;
-  private BooleanSupplier m_finishedCondition;
-  private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
-  private double m_outtakeSpeed;
+public class PowerPortTrigger extends CommandBase {
+  private DriveTrain m_driveTrain;
+  private ShooterBase m_shooter;
+  private FeederBase m_feeder;
+  private IntakeBase m_intake;
 
   /**
-   * Runs the intake out of the robot to out take balls at speed value set in the
-   * config
-   * 
-   * @param intakeBase
-   * @param finishedCondition
+   * Creates a new PowerPortTriggerCommand.
    */
-  public RunIntakeOut(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
+  public PowerPortTrigger(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeBase);
-    m_intakeBase = intakeBase;
-    m_outtakeSpeed = Config4905.getConfig4905().getCommandConstantsConfig().getDouble("RunIntakeOut.outtakespeed");
-    m_finishedCondition = finishedCondition;
-
+    m_driveTrain = driveTrain;
+    m_shooter = shooter;
+    m_feeder = feeder;
+    m_intake = intake;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    // m_intakeBase.deployIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeBase.runIntake(m_outtakeSpeed);
+    CommandScheduler.getInstance().schedule(new PowerPortContinue(m_driveTrain, m_shooter, m_feeder, m_intake));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeBase.stopIntake();
-    // m_intakeBase.retractIntake();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_finishedCondition.getAsBoolean();
+    return true;
   }
 }
