@@ -3,7 +3,7 @@ package frc.robot.telemetries;
 import java.io.BufferedWriter;
 import java.util.function.Function;
 
-import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TraceEntry<T> {
   private BufferedWriter m_file;
@@ -19,14 +19,12 @@ public class TraceEntry<T> {
     m_numbOfValues = numbOfValues;
     this.formatter = formatter;
     this.headerFormatter = headerFormatter;
-    Preferences prefs = Preferences.getInstance();
-    activated = prefs.getBoolean("Trace." + traceName, true);
-    System.out.println("Trace." + traceName + " activated? %$#@%$#@%$#@---MASON LOOK HERE---%$#@%$#@%$#@" + activated);
     this.traceName = traceName;
+    SmartDashboard.putBoolean("Trace/" + traceName, true);
   }
 
   public boolean getActivated() {
-    return activated;
+    return SmartDashboard.getBoolean("Trace/" + traceName, true);
   }
 
   public BufferedWriter getFile() {
