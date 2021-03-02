@@ -14,6 +14,7 @@ import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.RunAllFeederMotors;
 import frc.robot.commands.ToggleLimelightLED;
+import frc.robot.commands.TuneShooterFeedForward;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.athomechallengepathways.AtHomeChallengePoints;
@@ -74,6 +75,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Drive Test Path", driveTrainDiagonalPathGenerator.getPath());
 
     SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
+    SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));
   }
 
   public Command getSelectedAutoChooserCommand() {

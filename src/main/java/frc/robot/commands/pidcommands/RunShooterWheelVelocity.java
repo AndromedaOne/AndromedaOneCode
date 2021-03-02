@@ -23,6 +23,8 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private double scaledManualShooterAdjustment;
   private static boolean resettingManualShooterAdjustment = false;
   private double m_initialSetpoint;
+  private double m_feedForwardValue = 0;
+  private boolean m_useFeedForwardValue = false;
 
   public static void increaseManuelShooterAdjustment(double amountToIncrease) {
     manuelShooterAdjustment += amountToIncrease;
@@ -39,7 +41,8 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
    *                              controller
    * @param setpoint
    */
-  public RunShooterWheelVelocity(ShooterBase shooter, double setpoint) {
+  public RunShooterWheelVelocity(ShooterBase shooter, double setpoint, boolean useFeedForward,
+      double feedForwardValue) {
     // PID Controller
     super(createPIDController(),
         // Measurement
@@ -58,6 +61,14 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_target = setpoint;
     m_setpoint = this::getSetpoint;
     m_initialSetpoint = setpoint;
+    if (useFeedForward) {
+      m_feedForwardValue = feedForwardValue;
+      m_useFeedForwardValue = useFeedForward;
+    }
+  }
+
+  public RunShooterWheelVelocity(ShooterBase shooter, double setpoint) {
+    this(shooter, setpoint, false, 0);
   }
 
   @Override
@@ -120,10 +131,14 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
   private SimpleMotorFeedforward createFeedForward() {
     double ks = 0;
-    InterpolatingMap kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
-        "shooterTargetRPMAndKValues");
-    double kv = kMap.getInterpolatedValue(m_target);
-
+    double kv = 0;
+    if (m_useFeedForwardValue) {
+      kv = m_feedForwardValue;
+    } else {
+      InterpolatingMap kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+          "shooterTargetRPMAndKValues");
+      kv = kMap.getInterpolatedValue(m_target);
+    }
     return new SimpleMotorFeedforward(ks, kv);
   }
 
