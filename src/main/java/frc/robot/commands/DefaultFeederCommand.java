@@ -24,8 +24,7 @@ public class DefaultFeederCommand extends CommandBase {
   private static FeederStates feederState;
   private static final double DEFAULT_STAGES_ONE_AND_TWO_SPEED = 0.3;
   private static final double DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED = 0.0;
-  private static final double DEFAULT_STAGE_THREE_SPEED = DEFAULT_STAGES_ONE_AND_TWO_SPEED
-      + DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED;
+  private static final double DEFAULT_STAGE_THREE_SPEED = 0.1;
   private static final double STAGE_TWO_SLOW_SPEED = 0.1;
   private static final double STAGE_THREE_SLOW_SPEED = STAGE_TWO_SLOW_SPEED
       + DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED;
@@ -53,7 +52,7 @@ public class DefaultFeederCommand extends CommandBase {
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
-    feederState = FeederStates.THIRD_LOADED;
+    feederState = FeederStates.EMPTY;
     emptyCounter = 0;
     m_stageOneEndSensorTriggeredCounter = 0;
     m_stageOneLeftRightSensorTriggeredCounter = 0;
@@ -152,7 +151,6 @@ public class DefaultFeederCommand extends CommandBase {
           || ballSensorValues[STAGE_1_END.getIndex()]) {
         setFeederState(FeederStates.SECOND_LOADED);
       }
-      System.out.println("In Second Loaded");
       m_feeder.stopBothStages();
       numberOfPowerCellsInFeeder = 2;
       break;
