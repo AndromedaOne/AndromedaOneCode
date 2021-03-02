@@ -82,7 +82,7 @@ public class SmartDashboard4905 {
         subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
 
 
-    CommandBase barrelRacing = (new TwoDDriveTrainPathGenerator("BarrelRacing.wpilib.json",
+    CommandBase barrelRacing = (new TwoDDriveTrainPathGenerator("BarrelLessPoints.wpilib.json",
         subsystemsContainer.getDrivetrain(), "BarrelRacing")).getPath();
 
     SmartDashboard.putData("Barrel Racing 2d", barrelRacing);
