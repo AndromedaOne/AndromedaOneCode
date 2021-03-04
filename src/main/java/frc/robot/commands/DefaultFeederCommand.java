@@ -33,7 +33,9 @@ public class DefaultFeederCommand extends CommandBase {
   private int m_stageOneLeftRightSensorTriggeredCounter = 0;
   private Timer m_timer;
   private Timer m_emptyTimer;
-  public static final double EMPTY_TIME_THRESHOLD = 0.75; // After this time in seconds, if none of the feeder sensors have been triggered, then the feeder state will be set to empty.
+  public static final double EMPTY_TIME_THRESHOLD = 0.75; // After this time in seconds, if none of the feeder sensors
+                                                          // have been triggered, then the feeder state will be set to
+                                                          // empty.
   private static final double MOVING_STAGE_TIMEOUT = 5;
 
   /**
@@ -83,7 +85,7 @@ public class DefaultFeederCommand extends CommandBase {
     if (m_emptyTimer.hasElapsed(EMPTY_TIME_THRESHOLD)) {
       feederState = FeederStates.EMPTY;
     }
-    
+
     switch (feederState) {
     case EMPTY:
       m_feeder.stopBothStages();
