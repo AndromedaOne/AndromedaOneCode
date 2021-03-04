@@ -81,7 +81,7 @@ public class DefaultFeederCommand extends CommandBase {
     } else {
       emptyCounter = 0;
     }
-    if (emptyCounter >= 5) {
+    if (emptyCounter >= 40) {
       feederState = FeederStates.EMPTY;
     }
     switch (feederState) {
