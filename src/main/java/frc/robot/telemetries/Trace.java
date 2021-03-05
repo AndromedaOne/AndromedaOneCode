@@ -271,7 +271,7 @@ public class Trace {
       String line = traceEntry.format(values);
       traceEntry.getFile().write(line);
       traceEntry.getFile().newLine();
-      //traceEntry.getFile().flush();
+      // traceEntry.getFile().flush();
     } catch (IOException e) {
       System.err.println(e.getMessage());
       e.printStackTrace();
