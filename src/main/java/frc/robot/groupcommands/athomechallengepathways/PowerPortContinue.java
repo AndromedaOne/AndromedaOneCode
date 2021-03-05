@@ -29,8 +29,8 @@ public class PowerPortContinue extends SequentialCommandGroup {
 
   public PowerPortContinue(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
     DoubleSupplier d = Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget;
-    addCommands(
-        new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, reloadToGreen, false, d, m_maxOutPut),
-            new PowerPortStart(driveTrain, shooter, feeder, intake)));
+    addCommands(new DelayedSequentialCommandGroup(
+        new MoveUsingEncoder(driveTrain, reloadToGreen, true, () -> .5 * d.getAsDouble(), m_maxOutPut),
+        new PowerPortStart(driveTrain, shooter, feeder, intake)));
   }
 }
