@@ -34,7 +34,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
         setpoint,
         // Output
         output -> {
-          shooter.setShooterSeriesPower(1);
+          shooter.setShooterSeriesPower(0.875);
         });
 
     getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
