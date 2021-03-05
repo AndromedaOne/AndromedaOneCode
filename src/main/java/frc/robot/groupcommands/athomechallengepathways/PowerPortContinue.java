@@ -7,7 +7,10 @@
 
 package frc.robot.groupcommands.athomechallengepathways;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -25,7 +28,9 @@ public class PowerPortContinue extends SequentialCommandGroup {
   private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
 
   public PowerPortContinue(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
-    addCommands(new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, reloadToGreen, 0, m_maxOutPut),
-        new PowerPortStart(driveTrain, shooter, feeder, intake)));
+    DoubleSupplier d = Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget;
+    addCommands(
+        new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, reloadToGreen, false, d, m_maxOutPut),
+            new PowerPortStart(driveTrain, shooter, feeder, intake)));
   }
 }

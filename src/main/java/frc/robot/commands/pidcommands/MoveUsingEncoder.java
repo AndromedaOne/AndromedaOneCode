@@ -7,6 +7,8 @@
 
 package frc.robot.commands.pidcommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -27,7 +29,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading, double heading) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading, DoubleSupplier heading) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("MoveUsingEncoder", 0, 0, 0, 0),
@@ -40,7 +42,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
           // Use the output here
           if (useCompassHeading) {
             // this is newer code that every new creation of move using encoder should use
-            drivetrain.moveUsingGyro(output, 0, heading);
+            drivetrain.moveUsingGyro(output, 0, heading.getAsDouble());
           } else {
             // this is older code that every new creation of move using encoder should not
             // use\
@@ -54,6 +56,16 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(drivetrain);
+  }
+
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading, DoubleSupplier heading,
+      double maxOutput) {
+    this(drivetrain, distance, useCompassHeading, heading);
+    m_maxOutput = maxOutput;
+  }
+
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading, double heading) {
+    this(drivetrain, distance, useCompassHeading, () -> heading);
   }
 
   @Deprecated
