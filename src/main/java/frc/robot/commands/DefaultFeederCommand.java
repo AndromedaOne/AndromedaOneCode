@@ -28,11 +28,14 @@ public class DefaultFeederCommand extends CommandBase {
   private static final double STAGE_TWO_SLOW_SPEED = 0.1;
   private static final double STAGE_THREE_SLOW_SPEED = STAGE_TWO_SLOW_SPEED
       + DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED;
-  private int emptyCounter = 0;
   private static int numberOfPowerCellsInFeeder = 0;
   private int m_stageOneEndSensorTriggeredCounter = 0;
   private int m_stageOneLeftRightSensorTriggeredCounter = 0;
   private Timer m_timer;
+  private Timer m_emptyTimer;
+  public static final double EMPTY_TIME_THRESHOLD = 0.75; // After this time in seconds, if none of the feeder sensors
+                                                          // have been triggered, then the feeder state will be set to
+                                                          // empty.
   private static final double MOVING_STAGE_TIMEOUT = 5;
 
   /**
@@ -45,6 +48,7 @@ public class DefaultFeederCommand extends CommandBase {
     m_feederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     feederState = FeederStates.EMPTY;
     m_timer = new Timer();
+    m_emptyTimer = new Timer();
   }
 
   // Called when the command is initially scheduled.
@@ -53,10 +57,9 @@ public class DefaultFeederCommand extends CommandBase {
     Trace.getInstance().logCommandStart(this);
     Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
     feederState = FeederStates.EMPTY;
-    emptyCounter = 0;
     m_stageOneEndSensorTriggeredCounter = 0;
     m_stageOneLeftRightSensorTriggeredCounter = 0;
-
+    m_emptyTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -76,14 +79,13 @@ public class DefaultFeederCommand extends CommandBase {
         sensoredTriggered++;
       }
     }
-    if (sensoredTriggered == 0) {
-      emptyCounter++;
-    } else {
-      emptyCounter = 0;
+    if (sensoredTriggered != 0) {
+      m_emptyTimer.reset();
     }
-    if (emptyCounter >= 5) {
+    if (m_emptyTimer.hasElapsed(EMPTY_TIME_THRESHOLD)) {
       feederState = FeederStates.EMPTY;
     }
+
     switch (feederState) {
     case EMPTY:
       m_feeder.stopBothStages();
