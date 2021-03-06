@@ -45,7 +45,7 @@ public abstract class LEDs extends SubsystemBase {
     switch (m_mode) {
 
     case SOLID:
-    color = new Color(m_redValue, m_greenValue, m_blueValue);
+      color = new Color(m_redValue, m_greenValue, m_blueValue);
       break;
 
     case BLINKING:
@@ -62,8 +62,8 @@ public abstract class LEDs extends SubsystemBase {
       color = rainbow(m_rainbowCounter, 100);
       break;
 
-    default: 
-      color = new Color(1.0, .8, .8);  //Pink
+    default:
+      color = new Color(1.0, .8, .8); // Pink
     }
     m_red.updateDutyCycle(validateBrightness(color.red));
     m_green.updateDutyCycle(validateBrightness(color.green));
@@ -131,6 +131,7 @@ public abstract class LEDs extends SubsystemBase {
     clearColor();
     m_redValue = brightness;
   }
+
   /**
    * This method takes a brightness value from 0 - 1 for yellow
    */
@@ -139,7 +140,6 @@ public abstract class LEDs extends SubsystemBase {
     m_redValue = brightness;
     m_greenValue = brightness / 1.5;
   }
-
 
   /**
    * This method takes a brightness value from 0 - 1 for green
