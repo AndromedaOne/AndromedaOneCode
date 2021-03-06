@@ -27,6 +27,8 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private double m_initialSetpoint;
   private double m_feedForwardValue = 0;
   private boolean m_useFeedForwardValue = false;
+  private static InterpolatingMap m_kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+      "shooterTargetRPMAndKValues");
 
   public static void increaseManuelShooterAdjustment(double amountToIncrease) {
     manuelShooterAdjustment += amountToIncrease;
@@ -137,9 +139,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     if (m_useFeedForwardValue) {
       kv = m_feedForwardValue;
     } else {
-      InterpolatingMap kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
-          "shooterTargetRPMAndKValues");
-      kv = kMap.getInterpolatedValue(m_target);
+      kv = m_kMap.getInterpolatedValue(m_target);
     }
     return new SimpleMotorFeedforward(ks, kv);
   }
