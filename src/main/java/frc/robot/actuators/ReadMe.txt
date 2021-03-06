@@ -1,1 +1,0 @@
-Package for the common setup of actuators. These actuators are instantiated as needed for specific motors.
