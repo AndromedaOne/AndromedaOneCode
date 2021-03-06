@@ -31,7 +31,7 @@ public class TuneShooterFeedForward extends CommandBase {
   public void initialize() {
     double feedForward = SmartDashboard.getNumber("Feed Forward Value", 0.00025);
     double shootRPM = SmartDashboard.getNumber("ShooterRPMTarget", 3000);
-    CommandScheduler.getInstance().schedule(new RunShooterWheelVelocity(m_shooter, shootRPM, true, feedForward));
+    CommandScheduler.getInstance().schedule(new RunShooterWheelVelocity(m_shooter, () -> shootRPM, true, feedForward));
     Trace.getInstance().logCommandStart(this);
   }
 

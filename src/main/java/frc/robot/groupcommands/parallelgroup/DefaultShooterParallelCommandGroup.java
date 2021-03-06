@@ -27,7 +27,7 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
     addRequirements(shooter);
 
     addCommands(new RunShooterSeriesVelocity(m_shooter, m_seriesIdleSpeed),
-        new RunShooterWheelVelocity(m_shooter, m_shooterIdleSpeed));
+        new RunShooterWheelVelocity(m_shooter, () -> m_shooterIdleSpeed));
   }
 
   @Override

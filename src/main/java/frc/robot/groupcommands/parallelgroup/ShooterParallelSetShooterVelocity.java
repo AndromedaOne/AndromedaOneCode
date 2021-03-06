@@ -1,5 +1,7 @@
 package frc.robot.groupcommands.parallelgroup;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.pidcommands.RunShooterSeriesVelocity;
 import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
@@ -15,7 +17,7 @@ public class ShooterParallelSetShooterVelocity extends ParallelCommandGroup {
    * @param seriesRPM
    * @param shooterRPM
    */
-  public ShooterParallelSetShooterVelocity(ShooterBase shooter, double seriesRPM, double shooterRPM) {
+  public ShooterParallelSetShooterVelocity(ShooterBase shooter, double seriesRPM, DoubleSupplier shooterRPM) {
 
     addCommands(new RunShooterWheelVelocity(shooter, shooterRPM), new RunShooterSeriesVelocity(shooter, seriesRPM));
 

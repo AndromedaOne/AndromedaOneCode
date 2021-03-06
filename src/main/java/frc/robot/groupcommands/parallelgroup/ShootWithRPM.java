@@ -3,7 +3,6 @@ package frc.robot.groupcommands.parallelgroup;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -45,9 +44,12 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     kNumOfSamples = Config4905.getConfig4905().getCommandConstantsConfig()
         .getInt("ShootWithRPM.numOfFeederTestSamples");
-    m_shooterRPM = shooterRPM;
     m_seriesRPM = seriesRPM;
     m_useSmartDashboardForRPM = useSmartDashboardForRPM;
+    m_shooterRPM = shooterRPM;
+    addCommands(
+        new ParallelCommandGroup(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, () -> m_shooterRPM),
+            new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier)));
   }
 
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
@@ -79,17 +81,15 @@ public class ShootWithRPM extends ParallelCommandGroup {
     Trace.getInstance().logCommandStart(this);
     m_isDone = false;
     m_samples = 0;
-    double shooterRPM = m_shooterRPM;
+
     double seriesRPM = m_seriesRPM;
     if (m_useSmartDashboardForRPM) {
-      shooterRPM = SmartDashboard.getNumber("ShooterRPMTarget", 0);
-      seriesRPM = shooterRPM
+      m_shooterRPM = SmartDashboard.getNumber("ShooterRPMTarget", 0);
+      seriesRPM = m_shooterRPM
           * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale");
     }
-    System.out.println("ShooterRPM = " + shooterRPM);
-    CommandScheduler.getInstance()
-        .schedule(new ParallelCommandGroup(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, shooterRPM),
-            new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier)));
+    System.out.println("ShooterRPM = " + m_shooterRPM);
+
   }
 
   @Override

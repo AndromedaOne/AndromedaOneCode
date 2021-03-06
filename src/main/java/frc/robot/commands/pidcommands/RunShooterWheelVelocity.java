@@ -1,5 +1,7 @@
 package frc.robot.commands.pidcommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -41,7 +43,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
    *                              controller
    * @param setpoint
    */
-  public RunShooterWheelVelocity(ShooterBase shooter, double setpoint, boolean useFeedForward,
+  public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, boolean useFeedForward,
       double feedForwardValue) {
     // PID Controller
     super(createPIDController(),
@@ -58,16 +60,16 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     kControllerScale = Config4905.getConfig4905().getCommandConstantsConfig()
         .getDouble("RunShooterWheelVelocity.shooterwheeljoystickscale");
     m_shooter = shooter;
-    m_target = setpoint;
+    m_target = setpoint.getAsDouble();
     m_setpoint = this::getSetpoint;
-    m_initialSetpoint = setpoint;
+    m_initialSetpoint = setpoint.getAsDouble();
     if (useFeedForward) {
       m_feedForwardValue = feedForwardValue;
       m_useFeedForwardValue = useFeedForward;
     }
   }
 
-  public RunShooterWheelVelocity(ShooterBase shooter, double setpoint) {
+  public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint) {
     this(shooter, setpoint, false, 0);
   }
 
