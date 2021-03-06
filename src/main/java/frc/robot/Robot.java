@@ -135,6 +135,7 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.enableLED();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
   }
 
   /**
@@ -159,6 +160,8 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.disableLED();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
+
   }
 
   /**
@@ -172,6 +175,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
   }
 
   /**
