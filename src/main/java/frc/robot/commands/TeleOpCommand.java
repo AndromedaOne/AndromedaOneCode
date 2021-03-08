@@ -53,15 +53,7 @@ public class TeleOpCommand extends CommandBase {
   @Override
   public void execute() {
     double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
-    if (Math.abs(forwardBackwardStickValue) < Config4905.getConfig4905().getDrivetrainConfig()
-        .getDouble("teleop.controllerDeadband")) {
-      forwardBackwardStickValue = 0.0;
-    }
     double rotateStickValue = m_driveController.getRotateStick();
-    if (Math.abs(rotateStickValue) < Config4905.getConfig4905().getDrivetrainConfig()
-        .getDouble("teleop.controllerDeadband")) {
-      rotateStickValue = 0.0;
-    }
 
     switch (m_slowModeState) {
     case NOTSLOWRELEASED:

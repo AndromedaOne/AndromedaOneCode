@@ -109,7 +109,6 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   }
 
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
     m_driveTrain.stop();
     Trace.getInstance().logCommandStop(this);
