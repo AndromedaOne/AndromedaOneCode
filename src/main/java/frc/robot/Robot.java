@@ -64,8 +64,7 @@ public class Robot extends TimedRobot {
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
     SmartDashboard.putNumber("ShooterRPMTarget", 3000);
-    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").clearColor();
-    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(1.0, 1.0, 1.0);
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
   }
 
   /**
@@ -107,6 +106,7 @@ public class Robot extends TimedRobot {
     }
     Trace.getInstance().flushTraceFiles();
     limelight.disableLED();
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
   }
 
   @Override
@@ -137,8 +137,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 1.0, 0);
-
   }
 
   @Override
@@ -155,6 +153,7 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.disableLED();
+    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
   }
 
   /**
