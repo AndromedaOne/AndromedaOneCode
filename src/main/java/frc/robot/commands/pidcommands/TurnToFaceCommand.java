@@ -83,7 +83,9 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     super.initialize();
     limelight = m_sensorsContainer.getLimeLight();
     limelight.enableLED();
-    System.out.println("Turning on lime light");
+    limelight.enableLED();
+    limelight.enableLED();
+    Trace.getInstance().logCommandInfo(this, "Turning on lime light");
     m_lostCounter = 0;
   }
 
@@ -91,7 +93,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   public void end(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
-    System.out.println("Turning off lime light");
-    limelight.disableLED();
+    Trace.getInstance().logCommandInfo(this, "Turning off lime light");
+    // limelight.disableLED();
   }
 }

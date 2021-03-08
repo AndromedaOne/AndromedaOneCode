@@ -9,13 +9,11 @@ package frc.robot.commands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.subsystems.drivetrain.*;
-import frc.robot.subsystems.ledlights.LEDs;
 
 /**
  * Allows you to drive the robot using the drive controller.
@@ -28,7 +26,6 @@ public class TeleOpCommand extends CommandBase {
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
   private boolean m_slowMode = false;
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
-  private int rainbowCounter = 0;
 
   private enum SlowModeStates {
     NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
@@ -60,6 +57,7 @@ public class TeleOpCommand extends CommandBase {
     case NOTSLOWRELEASED:
       if (m_driveController.getLeftBumperPressed()) {
         m_slowMode = true;
+        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
         m_slowModeState = SlowModeStates.SLOWPRESSED;
         System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
       }
@@ -73,6 +71,8 @@ public class TeleOpCommand extends CommandBase {
     case SLOWRELEASED:
       if (m_driveController.getLeftBumperPressed()) {
         m_slowMode = false;
+        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
+        ;
         m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
         System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
       }
@@ -92,14 +92,7 @@ public class TeleOpCommand extends CommandBase {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
-    rainbowCounter = (rainbowCounter + 1) % 100;
 
-    if (m_slowMode) {
-      Color color = LEDs.rainbow(rainbowCounter, 100);
-      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(color.red, color.green, color.blue);
-    } else {
-      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 1.0, 0);
-    }
     m_driveTrain.moveUsingGyroForHumanDriver(forwardBackwardStickValue, -rotateStickValue, true, false);
   }
 
