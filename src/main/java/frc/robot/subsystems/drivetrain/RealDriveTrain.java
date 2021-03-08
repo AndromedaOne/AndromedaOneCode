@@ -60,9 +60,9 @@ public abstract class RealDriveTrain extends DriveTrain {
       // rightMeters);
       count = 0;
     }
-    Trace.getInstance().addTrace(false, "DriveOdometry", 
-    new TracePair<Double>("X", m_odometry.getPoseMeters().getTranslation().getX()),
-    new TracePair<Double>("Y", m_odometry.getPoseMeters().getTranslation().getY()));
+    Trace.getInstance().addTrace(false, "DriveOdometry",
+        new TracePair<Double>("X", m_odometry.getPoseMeters().getTranslation().getX()),
+        new TracePair<Double>("Y", m_odometry.getPoseMeters().getTranslation().getY()));
 
     double currentTime = timer.get();
     double dt = currentTime - m_prevTime;
@@ -71,12 +71,10 @@ public abstract class RealDriveTrain extends DriveTrain {
     double leftAcceleration = (leftSpeed - prevLeftSpeed) / dt;
     double rightAcceleration = (rightSpeed - prevRightSpeed) / dt;
 
-
-    Trace.getInstance().addTrace(true, "DriveVelocities", 
-    new TracePair<Double>("LeftVelocity", leftSpeed),
-    new TracePair<Double>("RightVelocity", rightSpeed),
-    new TracePair<Double>("RightAcceleration", rightAcceleration),
-    new TracePair<Double>("LeftAcceleration", leftAcceleration));
+    Trace.getInstance().addTrace(true, "DriveVelocities", new TracePair<Double>("LeftVelocity", leftSpeed),
+        new TracePair<Double>("RightVelocity", rightSpeed),
+        new TracePair<Double>("RightAcceleration", rightAcceleration),
+        new TracePair<Double>("LeftAcceleration", leftAcceleration));
 
     prevLeftSpeed = leftSpeed;
     prevRightSpeed = rightSpeed;
@@ -87,20 +85,20 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double m_prevTime;
   private double prevLeftSpeed = 0;
   private double prevRightSpeed = 0;
+
   public void init() {
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
-    if(drivetrainConfig.hasPath("rightSideInverted")){
+    if (drivetrainConfig.hasPath("rightSideInverted")) {
       boolean rightSideInverted = drivetrainConfig.getBoolean("rightSideInverted");
       m_drive.setRightSideInverted(rightSideInverted);
-      m_rightSideInvertedMultiplier = rightSideInverted ? -1: 1;
-    } 
+      m_rightSideInvertedMultiplier = rightSideInverted ? -1 : 1;
+    }
     resetEncoders();
 
-    Trace.getInstance().registerTraceEntry("DriveOdometry",
-        (pairs) -> pairs[0].getValue() + ", " + pairs[1].getValue(), (pairs) -> "x, y",
-        new TracePair<Double>("X", 0.0), new TracePair<Double>("Y", 0.0));
+    Trace.getInstance().registerTraceEntry("DriveOdometry", (pairs) -> pairs[0].getValue() + ", " + pairs[1].getValue(),
+        (pairs) -> "x, y", new TracePair<Double>("X", 0.0), new TracePair<Double>("Y", 0.0));
     timer = new Timer();
     timer.start();
     m_prevTime = timer.get();
@@ -264,7 +262,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     double averageSpeed = leftVolts + rightVolts;
     if (averageSpeed < 0) {
       Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(1.0, 1.0, 1.0);
-    } else{
+    } else {
       Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 0, 1.0);
     }
     getLeftSpeedControllerGroup().setVoltage(leftVolts);

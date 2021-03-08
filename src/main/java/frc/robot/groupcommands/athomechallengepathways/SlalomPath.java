@@ -8,7 +8,6 @@
 package frc.robot.groupcommands.athomechallengepathways;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;

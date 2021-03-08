@@ -21,9 +21,8 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
-
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.telemetries.Trace;
@@ -191,8 +190,7 @@ public class RamseteCommand4905 extends CommandBase {
       double rightFeedforward = m_feedforward.calculate(rightSpeedSetpoint,
           (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
-      leftOutput = leftFeedforward + m_leftController.calculate(
-        m_speeds.get().leftMetersPerSecond, leftSpeedSetpoint);
+      leftOutput = leftFeedforward + m_leftController.calculate(m_speeds.get().leftMetersPerSecond, leftSpeedSetpoint);
 
       rightOutput = rightFeedforward
           + m_rightController.calculate(m_speeds.get().rightMetersPerSecond, rightSpeedSetpoint);

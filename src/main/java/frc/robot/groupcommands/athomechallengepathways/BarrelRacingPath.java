@@ -1,7 +1,6 @@
 package frc.robot.groupcommands.athomechallengepathways;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
 import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
@@ -31,8 +30,8 @@ public class BarrelRacingPath extends SequentialCommandGroup {
 
   public BarrelRacingPath(DriveTrain driveTrain) {
     System.out.println("Generating Path For Barrel Racing");
-    PathGeneratorBase pathGenerator = new TwoDDriveTrainPathGenerator("BarrelLessPoints.wpilib.json",
-    driveTrain, "BarrelRacing");
+    PathGeneratorBase pathGenerator = new TwoDDriveTrainPathGenerator("BarrelLessPoints.wpilib.json", driveTrain,
+        "BarrelRacing");
     addCommands(pathGenerator.getPath());
   }
 }

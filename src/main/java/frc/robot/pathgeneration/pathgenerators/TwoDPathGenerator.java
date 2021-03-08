@@ -42,7 +42,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
       }
 
     }); // Inital Waypoint is set to 0,0 because the intial point is taken care of
-                            // within get generated path.
+        // within get generated path.
     trajectory = null;
     try {
       trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/paths/" + jsonFileName));

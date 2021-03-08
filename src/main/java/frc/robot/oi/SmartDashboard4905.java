@@ -18,7 +18,6 @@ import frc.robot.commands.RunWheels;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
-import frc.robot.commands.pidcommands.TurnDeltaAngle;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.athomechallengepathways.BarrelRacingPath;
 import frc.robot.groupcommands.athomechallengepathways.BouncePath;
@@ -30,7 +29,7 @@ import frc.robot.groupcommands.athomechallengepathways.HyperDriveChallenge;
 import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChallenge;
 import frc.robot.groupcommands.athomechallengepathways.PowerPortStart;
 import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
-import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
+import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -53,8 +52,8 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
-    SmartDashboard.putData("Shoot 10 feet",
-        new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
+    SmartDashboard.putData("ShootRPM",
+        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 3000));
 
     SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
 
@@ -81,14 +80,13 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Power Port Start", new PowerPortStart(subsystemsContainer.getDrivetrain(),
         subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
 
-
     CommandBase barrelRacing = (new TwoDDriveTrainPathGenerator("BarrelLessPoints.wpilib.json",
         subsystemsContainer.getDrivetrain(), "BarrelRacing")).getPath();
 
     SmartDashboard.putData("Barrel Racing 2d", barrelRacing);
 
-    CommandBase slalom = (new TwoDDriveTrainPathGenerator("Slalom.wpilib.json", subsystemsContainer.getDrivetrain(), "Slalom"))
-        .getPath();
+    CommandBase slalom = (new TwoDDriveTrainPathGenerator("Slalom.wpilib.json", subsystemsContainer.getDrivetrain(),
+        "Slalom")).getPath();
 
     SmartDashboard.putData("Slalom 2d", slalom);
 
@@ -111,10 +109,8 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("drive120Inches", drive120Inches);
 
     CommandBase testCommand = (new TwoDDriveTrainPathGenerator("DriveBackwards.wpilib.json",
-    subsystemsContainer.getDrivetrain(), true, "TestCommand")).getPath();
+        subsystemsContainer.getDrivetrain(), true, "TestCommand")).getPath();
     SmartDashboard.putData("Test Command", testCommand);
-    
-
 
   }
 

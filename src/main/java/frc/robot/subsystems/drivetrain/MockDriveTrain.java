@@ -54,12 +54,12 @@ public class MockDriveTrain extends DriveTrain {
 
   @Override
   public Pose2d getPose() {
-    return new Pose2d(0,0, new Rotation2d(0));
+    return new Pose2d(0, 0, new Rotation2d(0));
   }
 
   @Override
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(0,0);
+    return new DifferentialDriveWheelSpeeds(0, 0);
   }
 
   @Override
