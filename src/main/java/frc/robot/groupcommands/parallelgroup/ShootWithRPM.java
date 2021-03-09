@@ -47,9 +47,8 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_seriesRPM = seriesRPM;
     m_useSmartDashboardForRPM = useSmartDashboardForRPM;
     m_shooterRPM = shooterRPM;
-    addCommands(
-        new ParallelCommandGroup(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, () -> m_shooterRPM),
-            new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier)));
+    addCommands(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, () -> m_shooterRPM),
+            new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier));
   }
 
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
@@ -76,7 +75,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     super.initialize();
     Trace.getInstance().logCommandStart(this);
     m_isDone = false;
@@ -115,7 +113,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
     m_isDone = true;
     m_shooter.setShooterSeriesPower(0);

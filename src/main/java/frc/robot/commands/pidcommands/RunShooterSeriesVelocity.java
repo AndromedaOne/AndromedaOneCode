@@ -3,6 +3,7 @@ package frc.robot.commands.pidcommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
@@ -10,7 +11,7 @@ import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 
-public class RunShooterSeriesVelocity extends PIDCommand4905 {
+public class RunShooterSeriesVelocity extends CommandBase {
 
   private ShooterBase m_shooter;
   private double m_setpoint = 0;
@@ -27,17 +28,6 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
    */
   public RunShooterSeriesVelocity(ShooterBase shooter, double setpoint) {
     // PID Controller
-    super(createPIDController(),
-        // Measurement
-        shooter::getShooterSeriesVelocity,
-        // Setpoint
-        setpoint,
-        // Output
-        output -> {
-          shooter.setShooterSeriesPower(0.875);
-        });
-
-    getController().setTolerance(m_pidConfig.getDouble("runshooterseriesvelocity.tolerance"));
 
     kControllerScale = Config4905.getConfig4905().getCommandConstantsConfig()
         .getDouble("RunShooterSeriesVelocity.shooterwheeljoystickscale");
@@ -53,11 +43,7 @@ public class RunShooterSeriesVelocity extends PIDCommand4905 {
 
   @Override
   public void execute() {
-    double leftYAxis = Robot.getInstance().getOIContainer().getSubsystemController().getLeftStickForwardBackwardValue();
-    // This adjusts the setpoint while the PID is running to allow the
-    // Subsystems driver to tune the rpm on the fly
-    m_setpoint += leftYAxis * kControllerScale;
-    m_shooter.setSeriesPIDIsReady(getController().atSetpoint());
+    m_shooter.setShooterSeriesPower(0.875);
     super.execute();
   }
 
