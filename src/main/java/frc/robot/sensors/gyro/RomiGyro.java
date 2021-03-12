@@ -114,10 +114,14 @@ public class RomiGyro extends Gyro4905 {
 
   }
 
+  /**
+   * This method has not been tested yet for the ROMI. When tes ting path planning
+   * we need to ensure that this method is working as expected.
+   */
   @Override
   public double getAngle() {
     // TODO Auto-generated method stub
-    return 0;
+    return -getRateZ();
   }
 
   @Override
