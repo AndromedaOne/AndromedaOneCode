@@ -7,9 +7,13 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
+import frc.robot.utils.AngleConversionUtils;
 
-public class RealNavXGyroSensor extends Gyro {
+public class RealNavXGyroSensor extends Gyro4905 {
   AHRS gyro; /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
 
   private long kInitializeDelay = 3000;
@@ -65,9 +69,9 @@ public class RealNavXGyroSensor extends Gyro {
     public void run() {
       System.out.println("Setting Initial Gyro Angle");
       if (!gyro.isCalibrating()) {
-        initialZAngleReading = gyro.getAngle();
-        initialXAngleReading = gyro.getPitch();
-        initialYAngleReading = gyro.getRoll();
+        m_navX.setInitialZAngleReading(gyro.getAngle());
+        m_navX.setInitialXAngleReading(gyro.getPitch());
+        m_navX.setInitialYAngleReading(gyro.getRoll());
         calibrated = true;
         cancel();
       }
@@ -82,7 +86,7 @@ public class RealNavXGyroSensor extends Gyro {
   @Override
   public double getZAngle() {
     if (calibrated) {
-      double correctedAngle = gyro.getAngle() - initialZAngleReading;
+      double correctedAngle = gyro.getAngle();
       Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
           new TracePair<>("Corrected Angle", correctedAngle));
       return correctedAngle;
@@ -126,9 +130,13 @@ public class RealNavXGyroSensor extends Gyro {
 
   }
 
+  /**
+   * JUST FOR ODOMETRY AND 2d PATH PLANNING. IF YOU ARE NOT USING 2d PATH PLANNING
+   * DON'T USE THIS METHOD!! Use getAngle() instead pls. :)
+   */
   @Override
   public double getAngle() {
-    return getZAngle();
+    return -getZAngle();
   }
 
   @Override
@@ -138,7 +146,11 @@ public class RealNavXGyroSensor extends Gyro {
 
   @Override
   public void close() throws Exception {
-    // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  protected double getRawZAngle() {
+    return getZAngle();
   }
 }

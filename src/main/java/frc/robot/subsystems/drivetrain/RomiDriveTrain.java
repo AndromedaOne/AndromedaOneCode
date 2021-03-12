@@ -73,4 +73,34 @@ public class RomiDriveTrain extends RealDriveTrain {
     // TODO Auto-generated method stub
     return 0;
   }
+
+  @Override
+  protected double getLeftRateMetersPerSecond() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  protected double getRightRateMetersPerSecond() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  protected void resetEncoders() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  protected double getLeftSideMeters() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  protected double getRightsSideMeters() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 }

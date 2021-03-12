@@ -18,11 +18,11 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.sensors.gyro.Gyro;
+import frc.robot.sensors.gyro.Gyro4905;
 
 public abstract class RealDriveTrain extends DriveTrain {
   // Gyro variables
-  private Gyro navX;
+  private Gyro4905 navX;
   private double savedAngle = 0;
   private double newRotateValue = 0;
   private boolean gyroCorrect = false;
@@ -49,7 +49,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     super.periodic();
     double leftMeters = getLeftSideMeters();
     double rightMeters = getRightsSideMeters();
-    m_odometry.update(navX.getRotation2d(), leftMeters, rightMeters);
+    m_odometry.update(new Rotation2d(navX.getAngle()), leftMeters, rightMeters);
   }
 
   private Timer timer;
@@ -215,7 +215,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(pose, navX.getRotation2d());
+    m_odometry.resetPosition(pose, new Rotation2d(navX.getAngle()));
   }
 
   @Override

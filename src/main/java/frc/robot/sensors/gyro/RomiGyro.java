@@ -9,7 +9,7 @@ import edu.wpi.first.hal.SimDevice.Direction;
 import edu.wpi.first.hal.SimDouble;
 
 /** Add your docs here. */
-public class RomiGyro extends Gyro {
+public class RomiGyro extends Gyro4905 {
   private SimDouble m_simRateX;
   private SimDouble m_simRateY;
   private SimDouble m_simRateZ;
@@ -100,5 +100,35 @@ public class RomiGyro extends Gyro {
     }
 
     return 0.0;
+  }
+
+  @Override
+  public void calibrate() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void reset() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public double getAngle() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public double getRate() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public void close() throws Exception {
+    // TODO Auto-generated method stub
+
   }
 }
