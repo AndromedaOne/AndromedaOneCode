@@ -28,7 +28,7 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   private final SpeedControllerGroup m_rightmotors;
 
   private double ticksPerInch;
-  private static final double metersPerInch = 0.0254;
+  public static final double metersPerInch = 0.0254;
 
   public SparkMaxDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();

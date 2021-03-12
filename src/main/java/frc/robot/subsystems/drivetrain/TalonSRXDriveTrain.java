@@ -19,8 +19,6 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   private final TalonSRXController m_frontRight;
   private final TalonSRXController m_backRight;
 
-  private static final double inchesPerMeter = 0.0254;
-
   // motors on the Left side of the drive
   private SpeedControllerGroup m_leftmotors;
 
@@ -123,7 +121,7 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   protected double getLeftSideMeters() {
     // TODO Auto-generated method stub
     double averageTicks = (m_backLeft.getEncoderPositionTicks() + m_frontLeft.getEncoderPositionTicks());
-    double averageMeters = averageTicks * ticksPerInch * inchesPerMeter;
+    double averageMeters = averageTicks * ticksPerInch * SparkMaxDriveTrain.metersPerInch;
     return averageMeters;
   }
 
@@ -131,7 +129,7 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   protected double getRightsSideMeters() {
     // TODO Auto-generated method stub
     double averageTicks = (m_frontLeft.getEncoderPositionTicks() + m_frontRight.getEncoderPositionTicks());
-    double averageMeters = averageTicks * ticksPerInch * inchesPerMeter;
+    double averageMeters = averageTicks * ticksPerInch * SparkMaxDriveTrain.metersPerInch;
     return averageMeters;
   }
 
