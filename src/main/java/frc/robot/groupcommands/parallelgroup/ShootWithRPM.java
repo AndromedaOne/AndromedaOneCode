@@ -1,6 +1,7 @@
 package frc.robot.groupcommands.parallelgroup;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -47,7 +48,7 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_seriesRPM = seriesRPM;
     m_useSmartDashboardForRPM = useSmartDashboardForRPM;
     m_shooterRPM = shooterRPM;
-    addCommands(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, () -> m_shooterRPM),
+    addCommands(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, shootSupplier()),
         new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier));
   }
 
@@ -80,11 +81,8 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_isDone = false;
     m_samples = 0;
 
-    double seriesRPM = m_seriesRPM;
     if (m_useSmartDashboardForRPM) {
       m_shooterRPM = SmartDashboard.getNumber("ShooterRPMTarget", 0);
-      seriesRPM = m_shooterRPM
-          * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale");
     }
     System.out.println("ShooterRPM = " + m_shooterRPM);
 
@@ -122,5 +120,12 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   private boolean isDoneFeeding() {
     return m_isDone;
+  }
+
+  private DoubleSupplier shootSupplier() {
+    if (m_useSmartDashboardForRPM) {
+      m_shooterRPM = SmartDashboard.getNumber("ShooterRPMTarget", 0);
+    }
+    return () -> m_shooterRPM;
   }
 }
