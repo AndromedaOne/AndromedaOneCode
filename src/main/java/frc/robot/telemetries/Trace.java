@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Function;
 
@@ -24,7 +25,7 @@ import frc.robot.Robot;
 
 // utility to store trace information to a file on the roborio. this class uses the 
 // singleton pattern. on the first call to Trace.getInstance(), the utility will
-// create a trace directory in /home/lvuser/traceLogs/trace<next number>. the utility
+// create a trace directory in TEMP/traceLogs/trace<next number>. the utility
 // uses a file, .traceNumb, that is written in the traceLogs dir to store the next 
 // number to use. if the .traceNumb file does not exist, the next number will be 0
 // and a .traceNumb file will be created containing the number 1. when the robot
@@ -59,7 +60,7 @@ import frc.robot.Robot;
 // file so that at least something will be written out before the robot it turned 
 // off.
 public class Trace {
-  public static String basePathOfTraceDirs = "/home/lvuser/traceLogs";
+  private static String basePathOfTraceDirs = "/home/lvuser/traceLogs";
   private static String m_traceDirNumberFile = ".traceNumb";
   private String m_pathOfTraceDir;
   private static String m_consoleOutput = "ConsoleOutput";
@@ -135,6 +136,8 @@ public class Trace {
   }
 
   private Trace() {
+    basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
+    System.out.println("Trace Base Directory: " + basePathOfTraceDirs);
     m_traces = new TreeMap<String, TraceEntry>();
     m_startTime = System.currentTimeMillis();
     createNewTraceDir();
@@ -206,12 +209,14 @@ public class Trace {
           return;
         }
       }
-
-      Path link = Paths.get(basePathOfTraceDirs + "/latest");
-      if (Files.exists(link)) {
-        Files.delete(link);
+      System.out.println("OS is " + System.getProperty("os.name"));
+      if (!Objects.equals(System.getProperty("os.name"), "Windows 10")) {
+        Path link = Paths.get(basePathOfTraceDirs + "/latest");
+        if (Files.exists(link)) {
+          Files.delete(link);
+        }
+        Files.createSymbolicLink(link, traceDir.toPath());
       }
-      Files.createSymbolicLink(link, traceDir.toPath());
 
       FileWriter fstream = new FileWriter(traceNumFileName, false);
       BufferedWriter dirNumbFile = new BufferedWriter(fstream);
