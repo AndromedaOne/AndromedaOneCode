@@ -25,7 +25,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
   private int m_samples;
   private boolean m_useSmartDashboardForRPM = false;
   private double m_shooterRPM = 0;
-  private double m_seriesRPM = 0;
 
   /**
    * This takes in a shooter and an rpm and intelligently shoots all the balls
@@ -45,10 +44,9 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     kNumOfSamples = Config4905.getConfig4905().getCommandConstantsConfig()
         .getInt("ShootWithRPM.numOfFeederTestSamples");
-    m_seriesRPM = seriesRPM;
     m_useSmartDashboardForRPM = useSmartDashboardForRPM;
     m_shooterRPM = shooterRPM;
-    addCommands(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, shootSupplier()),
+    addCommands(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, new ShootSupplier(shooterRPM)),
         new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier));
   }
 
@@ -122,10 +120,19 @@ public class ShootWithRPM extends ParallelCommandGroup {
     return m_isDone;
   }
 
-  private DoubleSupplier shootSupplier() {
-    if (m_useSmartDashboardForRPM) {
-      m_shooterRPM = SmartDashboard.getNumber("ShooterRPMTarget", 0);
+  private class ShootSupplier implements DoubleSupplier {
+    private double m_rpm = 0;
+
+    public ShootSupplier(double rpm) {
+      m_rpm = rpm;
     }
-    return () -> m_shooterRPM;
+
+    @Override
+    public double getAsDouble() {
+      if (m_useSmartDashboardForRPM) {
+        m_rpm = SmartDashboard.getNumber("ShooterRPMTarget", 0);
+      }
+      return m_rpm;
+    }
   }
 }

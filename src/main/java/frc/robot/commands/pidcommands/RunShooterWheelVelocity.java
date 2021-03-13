@@ -19,23 +19,10 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private ShooterBase m_shooter;
   private double m_target = 0;
   private static Config m_pidConfig;
-  private static Config m_shooterConfig;
-  private final double kControllerScale;
-  private static double manuelShooterAdjustment = 0;
-  private double scaledManualShooterAdjustment;
-  private static boolean resettingManualShooterAdjustment = false;
   private double m_feedForwardValue = 0;
   private boolean m_useFeedForwardValue = false;
   private static InterpolatingMap m_kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
       "shooterTargetRPMAndKValues");
-
-  public static void increaseManuelShooterAdjustment(double amountToIncrease) {
-    manuelShooterAdjustment += amountToIncrease;
-  }
-
-  public static void resetManuelShooterAdjustment() {
-    resettingManualShooterAdjustment = true;
-  }
 
   /**
    * @param shooter
@@ -57,9 +44,6 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
           shooter.setShooterWheelPower(output + m_computedFeedForward);
         });
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
-
-    kControllerScale = Config4905.getConfig4905().getCommandConstantsConfig()
-        .getDouble("RunShooterWheelVelocity.shooterwheeljoystickscale");
     m_shooter = shooter;
     m_setpoint = setpoint;
     if (useFeedForward) {
@@ -92,7 +76,6 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_computedFeedForward = m_feedForward.calculate(m_target);
     super.execute();
     SmartDashboard.putNumber("Shooter Wheel Velocity Setpoint", m_target);
-    SmartDashboard.putNumber("Manual Shooter Adjustment", manuelShooterAdjustment);
   }
 
   @Override
@@ -131,9 +114,5 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
   public double getSetpoint() {
     return m_target;
-  }
-
-  public static double getManualShooterAdjustment() {
-    return manuelShooterAdjustment;
   }
 }
