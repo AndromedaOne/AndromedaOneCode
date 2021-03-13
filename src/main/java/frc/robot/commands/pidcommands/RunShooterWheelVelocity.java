@@ -19,10 +19,13 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private ShooterBase m_shooter;
   private double m_target = 0;
   private static Config m_pidConfig;
+  private double m_pValue = 0;
   private double m_feedForwardValue = 0;
-  private boolean m_useFeedForwardValue = false;
-  private static InterpolatingMap m_kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+  private boolean m_tuneValues = false;
+  private static InterpolatingMap s_kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
       "shooterTargetRPMAndKValues");
+  private static InterpolatingMap s_pMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+      "shooterTargetRPMandPValues");
 
   /**
    * @param shooter
@@ -31,8 +34,8 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
    *                              controller
    * @param setpoint
    */
-  public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, boolean useFeedForward,
-      double feedForwardValue) {
+  public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, boolean tuneValues,
+      double feedForwardValue, double pValue) {
     // PID Controller
     super(createPIDController(),
         // Measurement
@@ -46,27 +49,33 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
     m_shooter = shooter;
     m_setpoint = setpoint;
-    if (useFeedForward) {
+    if (tuneValues) {
       m_feedForwardValue = feedForwardValue;
+      m_pValue = pValue;
     }
-    m_useFeedForwardValue = useFeedForward;
+    m_tuneValues = tuneValues;
   }
 
   public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint) {
-    this(shooter, setpoint, false, 0);
+    this(shooter, setpoint, false, 0, 0);
   }
 
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     super.initialize();
+    m_target = m_setpoint.getAsDouble();
     m_feedForward = createFeedForward();
-    getController().setP(m_pidConfig.getDouble("runshooterwheelvelocity.p"));
+    double pValue = 0;
+    if (m_tuneValues) {
+      pValue = m_pValue;
+    } else {
+      pValue = s_pMap.getInterpolatedValue(m_target);
+    }
+    getController().setP(pValue);
     getController().setI(m_pidConfig.getDouble("runshooterwheelvelocity.i"));
     getController().setD(m_pidConfig.getDouble("runshooterwheelvelocity.d"));
-    m_target = m_setpoint.getAsDouble();
-    System.out.println(
-        " - Shooter Setpoint: " + m_target + "\nShooter P = " + m_pidConfig.getDouble("runshooterwheelvelocity.p"));
+    System.out.println(" - Shooter Setpoint: " + m_target + "\nShooter P = " + pValue);
   }
 
   @Override
@@ -87,7 +96,6 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   public void end(boolean interrupt) {
     m_shooter.setShooterWheelPower(0);
     Trace.getInstance().logCommandStop(this);
-    System.out.println("in run shooter wheel velocity end");
   }
 
   private static PIDController4905 createPIDController() {
@@ -103,10 +111,10 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private SimpleMotorFeedforward createFeedForward() {
     double ks = 0;
     double kv = 0;
-    if (m_useFeedForwardValue) {
+    if (m_tuneValues) {
       kv = m_feedForwardValue;
     } else {
-      kv = m_kMap.getInterpolatedValue(m_target);
+      kv = s_kMap.getInterpolatedValue(m_target);
     }
     System.out.println("kv " + kv);
     return new SimpleMotorFeedforward(ks, kv);

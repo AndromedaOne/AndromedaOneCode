@@ -23,15 +23,18 @@ public class TuneShooterFeedForward extends CommandBase {
   public TuneShooterFeedForward(ShooterBase shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
-    SmartDashboard.putNumber("Feed Forward Value", 0.00025);
+    SmartDashboard.putNumber("Shooter Feed Forward Value", 0.00025);
+    SmartDashboard.putNumber("Shooter p Value", 0.001);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double feedForward = SmartDashboard.getNumber("Feed Forward Value", 0.00025);
+    double feedForward = SmartDashboard.getNumber("Shooter Feed Forward Value", 0.00025);
+    double pValue = SmartDashboard.getNumber("Shooter p Value", 0.001);
     double shootRPM = SmartDashboard.getNumber("ShooterRPMTarget", 3000);
-    CommandScheduler.getInstance().schedule(new RunShooterWheelVelocity(m_shooter, () -> shootRPM, true, feedForward));
+    CommandScheduler.getInstance()
+        .schedule(new RunShooterWheelVelocity(m_shooter, () -> shootRPM, true, feedForward, pValue));
     Trace.getInstance().logCommandStart(this);
   }
 
