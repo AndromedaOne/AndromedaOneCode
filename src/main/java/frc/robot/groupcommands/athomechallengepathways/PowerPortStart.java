@@ -12,7 +12,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
-import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
@@ -39,9 +38,10 @@ public class PowerPortStart extends SequentialCommandGroup {
     DoubleSupplier d = Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget;
     addCommands(new DelayedSequentialCommandGroup(
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
-        new ShootWithRPM(shooter, feeder, greenZoneShootingRPM), new ParallelCommandGroup(
+        new ShootWithRPM(shooter, feeder, greenZoneShootingRPM),
         new ParallelCommandGroup(
             new MoveUsingEncoder(driveTrain, -reloadToGreen, true,
-                () -> .5 * d.getAsDouble() + navX.getCompassHeading(), m_maxOutPut),
+                () -> .5 * d.getAsDouble()/* + navX.getCompassHeading()*/, m_maxOutPut),
+            new PowerPortStart(driveTrain, shooter, feeder, intake))));
   }
 }
