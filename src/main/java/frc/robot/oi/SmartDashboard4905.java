@@ -28,6 +28,8 @@ import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChall
 import frc.robot.groupcommands.athomechallengepathways.PowerPortStart;
 import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
+import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
+import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -80,6 +82,9 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("RomiExamplePath", new RomiExamplePath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("RomiChallenge1", new RomiChallenge1(subsystemsContainer.getDrivetrain()));
+
+    PathGeneratorBase twoDPathGenerator = new TwoDDriveTrainPathGenerator("StraightRomi.wpilib.json", subsystemsContainer.getDrivetrain(), "RomiDriveStraight");
+    SmartDashboard.putData("Romi2dTest", twoDPathGenerator.getPath());
 
   }
 
