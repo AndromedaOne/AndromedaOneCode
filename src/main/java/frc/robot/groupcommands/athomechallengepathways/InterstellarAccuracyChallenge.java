@@ -20,24 +20,7 @@ import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
-// NOTE: Back button ends the wait.
-//1. Shoot all balls at Green distance
-//2. Drive backward to Reload
-//3. Wait until drive input
-//4. Drive forward to yellow
-//5. Shoot
-//6. Drive backward to reload
-//7. wait
-//8. Drive to blue
-//9. Shoot
-//10. Back to reload
-//11. wait
-//12. Drive to red
-//13. Shoot
-//14. Drive backward to reload
-//15. wait
-//16. Drive to blue
-//17. Shoot
+import frc.robot.telemetries.Trace;
 
 public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
   /**
@@ -96,5 +79,15 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
         new ShootWithRPM(shooter, feeder,
             Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfBlueZone"))));
 
+  }
+
+  public void initialize() {
+    super.initialize();
+    Trace.getInstance().logCommandStart(this);
+  }
+
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    Trace.getInstance().logCommandStop(this);
   }
 }

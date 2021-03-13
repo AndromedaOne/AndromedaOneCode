@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
@@ -65,6 +64,7 @@ public class Robot extends TimedRobot {
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
+    SmartDashboard.putNumber("ShooterRPMTarget", 3000);
   }
 
   /**
@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
@@ -90,11 +91,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_sensorsContainer.getNavXGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
-
     m_sensorsContainer.getBallFeederSensor().isThereBall();
-    SmartDashboard.putNumber("NumberOfPowerCells", DefaultFeederCommand.getNumberOfPowerCellsInFeeder());
     SmartDashboard.putNumber("Shooter Speed", m_subsystemContainer.getShooter().getShooterWheelVelocity());
-    SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
   }
 
@@ -178,7 +176,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 
-//getters for various OI things below
+  // getters for various OI things below
 
   public SubsystemsContainer getSubsystemsContainer() {
     return m_subsystemContainer;
