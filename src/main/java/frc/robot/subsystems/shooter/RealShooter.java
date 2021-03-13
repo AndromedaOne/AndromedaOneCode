@@ -1,6 +1,5 @@
 package frc.robot.subsystems.shooter;
 
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -14,7 +13,7 @@ public class RealShooter extends ShooterBase {
   private final double SERIES_TICKS_TO_ROTATION = m_shooterConfig.getDouble("seriesticksperrotation");
   private SparkMaxController m_shooterOne;
   private SparkMaxController m_shooterTwo;
-  private TalonSRXController m_shooterSeries;
+  private SparkMaxController m_shooterSeries;
   private SpeedControllerGroup m_shooterGroup;
   private DoubleSolenoid4905 m_shooterHood;
   private boolean m_shooterWheelIsReady = false;
@@ -24,16 +23,15 @@ public class RealShooter extends ShooterBase {
   public RealShooter() {
     m_shooterOne = new SparkMaxController(m_shooterConfig, "shooterone");
     m_shooterTwo = new SparkMaxController(m_shooterConfig, "shootertwo");
-    m_shooterSeries = new TalonSRXController(m_shooterConfig, "shooterseries");
+    m_shooterSeries = new SparkMaxController(m_shooterConfig, "shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
     m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
-
-    m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
   }
 
   @Override
   public void setShooterWheelPower(double power) {
     m_shooterGroup.set(power);
+    SmartDashboard.putNumber("Shooter Wheel Power", power);
   }
 
   @Override
@@ -51,7 +49,8 @@ public class RealShooter extends ShooterBase {
   public double getShooterWheelVelocity() {
     double average = m_shooterOne.getEncoderVelocityTicks() + m_shooterTwo.getEncoderVelocityTicks();
     average = average / 2;
-    SmartDashboard.putNumber("Shooter Velocity", average);
+    SmartDashboard.putNumber("ShooterOne Velocity", m_shooterOne.getEncoderVelocityTicks());
+    SmartDashboard.putNumber("ShooterTwo Velocity", m_shooterTwo.getEncoderVelocityTicks());
     return average;
   }
 
@@ -79,7 +78,7 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public boolean isShooterHoodOpen() {
-    return m_shooterHood.isSolenoidOpen();
+    return true; // m_shooterHood.isSolenoidOpen();
   }
 
   @Override

@@ -6,54 +6,106 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class LEDs extends SubsystemBase {
 
-  protected DigitalOutput red;
-  protected DigitalOutput green;
-  protected DigitalOutput blue;
-  protected final double kBlinkSpeedMultiplier = 1.5;
-  protected int blinkCounter = 0;
-  private double redValue = 0;
-  private double greenValue = 0;
-  private double blueValue = 0;
-  private boolean ledsOn = false;
+  protected DigitalOutput m_red;
+  protected DigitalOutput m_green;
+  protected DigitalOutput m_blue;
+  protected final int KBLINKPERIOD = 100;
+  protected int m_blinkCounter = 0;
+  private double m_redValue = 0;
+  private double m_greenValue = 0;
+  private double m_blueValue = 0;
+  private boolean m_ledsOn = false;
+  private int m_rainbowCounter = 0;
+  protected boolean m_readyForPeriodic;
+
+  enum Mode {
+    SOLID, BLINKING, RAINBOW,
+  };
+
+  Mode m_mode = Mode.BLINKING;
+
+  public void setSolid() {
+    m_mode = Mode.SOLID;
+  }
+
+  public void setBlinking() {
+    m_mode = Mode.BLINKING;
+  }
+
+  public void setRainbow() {
+    m_mode = Mode.RAINBOW;
+  }
+
+  @Override
+  public void periodic() {
+    if (!m_readyForPeriodic) {
+      return;
+    }
+    Color color;
+    switch (m_mode) {
+
+    case SOLID:
+      color = new Color(m_redValue, m_greenValue, m_blueValue);
+      break;
+
+    case BLINKING:
+      if (m_blinkCounter < KBLINKPERIOD / 2) {
+        color = new Color(0, 0, 0);
+      } else {
+        color = new Color(m_redValue, m_greenValue, m_blueValue);
+      }
+      m_blinkCounter = (m_blinkCounter + 1) % KBLINKPERIOD;
+      break;
+
+    case RAINBOW:
+      m_rainbowCounter = (m_rainbowCounter + 1) % 100;
+      color = rainbow(m_rainbowCounter, 100);
+      break;
+
+    default:
+      color = new Color(1.0, .8, .8); // Pink
+    }
+    m_red.updateDutyCycle(validateBrightness(color.red));
+    m_green.updateDutyCycle(validateBrightness(color.green));
+    m_blue.updateDutyCycle(validateBrightness(color.blue));
+
+  }
 
   /**
    * This turns the LEDs off and clears the saved color
    */
   public void clearColor() {
-    ledsOn = false;
-    red.updateDutyCycle(0);
-    green.updateDutyCycle(0);
-    blue.updateDutyCycle(0);
-    redValue = 0;
-    blueValue = 0;
-    greenValue = 0;
+    m_ledsOn = false;
+    m_redValue = 0;
+    m_blueValue = 0;
+    m_greenValue = 0;
   }
 
   // This difference between toggle and clear color is that toggling
   // the LEDs will save the last color value so you can toggle them back
   // on with the same color
   protected void toggleLEDs() {
-    if (ledsOn) {
-      red.updateDutyCycle(0);
-      green.updateDutyCycle(0);
-      blue.updateDutyCycle(0);
-      ledsOn = false;
+    if (m_ledsOn) {
+      m_red.updateDutyCycle(0);
+      m_green.updateDutyCycle(0);
+      m_blue.updateDutyCycle(0);
+      m_ledsOn = false;
     } else {
-      red.updateDutyCycle(redValue);
-      green.updateDutyCycle(greenValue);
-      blue.updateDutyCycle(blueValue);
-      ledsOn = true;
+      m_red.updateDutyCycle(m_redValue);
+      m_green.updateDutyCycle(m_greenValue);
+      m_blue.updateDutyCycle(m_blueValue);
+      m_ledsOn = true;
     }
   }
 
   protected void toggleLEDsOn() {
-    if (!ledsOn) {
+    if (!m_ledsOn) {
       toggleLEDs();
     }
   }
 
   protected double validateBrightness(double brightness) {
-    ledsOn = true;
+    m_ledsOn = true;
     if (brightness > 1.0) {
       brightness = 1;
     } else if (brightness < 0) {
@@ -67,12 +119,9 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setRGB(double red, double green, double blue) {
     clearColor();
-    this.red.updateDutyCycle(validateBrightness(red));
-    this.green.updateDutyCycle(validateBrightness(green));
-    this.blue.updateDutyCycle(validateBrightness(blue));
-    redValue = red;
-    greenValue = green;
-    blueValue = blue;
+    m_redValue = red;
+    m_greenValue = green;
+    m_blueValue = blue;
   }
 
   /**
@@ -80,8 +129,16 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setRed(double brightness) {
     clearColor();
-    redValue = brightness;
-    red.updateDutyCycle(validateBrightness(brightness));
+    m_redValue = brightness;
+  }
+
+  /**
+   * This method takes a brightness value from 0 - 1 for yellow
+   */
+  public void setYellow(double brightness) {
+    clearColor();
+    m_redValue = brightness;
+    m_greenValue = brightness / 1.5;
   }
 
   /**
@@ -89,8 +146,7 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setGreen(double brightness) {
     clearColor();
-    greenValue = brightness;
-    green.updateDutyCycle(validateBrightness(brightness));
+    m_greenValue = brightness;
   }
 
   /**
@@ -98,8 +154,7 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setBlue(double brightness) {
     clearColor();
-    blueValue = brightness;
-    blue.updateDutyCycle(validateBrightness(brightness));
+    m_blueValue = brightness;
   }
 
   /**
@@ -107,12 +162,9 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setWhite(double brightness) {
     clearColor();
-    red.updateDutyCycle(validateBrightness(brightness));
-    green.updateDutyCycle(validateBrightness(brightness));
-    blue.updateDutyCycle(validateBrightness(brightness));
-    redValue = brightness;
-    greenValue = brightness;
-    blueValue = brightness;
+    m_redValue = brightness;
+    m_greenValue = brightness;
+    m_blueValue = brightness;
   }
 
   /**
@@ -121,10 +173,8 @@ public abstract class LEDs extends SubsystemBase {
   public void setPurple(double brightness) {
     clearColor();
     System.out.println("Setting purple to: " + validateBrightness(brightness));
-    blue.updateDutyCycle(validateBrightness(brightness));
-    red.updateDutyCycle(validateBrightness(brightness));
-    redValue = brightness;
-    blueValue = brightness;
+    m_redValue = brightness;
+    m_blueValue = brightness;
   }
 
 //#get the i'th color, of n colors. 
