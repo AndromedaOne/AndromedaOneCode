@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
+import frc.robot.sensors.gyro.NavXGyroSensor;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.intake.IntakeBase;
@@ -26,11 +27,13 @@ public class PowerPortContinue extends SequentialCommandGroup {
   private final double greenZoneShootingDistance = 180;
   private final double reIntroductionZoneDistance = 330;
   private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
+  private NavXGyroSensor navX;
 
   public PowerPortContinue(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
+    navX = Robot.getInstance().getSensorsContainer().getNavXGyro();
     DoubleSupplier d = Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget;
-    addCommands(new DelayedSequentialCommandGroup(
-        new MoveUsingEncoder(driveTrain, reloadToGreen, true, () -> .5 * d.getAsDouble(), m_maxOutPut),
+    addCommands(new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, reloadToGreen, true,
+        () -> .5 * d.getAsDouble() + navX.getCompassHeading(), m_maxOutPut),
         new PowerPortStart(driveTrain, shooter, feeder, intake)));
   }
 }

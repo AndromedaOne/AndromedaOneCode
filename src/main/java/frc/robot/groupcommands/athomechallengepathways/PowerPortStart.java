@@ -18,6 +18,7 @@ import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
+import frc.robot.sensors.gyro.NavXGyroSensor;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.intake.IntakeBase;
@@ -32,14 +33,17 @@ public class PowerPortStart extends SequentialCommandGroup {
   private final double reIntroductionZoneDistance = 330;
   private final double greenZoneShootingDistance = 180;
   private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
+  private NavXGyroSensor navX;
 
   public PowerPortStart(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
+    navX = Robot.getInstance().getSensorsContainer().getNavXGyro();
     DoubleSupplier d = Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget;
     addCommands(new DelayedSequentialCommandGroup(
         new TurnToFaceCommand(Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget),
         new ShootWithRPM(shooter, feeder, greenZoneShootingRPM),
         new ParallelCommandGroup(
-            new MoveUsingEncoder(driveTrain, -reloadToGreen, true, () -> .5 * d.getAsDouble(), m_maxOutPut),
+            new MoveUsingEncoder(driveTrain, -reloadToGreen, true,
+                () -> .5 * d.getAsDouble() + navX.getCompassHeading(), m_maxOutPut),
             new DefaultFeederCommand(), new DeployAndRunIntake(intake, () -> false))));
   }
 }
