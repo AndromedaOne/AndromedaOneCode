@@ -41,7 +41,7 @@ public class PowerPortStart extends SequentialCommandGroup {
         new ShootWithRPM(shooter, feeder, greenZoneShootingRPM),
         new ParallelCommandGroup(
             new MoveUsingEncoder(driveTrain, -reloadToGreen, true,
-                () -> .5 * d.getAsDouble()/* + navX.getCompassHeading()*/, m_maxOutPut),
+                () -> .5 * d.getAsDouble()/* + navX.getCompassHeading() */, m_maxOutPut),
             new PowerPortStart(driveTrain, shooter, feeder, intake))));
   }
 }
