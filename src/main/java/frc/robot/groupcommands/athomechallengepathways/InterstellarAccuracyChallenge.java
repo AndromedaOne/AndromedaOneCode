@@ -54,7 +54,7 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
     addCommands(new DelayedSequentialCommandGroup(
         // 1. start at 70 inches
         new ShootWithRPM(shooter, feeder,
-            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.backOfGreenZone") - 200),
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.backOfGreenZone")),
         // 2.
         new ParallelDeadlineGroup(
             new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
