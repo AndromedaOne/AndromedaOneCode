@@ -12,6 +12,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
 
 public class RomiDriveTrain extends RealDriveTrain {
+  private static final double METERSPERINCH = 0.0254;
   private final SparkController m_leftMotor;
   private final SparkController m_rightMotor;
 
@@ -21,6 +22,7 @@ public class RomiDriveTrain extends RealDriveTrain {
   private final double m_ticksPerInch;
 
   public RomiDriveTrain() {
+    super();
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_leftMotor = new SparkController(drivetrainConfig, "left");
     m_rightMotor = new SparkController(drivetrainConfig, "right");
@@ -31,11 +33,19 @@ public class RomiDriveTrain extends RealDriveTrain {
     double ticksPerRevolution = drivetrainConfig.getInt("ticksPerRevolution");
     double wheelDiameterInch = drivetrainConfig.getDouble("wheelDiameterInch");
     m_ticksPerInch = ticksPerRevolution / (wheelDiameterInch * Math.PI);
+    m_leftMotor.getEncoder().setDistancePerPulse(1 / m_ticksPerInch);
+    m_rightMotor.getEncoder().setDistancePerPulse(1 / m_ticksPerInch);
+
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // Update the odometry in the periodic block
+    SmartDashboard.putNumber("Romi Left Motor Position", getLeftSideMeters());
+    SmartDashboard.putNumber("Romi Right Motor Position", getRightsSideMeters());
+    SmartDashboard.putNumber("Romi Speed", getRobotVelocityInches());
+
+    super.periodic();
   }
 
   @Override
@@ -69,38 +79,43 @@ public class RomiDriveTrain extends RealDriveTrain {
   }
 
   @Override
-  public double getRobotVelocityInches() {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
-  @Override
   protected double getLeftRateMetersPerSecond() {
     // TODO Auto-generated method stub
-    return 0;
+    Exception e = new RuntimeException();
+    String nameofCurrMethod = e.getStackTrace()[0].getMethodName();
+    throw new RuntimeException(nameofCurrMethod);
   }
 
   @Override
   protected double getRightRateMetersPerSecond() {
     // TODO Auto-generated method stub
-    return 0;
+    Exception e = new RuntimeException();
+    String nameofCurrMethod = e.getStackTrace()[0].getMethodName();
+    throw new RuntimeException(nameofCurrMethod);
   }
 
   @Override
   protected void resetEncoders() {
     // TODO Auto-generated method stub
-
+    m_leftMotor.getEncoder().reset();
+    m_rightMotor.getEncoder().reset();
   }
 
   @Override
   protected double getLeftSideMeters() {
-    // TODO Auto-generated method stub
-    return 0;
+    return m_leftMotor.getEncoder().getDistance() * METERSPERINCH;
   }
 
   @Override
   protected double getRightsSideMeters() {
-    // TODO Auto-generated method stub
-    return 0;
+    return m_rightMotor.getEncoder().getDistance() * METERSPERINCH;
   }
+
+  @Override
+  public double getRobotVelocityInches() {
+    double leftSpeed = m_leftMotor.getEncoder().getRate();
+    double rightSpeed = m_rightMotor.getEncoder().getRate();
+    return (rightSpeed + leftSpeed) / 2.0;
+  }
+
 }

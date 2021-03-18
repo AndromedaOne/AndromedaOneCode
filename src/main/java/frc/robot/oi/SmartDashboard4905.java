@@ -83,8 +83,13 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("RomiExamplePath", new RomiExamplePath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("RomiChallenge1", new RomiChallenge1(subsystemsContainer.getDrivetrain()));
 
-    PathGeneratorBase twoDPathGenerator = new TwoDDriveTrainPathGenerator("StraightRomi.wpilib.json", subsystemsContainer.getDrivetrain(), "RomiDriveStraight");
-    SmartDashboard.putData("Romi2dTest", twoDPathGenerator.getPath());
+    PathGeneratorBase turnRightGenerator = new TwoDDriveTrainPathGenerator("TurnRightRomi.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiTurnRight");
+    SmartDashboard.putData("2d Turn Right", turnRightGenerator.getPath());
+
+    PathGeneratorBase sPathGenerator = new TwoDDriveTrainPathGenerator("SPathRomi.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiSPath");
+    SmartDashboard.putData("2d S Path", sPathGenerator.getPath());
 
   }
 
