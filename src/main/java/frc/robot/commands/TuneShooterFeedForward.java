@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.pidcommands.RunShooterSeriesVelocity;
 import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
@@ -37,7 +38,8 @@ public class TuneShooterFeedForward extends CommandBase {
     double shootRPM = SmartDashboard.getNumber("ShooterRPMTarget", 3000);
     System.out.println("Scheduling  RunShooterWheelVelocity");
     CommandScheduler.getInstance()
-        .schedule(new RunShooterWheelVelocity(m_shooter, () -> shootRPM, true, feedForward, pValue));
+        .schedule(new RunShooterWheelVelocity(m_shooter, () -> shootRPM, true, feedForward, pValue), 
+        new RunShooterSeriesVelocity(m_shooter, shootRPM));
     Trace.getInstance().logCommandStart(this);
   }
 

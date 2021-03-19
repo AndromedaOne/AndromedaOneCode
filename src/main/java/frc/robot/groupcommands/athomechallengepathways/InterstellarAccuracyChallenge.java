@@ -47,7 +47,7 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
   private final double reloadToGreen = 220;
   private final double reloadToYellow = 160;
   private final double reloadToBlue = 100;
-  private final double reloadToRed = 45;
+  private final double reloadToRed = 57;
 
   public InterstellarAccuracyChallenge(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder) {
 
