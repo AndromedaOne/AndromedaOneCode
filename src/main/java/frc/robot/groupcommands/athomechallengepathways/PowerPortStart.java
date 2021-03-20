@@ -36,11 +36,9 @@ public class PowerPortStart extends SequentialCommandGroup {
   public PowerPortStart(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
     navX = Robot.getInstance().getSensorsContainer().getNavXGyro();
     DoubleSupplier d = Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget;
-    addCommands(new DelayedSequentialCommandGroup(
-        //new TurnToFaceCommand(d),
-        //new ShootWithRPM(shooter, feeder, greenZoneShootingRPM),
-        new ParallelCommandGroup(
-            new MoveUsingEncoder(driveTrain, 36, true,
-                () -> .5 * d.getAsDouble()/* + navX.getCompassHeading() */, m_maxOutPut / 10.0))));
+    addCommands(new DelayedSequentialCommandGroup(new TurnToFaceCommand(d),
+        new ShootWithRPM(shooter, feeder, greenZoneShootingRPM),
+        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, true,
+            () -> .5 * d.getAsDouble() + navX.getCompassHeading(), m_maxOutPut))));
   }
 }
