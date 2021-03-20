@@ -80,18 +80,12 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   @Override
   protected double getLeftRateMetersPerSecond() {
-    // TODO Auto-generated method stub
-    Exception e = new RuntimeException();
-    String nameofCurrMethod = e.getStackTrace()[0].getMethodName();
-    throw new RuntimeException(nameofCurrMethod);
+    return m_leftMotor.getEncoder().getRate() * METERSPERINCH;
   }
 
   @Override
   protected double getRightRateMetersPerSecond() {
-    // TODO Auto-generated method stub
-    Exception e = new RuntimeException();
-    String nameofCurrMethod = e.getStackTrace()[0].getMethodName();
-    throw new RuntimeException(nameofCurrMethod);
+    return m_rightMotor.getEncoder().getRate() * METERSPERINCH;
   }
 
   @Override

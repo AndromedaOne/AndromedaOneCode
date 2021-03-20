@@ -32,7 +32,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   // the robot's main drive
   private DifferentialDrive m_drive;
   private DifferentialDriveOdometry m_odometry;
-  private int m_rightSideInvertedMultiplier = 1;
+  private int m_rightSideInvertedMultiplier = -1;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
