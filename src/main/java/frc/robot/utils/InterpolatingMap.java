@@ -9,7 +9,7 @@ import frc.robot.lib.interpolate.InterpolatingDouble;
 import frc.robot.lib.interpolate.InterpolatingTreeMap;
 
 public class InterpolatingMap {
-  private static InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> m_interpolatingMap = new InterpolatingTreeMap<>();
+  private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> m_interpolatingMap = new InterpolatingTreeMap<>();
   private List<Double> m_interpolatingMapList;
 
   public InterpolatingMap(Config config, String nameOfMap) {
