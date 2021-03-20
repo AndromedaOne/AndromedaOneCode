@@ -104,6 +104,9 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   @Override
   public boolean isFinished() {
+    if(m_useSmartDashboardForRPM) {
+      return false;
+    }
     return isDoneFeeding();
   }
 
