@@ -22,9 +22,9 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private double m_pValue = 0;
   private double m_feedForwardValue = 0;
   private boolean m_tuneValues = false;
-  private InterpolatingMap s_kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+  private InterpolatingMap m_kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
       "shooterTargetRPMAndKValues");
-  private InterpolatingMap s_pMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+  private InterpolatingMap m_pMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
       "shooterTargetRPMandPValues");
 
   /**
@@ -71,7 +71,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     if (m_tuneValues) {
       pValue = m_pValue;
     } else {
-      pValue = s_pMap.getInterpolatedValue(m_target);
+      pValue = m_pMap.getInterpolatedValue(m_target);
     }
     getController().setP(pValue);
     getController().setI(m_pidConfig.getDouble("runshooterwheelvelocity.i"));
@@ -115,7 +115,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     if (m_tuneValues) {
       kv = m_feedForwardValue;
     } else {
-      kv = s_kMap.getInterpolatedValue(m_target);
+      kv = m_kMap.getInterpolatedValue(m_target);
     }
     System.out.println("kv " + kv);
     return new SimpleMotorFeedforward(ks, kv);
