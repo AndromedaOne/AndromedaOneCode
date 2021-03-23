@@ -32,6 +32,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
   private double m_pDriveVel;
   private boolean m_resetOdometryToZero;
   private String m_name;
+  private double m_maxSpeed;
 
   public TwoDPathGenerator(String jsonFileName, Config config, boolean resetOdometryToZero, String name) {
     super(new WaypointsBase() {
@@ -58,6 +59,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
     m_driveKinematics = new DifferentialDriveKinematics(m_trackwidthMeters);
     m_ramseteB = config.getDouble("pathplanningconstants.kRamseteB");
     m_ramseteZeta = config.getDouble("pathplanningconstants.kRamseteZeta");
+    m_maxSpeed = config.getDouble("pathplanningconstants.kMaxSpeedMetersPerSecond");
     m_resetOdometryToZero = resetOdometryToZero;
     m_name = name;
   }
@@ -86,7 +88,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
         () -> getWheelSpeeds(), new TracingPIDController("LeftVelocity", m_pDriveVel, 0.0, 0.0),
         new TracingPIDController("RightVelocity", m_pDriveVel, 0.0, 0.0),
         // RamseteCommand passes volts to the callback
-        (left, right) -> tankDriveVolts(left, right), getSubsystem());
+        (left, right) -> tankDriveVolts(left, right), m_maxSpeed, getSubsystem());
 
     ramseteCommand.setLogName(m_name);
     if (!m_resetOdometryToZero) {
