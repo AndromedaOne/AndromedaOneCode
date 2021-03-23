@@ -59,6 +59,7 @@ public class RamseteCommand4905 extends CommandBase {
   private DifferentialDriveWheelSpeeds m_prevSpeeds;
   private double m_prevTime;
   private String m_name;
+  private double m_maxSpeed;
   TrajectoryGenerator a;
 
   /**
@@ -91,7 +92,7 @@ public class RamseteCommand4905 extends CommandBase {
   public RamseteCommand4905(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller,
       SimpleMotorFeedforward feedforward, DifferentialDriveKinematics kinematics,
       Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds, PIDController leftController, PIDController rightController,
-      BiConsumer<Double, Double> outputVolts, Subsystem... requirements) {
+      BiConsumer<Double, Double> outputVolts, double maxSpeed, Subsystem... requirements) {
     m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
     m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
     m_follower = requireNonNullParam(controller, "controller", "RamseteCommand");
@@ -101,7 +102,7 @@ public class RamseteCommand4905 extends CommandBase {
     m_leftController = requireNonNullParam(leftController, "leftController", "RamseteCommand");
     m_rightController = requireNonNullParam(rightController, "rightController", "RamseteCommand");
     m_output = requireNonNullParam(outputVolts, "outputVolts", "RamseteCommand");
-
+    m_maxSpeed = maxSpeed;
     m_usePID = true;
 
     addRequirements(requirements);
@@ -124,7 +125,7 @@ public class RamseteCommand4905 extends CommandBase {
    * @param requirements          The subsystems to require.
    */
   public RamseteCommand4905(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController follower,
-      DifferentialDriveKinematics kinematics, BiConsumer<Double, Double> outputMetersPerSecond,
+      DifferentialDriveKinematics kinematics, BiConsumer<Double, Double> outputMetersPerSecond, double maxSpeed,
       Subsystem... requirements) {
     m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
     m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
@@ -138,7 +139,7 @@ public class RamseteCommand4905 extends CommandBase {
     m_rightController = null;
 
     m_usePID = false;
-
+    m_maxSpeed = maxSpeed;
     addRequirements(requirements);
   }
 
@@ -183,6 +184,20 @@ public class RamseteCommand4905 extends CommandBase {
 
     double leftOutput;
     double rightOutput;
+
+    if(Math.abs(leftSpeedSetpoint) > m_maxSpeed) {
+      double delta = Math.abs(leftSpeedSetpoint) - m_maxSpeed;
+      leftSpeedSetpoint = Math.signum(leftSpeedSetpoint) * m_maxSpeed;
+      rightSpeedSetpoint = (Math.abs(rightSpeedSetpoint) - delta) * Math.signum(rightSpeedSetpoint);
+    }
+
+    if(Math.abs(rightSpeedSetpoint) > m_maxSpeed) {
+      double delta = Math.abs(rightSpeedSetpoint) - m_maxSpeed;
+      rightSpeedSetpoint = Math.signum(rightSpeedSetpoint) * m_maxSpeed;
+      leftSpeedSetpoint = (Math.abs(leftSpeedSetpoint) - delta) * Math.signum(leftSpeedSetpoint);
+    }
+
+    
 
     if (m_usePID) {
       double leftFeedforward = m_feedforward.calculate(leftSpeedSetpoint,
