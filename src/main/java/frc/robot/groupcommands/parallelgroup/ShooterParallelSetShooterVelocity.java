@@ -34,6 +34,7 @@ public class ShooterParallelSetShooterVelocity extends ParallelCommandGroup {
   public void end(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
+    System.out.println("in end");
   }
 
 }

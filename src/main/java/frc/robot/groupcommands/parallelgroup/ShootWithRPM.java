@@ -1,6 +1,7 @@
 package frc.robot.groupcommands.parallelgroup;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -24,7 +25,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
   private int m_samples;
   private boolean m_useSmartDashboardForRPM = false;
   private double m_shooterRPM = 0;
-  private double m_seriesRPM = 0;
 
   /**
    * This takes in a shooter and an rpm and intelligently shoots all the balls
@@ -44,12 +44,10 @@ public class ShootWithRPM extends ParallelCommandGroup {
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     kNumOfSamples = Config4905.getConfig4905().getCommandConstantsConfig()
         .getInt("ShootWithRPM.numOfFeederTestSamples");
-    m_seriesRPM = seriesRPM;
     m_useSmartDashboardForRPM = useSmartDashboardForRPM;
     m_shooterRPM = shooterRPM;
-    addCommands(
-        new ParallelCommandGroup(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, () -> m_shooterRPM),
-            new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier)));
+    addCommands(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, new ShootSupplier(shooterRPM)),
+        new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier));
   }
 
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
@@ -76,17 +74,13 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     super.initialize();
     Trace.getInstance().logCommandStart(this);
     m_isDone = false;
     m_samples = 0;
 
-    double seriesRPM = m_seriesRPM;
     if (m_useSmartDashboardForRPM) {
       m_shooterRPM = SmartDashboard.getNumber("ShooterRPMTarget", 0);
-      seriesRPM = m_shooterRPM
-          * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale");
     }
     System.out.println("ShooterRPM = " + m_shooterRPM);
 
@@ -115,7 +109,6 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
     m_isDone = true;
     m_shooter.setShooterSeriesPower(0);
@@ -125,5 +118,21 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   private boolean isDoneFeeding() {
     return m_isDone;
+  }
+
+  private class ShootSupplier implements DoubleSupplier {
+    private double m_rpm = 0;
+
+    public ShootSupplier(double rpm) {
+      m_rpm = rpm;
+    }
+
+    @Override
+    public double getAsDouble() {
+      if (m_useSmartDashboardForRPM) {
+        m_rpm = SmartDashboard.getNumber("ShooterRPMTarget", 0);
+      }
+      return m_rpm;
+    }
   }
 }

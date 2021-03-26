@@ -19,22 +19,13 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private ShooterBase m_shooter;
   private double m_target = 0;
   private static Config m_pidConfig;
-  private static Config m_shooterConfig;
-  private final double kControllerScale;
-  private static double manuelShooterAdjustment = 0;
-  private double scaledManualShooterAdjustment;
-  private static boolean resettingManualShooterAdjustment = false;
-  private double m_initialSetpoint;
+  private double m_pValue = 0;
   private double m_feedForwardValue = 0;
-  private boolean m_useFeedForwardValue = false;
-
-  public static void increaseManuelShooterAdjustment(double amountToIncrease) {
-    manuelShooterAdjustment += amountToIncrease;
-  }
-
-  public static void resetManuelShooterAdjustment() {
-    resettingManualShooterAdjustment = true;
-  }
+  private boolean m_tuneValues = false;
+  private InterpolatingMap m_kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+      "shooterTargetRPMAndKValues");
+  private InterpolatingMap m_pMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
+      "shooterTargetRPMandPValues");
 
   /**
    * @param shooter
@@ -43,71 +34,58 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
    *                              controller
    * @param setpoint
    */
-  public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, boolean useFeedForward,
-      double feedForwardValue) {
+  public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, boolean tuneValues,
+      double feedForwardValue, double pValue) {
     // PID Controller
     super(createPIDController(),
         // Measurement
         shooter::getShooterWheelVelocity,
         // Setpoint
-        0,
+        setpoint,
         // Output
         output -> {
           shooter.setShooterWheelPower(output + m_computedFeedForward);
         });
     getController().setTolerance(m_pidConfig.getDouble("runshooterwheelvelocity.tolerance"));
-
-    kControllerScale = Config4905.getConfig4905().getCommandConstantsConfig()
-        .getDouble("RunShooterWheelVelocity.shooterwheeljoystickscale");
     m_shooter = shooter;
-    m_target = setpoint.getAsDouble();
-    m_setpoint = this::getSetpoint;
-    m_initialSetpoint = setpoint.getAsDouble();
-    if (useFeedForward) {
+    m_setpoint = setpoint;
+    if (tuneValues) {
       m_feedForwardValue = feedForwardValue;
-      m_useFeedForwardValue = useFeedForward;
+      m_pValue = pValue;
     }
+    m_tuneValues = tuneValues;
+    System.out.println("RunShooterWheelVelocity contructor");
   }
 
   public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint) {
-    this(shooter, setpoint, false, 0);
+    this(shooter, setpoint, false, 0, 0);
   }
 
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     super.initialize();
+    m_target = m_setpoint.getAsDouble();
     m_feedForward = createFeedForward();
-    getController().setP(m_pidConfig.getDouble("runshooterwheelvelocity.p"));
+    double pValue = 0;
+    if (m_tuneValues) {
+      pValue = m_pValue;
+    } else {
+      pValue = m_pMap.getInterpolatedValue(m_target);
+    }
+    getController().setP(pValue);
     getController().setI(m_pidConfig.getDouble("runshooterwheelvelocity.i"));
     getController().setD(m_pidConfig.getDouble("runshooterwheelvelocity.d"));
-    System.out.println(
-        " - Shooter Setpoint: " + m_target + "\nShooter P = " + m_pidConfig.getDouble("runshooterwheelvelocity.p"));
+    System.out.println(" - Shooter Setpoint: " + m_target + "\nShooter P = " + pValue);
   }
 
   @Override
   public void execute() {
-    // This adjusts the setpoint while the PID is running to allow the
-    // Subsystems driver to tune the rpm on the fly
-    if (resettingManualShooterAdjustment) {
-      m_target = m_initialSetpoint;
-      manuelShooterAdjustment = 0;
-      resettingManualShooterAdjustment = false;
-    }
-    scaledManualShooterAdjustment = manuelShooterAdjustment * kControllerScale;
-    m_target += scaledManualShooterAdjustment;
-    double maxRPM = 5000;
-    double minRPM = 0;
-    if (m_target > maxRPM) {
-      m_target = maxRPM;
-    } else if (m_target < minRPM) {
-      m_target = minRPM;
-    }
+
     m_shooter.setShooterPIDIsReady(getController().atSetpoint());
     m_computedFeedForward = m_feedForward.calculate(m_target);
     super.execute();
     SmartDashboard.putNumber("Shooter Wheel Velocity Setpoint", m_target);
-    SmartDashboard.putNumber("Manual Shooter Adjustment", manuelShooterAdjustment);
   }
 
   @Override
@@ -134,21 +112,16 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private SimpleMotorFeedforward createFeedForward() {
     double ks = 0;
     double kv = 0;
-    if (m_useFeedForwardValue) {
+    if (m_tuneValues) {
       kv = m_feedForwardValue;
     } else {
-      InterpolatingMap kMap = new InterpolatingMap(Config4905.getConfig4905().getCommandConstantsConfig(),
-          "shooterTargetRPMAndKValues");
-      kv = kMap.getInterpolatedValue(m_target);
+      kv = m_kMap.getInterpolatedValue(m_target);
     }
+    System.out.println("kv " + kv);
     return new SimpleMotorFeedforward(ks, kv);
   }
 
   public double getSetpoint() {
     return m_target;
-  }
-
-  public static double getManualShooterAdjustment() {
-    return manuelShooterAdjustment;
   }
 }
