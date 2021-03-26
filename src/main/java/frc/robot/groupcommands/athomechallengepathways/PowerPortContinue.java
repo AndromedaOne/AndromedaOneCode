@@ -22,7 +22,7 @@ public class PowerPortContinue extends SequentialCommandGroup {
   private final double m_maxOutPut = 1;
   private final double greenZoneShootingDistance = 180;
   private final double reIntroductionZoneDistance = 330;
-  private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
+  private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance - 20;
 
   public PowerPortContinue(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
     addCommands(new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, reloadToGreen, 0, m_maxOutPut),

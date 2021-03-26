@@ -25,10 +25,10 @@ public class PowerPortStart extends SequentialCommandGroup {
    * Creates a new PowerPortShoot.
    */
   private final double m_maxOutPut = 1;
-  private final double greenZoneShootingRPM = 2100;
+  private final double greenZoneShootingRPM = 1675;
   private final double reIntroductionZoneDistance = 330;
   private final double greenZoneShootingDistance = 180;
-  private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
+  private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance - 20;
 
   public PowerPortStart(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
     addCommands(new DelayedSequentialCommandGroup(
