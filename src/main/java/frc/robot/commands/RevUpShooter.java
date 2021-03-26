@@ -17,23 +17,20 @@ public class RevUpShooter extends ParallelCommandGroup {
    * Creates a new RevUpShooter.
    */
   public RevUpShooter(ShooterBase shooter) {
-    addCommands(new ShooterParallelSetShooterVelocity(shooter, 0, () -> 2500));
+    addCommands(new ShooterParallelSetShooterVelocity(shooter, 0, () -> 1675));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
+    super.initialize();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    super.end(interrupted);
     Trace.getInstance().logCommandStop(this);
   }
 
