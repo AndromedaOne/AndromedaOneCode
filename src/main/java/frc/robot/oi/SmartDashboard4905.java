@@ -17,6 +17,7 @@ import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.RomiCommands.RomiChallenge1;
 import frc.robot.groupcommands.RomiCommands.RomiChallenge2Course1;
+import frc.robot.groupcommands.RomiCommands.RomiChallenge2Course2;
 import frc.robot.groupcommands.RomiCommands.RomiExamplePath;
 import frc.robot.groupcommands.athomechallengepathways.BarrelRacingPath;
 import frc.robot.groupcommands.athomechallengepathways.BouncePath;
@@ -82,6 +83,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("RomiExamplePath", new RomiExamplePath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("RomiChallenge1", new RomiChallenge1(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("RomiChallenge2Course1", new RomiChallenge2Course1(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("RomiChallenge2Course2", new RomiChallenge2Course2(subsystemsContainer.getDrivetrain()));
   }
 
   public Command getSelectedAutoChooserCommand() {
