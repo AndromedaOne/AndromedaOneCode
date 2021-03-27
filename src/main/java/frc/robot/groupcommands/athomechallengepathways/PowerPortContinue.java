@@ -8,8 +8,8 @@
 package frc.robot.groupcommands.athomechallengepathways;
 
 import java.util.function.DoubleSupplier;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.RevUpShooter;
@@ -35,12 +35,14 @@ public class PowerPortContinue extends SequentialCommandGroup {
   public PowerPortContinue(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
     navX = Robot.getInstance().getSensorsContainer().getNavXGyro();
     DoubleSupplier d = Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget;
-    addCommands(new DelayedSequentialCommandGroup(
-    addCommands(new DelayedSequentialCommandGroup(
-        new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, reloadToGreen, 0, m_maxOutPut),
-            new RevUpShooter(shooter), new RunIntakeOut(intake, () -> false, 1)),
-        new MoveUsingEncoder(driveTrain, reloadToGreen, true,
-            () -> .5 * d.getAsDouble()/* + navX.getCompassHeading() */, m_maxOutPut),
+    // @formatter:off
+    addCommands(
+      new DelayedSequentialCommandGroup(
+        new ParallelDeadlineGroup(
+          new MoveUsingEncoder(driveTrain, reloadToGreen, true, () -> .5 * d.getAsDouble()/* + navX.getCompassHeading() */, m_maxOutPut),
+          new RevUpShooter(shooter), 
+          new RunIntakeOut(intake, () -> false, 1)),
         new PowerPortStart(driveTrain, shooter, feeder, intake)));
+    // @formatter:on
   }
 }
