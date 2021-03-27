@@ -95,6 +95,10 @@ public class SmartDashboard4905 {
         subsystemsContainer.getDrivetrain(), "RomiStraitPath");
     SmartDashboard.putData("Romi 2d Strait Path", straitPathGenerator.getPath());
 
+    PathGeneratorBase slalomPathGenerator = new TwoDDriveTrainPathGenerator("Slalom.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiSlalomPath");
+    SmartDashboard.putData("Romi 2d Slalom", slalomPathGenerator.getPath());
+
   }
 
   public Command getSelectedAutoChooserCommand() {
