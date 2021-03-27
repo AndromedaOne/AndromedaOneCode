@@ -84,6 +84,56 @@ public class Config4905 {
         System.out.println("ERROR: cannot find name of Romi via SSID");
         e.printStackTrace();
       }
+
+      System.out.println("LOOK HERE:::::");
+      try {
+        System.out.println("1");
+        String command = "/Sy*/L*/Priv*/Apple8*/V*/C*/R*/airport -I | awk '/ SSID:/ {print $2}'";
+        // found this command from:
+        // https://apple.stackexchange.com/questions/176702/how-do-i-get-the-name-of-the-wifi-network-im-connected-to
+
+        String [] cmdArray = new String[2];
+ 
+        cmdArray[0] = "open";
+        cmdArray[1] = command;
+        // the open command is here as per this suggestion:
+        // https://discussions.apple.com/thread/133798
+        Process proc = Runtime.getRuntime().exec(cmdArray);
+        
+        
+        BufferedReader bReader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        String line;
+        System.out.println("2");
+        System.out.println(proc.getInputStream() == null);
+        System.out.println(bReader == null);
+        System.out.println(bReader.readLine() == null);
+        while ((line = bReader.readLine()) != null) {
+          String RomiSectionOfName = "";
+          try {
+            RomiSectionOfName = line.substring(0, 9);
+          }catch(IndexOutOfBoundsException e) {
+            continue;
+          }
+          if (RomiSectionOfName.matches("4905_Romi")) {
+            System.out.println("SSID line: " + line);
+            System.out.println("Romi Robot name = " + line);
+            m_robotName = line;
+          }
+          System.out.println("");
+          System.out.println("");
+          System.out.println("");
+          System.out.println("");
+          System.out.println("LINE: " + line);
+          System.out.println("");
+          System.out.println("");
+          System.out.println("");
+          System.out.println("");
+        }
+      } catch (IOException e) {
+        System.out.println("ERROR: cannot find name of Romi via SSID If your using a MAC");
+        e.printStackTrace();
+      }
+
       // the next line retrieves the path to the jar file that is being
       // executed. this should be in a standard place in the repo. from there
       // we can find the deploy directory and the configs
