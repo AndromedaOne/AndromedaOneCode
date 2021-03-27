@@ -35,7 +35,6 @@ public class SparkController extends Spark {
     }
     return (0.0);
   }
-
   public Encoder getEncoder() {
     return m_encoder;
   }
