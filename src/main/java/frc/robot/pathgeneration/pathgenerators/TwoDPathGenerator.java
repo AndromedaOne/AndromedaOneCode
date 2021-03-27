@@ -30,6 +30,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
   private double m_ramseteB;
   private double m_ramseteZeta;
   private double m_pDriveVel;
+  private double m_iDriveVel;
   private boolean m_resetOdometryToZero;
   private String m_name;
 
@@ -54,6 +55,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
     m_vVoltSecondsPerMeter = config.getDouble("pathplanningconstants.kvVoltSecondsPerMeter");
     m_aVoltSecondsSquaredPerMeter = config.getDouble("pathplanningconstants.kaVoltSecondsSquaredPerMeter");
     m_pDriveVel = config.getDouble("pathplanningconstants.kPDriveVel");
+    m_iDriveVel = config.getDouble("pathplanningconstants.kIDriveVel");
     m_trackwidthMeters = config.getDouble("pathplanningconstants.kTrackwidthMeters");
     m_driveKinematics = new DifferentialDriveKinematics(m_trackwidthMeters);
     m_ramseteB = config.getDouble("pathplanningconstants.kRamseteB");
@@ -83,8 +85,8 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
     RamseteCommand4905 ramseteCommand = new RamseteCommand4905(trajectory, () -> getPos(),
         new RamseteController(m_ramseteB, m_ramseteZeta),
         new SimpleMotorFeedforward(m_sVolts, m_vVoltSecondsPerMeter, m_aVoltSecondsSquaredPerMeter), m_driveKinematics,
-        () -> getWheelSpeeds(), new TracingPIDController("LeftVelocity", m_pDriveVel, 0.0, 0.0),
-        new TracingPIDController("RightVelocity", m_pDriveVel, 0.0, 0.0),
+        () -> getWheelSpeeds(), new TracingPIDController("LeftVelocity", m_pDriveVel, m_iDriveVel, 0.0),
+        new TracingPIDController("RightVelocity", m_pDriveVel, m_iDriveVel, 0.0),
         // RamseteCommand passes volts to the callback
         (left, right) -> tankDriveVolts(left, right), getSubsystem());
 
