@@ -61,6 +61,7 @@ public class RamseteCommand4905 extends CommandBase {
   private String m_name;
   private double m_maxSpeed;
   TrajectoryGenerator a;
+  RamseteMaxVelocityAdjustment ramseteMaxVelocityAdjustment;
 
   /**
    * Constructs a new RamseteCommand that, when executed, will follow the provided
@@ -161,6 +162,8 @@ public class RamseteCommand4905 extends CommandBase {
     Trace.getInstance().registerTraceEntry(m_name + "ActualTracking",
         (pairs) -> pairs[0].getValue() + ", " + pairs[1].getValue(), (pairs) -> "x, y",
         new TracePair<Double>("ActualX", 0.0), new TracePair<Double>("ActualY", 0.0));
+
+    ramseteMaxVelocityAdjustment = new RamseteMaxVelocityAdjustment(m_maxSpeed, m_kinematics);
   }
 
   @Override
@@ -168,7 +171,7 @@ public class RamseteCommand4905 extends CommandBase {
     double curTime = m_timer.get();
     double dt = curTime - m_prevTime;
     Pose2d currentPos = m_pose.get();
-    State desiredState = m_trajectory.sample(curTime);
+    State desiredState = m_trajectory.sample(ramseteMaxVelocityAdjustment.getAdjustedTime(curTime));
 
     ChassisSpeeds chassisSpeeds = m_follower.calculate(currentPos, desiredState);
 
@@ -181,21 +184,10 @@ public class RamseteCommand4905 extends CommandBase {
     var leftSpeedSetpoint = targetWheelSpeeds.leftMetersPerSecond;
     var rightSpeedSetpoint = targetWheelSpeeds.rightMetersPerSecond;
 
+    ramseteMaxVelocityAdjustment.update(leftSpeedSetpoint, rightSpeedSetpoint, curTime);
+
     double leftOutput;
     double rightOutput;
-
-    if(Math.abs(leftSpeedSetpoint) > m_maxSpeed) {
-      double delta = Math.abs(leftSpeedSetpoint) - m_maxSpeed;
-      leftSpeedSetpoint = Math.signum(leftSpeedSetpoint) * m_maxSpeed;
-      rightSpeedSetpoint = (Math.abs(rightSpeedSetpoint) - delta) * Math.signum(rightSpeedSetpoint);
-    }
-
-    if(Math.abs(rightSpeedSetpoint) > m_maxSpeed) {
-      double delta = Math.abs(rightSpeedSetpoint) - m_maxSpeed;
-      rightSpeedSetpoint = Math.signum(rightSpeedSetpoint) * m_maxSpeed;
-      leftSpeedSetpoint = (Math.abs(leftSpeedSetpoint) - delta) * Math.signum(leftSpeedSetpoint);
-    }
-
     
 
     if (m_usePID) {
