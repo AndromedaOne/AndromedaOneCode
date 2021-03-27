@@ -16,13 +16,14 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.Gyro4905;
 
 public abstract class RealDriveTrain extends DriveTrain {
   // Gyro variables
-  private Gyro4905 navX;
+  private Gyro4905 gyro;
   private double savedAngle = 0;
   private double newRotateValue = 0;
   private boolean gyroCorrect = false;
@@ -36,7 +37,7 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
-    navX = Robot.getInstance().getSensorsContainer().getGyro();
+    gyro = Robot.getInstance().getSensorsContainer().getGyro();
     kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
     System.out.println("kProportion = " + kProportion);
@@ -49,12 +50,21 @@ public abstract class RealDriveTrain extends DriveTrain {
     super.periodic();
     double leftMeters = getLeftSideMeters();
     double rightMeters = getRightsSideMeters();
-    m_odometry.update(new Rotation2d(navX.getAngle()), leftMeters, rightMeters);
+    double angle = Math.toRadians(gyro.getAngle());
+    m_odometry.update(new Rotation2d(angle), leftMeters, rightMeters);
+    SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("OdometryRotation", m_odometry.getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("OdometryAngle", angle);
+    SmartDashboard.putNumber("Odometry Romi Left Motor Position", leftMeters);
+    SmartDashboard.putNumber("Odometry Romi Right Motor Position", rightMeters);
+    
   }
 
   private Timer timer;
 
   public void init() {
+    resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -63,7 +73,7 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_drive.setRightSideInverted(rightSideInverted);
       m_rightSideInvertedMultiplier = rightSideInverted ? -1 : 1;
     }
-    resetEncoders();
+    
   }
 
   /**
@@ -74,7 +84,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                 turn
    */
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
-    moveUsingGyro(forwardBackward, rotation, useDelay, useSquaredInputs, navX.getCompassHeading());
+    moveUsingGyro(forwardBackward, rotation, useDelay, useSquaredInputs, gyro.getCompassHeading());
   }
 
   /**
@@ -91,8 +101,8 @@ public abstract class RealDriveTrain extends DriveTrain {
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
       double heading) {
 
-    double robotDeltaAngle = navX.getCompassHeading() - heading;
-    double robotAngle = navX.getZAngle() + robotDeltaAngle;
+    double robotDeltaAngle = gyro.getCompassHeading() - heading;
+    double robotAngle = gyro.getZAngle() + robotDeltaAngle;
     /*
      * If we are rotating or our delay time is lower than our set Delay do not use
      * gyro correct This allows the robot to rotate naturally after we turn
@@ -125,7 +135,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    * 
    */
   public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
-    double zAngle = navX.getZAngle();
+    double zAngle = gyro.getZAngle();
     double absoluteHeading = convertHeadingToAbsoluteAngle(heading, zAngle);
     double robotDeltaAngle = absoluteHeading - zAngle;
     boolean gyroCorrect = true;
@@ -215,7 +225,7 @@ public abstract class RealDriveTrain extends DriveTrain {
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(pose, new Rotation2d(navX.getAngle()));
+    m_odometry.resetPosition(pose, new Rotation2d(gyro.getAngle()));
   }
 
   @Override

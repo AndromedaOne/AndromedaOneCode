@@ -168,6 +168,7 @@ public class RamseteCommand4905 extends CommandBase {
     double dt = curTime - m_prevTime;
     Pose2d currentPos = m_pose.get();
     State desiredState = m_trajectory.sample(curTime);
+    //currentPos = desiredState.poseMeters;
 
     ChassisSpeeds chassisSpeeds = m_follower.calculate(currentPos, desiredState);
 

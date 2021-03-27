@@ -41,8 +41,7 @@ public class RomiDriveTrain extends RealDriveTrain {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    SmartDashboard.putNumber("Romi Left Motor Position", getLeftSideMeters());
-    SmartDashboard.putNumber("Romi Right Motor Position", getRightsSideMeters());
+    
     SmartDashboard.putNumber("Romi Speed", getRobotVelocityInches());
 
     super.periodic();

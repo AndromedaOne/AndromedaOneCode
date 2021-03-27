@@ -121,7 +121,7 @@ public class RomiGyro extends Gyro4905 {
   @Override
   public double getAngle() {
     // TODO Auto-generated method stub
-    return -getRateZ();
+    return -getRawZAngle();
   }
 
   @Override
