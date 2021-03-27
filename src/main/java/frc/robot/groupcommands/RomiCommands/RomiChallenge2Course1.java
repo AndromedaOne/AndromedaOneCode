@@ -21,10 +21,10 @@ public class RomiChallenge2Course1 extends SequentialCommandGroup {
       addWayPoint(new Waypoint(15, 30));
       addWayPoint(new Waypoint(0, 17.5));
       addWayPoint(new Waypoint(0, 72.5));
-      addWayPoint(new Waypoint(-15.5, 53));
+      addWayPoint(new Waypoint(-15, 53.5));
       addWayPoint(new Waypoint(-7, 43.5));
       addWayPoint(new Waypoint(16, 67));
-      addWayPoint(new Waypoint(0, 73));
+      addWayPoint(new Waypoint(0, 77));
       addWayPoint(new Waypoint(0, 0));
     }
 

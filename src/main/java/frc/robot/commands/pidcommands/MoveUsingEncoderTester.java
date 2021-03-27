@@ -12,7 +12,7 @@ public class MoveUsingEncoderTester extends SequentialCommandGroup {
   public MoveUsingEncoderTester(DriveTrain drivetrain) {
     super();
     m_command = new MoveUsingEncoder(drivetrain,
-        SmartDashboard.getNumber("MoveUsingEncoderTester Distance To Move", 12), 1);
+        SmartDashboard.getNumber("MoveUsingEncoderTester Distance To Move", 12), 0.6);
     addCommands(new ConfigReload(), m_command);
   }
 
