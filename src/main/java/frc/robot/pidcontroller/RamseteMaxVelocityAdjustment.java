@@ -15,6 +15,7 @@ public class RamseteMaxVelocityAdjustment {
     private double m_previousAdjustedSpeed;
     private double m_previousTime;
 
+    
 
     public RamseteMaxVelocityAdjustment(double maxVelocity, DifferentialDriveKinematics kinematics) {
         m_accumulatedTimeAdjustment = 0;
@@ -26,18 +27,15 @@ public class RamseteMaxVelocityAdjustment {
     }
 
     public double getAdjustedTime(double currentTime) {
+        // need to adjust the time here
+        setAccumulatedTimeAdjustment(currentTime);
+        m_previousTime = currentTime;
         return currentTime - m_accumulatedTimeAdjustment;
     }
 
-    public void update(double leftVelocity, double rightVelocity, double currentTime) {
+    public void update(double leftVelocity, double rightVelocity) {
         updateVelocities(leftVelocity, rightVelocity);
-        updateAccumulatedTimeAdjustment(leftVelocity, rightVelocity, currentTime);
-    }
-
-    private void updateAccumulatedTimeAdjustment(double originalLeftVelocity, double originalRightVelocity, double currentTime) {
-        setAccumulatedTimeAdjustment(currentTime);
-        setPreviousSpeeds(originalLeftVelocity, originalRightVelocity);
-        m_previousTime = currentTime;
+        setPreviousVelocities(leftVelocity, rightVelocity);
     }
 
     private void setAccumulatedTimeAdjustment(double currentTime) {
@@ -46,7 +44,7 @@ public class RamseteMaxVelocityAdjustment {
         m_accumulatedTimeAdjustment += deltaT - (adjustedDistance / m_previousCommandedSpeed);
     }
 
-    private void setPreviousSpeeds(double originalLeftVelocity, double originalRightVelocity) {
+    private void setPreviousVelocities(double originalLeftVelocity, double originalRightVelocity) {
         DifferentialDriveWheelSpeeds newDifferentialDriveWheelSpeeds = new DifferentialDriveWheelSpeeds(m_leftVelocity, m_rightVelocity);
         ChassisSpeeds newChassisSpeeds = m_kinematics.toChassisSpeeds(newDifferentialDriveWheelSpeeds);
         DifferentialDriveWheelSpeeds originalDifferentialDriveWheelSpeeds = new DifferentialDriveWheelSpeeds(originalLeftVelocity, originalRightVelocity);
@@ -62,34 +60,31 @@ public class RamseteMaxVelocityAdjustment {
             return;
         }
 
-        if(Math.abs(leftVelocity) > m_maxVelocity && Math.abs(rightVelocity) > m_maxVelocity){
-            adjustVelocitiesWhenBothAreGreaterThanMax(leftVelocity, rightVelocity);
-            return;
-        }
-
-        if(Math.abs(leftVelocity) > m_maxVelocity) {
+        if(Math.abs(leftVelocity) > Math.abs(rightVelocity)) {
             double delta = Math.abs(leftVelocity) - Math.abs(rightVelocity);
             m_leftVelocity = m_maxVelocity * Math.signum(leftVelocity);
-            m_rightVelocity = (Math.abs(rightVelocity) - delta) * Math.signum(rightVelocity);
-            updateVelocities(m_leftVelocity, m_rightVelocity);
+            m_rightVelocity = getVelocityadjustedByDeltaOrToZero(rightVelocity, delta);
         }else {
             double delta = Math.abs(rightVelocity) - Math.abs(leftVelocity);
             m_rightVelocity = m_maxVelocity * Math.signum(rightVelocity);
-            m_leftVelocity = (Math.abs(leftVelocity) - delta) * Math.signum(leftVelocity);
-            updateVelocities(m_leftVelocity, m_rightVelocity);
+            m_leftVelocity = getVelocityadjustedByDeltaOrToZero(leftVelocity, delta);
         }
     }
 
-    private void adjustVelocitiesWhenBothAreGreaterThanMax(double leftVelocity, double rightVelocity) {
-        if(Math.abs(leftVelocity) > Math.abs(rightVelocity)) {
-            m_leftVelocity = m_maxVelocity * Math.signum(leftVelocity);
-            double delta = Math.abs(leftVelocity) - Math.abs(rightVelocity);
-            m_rightVelocity = (m_maxVelocity - delta) * Math.signum(rightVelocity);
-        }else {
-            m_rightVelocity = m_maxVelocity * Math.signum(rightVelocity);
-            double delta = Math.abs(rightVelocity) - Math.abs(leftVelocity);
-            m_leftVelocity = (m_maxVelocity - delta) * Math.signum(leftVelocity);
+    private double getVelocityadjustedByDeltaOrToZero(double velocity, double delta) {
+        if(delta > Math.abs(velocity)) {
+            return 0;
+        }else{
+            return (Math.abs(velocity) - delta) * Math.signum(velocity);
         }
+    }
+
+    public double getLeftVelocity() {
+        return m_leftVelocity;
+    }
+
+    public double getRightVelocity() {
+        return m_rightVelocity;
     }
     
 }
