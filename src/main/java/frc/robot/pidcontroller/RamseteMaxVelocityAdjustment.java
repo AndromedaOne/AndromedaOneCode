@@ -63,11 +63,19 @@ public class RamseteMaxVelocityAdjustment {
         if(Math.abs(leftVelocity) > Math.abs(rightVelocity)) {
             double delta = Math.abs(leftVelocity) - Math.abs(rightVelocity);
             m_leftVelocity = m_maxVelocity * Math.signum(leftVelocity);
-            m_rightVelocity = getVelocityadjustedByDeltaOrToZero(rightVelocity, delta);
+            if(rightVelocity > Math.abs(m_maxVelocity)){
+                m_rightVelocity = getVelocityadjustedByDeltaOrToZero(m_maxVelocity * Math.signum(rightVelocity), delta);
+            }else{
+                m_rightVelocity = getVelocityadjustedByDeltaOrToZero(rightVelocity, delta);
+            }
         }else {
             double delta = Math.abs(rightVelocity) - Math.abs(leftVelocity);
             m_rightVelocity = m_maxVelocity * Math.signum(rightVelocity);
-            m_leftVelocity = getVelocityadjustedByDeltaOrToZero(leftVelocity, delta);
+            if(rightVelocity > Math.abs(m_maxVelocity)){
+                m_leftVelocity = getVelocityadjustedByDeltaOrToZero(m_maxVelocity * Math.signum(leftVelocity), delta);
+            }else{
+                m_leftVelocity = getVelocityadjustedByDeltaOrToZero(leftVelocity, delta);
+            }
         }
     }
 
