@@ -184,8 +184,10 @@ public class RamseteCommand4905 extends CommandBase {
     var leftSpeedSetpoint = targetWheelSpeeds.leftMetersPerSecond;
     var rightSpeedSetpoint = targetWheelSpeeds.rightMetersPerSecond;
 
-    ramseteMaxVelocityAdjustment.update(leftSpeedSetpoint, rightSpeedSetpoint, curTime);
-
+    ramseteMaxVelocityAdjustment.update(leftSpeedSetpoint, rightSpeedSetpoint);
+    leftSpeedSetpoint = ramseteMaxVelocityAdjustment.getLeftVelocity();
+    rightSpeedSetpoint = ramseteMaxVelocityAdjustment.getRightVelocity();
+    
     double leftOutput;
     double rightOutput;
     
