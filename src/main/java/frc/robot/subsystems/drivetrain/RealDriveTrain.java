@@ -58,6 +58,8 @@ public abstract class RealDriveTrain extends DriveTrain {
     SmartDashboard.putNumber("OdometryAngle", angle);
     SmartDashboard.putNumber("Odometry Romi Left Motor Position", leftMeters);
     SmartDashboard.putNumber("Odometry Romi Right Motor Position", rightMeters);
+    SmartDashboard.putNumber("OdometryLeftSpeed", getLeftRateMetersPerSecond());
+    SmartDashboard.putNumber("OdometryRightSpeed", getRightRateMetersPerSecond());
     
   }
 

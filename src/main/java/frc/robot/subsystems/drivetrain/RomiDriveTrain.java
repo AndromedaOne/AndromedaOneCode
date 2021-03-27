@@ -6,7 +6,10 @@ package frc.robot.subsystems.drivetrain;
 
 import com.typesafe.config.Config;
 
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
@@ -18,8 +21,15 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   private final SpeedControllerGroup m_left;
   private final SpeedControllerGroup m_right;
-
+  private Timer timer;
+  private double m_previousLeftPositionMeters;
+  private double m_previousRightPositionMeters;
+  private double m_currentLeftVelocityMetersPerSecond;
+  private double m_currentRightVelocityMetersPerSecond;
+  private double m_previousTime;
   private final double m_ticksPerInch;
+  DescriptiveStatistics leftRollingAverage;
+  DescriptiveStatistics rightRollingAverage;
 
   public RomiDriveTrain() {
     super();
@@ -33,9 +43,26 @@ public class RomiDriveTrain extends RealDriveTrain {
     double ticksPerRevolution = drivetrainConfig.getInt("ticksPerRevolution");
     double wheelDiameterInch = drivetrainConfig.getDouble("wheelDiameterInch");
     m_ticksPerInch = ticksPerRevolution / (wheelDiameterInch * Math.PI);
-    m_leftMotor.getEncoder().setDistancePerPulse(1 / m_ticksPerInch);
-    m_rightMotor.getEncoder().setDistancePerPulse(1 / m_ticksPerInch);
+    m_leftMotor.getEncoder().setDistancePerPulse(1.0);
+    m_rightMotor.getEncoder().setDistancePerPulse(1.0);
+    m_previousLeftPositionMeters = 0;
+    m_previousRightPositionMeters = 0;
+    m_currentLeftVelocityMetersPerSecond = 0;
+    m_currentRightVelocityMetersPerSecond = 0;
+    m_previousTime =0;
+    timer = new Timer();
+    leftRollingAverage = new DescriptiveStatistics(10);
+    rightRollingAverage = new DescriptiveStatistics(10);
+  }
 
+  @Override
+  public void init() {
+    // TODO Auto-generated method stub
+    super.init();
+    timer.start();
+    m_previousLeftPositionMeters = 0;
+    m_previousRightPositionMeters = 0;
+    m_previousTime = 0;
   }
 
   @Override
@@ -44,6 +71,21 @@ public class RomiDriveTrain extends RealDriveTrain {
     
     SmartDashboard.putNumber("Romi Speed", getRobotVelocityInches());
 
+    double currentTime = Timer.getFPGATimestamp();
+    double currentLeftPoseMeters = getLeftSideMeters();
+    double currentRightPoseMeters = getRightsSideMeters();
+    double deltaT = (currentTime - m_previousTime);
+    SmartDashboard.putNumber("DeltaT", deltaT);
+
+    leftRollingAverage.addValue((currentLeftPoseMeters - m_previousLeftPositionMeters) / deltaT);
+    m_currentLeftVelocityMetersPerSecond = leftRollingAverage.getMean();
+    rightRollingAverage.addValue((currentRightPoseMeters - m_previousRightPositionMeters) / deltaT);
+    m_currentRightVelocityMetersPerSecond = rightRollingAverage.getMean();
+
+    m_previousLeftPositionMeters = currentLeftPoseMeters;
+    m_previousRightPositionMeters = currentRightPoseMeters;
+    SmartDashboard.putNumber("Odometry Ratio", m_currentLeftVelocityMetersPerSecond / ((m_leftMotor.getEncoder().getRate() / m_ticksPerInch) * METERSPERINCH));
+    m_previousTime = currentTime;
     super.periodic();
   }
 
@@ -77,14 +119,16 @@ public class RomiDriveTrain extends RealDriveTrain {
     return encoderPositionAvg;
   }
 
+
+
   @Override
   protected double getLeftRateMetersPerSecond() {
-    return m_leftMotor.getEncoder().getRate() * METERSPERINCH;
+    return m_currentLeftVelocityMetersPerSecond;
   }
 
   @Override
   protected double getRightRateMetersPerSecond() {
-    return m_rightMotor.getEncoder().getRate() * METERSPERINCH;
+    return m_currentRightVelocityMetersPerSecond;
   }
 
   @Override
@@ -96,12 +140,12 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   @Override
   protected double getLeftSideMeters() {
-    return m_leftMotor.getEncoder().getDistance() * METERSPERINCH;
+    return (m_leftMotor.getEncoderPositionTicks() / m_ticksPerInch) * METERSPERINCH;
   }
 
   @Override
   protected double getRightsSideMeters() {
-    return m_rightMotor.getEncoder().getDistance() * METERSPERINCH;
+    return (m_rightMotor.getEncoderPositionTicks() / m_ticksPerInch) * METERSPERINCH;
   }
 
   @Override
