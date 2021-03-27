@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.RunAllFeederMotors;
+import frc.robot.commands.RunIntakeOut;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.TuneShooterFeedForward;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
@@ -79,6 +80,7 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
     SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));
+    SmartDashboard.putData("Run Intake Out", new RunIntakeOut(subsystemsContainer.getIntake(), () -> false, 1));
   }
 
   public Command getSelectedAutoChooserCommand() {
