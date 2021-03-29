@@ -4,9 +4,9 @@
 
 package frc.robot.subsystems.drivetrain;
 
-import com.typesafe.config.Config;
-
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
+import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
@@ -28,6 +28,8 @@ public class RomiDriveTrain extends RealDriveTrain {
   private double m_currentRightVelocityMetersPerSecond;
   private double m_previousTime;
   private final double m_ticksPerInch;
+  private double numberOfTicksLeft;
+  private double numberOfTicksRight;
   DescriptiveStatistics leftRollingAverage;
   DescriptiveStatistics rightRollingAverage;
 
@@ -49,7 +51,7 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_previousRightPositionMeters = 0;
     m_currentLeftVelocityMetersPerSecond = 0;
     m_currentRightVelocityMetersPerSecond = 0;
-    m_previousTime =0;
+    m_previousTime = 0;
     timer = new Timer();
     leftRollingAverage = new DescriptiveStatistics(10);
     rightRollingAverage = new DescriptiveStatistics(10);
@@ -63,12 +65,16 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_previousLeftPositionMeters = 0;
     m_previousRightPositionMeters = 0;
     m_previousTime = 0;
+    numberOfTicksLeft = m_leftMotor.getEncoderPositionTicks();
+    numberOfTicksRight = m_rightMotor.getEncoderPositionTicks();
+    m_leftMotor.getEncoder().setDistancePerPulse(3.28);
+    m_rightMotor.getEncoder().setDistancePerPulse(3.28);
   }
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    
+
     SmartDashboard.putNumber("Romi Speed", getRobotVelocityInches());
 
     double currentTime = Timer.getFPGATimestamp();
@@ -84,9 +90,21 @@ public class RomiDriveTrain extends RealDriveTrain {
 
     m_previousLeftPositionMeters = currentLeftPoseMeters;
     m_previousRightPositionMeters = currentRightPoseMeters;
-    SmartDashboard.putNumber("Odometry Ratio", m_currentLeftVelocityMetersPerSecond / ((m_leftMotor.getEncoder().getRate() / m_ticksPerInch) * METERSPERINCH));
+    SmartDashboard.putNumber("Odometry Ratio",
+        m_currentLeftVelocityMetersPerSecond / ((m_leftMotor.getEncoder().getRate() / m_ticksPerInch) * METERSPERINCH));
     m_previousTime = currentTime;
+
+    double t = timer.get();
+    double leftRate = (m_leftMotor.getEncoder().getRate() == 0.0) ? 0.0001 : (m_leftMotor.getEncoder().getRate());
+    double currentLeftRatio = (m_leftMotor.getEncoderPositionTicks() - numberOfTicksLeft) / (leftRate * t);
+    double rightRate = (m_rightMotor.getEncoder().getRate() == 0.0) ? 0.0001 : (m_rightMotor.getEncoder().getRate());
+    double currentRightRatio = (m_rightMotor.getEncoderPositionTicks() - numberOfTicksRight) / (rightRate * t);
+    SmartDashboard.putNumber("AAA Left Motor Ratio", currentLeftRatio);
+    SmartDashboard.putNumber("AAA Right Motor Ratio", currentRightRatio);
+
     super.periodic();
+    SmartDashboard.putNumber("AAA Distance Per Pulse", m_leftMotor.getEncoder().getDistancePerPulse());
+    SmartDashboard.putNumber("AAA Ticks Per Inch", m_ticksPerInch);
   }
 
   @Override
@@ -119,16 +137,14 @@ public class RomiDriveTrain extends RealDriveTrain {
     return encoderPositionAvg;
   }
 
-
-
   @Override
   protected double getLeftRateMetersPerSecond() {
-    return m_currentLeftVelocityMetersPerSecond;
+    return m_leftMotor.getEncoder().getRate();
   }
 
   @Override
   protected double getRightRateMetersPerSecond() {
-    return m_currentRightVelocityMetersPerSecond;
+    return m_rightMotor.getEncoder().getRate();
   }
 
   @Override
