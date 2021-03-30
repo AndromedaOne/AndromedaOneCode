@@ -227,7 +227,9 @@ public abstract class RealDriveTrain extends DriveTrain {
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(pose, new Rotation2d(gyro.getAngle()));
+    double angle = gyro.getAngle();
+    SmartDashboard.putNumber("ResetOdometryAngle", angle);
+    m_odometry.resetPosition(pose, new Rotation2d(angle));
   }
 
   @Override
