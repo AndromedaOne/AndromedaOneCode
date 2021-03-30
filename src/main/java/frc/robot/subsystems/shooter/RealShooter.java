@@ -13,19 +13,23 @@ public class RealShooter extends ShooterBase {
   private final double SERIES_TICKS_TO_ROTATION = m_shooterConfig.getDouble("seriesticksperrotation");
   private SparkMaxController m_shooterOne;
   private SparkMaxController m_shooterTwo;
-  private SparkMaxController m_shooterSeries;
+  private SparkMaxController m_shooterSeries1;
+  private SparkMaxController m_stageThree;
   private SpeedControllerGroup m_shooterGroup;
   private DoubleSolenoid4905 m_shooterHood;
   private boolean m_shooterWheelIsReady = false;
   private boolean m_shooterSeriesIsReady = false;
   private boolean m_shooterIsIdle = false;
+  private SpeedControllerGroup m_shooterSeriesGroup;
 
   public RealShooter() {
     m_shooterOne = new SparkMaxController(m_shooterConfig, "shooterone");
     m_shooterTwo = new SparkMaxController(m_shooterConfig, "shootertwo");
-    m_shooterSeries = new SparkMaxController(m_shooterConfig, "shooterseries");
+    m_shooterSeries1 = new SparkMaxController(m_shooterConfig, "shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
     m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
+    m_stageThree = new SparkMaxController(m_shooterConfig, "stageThree");
+    m_shooterSeriesGroup = new SpeedControllerGroup(m_stageThree, m_shooterSeries1);
   }
 
   @Override
@@ -36,13 +40,13 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public void setShooterSeriesPower(double power) {
-    m_shooterSeries.set(power);
+    m_shooterSeriesGroup.set(power);
   }
 
   @Override
   public double getShooterSeriesVelocity() {
     // Converts to rpm
-    return (m_shooterSeries.getEncoderVelocityTicks() / SERIES_TICKS_TO_ROTATION) * 1000;
+    return (m_shooterSeries1.getEncoderVelocityTicks() / SERIES_TICKS_TO_ROTATION) * 1000;
   }
 
   @Override
@@ -61,7 +65,7 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public double getSeriesPower() {
-    return m_shooterSeries.get();
+    return m_shooterSeries1.get();
   }
 
   @Override
