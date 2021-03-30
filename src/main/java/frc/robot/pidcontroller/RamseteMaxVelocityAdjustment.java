@@ -14,6 +14,7 @@ public class RamseteMaxVelocityAdjustment {
     private double m_previousCommandedSpeed;
     private double m_previousAdjustedSpeed;
     private double m_previousTime;
+    private boolean m_adjustedVelocities;
 
     
 
@@ -26,6 +27,7 @@ public class RamseteMaxVelocityAdjustment {
         m_previousCommandedSpeed = 0;
         m_previousAdjustedSpeed = 0;
         m_previousTime = 0;
+        m_adjustedVelocities = false;
     }
 
     public double getAdjustedTime(double currentTime) {
@@ -41,9 +43,13 @@ public class RamseteMaxVelocityAdjustment {
     }
 
     private void setAccumulatedTimeAdjustment(double currentTime) {
-        double deltaT = currentTime - m_previousTime;
-        double adjustedDistance = deltaT * m_previousAdjustedSpeed;
-        m_accumulatedTimeAdjustment += deltaT - (adjustedDistance / m_previousCommandedSpeed);
+        if (m_adjustedVelocities){
+            double deltaT = currentTime - m_previousTime;
+            double adjustedDistance = deltaT * m_previousAdjustedSpeed;
+            if(Math.abs(m_previousCommandedSpeed) > 1.0e-5){
+                m_accumulatedTimeAdjustment += deltaT - (adjustedDistance / m_previousCommandedSpeed);
+            }
+        }
     }
 
     private void setPreviousVelocities(double originalLeftVelocity, double originalRightVelocity) {
@@ -59,8 +65,10 @@ public class RamseteMaxVelocityAdjustment {
         if(Math.abs(leftVelocity) <= m_maxVelocity && Math.abs(rightVelocity) <= m_maxVelocity){
             m_leftVelocity = leftVelocity;
             m_rightVelocity = rightVelocity;
+            m_adjustedVelocities = false;
             return;
         }
+        m_adjustedVelocities = true;
 
         if(Math.abs(leftVelocity) > Math.abs(rightVelocity)) {
             double delta = Math.abs(leftVelocity) - Math.abs(rightVelocity);
