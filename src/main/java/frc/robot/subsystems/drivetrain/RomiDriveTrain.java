@@ -67,8 +67,8 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_previousTime = 0;
     numberOfTicksLeft = m_leftMotor.getEncoderPositionTicks();
     numberOfTicksRight = m_rightMotor.getEncoderPositionTicks();
-    m_leftMotor.getEncoder().setDistancePerPulse(3.28);
-    m_rightMotor.getEncoder().setDistancePerPulse(3.28);
+    m_leftMotor.getEncoder().setDistancePerPulse(3.28 * METERSPERINCH / m_ticksPerInch) ;
+    m_rightMotor.getEncoder().setDistancePerPulse(3.28 * METERSPERINCH / m_ticksPerInch);
   }
 
   @Override
@@ -105,6 +105,8 @@ public class RomiDriveTrain extends RealDriveTrain {
     super.periodic();
     SmartDashboard.putNumber("AAA Distance Per Pulse", m_leftMotor.getEncoder().getDistancePerPulse());
     SmartDashboard.putNumber("AAA Ticks Per Inch", m_ticksPerInch);
+    SmartDashboard.putNumber("AAA Left From Encoder", m_leftMotor.getEncoder().getRate());
+    SmartDashboard.putNumber("AAA Left V", getLeftRateMetersPerSecond());
   }
 
   @Override
