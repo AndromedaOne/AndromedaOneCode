@@ -18,6 +18,8 @@ public class RamseteMaxVelocityAdjustment {
     
 
     public RamseteMaxVelocityAdjustment(double maxVelocity, DifferentialDriveKinematics kinematics) {
+        m_leftVelocity = 0;
+        m_rightVelocity = 0;
         m_accumulatedTimeAdjustment = 0;
         m_maxVelocity = maxVelocity;
         m_kinematics = kinematics;

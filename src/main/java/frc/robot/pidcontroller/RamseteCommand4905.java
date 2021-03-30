@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -171,7 +172,9 @@ public class RamseteCommand4905 extends CommandBase {
     double curTime = m_timer.get();
     double dt = curTime - m_prevTime;
     Pose2d currentPos = m_pose.get();
-    State desiredState = m_trajectory.sample(ramseteMaxVelocityAdjustment.getAdjustedTime(curTime));
+    double time = ramseteMaxVelocityAdjustment.getAdjustedTime(curTime);
+    SmartDashboard.putNumber("RamseteTime", time);
+    State desiredState = m_trajectory.sample(time);
 
 
     ChassisSpeeds chassisSpeeds = m_follower.calculate(currentPos, desiredState);
@@ -188,6 +191,8 @@ public class RamseteCommand4905 extends CommandBase {
     ramseteMaxVelocityAdjustment.update(leftSpeedSetpoint, rightSpeedSetpoint);
     leftSpeedSetpoint = ramseteMaxVelocityAdjustment.getLeftVelocity();
     rightSpeedSetpoint = ramseteMaxVelocityAdjustment.getRightVelocity();
+    SmartDashboard.putNumber("RamseteLeftSetpoint", leftSpeedSetpoint);
+    SmartDashboard.putNumber("RamseteRightSetpoint", rightSpeedSetpoint);
     
     double leftOutput;
     double rightOutput;
