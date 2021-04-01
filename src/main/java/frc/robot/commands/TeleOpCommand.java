@@ -51,7 +51,6 @@ public class TeleOpCommand extends CommandBase {
   public void execute() {
     double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
     double rotateStickValue = m_driveController.getRotateStick();
-
     switch (m_slowModeState) {
     case NOTSLOWRELEASED:
       if (m_driveController.getLeftBumperPressed()) {
@@ -87,6 +86,7 @@ public class TeleOpCommand extends CommandBase {
       break;
     }
 
+    m_slowMode = true;
     if (m_slowMode) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");

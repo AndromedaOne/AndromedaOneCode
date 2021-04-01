@@ -13,8 +13,8 @@ public class DemoShoot extends CommandBase{
     private Timer m_timer;
     public static final double TIME_BEFORE_SHOOTING = 1.0;
     public static final double SPEED_OF_FEEDER = 0.5;
-    public static final double SHOOTER_WHEEL_SPEED = 0.5;
-    public static final double SERIES_WHEEL_SPEED = 0.5;
+    public static final double SHOOTER_WHEEL_SPEED = 0.25;
+    public static final double SERIES_WHEEL_SPEED = 0.25;
 
     public DemoShoot(FeederBase feeder, ShooterBase shooter) {
         m_feeder = feeder;
@@ -26,6 +26,7 @@ public class DemoShoot extends CommandBase{
     public void initialize() {
         super.initialize();
         m_timer.reset();
+        m_timer.start();
     }
 
     @Override

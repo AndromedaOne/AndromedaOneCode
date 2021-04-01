@@ -53,6 +53,8 @@ public class DriveController {
     // ButtonsEnumerated.STARTBUTTON.getValue());
     // turnOffLimelight.whenPressed(new ToggleLimelightLED(false,
     // sensorsContainer));
+    letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
+    letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
   }
 
   /**
