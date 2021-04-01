@@ -176,7 +176,6 @@ public class RamseteCommand4905 extends CommandBase {
     SmartDashboard.putNumber("RamseteTime", time);
     State desiredState = m_trajectory.sample(time);
 
-
     ChassisSpeeds chassisSpeeds = m_follower.calculate(currentPos, desiredState);
 
     Trace.getInstance().addTrace(true, m_name + "ChassisSpeeds",

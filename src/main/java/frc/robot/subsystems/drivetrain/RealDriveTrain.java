@@ -60,7 +60,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     SmartDashboard.putNumber("Odometry Romi Right Motor Position", rightMeters);
     SmartDashboard.putNumber("OdometryLeftSpeed", getLeftRateMetersPerSecond());
     SmartDashboard.putNumber("OdometryRightSpeed", getRightRateMetersPerSecond());
-    
+
   }
 
   private Timer timer;
@@ -75,7 +75,7 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_drive.setRightSideInverted(rightSideInverted);
       m_rightSideInvertedMultiplier = rightSideInverted ? -1 : 1;
     }
-    
+
   }
 
   /**
