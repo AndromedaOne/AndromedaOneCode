@@ -32,6 +32,8 @@ public class RomiDriveTrain extends RealDriveTrain {
   private double numberOfTicksRight;
   DescriptiveStatistics leftRollingAverage;
   DescriptiveStatistics rightRollingAverage;
+  private double m_maxLeftVelocity = 0;
+  private double m_maxRightVelocity = 0;
 
   public RomiDriveTrain() {
     super();
@@ -69,6 +71,8 @@ public class RomiDriveTrain extends RealDriveTrain {
     numberOfTicksRight = m_rightMotor.getEncoderPositionTicks();
     m_leftMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch) ;
     m_rightMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch);
+    m_maxRightVelocity = 0;
+    m_maxLeftVelocity = 0;
   }
 
   @Override
@@ -94,19 +98,13 @@ public class RomiDriveTrain extends RealDriveTrain {
         m_currentLeftVelocityMetersPerSecond / ((m_leftMotor.getEncoder().getRate() / m_ticksPerInch) * METERSPERINCH));
     m_previousTime = currentTime;
 
-    double t = timer.get();
-    double leftRate = (m_leftMotor.getEncoder().getRate() == 0.0) ? 0.0001 : (m_leftMotor.getEncoder().getRate());
-    double currentLeftRatio = (m_leftMotor.getEncoderPositionTicks() - numberOfTicksLeft) / (leftRate * t);
-    double rightRate = (m_rightMotor.getEncoder().getRate() == 0.0) ? 0.0001 : (m_rightMotor.getEncoder().getRate());
-    double currentRightRatio = (m_rightMotor.getEncoderPositionTicks() - numberOfTicksRight) / (rightRate * t);
-    SmartDashboard.putNumber("AAA Left Motor Ratio", currentLeftRatio);
-    SmartDashboard.putNumber("AAA Right Motor Ratio", currentRightRatio);
-
-    super.periodic();
-    SmartDashboard.putNumber("AAA Distance Per Pulse", m_leftMotor.getEncoder().getDistancePerPulse());
-    SmartDashboard.putNumber("AAA Ticks Per Inch", m_ticksPerInch);
-    SmartDashboard.putNumber("AAA Left From Encoder", m_leftMotor.getEncoder().getRate());
-    SmartDashboard.putNumber("AAA Left V", getLeftRateMetersPerSecond());
+    double leftVelocity = getLeftRateMetersPerSecond();
+    double rightVelocity = getRightRateMetersPerSecond();
+    m_maxLeftVelocity = Math.max(Math.abs(leftVelocity), m_maxLeftVelocity);
+    m_maxRightVelocity = Math.max(Math.abs(rightVelocity), m_maxRightVelocity);
+    SmartDashboard.putNumber("AAA Left max V", m_maxLeftVelocity);
+    SmartDashboard.putNumber("AAA Right max V", m_maxRightVelocity);
+    
   }
 
   @Override
