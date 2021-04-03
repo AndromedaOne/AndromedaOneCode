@@ -104,6 +104,8 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_maxRightVelocity = Math.max(Math.abs(rightVelocity), m_maxRightVelocity);
     SmartDashboard.putNumber("AAA Left max V", m_maxLeftVelocity);
     SmartDashboard.putNumber("AAA Right max V", m_maxRightVelocity);
+
+    super.periodic();
     
   }
 
