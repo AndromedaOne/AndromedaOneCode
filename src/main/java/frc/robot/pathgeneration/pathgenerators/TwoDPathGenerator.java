@@ -46,7 +46,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
     trajectory = null;
     try {
       trajectory = TrajectoryUtil
-          .fromPathweaverJson(Paths.get("D:\\github\\frc4905\\2021Code\\src\\main\\deploy\\paths\\" + jsonFileName));
+          .fromPathweaverJson(Paths.get("D:\\git\\2021Code\\src\\main\\deploy\\paths\\" + jsonFileName));
     } catch (IOException e1) {
       e1.printStackTrace();
     }
