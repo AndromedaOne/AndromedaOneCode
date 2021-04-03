@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class PowerPortBase extends SequentialCommandGroup {
 
-  private final double powerPortShootingRPM = 1750;
+  private final double powerPortShootingRPM = 1850;
   private final double powerPortDistance = 114;
 
   public PowerPortBase() {
