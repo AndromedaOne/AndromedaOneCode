@@ -12,7 +12,7 @@ public class CheckRomiVelocityConversionFactor extends CommandBase{
     private double m_initialPosition;
     private Timer m_timer;
     public static final double TIME_OFFSET = 2;
-    public static final double TIME_CALCULATING = 5;
+    public static final double TIME_CALCULATING = 60;
     private int count;
     private double rateAccum;
     private double initialTime;
@@ -31,6 +31,11 @@ public class CheckRomiVelocityConversionFactor extends CommandBase{
     @Override
     public void initialize() {
         super.initialize();
+        rateAccum = 0;
+        count = 0;
+        initialTime = 0;
+        m_initialPositionSet = false;
+        m_initialPosition = 0;
         m_timer.reset();
         m_timer.start();
         

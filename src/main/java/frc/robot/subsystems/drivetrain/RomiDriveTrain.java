@@ -67,8 +67,8 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_previousTime = 0;
     numberOfTicksLeft = m_leftMotor.getEncoderPositionTicks();
     numberOfTicksRight = m_rightMotor.getEncoderPositionTicks();
-    //m_leftMotor.getEncoder().setDistancePerPulse(3.28 * METERSPERINCH / m_ticksPerInch) ;
-    //m_rightMotor.getEncoder().setDistancePerPulse(3.28 * METERSPERINCH / m_ticksPerInch);
+    m_leftMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch) ;
+    m_rightMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch);
   }
 
   @Override
