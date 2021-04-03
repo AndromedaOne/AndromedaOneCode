@@ -27,7 +27,7 @@ public class RomiDriveTrain extends RealDriveTrain {
   private double m_currentLeftVelocityMetersPerSecond;
   private double m_currentRightVelocityMetersPerSecond;
   private double m_previousTime;
-  private final double m_ticksPerInch;
+  public final double m_ticksPerInch;
   private double numberOfTicksLeft;
   private double numberOfTicksRight;
   DescriptiveStatistics leftRollingAverage;
@@ -67,8 +67,8 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_previousTime = 0;
     numberOfTicksLeft = m_leftMotor.getEncoderPositionTicks();
     numberOfTicksRight = m_rightMotor.getEncoderPositionTicks();
-    m_leftMotor.getEncoder().setDistancePerPulse(3.28 * METERSPERINCH / m_ticksPerInch) ;
-    m_rightMotor.getEncoder().setDistancePerPulse(3.28 * METERSPERINCH / m_ticksPerInch);
+    //m_leftMotor.getEncoder().setDistancePerPulse(3.28 * METERSPERINCH / m_ticksPerInch) ;
+    //m_rightMotor.getEncoder().setDistancePerPulse(3.28 * METERSPERINCH / m_ticksPerInch);
   }
 
   @Override
@@ -140,17 +140,17 @@ public class RomiDriveTrain extends RealDriveTrain {
   }
 
   @Override
-  protected double getLeftRateMetersPerSecond() {
+  public double getLeftRateMetersPerSecond() {
     return m_leftMotor.getEncoder().getRate();
   }
 
   @Override
-  protected double getRightRateMetersPerSecond() {
+  public double getRightRateMetersPerSecond() {
     return m_rightMotor.getEncoder().getRate();
   }
 
   @Override
-  protected void resetEncoders() {
+  public void resetEncoders() {
     // TODO Auto-generated method stub
     m_leftMotor.getEncoder().reset();
     m_rightMotor.getEncoder().reset();
@@ -165,6 +165,11 @@ public class RomiDriveTrain extends RealDriveTrain {
   protected double getRightsSideMeters() {
     return (m_rightMotor.getEncoderPositionTicks() / m_ticksPerInch) * METERSPERINCH;
   }
+
+  public double getLeftRightAverageTicks() {
+    return (m_leftMotor.getEncoderPositionTicks() + m_rightMotor.getEncoderPositionTicks()) / 2.0;
+  }
+
 
   @Override
   public double getRobotVelocityInches() {

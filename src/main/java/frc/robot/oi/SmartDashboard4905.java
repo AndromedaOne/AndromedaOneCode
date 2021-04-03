@@ -10,6 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.CheckRomiVelocityConversionFactor;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.ToggleLimelightLED;
@@ -32,6 +33,7 @@ import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.drivetrain.DriveTrain;
 
 /**
  * Add your docs here.
@@ -102,6 +104,8 @@ public class SmartDashboard4905 {
     PathGeneratorBase barrelPathGenerator = new TwoDDriveTrainPathGenerator("RomiBarrelRacing.wpilib.json",
         subsystemsContainer.getDrivetrain(), "RomiBarrelPath");
     SmartDashboard.putData("Romi 2d Barrel", barrelPathGenerator.getPath());
+
+    SmartDashboard.putData("CheckRomiVelocityConversionFactor", new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
 
   }
 
