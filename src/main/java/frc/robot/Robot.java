@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
-    m_subsystemContainer.getDrivetrain().setCoast(false);
+    m_subsystemContainer.getDrivetrain().setCoast(true);
 
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     SmartDashboard.putNumber("ShooterRPMTarget", 3000);
