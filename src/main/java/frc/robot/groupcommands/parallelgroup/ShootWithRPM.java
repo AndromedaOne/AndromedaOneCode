@@ -1,7 +1,9 @@
 package frc.robot.groupcommands.parallelgroup;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -15,11 +17,14 @@ public class ShootWithRPM extends ParallelCommandGroup {
   private BooleanSupplier m_isDoneFeedingSupplier = this::isDoneFeeding;
   private boolean m_isDone = false;
   private ShooterBase m_shooter;
+  private FeederBase m_feeder;
   private BallFeederSensorBase m_ballFeederSensor;
   // This is the amount of samples we need to determine whether
   // the feeder is actually empty
   private final int kNumOfSamples;
   private int m_samples;
+  private boolean m_useSmartDashboardForRPM = false;
+  private double m_shooterRPM = 0;
 
   /**
    * This takes in a shooter and an rpm and intelligently shoots all the balls
@@ -31,15 +36,22 @@ public class ShootWithRPM extends ParallelCommandGroup {
    * @param shooterRPM
    * @param seriesRPM
    */
-  public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
+  public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM,
+      boolean useSmartDashboardForRPM) {
 
     m_shooter = shooter;
+    m_feeder = feeder;
     m_ballFeederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     kNumOfSamples = Config4905.getConfig4905().getCommandConstantsConfig()
         .getInt("ShootWithRPM.numOfFeederTestSamples");
+    m_useSmartDashboardForRPM = useSmartDashboardForRPM;
+    m_shooterRPM = shooterRPM;
+    addCommands(new ShooterParallelSetShooterVelocity(m_shooter, seriesRPM, new ShootSupplier(shooterRPM)),
+        new FeedBothStagesIntoShooter(m_feeder, m_shooter, m_isDoneFeedingSupplier));
+  }
 
-    addCommands(new ShooterParallelSetShooterVelocity(shooter, seriesRPM, shooterRPM),
-        new FeedBothStagesIntoShooter(feeder, shooter, m_isDoneFeedingSupplier));
+  public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double shooterRPM, double seriesRPM) {
+    this(shooter, feeder, shooterRPM, seriesRPM, false);
   }
 
   /**
@@ -53,15 +65,25 @@ public class ShootWithRPM extends ParallelCommandGroup {
    */
   public ShootWithRPM(ShooterBase shooter, FeederBase feeder, double rpm) {
     this(shooter, feeder, rpm,
-        rpm * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale"));
+        rpm * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootWithRPM.seriesRPMScale"), false);
+  }
+
+  public ShootWithRPM(ShooterBase shooter, FeederBase feeder, boolean useSmartDashboardForRPM) {
+    this(shooter, feeder, 0, 0, true);
   }
 
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     super.initialize();
+    Trace.getInstance().logCommandStart(this);
     m_isDone = false;
     m_samples = 0;
+
+    if (m_useSmartDashboardForRPM) {
+      m_shooterRPM = SmartDashboard.getNumber("ShooterRPMTarget", 0);
+    }
+    System.out.println("ShooterRPM = " + m_shooterRPM);
+
   }
 
   @Override
@@ -87,16 +109,30 @@ public class ShootWithRPM extends ParallelCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
     m_isDone = true;
     m_shooter.setShooterSeriesPower(0);
     m_shooter.setShooterWheelPower(0);
-
-    System.out.println("In ShootWithRPM end()");
+    Trace.getInstance().logCommandStop(this);
   }
 
   private boolean isDoneFeeding() {
     return m_isDone;
+  }
+
+  private class ShootSupplier implements DoubleSupplier {
+    private double m_rpm = 0;
+
+    public ShootSupplier(double rpm) {
+      m_rpm = rpm;
+    }
+
+    @Override
+    public double getAsDouble() {
+      if (m_useSmartDashboardForRPM) {
+        m_rpm = SmartDashboard.getNumber("ShooterRPMTarget", 0);
+      }
+      return m_rpm;
+    }
   }
 }

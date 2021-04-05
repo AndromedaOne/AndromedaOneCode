@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.RunAllFeederMotors;
+import frc.robot.commands.RunIntakeOut;
 import frc.robot.commands.ToggleLimelightLED;
+import frc.robot.commands.TuneShooterFeedForward;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
-import frc.robot.groupcommands.athomechallengepathways.AtHomeChallengePoints;
 import frc.robot.groupcommands.athomechallengepathways.BarrelRacingPath;
 import frc.robot.groupcommands.athomechallengepathways.BouncePath;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
@@ -26,9 +28,7 @@ import frc.robot.groupcommands.athomechallengepathways.HyperDriveChallenge;
 import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChallenge;
 import frc.robot.groupcommands.athomechallengepathways.PowerPortStart;
 import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
-import frc.robot.groupcommands.athomechallengepathways.TestPath;
-import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
-import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
+import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -50,8 +50,8 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
-    SmartDashboard.putData("Shoot 10 feet",
-        new ShootWithDistance(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 120));
+    SmartDashboard.putData("ShootRPM",
+        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), true));
 
     SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
 
@@ -70,16 +70,17 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Galactic Search Path B", new GalacticSearchPathB());
     SmartDashboard.putData("InterstellerAccuracyChallenge", new InterstellarAccuracyChallenge(
         subsystemsContainer.getDrivetrain(), subsystemsContainer.getShooter(), subsystemsContainer.getFeeder()));
-    SmartDashboard.putData("Bounce Path", new BouncePath(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("Bounce Path",
+        new BouncePath(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
     SmartDashboard.putData("Slalom Path", new SlalomPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Barrel Racing Path", new BarrelRacingPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Hyper Drive Challenge", new HyperDriveChallenge(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Power Port Start", new PowerPortStart(subsystemsContainer.getDrivetrain(),
         subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
 
-    DriveTrainDiagonalPathGenerator driveTrainDiagonalPathGenerator = new DriveTrainDiagonalPathGenerator(
-        new TestPath(), subsystemsContainer.getDrivetrain(), AtHomeChallengePoints.E3);
-    SmartDashboard.putData("Drive Test Path", driveTrainDiagonalPathGenerator.getPath());
+    SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
+    SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));
+    SmartDashboard.putData("Run Intake Out", new RunIntakeOut(subsystemsContainer.getIntake(), () -> false, 1));
   }
 
   public Command getSelectedAutoChooserCommand() {

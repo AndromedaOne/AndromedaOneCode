@@ -24,17 +24,19 @@ public class DefaultFeederCommand extends CommandBase {
   private static FeederStates feederState;
   private static final double DEFAULT_STAGES_ONE_AND_TWO_SPEED = 0.3;
   private static final double DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED = 0.0;
-  private static final double DEFAULT_STAGE_THREE_SPEED = DEFAULT_STAGES_ONE_AND_TWO_SPEED
-      + DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED;
-  private static final double STAGE_TWO_SLOW_SPEED = 0.15;
+  private static final double DEFAULT_STAGE_THREE_SPEED = 0.1;
+  private static final double STAGE_TWO_SLOW_SPEED = 0.1;
   private static final double STAGE_THREE_SLOW_SPEED = STAGE_TWO_SLOW_SPEED
       + DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED;
-  private int emptyCounter = 0;
   private static int numberOfPowerCellsInFeeder = 0;
   private int m_stageOneEndSensorTriggeredCounter = 0;
   private int m_stageOneLeftRightSensorTriggeredCounter = 0;
   private Timer m_timer;
-  private static final double MOVING_STAGE_TIMEOUT = 1;
+  private Timer m_emptyTimer;
+  public static final double EMPTY_TIME_THRESHOLD = 0.75; // After this time in seconds, if none of the feeder sensors
+                                                          // have been triggered, then the feeder state will be set to
+                                                          // empty.
+  private static final double MOVING_STAGE_TIMEOUT = 5;
 
   /**
    * Creates a new FeederCommand.
@@ -46,6 +48,7 @@ public class DefaultFeederCommand extends CommandBase {
     m_feederSensor = Robot.getInstance().getSensorsContainer().getBallFeederSensor();
     feederState = FeederStates.EMPTY;
     m_timer = new Timer();
+    m_emptyTimer = new Timer();
   }
 
   // Called when the command is initially scheduled.
@@ -53,11 +56,10 @@ public class DefaultFeederCommand extends CommandBase {
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     Robot.getInstance().getSubsystemsContainer().getShooter().closeShooterHood();
-    feederState = FeederStates.THIRD_LOADED;
-    emptyCounter = 0;
+    feederState = FeederStates.EMPTY;
     m_stageOneEndSensorTriggeredCounter = 0;
     m_stageOneLeftRightSensorTriggeredCounter = 0;
-
+    m_emptyTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -77,14 +79,13 @@ public class DefaultFeederCommand extends CommandBase {
         sensoredTriggered++;
       }
     }
-    if (sensoredTriggered == 0) {
-      emptyCounter++;
-    } else {
-      emptyCounter = 0;
+    if (sensoredTriggered != 0) {
+      m_emptyTimer.reset();
     }
-    if (emptyCounter >= 5) {
+    if (m_emptyTimer.hasElapsed(EMPTY_TIME_THRESHOLD)) {
       feederState = FeederStates.EMPTY;
     }
+
     switch (feederState) {
     case EMPTY:
       m_feeder.stopBothStages();
@@ -108,93 +109,10 @@ public class DefaultFeederCommand extends CommandBase {
       m_timer.stop();
       if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]
           || ballSensorValues[STAGE_1_END.getIndex()]) {
-        setFeederState(FeederStates.SECOND_LOADING_1);
+        setFeederState(FeederStates.ONE_LOADED);
       }
       m_feeder.stopBothStages();
       numberOfPowerCellsInFeeder = 1;
-      break;
-
-    case SECOND_LOADING_1:
-      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
-        feederState = FeederStates.ONE_LOADED;
-      }
-      if (ballSensorValues[STAGE_1_END.getIndex()]) {
-        setFeederState(FeederStates.SECOND_LOADING_2);
-      }
-      m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
-      m_feeder.stopStageTwo();
-      break;
-
-    case SECOND_LOADING_2:
-      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
-        feederState = FeederStates.UNKNOWN;
-      }
-      if (!ballSensorValues[STAGE_1_END.getIndex()]) {
-        setFeederState(FeederStates.SECOND_LOADING_3);
-      }
-      m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
-      m_feeder.runStagesTwoAndThree(STAGE_TWO_SLOW_SPEED, STAGE_THREE_SLOW_SPEED);
-      break;
-
-    case SECOND_LOADING_3:
-      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
-        feederState = FeederStates.UNKNOWN;
-      }
-      if (ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING.getIndex()]) {
-        setFeederState(FeederStates.SECOND_LOADED);
-      }
-      m_feeder.runBothStages(DEFAULT_STAGES_ONE_AND_TWO_SPEED, DEFAULT_STAGE_THREE_SPEED);
-      break;
-
-    case SECOND_LOADED:
-      m_timer.stop();
-      if (ballSensorValues[STAGE_1_LEFT.getIndex()] || ballSensorValues[STAGE_1_RIGHT.getIndex()]
-          || ballSensorValues[STAGE_1_END.getIndex()]) {
-        setFeederState(FeederStates.THIRD_LOADING_1);
-      }
-      m_feeder.stopBothStages();
-      numberOfPowerCellsInFeeder = 2;
-      break;
-
-    case THIRD_LOADING_1:
-      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
-        feederState = FeederStates.SECOND_LOADED;
-      }
-      if (ballSensorValues[STAGE_1_END.getIndex()]) {
-        setFeederState(FeederStates.THIRD_LOADING_2);
-      }
-      m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
-      m_feeder.stopStageTwo();
-      break;
-
-    case THIRD_LOADING_2:
-      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
-        feederState = FeederStates.UNKNOWN;
-      }
-      if (!ballSensorValues[STAGE_1_END.getIndex()]) {
-        setFeederState(FeederStates.THIRD_LOADING_3);
-      }
-      m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
-      m_feeder.runStagesTwoAndThree(STAGE_TWO_SLOW_SPEED, STAGE_THREE_SLOW_SPEED);
-
-    case THIRD_LOADING_3:
-      if (m_timer.hasElapsed(MOVING_STAGE_TIMEOUT)) {
-        feederState = FeederStates.UNKNOWN;
-      }
-      if (ballSensorValues[STAGE_2_BEGINNING.getIndex()] && !ballSensorValues[STAGE_1_END.getIndex()]) {
-        setFeederState(FeederStates.THIRD_LOADED);
-      }
-      m_feeder.runStageOne(DEFAULT_STAGES_ONE_AND_TWO_SPEED);
-      m_feeder.runStagesTwoAndThree(STAGE_TWO_SLOW_SPEED, STAGE_THREE_SLOW_SPEED);
-      break;
-
-    case THIRD_LOADED:
-      if (!ballSensorValues[STAGE_2_BEGINNING.getIndex()] && !ballSensorValues[STAGE_2_BEGINNING_MIDDLE.getIndex()]
-          && !ballSensorValues[STAGE_1_END.getIndex()]) {
-        setFeederState(FeederStates.EMPTY);
-      }
-      m_feeder.stopBothStages();
-      numberOfPowerCellsInFeeder = 3;
       break;
 
     case UNKNOWN:

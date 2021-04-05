@@ -6,7 +6,6 @@ import java.util.List;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
-import frc.robot.commands.pidcommands.RunShooterWheelVelocity;
 import frc.robot.lib.interpolate.InterpolatingDouble;
 import frc.robot.lib.interpolate.InterpolatingTreeMap;
 
@@ -48,7 +47,6 @@ public class ShooterMap {
    * @return
    */
   public double getInterpolatedRPM(double distance) {
-    return m_shooterMap.getInterpolated(new InterpolatingDouble(distance)).value
-        + RunShooterWheelVelocity.getManualShooterAdjustment();
+    return m_shooterMap.getInterpolated(new InterpolatingDouble(distance)).value;
   }
 }

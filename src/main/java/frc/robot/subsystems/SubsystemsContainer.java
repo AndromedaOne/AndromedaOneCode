@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import frc.robot.Config4905;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractAndStopIntake;
@@ -26,6 +29,7 @@ import frc.robot.subsystems.feeder.RealFeeder;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.intake.MockIntake;
 import frc.robot.subsystems.intake.RealIntake;
+import frc.robot.subsystems.ledlights.*;
 import frc.robot.subsystems.shooter.MockShooter;
 import frc.robot.subsystems.shooter.RealShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -41,6 +45,8 @@ public class SubsystemsContainer {
   FeederBase m_feeder;
   IntakeBase m_intake;
   ShooterBase m_shooter;
+  Map<String, LEDs> m_leds;
+  MockLEDs m_mockLEDs;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -112,6 +118,11 @@ public class SubsystemsContainer {
       m_shooter = new MockShooter();
     }
 
+    // 6. LEDs
+    m_mockLEDs = new MockLEDs();
+    m_leds = Config4905.getConfig4905().getLEDConfig().entrySet().stream().map(entry -> entry.getKey().split("\\.")[0])
+        .distinct().collect(Collectors.toMap(name -> name, name -> new RealLEDs(name)));
+
   }
 
   public DriveTrain getDrivetrain() {
@@ -132,6 +143,10 @@ public class SubsystemsContainer {
 
   public IntakeBase getIntake() {
     return m_intake;
+  }
+
+  public LEDs getLEDs(String name) {
+    return m_leds.getOrDefault(name, m_mockLEDs);
   }
 
   public void setDefaultCommands() {
