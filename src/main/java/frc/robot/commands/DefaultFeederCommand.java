@@ -22,7 +22,7 @@ public class DefaultFeederCommand extends CommandBase {
   BallFeederSensorBase m_feederSensor;
   private FeederBase m_feeder;
   private static FeederStates feederState;
-  private static final double DEFAULT_STAGES_ONE_AND_TWO_SPEED = 0.3;
+  private static final double DEFAULT_STAGES_ONE_AND_TWO_SPEED = 0.25;
   private static final double DEFAULT_DIFFERENCE_STAGE_TWO_AND_THREE_SPEED = 0.0;
   private static final double DEFAULT_STAGE_THREE_SPEED = 0.1;
   private static final double STAGE_TWO_SLOW_SPEED = 0.1;
