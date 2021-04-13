@@ -109,11 +109,11 @@ public class SmartDashboard4905 {
     PathGeneratorBase bouncePathGenerator1 = new TwoDDriveTrainPathGenerator("RomiBounceP1.wpilib.json",
         subsystemsContainer.getDrivetrain(), "RomiBouncePathP1");
     PathGeneratorBase bouncePathGenerator2 = new TwoDDriveTrainPathGenerator("RomiBounceP2.wpilib.json",
-        subsystemsContainer.getDrivetrain(), "RomiBouncePathP2");
+        subsystemsContainer.getDrivetrain(), false, "RomiBouncePathP2");
     PathGeneratorBase bouncePathGenerator3 = new TwoDDriveTrainPathGenerator("RomiBounceP3.wpilib.json",
-        subsystemsContainer.getDrivetrain(), "RomiBouncePathP3");
+        subsystemsContainer.getDrivetrain(), false, "RomiBouncePathP3");
     PathGeneratorBase bouncePathGenerator4 = new TwoDDriveTrainPathGenerator("RomiBounceP4.wpilib.json",
-        subsystemsContainer.getDrivetrain(), "RomiBouncePathP4");
+        subsystemsContainer.getDrivetrain(), false, "RomiBouncePathP4");
 
     SequentialCommandGroup bouncePath = new SequentialCommandGroup(
         bouncePathGenerator1.getPath(),
