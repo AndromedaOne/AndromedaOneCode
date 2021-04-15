@@ -1,6 +1,5 @@
 package frc.robot.pathgeneration.pathgenerators;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 
 import com.typesafe.config.Config;
@@ -46,8 +45,8 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
     trajectory = null;
     try {
       trajectory = TrajectoryUtil
-          .fromPathweaverJson(Paths.get("D:\\git\\2021Code\\src\\main\\deploy\\paths\\" + jsonFileName));
-    } catch (IOException e1) {
+          .fromPathweaverJson(Paths.get(getClass().getResource("/paths/" + jsonFileName).toURI()));
+    } catch (Exception e1) {
       e1.printStackTrace();
     }
 
