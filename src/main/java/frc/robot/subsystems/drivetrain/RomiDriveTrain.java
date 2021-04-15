@@ -69,7 +69,7 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_previousTime = 0;
     numberOfTicksLeft = m_leftMotor.getEncoderPositionTicks();
     numberOfTicksRight = m_rightMotor.getEncoderPositionTicks();
-    m_leftMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch) ;
+    m_leftMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch);
     m_rightMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch);
     m_maxRightVelocity = 0;
     m_maxLeftVelocity = 0;
@@ -106,7 +106,7 @@ public class RomiDriveTrain extends RealDriveTrain {
     SmartDashboard.putNumber("AAA Right max V", m_maxRightVelocity);
 
     super.periodic();
-    
+
   }
 
   @Override
@@ -169,7 +169,6 @@ public class RomiDriveTrain extends RealDriveTrain {
   public double getLeftRightAverageTicks() {
     return (m_leftMotor.getEncoderPositionTicks() + m_rightMotor.getEncoderPositionTicks()) / 2.0;
   }
-
 
   @Override
   public double getRobotVelocityInches() {

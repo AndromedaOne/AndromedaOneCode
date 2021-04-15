@@ -34,7 +34,6 @@ import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.drivetrain.DriveTrain;
 
 /**
  * Add your docs here.
@@ -115,16 +114,13 @@ public class SmartDashboard4905 {
     PathGeneratorBase bouncePathGenerator4 = new TwoDDriveTrainPathGenerator("RomiBounceP4.wpilib.json",
         subsystemsContainer.getDrivetrain(), false, "RomiBouncePathP4");
 
-    SequentialCommandGroup bouncePath = new SequentialCommandGroup(
-        bouncePathGenerator1.getPath(),
-        bouncePathGenerator2.getPath(),
-        bouncePathGenerator3.getPath(),
-        bouncePathGenerator4.getPath()
-    );
+    SequentialCommandGroup bouncePath = new SequentialCommandGroup(bouncePathGenerator1.getPath(),
+        bouncePathGenerator2.getPath(), bouncePathGenerator3.getPath(), bouncePathGenerator4.getPath());
 
     SmartDashboard.putData("RomiBounce", bouncePath);
 
-    SmartDashboard.putData("CheckRomiVelocityConversionFactor", new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("CheckRomiVelocityConversionFactor",
+        new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
 
   }
 
