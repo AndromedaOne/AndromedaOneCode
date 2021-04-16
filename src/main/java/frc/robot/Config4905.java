@@ -46,6 +46,10 @@ public class Config4905 {
 
   private Config ledConfig;
 
+  private Config compressorConfig;
+
+  private Config cannonConfig;
+
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -126,6 +130,8 @@ public class Config4905 {
     drivetrainConfig = load("drivetrain.conf");
     climberConfig = load("Climber.conf");
     ledConfig = load("LED.conf");
+    compressorConfig = load("compressor.conf");
+    cannonConfig = load("cannon.conf");
   }
 
   public Config getClimberConfig() {
@@ -198,6 +204,30 @@ public class Config4905 {
     } else {
       return false;
     }
+  }
+
+  public boolean doesCompressorExist() {
+    if (m_config.hasPath("subsystems.compressor")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getCompressorConfig() {
+    return compressorConfig;
+  }
+
+  public boolean doesCannonExist() {
+    if (m_config.hasPath("subsystems.cannon")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getCannonConfig() {
+    return cannonConfig;
   }
 
   public Config getSensorConfig() {

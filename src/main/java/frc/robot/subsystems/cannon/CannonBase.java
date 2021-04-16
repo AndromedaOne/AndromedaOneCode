@@ -2,16 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.compressor;
+package frc.robot.subsystems.cannon;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public abstract class CompressorBase extends SubsystemBase {
-  /** Creates a new CompressorBase. */
-  public CompressorBase() {
+public abstract class CannonBase extends SubsystemBase {
+  /** Creates a new CannonBase. */
+  public CannonBase() {
   }
 
-  public abstract void start();
+  public abstract void pressurize();
+
+  public abstract void shoot();
+
+  public abstract boolean isPressurized();
 
   @Override
   public void periodic() {

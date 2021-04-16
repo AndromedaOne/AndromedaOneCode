@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.ToggleLimelightLED;
+import frc.robot.commands.cannon.PressurizeCannon;
+import frc.robot.commands.cannon.ShootCannon;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.RomiCommands.RomiChallenge1;
@@ -80,7 +82,8 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("RomiExamplePath", new RomiExamplePath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("RomiChallenge1", new RomiChallenge1(subsystemsContainer.getDrivetrain()));
-
+    SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
+    SmartDashboard.putData("Shoot Cannon", new ShootCannon());
   }
 
   public Command getSelectedAutoChooserCommand() {
