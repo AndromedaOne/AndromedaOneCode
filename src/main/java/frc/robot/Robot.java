@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
     if (getOIContainer().getDriveController().getRightTriggerValue() > 0.5) {
       m_subsystemContainer.getServoMotor().runForward();
     } else {
-      m_subsystemContainer.getServoMotor().runBackward();
+      m_subsystemContainer.getServoMotor().stop();
     }
   }
 
