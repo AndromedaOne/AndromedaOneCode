@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.lib.EnumeratedRawAxis;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
 
 /**
@@ -94,6 +96,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
+    if (getOIContainer().getDriveController().getRightTriggerValue() > 0.5) {
+      m_subsystemContainer.getServoMotor().runForward();
+      System.out.println("FW");
+    }
+    else {
+      m_subsystemContainer.getServoMotor().runBackward();
+      System.out.println("BW");    
+    }
   }
 
   /**
