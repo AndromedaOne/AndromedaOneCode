@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
-import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -43,20 +42,34 @@ public class SubsystemController {
     m_feederSubsystem = Robot.getInstance().getSubsystemsContainer().getFeeder();
     m_limeLight = Robot.getInstance().getSensorsContainer().getLimeLight();
 
-    m_shootFromInitLine = new JoystickButton(m_subsystemController, ButtonsEnumerated.XBUTTON.getValue());
-    m_shootFromInitLine.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem,
-        Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootingRPM.initline"),
-        Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootingRPM.initline") * 1.5));
-    m_shootFromFrontTrench = new JoystickButton(m_subsystemController, ButtonsEnumerated.BBUTTON.getValue());
-    m_shootFromFrontTrench.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem,
-        Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootingRPM.fronttrench"),
-        Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootingRPM.fronttrench") * 1.5));
     m_shootFromBackTrench = new JoystickButton(m_subsystemController, ButtonsEnumerated.ABUTTON.getValue());
     m_shootFromBackTrench.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem,
         Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootingRPM.backtrench"),
         Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootingRPM.backtrench") * 1.5));
-    m_shootWithLimeDistance = new JoystickButton(m_subsystemController, ButtonsEnumerated.YBUTTON.getValue());
-    m_shootWithLimeDistance.whenPressed(new ShootWithLimeLight(m_shooterSubsystem, m_feederSubsystem, m_limeLight));
+    m_shootFromInitLine = new JoystickButton(m_subsystemController, ButtonsEnumerated.XBUTTON.getValue());
+    m_shootFromInitLine.whenPressed(new ShootWithRPM(m_shooterSubsystem, m_feederSubsystem,
+        Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootingRPM.initline"),
+        Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ShootingRPM.initline") * 1.5));
+    /*
+     * m_shootFromFrontTrench = new JoystickButton(m_subsystemController,
+     * ButtonsEnumerated.BBUTTON.getValue()); m_shootFromFrontTrench.whenPressed(new
+     * ShootWithRPM(m_shooterSubsystem, m_feederSubsystem,
+     * Config4905.getConfig4905().getCommandConstantsConfig().getDouble(
+     * "ShootingRPM.fronttrench"),
+     * Config4905.getConfig4905().getCommandConstantsConfig().getDouble(
+     * "ShootingRPM.fronttrench") * 1.5)); m_shootFromBackTrench = new
+     * JoystickButton(m_subsystemController, ButtonsEnumerated.ABUTTON.getValue());
+     * m_shootFromBackTrench.whenPressed(new ShootWithRPM(m_shooterSubsystem,
+     * m_feederSubsystem,
+     * Config4905.getConfig4905().getCommandConstantsConfig().getDouble(
+     * "ShootingRPM.backtrench"),
+     * Config4905.getConfig4905().getCommandConstantsConfig().getDouble(
+     * "ShootingRPM.backtrench") * 1.5)); m_shootWithLimeDistance = new
+     * JoystickButton(m_subsystemController, ButtonsEnumerated.YBUTTON.getValue());
+     * m_shootWithLimeDistance.whenPressed(new
+     * ShootWithLimeLight(m_shooterSubsystem, m_feederSubsystem, m_limeLight));
+     */
+
     m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
 
   }

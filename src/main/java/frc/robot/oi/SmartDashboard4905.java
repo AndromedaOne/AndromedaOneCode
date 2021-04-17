@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.CheckRomiVelocityConversionFactor;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
+import frc.robot.commands.RunAllFeederMotors;
+import frc.robot.commands.RunIntakeOut;
 import frc.robot.commands.ToggleLimelightLED;
+import frc.robot.commands.TuneShooterFeedForward;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.RomiCommands.RomiChallenge1;
@@ -55,7 +58,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
     SmartDashboard.putData("ShootRPM",
-        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), 3000));
+        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), true));
 
     SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
 
@@ -122,6 +125,9 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("CheckRomiVelocityConversionFactor",
         new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
 
+    SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
+    SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));
+    SmartDashboard.putData("Run Intake Out", new RunIntakeOut(subsystemsContainer.getIntake(), () -> false, 1));
   }
 
   public Command getSelectedAutoChooserCommand() {
