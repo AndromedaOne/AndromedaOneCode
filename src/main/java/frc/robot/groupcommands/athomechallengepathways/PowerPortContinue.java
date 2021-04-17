@@ -7,7 +7,8 @@
 
 package frc.robot.groupcommands.athomechallengepathways;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc.robot.commands.RevUpShooter;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -15,17 +16,16 @@ import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 
-public class PowerPortContinue extends SequentialCommandGroup {
+public class PowerPortContinue extends PowerPortBase {
   /**
    * Creates a new PowerPort.
    */
   private final double m_maxOutPut = 1;
-  private final double greenZoneShootingDistance = 180;
-  private final double reIntroductionZoneDistance = 330;
-  private final double reloadToGreen = reIntroductionZoneDistance - greenZoneShootingDistance;
 
   public PowerPortContinue(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder, IntakeBase intake) {
-    addCommands(new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, reloadToGreen, 0, m_maxOutPut),
+    addCommands(new DelayedSequentialCommandGroup(
+        new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, getpowerPortDistance(), 0, m_maxOutPut),
+            new RevUpShooter(shooter, getpowerPortShootingRPM())),
         new PowerPortStart(driveTrain, shooter, feeder, intake)));
   }
 }
