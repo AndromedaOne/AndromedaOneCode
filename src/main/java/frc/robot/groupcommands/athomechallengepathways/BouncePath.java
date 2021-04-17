@@ -7,11 +7,11 @@
 
 package frc.robot.groupcommands.athomechallengepathways;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DeployAndRunIntake;
-import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
-import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
+import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -49,8 +49,19 @@ public class BouncePath extends SequentialCommandGroup {
    * Creates a new BouncePath.
    */
   public BouncePath(DriveTrain driveTrain, IntakeBase intake) {
-    PathGeneratorBase pathGenerator = new DriveTrainDiagonalPathGenerator(getClass().getSimpleName(),
-        new BounceWaypoints(), driveTrain, initialPoint, maximumPower, true, false);
-    addCommands(new ParallelCommandGroup(pathGenerator.getPath(), new DeployAndRunIntake(intake, () -> false)));
+    System.out.println("Generating Path for Bounce");
+
+    CommandBase bounce1 = (new TwoDDriveTrainPathGenerator("BouncePart1.wpilib.json", driveTrain, "BounceP1"))
+        .getPath();
+    CommandBase bounce2 = (new TwoDDriveTrainPathGenerator("BouncePart2.wpilib.json", driveTrain, false, "BounceP2"))
+        .getPath();
+    CommandBase bounce3 = (new TwoDDriveTrainPathGenerator("BouncePart3.wpilib.json", driveTrain, false, "BounceP3"))
+        .getPath();
+    CommandBase bounce4 = (new TwoDDriveTrainPathGenerator("BouncePart4.wpilib.json", driveTrain, false, "BounceP4"))
+        .getPath();
+
+    SequentialCommandGroup fullBounce = new SequentialCommandGroup(bounce1, bounce2, bounce3, bounce4);
+
+    addCommands(new ParallelCommandGroup(fullBounce, new DeployAndRunIntake(intake, () -> false)));
   }
 }

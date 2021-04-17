@@ -14,7 +14,7 @@ import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
 import frc.robot.sensors.camera.*;
-import frc.robot.sensors.gyro.Gyro;
+import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
 import frc.robot.sensors.gyro.RomiGyro;
@@ -34,7 +34,7 @@ public class SensorsContainer {
   private Camera m_camera0;
   private Camera m_camera1;
   private LimeLightCameraBase m_limelightCameraBase;
-  private Gyro m_gyro;
+  private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
 
   public SensorsContainer() {
@@ -89,7 +89,7 @@ public class SensorsContainer {
     }
   }
 
-  public Gyro getGyro() {
+  public Gyro4905 getGyro() {
     return m_gyro;
   }
 

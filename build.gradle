@@ -71,6 +71,9 @@ dependencies {
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.1.1'
     testCompile "org.mockito:mockito-core:2.+"
+
+    implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
+
 }
 
 // Simulation configuration (e.g. environment variables).
@@ -101,4 +104,12 @@ spotless {
     removeUnusedImports() // removes any unused imports
     eclipse().configFile 'frc4905.eclipseformat.xml'   // XML file dumped out by the Eclipse formatter
   }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/deploy"
+        }
+    }
 }
