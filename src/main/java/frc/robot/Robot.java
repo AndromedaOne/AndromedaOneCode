@@ -95,7 +95,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
     if (getOIContainer().getDriveController().getRightTriggerValue() > 0.5) {
+      System.out.println("Trigger Forward Pressed");
       m_subsystemContainer.getServoMotor().runForward();
+    } else if (getOIContainer().getDriveController().getLeftTriggerValue() > 0.5) {
+      System.out.println("Trigger Backward Pressed");
+      m_subsystemContainer.getServoMotor().runBackward();
     } else {
       m_subsystemContainer.getServoMotor().stop();
     }
@@ -166,6 +170,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+
+    }
   }
 
   @Override

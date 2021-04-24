@@ -130,9 +130,10 @@ public class SubsystemsContainer {
         .distinct().collect(Collectors.toMap(name -> name, name -> new RealLEDs(name)));
 
     // 7. Romi Intake
-    m_romiIntake = new ServoMotor(
-        Config4905.getConfig4905().getDrivetrainConfig().getConfig("combineHarvesterServo").getInt("port"));
-
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      m_romiIntake = new ServoMotor(
+          Config4905.getConfig4905().getHarvesterConfig().getConfig("combineHarvesterServo").getInt("port"));
+    }
   }
 
   public DriveTrain getDrivetrain() {
