@@ -20,24 +20,7 @@ import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
-// NOTE: Back button ends the wait.
-//1. Shoot all balls at Green distance
-//2. Drive backward to Reload
-//3. Wait until drive input
-//4. Drive forward to yellow
-//5. Shoot
-//6. Drive backward to reload
-//7. wait
-//8. Drive to blue
-//9. Shoot
-//10. Back to reload
-//11. wait
-//12. Drive to red
-//13. Shoot
-//14. Drive backward to reload
-//15. wait
-//16. Drive to blue
-//17. Shoot
+import frc.robot.telemetries.Trace;
 
 public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
   /**
@@ -47,18 +30,19 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
   private final double reloadToGreen = 220;
   private final double reloadToYellow = 160;
   private final double reloadToBlue = 100;
-  private final double reloadToRed = 45;
+  private final double reloadToRed = 57;
 
   public InterstellarAccuracyChallenge(DriveTrain driveTrain, ShooterBase shooter, FeederBase feeder) {
 
     addCommands(new DelayedSequentialCommandGroup(
         // 1. start at 70 inches
         new ShootWithRPM(shooter, feeder,
-            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.backOfGreenZone") - 200),
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.backOfGreenZone")),
+        new WaitToLoad(driveTrain),
         // 2.
         new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, 0, m_maxOutPut),
-                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToYellow, 0, m_maxOutPut),
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToGreen, 1, m_maxOutPut),
+                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToYellow, -1, m_maxOutPut),
                 new TurnToFaceCommand(
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
             new DefaultFeederCommand()),
@@ -67,8 +51,8 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
             Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfYellowZone")),
 
         new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToYellow, 0, m_maxOutPut),
-                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToYellow, 1, m_maxOutPut),
+                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToBlue, -1, m_maxOutPut),
                 new TurnToFaceCommand(
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
             new DefaultFeederCommand()),
@@ -77,8 +61,8 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
             Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfBlueZone")),
 
         new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToBlue - 5, 0, m_maxOutPut),
-                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToRed, 0, m_maxOutPut),
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToBlue - 5, 1, m_maxOutPut),
+                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToRed, -1, m_maxOutPut),
                 new TurnToFaceCommand(
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
             new DefaultFeederCommand()),
@@ -87,14 +71,24 @@ public class InterstellarAccuracyChallenge extends SequentialCommandGroup {
             Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.frontOfRedZone")),
 
         new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToRed, 0, m_maxOutPut),
-                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToBlue, 0, m_maxOutPut),
+            new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, -reloadToRed, 1, m_maxOutPut),
+                new WaitToLoad(driveTrain), new MoveUsingEncoder(driveTrain, reloadToYellow, -1, m_maxOutPut),
                 new TurnToFaceCommand(
                     Robot.getInstance().getSensorsContainer().getLimeLight()::horizontalDegreesToTarget)),
             new DefaultFeederCommand()),
 
         new ShootWithRPM(shooter, feeder,
-            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfBlueZone"))));
+            Config4905.getConfig4905().getShooterConfig().getDouble("shootingrpm.centerOfYellowZone"))));
 
+  }
+
+  public void initialize() {
+    super.initialize();
+    Trace.getInstance().logCommandStart(this);
+  }
+
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    Trace.getInstance().logCommandStop(this);
   }
 }

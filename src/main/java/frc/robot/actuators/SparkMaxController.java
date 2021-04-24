@@ -59,7 +59,6 @@ public class SparkMaxController extends CANSparkMax {
     double sensorVelocity = m_sparkMaxEncoder.getVelocity();
     sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorVelocity
         : sensorVelocity);
-    SmartDashboard.putNumber(m_configString + " velocity", sensorVelocity);
     return sensorVelocity;
   }
 
