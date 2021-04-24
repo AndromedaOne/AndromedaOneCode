@@ -44,6 +44,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
         // within get generated path.
     trajectory = null;
     try {
+      System.out.println("Look HERE!");
       trajectory = TrajectoryUtil
           .fromPathweaverJson(Paths.get(getClass().getResource("/paths/" + jsonFileName).toURI()));
     } catch (Exception e1) {
