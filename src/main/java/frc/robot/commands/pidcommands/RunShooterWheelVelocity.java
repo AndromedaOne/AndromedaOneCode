@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
-import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
@@ -99,14 +99,14 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     Trace.getInstance().logCommandStop(this);
   }
 
-  private static PIDController4905 createPIDController() {
+  private static PIDController4905SampleStop createPIDController() {
     m_pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
     double kp = m_pidConfig.getDouble("runshooterwheelvelocity.p");
     double ki = m_pidConfig.getDouble("runshooterwheelvelocity.i");
     double kd = m_pidConfig.getDouble("runshooterwheelvelocity.d");
 
-    return new PIDController4905("ShooterWheelPID", kp, ki, kd, 0);
+    return new PIDController4905SampleStop("ShooterWheelPID", kp, ki, kd, 0);
   }
 
   private SimpleMotorFeedforward createFeedForward() {

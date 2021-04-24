@@ -10,6 +10,8 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.CheckRomiVelocityConversionFactor;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
 import frc.robot.commands.RunAllFeederMotors;
@@ -18,6 +20,8 @@ import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.TuneShooterFeedForward;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
+import frc.robot.groupcommands.RomiCommands.RomiChallenge1;
+import frc.robot.groupcommands.RomiCommands.RomiExamplePath;
 import frc.robot.groupcommands.athomechallengepathways.BarrelRacingPath;
 import frc.robot.groupcommands.athomechallengepathways.BouncePath;
 import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
@@ -29,6 +33,8 @@ import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChall
 import frc.robot.groupcommands.athomechallengepathways.PowerPortStart;
 import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
+import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
+import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -41,6 +47,7 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
 
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
     SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
 
     SmartDashboard.putData("TurnToCompassHeadingTester",
@@ -77,6 +84,46 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Hyper Drive Challenge", new HyperDriveChallenge(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Power Port Start", new PowerPortStart(subsystemsContainer.getDrivetrain(),
         subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
+
+    SmartDashboard.putData("RomiExamplePath", new RomiExamplePath(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("RomiChallenge1", new RomiChallenge1(subsystemsContainer.getDrivetrain()));
+
+    PathGeneratorBase turnRightGenerator = new TwoDDriveTrainPathGenerator("TurnRight.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiTurnRight");
+    SmartDashboard.putData("Romi 2d Turn Right", turnRightGenerator.getPath());
+
+    PathGeneratorBase sPathGenerator = new TwoDDriveTrainPathGenerator("SCurve.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiSPath");
+    SmartDashboard.putData("Romi 2d S Path", sPathGenerator.getPath());
+
+    PathGeneratorBase straitPathGenerator = new TwoDDriveTrainPathGenerator("StraitLine.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiStraitPath");
+    SmartDashboard.putData("Romi 2d Strait Path", straitPathGenerator.getPath());
+
+    PathGeneratorBase slalomPathGenerator = new TwoDDriveTrainPathGenerator("RomiSlalom.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiSlalomPath");
+    SmartDashboard.putData("Romi 2d Slalom", slalomPathGenerator.getPath());
+
+    PathGeneratorBase barrelPathGenerator = new TwoDDriveTrainPathGenerator("RomiBarrelRacing.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiBarrelPath");
+    SmartDashboard.putData("Romi 2d Barrel", barrelPathGenerator.getPath());
+
+    PathGeneratorBase bouncePathGenerator1 = new TwoDDriveTrainPathGenerator("RomiBounceP1.wpilib.json",
+        subsystemsContainer.getDrivetrain(), "RomiBouncePathP1");
+    PathGeneratorBase bouncePathGenerator2 = new TwoDDriveTrainPathGenerator("RomiBounceP2.wpilib.json",
+        subsystemsContainer.getDrivetrain(), false, "RomiBouncePathP2");
+    PathGeneratorBase bouncePathGenerator3 = new TwoDDriveTrainPathGenerator("RomiBounceP3.wpilib.json",
+        subsystemsContainer.getDrivetrain(), false, "RomiBouncePathP3");
+    PathGeneratorBase bouncePathGenerator4 = new TwoDDriveTrainPathGenerator("RomiBounceP4.wpilib.json",
+        subsystemsContainer.getDrivetrain(), false, "RomiBouncePathP4");
+
+    SequentialCommandGroup bouncePath = new SequentialCommandGroup(bouncePathGenerator1.getPath(),
+        bouncePathGenerator2.getPath(), bouncePathGenerator3.getPath(), bouncePathGenerator4.getPath());
+
+    SmartDashboard.putData("RomiBounce", bouncePath);
+
+    SmartDashboard.putData("CheckRomiVelocityConversionFactor",
+        new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
 
     SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
     SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));

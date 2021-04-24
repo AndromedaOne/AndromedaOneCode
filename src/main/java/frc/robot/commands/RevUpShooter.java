@@ -16,8 +16,8 @@ public class RevUpShooter extends ParallelCommandGroup {
   /**
    * Creates a new RevUpShooter.
    */
-  public RevUpShooter(ShooterBase shooter) {
-    addCommands(new ShooterParallelSetShooterVelocity(shooter, 0, () -> 1675));
+  public RevUpShooter(ShooterBase shooter, double rpm) {
+    addCommands(new ShooterParallelSetShooterVelocity(shooter, 0, () -> rpm));
   }
 
   // Called when the command is initially scheduled.

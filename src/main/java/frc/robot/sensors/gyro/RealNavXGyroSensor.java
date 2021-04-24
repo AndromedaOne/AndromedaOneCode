@@ -13,12 +13,9 @@ import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 
-public class RealNavXGyroSensor extends NavXGyroSensor {
+public class RealNavXGyroSensor extends Gyro4905 {
   AHRS gyro; /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
-  private double initialZAngleReading = 0.0;
-  private double initialXAngleReading = 0.0;
-  private double initialYAngleReading = 0.0;
-  boolean angleReadingSet = false;
+
   private long kInitializeDelay = 3000;
   private long kDefaultPeriod = 50;
   private java.util.Timer controlLoop;
@@ -50,7 +47,7 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
       System.out.println("Created NavX instance");
       // New thread to initialize the initial angle
       controlLoop = new java.util.Timer();
-      SetInitialAngleReading task = new SetInitialAngleReading();
+      SetInitialAngleReading task = new SetInitialAngleReading(this);
       controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
 
     } catch (RuntimeException ex) {
@@ -58,15 +55,24 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
     }
   }
 
+  private boolean calibrated = false;
+
   private class SetInitialAngleReading extends TimerTask {
+
+    RealNavXGyroSensor m_navX;
+
+    public SetInitialAngleReading(RealNavXGyroSensor navX) {
+      m_navX = navX;
+    }
 
     @Override
     public void run() {
       System.out.println("Setting Initial Gyro Angle");
       if (!gyro.isCalibrating()) {
-        initialZAngleReading = gyro.getAngle();
-        initialXAngleReading = gyro.getPitch();
-        initialYAngleReading = gyro.getRoll();
+        m_navX.setInitialZAngleReading(gyro.getAngle());
+        m_navX.setInitialXAngleReading(gyro.getPitch());
+        m_navX.setInitialYAngleReading(gyro.getRoll());
+        calibrated = true;
         cancel();
       }
     }
@@ -79,22 +85,23 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
    */
   @Override
   public double getZAngle() {
-    double correctedAngle = gyro.getAngle() - initialZAngleReading;
-    Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
-        new TracePair<>("Corrected Angle", correctedAngle));
-    return correctedAngle;
+    if (calibrated) {
+      double correctedAngle = gyro.getAngle();
+      Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
+          new TracePair<>("Corrected Angle", correctedAngle));
+      return correctedAngle;
+    }
+    return 0;
   }
 
   @Override
-  public double getXAngle() {
-    double xAngle = gyro.getPitch() - initialXAngleReading;
-    SmartDashboard.putNumber("Pitch Angle", xAngle);
-    return xAngle;
+  protected double getRawXAngle() {
+    return gyro.getPitch();
   }
 
   @Override
-  public double getYAngle() {
-    return gyro.getRoll() - initialYAngleReading;
+  protected double getRawYAngle() {
+    return gyro.getRoll();
   }
 
   /**
@@ -109,5 +116,41 @@ public class RealNavXGyroSensor extends NavXGyroSensor {
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("Z Angle", getZAngle());
     SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());
+  }
+
+  @Override
+  public void calibrate() {
+    throw new RuntimeException(
+        "Calibrate is not implemented in realNaNavX so you should implement it if you are trying to call it.");
+  }
+
+  @Override
+  public void reset() {
+    gyro.reset();
+
+  }
+
+  /**
+   * JUST FOR ODOMETRY AND 2d PATH PLANNING. IF YOU ARE NOT USING 2d PATH PLANNING
+   * DON'T USE THIS METHOD!! Use getAngle() instead pls. :)
+   */
+  @Override
+  public double getAngle() {
+    return -getZAngle();
+  }
+
+  @Override
+  public double getRate() {
+    return gyro.getRate();
+  }
+
+  @Override
+  public void close() throws Exception {
+
+  }
+
+  @Override
+  protected double getRawZAngle() {
+    return getZAngle();
   }
 }
