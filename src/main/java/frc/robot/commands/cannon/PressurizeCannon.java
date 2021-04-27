@@ -11,7 +11,7 @@ import frc.robot.subsystems.cannon.CannonBase;
 public class PressurizeCannon extends CommandBase {
   /** Creates a new PressurizeCannon. */
   private CannonBase m_cannon;
-  
+
   public PressurizeCannon() {
     m_cannon = Robot.getInstance().getSubsystemsContainer().getCannon();
     addRequirements(m_cannon);
@@ -25,11 +25,13 @@ public class PressurizeCannon extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
