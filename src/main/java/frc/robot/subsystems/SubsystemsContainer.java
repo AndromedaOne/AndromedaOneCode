@@ -160,7 +160,7 @@ public class SubsystemsContainer {
     return m_leds.getOrDefault(name, m_mockLEDs);
   }
 
-  public ServoMotor getServoMotor() {
+  public ServoMotor getRomiIntake() {
     return m_romiIntake;
   }
 

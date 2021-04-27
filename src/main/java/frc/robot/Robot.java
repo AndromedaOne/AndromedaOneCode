@@ -94,15 +94,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
-    if (getOIContainer().getDriveController().getRightTriggerValue() > 0.5) {
-      System.out.println("Trigger Forward Pressed");
-      m_subsystemContainer.getServoMotor().runForward();
-    } else if (getOIContainer().getDriveController().getLeftTriggerValue() > 0.5) {
-      System.out.println("Trigger Backward Pressed");
-      m_subsystemContainer.getServoMotor().runBackward();
-    } else {
-      m_subsystemContainer.getServoMotor().stop();
-    }
   }
 
   /**
@@ -121,6 +112,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     // limelight.disableLED();
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
+    }
   }
 
   /**
@@ -146,6 +140,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      System.out.println("RunIntake");
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+    }
   }
 
   @Override
@@ -171,7 +169,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-
+      System.out.println("RunIntake");
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
     }
   }
 
