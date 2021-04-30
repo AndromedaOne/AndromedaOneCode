@@ -1,6 +1,7 @@
 package frc.robot.pathgeneration.pathgenerators;
 
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.util.Scanner;
 
 import com.typesafe.config.Config;
 
@@ -45,8 +46,11 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
     trajectory = null;
     try {
       System.out.println("Look HERE!");
-      trajectory = TrajectoryUtil
-          .fromPathweaverJson(Paths.get(getClass().getResource("/paths/" + jsonFileName).toURI()));
+      InputStream stream = getClass().getResourceAsStream("/paths/" + jsonFileName);
+      Scanner s = new Scanner(stream).useDelimiter("\\A");
+      String result = s.hasNext() ? s.next() : "";
+      System.out.println(result);
+      trajectory = TrajectoryUtil.deserializeTrajectory(result);
     } catch (Exception e1) {
       e1.printStackTrace();
     }
