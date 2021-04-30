@@ -13,14 +13,14 @@ public class VictorSPXController {
   private WPI_VictorSPX m_victorSPX;
   private String m_configString;
   private Config m_subsystemConfig;
-  private boolean hasEncoder = false;
+  private boolean m_hasEncoder = false;
 
   public VictorSPXController(Config subsystemConfig, String configString) {
     m_victorSPX = new WPI_VictorSPX(subsystemConfig.getInt("ports." + configString));
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;
     configure(subsystemConfig, configString);
-    hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
+    m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     System.out.println("Creating new VictorSPX from port: " + configString);
   }
 
@@ -32,5 +32,13 @@ public class VictorSPXController {
       m_victorSPX.setNeutralMode(NeutralMode.Coast);
     }
     m_victorSPX.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
+  }
+
+  public boolean hasEncoder() {
+    return m_hasEncoder;
+  }
+
+  public void set(double speed) {
+    m_victorSPX.set(speed);
   }
 }

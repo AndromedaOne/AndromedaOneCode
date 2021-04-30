@@ -97,10 +97,6 @@ public class SubsystemController {
     return deadband(-m_subsystemController.getX(GenericHID.Hand.kRight));
   }
 
-  public JoystickButton getResetShooterManualAdjustmentButton() {
-    return ButtonsEnumerated.LEFTSTICKBUTTON.getJoystickButton(m_subsystemController);
-  }
-
   private double deadband(double stickValue) {
     if (Math.abs(stickValue) < 0.1) {
       return 0.0;

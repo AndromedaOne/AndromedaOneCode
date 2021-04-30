@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems.cannon;
 
+import com.typesafe.config.Config;
+
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
+import frc.robot.actuators.VictorSPXController;
 
 /** Add your docs here. */
 public class RealCannon extends CannonBase {
@@ -13,12 +16,16 @@ public class RealCannon extends CannonBase {
   private DoubleSolenoid4905 m_solenoid1_6;
   private DoubleSolenoid4905 m_solenoid2_5;
   private DoubleSolenoid4905 m_solenoid3_4;
+  private VictorSPXController m_elevationMotor;
+  private Config m_config;
 
   public RealCannon() {
-    m_solenoid0_7 = new DoubleSolenoid4905(Config4905.getConfig4905().getCannonConfig(), "solenoid0_7");
-    m_solenoid1_6 = new DoubleSolenoid4905(Config4905.getConfig4905().getCannonConfig(), "solenoid1_6");
-    m_solenoid2_5 = new DoubleSolenoid4905(Config4905.getConfig4905().getCannonConfig(), "solenoid2_5");
-    m_solenoid3_4 = new DoubleSolenoid4905(Config4905.getConfig4905().getCannonConfig(), "solenoid3_4");
+    m_config = Config4905.getConfig4905().getCannonConfig();
+    m_solenoid0_7 = new DoubleSolenoid4905(m_config, "solenoid0_7");
+    m_solenoid1_6 = new DoubleSolenoid4905(m_config, "solenoid1_6");
+    m_solenoid2_5 = new DoubleSolenoid4905(m_config, "solenoid2_5");
+    m_solenoid3_4 = new DoubleSolenoid4905(m_config, "solenoid3_4");
+    m_elevationMotor = new VictorSPXController(m_config, "elevationMotor");
   }
 
   @Override
@@ -41,5 +48,13 @@ public class RealCannon extends CannonBase {
   public boolean isPressurized() {
 
     return false;
+  }
+
+  public void changeElevation(double speed) {
+    m_elevationMotor.set(speed);
+  }
+
+  public void holdElevation() {
+    m_elevationMotor.set(0);
   }
 }
