@@ -63,6 +63,8 @@ public class Config4905 {
 
   private boolean m_isTheDroidYoureLookingFor = false;
 
+  private boolean m_isShowBot = false;
+
   private Config4905() {
     // first look to see if this is a roborio
     if (Files.exists(Paths.get(m_linuxPathToHomeStr))) {
@@ -71,6 +73,8 @@ public class Config4905 {
       m_robotName = m_nameConfig.getString("robot.name");
       if (m_robotName.equals("TheDroidYoureLookingFor")) {
         m_isTheDroidYoureLookingFor = true;
+      } else if (m_robotName.equals("ShowBot")) {
+        m_isShowBot = true;
       }
     } else {
       // try to figure out which Romi we're on by looking at the SSID's we're
@@ -252,5 +256,9 @@ public class Config4905 {
 
   public boolean isTheDroidYoureLookingFor() {
     return m_isTheDroidYoureLookingFor;
+  }
+
+  public boolean isShowBot() {
+    return m_isShowBot;
   }
 }

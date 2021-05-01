@@ -7,6 +7,7 @@
 
 package frc.robot.oi;
 
+import frc.robot.Config4905;
 import frc.robot.commands.DeployAndRunIntakeStarter;
 import frc.robot.commands.FeedBothStagesIntoShooter;
 import frc.robot.commands.ReverseFeederAndShooter;
@@ -26,17 +27,18 @@ public class OIContainer {
     m_driveController = new DriveController(subsystemsContainer, sensorsContainer);
     m_smartDashboard = new SmartDashboard4905(subsystemsContainer, sensorsContainer);
     m_subsystemController = new SubsystemController();
-
-    m_subsystemController.getDeployAndRunIntakeButton().whenPressed(new DeployAndRunIntakeStarter(
-        subsystemsContainer.getIntake(), () -> !m_subsystemController.getDeployAndRunIntakeButton().get()));
-    m_subsystemController.getFeedWhenReadyButton()
-        .whenPressed(new FeedBothStagesIntoShooter(subsystemsContainer.getFeeder(), subsystemsContainer.getShooter(),
-            () -> !m_subsystemController.getFeedWhenReadyButton().get()));
-    m_subsystemController.getRunIntakeOutButton().whenPressed(
-        new RunIntakeOut(subsystemsContainer.getIntake(), () -> !m_subsystemController.getRunIntakeOutButton().get()));
-    m_subsystemController.getReverseFeederButton()
-        .whenPressed(new ReverseFeederAndShooter(subsystemsContainer.getFeeder(), subsystemsContainer.getShooter(),
-            () -> !m_subsystemController.getReverseFeederButton().get()));
+    if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
+      m_subsystemController.getDeployAndRunIntakeButton().whenPressed(new DeployAndRunIntakeStarter(
+          subsystemsContainer.getIntake(), () -> !m_subsystemController.getDeployAndRunIntakeButton().get()));
+      m_subsystemController.getFeedWhenReadyButton()
+          .whenPressed(new FeedBothStagesIntoShooter(subsystemsContainer.getFeeder(), subsystemsContainer.getShooter(),
+              () -> !m_subsystemController.getFeedWhenReadyButton().get()));
+      m_subsystemController.getRunIntakeOutButton().whenPressed(new RunIntakeOut(subsystemsContainer.getIntake(),
+          () -> !m_subsystemController.getRunIntakeOutButton().get()));
+      m_subsystemController.getReverseFeederButton()
+          .whenPressed(new ReverseFeederAndShooter(subsystemsContainer.getFeeder(), subsystemsContainer.getShooter(),
+              () -> !m_subsystemController.getReverseFeederButton().get()));
+    }
   }
 
   public DriveController getDriveController() {
