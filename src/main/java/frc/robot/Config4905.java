@@ -57,7 +57,9 @@ public class Config4905 {
 
   private String m_baseDir;
 
-  String m_robotName;
+  private String m_robotName;
+
+  private boolean m_isRomi = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -98,6 +100,7 @@ public class Config4905 {
       }
       // don't look for name.conf file, just use Romi
       m_baseDir = jarDir + "/src/main/";
+      m_isRomi = true;
     }
     m_environmentalConfig = ConfigFactory
         .parseFile(new File(m_baseDir + "deploy/robotConfigs/" + m_robotName + "/robot.conf"));
@@ -236,5 +239,9 @@ public class Config4905 {
 
   public Config getCommandConstantsConfig() {
     return commandConstantsConfig;
+  }
+
+  public boolean isRomi() {
+    return m_isRomi;
   }
 }
