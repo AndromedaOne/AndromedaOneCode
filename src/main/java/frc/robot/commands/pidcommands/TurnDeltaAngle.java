@@ -13,7 +13,7 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
-import frc.robot.sensors.gyro.Gyro;
+import frc.robot.sensors.gyro.Gyro4905;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,7 +22,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   private double m_deltaTurnAngle;
   private double m_targetAngle;
   Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
-  private Gyro m_gyro;
+  private Gyro4905 m_gyro;
 
   /**
    * Creates a new TurnDeltaAngle.

@@ -105,7 +105,7 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12)))); 
-
+        m_autoChooser.addOption("16: AutoNav: Bounce", new BouncePath(driveTrain, intake));
                                                                 
           SmartDashboard.putData("autoModes", m_autoChooser);
     // @formatter:on

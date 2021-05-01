@@ -1,11 +1,12 @@
 package frc.robot.sensors.gyro;
 
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 
-public abstract class Gyro {
+public abstract class Gyro4905 implements Gyro {
 
   private double m_initialZAngleReading = 0.0;
   private double m_initialXAngleReading = 0.0;
