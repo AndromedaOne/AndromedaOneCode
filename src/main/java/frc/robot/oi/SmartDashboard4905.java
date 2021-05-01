@@ -16,7 +16,6 @@ import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.cannon.PressurizeCannon;
 import frc.robot.commands.cannon.ShootCannon;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
-import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.RomiCommands.RomiChallenge1;
 import frc.robot.groupcommands.RomiCommands.RomiExamplePath;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
@@ -34,9 +33,6 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
     SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
-
-    SmartDashboard.putData("TurnToCompassHeadingTester",
-        new TurnToCompassHeadingTester(SmartDashboard.getNumber("Compass Heading", 0)));
 
     SmartDashboard.putNumber("Auto Delay", 0);
 

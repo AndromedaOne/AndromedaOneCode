@@ -176,14 +176,14 @@ public class SubsystemsContainer {
     return m_leds.getOrDefault(name, m_mockLEDs);
   }
 
-  public CompressorBase getCompressor(){
+  public CompressorBase getCompressor() {
     return m_compressor;
   }
 
-  public CannonBase getCannon(){
+  public CannonBase getCannon() {
     return m_cannon;
   }
-  
+
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
     m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter));
