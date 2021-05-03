@@ -193,6 +193,8 @@ public class SubsystemsContainer {
       m_feeder.setDefaultCommand(new DefaultFeederCommand());
       m_climber.setDefaultCommand(new TeleopClimber(m_climber));
     }
-    m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
+    if (Config4905.getConfig4905().isShowBot()) {
+      m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
+    }
   }
 }
