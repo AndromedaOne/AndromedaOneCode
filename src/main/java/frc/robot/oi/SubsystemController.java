@@ -15,10 +15,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.commands.DeployAndRunIntakeStarter;
+import frc.robot.commands.FeedBothStagesIntoShooter;
+import frc.robot.commands.ReverseFeederAndShooter;
+import frc.robot.commands.RunIntakeOut;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.groupcommands.sequentialgroup.ShootWithLimeLight;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
+import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 
@@ -26,7 +31,7 @@ import frc.robot.subsystems.shooter.ShooterBase;
  * Add your docs here.
  */
 public class SubsystemController {
-  private XboxController m_subsystemController = new XboxController(1);
+  private XboxController m_subsystemController;
   private Config m_shooterConfig;
   private ShooterBase m_shooterSubsystem;
   private FeederBase m_feederSubsystem;
@@ -37,9 +42,9 @@ public class SubsystemController {
   private JoystickButton m_runIntakeOut;
   private LimeLightCameraBase m_limeLight;
 
-  public SubsystemController() {
+  public SubsystemController(SubsystemsContainer subsystemsContainer) {
     if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
-
+      m_subsystemController = new XboxController(1);
       m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
       m_shooterSubsystem = Robot.getInstance().getSubsystemsContainer().getShooter();
       m_feederSubsystem = Robot.getInstance().getSubsystemsContainer().getFeeder();
@@ -66,6 +71,15 @@ public class SubsystemController {
       m_shootWithLimeDistance.whenPressed(new ShootWithLimeLight(m_shooterSubsystem, m_feederSubsystem, m_limeLight));
 
       m_runIntakeOut = new JoystickButton(m_subsystemController, ButtonsEnumerated.BACKBUTTON.getValue());
+
+      getDeployAndRunIntakeButton().whenPressed(
+          new DeployAndRunIntakeStarter(subsystemsContainer.getIntake(), () -> !getDeployAndRunIntakeButton().get()));
+      getFeedWhenReadyButton().whenPressed(new FeedBothStagesIntoShooter(subsystemsContainer.getFeeder(),
+          subsystemsContainer.getShooter(), () -> !getFeedWhenReadyButton().get()));
+      getRunIntakeOutButton()
+          .whenPressed(new RunIntakeOut(subsystemsContainer.getIntake(), () -> !getRunIntakeOutButton().get()));
+      getReverseFeederButton().whenPressed(new ReverseFeederAndShooter(subsystemsContainer.getFeeder(),
+          subsystemsContainer.getShooter(), () -> !getReverseFeederButton().get()));
     }
   }
 
