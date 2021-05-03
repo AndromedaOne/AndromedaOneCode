@@ -15,6 +15,7 @@ import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractAndStopIntake;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.commands.TeleopClimber;
+import frc.robot.commands.cannon.AdjustElevation;
 import frc.robot.groupcommands.parallelgroup.DefaultShooterParallelCommandGroup;
 import frc.robot.subsystems.cannon.CannonBase;
 import frc.robot.subsystems.cannon.MockCannon;
@@ -192,5 +193,6 @@ public class SubsystemsContainer {
       m_feeder.setDefaultCommand(new DefaultFeederCommand());
       m_climber.setDefaultCommand(new TeleopClimber(m_climber));
     }
+    m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
   }
 }
