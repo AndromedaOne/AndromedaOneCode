@@ -81,6 +81,10 @@ public class SubsystemController {
       getReverseFeederButton().whenPressed(new ReverseFeederAndShooter(subsystemsContainer.getFeeder(),
           subsystemsContainer.getShooter(), () -> !getReverseFeederButton().get()));
     }
+
+    if (Config4905.getConfig4905().isShowBot()) {
+      m_subsystemController = new XboxController(1);
+    }
   }
 
   public JoystickButton getDeployAndRunIntakeButton() {

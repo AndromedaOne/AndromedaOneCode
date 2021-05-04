@@ -6,7 +6,9 @@ package frc.robot.subsystems.cannon;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.VictorSPXController;
 
@@ -56,5 +58,10 @@ public class RealCannon extends CannonBase {
 
   public void holdElevation() {
     m_elevationMotor.set(0);
+  }
+
+  public void periodic() {
+    SmartDashboard.putNumber("cannonSafetyUltrasonic",
+        Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
   }
 }
