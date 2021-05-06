@@ -1,0 +1,9 @@
+{
+  "lengthUnit": "Meter",
+  "exportUnit": "Always Meters",
+  "maxVelocity": 0.6,
+  "maxAcceleration": 0.6,
+  "wheelBase": 0.142072613,
+  "gameName": "Color Conundrum",
+  "outputDir": ""
+}

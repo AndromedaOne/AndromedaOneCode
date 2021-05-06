@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -31,6 +33,12 @@ public abstract class DriveTrain extends SubsystemBase {
   public void init() {
 
   }
+
+  public abstract Pose2d getPose();
+
+  public abstract DifferentialDriveWheelSpeeds getWheelSpeeds();
+
+  public abstract void tankDriveVolts(double leftVolts, double rightVolts);
 
   /**
    * This moves the robot and corrects for any rotation using the gyro
@@ -61,4 +69,6 @@ public abstract class DriveTrain extends SubsystemBase {
   public void stop() {
     move(0, 0, false);
   }
+
+  public abstract void resetOdometry(Pose2d pose);
 }

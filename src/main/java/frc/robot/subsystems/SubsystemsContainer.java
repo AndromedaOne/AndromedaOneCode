@@ -15,6 +15,7 @@ import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractAndStopIntake;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.commands.TeleopClimber;
+import frc.robot.commands.cannon.AdjustElevation;
 import frc.robot.groupcommands.parallelgroup.DefaultShooterParallelCommandGroup;
 import frc.robot.subsystems.cannon.CannonBase;
 import frc.robot.subsystems.cannon.MockCannon;
@@ -186,9 +187,14 @@ public class SubsystemsContainer {
 
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
-    m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter));
-    m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
-    m_feeder.setDefaultCommand(new DefaultFeederCommand());
-    m_climber.setDefaultCommand(new TeleopClimber(m_climber));
+    if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
+      m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter));
+      m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
+      m_feeder.setDefaultCommand(new DefaultFeederCommand());
+      m_climber.setDefaultCommand(new TeleopClimber(m_climber));
+    }
+    if (Config4905.getConfig4905().isShowBot()) {
+      m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
+    }
   }
 }

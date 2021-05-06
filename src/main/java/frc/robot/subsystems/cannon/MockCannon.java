@@ -22,4 +22,12 @@ public class MockCannon extends CannonBase {
 
     return false;
   }
+
+  public void changeElevation(double speed) {
+
+  }
+
+  public void holdElevation() {
+
+  }
 }
