@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.DemoShoot;
+import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -33,8 +35,6 @@ public class DriveController {
   private POVButton climbLevel;
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
-  private JoystickButton interstellerAccuracyWait;
-  private JoystickButton powerPortButton;
 
   public DriveController(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     demoShoot = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
@@ -104,9 +104,5 @@ public class DriveController {
 
   public JoystickButton getLetOutRightWinchButton() {
     return letOutRightWinch;
-  }
-
-  public JoystickButton getInterstellerWaitButton() {
-    return interstellerAccuracyWait;
   }
 }
