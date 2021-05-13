@@ -48,6 +48,10 @@ public class Config4905 {
 
   private Config harvesterConfig;
 
+  private Config compressorConfig;
+
+  private Config cannonConfig;
+
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -55,7 +59,13 @@ public class Config4905 {
 
   private String m_baseDir;
 
-  String m_robotName;
+  private String m_robotName;
+
+  private boolean m_isRomi = false;
+
+  private boolean m_isTheDroidYoureLookingFor = false;
+
+  private boolean m_isShowBot = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -63,6 +73,11 @@ public class Config4905 {
       m_baseDir = m_linuxPathToHomeStr;
       m_nameConfig = ConfigFactory.parseFile(new File(m_linuxPathToHomeStr + "name.conf"));
       m_robotName = m_nameConfig.getString("robot.name");
+      if (m_robotName.equals("TheDroidYoureLookingFor")) {
+        m_isTheDroidYoureLookingFor = true;
+      } else if (m_robotName.equals("ShowBot")) {
+        m_isShowBot = true;
+      }
     } else {
       // try to figure out which Romi we're on by looking at the SSID's we're
       // connected to
@@ -96,6 +111,7 @@ public class Config4905 {
       }
       // don't look for name.conf file, just use Romi
       m_baseDir = jarDir + "/src/main/";
+      m_isRomi = true;
     }
     m_environmentalConfig = ConfigFactory
         .parseFile(new File(m_baseDir + "deploy/robotConfigs/" + m_robotName + "/robot.conf"));
@@ -129,6 +145,8 @@ public class Config4905 {
     climberConfig = load("Climber.conf");
     ledConfig = load("LED.conf");
     harvesterConfig = load("harvester.conf");
+    compressorConfig = load("compressor.conf");
+    cannonConfig = load("cannon.conf");
   }
 
   public Config getClimberConfig() {
@@ -215,11 +233,47 @@ public class Config4905 {
     return harvesterConfig;
   }
 
+  public boolean doesCompressorExist() {
+    if (m_config.hasPath("subsystems.compressor")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getCompressorConfig() {
+    return compressorConfig;
+  }
+
+  public boolean doesCannonExist() {
+    if (m_config.hasPath("subsystems.cannon")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getCannonConfig() {
+    return cannonConfig;
+  }
+
   public Config getSensorConfig() {
     return sensorConfig;
   }
 
   public Config getCommandConstantsConfig() {
     return commandConstantsConfig;
+  }
+
+  public boolean isRomi() {
+    return m_isRomi;
+  }
+
+  public boolean isTheDroidYoureLookingFor() {
+    return m_isTheDroidYoureLookingFor;
+  }
+
+  public boolean isShowBot() {
+    return m_isShowBot;
   }
 }

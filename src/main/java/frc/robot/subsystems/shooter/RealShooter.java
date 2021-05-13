@@ -1,6 +1,5 @@
 package frc.robot.subsystems.shooter;
 
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -14,44 +13,48 @@ public class RealShooter extends ShooterBase {
   private final double SERIES_TICKS_TO_ROTATION = m_shooterConfig.getDouble("seriesticksperrotation");
   private SparkMaxController m_shooterOne;
   private SparkMaxController m_shooterTwo;
-  private TalonSRXController m_shooterSeries;
+  private SparkMaxController m_shooterSeries1;
+  private SparkMaxController m_stageThree;
   private SpeedControllerGroup m_shooterGroup;
   private DoubleSolenoid4905 m_shooterHood;
   private boolean m_shooterWheelIsReady = false;
   private boolean m_shooterSeriesIsReady = false;
   private boolean m_shooterIsIdle = false;
+  private SpeedControllerGroup m_shooterSeriesGroup;
 
   public RealShooter() {
     m_shooterOne = new SparkMaxController(m_shooterConfig, "shooterone");
     m_shooterTwo = new SparkMaxController(m_shooterConfig, "shootertwo");
-    m_shooterSeries = new TalonSRXController(m_shooterConfig, "shooterseries");
+    m_shooterSeries1 = new SparkMaxController(m_shooterConfig, "shooterseries");
     m_shooterGroup = new SpeedControllerGroup(m_shooterOne, m_shooterTwo);
     m_shooterHood = new DoubleSolenoid4905(m_shooterConfig, "hood");
-
-    m_shooterSeries.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_1Ms);
+    m_stageThree = new SparkMaxController(m_shooterConfig, "stageThree");
+    m_shooterSeriesGroup = new SpeedControllerGroup(m_stageThree, m_shooterSeries1);
   }
 
   @Override
   public void setShooterWheelPower(double power) {
     m_shooterGroup.set(power);
+    SmartDashboard.putNumber("Shooter Wheel Power", power);
   }
 
   @Override
   public void setShooterSeriesPower(double power) {
-    m_shooterSeries.set(power);
+    m_shooterSeriesGroup.set(power);
   }
 
   @Override
   public double getShooterSeriesVelocity() {
     // Converts to rpm
-    return (m_shooterSeries.getEncoderVelocityTicks() / SERIES_TICKS_TO_ROTATION) * 1000;
+    return (m_shooterSeries1.getEncoderVelocityTicks() / SERIES_TICKS_TO_ROTATION) * 1000;
   }
 
   @Override
   public double getShooterWheelVelocity() {
     double average = m_shooterOne.getEncoderVelocityTicks() + m_shooterTwo.getEncoderVelocityTicks();
     average = average / 2;
-    SmartDashboard.putNumber("Shooter Velocity", average);
+    SmartDashboard.putNumber("ShooterOne Velocity", m_shooterOne.getEncoderVelocityTicks());
+    SmartDashboard.putNumber("ShooterTwo Velocity", m_shooterTwo.getEncoderVelocityTicks());
     return average;
   }
 
@@ -62,7 +65,7 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public double getSeriesPower() {
-    return m_shooterSeries.get();
+    return m_shooterSeries1.get();
   }
 
   @Override
@@ -79,7 +82,7 @@ public class RealShooter extends ShooterBase {
 
   @Override
   public boolean isShooterHoodOpen() {
-    return m_shooterHood.isSolenoidOpen();
+    return true; // m_shooterHood.isSolenoidOpen();
   }
 
   @Override

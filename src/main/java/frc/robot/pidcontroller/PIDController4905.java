@@ -7,7 +7,7 @@ public class PIDController4905 extends PIDControllerProposed {
   private double m_minOutputToMove;
   private double m_minOutputToMoveAbs;
   private String m_controllerName;
-  private double m_maxOutput = Double.POSITIVE_INFINITY;
+  private double m_maxOutput = 1.0;
 
   public PIDController4905(String controllerName, double Kp, double Ki, double Kd, double minOutputToMove) {
     super(Kp, Ki, Kd);
@@ -33,9 +33,9 @@ public class PIDController4905 extends PIDControllerProposed {
     }
     Trace.getInstance().addTrace(true, m_controllerName, new TracePair<Double>("pError", super.getPError()),
         new TracePair<Double>("iError", super.getIError()), new TracePair<Double>("dError", super.getDError()),
-        new TracePair<Double>("Output", output), new TracePair<Double>("preCalculationOutput", preCalculationOutput),
-        new TracePair<Double>("Measurement", measurement), new TracePair<Double>("Setpoint", super.getSetpoint()),
-        new TracePair<Double>("Velocity Error", super.getVelocityError()));
+        new TracePair<Double>("Output", output * 5000),
+        new TracePair<Double>("preCalculationOutput", preCalculationOutput),
+        new TracePair<Double>("Measurement", measurement), new TracePair<Double>("Setpoint", super.getSetpoint()));
     return output;
   }
 
