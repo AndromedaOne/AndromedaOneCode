@@ -111,8 +111,4 @@ public class DriveController {
     return letOutRightWinch;
   }
 
-  public JoystickButton getInterstellerWaitButton() {
-    return interstellerAccuracyWait;
-  }
-
 }
