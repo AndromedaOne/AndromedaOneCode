@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -111,6 +112,22 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   }
 
   @Override
+  public void setCoast(boolean p) {
+    System.out.println("coast set to " + p);
+    if (p) {
+      m_frontLeft.setIdleMode(IdleMode.kCoast);
+      m_frontRight.setIdleMode(IdleMode.kCoast);
+      m_backLeft.setIdleMode(IdleMode.kCoast);
+      m_backRight.setIdleMode(IdleMode.kCoast);
+    } else {
+      m_frontLeft.setIdleMode(IdleMode.kBrake);
+      m_frontRight.setIdleMode(IdleMode.kBrake);
+      m_backLeft.setIdleMode(IdleMode.kBrake);
+      m_backRight.setIdleMode(IdleMode.kBrake);
+
+    }
+  }
+
   protected double getLeftRateMetersPerSecond() {
     return ticksPerMinuteToMetersPerSecond(
         (m_backLeft.getEncoderVelocityTicks() + m_frontLeft.getEncoderVelocityTicks()) * 0.5);
