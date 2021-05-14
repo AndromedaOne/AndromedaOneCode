@@ -7,18 +7,23 @@
 
 package frc.robot.subsystems;
 
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import frc.robot.Config4905;
+import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractAndStopIntake;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.commands.TeleopClimber;
+import frc.robot.commands.cannon.AdjustElevation;
 import frc.robot.groupcommands.parallelgroup.DefaultShooterParallelCommandGroup;
+import frc.robot.subsystems.cannon.CannonBase;
+import frc.robot.subsystems.cannon.MockCannon;
+import frc.robot.subsystems.cannon.RealCannon;
 import frc.robot.subsystems.climber.ClimberBase;
 import frc.robot.subsystems.climber.MockClimber;
 import frc.robot.subsystems.climber.RealClimber;
+import frc.robot.subsystems.compressor.CompressorBase;
+import frc.robot.subsystems.compressor.MockCompressor;
+import frc.robot.subsystems.compressor.RealCompressor;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
@@ -46,8 +51,10 @@ public class SubsystemsContainer {
   FeederBase m_feeder;
   IntakeBase m_intake;
   ShooterBase m_shooter;
-  Map<String, LEDs> m_leds;
-  MockLEDs m_mockLEDs;
+  LEDs m_leds;
+  ServoMotor m_romiIntake;
+  CompressorBase m_compressor;
+  CannonBase m_cannon;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -123,10 +130,32 @@ public class SubsystemsContainer {
     }
 
     // 6. LEDs
-    m_mockLEDs = new MockLEDs();
-    m_leds = Config4905.getConfig4905().getLEDConfig().entrySet().stream().map(entry -> entry.getKey().split("\\.")[0])
-        .distinct().collect(Collectors.toMap(name -> name, name -> new RealLEDs(name)));
+    if (Config4905.getConfig4905().doesLEDExist()) {
+      m_leds = new RealLEDs("LEDStringOne");
+    } else {
+      m_leds = new MockLEDs();
+    }
 
+    // 7. Romi Intake
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      m_romiIntake = new ServoMotor(
+          Config4905.getConfig4905().getHarvesterConfig().getConfig("combineHarvesterServo").getInt("port"));
+    }
+    if (Config4905.getConfig4905().doesCompressorExist()) {
+      System.out.println("using real Compressor.");
+      m_compressor = new RealCompressor();
+      m_compressor.start();
+    } else {
+      System.out.println("Using mock Compressor");
+      m_compressor = new MockCompressor();
+    }
+    if (Config4905.getConfig4905().doesCannonExist()) {
+      System.out.println("using real Cannon.");
+      m_cannon = new RealCannon();
+    } else {
+      System.out.println("Using mock Cannon");
+      m_cannon = new MockCannon();
+    }
   }
 
   public DriveTrain getDrivetrain() {
@@ -150,14 +179,31 @@ public class SubsystemsContainer {
   }
 
   public LEDs getLEDs(String name) {
-    return m_leds.getOrDefault(name, m_mockLEDs);
+    return m_leds;
+  }
+
+  public ServoMotor getRomiIntake() {
+    return m_romiIntake;
+  }
+
+  public CompressorBase getCompressor() {
+    return m_compressor;
+  }
+
+  public CannonBase getCannon() {
+    return m_cannon;
   }
 
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
-    m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter));
-    m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
-    m_feeder.setDefaultCommand(new DefaultFeederCommand());
-    m_climber.setDefaultCommand(new TeleopClimber(m_climber));
+    if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
+      m_shooter.setDefaultCommand(new DefaultShooterParallelCommandGroup(m_shooter));
+      m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
+      m_feeder.setDefaultCommand(new DefaultFeederCommand());
+      m_climber.setDefaultCommand(new TeleopClimber(m_climber));
+    }
+    if (Config4905.getConfig4905().isShowBot()) {
+      m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
+    }
   }
 }
