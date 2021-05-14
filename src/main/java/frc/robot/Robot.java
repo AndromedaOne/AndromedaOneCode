@@ -115,6 +115,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     // limelight.disableLED();
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
+    }
   }
 
   /**
@@ -141,6 +144,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+    }
   }
 
   @Override
@@ -167,6 +173,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+    }
   }
 
   @Override
