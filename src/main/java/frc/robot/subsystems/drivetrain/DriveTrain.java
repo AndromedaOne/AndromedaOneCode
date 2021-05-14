@@ -71,4 +71,8 @@ public abstract class DriveTrain extends SubsystemBase {
   }
 
   public abstract void resetOdometry(Pose2d pose);
+
+  public void setCoast(boolean p) {
+    System.out.println("coast set to " + p);
+  }
 }

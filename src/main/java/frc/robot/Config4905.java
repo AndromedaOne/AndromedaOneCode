@@ -46,6 +46,8 @@ public class Config4905 {
 
   private Config ledConfig;
 
+  private Config harvesterConfig;
+
   private Config compressorConfig;
 
   private Config cannonConfig;
@@ -142,6 +144,7 @@ public class Config4905 {
     drivetrainConfig = load("drivetrain.conf");
     climberConfig = load("Climber.conf");
     ledConfig = load("LED.conf");
+    harvesterConfig = load("harvester.conf");
     compressorConfig = load("compressor.conf");
     cannonConfig = load("cannon.conf");
   }
@@ -216,6 +219,18 @@ public class Config4905 {
     } else {
       return false;
     }
+  }
+
+  public boolean doesHarvesterExist() {
+    if (m_config.hasPath("subsystems.harvester")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getHarvesterConfig() {
+    return harvesterConfig;
   }
 
   public boolean doesCompressorExist() {
