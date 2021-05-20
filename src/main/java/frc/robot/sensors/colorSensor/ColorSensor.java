@@ -13,7 +13,7 @@ public class ColorSensor {
     }
 
     public double getValue() {
-        return m_colorSensor.getVoltage();
+        return m_colorSensor.getValue();
     }
     
 }
