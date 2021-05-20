@@ -29,7 +29,8 @@ public class TeleOpCommand extends CommandBase {
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
 
   private ColorSensor m_colorSensor;
-  public static final double DESIRED_COLOR_VALUE = 3.70; 
+  public static final double DESIRED_COLOR_VALUE = 3.70;
+  private double p_value = 1.0; 
   private boolean trackingLine = true;
 
   private enum SlowModeStates {
@@ -98,7 +99,7 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
     if (trackingLine) {
-      rotateStickValue = m_colorSensor.getValue() - DESIRED_COLOR_VALUE;
+      rotateStickValue = p_value * (DESIRED_COLOR_VALUE - m_colorSensor.getValue());
     }
 
     m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
