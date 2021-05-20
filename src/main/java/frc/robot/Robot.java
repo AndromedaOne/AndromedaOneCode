@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.colorSensor.ColorSensor;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase limelight;
+  private ColorSensor m_colorSensor;
 
   private Robot() {
 
@@ -67,6 +69,7 @@ public class Robot extends TimedRobot {
 
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     SmartDashboard.putNumber("ShooterRPMTarget", 3000);
+    m_colorSensor = new ColorSensor("colorsensor");
   }
 
   /**
@@ -96,6 +99,7 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.getBallFeederSensor().isThereBall();
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
+    SmartDashboard.putNumber("Color Sensor Value", m_colorSensor.getValue());
   }
 
   /**
