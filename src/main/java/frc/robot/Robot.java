@@ -35,6 +35,9 @@ public class Robot extends TimedRobot {
   private OIContainer m_oiContainer;
   private LimeLightCameraBase limelight;
   private ColorSensor m_colorSensor;
+  public ColorSensor getColorSensor() {
+    return m_colorSensor;
+  }
 
   private Robot() {
 

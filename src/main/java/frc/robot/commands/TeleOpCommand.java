@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
+import frc.robot.sensors.colorSensor.ColorSensor;
 import frc.robot.subsystems.drivetrain.*;
 
 /**
@@ -26,6 +27,10 @@ public class TeleOpCommand extends CommandBase {
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
   private boolean m_slowMode = false;
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
+
+  private ColorSensor m_colorSensor;
+  public static final double DESIRED_COLOR_VALUE = 3.70; 
+  private boolean trackingLine = true;
 
   private enum SlowModeStates {
     NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
@@ -44,6 +49,7 @@ public class TeleOpCommand extends CommandBase {
   public void initialize() {
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
+    m_colorSensor = Robot.getInstance().getColorSensor());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -90,6 +96,9 @@ public class TeleOpCommand extends CommandBase {
     if (m_slowMode) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
+    }
+    if (trackingLine) {
+      rotateStickValue = m_colorSensor.getValue() - DESIRED_COLOR_VALUE;
     }
 
     m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
