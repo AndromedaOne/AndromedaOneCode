@@ -49,7 +49,7 @@ public class TeleOpCommand extends CommandBase {
   public void initialize() {
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
-    m_colorSensor = Robot.getInstance().getColorSensor());
+    m_colorSensor = Robot.getInstance().getColorSensor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
