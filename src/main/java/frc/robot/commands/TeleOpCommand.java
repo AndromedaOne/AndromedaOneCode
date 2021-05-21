@@ -28,8 +28,9 @@ public class TeleOpCommand extends CommandBase {
   private boolean m_slowMode = false;
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
 
-  private ColorSensor m_colorSensor;
-  public static final double DESIRED_COLOR_VALUE = 3.70;
+  private ColorSensor m_frontColorSensor;
+  private ColorSensor m_backColorSensor;
+  public static final double DESIRED_COLOR_VALUE = 3.85;
   private double p_value = 1.0; 
   private boolean trackingLine = true;
 
@@ -50,7 +51,8 @@ public class TeleOpCommand extends CommandBase {
   public void initialize() {
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
-    m_colorSensor = Robot.getInstance().getColorSensor();
+    m_frontColorSensor = Robot.getInstance().getFrontColorSensor();
+    m_backColorSensor = Robot.getInstance().getBackColorSensor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -99,10 +101,24 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
     if (trackingLine) {
-      rotateStickValue = p_value * (DESIRED_COLOR_VALUE - m_colorSensor.getValue());
+      boolean drivingForward = drivingForward(forwardBackwardStickValue);
+      if(drivingForward) {
+        rotateStickValue = (DESIRED_COLOR_VALUE - m_frontColorSensor.getValue());
+      }else {
+        rotateStickValue = (m_backColorSensor.getValue() - DESIRED_COLOR_VALUE);
+      }
+     
+      rotateStickValue *= p_value * Math.abs(forwardBackwardStickValue);
+      
     }
 
-    m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
+
+    m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, false);
+  }
+
+  
+  private boolean drivingForward(double forwardBackwardStickValue) {
+    return forwardBackwardStickValue > 0;
   }
 
   // Called once the command ends or is interrupted.

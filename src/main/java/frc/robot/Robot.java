@@ -34,10 +34,14 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase limelight;
-  private ColorSensor m_colorSensor;
-  public ColorSensor getColorSensor() {
-    return m_colorSensor;
+  private ColorSensor m_frontColorSensor;
+  public ColorSensor getFrontColorSensor() {
+    return m_frontColorSensor;
   }
+  private ColorSensor m_backColorSensor;
+  public ColorSensor getBackColorSensor() {
+    return m_backColorSensor;
+  } 
 
   private Robot() {
 
@@ -72,7 +76,8 @@ public class Robot extends TimedRobot {
 
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     SmartDashboard.putNumber("ShooterRPMTarget", 3000);
-    m_colorSensor = new ColorSensor("colorsensor");
+    m_frontColorSensor = new ColorSensor("frontcolorsensor");
+    m_backColorSensor = new ColorSensor("backcolorsensor");
   }
 
   /**
@@ -102,7 +107,8 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.getBallFeederSensor().isThereBall();
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
-    SmartDashboard.putNumber("Color Sensor Value", m_colorSensor.getValue());
+    SmartDashboard.putNumber("Color Sensor Value Front", m_frontColorSensor.getValue());
+    SmartDashboard.putNumber("Color Sensor Value Back", m_backColorSensor.getValue());
   }
 
   /**
