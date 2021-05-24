@@ -24,6 +24,7 @@ import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.colorSensor.ColorSensor;
 import frc.robot.subsystems.drivetrain.*;
 import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
 
 /**
  * Allows you to drive the robot using the drive controller.
@@ -37,21 +38,18 @@ public class TeleOpCommand extends CommandBase {
   private boolean m_slowMode = false;
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
 
-<<<<<<< HEAD
   private ColorSensor m_frontColorSensor;
   private ColorSensor m_backColorSensor;
   public static final double DESIRED_COLOR_VALUE = 3.85;
-  private double p_value = 1.0; 
-=======
-  private ColorSensor m_colorSensor;
-  public static final double DESIRED_COLOR_VALUE = 3.70;
-  private double m_lineFollowingP = 1.0;
+  private double m_lineFollowingP = 0.3;
   private double m_lineFollowingI = 0.0;
-  private double m_lineFollowingD = 0.0;
->>>>>>> LineFollowerPID
+  private double m_lineFollowingD = 1.0;
   private boolean trackingLine = true;
+  private double m_frontColorSensorTurningValuePID;
+  private double m_backColorSensorTurningValuePID;
 
-  private LineFollowerCommand lineFollowerCommand;
+  private LineFollowerCommand frontLineFollowerCommand;
+  private LineFollowerCommand backLineFollowerCommand;
 
   private enum SlowModeStates {
     NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
@@ -70,20 +68,31 @@ public class TeleOpCommand extends CommandBase {
   public void initialize() {
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
-<<<<<<< HEAD
     m_frontColorSensor = Robot.getInstance().getFrontColorSensor();
     m_backColorSensor = Robot.getInstance().getBackColorSensor();
-=======
-    m_colorSensor = Robot.getInstance().getColorSensor();
-    lineFollowerCommand = new LineFollowerCommand(new PIDController4905SampleStop(
-      "LineFollowing",
+    frontLineFollowerCommand = new LineFollowerCommand(new PIDController4905SampleStop(
+      "FrontLineFollowing",
       m_lineFollowingP,
       m_lineFollowingI,
       m_lineFollowingD,
       0
-    ),this);
-    CommandScheduler.getInstance().schedule(lineFollowerCommand);
->>>>>>> LineFollowerPID
+    ),
+    this,
+    m_frontColorSensor,
+    (output) -> setFrontTurningValuePID(output));
+
+    backLineFollowerCommand = new LineFollowerCommand(new PIDController4905SampleStop(
+      "FrontLineFollowing",
+      m_lineFollowingP,
+      m_lineFollowingI,
+      m_lineFollowingD,
+      0
+    ),
+    this,
+    m_backColorSensor,
+    (output) -> setBackTurningValuePID(output));
+    CommandScheduler.getInstance().schedule(frontLineFollowerCommand);
+    CommandScheduler.getInstance().schedule(backLineFollowerCommand);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -132,21 +141,20 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
     if (trackingLine) {
-<<<<<<< HEAD
       boolean drivingForward = drivingForward(forwardBackwardStickValue);
       if(drivingForward) {
-        rotateStickValue = (DESIRED_COLOR_VALUE - m_frontColorSensor.getValue());
+        rotateStickValue = m_frontColorSensorTurningValuePID;
       }else {
-        rotateStickValue = (m_backColorSensor.getValue() - DESIRED_COLOR_VALUE);
+        rotateStickValue = m_backColorSensorTurningValuePID;
       }
-     
-      rotateStickValue *= p_value * Math.abs(forwardBackwardStickValue);
+
+      rotateStickValue *= forwardBackwardStickValue;
       
-=======
-      rotateStickValue = m_turningValuePID * forwardBackwardStickValue;
->>>>>>> LineFollowerPID
     }
 
+    Trace.getInstance().addTrace(true, "ColorSensors", 
+    new TracePair<Double>("FrontColorSensor", m_frontColorSensor.getValue()),
+    new TracePair<Double>("BackColorSensor", m_backColorSensor.getValue()));
 
     m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, false);
   }
@@ -168,12 +176,12 @@ public class TeleOpCommand extends CommandBase {
     return false;
   }
 
-  private double m_turningValuePID;
+  
 
   private class LineFollowerCommand extends PIDCommand4905 {
 
-    public LineFollowerCommand(PIDController4905 controller, TeleOpCommand teleOpCommand) {
-      super(controller, m_colorSensor::getValue, () -> DESIRED_COLOR_VALUE, (output) -> teleOpCommand.setTurningValuePID(output));
+    public LineFollowerCommand(PIDController4905 controller, TeleOpCommand teleOpCommand, ColorSensor colorSensor, DoubleConsumer output) {
+      super(controller, colorSensor::getValue, () -> DESIRED_COLOR_VALUE, output);
       
     }
 
@@ -189,8 +197,12 @@ public class TeleOpCommand extends CommandBase {
     
   }
 
-  private void setTurningValuePID(double output) {
-    m_turningValuePID = output;
+  private void setFrontTurningValuePID(double output) {
+    m_frontColorSensorTurningValuePID = output;
+  }
+
+  private void setBackTurningValuePID(double output) {
+    m_backColorSensorTurningValuePID = output;
   }
 
   
