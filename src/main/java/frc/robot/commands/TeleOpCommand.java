@@ -7,21 +7,30 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleConsumer;
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
+import frc.robot.pidcontroller.PIDCommand4905;
+import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.colorSensor.ColorSensor;
 import frc.robot.subsystems.drivetrain.*;
+import frc.robot.telemetries.Trace;
 
 /**
  * Allows you to drive the robot using the drive controller.
  */
 public class TeleOpCommand extends CommandBase {
 
-//Make the controllers a little easier to get to.  
+  // Make the controllers a little easier to get to.
   private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
   private DriveTrain m_driveTrain;
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -30,8 +39,12 @@ public class TeleOpCommand extends CommandBase {
 
   private ColorSensor m_colorSensor;
   public static final double DESIRED_COLOR_VALUE = 3.70;
-  private double p_value = 1.0; 
+  private double m_lineFollowingP = 1.0;
+  private double m_lineFollowingI = 0.0;
+  private double m_lineFollowingD = 0.0;
   private boolean trackingLine = true;
+
+  private LineFollowerCommand lineFollowerCommand;
 
   private enum SlowModeStates {
     NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
@@ -51,6 +64,14 @@ public class TeleOpCommand extends CommandBase {
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
     m_colorSensor = Robot.getInstance().getColorSensor();
+    lineFollowerCommand = new LineFollowerCommand(new PIDController4905SampleStop(
+      "LineFollowing",
+      m_lineFollowingP,
+      m_lineFollowingI,
+      m_lineFollowingD,
+      0
+    ),this);
+    CommandScheduler.getInstance().schedule(lineFollowerCommand);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,38 +81,38 @@ public class TeleOpCommand extends CommandBase {
     double rotateStickValue = m_driveController.getRotateStick();
 
     switch (m_slowModeState) {
-    case NOTSLOWRELEASED:
-      if (m_driveController.getLeftBumperPressed()) {
-        m_slowMode = true;
-        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
-        m_slowModeState = SlowModeStates.SLOWPRESSED;
-        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-      }
-      break;
-    case NOTSLOWPRESSED:
-      if (m_driveController.getLeftBumperReleased()) {
-        m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
-        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-      }
-      break;
-    case SLOWRELEASED:
-      if (m_driveController.getLeftBumperPressed()) {
-        m_slowMode = false;
-        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
-        ;
-        m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
-        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-      }
-      break;
-    case SLOWPRESSED:
-      if (m_driveController.getLeftBumperReleased()) {
-        m_slowModeState = SlowModeStates.SLOWRELEASED;
-        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-      }
-      break;
-    default:
-      System.err.println("WARN: Unknown slowmode state: " + m_slowModeState.toString());
-      break;
+      case NOTSLOWRELEASED:
+        if (m_driveController.getLeftBumperPressed()) {
+          m_slowMode = true;
+          Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
+          m_slowModeState = SlowModeStates.SLOWPRESSED;
+          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+        }
+        break;
+      case NOTSLOWPRESSED:
+        if (m_driveController.getLeftBumperReleased()) {
+          m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
+          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+        }
+        break;
+      case SLOWRELEASED:
+        if (m_driveController.getLeftBumperPressed()) {
+          m_slowMode = false;
+          Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
+          ;
+          m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
+          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+        }
+        break;
+      case SLOWPRESSED:
+        if (m_driveController.getLeftBumperReleased()) {
+          m_slowModeState = SlowModeStates.SLOWRELEASED;
+          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+        }
+        break;
+      default:
+        System.err.println("WARN: Unknown slowmode state: " + m_slowModeState.toString());
+        break;
     }
 
     if (m_slowMode) {
@@ -99,7 +120,7 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
     if (trackingLine) {
-      rotateStickValue = p_value * (DESIRED_COLOR_VALUE - m_colorSensor.getValue());
+      rotateStickValue = m_turningValuePID * forwardBackwardStickValue;
     }
 
     m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
@@ -116,4 +137,31 @@ public class TeleOpCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
+  private double m_turningValuePID;
+
+  private class LineFollowerCommand extends PIDCommand4905 {
+
+    public LineFollowerCommand(PIDController4905 controller, TeleOpCommand teleOpCommand) {
+      super(controller, m_colorSensor::getValue, () -> DESIRED_COLOR_VALUE, (output) -> teleOpCommand.setTurningValuePID(output));
+      
+    }
+
+    public void initialize() {
+      Trace.getInstance().logCommandStart(this);
+    }
+
+    public void end(boolean interrupted) {
+      super.end(interrupted);
+      super.initialize();
+      Trace.getInstance().logCommandStop(this);
+    }
+    
+  }
+
+  private void setTurningValuePID(double output) {
+    m_turningValuePID = output;
+  }
+
+  
 }
