@@ -19,8 +19,8 @@ public class TrackLineAndDriveBackwards extends TrackLineAndDrive {
             0), 
             Robot.getInstance().getBackColorSensor(), 
             (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-0.3, output * -0.3, false),
-            // The output is multiplied by -0.3 in the move method because when the PID values were tuned the output 
-            // was being multiplied by the forward backward stick value which was -0.3 at the time 
+            // The output is multiplied by 0.3 in the move method because when the PID values were tuned the output 
+            // was being multiplied by the forward backward stick value which was 0.3 at the time 
             BACK_DESIRED_COLOR_VALUE);
     }
 
