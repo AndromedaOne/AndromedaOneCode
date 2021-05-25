@@ -19,7 +19,7 @@ public class TrackLineAndDriveForward extends TrackLineAndDrive {
             m_lineFollowingD,
             0), 
             Robot.getInstance().getFrontColorSensor(), 
-            (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0.3, output * -0.3, false),
+            (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0.6, output * -0.3, false),
             // The output is multiplied by -0.3 in the move method because when the PID values were tuned the output 
             // was being multiplied by the forward backward stick value which was -0.3 at the time 
             FRONT_DESIRED_COLOR_VALUE);
