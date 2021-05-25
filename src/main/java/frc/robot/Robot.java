@@ -67,6 +67,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     m_sensorsContainer = new SensorsContainer();
+    m_frontColorSensor = new ColorSensor("frontcolorsensor");
+    m_backColorSensor = new ColorSensor("backcolorsensor");
     m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
     m_subsystemContainer.setDefaultCommands();
@@ -76,8 +78,7 @@ public class Robot extends TimedRobot {
 
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     SmartDashboard.putNumber("ShooterRPMTarget", 3000);
-    m_frontColorSensor = new ColorSensor("frontcolorsensor");
-    m_backColorSensor = new ColorSensor("backcolorsensor");
+    
   }
 
   /**
