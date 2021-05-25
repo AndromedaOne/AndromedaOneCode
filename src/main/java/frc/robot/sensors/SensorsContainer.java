@@ -39,6 +39,7 @@ public class SensorsContainer {
   private LimeLightCameraBase m_limelightCameraBase;
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
+  private UltrasonicSensor m_cannonSafetyUltrasonic;
   private RomiAnalog41IRSensor m_romiAnalog41IRSensor;
 
   public SensorsContainer() {
@@ -91,6 +92,12 @@ public class SensorsContainer {
       m_powerCellDetector = new MockUltrasonicSensor();
       System.out.println("Using Fake Power Cell Detector");
     }
+    if (sensorConfig.hasPath("sensors.cannonSafetyUltrasonic")) {
+      m_cannonSafetyUltrasonic = new RealUltrasonicSensor("cannonSafetyUltrasonic");
+      System.out.println("Using Real Cannon Safety Ultrasonic");
+    } else {
+      m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
+    }
     if (sensorConfig.hasPath("sensors.romiAnalog41IRSensor")) {
       m_romiAnalog41IRSensor = new RealRomiAnalog41IRSensor(sensorConfig.getInt("sensors.romiAnalog41IRSensor.port"));
       System.out.println("Using real romi analog 41 IR sensor");
@@ -125,6 +132,10 @@ public class SensorsContainer {
     return m_powerCellDetector;
   }
 
+  public UltrasonicSensor getCannonSafetyUltrasonic() {
+    return m_cannonSafetyUltrasonic;
+  }
+  
   public RomiAnalog41IRSensor getRomiAnalog41IRSensor() {
     return m_romiAnalog41IRSensor;
   }

@@ -63,6 +63,8 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
+    m_subsystemContainer.getDrivetrain().setCoast(true);
+
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     SmartDashboard.putNumber("ShooterRPMTarget", 3000);
   }
@@ -105,6 +107,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
+    m_subsystemContainer.getDrivetrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
     limelight.disableLED();
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
@@ -113,6 +116,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     // limelight.disableLED();
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
+    }
   }
 
   /**
@@ -131,6 +137,7 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.enableLED();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
   }
 
   /**
@@ -138,6 +145,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+    }
   }
 
   @Override
@@ -154,7 +164,9 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.disableLED();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
+
   }
 
   /**
@@ -162,12 +174,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    if (Config4905.getConfig4905().doesHarvesterExist()) {
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+    }
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
   }
 
   /**

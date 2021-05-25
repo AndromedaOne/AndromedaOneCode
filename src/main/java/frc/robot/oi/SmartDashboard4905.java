@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Config4905;
 import frc.robot.commands.CheckRomiVelocityConversionFactor;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
@@ -18,20 +19,11 @@ import frc.robot.commands.RunAllFeederMotors;
 import frc.robot.commands.RunIntakeOut;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.TuneShooterFeedForward;
+import frc.robot.commands.cannon.PressurizeCannon;
+import frc.robot.commands.cannon.ShootCannon;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
-import frc.robot.commands.pidcommands.TurnToCompassHeadingTester;
 import frc.robot.groupcommands.RomiCommands.RomiChallenge1;
 import frc.robot.groupcommands.RomiCommands.RomiExamplePath;
-import frc.robot.groupcommands.athomechallengepathways.BarrelRacingPath;
-import frc.robot.groupcommands.athomechallengepathways.BouncePath;
-import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathA;
-import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathAAllSixBalls;
-import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathB;
-import frc.robot.groupcommands.athomechallengepathways.GalacticSearchPathBAllSixBalls;
-import frc.robot.groupcommands.athomechallengepathways.HyperDriveChallenge;
-import frc.robot.groupcommands.athomechallengepathways.InterstellarAccuracyChallenge;
-import frc.robot.groupcommands.athomechallengepathways.PowerPortStart;
-import frc.robot.groupcommands.athomechallengepathways.SlalomPath;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.pathgenerators.TwoDDriveTrainPathGenerator;
@@ -45,49 +37,35 @@ public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
-
+    AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
     SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
-
-    SmartDashboard.putData("TurnToCompassHeadingTester",
-        new TurnToCompassHeadingTester(SmartDashboard.getNumber("Compass Heading", 0)));
 
     SmartDashboard.putNumber("Auto Delay", 0);
 
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
-    SmartDashboard.putData("ShootRPM",
-        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), true));
-
     SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
 
     SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
+    SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
+    SmartDashboard.putData("Shoot Cannon", new ShootCannon());
 
-    AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+    if (Config4905.getConfig4905().isRomi()) {
+      romiCommands(subsystemsContainer);
+    } else if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
+      theDroidYoureLookingForCommands(subsystemsContainer);
+    }
+  }
 
-    SmartDashboard.putData("Galactic Search Path A All Six Balls",
-        new GalacticSearchPathAAllSixBalls(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
+  public Command getSelectedAutoChooserCommand() {
+    return m_autoChooser.getSelected();
+  }
 
-    SmartDashboard.putData("Galactic Search Path A", new GalacticSearchPathA());
-
-    SmartDashboard.putData("Galactic Search Path B All Six Balls",
-        new GalacticSearchPathBAllSixBalls(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
-
-    SmartDashboard.putData("Galactic Search Path B", new GalacticSearchPathB());
-    SmartDashboard.putData("InterstellerAccuracyChallenge", new InterstellarAccuracyChallenge(
-        subsystemsContainer.getDrivetrain(), subsystemsContainer.getShooter(), subsystemsContainer.getFeeder()));
-    SmartDashboard.putData("Bounce Path",
-        new BouncePath(subsystemsContainer.getDrivetrain(), subsystemsContainer.getIntake()));
-    SmartDashboard.putData("Slalom Path", new SlalomPath(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("Barrel Racing Path", new BarrelRacingPath(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("Hyper Drive Challenge", new HyperDriveChallenge(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("Power Port Start", new PowerPortStart(subsystemsContainer.getDrivetrain(),
-        subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), subsystemsContainer.getIntake()));
-
+  private void romiCommands(SubsystemsContainer subsystemsContainer) {
     SmartDashboard.putData("RomiExamplePath", new RomiExamplePath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("RomiChallenge1", new RomiChallenge1(subsystemsContainer.getDrivetrain()));
-
     PathGeneratorBase turnRightGenerator = new TwoDDriveTrainPathGenerator("TurnRight.wpilib.json",
         subsystemsContainer.getDrivetrain(), "RomiTurnRight");
     SmartDashboard.putData("Romi 2d Turn Right", turnRightGenerator.getPath());
@@ -124,13 +102,14 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("CheckRomiVelocityConversionFactor",
         new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
+  }
+
+  private void theDroidYoureLookingForCommands(SubsystemsContainer subsystemsContainer) {
+    SmartDashboard.putData("ShootRPM",
+        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), true));
 
     SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
     SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));
     SmartDashboard.putData("Run Intake Out", new RunIntakeOut(subsystemsContainer.getIntake(), () -> false, 1));
-  }
-
-  public Command getSelectedAutoChooserCommand() {
-    return m_autoChooser.getSelected();
   }
 }

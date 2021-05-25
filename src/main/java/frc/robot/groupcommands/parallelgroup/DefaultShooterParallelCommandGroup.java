@@ -31,7 +31,6 @@ public class DefaultShooterParallelCommandGroup extends ParallelCommandGroup {
 
   @Override
   public void initialize() {
-
     // When this command is running the shooter is always idle
     m_shooter.setShooterIsIdle(true);
     // When the shooter is idle the hood will always be close
