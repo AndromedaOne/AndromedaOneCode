@@ -135,7 +135,7 @@ public class SensorsContainer {
   public UltrasonicSensor getCannonSafetyUltrasonic() {
     return m_cannonSafetyUltrasonic;
   }
-  
+
   public RomiAnalog41IRSensor getRomiAnalog41IRSensor() {
     return m_romiAnalog41IRSensor;
   }
