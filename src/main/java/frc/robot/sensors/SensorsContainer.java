@@ -21,6 +21,9 @@ import frc.robot.sensors.gyro.RomiGyro;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
 import frc.robot.sensors.limelightcamera.RealLimelightCamera;
+import frc.robot.sensors.romiAnalog41IRSensor.MockRomiAnalog41IRSensor;
+import frc.robot.sensors.romiAnalog41IRSensor.RealRomiAnalog41IRSensor;
+import frc.robot.sensors.romiAnalog41IRSensor.RomiAnalog41IRSensor;
 import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
@@ -36,6 +39,7 @@ public class SensorsContainer {
   private LimeLightCameraBase m_limelightCameraBase;
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
+  private RomiAnalog41IRSensor m_romiAnalog41IRSensor;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -87,6 +91,14 @@ public class SensorsContainer {
       m_powerCellDetector = new MockUltrasonicSensor();
       System.out.println("Using Fake Power Cell Detector");
     }
+    if (sensorConfig.hasPath("sensors.romiAnalog41IRSensor")) {
+      m_romiAnalog41IRSensor = new RealRomiAnalog41IRSensor(sensorConfig.getInt("sensors.romiAnalog41IRSensor.port"));
+      System.out.println("Using real romi analog 41 IR sensor");
+    } else {
+      m_romiAnalog41IRSensor = new MockRomiAnalog41IRSensor();
+      System.out.println("Using mock romi analog 41 IR sensor");
+    }
+
   }
 
   public Gyro4905 getGyro() {
@@ -111,5 +123,9 @@ public class SensorsContainer {
 
   public UltrasonicSensor getPowercellDetector() {
     return m_powerCellDetector;
+  }
+
+  public RomiAnalog41IRSensor getRomiAnalog41IRSensor() {
+    return m_romiAnalog41IRSensor;
   }
 }
