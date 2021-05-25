@@ -38,20 +38,6 @@ public class TeleOpCommand extends CommandBase {
   private boolean m_slowMode = false;
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
 
-  private ColorSensor m_frontColorSensor;
-  private ColorSensor m_backColorSensor;
-  public static final double FRONT_DESIRED_COLOR_VALUE = 4.00;
-  public static final double BACK_DESIRED_COLOR_VALUE = 4.39;
-  private double m_lineFollowingP = 0.75;
-  private double m_lineFollowingI = 0.0;
-  private double m_lineFollowingD = 0.075;
-  private boolean trackingLine = true;
-  private double m_frontColorSensorTurningValuePID;
-  private double m_backColorSensorTurningValuePID;
-
-  private LineFollowerCommand frontLineFollowerCommand;
-  private LineFollowerCommand backLineFollowerCommand;
-
   private enum SlowModeStates {
     NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
   }
@@ -69,33 +55,6 @@ public class TeleOpCommand extends CommandBase {
   public void initialize() {
     m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
-    m_frontColorSensor = Robot.getInstance().getFrontColorSensor();
-    m_backColorSensor = Robot.getInstance().getBackColorSensor();
-    frontLineFollowerCommand = new LineFollowerCommand(new PIDController4905SampleStop(
-      "FrontLineFollowing",
-      m_lineFollowingP,
-      m_lineFollowingI,
-      m_lineFollowingD,
-      0
-    ),
-    this,
-    m_frontColorSensor,
-    (output) -> setFrontTurningValuePID(output),
-    FRONT_DESIRED_COLOR_VALUE);
-
-    backLineFollowerCommand = new LineFollowerCommand(new PIDController4905SampleStop(
-      "FrontLineFollowing",
-      m_lineFollowingP,
-      m_lineFollowingI,
-      m_lineFollowingD,
-      0
-    ),
-    this,
-    m_backColorSensor,
-    (output) -> setBackTurningValuePID(output),
-    BACK_DESIRED_COLOR_VALUE);
-    CommandScheduler.getInstance().schedule(frontLineFollowerCommand);
-    CommandScheduler.getInstance().schedule(backLineFollowerCommand);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -143,28 +102,8 @@ public class TeleOpCommand extends CommandBase {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
-    if (trackingLine) {
-      boolean drivingForward = drivingForward(forwardBackwardStickValue);
-      if(drivingForward) {
-        rotateStickValue = m_frontColorSensorTurningValuePID;
-      }else {
-        rotateStickValue = m_backColorSensorTurningValuePID;
-      }
-
-      rotateStickValue *= forwardBackwardStickValue;
-      
-    }
-
-    Trace.getInstance().addTrace(true, "ColorSensors", 
-    new TracePair<Double>("FrontColorSensor", m_frontColorSensor.getValue()),
-    new TracePair<Double>("BackColorSensor", m_backColorSensor.getValue()));
 
     m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, false);
-  }
-
-  
-  private boolean drivingForward(double forwardBackwardStickValue) {
-    return forwardBackwardStickValue > 0;
   }
 
   // Called once the command ends or is interrupted.
@@ -178,35 +117,5 @@ public class TeleOpCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
-  
-
-  private class LineFollowerCommand extends PIDCommand4905 {
-
-    public LineFollowerCommand(PIDController4905 controller, TeleOpCommand teleOpCommand, ColorSensor colorSensor, DoubleConsumer output, double desiredColorValue) {
-      super(controller, colorSensor::getValue, () -> desiredColorValue, output);
-      
-    }
-
-    public void initialize() {
-      Trace.getInstance().logCommandStart(this);
-    }
-
-    public void end(boolean interrupted) {
-      super.end(interrupted);
-      super.initialize();
-      Trace.getInstance().logCommandStop(this);
-    }
-    
-  }
-
-  private void setFrontTurningValuePID(double output) {
-    m_frontColorSensorTurningValuePID = output;
-  }
-
-  private void setBackTurningValuePID(double output) {
-    m_backColorSensorTurningValuePID = output;
-  }
-
   
 }

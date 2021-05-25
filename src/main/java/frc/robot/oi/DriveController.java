@@ -12,9 +12,12 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.TrackLineAndDriveBackwards;
+import frc.robot.commands.TrackLineAndDriveForward;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
+import frc.robot.lib.POVDirectionNames;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -33,6 +36,8 @@ public class DriveController {
   private POVButton climbLevel;
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
+  private POVButton driveForwardAndTrackLine;
+  private POVButton driveBackwardAndTrackLine;
 
   public DriveController(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
@@ -45,6 +50,11 @@ public class DriveController {
     turnToWest.whenPressed(new TurnToCompassHeading(270));
     turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
     turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
+    driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
+    driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
+    driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
+    driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
+
     // climbLevel = new POVButton(m_driveController,
     // POVDirectionNames.NORTH.getValue());
     // climbLevel.whileHeld(new Climb());
