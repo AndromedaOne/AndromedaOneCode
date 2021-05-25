@@ -17,8 +17,16 @@ public class RealRomiAnalog41IRSensor extends RomiAnalog41IRSensor {
 
   @Override
   public double getDistance() {
-
-    return m_irSensor.getValue();
+    // this equation is from adafruit's github arduino code
+    // https://github.com/qub1750ul/Arduino_SharpIR/blob/master/src/SharpIR.cpp
+    double distance = 2076.0 / (m_irSensor.getValue() - 11.0);
+    if (distance > 30) {
+      return 31;
+    } else if (distance < 4) {
+      return 3;
+    } else {
+      return distance;
+    }
   }
 
   @Override
