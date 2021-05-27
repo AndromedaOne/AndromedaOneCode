@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.getBallFeederSensor().isThereBall();
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
-    m_sensorsContainer.getRomiAnalog41IRSensor().updateSmartDashboardReadings();
+    m_sensorsContainer.getAnalog41IRSensor().updateSmartDashboardReadings();
   }
 
   /**

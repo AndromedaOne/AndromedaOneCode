@@ -10,6 +10,9 @@ package frc.robot.sensors;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
+import frc.robot.sensors.analog41IRSensor.Analog41IRSensor;
+import frc.robot.sensors.analog41IRSensor.MockAnalog41IRSensor;
+import frc.robot.sensors.analog41IRSensor.RealAnalog41IRSensor;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
@@ -21,9 +24,6 @@ import frc.robot.sensors.gyro.RomiGyro;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
 import frc.robot.sensors.limelightcamera.RealLimelightCamera;
-import frc.robot.sensors.romiAnalog41IRSensor.MockRomiAnalog41IRSensor;
-import frc.robot.sensors.romiAnalog41IRSensor.RealRomiAnalog41IRSensor;
-import frc.robot.sensors.romiAnalog41IRSensor.RomiAnalog41IRSensor;
 import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
@@ -40,7 +40,7 @@ public class SensorsContainer {
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
-  private RomiAnalog41IRSensor m_romiAnalog41IRSensor;
+  private Analog41IRSensor m_analog41IRSensor;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -98,12 +98,12 @@ public class SensorsContainer {
     } else {
       m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
     }
-    if (sensorConfig.hasPath("sensors.romiAnalog41IRSensor")) {
-      m_romiAnalog41IRSensor = new RealRomiAnalog41IRSensor(sensorConfig.getInt("sensors.romiAnalog41IRSensor.port"));
-      System.out.println("Using real romi analog 41 IR sensor");
+    if (sensorConfig.hasPath("sensors.analog41IRSensor")) {
+      m_analog41IRSensor = new RealAnalog41IRSensor(sensorConfig.getInt("sensors.analog41IRSensor.port"));
+      System.out.println("Using real analog 41 IR sensor");
     } else {
-      m_romiAnalog41IRSensor = new MockRomiAnalog41IRSensor();
-      System.out.println("Using mock romi analog 41 IR sensor");
+      m_analog41IRSensor = new MockAnalog41IRSensor();
+      System.out.println("Using mock analog 41 IR sensor");
     }
 
   }
@@ -136,7 +136,7 @@ public class SensorsContainer {
     return m_cannonSafetyUltrasonic;
   }
 
-  public RomiAnalog41IRSensor getRomiAnalog41IRSensor() {
-    return m_romiAnalog41IRSensor;
+  public Analog41IRSensor getAnalog41IRSensor() {
+    return m_analog41IRSensor;
   }
 }

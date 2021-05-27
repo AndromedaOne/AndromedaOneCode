@@ -2,10 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.sensors.romiAnalog41IRSensor;
+package frc.robot.sensors.analog41IRSensor;
 
 /** Add your docs here. */
-public class MockRomiAnalog41IRSensor extends RomiAnalog41IRSensor {
+public class MockAnalog41IRSensor extends Analog41IRSensor {
 
   @Override
   public double getDistance() {
