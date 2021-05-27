@@ -10,6 +10,9 @@ package frc.robot.sensors;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
+import frc.robot.sensors.analog41IRSensor.Analog41IRSensor;
+import frc.robot.sensors.analog41IRSensor.MockAnalog41IRSensor;
+import frc.robot.sensors.analog41IRSensor.RealAnalog41IRSensor;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
@@ -37,6 +40,7 @@ public class SensorsContainer {
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
+  private Analog41IRSensor m_analog41IRSensor;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -94,6 +98,14 @@ public class SensorsContainer {
     } else {
       m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
     }
+    if (sensorConfig.hasPath("sensors.analog41IRSensor")) {
+      m_analog41IRSensor = new RealAnalog41IRSensor(sensorConfig.getInt("sensors.analog41IRSensor.port"));
+      System.out.println("Using real analog 41 IR sensor");
+    } else {
+      m_analog41IRSensor = new MockAnalog41IRSensor();
+      System.out.println("Using mock analog 41 IR sensor");
+    }
+
   }
 
   public Gyro4905 getGyro() {
@@ -122,5 +134,9 @@ public class SensorsContainer {
 
   public UltrasonicSensor getCannonSafetyUltrasonic() {
     return m_cannonSafetyUltrasonic;
+  }
+
+  public Analog41IRSensor getAnalog41IRSensor() {
+    return m_analog41IRSensor;
   }
 }
