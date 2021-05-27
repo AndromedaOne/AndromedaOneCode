@@ -12,9 +12,13 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.Config4905;
+import frc.robot.commands.ToggleLimelightLED;
+import frc.robot.commands.climber.Climb;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.lib.ButtonsEnumerated;
+import frc.robot.lib.POVDirectionNames;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -34,7 +38,10 @@ public class DriveController {
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
 
+  private SensorsContainer m_sensorsContainer;
+
   public DriveController(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
+    m_sensorsContainer = sensorsContainer;
     turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
     turnToNorth.whenPressed(new TurnToCompassHeading(0));
     turnToEast = new JoystickButton(m_driveController, ButtonsEnumerated.BBUTTON.getValue());
@@ -43,20 +50,14 @@ public class DriveController {
     turnToSouth.whenPressed(new TurnToCompassHeading(180));
     turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
     turnToWest.whenPressed(new TurnToCompassHeading(270));
-    turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
-    turnToFace.whenPressed(new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
-    // climbLevel = new POVButton(m_driveController,
-    // POVDirectionNames.NORTH.getValue());
-    // climbLevel.whileHeld(new Climb());
-    letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
-    letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
-    // turnOnLimelight = new JoystickButton(m_driveController,
-    // ButtonsEnumerated.BACKBUTTON.getValue());
-    // turnOnLimelight.whenPressed(new ToggleLimelightLED(true, sensorsContainer));
-    // turnOffLimelight = new JoystickButton(m_driveController,
-    // ButtonsEnumerated.STARTBUTTON.getValue());
-    // turnOffLimelight.whenPressed(new ToggleLimelightLED(false,
-    // sensorsContainer));
+
+    if (sensorsContainer.hasLimeLight()) {
+      limeLightButtons();
+    }
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      climberButtons();
+    }
+
   }
 
   /**
@@ -67,14 +68,6 @@ public class DriveController {
    */
   public double getForwardBackwardStick() {
     return deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
-  }
-
-  private double deadband(double stickValue) {
-    if (Math.abs(stickValue) < 0.01) {
-      return 0.0;
-    } else {
-      return stickValue;
-    }
   }
 
   /**
@@ -103,6 +96,31 @@ public class DriveController {
     return m_driveController.getBumperReleased(Hand.kLeft);
   }
 
+  private double deadband(double stickValue) {
+    if (Math.abs(stickValue) < 0.01) {
+      return 0.0;
+    } else {
+      return stickValue;
+    }
+  }
+
+  protected void limeLightButtons() {
+    turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
+    turnToFace.whenPressed(new TurnToFaceCommand(m_sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
+    turnOnLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
+    turnOnLimelight.whenPressed(new ToggleLimelightLED(true, m_sensorsContainer));
+    turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
+    turnOffLimelight.whenPressed(new ToggleLimelightLED(false, m_sensorsContainer));
+  }
+
+  // Climber buttons
+  protected void climberButtons() {
+    climbLevel = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
+    climbLevel.whileHeld(new Climb());
+    letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
+    letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
+  }
+
   public JoystickButton getLetOutLeftWinchButton() {
     return letOutLeftWinch;
   }
@@ -110,5 +128,4 @@ public class DriveController {
   public JoystickButton getLetOutRightWinchButton() {
     return letOutRightWinch;
   }
-
 }

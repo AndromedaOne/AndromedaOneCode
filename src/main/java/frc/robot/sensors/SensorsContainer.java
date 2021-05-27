@@ -37,6 +37,7 @@ public class SensorsContainer {
   private Camera m_camera0;
   private Camera m_camera1;
   private LimeLightCameraBase m_limelightCameraBase;
+  private boolean m_hasLimeLight = false;
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
@@ -81,6 +82,7 @@ public class SensorsContainer {
     if (sensorConfig.hasPath("limelight")) {
       System.out.println("Using real LimeLight");
       m_limelightCameraBase = new RealLimelightCamera();
+      m_hasLimeLight = true;
     } else {
       System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
@@ -122,6 +124,10 @@ public class SensorsContainer {
 
   public Camera getCamera1() {
     return m_camera1;
+  }
+
+  public boolean hasLimeLight() {
+    return (true);
   }
 
   public LimeLightCameraBase getLimeLight() {
