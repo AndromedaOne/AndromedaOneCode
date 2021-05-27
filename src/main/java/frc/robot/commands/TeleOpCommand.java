@@ -7,24 +7,13 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleSupplier;
-
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
-import frc.robot.pidcontroller.PIDCommand4905;
-import frc.robot.pidcontroller.PIDController4905;
-import frc.robot.pidcontroller.PIDController4905SampleStop;
-import frc.robot.sensors.colorSensor.ColorSensor;
 import frc.robot.subsystems.drivetrain.*;
-import frc.robot.telemetries.Trace;
-import frc.robot.telemetries.TracePair;
 
 /**
  * Allows you to drive the robot using the drive controller.
@@ -64,38 +53,38 @@ public class TeleOpCommand extends CommandBase {
     double rotateStickValue = m_driveController.getRotateStick();
 
     switch (m_slowModeState) {
-      case NOTSLOWRELEASED:
-        if (m_driveController.getLeftBumperPressed()) {
-          m_slowMode = true;
-          Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
-          m_slowModeState = SlowModeStates.SLOWPRESSED;
-          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-        }
-        break;
-      case NOTSLOWPRESSED:
-        if (m_driveController.getLeftBumperReleased()) {
-          m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
-          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-        }
-        break;
-      case SLOWRELEASED:
-        if (m_driveController.getLeftBumperPressed()) {
-          m_slowMode = false;
-          Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
-          ;
-          m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
-          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-        }
-        break;
-      case SLOWPRESSED:
-        if (m_driveController.getLeftBumperReleased()) {
-          m_slowModeState = SlowModeStates.SLOWRELEASED;
-          System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-        }
-        break;
-      default:
-        System.err.println("WARN: Unknown slowmode state: " + m_slowModeState.toString());
-        break;
+    case NOTSLOWRELEASED:
+      if (m_driveController.getLeftBumperPressed()) {
+        m_slowMode = true;
+        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
+        m_slowModeState = SlowModeStates.SLOWPRESSED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case NOTSLOWPRESSED:
+      if (m_driveController.getLeftBumperReleased()) {
+        m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case SLOWRELEASED:
+      if (m_driveController.getLeftBumperPressed()) {
+        m_slowMode = false;
+        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
+        ;
+        m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    case SLOWPRESSED:
+      if (m_driveController.getLeftBumperReleased()) {
+        m_slowModeState = SlowModeStates.SLOWRELEASED;
+        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+      }
+      break;
+    default:
+      System.err.println("WARN: Unknown slowmode state: " + m_slowModeState.toString());
+      break;
     }
 
     if (m_slowMode) {
@@ -117,5 +106,5 @@ public class TeleOpCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-  
+
 }

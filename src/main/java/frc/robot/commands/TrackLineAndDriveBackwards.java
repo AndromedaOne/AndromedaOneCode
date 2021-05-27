@@ -1,38 +1,45 @@
 package frc.robot.commands;
 
+import com.typesafe.config.Config;
+
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 
 public class TrackLineAndDriveBackwards extends TrackLineAndDrive {
-    private static final double m_lineFollowingP = 0.25;
-    private static final double m_lineFollowingI = 0.0;
-    private static final double m_lineFollowingD = 0.035;
 
-    public static final double BACK_DESIRED_COLOR_VALUE = 3.86;
+  public static final double MOVING_SPEED = 0.3;
 
-    public TrackLineAndDriveBackwards() {
-        super(new PIDController4905SampleStop(
-            "BackColorSensorPID",
-            m_lineFollowingP,
-            m_lineFollowingI,
-            m_lineFollowingD,
-            0), 
-            Robot.getInstance().getBackColorSensor(), 
-            (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-0.3, output, false),
-            
-            BACK_DESIRED_COLOR_VALUE);
-    }
+  public TrackLineAndDriveBackwards() {
+    super(new PIDController4905SampleStop("BackColorSensorPID", 0, 0, 0, 0),
+        Robot.getInstance().getSensorsContainer().getBackColorSensor(),
+        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-MOVING_SPEED, output, false), 0);
 
+    Config commandConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-    
-    @Override
-    public void end(boolean interrupted) {
-        super.end(interrupted);
-        Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
-    }
-    
+    double pValue = commandConstantsConfig.getDouble("ColorSensorBack.p");
+    double iValue = commandConstantsConfig.getDouble("ColorSensorBack.i");
+    double dValue = commandConstantsConfig.getDouble("ColorSensorBack.d");
+
+    double setpoint = commandConstantsConfig.getDouble("ColorSensorBack.setpoint");
+
+    getController().setP(pValue);
+    getController().setI(iValue);
+    getController().setD(dValue);
+
+    getController().setSetpoint(setpoint);
+
+  }
+
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
+  }
+
 }
