@@ -116,12 +116,16 @@ public class SensorsContainer {
 
     if (sensorConfig.hasPath("sensors.frontcolorsensor")) {
       m_frontColorSensor = new RealColorSensor("frontcolorsensor");
+      System.out.println("Using real Color sensor for the front");
     } else {
+      System.out.println("Using mock Color sensor for the front");
       m_frontColorSensor = new MockColorSensor();
     }
     if (sensorConfig.hasPath("sensors.backcolorsensor")) {
+      System.out.println("Using real Color sensor for the back");
       m_backColorSensor = new RealColorSensor("backcolorsensor");
     } else {
+      System.out.println("Using mock Color sensor for the back");
       m_backColorSensor = new MockColorSensor();
     }
   }
@@ -166,6 +170,7 @@ public class SensorsContainer {
   public Analog41IRSensor getAnalog41IRSensor() {
     return m_analog41IRSensor;
   }
+
   public ColorSensorBase getFrontColorSensor() {
     return m_frontColorSensor;
   }

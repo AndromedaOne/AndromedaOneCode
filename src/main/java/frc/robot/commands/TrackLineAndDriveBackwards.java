@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
@@ -14,7 +13,8 @@ public class TrackLineAndDriveBackwards extends TrackLineAndDrive {
   public TrackLineAndDriveBackwards() {
     super(new PIDController4905SampleStop("BackColorSensorPID", 0, 0, 0, 0),
         Robot.getInstance().getSensorsContainer().getBackColorSensor(),
-        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-MOVING_SPEED, output, false), 0);
+        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-MOVING_SPEED, output, false),
+        () -> Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ColorSensorBack.setpoint"));
 
     Config commandConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
@@ -22,15 +22,9 @@ public class TrackLineAndDriveBackwards extends TrackLineAndDrive {
     double iValue = commandConstantsConfig.getDouble("ColorSensorBack.i");
     double dValue = commandConstantsConfig.getDouble("ColorSensorBack.d");
 
-    double setpoint = commandConstantsConfig.getDouble("ColorSensorBack.setpoint");
-
     getController().setP(pValue);
     getController().setI(iValue);
     getController().setD(dValue);
-
-    getController().setSetpoint(setpoint);
-
-    
 
   }
 
