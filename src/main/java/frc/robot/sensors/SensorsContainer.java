@@ -11,6 +11,9 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.sensors.analog41IRSensor.Analog41IRSensor;
+import frc.robot.sensors.analog41IRSensor.MockAnalog41IRSensor;
+import frc.robot.sensors.analog41IRSensor.RealAnalog41IRSensor;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
@@ -38,9 +41,11 @@ public class SensorsContainer {
   private Camera m_camera0;
   private Camera m_camera1;
   private LimeLightCameraBase m_limelightCameraBase;
+  private boolean m_hasLimeLight = false;
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
+  private Analog41IRSensor m_analog41IRSensor;
   private ColorSensorBase m_frontColorSensor;
   private ColorSensorBase m_backColorSensor;
 
@@ -83,6 +88,7 @@ public class SensorsContainer {
     if (sensorConfig.hasPath("limelight")) {
       System.out.println("Using real LimeLight");
       m_limelightCameraBase = new RealLimelightCamera();
+      m_hasLimeLight = true;
     } else {
       System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
@@ -100,6 +106,14 @@ public class SensorsContainer {
     } else {
       m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
     }
+    if (sensorConfig.hasPath("sensors.analog41IRSensor")) {
+      m_analog41IRSensor = new RealAnalog41IRSensor(sensorConfig.getInt("sensors.analog41IRSensor.port"));
+      System.out.println("Using real analog 41 IR sensor");
+    } else {
+      m_analog41IRSensor = new MockAnalog41IRSensor();
+      System.out.println("Using mock analog 41 IR sensor");
+    }
+
     if (sensorConfig.hasPath("sensors.frontcolorsensor")) {
       m_frontColorSensor = new RealColorSensor("frontcolorsensor");
     } else {
@@ -133,6 +147,10 @@ public class SensorsContainer {
     return m_camera1;
   }
 
+  public boolean hasLimeLight() {
+    return (true);
+  }
+
   public LimeLightCameraBase getLimeLight() {
     return m_limelightCameraBase;
   }
@@ -145,6 +163,9 @@ public class SensorsContainer {
     return m_cannonSafetyUltrasonic;
   }
 
+  public Analog41IRSensor getAnalog41IRSensor() {
+    return m_analog41IRSensor;
+  }
   public ColorSensorBase getFrontColorSensor() {
     return m_frontColorSensor;
   }
