@@ -8,7 +8,6 @@ import frc.robot.pidcontroller.PIDController4905SampleStop;
 
 public class TrackLineAndDriveForward extends TrackLineAndDrive {
   public static final double MOVING_SPEED = 0.3;
-  private double setpoint;
 
   public TrackLineAndDriveForward() {
     super(new PIDController4905SampleStop("FrontColorSensorPID", 0, 0, 0, 0),
