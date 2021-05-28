@@ -14,6 +14,7 @@ import frc.robot.commands.RetractAndStopIntake;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.commands.TeleopClimber;
 import frc.robot.commands.cannon.AdjustElevation;
+import frc.robot.commands.romiBallMopper.ResetBallMopper;
 import frc.robot.groupcommands.parallelgroup.DefaultShooterParallelCommandGroup;
 import frc.robot.subsystems.cannon.CannonBase;
 import frc.robot.subsystems.cannon.MockCannon;
@@ -36,6 +37,9 @@ import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.intake.MockIntake;
 import frc.robot.subsystems.intake.RealIntake;
 import frc.robot.subsystems.ledlights.*;
+import frc.robot.subsystems.romiBallMopper.MockRomiBallMopper;
+import frc.robot.subsystems.romiBallMopper.RealRomiBallMopper;
+import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
 import frc.robot.subsystems.shooter.MockShooter;
 import frc.robot.subsystems.shooter.RealShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -55,6 +59,7 @@ public class SubsystemsContainer {
   ServoMotor m_romiIntake;
   CompressorBase m_compressor;
   CannonBase m_cannon;
+  RomiBallMopperBase m_romiBallMopper;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -156,6 +161,13 @@ public class SubsystemsContainer {
       System.out.println("Using mock Cannon");
       m_cannon = new MockCannon();
     }
+    if (Config4905.getConfig4905().doesRomiBallMopperExist()) {
+      m_romiBallMopper = new RealRomiBallMopper();
+      System.out.println("using real Romi Ball Mopper.");
+    } else {
+      System.out.println("using mock Romi Ball Mopper.");
+      m_romiBallMopper = new MockRomiBallMopper();
+    }
   }
 
   public DriveTrain getDrivetrain() {
@@ -194,6 +206,10 @@ public class SubsystemsContainer {
     return m_cannon;
   }
 
+  public RomiBallMopperBase getRomiBallMopper() {
+    return m_romiBallMopper;
+  }
+
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
     if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
@@ -204,6 +220,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().isShowBot()) {
       m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
+    }
+    if (Config4905.getConfig4905().isRomi()) {
+      m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
     }
   }
 }
