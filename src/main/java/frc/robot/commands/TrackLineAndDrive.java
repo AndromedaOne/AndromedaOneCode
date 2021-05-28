@@ -5,14 +5,14 @@ import java.util.function.DoubleConsumer;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
-import frc.robot.sensors.colorSensor.ColorSensor;
+import frc.robot.sensors.colorSensor.ColorSensorBase;
 import frc.robot.telemetries.Trace;
 
 public class TrackLineAndDrive extends PIDCommand4905 {
 
-  public TrackLineAndDrive(PIDController4905 controller, ColorSensor colorSensor, DoubleConsumer output,
+  public TrackLineAndDrive(PIDController4905 controller, ColorSensorBase colorSensor, DoubleConsumer output,
       double desiredColorValue) {
-    super(controller, colorSensor::getValue, () -> desiredColorValue, output,
+    super(controller, colorSensor::getReflectedLightIntensity, () -> desiredColorValue, output,
         Robot.getInstance().getSubsystemsContainer().getDrivetrain());
 
   }

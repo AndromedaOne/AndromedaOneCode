@@ -15,7 +15,9 @@ import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
 import frc.robot.sensors.camera.*;
-import frc.robot.sensors.colorSensor.ColorSensor;
+import frc.robot.sensors.colorSensor.ColorSensorBase;
+import frc.robot.sensors.colorSensor.MockColorSensor;
+import frc.robot.sensors.colorSensor.RealColorSensor;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
@@ -39,8 +41,8 @@ public class SensorsContainer {
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
-  private ColorSensor m_frontColorSensor;
-  private ColorSensor m_backColorSensor;
+  private ColorSensorBase m_frontColorSensor;
+  private ColorSensorBase m_backColorSensor;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -99,20 +101,20 @@ public class SensorsContainer {
       m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
     }
     if (sensorConfig.hasPath("sensors.frontcolorsensor")) {
-      m_frontColorSensor = new ColorSensor("frontcolorsensor");
+      m_frontColorSensor = new RealColorSensor("frontcolorsensor");
     } else {
-      m_frontColorSensor = null;
+      m_frontColorSensor = new MockColorSensor();
     }
     if (sensorConfig.hasPath("sensors.backcolorsensor")) {
-      m_backColorSensor = new ColorSensor("backcolorsensor");
+      m_backColorSensor = new RealColorSensor("backcolorsensor");
     } else {
-      m_backColorSensor = null;
+      m_backColorSensor = new MockColorSensor();
     }
   }
 
   public void periodic() {
-    SmartDashboard.putNumber("Color Sensor Value Front", m_frontColorSensor.getValue());
-    SmartDashboard.putNumber("Color Sensor Value Back", m_backColorSensor.getValue());
+    SmartDashboard.putNumber("Color Sensor Value Front", m_frontColorSensor.getReflectedLightIntensity());
+    SmartDashboard.putNumber("Color Sensor Value Back", m_backColorSensor.getReflectedLightIntensity());
   }
 
   public Gyro4905 getGyro() {
@@ -143,11 +145,11 @@ public class SensorsContainer {
     return m_cannonSafetyUltrasonic;
   }
 
-  public ColorSensor getFrontColorSensor() {
+  public ColorSensorBase getFrontColorSensor() {
     return m_frontColorSensor;
   }
 
-  public ColorSensor getBackColorSensor() {
+  public ColorSensorBase getBackColorSensor() {
     return m_backColorSensor;
   }
 }
