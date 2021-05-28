@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
 
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     SmartDashboard.putNumber("ShooterRPMTarget", 3000);
+
   }
 
   /**
@@ -96,6 +97,7 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.getBallFeederSensor().isThereBall();
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
+    m_sensorsContainer.periodic();
     m_sensorsContainer.getAnalog41IRSensor().updateSmartDashboardReadings();
   }
 

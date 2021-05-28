@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
 import frc.robot.commands.ToggleLimelightLED;
+import frc.robot.commands.TrackLineAndDriveBackwards;
+import frc.robot.commands.TrackLineAndDriveForward;
 import frc.robot.commands.climber.Climb;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
@@ -37,6 +39,8 @@ public class DriveController {
   private POVButton climbLevel;
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
+  private POVButton driveForwardAndTrackLine;
+  private POVButton driveBackwardAndTrackLine;
 
   private SensorsContainer m_sensorsContainer;
 
@@ -56,6 +60,13 @@ public class DriveController {
     }
     if (Config4905.getConfig4905().doesClimberExist()) {
       climberButtons();
+    }
+
+    if (Config4905.getConfig4905().isRomi()) {
+      driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
+      driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
+      driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
+      driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
     }
 
   }
