@@ -27,6 +27,11 @@ public class TrackLineAndDriveForward extends TrackLineAndDrive {
     getController().setD(dValue);
 
     getController().setSetpoint(setpoint);
+
+    SmartDashboard.putNumber("AAA DriveForward P", pValue);
+    SmartDashboard.putNumber("AAA DriveForward I", iValue);
+    SmartDashboard.putNumber("AAA DriveForward D", dValue);
+    SmartDashboard.putNumber("AAA DriveForward Setpoint", setpoint);
   }
 
   @Override

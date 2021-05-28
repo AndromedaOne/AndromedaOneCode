@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
@@ -28,6 +29,8 @@ public class TrackLineAndDriveBackwards extends TrackLineAndDrive {
     getController().setD(dValue);
 
     getController().setSetpoint(setpoint);
+
+    
 
   }
 
