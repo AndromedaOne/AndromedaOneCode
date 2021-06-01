@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.DefaultFeederCommand;
@@ -150,7 +149,7 @@ public class SubsystemsContainer {
     // 8. Romi Wings
     if (Config4905.getConfig4905().doesRomiWingsExist()) {
       m_romiWings = new RealRomiWings();
-    }else {
+    } else {
       m_romiWings = new MockRomiWings();
     }
 
@@ -223,6 +222,5 @@ public class SubsystemsContainer {
       m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
     }
   }
-
 
 }
