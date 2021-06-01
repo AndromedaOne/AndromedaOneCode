@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
+import frc.robot.commands.BringWingsUp;
+import frc.robot.commands.LetWingsDown;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.TrackLineAndDriveBackwards;
 import frc.robot.commands.TrackLineAndDriveForward;
@@ -41,6 +43,8 @@ public class DriveController {
   private JoystickButton turnOffLimelight;
   private POVButton driveForwardAndTrackLine;
   private POVButton driveBackwardAndTrackLine;
+  private POVButton letRomiWingsDownButton;
+  private POVButton bringRomiWingsUpButton;
 
   private SensorsContainer m_sensorsContainer;
 
@@ -67,6 +71,10 @@ public class DriveController {
       driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
       driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
       driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
+      letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
+      letRomiWingsDownButton.whileHeld(new LetWingsDown());
+      bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
+      bringRomiWingsUpButton.whileHeld(new BringWingsUp());
     }
 
   }

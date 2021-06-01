@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.DefaultFeederCommand;
@@ -36,6 +37,9 @@ import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.intake.MockIntake;
 import frc.robot.subsystems.intake.RealIntake;
 import frc.robot.subsystems.ledlights.*;
+import frc.robot.subsystems.romiwings.MockRomiWings;
+import frc.robot.subsystems.romiwings.RealRomiWings;
+import frc.robot.subsystems.romiwings.RomiWingsBase;
 import frc.robot.subsystems.shooter.MockShooter;
 import frc.robot.subsystems.shooter.RealShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -53,6 +57,7 @@ public class SubsystemsContainer {
   ShooterBase m_shooter;
   LEDs m_leds;
   ServoMotor m_romiIntake;
+  RomiWingsBase m_romiWings;
   CompressorBase m_compressor;
   CannonBase m_cannon;
 
@@ -141,6 +146,14 @@ public class SubsystemsContainer {
       m_romiIntake = new ServoMotor(
           Config4905.getConfig4905().getHarvesterConfig().getConfig("combineHarvesterServo").getInt("port"));
     }
+
+    // 8. Romi Wings
+    if (Config4905.getConfig4905().doesRomiWingsExist()) {
+      m_romiWings = new RealRomiWings();
+    }else {
+      m_romiWings = new MockRomiWings();
+    }
+
     if (Config4905.getConfig4905().doesCompressorExist()) {
       System.out.println("using real Compressor.");
       m_compressor = new RealCompressor();
@@ -194,6 +207,10 @@ public class SubsystemsContainer {
     return m_cannon;
   }
 
+  public RomiWingsBase getWings() {
+    return m_romiWings;
+  }
+
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
     if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
@@ -206,4 +223,6 @@ public class SubsystemsContainer {
       m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
     }
   }
+
+
 }
