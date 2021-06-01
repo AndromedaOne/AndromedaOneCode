@@ -22,7 +22,7 @@ public class BringWingsUp extends CommandBase{
     }
 
     public BringWingsUp() {
-        romiWings = Robot.getInstance().getSubsystemsContainer().getWings()
+        romiWings = Robot.getInstance().getSubsystemsContainer().getWings();
         addRequirements(romiWings);
     }
 
@@ -51,6 +51,7 @@ public class BringWingsUp extends CommandBase{
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
+        romiWings.stop();
     }
 }
 

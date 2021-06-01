@@ -22,5 +22,11 @@ public class RealRomiWings extends RomiWingsBase{
     public void bringWingsUp() {
         wingsServo.runBackward();
     }
+
+    @Override
+    public void stop() {
+        wingsServo.stop();
+
+    }
     
 }

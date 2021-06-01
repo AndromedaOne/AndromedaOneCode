@@ -22,7 +22,7 @@ public class LetWingsDown extends CommandBase{
     }
 
     public LetWingsDown() {
-        romiWings = Robot.getInstance().getSubsystemsContainer().getWings()
+        romiWings = Robot.getInstance().getSubsystemsContainer().getWings();
         addRequirements(romiWings);
     }
 
@@ -51,6 +51,7 @@ public class LetWingsDown extends CommandBase{
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
+        romiWings.stop();
     }
 
 

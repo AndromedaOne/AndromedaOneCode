@@ -11,5 +11,10 @@ public class MockRomiWings extends RomiWingsBase{
     public void bringWingsUp() {
 
     }
+
+    @Override
+    public void stop() {
+
+    }
     
 }

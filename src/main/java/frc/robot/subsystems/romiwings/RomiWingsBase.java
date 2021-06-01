@@ -7,4 +7,6 @@ public abstract class RomiWingsBase extends SubsystemBase{
     public abstract void letWingsDown();
 
     public abstract void bringWingsUp();
+
+    public abstract void stop();
 }
