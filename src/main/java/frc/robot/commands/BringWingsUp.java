@@ -6,30 +6,11 @@ import frc.robot.Robot;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
 
 public class BringWingsUp extends CommandBase {
-  private Timer timer;
-  private boolean usingTimer = false;
   private RomiWingsBase romiWings;
-  private double m_time;
-
-  public BringWingsUp(double time) {
-    this();
-    usingTimer = true;
-    m_time = time;
-    timer = new Timer();
-  }
 
   public BringWingsUp() {
     romiWings = Robot.getInstance().getSubsystemsContainer().getWings();
     addRequirements(romiWings);
-  }
-
-  @Override
-  public void initialize() {
-    super.initialize();
-    if (usingTimer) {
-      timer.reset();
-      timer.start();
-    }
   }
 
   @Override
@@ -40,9 +21,6 @@ public class BringWingsUp extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if (usingTimer) {
-      return timer.hasElapsed(m_time);
-    }
     return false;
   }
 
