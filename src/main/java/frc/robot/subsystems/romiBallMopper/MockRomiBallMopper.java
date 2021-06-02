@@ -13,6 +13,6 @@ public class MockRomiBallMopper extends RomiBallMopperBase {
 
   @Override
   public void reset() {
-  }
 
+  }
 }

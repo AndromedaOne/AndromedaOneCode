@@ -17,12 +17,11 @@ public class RealRomiBallMopper extends RomiBallMopperBase {
 
   @Override
   public void mop() {
-    m_motor.runBackward();
+    m_motor.setPosition(0.5);
   }
 
   @Override
   public void reset() {
-    m_motor.runForward();
+    m_motor.setPosition(-0.5);
   }
-
 }
