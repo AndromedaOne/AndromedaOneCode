@@ -6,42 +6,42 @@ import frc.robot.Robot;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
 
 public class LetWingsDown extends CommandBase {
-  private Timer timer;
-  private boolean usingTimer = false;
-  private RomiWingsBase romiWings;
+  private Timer m_timer;
+  private boolean m_usingTimer = false;
+  private RomiWingsBase m_romiWings;
   private double m_time;
 
   public LetWingsDown(double time) {
     this();
-    usingTimer = true;
+    m_usingTimer = true;
     m_time = time;
-    timer = new Timer();
+    m_timer = new Timer();
   }
 
   public LetWingsDown() {
-    romiWings = Robot.getInstance().getSubsystemsContainer().getWings();
-    addRequirements(romiWings);
+    m_romiWings = Robot.getInstance().getSubsystemsContainer().getWings();
+    addRequirements(m_romiWings);
   }
 
   @Override
   public void initialize() {
     super.initialize();
-    if (usingTimer) {
-      timer.reset();
-      timer.start();
+    if (m_usingTimer) {
+      m_timer.reset();
+      m_timer.start();
     }
   }
 
   @Override
   public void execute() {
     super.execute();
-    romiWings.letWingsDown();
+    m_romiWings.letWingsDown();
   }
 
   @Override
   public boolean isFinished() {
-    if (usingTimer) {
-      return timer.hasElapsed(m_time);
+    if (m_usingTimer) {
+      return m_timer.hasElapsed(m_time);
     }
     return false;
   }
@@ -49,7 +49,7 @@ public class LetWingsDown extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    romiWings.stop();
+    m_romiWings.stop();
   }
 
 }
