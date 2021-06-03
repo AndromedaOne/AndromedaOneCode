@@ -20,7 +20,7 @@ import frc.robot.subsystems.drivetrain.*;
  */
 public class TeleOpCommand extends CommandBase {
 
-//Make the controllers a little easier to get to.  
+  // Make the controllers a little easier to get to.
   private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
   private DriveTrain m_driveTrain;
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -106,4 +106,5 @@ public class TeleOpCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
 }

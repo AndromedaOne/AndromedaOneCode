@@ -40,6 +40,9 @@ import frc.robot.subsystems.ledlights.*;
 import frc.robot.subsystems.romiBallMopper.MockRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RealRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
+import frc.robot.subsystems.romiwings.MockRomiWings;
+import frc.robot.subsystems.romiwings.RealRomiWings;
+import frc.robot.subsystems.romiwings.RomiWingsBase;
 import frc.robot.subsystems.shooter.MockShooter;
 import frc.robot.subsystems.shooter.RealShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -57,6 +60,7 @@ public class SubsystemsContainer {
   ShooterBase m_shooter;
   LEDs m_leds;
   ServoMotor m_romiIntake;
+  RomiWingsBase m_romiWings;
   CompressorBase m_compressor;
   CannonBase m_cannon;
   RomiBallMopperBase m_romiBallMopper;
@@ -146,6 +150,14 @@ public class SubsystemsContainer {
       m_romiIntake = new ServoMotor(
           Config4905.getConfig4905().getHarvesterConfig().getConfig("combineHarvesterServo").getInt("port"));
     }
+
+    // 8. Romi Wings
+    if (Config4905.getConfig4905().doesRomiWingsExist()) {
+      m_romiWings = new RealRomiWings();
+    } else {
+      m_romiWings = new MockRomiWings();
+    }
+
     if (Config4905.getConfig4905().doesCompressorExist()) {
       System.out.println("using real Compressor.");
       m_compressor = new RealCompressor();
@@ -208,6 +220,9 @@ public class SubsystemsContainer {
 
   public RomiBallMopperBase getRomiBallMopper() {
     return m_romiBallMopper;
+    }
+  public RomiWingsBase getWings() {
+    return m_romiWings;
   }
 
   public void setDefaultCommands() {
@@ -225,4 +240,5 @@ public class SubsystemsContainer {
       m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
     }
   }
+
 }
