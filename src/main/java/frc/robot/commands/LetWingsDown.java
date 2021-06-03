@@ -6,17 +6,17 @@ import frc.robot.Robot;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
 
 public class LetWingsDown extends CommandBase {
-  private RomiWingsBase romiWings;
+  private RomiWingsBase m_romiWings;
 
   public LetWingsDown() {
-    romiWings = Robot.getInstance().getSubsystemsContainer().getWings();
-    addRequirements(romiWings);
+    m_romiWings = Robot.getInstance().getSubsystemsContainer().getWings();
+    addRequirements(m_romiWings);
   }
 
   @Override
   public void execute() {
     super.execute();
-    romiWings.letWingsDown();
+    m_romiWings.letWingsDown();
   }
 
   @Override
@@ -27,7 +27,7 @@ public class LetWingsDown extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    romiWings.stop();
+    m_romiWings.stop();
   }
 
 }

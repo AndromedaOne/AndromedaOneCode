@@ -10,7 +10,7 @@ public class RealRomiWings extends RomiWingsBase {
 
   public RealRomiWings() {
     Config wingsConfig = Config4905.getConfig4905().getWingsConfig();
-    wingsServo = new ServoMotor(wingsConfig.getInt("Port"));
+    wingsServo = new ServoMotor(wingsConfig.getInt("port"));
   }
 
   @Override
