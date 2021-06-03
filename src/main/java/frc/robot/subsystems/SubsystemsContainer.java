@@ -220,7 +220,8 @@ public class SubsystemsContainer {
 
   public RomiBallMopperBase getRomiBallMopper() {
     return m_romiBallMopper;
-    }
+  }
+
   public RomiWingsBase getWings() {
     return m_romiWings;
   }
