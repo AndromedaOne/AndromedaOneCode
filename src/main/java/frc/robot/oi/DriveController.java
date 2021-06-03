@@ -21,6 +21,7 @@ import frc.robot.commands.TrackLineAndDriveForward;
 import frc.robot.commands.climber.Climb;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.commands.romiBallMopper.ToggleMopper;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.lib.POVDirectionNames;
 import frc.robot.sensors.SensorsContainer;
@@ -48,14 +49,16 @@ public class DriveController {
 
   public DriveController(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     m_sensorsContainer = sensorsContainer;
-    turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
-    turnToNorth.whenPressed(new TurnToCompassHeading(0));
-    turnToEast = new JoystickButton(m_driveController, ButtonsEnumerated.BBUTTON.getValue());
-    turnToEast.whenPressed(new TurnToCompassHeading(90));
-    turnToSouth = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
-    turnToSouth.whenPressed(new TurnToCompassHeading(180));
-    turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
-    turnToWest.whenPressed(new TurnToCompassHeading(270));
+    if (!Config4905.getConfig4905().isRomi()) {
+      turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
+      turnToNorth.whenPressed(new TurnToCompassHeading(0));
+      turnToEast = new JoystickButton(m_driveController, ButtonsEnumerated.BBUTTON.getValue());
+      turnToEast.whenPressed(new TurnToCompassHeading(90));
+      turnToSouth = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
+      turnToSouth.whenPressed(new TurnToCompassHeading(180));
+      turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
+      turnToWest.whenPressed(new TurnToCompassHeading(270));
+    }
 
     if (sensorsContainer.hasLimeLight()) {
       limeLightButtons();
@@ -74,7 +77,10 @@ public class DriveController {
       POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
       bringRomiWingsUpButton.whileHeld(new BringWingsUp());
     }
-
+    // set up romi buttons has to be last.
+    if (Config4905.getConfig4905().isRomi()) {
+      setupRomiButtons();
+    }
   }
 
   /**
@@ -144,5 +150,10 @@ public class DriveController {
 
   public JoystickButton getLetOutRightWinchButton() {
     return letOutRightWinch;
+  }
+
+  private void setupRomiButtons() {
+    JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
+    mopperButton.whenPressed(new ToggleMopper());
   }
 }
