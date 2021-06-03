@@ -52,6 +52,8 @@ public class Config4905 {
 
   private Config cannonConfig;
 
+  private Config wingsConfig;
+
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -147,6 +149,7 @@ public class Config4905 {
     harvesterConfig = load("harvester.conf");
     compressorConfig = load("compressor.conf");
     cannonConfig = load("cannon.conf");
+    wingsConfig = load("wings.conf");
   }
 
   public Config getClimberConfig() {
@@ -229,6 +232,10 @@ public class Config4905 {
     }
   }
 
+  public boolean doesRomiWingsExist() {
+    return m_config.hasPath("subsystems.romiWings");
+  }
+
   public Config getHarvesterConfig() {
     return harvesterConfig;
   }
@@ -265,6 +272,10 @@ public class Config4905 {
     return commandConstantsConfig;
   }
 
+  public Config getWingsConfig() {
+    return wingsConfig;
+  }
+
   public boolean isRomi() {
     return m_isRomi;
   }
@@ -276,4 +287,5 @@ public class Config4905 {
   public boolean isShowBot() {
     return m_isShowBot;
   }
+
 }
