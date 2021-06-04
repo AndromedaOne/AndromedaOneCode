@@ -23,6 +23,7 @@ import frc.robot.commands.cannon.ShootCannon;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiBallMopper.ResetBallMopper;
+import frc.robot.groupcommands.RomiCommands.RomiChallenge4;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -65,6 +66,7 @@ public class SmartDashboard4905 {
         new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Mop Ball", new MopBallMopper());
     SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
+    SmartDashboard.putData("Romi Challenge 4 Auto", new RomiChallenge4());
   }
 
   private void theDroidYoureLookingForCommands(SubsystemsContainer subsystemsContainer) {

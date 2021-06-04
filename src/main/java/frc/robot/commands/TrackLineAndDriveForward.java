@@ -24,7 +24,7 @@ public class TrackLineAndDriveForward extends TrackLineAndDrive {
     getController().setP(pValue);
     getController().setI(iValue);
     getController().setD(dValue);
-
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
   }
 
   @Override

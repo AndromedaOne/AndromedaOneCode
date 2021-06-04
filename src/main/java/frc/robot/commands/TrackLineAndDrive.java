@@ -15,7 +15,7 @@ public class TrackLineAndDrive extends PIDCommand4905 {
       DoubleSupplier desiredColorValue) {
     super(controller, colorSensor::getReflectedLightIntensity, desiredColorValue, output,
         Robot.getInstance().getSubsystemsContainer().getDrivetrain());
-
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
   }
 
   public void initialize() {
