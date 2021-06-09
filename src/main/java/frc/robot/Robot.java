@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
   private ServoMotor romiShooter;
 
   private Robot() {
-    romiShooter = new ServoMotor(0);
+    romiShooter = new ServoMotor(4);
 
   }
 
@@ -174,7 +174,7 @@ public class Robot extends TimedRobot {
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
-    romiShooter.runForward();
+    
   }
 
   /**
@@ -185,6 +185,7 @@ public class Robot extends TimedRobot {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
     }
+    romiShooter.runBackward();
   }
 
   @Override
