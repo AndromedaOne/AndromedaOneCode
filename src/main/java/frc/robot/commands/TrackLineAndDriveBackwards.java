@@ -8,24 +8,25 @@ import frc.robot.pidcontroller.PIDController4905SampleStop;
 
 public class TrackLineAndDriveBackwards extends TrackLineAndDrive {
 
-  public static final double MOVING_SPEED = 0.5;
-
-  public TrackLineAndDriveBackwards() {
+  public TrackLineAndDriveBackwards(double speed, String PIDConfigName) {
     super(new PIDController4905SampleStop("BackColorSensorPID", 0, 0, 0, 0),
         Robot.getInstance().getSensorsContainer().getBackColorSensor(),
-        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-MOVING_SPEED, output, false),
-        () -> Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ColorSensorBack.setpoint"));
+        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-DEFAULT_MOVING_SPEED, output, false),
+        () -> Config4905.getConfig4905().getCommandConstantsConfig().getDouble(PIDConfigName + ".setpoint"));
 
     Config commandConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
-    double pValue = commandConstantsConfig.getDouble("ColorSensorBack.p");
-    double iValue = commandConstantsConfig.getDouble("ColorSensorBack.i");
-    double dValue = commandConstantsConfig.getDouble("ColorSensorBack.d");
+    double pValue = commandConstantsConfig.getDouble(PIDConfigName + ".p");
+    double iValue = commandConstantsConfig.getDouble(PIDConfigName + ".i");
+    double dValue = commandConstantsConfig.getDouble(PIDConfigName + ".d");
 
     getController().setP(pValue);
     getController().setI(iValue);
     getController().setD(dValue);
+  }
 
+  public TrackLineAndDriveBackwards() {
+    this(DEFAULT_MOVING_SPEED, "ColorSensorBack");
   }
 
   @Override

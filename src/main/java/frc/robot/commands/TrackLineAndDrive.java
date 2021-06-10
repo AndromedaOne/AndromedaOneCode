@@ -10,6 +10,7 @@ import frc.robot.sensors.colorSensor.ColorSensorBase;
 import frc.robot.telemetries.Trace;
 
 public class TrackLineAndDrive extends PIDCommand4905 {
+  public static final double DEFAULT_MOVING_SPEED = 0.3;
 
   public TrackLineAndDrive(PIDController4905 controller, ColorSensorBase colorSensor, DoubleConsumer output,
       DoubleSupplier desiredColorValue) {

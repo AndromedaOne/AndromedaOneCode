@@ -151,9 +151,10 @@ public class DriveController {
     toggleShooterButton.whenPressed(new ToggleShooter());
 
     driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
-    driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
+    driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward(0.5, "ColorSensorFrontFast"));
     driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
-    driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
+    driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards(0.5, "ColorSensorBackFast"));
+
     POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
     letRomiWingsDownButton.whileHeld(new LetWingsDown());
     POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
