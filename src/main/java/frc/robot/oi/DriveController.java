@@ -22,6 +22,7 @@ import frc.robot.commands.climber.Climb;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.commands.romiBallMopper.ToggleMopper;
+import frc.robot.commands.romiShooter.ToggleShooter;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.lib.POVDirectionNames;
 import frc.robot.sensors.SensorsContainer;
@@ -145,6 +146,10 @@ public class DriveController {
   private void setupRomiButtons() {
     JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
     mopperButton.whenPressed(new ToggleMopper());
+
+    JoystickButton toggleShooterButton = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
+    toggleShooterButton.whenPressed(new ToggleShooter());
+
     driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
     driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
     driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());

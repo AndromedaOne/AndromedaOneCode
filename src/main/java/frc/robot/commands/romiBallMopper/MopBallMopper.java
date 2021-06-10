@@ -5,7 +5,9 @@
 package frc.robot.commands.romiBallMopper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
+import frc.robot.commands.romiShooter.StopRomiShooter;
 import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
 import frc.robot.telemetries.Trace;
 
@@ -21,6 +23,7 @@ public class MopBallMopper extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    CommandScheduler.getInstance().schedule(new StopRomiShooter());
     Trace.getInstance().logCommandStart(this);
   }
 

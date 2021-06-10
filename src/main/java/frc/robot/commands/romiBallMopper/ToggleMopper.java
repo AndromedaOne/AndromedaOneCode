@@ -23,8 +23,7 @@ public class ToggleMopper extends CommandBase {
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     if (m_romiBallMopper.getResetState()) {
-      CommandScheduler.getInstance().schedule(new MopBallMopper());
-      
+      CommandScheduler.getInstance().schedule(new MopBallMopper()); 
     } else {
       CommandScheduler.getInstance().schedule(new ResetBallMopper());
     }

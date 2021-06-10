@@ -11,7 +11,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractAndStopIntake;
-import frc.robot.commands.RunRomiShooter;
+import frc.robot.commands.romiShooter.*;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.commands.TeleopClimber;
 import frc.robot.commands.cannon.AdjustElevation;
@@ -256,7 +256,7 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().isRomi()) {
       m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
-      romiShooter.setDefaultCommand(new RunRomiShooter());
+      romiShooter.setDefaultCommand(new StopRomiShooter());
     }
   }
 
