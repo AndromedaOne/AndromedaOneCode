@@ -11,9 +11,11 @@ import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractAndStopIntake;
+import frc.robot.commands.romiShooter.*;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.commands.TeleopClimber;
 import frc.robot.commands.cannon.AdjustElevation;
+import frc.robot.commands.romiBallMopper.ResetBallMopper;
 import frc.robot.groupcommands.parallelgroup.DefaultShooterParallelCommandGroup;
 import frc.robot.subsystems.cannon.CannonBase;
 import frc.robot.subsystems.cannon.MockCannon;
@@ -36,6 +38,12 @@ import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.intake.MockIntake;
 import frc.robot.subsystems.intake.RealIntake;
 import frc.robot.subsystems.ledlights.*;
+import frc.robot.subsystems.romiBallMopper.MockRomiBallMopper;
+import frc.robot.subsystems.romiBallMopper.RealRomiBallMopper;
+import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
+import frc.robot.subsystems.romishooter.MockRomiShooter;
+import frc.robot.subsystems.romishooter.RealRomiShooter;
+import frc.robot.subsystems.romishooter.RomiShooterBase;
 import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
@@ -59,6 +67,8 @@ public class SubsystemsContainer {
   RomiWingsBase m_romiWings;
   CompressorBase m_compressor;
   CannonBase m_cannon;
+  RomiBallMopperBase m_romiBallMopper;
+  RomiShooterBase romiShooter;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -168,6 +178,21 @@ public class SubsystemsContainer {
       System.out.println("Using mock Cannon");
       m_cannon = new MockCannon();
     }
+    if (Config4905.getConfig4905().doesRomiBallMopperExist()) {
+      m_romiBallMopper = new RealRomiBallMopper();
+      System.out.println("using real Romi Ball Mopper.");
+    } else {
+      System.out.println("using mock Romi Ball Mopper.");
+      m_romiBallMopper = new MockRomiBallMopper();
+    }
+
+    if (Config4905.getConfig4905().doesRomiShooterExist()) {
+      System.out.println("Using real Romi Shooter");
+      romiShooter = new RealRomiShooter();
+    } else {
+      System.out.println("Using fake Romi Shooter");
+      romiShooter = new MockRomiShooter();
+    }
   }
 
   public DriveTrain getDrivetrain() {
@@ -206,8 +231,16 @@ public class SubsystemsContainer {
     return m_cannon;
   }
 
+  public RomiBallMopperBase getRomiBallMopper() {
+    return m_romiBallMopper;
+  }
+
   public RomiWingsBase getWings() {
     return m_romiWings;
+  }
+
+  public RomiShooterBase getRomiShooter() {
+    return romiShooter;
   }
 
   public void setDefaultCommands() {
@@ -220,6 +253,10 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().isShowBot()) {
       m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
+    }
+    if (Config4905.getConfig4905().isRomi()) {
+      m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
+      romiShooter.setDefaultCommand(new StopRomiShooter());
     }
   }
 
