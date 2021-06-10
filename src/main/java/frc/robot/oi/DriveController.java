@@ -67,16 +67,6 @@ public class DriveController {
       climberButtons();
     }
 
-    if (Config4905.getConfig4905().isRomi()) {
-      driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
-      driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
-      driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
-      driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
-      POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
-      letRomiWingsDownButton.whileHeld(new LetWingsDown());
-      POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
-      bringRomiWingsUpButton.whileHeld(new BringWingsUp());
-    }
     // set up romi buttons has to be last.
     if (Config4905.getConfig4905().isRomi()) {
       setupRomiButtons();
@@ -155,5 +145,13 @@ public class DriveController {
   private void setupRomiButtons() {
     JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
     mopperButton.whenPressed(new ToggleMopper());
+    driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
+    driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
+    driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
+    driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
+    POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
+    letRomiWingsDownButton.whileHeld(new LetWingsDown());
+    POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
+    bringRomiWingsUpButton.whileHeld(new BringWingsUp());
   }
 }

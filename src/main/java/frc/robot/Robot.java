@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.TeleOpCommand;
+import frc.robot.groupcommands.RomiCommands.RomiChallenge4;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
@@ -35,10 +35,8 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase limelight;
-  private ServoMotor romiShooter;
 
   private Robot() {
-    romiShooter = new ServoMotor(4);
 
   }
 
@@ -119,13 +117,12 @@ public class Robot extends TimedRobot {
     limelight.disableLED();
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     CommandScheduler.getInstance().schedule(new TeleOpCommand());
-    romiShooter.stop();
   }
 
   @Override
   public void disabledPeriodic() {
     // limelight.disableLED();
-   
+
   }
 
   /**
@@ -134,7 +131,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
+    if (Config4905.getConfig4905().isRomi()) {
+      m_autonomousCommand = new RomiChallenge4();
+    } else {
+      m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
+    }
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -145,7 +146,6 @@ public class Robot extends TimedRobot {
     }
     limelight.enableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
-    romiShooter.runForward();
   }
 
   /**
@@ -153,9 +153,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
-    }
   }
 
   @Override
@@ -174,7 +171,6 @@ public class Robot extends TimedRobot {
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
-    
   }
 
   /**
@@ -185,7 +181,6 @@ public class Robot extends TimedRobot {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
     }
-    romiShooter.runBackward();
   }
 
   @Override

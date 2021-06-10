@@ -11,6 +11,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.DefaultFeederCommand;
 import frc.robot.commands.RetractAndStopIntake;
+import frc.robot.commands.RunRomiShooter;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.commands.TeleopClimber;
 import frc.robot.commands.cannon.AdjustElevation;
@@ -40,6 +41,9 @@ import frc.robot.subsystems.ledlights.*;
 import frc.robot.subsystems.romiBallMopper.MockRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RealRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
+import frc.robot.subsystems.romishooter.MockRomiShooter;
+import frc.robot.subsystems.romishooter.RealRomiShooter;
+import frc.robot.subsystems.romishooter.RomiShooterBase;
 import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
@@ -64,6 +68,7 @@ public class SubsystemsContainer {
   CompressorBase m_compressor;
   CannonBase m_cannon;
   RomiBallMopperBase m_romiBallMopper;
+  RomiShooterBase romiShooter;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -180,6 +185,14 @@ public class SubsystemsContainer {
       System.out.println("using mock Romi Ball Mopper.");
       m_romiBallMopper = new MockRomiBallMopper();
     }
+
+    if (Config4905.getConfig4905().doesRomiShooterExist()) {
+      System.out.println("Using real Romi Shooter");
+      romiShooter = new RealRomiShooter();
+    } else {
+      System.out.println("Using fake Romi Shooter");
+      romiShooter = new MockRomiShooter();
+    }
   }
 
   public DriveTrain getDrivetrain() {
@@ -226,6 +239,10 @@ public class SubsystemsContainer {
     return m_romiWings;
   }
 
+  public RomiShooterBase getRomiShooter() {
+    return romiShooter;
+  }
+
   public void setDefaultCommands() {
     m_driveTrain.setDefaultCommand(new TeleOpCommand());
     if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
@@ -239,6 +256,7 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().isRomi()) {
       m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
+      romiShooter.setDefaultCommand(new RunRomiShooter());
     }
   }
 

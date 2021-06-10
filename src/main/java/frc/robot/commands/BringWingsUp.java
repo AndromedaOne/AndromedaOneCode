@@ -9,7 +9,7 @@ public class BringWingsUp extends CommandBase {
 
   public BringWingsUp() {
     m_romiWings = Robot.getInstance().getSubsystemsContainer().getWings();
-    addRequirements(m_romiWings);
+    addRequirements(m_romiWings, Robot.getInstance().getSubsystemsContainer().getRomiShooter());
   }
 
   @Override

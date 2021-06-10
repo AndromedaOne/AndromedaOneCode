@@ -92,9 +92,9 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
 
-    if(Config4905.getConfig4905().isRomi()){
+    if (Config4905.getConfig4905().isRomi()) {
       m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, true);
-    }else{
+    } else {
       m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, true);
     }
   }
