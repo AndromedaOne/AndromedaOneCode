@@ -34,6 +34,7 @@ public class ResetBallMopper extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
+    m_romiBallMopper.setResetState(true);
   }
 
   // Returns true when the command should end.
