@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.BringWingsUp;
+import frc.robot.commands.DriveAndTurn;
 import frc.robot.commands.LetWingsDown;
 import frc.robot.commands.romiShooter.*;
 import frc.robot.commands.TimedCommand;
@@ -14,6 +15,7 @@ import frc.robot.commands.romiBallMopper.ResetBallMopper;
 
 public class RomiChallenge4 extends SequentialCommandGroup {
 
+  public static final double TIME_TO_DRIVE_AND_TURN = 2.0;
   public static final double TIME_TO_DRIVE_FORWARD = 10.6; // in seconds
   public static final double TIME_TO_LET_WINGS_DOWN = 4.5; // in seconds
   public static final double TIME_TO_BRING_WINGS_UP = 1.4; // in seconds
@@ -25,9 +27,14 @@ public class RomiChallenge4 extends SequentialCommandGroup {
   public RomiChallenge4() {
 
     addCommands(
+      getCommandsToMoveToCenterLine(),
       getCommandsToMoveFromStartToEndOfMat(), 
       getCommandsToScoreMoppedBalls()
     );
+  }
+
+  private CommandBase getCommandsToMoveToCenterLine() {
+    return TimedCommand.create(new DriveAndTurn(), TIME_TO_DRIVE_AND_TURN);
   }
 
   private CommandBase getCommandsToMoveFromStartToEndOfMat() {
@@ -52,7 +59,7 @@ public class RomiChallenge4 extends SequentialCommandGroup {
 
   private CommandBase getCommandsToDriveAlongPath() {
     return new ParallelDeadlineGroup(
-      TimedCommand.create(new TrackLineAndDriveForward(), TIME_TO_DRIVE_FORWARD),
+      TimedCommand.create(new TrackLineAndDriveForward(0.5, "ColorSensorFrontFast"), TIME_TO_DRIVE_FORWARD),
       new RunRomiShooter(),
       new ResetBallMopper()
     );
