@@ -10,6 +10,8 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
@@ -22,6 +24,7 @@ import frc.robot.commands.climber.Climb;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.commands.romiBallMopper.ToggleMopper;
+import frc.robot.commands.romiShooter.StopRomiShooter;
 import frc.robot.commands.romiShooter.ToggleShooter;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.lib.POVDirectionNames;
@@ -145,7 +148,9 @@ public class DriveController {
 
   private void setupRomiButtons() {
     JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
-    mopperButton.whenPressed(new ToggleMopper());
+    mopperButton.whenPressed(
+      new ParallelDeadlineGroup(new ToggleMopper(), new StopRomiShooter())
+    );
 
     JoystickButton toggleShooterButton = new JoystickButton(m_driveController, ButtonsEnumerated.ABUTTON.getValue());
     toggleShooterButton.whenPressed(new ToggleShooter());
@@ -156,8 +161,12 @@ public class DriveController {
     driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards(0.5, "ColorSensorBackFast"));
 
     POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
-    letRomiWingsDownButton.whileHeld(new LetWingsDown());
+    letRomiWingsDownButton.whileHeld(
+      new ParallelCommandGroup(new LetWingsDown(), new StopRomiShooter())
+    );
     POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
-    bringRomiWingsUpButton.whileHeld(new BringWingsUp());
+    bringRomiWingsUpButton.whileHeld(
+      new ParallelCommandGroup(new BringWingsUp(), new StopRomiShooter())
+    );
   }
 }

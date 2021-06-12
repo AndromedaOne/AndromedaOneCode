@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc.robot.telemetries.Trace;
 
 public class TimedCommand extends CommandBase {
   private Timer timer;
@@ -27,10 +28,19 @@ public class TimedCommand extends CommandBase {
     super.initialize();
     timer.reset();
     timer.start();
+    Trace.getInstance().logCommandStart(this);
+    Trace.getInstance().logCommandInfo(this, "start m_time: " + m_time);
   }
 
   @Override
   public boolean isFinished() {
     return timer.hasElapsed(m_time);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    Trace.getInstance().logCommandStop(this);
+    Trace.getInstance().logCommandInfo(this, "end m_time: " + m_time);
   }
 }
