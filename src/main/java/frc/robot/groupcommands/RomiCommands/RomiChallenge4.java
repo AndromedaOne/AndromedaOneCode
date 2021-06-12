@@ -16,7 +16,7 @@ import frc.robot.commands.romiBallMopper.ResetBallMopper;
 public class RomiChallenge4 extends SequentialCommandGroup {
 
   public static final double TIME_TO_DRIVE_AND_TURN = 4.0;
-  public static final double TIME_TO_DRIVE_FORWARD = 7.0; // in seconds
+  public static final double TIME_TO_DRIVE_FORWARD = 6.0; // in seconds
   public static final double TIME_TO_LET_WINGS_DOWN = 4.5; // in seconds
   public static final double TIME_TO_BRING_WINGS_UP = 1.4; // in seconds
   public static final double TIME_BEFORE_FIRST_MOP = 3.3; // in seconds
@@ -36,7 +36,7 @@ public class RomiChallenge4 extends SequentialCommandGroup {
   private CommandBase getCommandsToMoveToCenterLine() {
     CommandBase command = new SequentialCommandGroup(
       TimedCommand.create(new DriveAndTurn(0.1), 2.0),
-      TimedCommand.create(new DriveAndTurn(0.19), 2.0)
+      TimedCommand.create(new DriveAndTurn(0.19), 2.1)
     );
     return command;
   }
