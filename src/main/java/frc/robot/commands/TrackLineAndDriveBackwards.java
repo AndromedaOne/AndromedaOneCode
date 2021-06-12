@@ -11,7 +11,7 @@ public class TrackLineAndDriveBackwards extends TrackLineAndDrive {
   public TrackLineAndDriveBackwards(double speed, String PIDConfigName) {
     super(new PIDController4905SampleStop("BackColorSensorPID", 0, 0, 0, 0),
         Robot.getInstance().getSensorsContainer().getBackColorSensor(),
-        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-DEFAULT_MOVING_SPEED, output, false),
+        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(-speed, -output, false),
         () -> Config4905.getConfig4905().getCommandConstantsConfig().getDouble(PIDConfigName + ".setpoint"));
 
     Config commandConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();

@@ -7,10 +7,12 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class DriveAndTurn extends CommandBase{
     DriveTrain m_driveTrain;
     int count = 0;
+    private double m_turningSpeed;
 
-    public DriveAndTurn() {
+    public DriveAndTurn(double turningSpeed) {
         m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
         addRequirements(m_driveTrain);
+        m_turningSpeed = turningSpeed;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class DriveAndTurn extends CommandBase{
     public void execute() {
         count++;
         double modifier = countModifier(count);
-        m_driveTrain.move(0.3, 0.1 + modifier, false);
+        m_driveTrain.move(-0.3, -m_turningSpeed - modifier, false);
     }
 
     private double countModifier(int count) {
