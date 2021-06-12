@@ -23,7 +23,6 @@ public class MopBallMopper extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    CommandScheduler.getInstance().schedule(new StopRomiShooter());
     Trace.getInstance().logCommandStart(this);
   }
 

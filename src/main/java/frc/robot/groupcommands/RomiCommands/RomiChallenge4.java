@@ -32,7 +32,10 @@ public class RomiChallenge4 extends SequentialCommandGroup {
 
   private CommandBase getCommandsToMoveFromStartToEndOfMat() {
     CommandBase command = new SequentialCommandGroup(
-      TimedCommand.create(new LetWingsDown(), TIME_TO_LET_WINGS_DOWN),
+      new ParallelDeadlineGroup(
+        TimedCommand.create(new LetWingsDown(), TIME_TO_LET_WINGS_DOWN),
+        new StopRomiShooter()
+      ),
       getCommandsToDriveAlongPath()
     );
     return command;
@@ -43,9 +46,9 @@ public class RomiChallenge4 extends SequentialCommandGroup {
       new SequentialCommandGroup(
         TimedCommand.create(TIME_BETWEEN_FINAL_MOP_AND_LIFT_WING),
         TimedCommand.create(new BringWingsUp(), TIME_TO_BRING_WINGS_UP)
-      ), 
-      new StopRomiShooter(),
-      new MopBallMopper()
+      ),
+      new MopBallMopper(),
+      new StopRomiShooter()
     );
     return command;
   }

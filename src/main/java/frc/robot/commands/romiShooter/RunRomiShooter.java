@@ -3,6 +3,7 @@ package frc.robot.commands.romiShooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.romishooter.RomiShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class RunRomiShooter extends CommandBase {
   RomiShooterBase romiShooter;
@@ -14,6 +15,7 @@ public class RunRomiShooter extends CommandBase {
 
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
     super.initialize();
   }
 
@@ -32,6 +34,7 @@ public class RunRomiShooter extends CommandBase {
   public void end(boolean interrupted) {
     super.end(interrupted);
     romiShooter.setSpeed(0.0);
+    Trace.getInstance().logCommandStop(this);
   }
 
 }
