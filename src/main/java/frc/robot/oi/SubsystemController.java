@@ -7,8 +7,6 @@
 
 package frc.robot.oi;
 
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
@@ -32,7 +30,6 @@ import frc.robot.subsystems.shooter.ShooterBase;
  */
 public class SubsystemController {
   private XboxController m_subsystemController;
-  private Config m_shooterConfig;
   private ShooterBase m_shooterSubsystem;
   private FeederBase m_feederSubsystem;
   private JoystickButton m_shootFromInitLine;
@@ -45,7 +42,6 @@ public class SubsystemController {
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
     if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
       m_subsystemController = new XboxController(1);
-      m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
       m_shooterSubsystem = Robot.getInstance().getSubsystemsContainer().getShooter();
       m_feederSubsystem = Robot.getInstance().getSubsystemsContainer().getFeeder();
       m_limeLight = Robot.getInstance().getSensorsContainer().getLimeLight();

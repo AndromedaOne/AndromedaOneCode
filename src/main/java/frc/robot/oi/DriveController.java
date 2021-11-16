@@ -66,64 +66,8 @@ public class DriveController {
     if (Config4905.getConfig4905().doesClimberExist()) {
       climberButtons();
     }
-
-    if (Config4905.getConfig4905().isRomi()) {
-      driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
-      driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
-      driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
-      driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
-      POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
-      letRomiWingsDownButton.whileHeld(new LetWingsDown());
-      POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
-      bringRomiWingsUpButton.whileHeld(new BringWingsUp());
-    }
-    // set up romi buttons has to be last.
     if (Config4905.getConfig4905().isRomi()) {
       setupRomiButtons();
-    }
-  }
-
-  /**
-   * Returns the position of the forward/backward stick with FORWARD being a
-   * positive value to stick with our conventions.
-   * 
-   * @return The position of the left drive stick (up and down).
-   */
-  public double getForwardBackwardStick() {
-    return deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
-  }
-
-  /**
-   * Returns the position of the left/right stick with LEFT being a positive value
-   * to stick with our conventions.
-   * 
-   * @return the position of the right drive stick (left to right).
-   */
-  public double getRotateStick() {
-    return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
-  }
-
-  public double getLeftTriggerValue() {
-    return deadband(m_driveController.getTriggerAxis(Hand.kLeft));
-  }
-
-  public double getRightTriggerValue() {
-    return deadband(m_driveController.getTriggerAxis(Hand.kRight));
-  }
-
-  public boolean getLeftBumperPressed() {
-    return m_driveController.getBumperPressed(Hand.kLeft);
-  }
-
-  public boolean getLeftBumperReleased() {
-    return m_driveController.getBumperReleased(Hand.kLeft);
-  }
-
-  private double deadband(double stickValue) {
-    if (Math.abs(stickValue) < 0.01) {
-      return 0.0;
-    } else {
-      return stickValue;
     }
   }
 
@@ -155,5 +99,61 @@ public class DriveController {
   private void setupRomiButtons() {
     JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
     mopperButton.whenPressed(new ToggleMopper());
+    driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
+    driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
+    driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
+    driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
+    POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
+    letRomiWingsDownButton.whileHeld(new LetWingsDown());
+    POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
+    bringRomiWingsUpButton.whileHeld(new BringWingsUp());
+  }
+
+  /**
+   * Returns the position of the left/right stick with LEFT being a positive value
+   * to stick with our conventions.
+   * 
+   * these methods are private so that it is easier to find out for each
+   * robot what button/stick the robot uses. previously this information
+   * was spread out in the code base and difficult to find.
+   * 
+   * @return the position of the right drive stick (left to right).
+   */
+  /**
+   * Returns the position of the forward/backward stick with FORWARD being a
+   * positive value to stick with our conventions.
+   * 
+   * @return The position of the left drive stick (up and down).
+   */
+  private double getForwardBackwardStick() {
+    return deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
+  }
+
+  private double getRotateStick() {
+    return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
+  }
+
+  private double getLeftTriggerValue() {
+    return deadband(m_driveController.getTriggerAxis(Hand.kLeft));
+  }
+
+  private double getRightTriggerValue() {
+    return deadband(m_driveController.getTriggerAxis(Hand.kRight));
+  }
+
+  private boolean getLeftBumperPressed() {
+    return m_driveController.getBumperPressed(Hand.kLeft);
+  }
+
+  private boolean getLeftBumperReleased() {
+    return m_driveController.getBumperReleased(Hand.kLeft);
+  }
+
+  private double deadband(double stickValue) {
+    if (Math.abs(stickValue) < 0.01) {
+      return 0.0;
+    } else {
+      return stickValue;
+    }
   }
 }
