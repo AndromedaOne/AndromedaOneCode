@@ -48,6 +48,8 @@ public class Config4905 {
 
   private Config harvesterConfig;
 
+  private Config conveyorConfig;
+
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -129,6 +131,7 @@ public class Config4905 {
     climberConfig = load("Climber.conf");
     ledConfig = load("LED.conf");
     harvesterConfig = load("harvester.conf");
+    conveyorConfig = load("conveyor.conf");
   }
 
   public Config getClimberConfig() {
@@ -213,6 +216,18 @@ public class Config4905 {
 
   public Config getHarvesterConfig() {
     return harvesterConfig;
+  }
+
+  public boolean doesConveyorExist() {
+    if (m_config.hasPath("subsystems.conveyor")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getConveyorConfig() {
+    return conveyorConfig;
   }
 
   public Config getSensorConfig() {

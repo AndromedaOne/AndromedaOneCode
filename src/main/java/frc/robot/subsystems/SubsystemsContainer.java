@@ -50,6 +50,8 @@ public class SubsystemsContainer {
   Map<String, LEDs> m_leds;
   MockLEDs m_mockLEDs;
   ServoMotor m_romiIntake;
+  ServoMotor m_conveyor;
+  Boolean m_conveyorState;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -134,6 +136,14 @@ public class SubsystemsContainer {
       m_romiIntake = new ServoMotor(
           Config4905.getConfig4905().getHarvesterConfig().getConfig("combineHarvesterServo").getInt("port"));
     }
+    // 8. Romi Conveyor
+    if (Config4905.getConfig4905().doesConveyorExist()) {
+      m_conveyor = new ServoMotor(
+          Config4905.getConfig4905().getConveyorConfig().getConfig("conveyorServo").getInt("port"));
+      // True means conveyor is running
+      m_conveyorState = false;
+
+    }
   }
 
   public DriveTrain getDrivetrain() {
@@ -162,6 +172,20 @@ public class SubsystemsContainer {
 
   public ServoMotor getRomiIntake() {
     return m_romiIntake;
+  }
+
+  public ServoMotor getConveyor() {
+    return m_conveyor;
+  }
+
+  public Boolean getConveyorState() {
+    return m_conveyorState;
+
+  }
+
+  public void setConveyorState(Boolean state) {
+    m_conveyorState = state;
+
   }
 
   public void setDefaultCommands() {
