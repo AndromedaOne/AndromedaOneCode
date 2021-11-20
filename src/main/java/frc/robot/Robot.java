@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       System.out.println("RunIntake");
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
 
@@ -170,7 +170,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       System.out.println("RunIntake");
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
 
