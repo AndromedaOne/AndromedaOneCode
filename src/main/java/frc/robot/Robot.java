@@ -11,7 +11,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
@@ -67,8 +66,6 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getWings().stop();
 
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
-    SmartDashboard.putNumber("ShooterRPMTarget", 3000);
-
   }
 
   /**
@@ -96,7 +93,6 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.getGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
     m_sensorsContainer.getBallFeederSensor().isThereBall();
-    SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
     m_sensorsContainer.periodic();
     m_sensorsContainer.getAnalog41IRSensor().updateSmartDashboardReadings();

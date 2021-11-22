@@ -107,4 +107,8 @@ public class RealShooter extends ShooterBase {
     return m_shooterWheelIsReady && !m_shooterIsIdle;
   }
 
+  public void periodic() {
+    super.periodic();
+    SmartDashboard.putBoolean("IsShooterReady", shooterIsReady());
+  }
 }

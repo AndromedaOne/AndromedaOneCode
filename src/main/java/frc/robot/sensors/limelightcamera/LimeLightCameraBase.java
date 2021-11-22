@@ -18,4 +18,6 @@ public abstract class LimeLightCameraBase {
   public abstract void enableLED();
 
   public abstract void disableLED();
+
+  public abstract boolean doesLimeLightExist();
 }

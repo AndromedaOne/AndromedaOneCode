@@ -15,4 +15,9 @@ public class MockRomiBallMopper extends RomiBallMopperBase {
   public void reset() {
 
   }
+
+  @Override
+  public boolean doesRomiBallMopperExist() {
+    return false;
+  }
 }
