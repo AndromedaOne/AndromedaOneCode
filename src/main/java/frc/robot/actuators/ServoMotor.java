@@ -30,4 +30,7 @@ public class ServoMotor {
     m_servoMotor.setSpeed(0);
   }
 
+  public void setPosition(double position) {
+    m_servoMotor.setSpeed(position);
+  }
 }

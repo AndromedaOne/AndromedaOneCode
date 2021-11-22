@@ -63,7 +63,12 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
+    m_subsystemContainer.getDrivetrain().setCoast(true);
+    m_subsystemContainer.getWings().stop();
+
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
+    SmartDashboard.putNumber("ShooterRPMTarget", 3000);
+
   }
 
   /**
@@ -79,6 +84,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
@@ -89,11 +95,11 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_sensorsContainer.getGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
-
     m_sensorsContainer.getBallFeederSensor().isThereBall();
-    SmartDashboard.putNumber("Shooter Setpoint", m_subsystemContainer.getShooter().getShooterPower());
     SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
+    m_sensorsContainer.periodic();
+    m_sensorsContainer.getAnalog41IRSensor().updateSmartDashboardReadings();
   }
 
   /**
@@ -104,6 +110,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.getInstance().isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
+    m_subsystemContainer.getDrivetrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
     limelight.disableLED();
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
@@ -133,6 +140,7 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.enableLED();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
   }
 
   /**
@@ -141,7 +149,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-      System.out.println("RunIntake");
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
@@ -160,7 +167,9 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted();
     }
     limelight.disableLED();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
+
   }
 
   /**
@@ -169,7 +178,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-      System.out.println("RunIntake");
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
@@ -178,6 +186,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_subsystemContainer.getDrivetrain().setCoast(false);
   }
 
   /**
@@ -187,7 +196,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 
-//getters for various OI things below
+  // getters for various OI things below
 
   public SubsystemsContainer getSubsystemsContainer() {
     return m_subsystemContainer;

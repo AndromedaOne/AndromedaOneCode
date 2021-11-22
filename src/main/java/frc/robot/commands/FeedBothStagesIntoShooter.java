@@ -62,6 +62,7 @@ public class FeedBothStagesIntoShooter extends CommandBase {
     super.end(interrupted);
     m_feederBase.stopBothStages();
     m_shooterBase.closeShooterHood();
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

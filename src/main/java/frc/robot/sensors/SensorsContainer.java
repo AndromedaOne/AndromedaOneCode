@@ -9,11 +9,18 @@ package frc.robot.sensors;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.sensors.analog41IRSensor.Analog41IRSensor;
+import frc.robot.sensors.analog41IRSensor.MockAnalog41IRSensor;
+import frc.robot.sensors.analog41IRSensor.RealAnalog41IRSensor;
 import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
 import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
 import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
 import frc.robot.sensors.camera.*;
+import frc.robot.sensors.colorSensor.ColorSensorBase;
+import frc.robot.sensors.colorSensor.MockColorSensor;
+import frc.robot.sensors.colorSensor.RealColorSensor;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
@@ -34,8 +41,13 @@ public class SensorsContainer {
   private Camera m_camera0;
   private Camera m_camera1;
   private LimeLightCameraBase m_limelightCameraBase;
+  private boolean m_hasLimeLight = false;
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_powerCellDetector;
+  private UltrasonicSensor m_cannonSafetyUltrasonic;
+  private Analog41IRSensor m_analog41IRSensor;
+  private ColorSensorBase m_frontColorSensor;
+  private ColorSensorBase m_backColorSensor;
 
   public SensorsContainer() {
     final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -76,6 +88,7 @@ public class SensorsContainer {
     if (sensorConfig.hasPath("limelight")) {
       System.out.println("Using real LimeLight");
       m_limelightCameraBase = new RealLimelightCamera();
+      m_hasLimeLight = true;
     } else {
       System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
@@ -87,6 +100,39 @@ public class SensorsContainer {
       m_powerCellDetector = new MockUltrasonicSensor();
       System.out.println("Using Fake Power Cell Detector");
     }
+    if (sensorConfig.hasPath("sensors.cannonSafetyUltrasonic")) {
+      m_cannonSafetyUltrasonic = new RealUltrasonicSensor("cannonSafetyUltrasonic");
+      System.out.println("Using Real Cannon Safety Ultrasonic");
+    } else {
+      m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
+    }
+    if (sensorConfig.hasPath("sensors.analog41IRSensor")) {
+      m_analog41IRSensor = new RealAnalog41IRSensor(sensorConfig.getInt("sensors.analog41IRSensor.port"));
+      System.out.println("Using real analog 41 IR sensor");
+    } else {
+      m_analog41IRSensor = new MockAnalog41IRSensor();
+      System.out.println("Using mock analog 41 IR sensor");
+    }
+
+    if (sensorConfig.hasPath("sensors.frontcolorsensor")) {
+      m_frontColorSensor = new RealColorSensor("frontcolorsensor");
+      System.out.println("Using real Color sensor for the front");
+    } else {
+      System.out.println("Using mock Color sensor for the front");
+      m_frontColorSensor = new MockColorSensor();
+    }
+    if (sensorConfig.hasPath("sensors.backcolorsensor")) {
+      System.out.println("Using real Color sensor for the back");
+      m_backColorSensor = new RealColorSensor("backcolorsensor");
+    } else {
+      System.out.println("Using mock Color sensor for the back");
+      m_backColorSensor = new MockColorSensor();
+    }
+  }
+
+  public void periodic() {
+    SmartDashboard.putNumber("Color Sensor Value Front", m_frontColorSensor.getReflectedLightIntensity());
+    SmartDashboard.putNumber("Color Sensor Value Back", m_backColorSensor.getReflectedLightIntensity());
   }
 
   public Gyro4905 getGyro() {
@@ -105,11 +151,31 @@ public class SensorsContainer {
     return m_camera1;
   }
 
+  public boolean hasLimeLight() {
+    return (true);
+  }
+
   public LimeLightCameraBase getLimeLight() {
     return m_limelightCameraBase;
   }
 
   public UltrasonicSensor getPowercellDetector() {
     return m_powerCellDetector;
+  }
+
+  public UltrasonicSensor getCannonSafetyUltrasonic() {
+    return m_cannonSafetyUltrasonic;
+  }
+
+  public Analog41IRSensor getAnalog41IRSensor() {
+    return m_analog41IRSensor;
+  }
+
+  public ColorSensorBase getFrontColorSensor() {
+    return m_frontColorSensor;
+  }
+
+  public ColorSensorBase getBackColorSensor() {
+    return m_backColorSensor;
   }
 }
