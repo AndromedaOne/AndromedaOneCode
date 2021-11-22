@@ -49,7 +49,7 @@ public class Config4905 {
   private Config harvesterConfig;
 
   private Config conveyorConfig;
-  
+
   private Config compressorConfig;
 
   private Config cannonConfig;
@@ -316,4 +316,7 @@ public class Config4905 {
     return m_isShowBot;
   }
 
+  public String getRobotName() {
+    return m_robotName;
+  }
 }
