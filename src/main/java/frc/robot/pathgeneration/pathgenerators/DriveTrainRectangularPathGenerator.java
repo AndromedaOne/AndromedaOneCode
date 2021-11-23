@@ -11,13 +11,14 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
 
   private DriveTrain m_driveTrain;
 
-  public DriveTrainRectangularPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
-    super(waypoints, initialWaypoint);
+  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
+      Waypoint initialWaypoint) {
+    super(pathName, waypoints, initialWaypoint);
     m_driveTrain = driveTrain;
   }
 
-  public DriveTrainRectangularPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
-    this(waypoints, driveTrain, new Waypoint(0, 0));
+  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain) {
+    this(pathName, waypoints, driveTrain, new Waypoint(0, 0));
   }
 
   /**
@@ -35,7 +36,7 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
    */
   @Override
   protected CommandBase createMoveCommand(double distance, double angle) {
-    return new MoveUsingEncoder(m_driveTrain, distance, true, angle);
+    return new MoveUsingEncoder(m_driveTrain, distance, angle, 0.6);
   }
 
 }

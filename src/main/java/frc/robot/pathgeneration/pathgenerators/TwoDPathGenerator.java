@@ -34,7 +34,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
   private String m_name;
 
   public TwoDPathGenerator(String jsonFileName, Config config, boolean resetOdometryToZero, String name) {
-    super(new WaypointsBase() {
+    super(name, new WaypointsBase() {
 
       @Override
       protected void loadWaypoints() {

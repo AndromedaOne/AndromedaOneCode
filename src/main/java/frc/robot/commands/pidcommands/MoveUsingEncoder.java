@@ -66,11 +66,6 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     m_maxOutput = maxOutput;
   }
 
-  @Deprecated
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance) {
-    this(drivetrain, distance, false, 0);
-  }
-
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
