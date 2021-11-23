@@ -143,7 +143,7 @@ public class DriveController {
   }
 
   private void setupRomiButtons() {
-    if (Config4905.getConfig4905().getRobotName() == "4905_Romi") {
+    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
       driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
       driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
       driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
@@ -155,7 +155,7 @@ public class DriveController {
       JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
       mopperButton.whenPressed(new ToggleMopper());
     }
-    if (Config4905.getConfig4905().getRobotName() == "4905_Romi2") {
+    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi2")) {
       toggleConveyor = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
       toggleConveyor.whenPressed(new ToggleConveyor(m_subsystemsContainer.getConveyor()));
     }
