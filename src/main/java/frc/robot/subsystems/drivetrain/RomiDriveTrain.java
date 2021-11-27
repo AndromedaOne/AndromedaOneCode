@@ -25,11 +25,8 @@ public class RomiDriveTrain extends RealDriveTrain {
   private double m_previousLeftPositionMeters;
   private double m_previousRightPositionMeters;
   private double m_currentLeftVelocityMetersPerSecond;
-  private double m_currentRightVelocityMetersPerSecond;
   private double m_previousTime;
   public final double m_ticksPerInch;
-  private double numberOfTicksLeft;
-  private double numberOfTicksRight;
   DescriptiveStatistics leftRollingAverage;
   DescriptiveStatistics rightRollingAverage;
   private double m_maxLeftVelocity = 0;
@@ -52,7 +49,6 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_previousLeftPositionMeters = 0;
     m_previousRightPositionMeters = 0;
     m_currentLeftVelocityMetersPerSecond = 0;
-    m_currentRightVelocityMetersPerSecond = 0;
     m_previousTime = 0;
     timer = new Timer();
     leftRollingAverage = new DescriptiveStatistics(10);
@@ -61,14 +57,11 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   @Override
   public void init() {
-    // TODO Auto-generated method stub
     super.init();
     timer.start();
     m_previousLeftPositionMeters = 0;
     m_previousRightPositionMeters = 0;
     m_previousTime = 0;
-    numberOfTicksLeft = m_leftMotor.getEncoderPositionTicks();
-    numberOfTicksRight = m_rightMotor.getEncoderPositionTicks();
     m_leftMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch);
     m_rightMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch);
     m_maxRightVelocity = 0;
@@ -90,7 +83,6 @@ public class RomiDriveTrain extends RealDriveTrain {
     leftRollingAverage.addValue((currentLeftPoseMeters - m_previousLeftPositionMeters) / deltaT);
     m_currentLeftVelocityMetersPerSecond = leftRollingAverage.getMean();
     rightRollingAverage.addValue((currentRightPoseMeters - m_previousRightPositionMeters) / deltaT);
-    m_currentRightVelocityMetersPerSecond = rightRollingAverage.getMean();
 
     m_previousLeftPositionMeters = currentLeftPoseMeters;
     m_previousRightPositionMeters = currentRightPoseMeters;
@@ -165,7 +157,6 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   @Override
   public void resetEncoders() {
-    // TODO Auto-generated method stub
     m_leftMotor.getEncoder().reset();
     m_rightMotor.getEncoder().reset();
   }

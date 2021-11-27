@@ -33,8 +33,12 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
   private boolean m_resetOdometryToZero;
   private String m_name;
 
+  // suppress the "resource leak" warning for the scanner s. you cannot close
+  // the scanner as this will will stop the scanner from reading the rest of
+  // the input stream...
+  @SuppressWarnings("resource")
   public TwoDPathGenerator(String jsonFileName, Config config, boolean resetOdometryToZero, String name) {
-    super(new WaypointsBase() {
+    super(name, new WaypointsBase() {
 
       @Override
       protected void loadWaypoints() {

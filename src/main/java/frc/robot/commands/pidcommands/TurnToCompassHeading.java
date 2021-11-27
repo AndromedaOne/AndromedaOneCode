@@ -27,6 +27,10 @@ public class TurnToCompassHeading extends PIDCommand4905 {
    * 
    * @param compassHeading input an angle in degrees.
    */
+  // in the construction of the pidcontroller, grabbing the Gyro through
+  // the Robot instance will generate a "resource leak" warning. this warning
+  // can be safely ignored and the suppresswarnings line does that.
+  @SuppressWarnings("resource")
   public TurnToCompassHeading(double compassHeading) {
     super(
         // The controller that the command will use

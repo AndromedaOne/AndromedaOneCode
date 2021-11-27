@@ -18,8 +18,8 @@ public class RectangularPathGeneratorTests {
 
     List<CommandBase> m_commands;
 
-    public RectangularPathGeneratorTester(WaypointsBase waypoints, Waypoint initialWaypoint) {
-      super(waypoints, initialWaypoint);
+    public RectangularPathGeneratorTester(String pathName, WaypointsBase waypoints, Waypoint initialWaypoint) {
+      super(pathName, waypoints, initialWaypoint);
       m_commands = new ArrayList<CommandBase>();
     }
 
@@ -61,8 +61,8 @@ public class RectangularPathGeneratorTests {
     }
     TestWaypoints testPoints = new TestWaypoints();
 
-    RectangularPathGeneratorTester rectangularPathGeneratorTester = new RectangularPathGeneratorTester(testPoints,
-        initialPoint);
+    RectangularPathGeneratorTester rectangularPathGeneratorTester = new RectangularPathGeneratorTester(
+        getClass().getSimpleName(), testPoints, initialPoint);
 
     rectangularPathGeneratorTester.getPath();
 

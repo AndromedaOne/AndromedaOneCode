@@ -8,7 +8,8 @@ public abstract class PathGeneratorBase {
 
   private WaypointsBase m_waypoints;
 
-  public PathGeneratorBase(WaypointsBase waypoints) {
+  public PathGeneratorBase(String pathName, WaypointsBase waypoints) {
+    System.out.println("Generating path for " + pathName);
     m_waypoints = waypoints;
   }
 
