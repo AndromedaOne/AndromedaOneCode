@@ -35,7 +35,7 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
    */
   @Override
   protected CommandBase createMoveCommand(double distance, double angle) {
-    return new MoveUsingEncoder(m_driveTrain, distance, true, angle);
+    return new MoveUsingEncoder(m_driveTrain, distance, angle, 0.5);
   }
 
 }

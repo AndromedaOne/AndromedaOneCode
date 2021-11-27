@@ -123,14 +123,28 @@ public class RomiDriveTrain extends RealDriveTrain {
   public double getRobotPositionInches() {
     double encoderPositionAvg = 0;
     int encoders = 0;
+    boolean invert = false;
+    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("InvertFowardAndBack")) {
+      invert = Config4905.getConfig4905().getDrivetrainConfig().getBoolean("InvertFowardAndBack");
+    }
     if (m_leftMotor.hasEncoder()) {
       ++encoders;
-      encoderPositionAvg += m_leftMotor.getEncoderPositionTicks();
+      if (invert) {
+        encoderPositionAvg -= m_leftMotor.getEncoderPositionTicks();
+      } else {
+        encoderPositionAvg += m_leftMotor.getEncoderPositionTicks();
+      }
+
       SmartDashboard.putNumber("left encoder", m_leftMotor.getEncoderPositionTicks());
     }
     if (m_rightMotor.hasEncoder()) {
       ++encoders;
-      encoderPositionAvg += m_rightMotor.getEncoderPositionTicks();
+      if (invert) {
+        encoderPositionAvg -= m_rightMotor.getEncoderPositionTicks();
+      } else {
+        encoderPositionAvg += m_rightMotor.getEncoderPositionTicks();
+
+      }
       SmartDashboard.putNumber("right encoder", m_rightMotor.getEncoderPositionTicks());
     }
     if (encoders > 0) {

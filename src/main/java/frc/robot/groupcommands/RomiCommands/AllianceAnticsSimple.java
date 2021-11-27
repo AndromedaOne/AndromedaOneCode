@@ -16,8 +16,9 @@ public class AllianceAnticsSimple extends SequentialCommandGroup {
 
     @Override
     protected void loadWaypoints() {
-      addWayPoint(new Waypoint(0, 48));
-      addWayPoint(new Waypoint(-12, 54));
+      addWayPoint(new Waypoint(0, 60));
+      addWayPoint(new Waypoint(-15, 60));
+      addWayPoint(new Waypoint(-15, 75));
 
     }
 

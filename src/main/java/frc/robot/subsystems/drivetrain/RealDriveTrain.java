@@ -34,6 +34,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private DifferentialDrive m_drive;
   private DifferentialDriveOdometry m_odometry;
   private int m_rightSideInvertedMultiplier = -1;
+  private boolean m_invertFowardAndBack = false;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -75,7 +76,9 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_drive.setRightSideInverted(rightSideInverted);
       m_rightSideInvertedMultiplier = rightSideInverted ? -1 : 1;
     }
-
+    if (drivetrainConfig.hasPath("InvertFowardAndBack")) {
+      m_invertFowardAndBack = true;
+    }
   }
 
   /**
@@ -189,7 +192,10 @@ public abstract class RealDriveTrain extends DriveTrain {
    * @param rotateAmount     Per the right hand rule, positive goes
    *                         counter-clockwise and negative goes clockwise.
    */
-  public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
+  public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
+    if (m_invertFowardAndBack) {
+      forwardBackSpeed = -forwardBackSpeed;
+    }
     m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
     if (forwardBackSpeed < 0) {
       Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setBlinking();
