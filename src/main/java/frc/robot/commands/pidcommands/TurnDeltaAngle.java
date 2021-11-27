@@ -27,6 +27,10 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   /**
    * Creates a new TurnDeltaAngle.
    */
+  // in the construction of the pidcontroller, grabbing the Gyro through
+  // the Robot instance will generate a "resource leak" warning. this warning
+  // can be safely ignored and the suppresswarnings line does that.
+  @SuppressWarnings("resource")
   public TurnDeltaAngle(double deltaTurnAngle) {
     super(
         // The controller that the command will use

@@ -119,7 +119,6 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
 
   @Override
   protected double getLeftSideMeters() {
-    // TODO Auto-generated method stub
     double averageTicks = (m_backLeft.getEncoderPositionTicks() + m_frontLeft.getEncoderPositionTicks());
     double averageMeters = averageTicks * ticksPerInch * SparkMaxDriveTrain.metersPerInch;
     return averageMeters;
@@ -127,7 +126,6 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
 
   @Override
   protected double getRightsSideMeters() {
-    // TODO Auto-generated method stub
     double averageTicks = (m_frontLeft.getEncoderPositionTicks() + m_frontRight.getEncoderPositionTicks());
     double averageMeters = averageTicks * ticksPerInch * SparkMaxDriveTrain.metersPerInch;
     return averageMeters;

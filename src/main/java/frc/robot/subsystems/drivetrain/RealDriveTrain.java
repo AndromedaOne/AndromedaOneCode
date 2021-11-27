@@ -10,7 +10,6 @@ package frc.robot.subsystems.drivetrain;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -62,8 +61,6 @@ public abstract class RealDriveTrain extends DriveTrain {
     SmartDashboard.putNumber("OdometryRightSpeed", getRightRateMetersPerSecond());
 
   }
-
-  private Timer timer;
 
   public void init() {
     resetEncoders();
