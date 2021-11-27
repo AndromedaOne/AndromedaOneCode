@@ -24,6 +24,7 @@ import frc.robot.commands.cannon.ShootCannon;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiBallMopper.ResetBallMopper;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsScoring;
 import frc.robot.groupcommands.RomiCommands.AllianceAnticsSimple;
 import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.sensors.SensorsContainer;
@@ -73,6 +74,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
     }
     SmartDashboard.putData("AllianceAnticsSimple", new AllianceAnticsSimple(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("AllianceAnticsScoring", new AllianceAnticsScoring(subsystemsContainer.getDrivetrain()));
   }
 
   private void theDroidYoureLookingForCommands(SubsystemsContainer subsystemsContainer) {
