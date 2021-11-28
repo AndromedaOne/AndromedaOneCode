@@ -14,16 +14,12 @@ import frc.robot.Config4905;
 import frc.robot.commands.CheckRomiVelocityConversionFactor;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
-import frc.robot.commands.RunAllFeederMotors;
-import frc.robot.commands.RunIntakeOut;
 import frc.robot.commands.ToggleLimelightLED;
-import frc.robot.commands.TuneShooterFeedForward;
 import frc.robot.commands.cannon.PressurizeCannon;
 import frc.robot.commands.cannon.ShootCannon;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiBallMopper.ResetBallMopper;
-import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -51,8 +47,6 @@ public class SmartDashboard4905 {
 
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
-    } else if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
-      theDroidYoureLookingForCommands(subsystemsContainer);
     }
   }
 
@@ -65,14 +59,5 @@ public class SmartDashboard4905 {
         new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("Mop Ball", new MopBallMopper());
     SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
-  }
-
-  private void theDroidYoureLookingForCommands(SubsystemsContainer subsystemsContainer) {
-    SmartDashboard.putData("ShootRPM",
-        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), true));
-
-    SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
-    SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));
-    SmartDashboard.putData("Run Intake Out", new RunIntakeOut(subsystemsContainer.getIntake(), () -> false, 1));
   }
 }

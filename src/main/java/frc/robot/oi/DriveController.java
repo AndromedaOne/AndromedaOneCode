@@ -18,7 +18,6 @@ import frc.robot.commands.LetWingsDown;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.TrackLineAndDriveBackwards;
 import frc.robot.commands.TrackLineAndDriveForward;
-import frc.robot.commands.climber.Climb;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.commands.romiBallMopper.ToggleMopper;
@@ -37,9 +36,6 @@ public class DriveController {
   private JoystickButton turnToSouth;
   private JoystickButton turnToWest;
   private JoystickButton turnToFace;
-  private JoystickButton letOutLeftWinch;
-  private JoystickButton letOutRightWinch;
-  private POVButton climbLevel;
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
   private POVButton driveForwardAndTrackLine;
@@ -62,9 +58,6 @@ public class DriveController {
 
     if (sensorsContainer.hasLimeLight()) {
       limeLightButtons();
-    }
-    if (Config4905.getConfig4905().doesClimberExist()) {
-      climberButtons();
     }
 
     if (Config4905.getConfig4905().isRomi()) {
@@ -134,22 +127,6 @@ public class DriveController {
     turnOnLimelight.whenPressed(new ToggleLimelightLED(true, m_sensorsContainer));
     turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
     turnOffLimelight.whenPressed(new ToggleLimelightLED(false, m_sensorsContainer));
-  }
-
-  // Climber buttons
-  protected void climberButtons() {
-    climbLevel = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
-    climbLevel.whileHeld(new Climb());
-    letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
-    letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
-  }
-
-  public JoystickButton getLetOutLeftWinchButton() {
-    return letOutLeftWinch;
-  }
-
-  public JoystickButton getLetOutRightWinchButton() {
-    return letOutRightWinch;
   }
 
   private void setupRomiButtons() {
