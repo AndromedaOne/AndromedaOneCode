@@ -11,6 +11,8 @@ import frc.robot.commands.DoNothingAuto;
 import frc.robot.commands.pidcommands.MoveUsingEncoder;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
 import frc.robot.commands.pidcommands.TurnToFaceCommand;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsScoring;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsSimple;
 import frc.robot.groupcommands.parallelgroup.DriveAndIntake;
 import frc.robot.groupcommands.parallelgroup.ShootWithDistance;
 import frc.robot.groupcommands.sequentialgroup.DelayedSequentialCommandGroup;
@@ -101,7 +103,10 @@ public class AutoModes4905 {
                                                                   new TurnToFaceCommand(sensorsContainer.getLimeLight()::horizontalDegreesToTarget),
                                                                   new ShootWithLimeLight(shooter, feeder, limelight),
                                                                   new MoveUsingEncoder(driveTrain, (-2*12), 1.0))); 
-        }
+      } else if (Config4905.getConfig4905().isRomi()){
+          m_autoChooser.addOption("1: Simple Park", new AllianceAnticsSimple(driveTrain));
+          m_autoChooser.addOption("2: Scoring And Park", new AllianceAnticsScoring(driveTrain));
+      }
         SmartDashboard.putData("autoModes", m_autoChooser);
     // @formatter:on
   }
