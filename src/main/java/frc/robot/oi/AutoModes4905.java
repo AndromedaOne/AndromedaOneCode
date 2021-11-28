@@ -1,14 +1,13 @@
 package frc.robot.oi;
 
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.DoNothingAuto;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsScoring;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsSimple;
 import frc.robot.sensors.SensorsContainer;
-import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
@@ -18,11 +17,14 @@ public class AutoModes4905 {
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer,
       SendableChooser<Command> autoChooser) {
     m_autoChooser = autoChooser;
-    Config driveTrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    LimeLightCameraBase limelight = sensorsContainer.getLimeLight();
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
+
+    if (Config4905.getConfig4905().isRomi()) {
+      m_autoChooser.addOption("1: Simple Park", new AllianceAnticsSimple(driveTrain));
+      m_autoChooser.addOption("2: Scoring And Park", new AllianceAnticsScoring(driveTrain));
+    }
 
     SmartDashboard.putData("autoModes", m_autoChooser);
   }

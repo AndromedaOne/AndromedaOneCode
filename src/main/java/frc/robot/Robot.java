@@ -118,6 +118,10 @@ public class Robot extends TimedRobot {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
     }
+    if (Config4905.getConfig4905().doesConveyorExist()) {
+      Robot.getInstance().getSubsystemsContainer().getConveyor().stop();
+      Robot.getInstance().getSubsystemsContainer().setConveyorState(false);
+    }
   }
 
   /**

@@ -16,17 +16,19 @@ public class AllianceAnticsScoring extends SequentialCommandGroup {
   /** Creates a new AllianceAnticsScoring. */
 
   public AllianceAnticsScoring(DriveTrain driveTrain) {
-    MoveUsingEncoder move = new MoveUsingEncoder(driveTrain, 68, 0.5);
+
+    ToggleConveyor start = new ToggleConveyor(Robot.getInstance().getSubsystemsContainer().getConveyor(), 0.6);
+    MoveUsingEncoder move = new MoveUsingEncoder(driveTrain, 69, 0.55);
     TurnDeltaAngle turn = new TurnDeltaAngle(180);
-    ToggleConveyor start = new ToggleConveyor(Robot.getInstance().getSubsystemsContainer().getConveyor());
-    PauseRobot pause = new PauseRobot(7000, driveTrain);
-    ToggleConveyor stop = new ToggleConveyor(Robot.getInstance().getSubsystemsContainer().getConveyor());
-    MoveUsingEncoder foward = new MoveUsingEncoder(driveTrain, 8, 0.5);
+    MoveUsingEncoder backward = new MoveUsingEncoder(driveTrain, -4, 0.5);
+    PauseRobot pause = new PauseRobot(5500, driveTrain);
+    ToggleConveyor stop = new ToggleConveyor(Robot.getInstance().getSubsystemsContainer().getConveyor(), 0.6);
+    MoveUsingEncoder foward = new MoveUsingEncoder(driveTrain, 13, 0.5);
     TurnDeltaAngle align = new TurnDeltaAngle(-90);
-    MoveUsingEncoder approach = new MoveUsingEncoder(driveTrain, -15, 0.5);
-    TurnDeltaAngle adjust = new TurnDeltaAngle(90);
-    MoveUsingEncoder park = new MoveUsingEncoder(driveTrain, -15, 0.5);
-    addCommands(move, turn, start, pause, stop, foward, align, approach, adjust, park);
+    MoveUsingEncoder approach = new MoveUsingEncoder(driveTrain, -16, 0.5);
+    TurnDeltaAngle adjust = new TurnDeltaAngle(85);
+    MoveUsingEncoder park = new MoveUsingEncoder(driveTrain, -15.5, 0.5);
+    addCommands(start, move, turn, backward, pause, stop, foward, align, approach, adjust, park);
   }
 
 }

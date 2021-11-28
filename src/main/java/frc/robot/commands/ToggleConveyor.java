@@ -11,11 +11,13 @@ import frc.robot.telemetries.Trace;
 
 public class ToggleConveyor extends CommandBase {
   private ServoMotor m_conveyor;
+  private double m_conveyorSpeed = 0;
 
   /** Creates a new StartConveyor. */
-  public ToggleConveyor(ServoMotor conveyor) {
+  public ToggleConveyor(ServoMotor conveyor, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_conveyor = conveyor;
+    m_conveyorSpeed = speed;
   }
 
   // Called when the command is initially scheduled.
@@ -26,7 +28,7 @@ public class ToggleConveyor extends CommandBase {
       m_conveyor.stop();
       Robot.getInstance().getSubsystemsContainer().setConveyorState(false);
     } else {
-      m_conveyor.runForward();
+      m_conveyor.setPosition(m_conveyorSpeed);
       Robot.getInstance().getSubsystemsContainer().setConveyorState(true);
     }
   }

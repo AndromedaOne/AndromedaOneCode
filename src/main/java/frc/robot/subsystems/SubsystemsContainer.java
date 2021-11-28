@@ -39,6 +39,7 @@ public class SubsystemsContainer {
   ServoMotor m_romiIntake;
   ServoMotor m_conveyor;
   Boolean m_conveyorState;
+  double m_conveyorSpeed;
   RomiWingsBase m_romiWings;
   CompressorBase m_compressor;
   CannonBase m_cannon;
@@ -103,6 +104,7 @@ public class SubsystemsContainer {
           Config4905.getConfig4905().getConveyorConfig().getConfig("conveyorServo").getInt("port"));
       // True means conveyor is running
       m_conveyorState = false;
+      m_conveyorSpeed = 0.0;
 
     }
     if (Config4905.getConfig4905().doesCompressorExist()) {
