@@ -19,7 +19,6 @@ import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.TrackLineAndDriveBackwards;
 import frc.robot.commands.TrackLineAndDriveForward;
 import frc.robot.commands.pidcommands.TurnToCompassHeading;
-import frc.robot.commands.pidcommands.TurnToFaceCommand;
 import frc.robot.commands.romiBallMopper.ToggleMopper;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.lib.POVDirectionNames;
@@ -121,8 +120,6 @@ public class DriveController {
   }
 
   protected void limeLightButtons() {
-    turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
-    turnToFace.whenPressed(new TurnToFaceCommand(m_sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
     turnOnLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
     turnOnLimelight.whenPressed(new ToggleLimelightLED(true, m_sensorsContainer));
     turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());

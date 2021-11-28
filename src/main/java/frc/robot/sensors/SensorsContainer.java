@@ -14,9 +14,6 @@ import frc.robot.Config4905;
 import frc.robot.sensors.analog41IRSensor.Analog41IRSensor;
 import frc.robot.sensors.analog41IRSensor.MockAnalog41IRSensor;
 import frc.robot.sensors.analog41IRSensor.RealAnalog41IRSensor;
-import frc.robot.sensors.ballfeedersensor.BallFeederSensorBase;
-import frc.robot.sensors.ballfeedersensor.MockBallFeederSensor;
-import frc.robot.sensors.ballfeedersensor.RealBallFeederSensor;
 import frc.robot.sensors.camera.*;
 import frc.robot.sensors.colorSensor.ColorSensorBase;
 import frc.robot.sensors.colorSensor.MockColorSensor;
@@ -37,13 +34,10 @@ import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
  * config to do this.
  */
 public class SensorsContainer {
-  private BallFeederSensorBase m_ballFeederSensor;
   private Camera m_camera0;
   private Camera m_camera1;
   private LimeLightCameraBase m_limelightCameraBase;
-  private boolean m_hasLimeLight = false;
   private Gyro4905 m_gyro;
-  private UltrasonicSensor m_powerCellDetector;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
   private Analog41IRSensor m_analog41IRSensor;
   private ColorSensorBase m_frontColorSensor;
@@ -63,14 +57,6 @@ public class SensorsContainer {
       m_gyro = new MockGyro();
     }
 
-    if (sensorConfig.hasPath("sensors.ballFeederSensor")) {
-      System.out.println("Using real ball feeder sensor");
-      m_ballFeederSensor = new RealBallFeederSensor("ballFeederSensor");
-    } else {
-      System.out.println("Using mock ball feeder sensor");
-      m_ballFeederSensor = new MockBallFeederSensor();
-    }
-
     if (sensorConfig.hasPath("sensors.cameras")) {
       if (sensorConfig.hasPath("sensors.cameras.camera0")) {
         System.out.println("Using real camera with id: " + sensorConfig.getInt("sensors.cameras.camera0.port"));
@@ -88,17 +74,9 @@ public class SensorsContainer {
     if (sensorConfig.hasPath("limelight")) {
       System.out.println("Using real LimeLight");
       m_limelightCameraBase = new RealLimelightCamera();
-      m_hasLimeLight = true;
     } else {
       System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
-    }
-    if (sensorConfig.hasPath("sensors.ultrasonicSensor.powerCellDetector")) {
-      m_powerCellDetector = new RealUltrasonicSensor("ultrasonicSensor.powerCellDetector");
-      System.out.println("Using Real Power Cell Detector");
-    } else {
-      m_powerCellDetector = new MockUltrasonicSensor();
-      System.out.println("Using Fake Power Cell Detector");
     }
     if (sensorConfig.hasPath("sensors.cannonSafetyUltrasonic")) {
       m_cannonSafetyUltrasonic = new RealUltrasonicSensor("cannonSafetyUltrasonic");
@@ -139,10 +117,6 @@ public class SensorsContainer {
     return m_gyro;
   }
 
-  public BallFeederSensorBase getBallFeederSensor() {
-    return m_ballFeederSensor;
-  }
-
   public Camera getCamera0() {
     return m_camera0;
   }
@@ -157,10 +131,6 @@ public class SensorsContainer {
 
   public LimeLightCameraBase getLimeLight() {
     return m_limelightCameraBase;
-  }
-
-  public UltrasonicSensor getPowercellDetector() {
-    return m_powerCellDetector;
   }
 
   public UltrasonicSensor getCannonSafetyUltrasonic() {
