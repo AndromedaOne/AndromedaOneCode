@@ -36,7 +36,7 @@ public class RealUltrasonicSensorPair extends UltrasonicSensor {
     leftUltrasonic.setEnabled(true);
     rightUltrasonic = new Ultrasonic(rightPing, rightEcho);
     rightUltrasonic.setEnabled(true);
-    rightUltrasonic.setAutomaticMode(true);
+    Ultrasonic.setAutomaticMode(true);
   }
 
   public double getLeftUltrasonicDistanceInches() {

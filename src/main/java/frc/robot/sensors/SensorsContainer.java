@@ -42,14 +42,15 @@ public class SensorsContainer {
   private Analog41IRSensor m_analog41IRSensor;
   private ColorSensorBase m_frontColorSensor;
   private ColorSensorBase m_backColorSensor;
+  private Config m_sensorConfig;
 
   public SensorsContainer() {
-    final Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
+    m_sensorConfig = Config4905.getConfig4905().getSensorConfig();
 
-    if (sensorConfig.hasPath("navx")) {
+    if (m_sensorConfig.hasPath("navx")) {
       System.out.println("Using real NavX Gyro sensor");
       m_gyro = new RealNavXGyroSensor();
-    } else if (sensorConfig.hasPath("RomiGyro")) {
+    } else if (m_sensorConfig.hasPath("RomiGyro")) {
       System.out.println("Using RomiGyro");
       m_gyro = new RomiGyro();
     } else {
@@ -57,49 +58,49 @@ public class SensorsContainer {
       m_gyro = new MockGyro();
     }
 
-    if (sensorConfig.hasPath("sensors.cameras")) {
-      if (sensorConfig.hasPath("sensors.cameras.camera0")) {
-        System.out.println("Using real camera with id: " + sensorConfig.getInt("sensors.cameras.camera0.port"));
-        m_camera0 = new RealCamera(0, sensorConfig.getInt("sensors.cameras.camera0.port"));
+    if (m_sensorConfig.hasPath("sensors.cameras")) {
+      if (m_sensorConfig.hasPath("sensors.cameras.camera0")) {
+        System.out.println("Using real camera with id: " + m_sensorConfig.getInt("sensors.cameras.camera0.port"));
+        m_camera0 = new RealCamera(0, m_sensorConfig.getInt("sensors.cameras.camera0.port"));
       }
-      if (sensorConfig.hasPath("sensors.cameras.camera1")) {
-        System.out.println("Using real camera with id: " + sensorConfig.getInt("sensors.cameras.camera1.port"));
-        m_camera1 = new RealCamera(1, sensorConfig.getInt("sensors.cameras.camera1.port"));
+      if (m_sensorConfig.hasPath("sensors.cameras.camera1")) {
+        System.out.println("Using real camera with id: " + m_sensorConfig.getInt("sensors.cameras.camera1.port"));
+        m_camera1 = new RealCamera(1, m_sensorConfig.getInt("sensors.cameras.camera1.port"));
       }
     } else {
       System.out.println("Using fake cameras");
       m_camera0 = new MockCamera();
     }
 
-    if (sensorConfig.hasPath("limelight")) {
+    if (m_sensorConfig.hasPath("limelight")) {
       System.out.println("Using real LimeLight");
       m_limelightCameraBase = new RealLimelightCamera();
     } else {
       System.out.println("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
     }
-    if (sensorConfig.hasPath("sensors.cannonSafetyUltrasonic")) {
+    if (m_sensorConfig.hasPath("sensors.cannonSafetyUltrasonic")) {
       m_cannonSafetyUltrasonic = new RealUltrasonicSensor("cannonSafetyUltrasonic");
       System.out.println("Using Real Cannon Safety Ultrasonic");
     } else {
       m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
     }
-    if (sensorConfig.hasPath("sensors.analog41IRSensor")) {
-      m_analog41IRSensor = new RealAnalog41IRSensor(sensorConfig.getInt("sensors.analog41IRSensor.port"));
+    if (m_sensorConfig.hasPath("sensors.analog41IRSensor")) {
+      m_analog41IRSensor = new RealAnalog41IRSensor(m_sensorConfig.getInt("sensors.analog41IRSensor.port"));
       System.out.println("Using real analog 41 IR sensor");
     } else {
       m_analog41IRSensor = new MockAnalog41IRSensor();
       System.out.println("Using mock analog 41 IR sensor");
     }
 
-    if (sensorConfig.hasPath("sensors.frontcolorsensor")) {
+    if (m_sensorConfig.hasPath("sensors.frontcolorsensor")) {
       m_frontColorSensor = new RealColorSensor("frontcolorsensor");
       System.out.println("Using real Color sensor for the front");
     } else {
       System.out.println("Using mock Color sensor for the front");
       m_frontColorSensor = new MockColorSensor();
     }
-    if (sensorConfig.hasPath("sensors.backcolorsensor")) {
+    if (m_sensorConfig.hasPath("sensors.backcolorsensor")) {
       System.out.println("Using real Color sensor for the back");
       m_backColorSensor = new RealColorSensor("backcolorsensor");
     } else {
@@ -109,8 +110,12 @@ public class SensorsContainer {
   }
 
   public void periodic() {
-    SmartDashboard.putNumber("Color Sensor Value Front", m_frontColorSensor.getReflectedLightIntensity());
-    SmartDashboard.putNumber("Color Sensor Value Back", m_backColorSensor.getReflectedLightIntensity());
+    if (m_sensorConfig.hasPath("sensors.frontcolorsensor")) {
+      SmartDashboard.putNumber("Color Sensor Value Front", m_frontColorSensor.getReflectedLightIntensity());
+    }
+    if (m_sensorConfig.hasPath("sensors.backcolorsensor")) {
+      SmartDashboard.putNumber("Color Sensor Value Back", m_backColorSensor.getReflectedLightIntensity());
+    }
   }
 
   public Gyro4905 getGyro() {

@@ -104,14 +104,10 @@ public class RomiGyro extends Gyro4905 {
 
   @Override
   public void calibrate() {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void reset() {
-    // TODO Auto-generated method stub
-
   }
 
   /**
@@ -120,19 +116,15 @@ public class RomiGyro extends Gyro4905 {
    */
   @Override
   public double getAngle() {
-    // TODO Auto-generated method stub
     return -getRawZAngle();
   }
 
   @Override
   public double getRate() {
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public void close() throws Exception {
-    // TODO Auto-generated method stub
-
   }
 }

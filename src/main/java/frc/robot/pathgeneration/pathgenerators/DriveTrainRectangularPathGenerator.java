@@ -10,14 +10,22 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator {
 
   private DriveTrain m_driveTrain;
+  private double m_maxMoveOutput;
 
-  public DriveTrainRectangularPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain, Waypoint initialWaypoint) {
-    super(waypoints, initialWaypoint);
+  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
+      Waypoint initialWaypoint, double maxMoveOutput) {
+    super(pathName, waypoints, initialWaypoint);
     m_driveTrain = driveTrain;
+    m_maxMoveOutput = maxMoveOutput;
   }
 
-  public DriveTrainRectangularPathGenerator(WaypointsBase waypoints, DriveTrain driveTrain) {
-    this(waypoints, driveTrain, new Waypoint(0, 0));
+  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain) {
+    this(pathName, waypoints, driveTrain, new Waypoint(0, 0), 1.0);
+  }
+
+  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
+      double maxMoveOutput) {
+    this(pathName, waypoints, driveTrain, new Waypoint(0, 0), maxMoveOutput);
   }
 
   /**
@@ -35,7 +43,7 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
    */
   @Override
   protected CommandBase createMoveCommand(double distance, double angle) {
-    return new MoveUsingEncoder(m_driveTrain, distance, true, angle);
+    return new MoveUsingEncoder(m_driveTrain, distance, angle, m_maxMoveOutput);
   }
 
 }

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
 import frc.robot.commands.BringWingsUp;
 import frc.robot.commands.LetWingsDown;
+import frc.robot.commands.ToggleConveyor;
 import frc.robot.commands.ToggleLimelightLED;
 import frc.robot.commands.TrackLineAndDriveBackwards;
 import frc.robot.commands.TrackLineAndDriveForward;
@@ -39,11 +40,13 @@ public class DriveController {
   private JoystickButton turnOffLimelight;
   private POVButton driveForwardAndTrackLine;
   private POVButton driveBackwardAndTrackLine;
-
+  private JoystickButton toggleConveyor;
   private SensorsContainer m_sensorsContainer;
+  private SubsystemsContainer m_subsystemsContainer;
 
   public DriveController(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     m_sensorsContainer = sensorsContainer;
+    m_subsystemsContainer = subsystemsContainer;
     if (!Config4905.getConfig4905().isRomi()) {
       turnToNorth = new JoystickButton(m_driveController, ButtonsEnumerated.YBUTTON.getValue());
       turnToNorth.whenPressed(new TurnToCompassHeading(0));
@@ -54,22 +57,9 @@ public class DriveController {
       turnToWest = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
       turnToWest.whenPressed(new TurnToCompassHeading(270));
     }
-
     if (sensorsContainer.hasLimeLight()) {
       limeLightButtons();
     }
-
-    if (Config4905.getConfig4905().isRomi()) {
-      driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
-      driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
-      driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
-      driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
-      POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
-      letRomiWingsDownButton.whileHeld(new LetWingsDown());
-      POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
-      bringRomiWingsUpButton.whileHeld(new BringWingsUp());
-    }
-    // set up romi buttons has to be last.
     if (Config4905.getConfig4905().isRomi()) {
       setupRomiButtons();
     }
@@ -127,7 +117,21 @@ public class DriveController {
   }
 
   private void setupRomiButtons() {
-    JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
-    mopperButton.whenPressed(new ToggleMopper());
+    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
+      driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
+      driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
+      driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
+      driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
+      POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
+      letRomiWingsDownButton.whileHeld(new LetWingsDown());
+      POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
+      bringRomiWingsUpButton.whileHeld(new BringWingsUp());
+      JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
+      mopperButton.whenPressed(new ToggleMopper());
+    }
+    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi2")) {
+      toggleConveyor = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
+      toggleConveyor.whenPressed(new ToggleConveyor(m_subsystemsContainer.getConveyor()));
+    }
   }
 }

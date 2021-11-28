@@ -24,4 +24,9 @@ public class RealRomiBallMopper extends RomiBallMopperBase {
   public void reset() {
     m_motor.setPosition(-0.5);
   }
+
+  @Override
+  public boolean doesRomiBallMopperExist() {
+    return true;
+  }
 }

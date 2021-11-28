@@ -48,6 +48,8 @@ public class Config4905 {
 
   private Config harvesterConfig;
 
+  private Config conveyorConfig;
+
   private Config compressorConfig;
 
   private Config cannonConfig;
@@ -148,6 +150,7 @@ public class Config4905 {
     climberConfig = load("Climber.conf");
     ledConfig = load("LED.conf");
     harvesterConfig = load("harvester.conf");
+    conveyorConfig = load("conveyor.conf");
     compressorConfig = load("compressor.conf");
     cannonConfig = load("cannon.conf");
     romiBallMopperConfig = load("romiBallMopper.conf");
@@ -242,6 +245,18 @@ public class Config4905 {
     return harvesterConfig;
   }
 
+  public boolean doesConveyorExist() {
+    if (m_config.hasPath("subsystems.conveyor")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getConveyorConfig() {
+    return conveyorConfig;
+  }
+
   public boolean doesCompressorExist() {
     if (m_config.hasPath("subsystems.compressor")) {
       return true;
@@ -301,4 +316,7 @@ public class Config4905 {
     return m_isShowBot;
   }
 
+  public String getRobotName() {
+    return m_robotName;
+  }
 }

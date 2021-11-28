@@ -37,6 +37,8 @@ public class SubsystemsContainer {
   DriveTrain m_driveTrain;
   LEDs m_leds;
   ServoMotor m_romiIntake;
+  ServoMotor m_conveyor;
+  Boolean m_conveyorState;
   RomiWingsBase m_romiWings;
   CompressorBase m_compressor;
   CannonBase m_cannon;
@@ -95,6 +97,14 @@ public class SubsystemsContainer {
       m_romiWings = new MockRomiWings();
     }
 
+    // 8. Romi Conveyor
+    if (Config4905.getConfig4905().doesConveyorExist()) {
+      m_conveyor = new ServoMotor(
+          Config4905.getConfig4905().getConveyorConfig().getConfig("conveyorServo").getInt("port"));
+      // True means conveyor is running
+      m_conveyorState = false;
+
+    }
     if (Config4905.getConfig4905().doesCompressorExist()) {
       System.out.println("using real Compressor.");
       m_compressor = new RealCompressor();
@@ -129,6 +139,20 @@ public class SubsystemsContainer {
 
   public ServoMotor getRomiIntake() {
     return m_romiIntake;
+  }
+
+  public ServoMotor getConveyor() {
+    return m_conveyor;
+  }
+
+  public Boolean getConveyorState() {
+    return m_conveyorState;
+
+  }
+
+  public void setConveyorState(Boolean state) {
+    m_conveyorState = state;
+
   }
 
   public CompressorBase getCompressor() {

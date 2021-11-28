@@ -69,4 +69,9 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   public void disableLED() {
     m_limelightTable.getEntry("ledMode").setDouble(1);
   }
+
+  @Override
+  public boolean doesLimeLightExist() {
+    return true;
+  }
 }

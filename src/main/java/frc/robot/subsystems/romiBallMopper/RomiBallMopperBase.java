@@ -25,6 +25,8 @@ public abstract class RomiBallMopperBase extends SubsystemBase {
     s_reset = state;
   }
 
+  public abstract boolean doesRomiBallMopperExist();
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

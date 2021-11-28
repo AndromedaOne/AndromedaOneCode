@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.CheckRomiVelocityConversionFactor;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
@@ -20,6 +21,8 @@ import frc.robot.commands.cannon.ShootCannon;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
 import frc.robot.commands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiBallMopper.ResetBallMopper;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsScoring;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsSimple;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -39,11 +42,14 @@ public class SmartDashboard4905 {
 
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
-    SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
-
-    SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
-    SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
-    SmartDashboard.putData("Shoot Cannon", new ShootCannon());
+    if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
+      SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
+      SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
+    }
+    if (Config4905.getConfig4905().doesCannonExist()) {
+      SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
+      SmartDashboard.putData("Shoot Cannon", new ShootCannon());
+    }
 
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
@@ -57,7 +63,11 @@ public class SmartDashboard4905 {
   private void romiCommands(SubsystemsContainer subsystemsContainer) {
     SmartDashboard.putData("CheckRomiVelocityConversionFactor",
         new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("Mop Ball", new MopBallMopper());
-    SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
+    if (Config4905.getConfig4905().doesRomiBallMopperExist()) {
+      SmartDashboard.putData("Mop Ball", new MopBallMopper());
+      SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
+    }
+    SmartDashboard.putData("AllianceAnticsSimple", new AllianceAnticsSimple(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("AllianceAnticsScoring", new AllianceAnticsScoring(subsystemsContainer.getDrivetrain()));
   }
 }
