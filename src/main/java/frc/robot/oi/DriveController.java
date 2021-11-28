@@ -157,7 +157,7 @@ public class DriveController {
     }
     if (Config4905.getConfig4905().getRobotName().equals("4905_Romi2")) {
       toggleConveyor = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
-      toggleConveyor.whenPressed(new ToggleConveyor(m_subsystemsContainer.getConveyor()));
+      toggleConveyor.whenPressed(new ToggleConveyor(m_subsystemsContainer.getConveyor(), 1));
     }
   }
 }
