@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.cannon;
+package frc.robot.commands.showBotCannon;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.subsystems.cannon.CannonBase;
+import frc.robot.subsystems.showBotCannon.CannonBase;
 
 public class ShootCannon extends CommandBase {
   /** Creates a new ShootCannon. */

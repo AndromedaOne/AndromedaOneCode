@@ -10,11 +10,8 @@ package frc.robot.subsystems;
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.TeleOpCommand;
-import frc.robot.commands.cannon.AdjustElevation;
 import frc.robot.commands.romiBallMopper.ResetBallMopper;
-import frc.robot.subsystems.cannon.CannonBase;
-import frc.robot.subsystems.cannon.MockCannon;
-import frc.robot.subsystems.cannon.RealCannon;
+import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -30,6 +27,9 @@ import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
 import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
+import frc.robot.subsystems.showBotCannon.CannonBase;
+import frc.robot.subsystems.showBotCannon.MockCannon;
+import frc.robot.subsystems.showBotCannon.RealCannon;
 
 public class SubsystemsContainer {
 
