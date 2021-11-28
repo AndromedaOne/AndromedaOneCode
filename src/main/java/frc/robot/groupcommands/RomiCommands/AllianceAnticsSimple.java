@@ -27,7 +27,7 @@ public class AllianceAnticsSimple extends SequentialCommandGroup {
   /** Creates a new AllianceAnticsSimple. */
   public AllianceAnticsSimple(DriveTrain driveTrain) {
     PathGeneratorBase path = new DriveTrainRectangularPathGenerator(getClass().getSimpleName(), new Waypoints(),
-        driveTrain);
+        driveTrain, 0.5);
     addCommands(path.getPath());
   }
 
