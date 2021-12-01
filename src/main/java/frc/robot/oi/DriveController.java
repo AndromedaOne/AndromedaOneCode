@@ -102,16 +102,12 @@ public class DriveController {
     }
   }
 
-  /**
-   * Returns the position of the left/right stick with LEFT being a positive value
-   * to stick with our conventions.
-   * 
-   * these methods are private so that it is easier to find out for each robot
-   * what button/stick the robot uses. previously this information was spread out
-   * in the code base and difficult to find.
-   * 
-   * @return the position of the right drive stick (left to right).
-   */
+  // direct access to buttons is not allowed. to access a button, create
+  // a public method with a name that describes the function being performed
+  // this forces all buttons to be mapped in this file and makes it easier
+  // to figure out what button is mapped to what function, instead of having
+  // to search the code base to figure it out.
+
   /**
    * Returns the position of the forward/backward stick with FORWARD being a
    * positive value to stick with our conventions.
@@ -122,6 +118,12 @@ public class DriveController {
     return deadband(-m_driveController.getY(GenericHID.Hand.kLeft));
   }
 
+  /**
+   * Returns the position of the left/right stick with LEFT being a positive value
+   * to stick with our conventions.
+   *
+   * @return the position of the right drive stick (left to right).
+   */
   private double getRotateStick() {
     return deadband(-m_driveController.getX(GenericHID.Hand.kRight));
   }
