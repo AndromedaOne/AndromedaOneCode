@@ -118,6 +118,9 @@ public class Config4905 {
       m_baseDir = jarDir + "/src/main/";
       m_isRomi = true;
     }
+    if ((m_robotName == null) || m_robotName.isEmpty()) {
+      throw new RuntimeException("ERROR: cannot determine robot name, maybe you're not connected?");
+    }
     m_environmentalConfig = ConfigFactory
         .parseFile(new File(m_baseDir + "deploy/robotConfigs/" + m_robotName + "/robot.conf"));
     m_config = m_environmentalConfig.withFallback(m_defaultConfig).resolve();
