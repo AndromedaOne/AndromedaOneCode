@@ -2,34 +2,32 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.romiCommands.romiBallMopper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
-import frc.robot.actuators.ServoMotor;
+import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
 import frc.robot.telemetries.Trace;
 
-public class ToggleConveyor extends CommandBase {
-  private ServoMotor m_conveyor;
-  private double m_conveyorSpeed = 0;
+public class ToggleMopper extends CommandBase {
 
-  /** Creates a new StartConveyor. */
-  public ToggleConveyor(ServoMotor conveyor, double speed) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_conveyor = conveyor;
-    m_conveyorSpeed = speed;
+  private RomiBallMopperBase m_romiBallMopper;
+
+  public ToggleMopper() {
+    m_romiBallMopper = Robot.getInstance().getSubsystemsContainer().getRomiBallMopper();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    if (Robot.getInstance().getSubsystemsContainer().getConveyorState()) {
-      m_conveyor.stop();
-      Robot.getInstance().getSubsystemsContainer().setConveyorState(false);
+    if (m_romiBallMopper.getResetState()) {
+      CommandScheduler.getInstance().schedule(new MopBallMopper());
+      m_romiBallMopper.setResetState(false);
     } else {
-      m_conveyor.setPosition(m_conveyorSpeed);
-      Robot.getInstance().getSubsystemsContainer().setConveyorState(true);
+      CommandScheduler.getInstance().schedule(new ResetBallMopper());
+      m_romiBallMopper.setResetState(true);
     }
   }
 

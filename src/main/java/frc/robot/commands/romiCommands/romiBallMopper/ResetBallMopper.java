@@ -2,18 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.romiBallMopper;
+package frc.robot.commands.romiCommands.romiBallMopper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
 import frc.robot.telemetries.Trace;
 
-public class MopBallMopper extends CommandBase {
+public class ResetBallMopper extends CommandBase {
 
   private RomiBallMopperBase m_romiBallMopper;
 
-  public MopBallMopper() {
+  public ResetBallMopper() {
     m_romiBallMopper = Robot.getInstance().getSubsystemsContainer().getRomiBallMopper();
     addRequirements(m_romiBallMopper);
   }
@@ -27,7 +27,7 @@ public class MopBallMopper extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_romiBallMopper.mop();
+    m_romiBallMopper.reset();
   }
 
   // Called once the command ends or is interrupted.
