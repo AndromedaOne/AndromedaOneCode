@@ -49,12 +49,12 @@ public class TeleOpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double forwardBackwardStickValue = m_driveController.getForwardBackwardStick();
-    double rotateStickValue = m_driveController.getRotateStick();
+    double forwardBackwardStickValue = m_driveController.getDriveTrainForwardBackwardStick();
+    double rotateStickValue = m_driveController.getDriveTrainRotateStick();
 
     switch (m_slowModeState) {
     case NOTSLOWRELEASED:
-      if (m_driveController.getLeftBumperPressed()) {
+      if (m_driveController.getSlowModeBumperPressed()) {
         m_slowMode = true;
         Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
         m_slowModeState = SlowModeStates.SLOWPRESSED;
@@ -62,13 +62,13 @@ public class TeleOpCommand extends CommandBase {
       }
       break;
     case NOTSLOWPRESSED:
-      if (m_driveController.getLeftBumperReleased()) {
+      if (m_driveController.getSlowModeBumperPressed()) {
         m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
         System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
       }
       break;
     case SLOWRELEASED:
-      if (m_driveController.getLeftBumperPressed()) {
+      if (m_driveController.getSlowModeBumperPressed()) {
         m_slowMode = false;
         Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
         ;
@@ -77,7 +77,7 @@ public class TeleOpCommand extends CommandBase {
       }
       break;
     case SLOWPRESSED:
-      if (m_driveController.getLeftBumperReleased()) {
+      if (m_driveController.getSlowModeBumperPressed()) {
         m_slowModeState = SlowModeStates.SLOWRELEASED;
         System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
       }

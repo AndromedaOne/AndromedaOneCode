@@ -35,7 +35,6 @@ public class DriveController {
   private JoystickButton turnToEast;
   private JoystickButton turnToSouth;
   private JoystickButton turnToWest;
-  private JoystickButton turnToFace;
   private JoystickButton turnOnLimelight;
   private JoystickButton turnOffLimelight;
   private POVButton driveForwardAndTrackLine;
@@ -60,46 +59,56 @@ public class DriveController {
     if (sensorsContainer.hasLimeLight()) {
       limeLightButtons();
     }
+    if (Config4905.getConfig4905().isRomi()) {
       setupRomiButtons();
     }
   }
 
+  public double getDriveTrainForwardBackwardStick() {
+    return getForwardBackwardStick();
+  }
+
+  public double getDriveTrainRotateStick() {
+    return getRotateStick();
+  }
+
+  public boolean getSlowModeBumperPressed() {
+    return getLeftBumperPressed();
+  }
+
   protected void limeLightButtons() {
-    turnToFace = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
-    turnToFace.whenPressed(new TurnToFaceCommand(m_sensorsContainer.getLimeLight()::horizontalDegreesToTarget));
     turnOnLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.BACKBUTTON.getValue());
     turnOnLimelight.whenPressed(new ToggleLimelightLED(true, m_sensorsContainer));
     turnOffLimelight = new JoystickButton(m_driveController, ButtonsEnumerated.STARTBUTTON.getValue());
     turnOffLimelight.whenPressed(new ToggleLimelightLED(false, m_sensorsContainer));
   }
 
-  // Climber buttons
-  protected void climberButtons() {
-    climbLevel = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
-    climbLevel.whileHeld(new Climb());
-    letOutLeftWinch = new JoystickButton(m_driveController, ButtonsEnumerated.LEFTSTICKBUTTON.getValue());
-    letOutRightWinch = new JoystickButton(m_driveController, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue());
-  }
-
-  public JoystickButton getLetOutLeftWinchButton() {
-    return letOutLeftWinch;
-  }
-
-  public JoystickButton getLetOutRightWinchButton() {
-    return letOutRightWinch;
-  }
-
   private void setupRomiButtons() {
-    JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
-    mopperButton.whenPressed(new ToggleMopper());
+    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
+      driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
+      driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
+      driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
+      driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
+      POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
+      letRomiWingsDownButton.whileHeld(new LetWingsDown());
+      POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
+      bringRomiWingsUpButton.whileHeld(new BringWingsUp());
+      JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
+      mopperButton.whenPressed(new ToggleMopper());
+    }
+    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi2")) {
+      toggleConveyor = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
+      toggleConveyor.whenPressed(new ToggleConveyor(m_subsystemsContainer.getConveyor(), 1));
+    }
+  }
 
   /**
    * Returns the position of the left/right stick with LEFT being a positive value
    * to stick with our conventions.
    * 
-   * these methods are private so that it is easier to find out for each
-   * robot what button/stick the robot uses. previously this information
-   * was spread out in the code base and difficult to find.
+   * these methods are private so that it is easier to find out for each robot
+   * what button/stick the robot uses. previously this information was spread out
+   * in the code base and difficult to find.
    * 
    * @return the position of the right drive stick (left to right).
    */
@@ -140,20 +149,4 @@ public class DriveController {
       return stickValue;
     }
   }
-    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
-      driveForwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.NORTH.getValue());
-      driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
-      driveBackwardAndTrackLine = new POVButton(m_driveController, POVDirectionNames.SOUTH.getValue());
-      driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
-      POVButton letRomiWingsDownButton = new POVButton(m_driveController, POVDirectionNames.WEST.getValue());
-      letRomiWingsDownButton.whileHeld(new LetWingsDown());
-      POVButton bringRomiWingsUpButton = new POVButton(m_driveController, POVDirectionNames.EAST.getValue());
-      bringRomiWingsUpButton.whileHeld(new BringWingsUp());
-      JoystickButton mopperButton = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
-      mopperButton.whenPressed(new ToggleMopper());
-    }
-    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi2")) {
-      toggleConveyor = new JoystickButton(m_driveController, ButtonsEnumerated.XBUTTON.getValue());
-      toggleConveyor.whenPressed(new ToggleConveyor(m_subsystemsContainer.getConveyor(), 1));
-    }
 }
