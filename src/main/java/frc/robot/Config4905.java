@@ -30,15 +30,7 @@ public class Config4905 {
    */
   private Config m_config;
 
-  private Config climberConfig;
-
   private Config drivetrainConfig;
-
-  private Config feederConfig;
-
-  private Config intakeConfig;
-
-  private Config shooterConfig;
 
   private Config sensorConfig;
 
@@ -68,8 +60,6 @@ public class Config4905 {
 
   private boolean m_isRomi = false;
 
-  private boolean m_isTheDroidYoureLookingFor = false;
-
   private boolean m_isShowBot = false;
 
   private Config4905() {
@@ -78,9 +68,7 @@ public class Config4905 {
       m_baseDir = m_linuxPathToHomeStr;
       m_nameConfig = ConfigFactory.parseFile(new File(m_linuxPathToHomeStr + "name.conf"));
       m_robotName = m_nameConfig.getString("robot.name");
-      if (m_robotName.equals("TheDroidYoureLookingFor")) {
-        m_isTheDroidYoureLookingFor = true;
-      } else if (m_robotName.equals("ShowBot")) {
+      if (m_robotName.equals("ShowBot")) {
         m_isShowBot = true;
       }
     } else {
@@ -146,11 +134,7 @@ public class Config4905 {
   public void reload() {
     commandConstantsConfig = load("commandconstants.conf");
     sensorConfig = load("sensors.conf");
-    shooterConfig = load("Shooter.conf");
-    intakeConfig = load("Intake.conf");
-    feederConfig = load("Feeder.conf");
     drivetrainConfig = load("drivetrain.conf");
-    climberConfig = load("Climber.conf");
     ledConfig = load("LED.conf");
     harvesterConfig = load("harvester.conf");
     conveyorConfig = load("conveyor.conf");
@@ -158,18 +142,6 @@ public class Config4905 {
     cannonConfig = load("cannon.conf");
     romiBallMopperConfig = load("romiBallMopper.conf");
     wingsConfig = load("wings.conf");
-  }
-
-  public Config getClimberConfig() {
-    return climberConfig;
-  }
-
-  public boolean doesClimberExist() {
-    if (m_config.hasPath("subsystems.climber")) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   public Config getDrivetrainConfig() {
@@ -184,48 +156,12 @@ public class Config4905 {
     }
   }
 
-  public Config getFeederConfig() {
-    return feederConfig;
-  }
-
-  public boolean doesFeederExist() {
-    if (m_config.hasPath("subsystems.feeder")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   public Config getLEDConfig() {
     return ledConfig;
   }
 
   public boolean doesLEDExist() {
     if (m_config.hasPath("subsystems.LED")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public Config getIntakeConfig() {
-    return intakeConfig;
-  }
-
-  public boolean doesIntakeExist() {
-    if (m_config.hasPath("subsystems.intake")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public Config getShooterConfig() {
-    return shooterConfig;
-  }
-
-  public boolean doesShooterExist() {
-    if (m_config.hasPath("subsystems.shooter")) {
       return true;
     } else {
       return false;
@@ -309,10 +245,6 @@ public class Config4905 {
 
   public boolean isRomi() {
     return m_isRomi;
-  }
-
-  public boolean isTheDroidYoureLookingFor() {
-    return m_isTheDroidYoureLookingFor;
   }
 
   public boolean isShowBot() {
