@@ -42,7 +42,7 @@ public class DriveController extends ControllerBase {
     setController(new XboxController(0));
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
-    if (!Config4905.getConfig4905().isRomi()) {
+    if (!Config4905.getConfig4905().isRomi() || Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
       m_turnToNorth = getYbutton();
       m_turnToNorth.whenPressed(new TurnToCompassHeading(0));
       m_turnToEast = getBbutton();
@@ -80,7 +80,7 @@ public class DriveController extends ControllerBase {
   }
 
   private void setupRomiButtons() {
-    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
+    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
       m_driveForwardAndTrackLine = getPOVnorth();
       m_driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
       m_driveBackwardAndTrackLine = getPOVsouth();

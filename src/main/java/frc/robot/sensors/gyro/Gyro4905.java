@@ -1,5 +1,7 @@
 package frc.robot.sensors.gyro;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.telemetries.Trace;
@@ -52,6 +54,10 @@ public abstract class Gyro4905 implements Gyro {
   public double getCompassHeading() {
     return AngleConversionUtils.ConvertAngleToCompassHeading(getZAngle());
   }
+
+  public abstract DoubleSupplier getCompassHeadingDoubleSupplier();
+
+  public abstract DoubleSupplier getZangleDoubleSupplier();
 
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("Z Angle", getZAngle());

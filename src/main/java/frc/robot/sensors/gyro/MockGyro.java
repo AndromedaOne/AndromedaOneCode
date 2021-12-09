@@ -1,5 +1,7 @@
 package frc.robot.sensors.gyro;
 
+import java.util.function.DoubleSupplier;
+
 public class MockGyro extends Gyro4905 {
 
   @Override
@@ -64,4 +66,27 @@ public class MockGyro extends Gyro4905 {
     return 0;
   }
 
+  private class MockGyroCompassHeadingDoubleSupplier implements DoubleSupplier {
+    @Override
+    public double getAsDouble() {
+      return 0;
+    }
+  }
+
+  @Override
+  public DoubleSupplier getCompassHeadingDoubleSupplier() {
+    return new MockGyroCompassHeadingDoubleSupplier();
+  }
+
+  private class MockGyroZangleDoubleSupplier implements DoubleSupplier {
+    @Override
+    public double getAsDouble() {
+      return 0;
+    }
+  }
+
+  @Override
+  public DoubleSupplier getZangleDoubleSupplier() {
+    return new MockGyroZangleDoubleSupplier();
+  }
 }

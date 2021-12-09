@@ -1,6 +1,7 @@
 package frc.robot.sensors.gyro;
 
 import java.util.TimerTask;
+import java.util.function.DoubleSupplier;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.typesafe.config.Config;
@@ -14,7 +15,8 @@ import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 
 public class RealNavXGyroSensor extends Gyro4905 {
-  AHRS gyro; /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
+  // use singleton for the gyro member
+  static private AHRS m_gyro = null;
 
   private long kInitializeDelay = 3000;
   private long kDefaultPeriod = 50;
@@ -25,33 +27,37 @@ public class RealNavXGyroSensor extends Gyro4905 {
    * DriveStation.
    */
   public RealNavXGyroSensor() {
-    try {
-      /* Communicate w/navX MXP via the MXP SPI Bus. */
-      /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
-      /*
-       * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
-       * details.
-       */
-      Config conf = Config4905.getConfig4905().getSensorConfig();
-      Config navXConfig = conf.getConfig("navx");
-      String navXPort = navXConfig.getString("port");
-      System.out.println("Creating a NavX Gyro on port: " + navXPort);
-      if (navXPort.equals("MXP")) {
-        gyro = new AHRS(SPI.Port.kMXP);
-      } else if (navXPort.equals("SPI")) {
-        gyro = new AHRS(SPI.Port.kOnboardCS0);
-      } else {
-        System.err.println("ERROR: Unkown NavX Port: " + navXPort);
-        return;
-      }
-      System.out.println("Created NavX instance");
-      // New thread to initialize the initial angle
-      controlLoop = new java.util.Timer();
-      SetInitialAngleReading task = new SetInitialAngleReading(this);
-      controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
+    // if we have not created the gyro, do it now...
+    if (m_gyro == null) {
+      try {
+        /* Communicate w/navX MXP via the MXP SPI Bus. */
+        /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
+        /*
+         * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
+         * details.
+         */
+        Config conf = Config4905.getConfig4905().getSensorConfig();
+        Config navXConfig = conf.getConfig("navx");
+        String navXPort = navXConfig.getString("port");
+        System.out.println("Creating a NavX Gyro on port: " + navXPort);
+        /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
+        if (navXPort.equals("MXP")) {
+          m_gyro = new AHRS(SPI.Port.kMXP);
+        } else if (navXPort.equals("SPI")) {
+          m_gyro = new AHRS(SPI.Port.kOnboardCS0);
+        } else {
+          System.err.println("ERROR: Unkown NavX Port: " + navXPort);
+          return;
+        }
+        System.out.println("Created NavX instance");
+        // New thread to initialize the initial angle
+        controlLoop = new java.util.Timer();
+        SetInitialAngleReading task = new SetInitialAngleReading(this);
+        controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
 
-    } catch (RuntimeException ex) {
-      DriverStation.reportError("Error instantiating navX MXP: " + ex.getMessage(), true);
+      } catch (RuntimeException ex) {
+        DriverStation.reportError("Error instantiating navX MXP: " + ex.getMessage(), true);
+      }
     }
   }
 
@@ -68,10 +74,10 @@ public class RealNavXGyroSensor extends Gyro4905 {
     @Override
     public void run() {
       System.out.println("Setting Initial Gyro Angle");
-      if (!gyro.isCalibrating()) {
-        m_navX.setInitialZAngleReading(gyro.getAngle());
-        m_navX.setInitialXAngleReading(gyro.getPitch());
-        m_navX.setInitialYAngleReading(gyro.getRoll());
+      if (!m_gyro.isCalibrating()) {
+        m_navX.setInitialZAngleReading(m_gyro.getAngle());
+        m_navX.setInitialXAngleReading(m_gyro.getPitch());
+        m_navX.setInitialYAngleReading(m_gyro.getRoll());
         calibrated = true;
         cancel();
       }
@@ -86,8 +92,8 @@ public class RealNavXGyroSensor extends Gyro4905 {
   @Override
   public double getZAngle() {
     if (calibrated) {
-      double correctedAngle = gyro.getAngle();
-      Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", gyro.getAngle()),
+      double correctedAngle = m_gyro.getAngle();
+      Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", m_gyro.getAngle()),
           new TracePair<>("Corrected Angle", correctedAngle));
       return correctedAngle;
     }
@@ -96,12 +102,12 @@ public class RealNavXGyroSensor extends Gyro4905 {
 
   @Override
   protected double getRawXAngle() {
-    return gyro.getPitch();
+    return m_gyro.getPitch();
   }
 
   @Override
   protected double getRawYAngle() {
-    return gyro.getRoll();
+    return m_gyro.getRoll();
   }
 
   /**
@@ -126,7 +132,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
 
   @Override
   public void reset() {
-    gyro.reset();
+    m_gyro.reset();
 
   }
 
@@ -141,7 +147,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
 
   @Override
   public double getRate() {
-    return gyro.getRate();
+    return m_gyro.getRate();
   }
 
   @Override
@@ -152,5 +158,29 @@ public class RealNavXGyroSensor extends Gyro4905 {
   @Override
   protected double getRawZAngle() {
     return getZAngle();
+  }
+
+  private class RealNavXGyroSensorCompassHeadingDoubleSupplier implements DoubleSupplier {
+    @Override
+    public double getAsDouble() {
+      return getCompassHeading();
+    }
+  }
+
+  @Override
+  public DoubleSupplier getCompassHeadingDoubleSupplier() {
+    return new RealNavXGyroSensorCompassHeadingDoubleSupplier();
+  }
+
+  private class RealNavXGyroSensorZangleDoubleSupplier implements DoubleSupplier {
+    @Override
+    public double getAsDouble() {
+      return getZAngle();
+    }
+  }
+
+  @Override
+  public DoubleSupplier getZangleDoubleSupplier() {
+    return new RealNavXGyroSensorZangleDoubleSupplier();
   }
 }

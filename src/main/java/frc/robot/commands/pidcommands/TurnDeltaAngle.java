@@ -27,26 +27,20 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   /**
    * Creates a new TurnDeltaAngle.
    */
-  // in the construction of the pidcontroller, grabbing the Gyro through
-  // the Robot instance will generate a "resource leak" warning. this warning
-  // can be safely ignored and the suppresswarnings line does that.
-  @SuppressWarnings("resource")
   public TurnDeltaAngle(double deltaTurnAngle) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("TurnDeltaAngle", 0, 0, 0, 0),
         // This should return the measurement
-        Robot.getInstance().getSensorsContainer().getGyro()::getZAngle,
+        Robot.getInstance().getSensorsContainer().getGyro().getZangleDoubleSupplier(),
         // This should return the setpoint (can also be a constant)
         0,
         // This uses the output
         output -> {
-          // Use the output here
           Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output, false, false);
         });
     m_setpoint = this::getSetpoint;
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
-    // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     m_deltaTurnAngle = deltaTurnAngle;
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
