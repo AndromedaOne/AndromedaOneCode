@@ -1,7 +1,6 @@
 package frc.robot.sensors.gyro;
 
 import java.util.TimerTask;
-import java.util.function.DoubleSupplier;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.typesafe.config.Config;
@@ -97,6 +96,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
           new TracePair<>("Corrected Angle", correctedAngle));
       return correctedAngle;
     }
+    System.out.println("WARNING: navx gyro has not completed calibrating before getZangle has been called");
     return 0;
   }
 
@@ -160,27 +160,10 @@ public class RealNavXGyroSensor extends Gyro4905 {
     return getZAngle();
   }
 
-  private class RealNavXGyroSensorCompassHeadingDoubleSupplier implements DoubleSupplier {
-    @Override
-    public double getAsDouble() {
-      return getCompassHeading();
-    }
-  }
-
   @Override
-  public DoubleSupplier getCompassHeadingDoubleSupplier() {
-    return new RealNavXGyroSensorCompassHeadingDoubleSupplier();
-  }
-
-  private class RealNavXGyroSensorZangleDoubleSupplier implements DoubleSupplier {
-    @Override
-    public double getAsDouble() {
-      return getZAngle();
-    }
-  }
-
-  @Override
-  public DoubleSupplier getZangleDoubleSupplier() {
-    return new RealNavXGyroSensorZangleDoubleSupplier();
+  public Gyro4905 cloneMe() {
+    RealNavXGyroSensor gyro = new RealNavXGyroSensor();
+    gyro.calibrated = calibrated;
+    return gyro;
   }
 }

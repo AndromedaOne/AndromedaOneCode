@@ -4,8 +4,6 @@
 
 package frc.robot.sensors.gyro;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDevice.Direction;
 import edu.wpi.first.hal.SimDouble;
@@ -158,25 +156,8 @@ public class RomiGyro extends Gyro4905 {
   public void close() throws Exception {
   }
 
-  private class RomiGyroCompassHeadingDoubleSupplier implements DoubleSupplier {
-    public double getAsDouble() {
-      return getCompassHeading();
-    }
-  }
-
   @Override
-  public DoubleSupplier getCompassHeadingDoubleSupplier() {
-    return new RomiGyroCompassHeadingDoubleSupplier();
-  }
-
-  private class RomiGyroZangleDoubleSupplier implements DoubleSupplier {
-    public double getAsDouble() {
-      return getZAngle();
-    }
-  }
-
-  @Override
-  public DoubleSupplier getZangleDoubleSupplier() {
-    return new RomiGyroZangleDoubleSupplier();
+  public Gyro4905 cloneMe() {
+    return new RomiGyro();
   }
 }

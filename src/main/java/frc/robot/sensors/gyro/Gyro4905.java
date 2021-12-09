@@ -55,9 +55,59 @@ public abstract class Gyro4905 implements Gyro {
     return AngleConversionUtils.ConvertAngleToCompassHeading(getZAngle());
   }
 
-  public abstract DoubleSupplier getCompassHeadingDoubleSupplier();
+  public abstract Gyro4905 cloneMe();
 
-  public abstract DoubleSupplier getZangleDoubleSupplier();
+  private class GetCompassHeadingDoubleSupplier implements DoubleSupplier {
+    private Gyro4905 m_gyro = cloneMe();
+
+    @Override
+    public double getAsDouble() {
+      return m_gyro.getCompassHeading();
+    }
+  }
+
+  public DoubleSupplier getCompassHeadingDoubleSupplier() {
+    return new GetCompassHeadingDoubleSupplier();
+  }
+
+  private class GetXangleDoubleSupplier implements DoubleSupplier {
+    private Gyro4905 m_gyro = cloneMe();
+
+    @Override
+    public double getAsDouble() {
+      return m_gyro.getXAngle();
+    }
+  }
+
+  public DoubleSupplier getXangleDoubleSupplier() {
+    return new GetXangleDoubleSupplier();
+  }
+
+  private class GetYangleDoubleSupplier implements DoubleSupplier {
+    private Gyro4905 m_gyro = cloneMe();
+
+    @Override
+    public double getAsDouble() {
+      return m_gyro.getYAngle();
+    }
+  }
+
+  public DoubleSupplier getYangleDoubleSupplier() {
+    return new GetYangleDoubleSupplier();
+  }
+
+  private class GetZangleDoubleSupplier implements DoubleSupplier {
+    private Gyro4905 m_gyro = cloneMe();
+
+    @Override
+    public double getAsDouble() {
+      return m_gyro.getZAngle();
+    }
+  }
+
+  public DoubleSupplier getZangleDoubleSupplier() {
+    return new GetZangleDoubleSupplier();
+  }
 
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("Z Angle", getZAngle());
