@@ -160,10 +160,4 @@ public class RealNavXGyroSensor extends Gyro4905 {
     return getZAngle();
   }
 
-  @Override
-  public Gyro4905 cloneMe() {
-    RealNavXGyroSensor gyro = new RealNavXGyroSensor();
-    gyro.calibrated = calibrated;
-    return gyro;
-  }
 }

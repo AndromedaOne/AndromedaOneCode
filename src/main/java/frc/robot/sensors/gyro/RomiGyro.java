@@ -156,8 +156,4 @@ public class RomiGyro extends Gyro4905 {
   public void close() throws Exception {
   }
 
-  @Override
-  public Gyro4905 cloneMe() {
-    return new RomiGyro();
-  }
 }

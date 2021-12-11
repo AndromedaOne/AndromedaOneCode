@@ -55,14 +55,11 @@ public abstract class Gyro4905 implements Gyro {
     return AngleConversionUtils.ConvertAngleToCompassHeading(getZAngle());
   }
 
-  public abstract Gyro4905 cloneMe();
-
   private class GetCompassHeadingDoubleSupplier implements DoubleSupplier {
-    private Gyro4905 m_gyro = cloneMe();
 
     @Override
     public double getAsDouble() {
-      return m_gyro.getCompassHeading();
+      return getCompassHeading();
     }
   }
 
@@ -71,11 +68,10 @@ public abstract class Gyro4905 implements Gyro {
   }
 
   private class GetXangleDoubleSupplier implements DoubleSupplier {
-    private Gyro4905 m_gyro = cloneMe();
 
     @Override
     public double getAsDouble() {
-      return m_gyro.getXAngle();
+      return getXAngle();
     }
   }
 
@@ -84,11 +80,10 @@ public abstract class Gyro4905 implements Gyro {
   }
 
   private class GetYangleDoubleSupplier implements DoubleSupplier {
-    private Gyro4905 m_gyro = cloneMe();
 
     @Override
     public double getAsDouble() {
-      return m_gyro.getYAngle();
+      return getYAngle();
     }
   }
 
@@ -97,11 +92,10 @@ public abstract class Gyro4905 implements Gyro {
   }
 
   private class GetZangleDoubleSupplier implements DoubleSupplier {
-    private Gyro4905 m_gyro = cloneMe();
 
     @Override
     public double getAsDouble() {
-      return m_gyro.getZAngle();
+      return getZAngle();
     }
   }
 

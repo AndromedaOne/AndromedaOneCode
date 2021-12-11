@@ -64,8 +64,4 @@ public class MockGyro extends Gyro4905 {
     return 0;
   }
 
-  @Override
-  public Gyro4905 cloneMe() {
-    return new MockGyro();
-  }
 }
