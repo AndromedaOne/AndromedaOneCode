@@ -4,8 +4,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.telemetries.Trace;
-import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 
 public abstract class Gyro4905 implements Gyro {
@@ -34,10 +32,7 @@ public abstract class Gyro4905 implements Gyro {
   protected abstract double getRawYAngle();
 
   public double getZAngle() {
-    double correctedAngle = getRawZAngle() - m_initialZAngleReading;
-    Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", getRawZAngle()),
-        new TracePair<>("Corrected Angle", correctedAngle));
-    return correctedAngle;
+    return getRawZAngle() - m_initialZAngleReading;
   }
 
   public double getXAngle() {

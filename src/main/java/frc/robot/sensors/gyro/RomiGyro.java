@@ -36,8 +36,9 @@ public class RomiGyro extends Gyro4905 {
         setInitialZAngleReading(m_simAngleZ.get());
         System.out.println("Created RomiGyro");
       }
-      if ((gyroSimDevice == null) || (m_simAngleX == null) || (m_simAngleY == null) || (m_simAngleZ == null)
-          || (m_simRateX == null) || (m_simRateY == null) || (m_simRateZ == null)) {
+      if ((gyroSimDevice == null) || (m_simAngleX == null) || (m_simAngleY == null)
+          || (m_simAngleZ == null) || (m_simRateX == null) || (m_simRateY == null)
+          || (m_simRateZ == null)) {
         DriverStation.reportError("Error instantiating RomiGyro internals: ", true);
         throw new RuntimeException("ERROR: could not create internal RomiGyro");
       }
@@ -144,7 +145,7 @@ public class RomiGyro extends Gyro4905 {
 
   @Override
   public double getAngle() {
-    return -getRawZAngle();
+    return getZAngle();
   }
 
   @Override

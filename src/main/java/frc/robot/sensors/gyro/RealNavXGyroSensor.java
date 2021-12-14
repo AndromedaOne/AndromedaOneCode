@@ -7,11 +7,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
-import frc.robot.telemetries.Trace;
-import frc.robot.telemetries.TracePair;
-import frc.robot.utils.AngleConversionUtils;
 
 public class RealNavXGyroSensor extends Gyro4905 {
   // use singleton for the gyro member
@@ -30,7 +26,9 @@ public class RealNavXGyroSensor extends Gyro4905 {
     if (m_gyro == null) {
       try {
         /* Communicate w/navX MXP via the MXP SPI Bus. */
-        /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
+        /*
+         * Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB
+         */
         /*
          * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
          * details.
@@ -83,45 +81,31 @@ public class RealNavXGyroSensor extends Gyro4905 {
     }
   }
 
-  /**
-   * Gets the Z angle and subtracts the initial angle member variable from it.
-   * 
-   * @return gyro.getAngle() - initialAngleReading
-   */
   @Override
-  public double getZAngle() {
-    if (calibrated) {
-      double correctedAngle = m_gyro.getAngle();
-      Trace.getInstance().addTrace(true, "Gyro", new TracePair<>("Raw Angle", m_gyro.getAngle()),
-          new TracePair<>("Corrected Angle", correctedAngle));
-      return correctedAngle;
+  protected double getRawZAngle() {
+    if (!calibrated) {
+      System.out.println(
+          "WARNING: navx gyro has not completed calibrating before getRawZangle has been called");
     }
-    System.out.println("WARNING: navx gyro has not completed calibrating before getZangle has been called");
-    return 0;
+    return m_gyro.getAngle();
   }
 
   @Override
   protected double getRawXAngle() {
+    if (!calibrated) {
+      System.out.println(
+          "WARNING: navx gyro has not completed calibrating before getRawXangle has been called");
+    }
     return m_gyro.getPitch();
   }
 
   @Override
   protected double getRawYAngle() {
+    if (!calibrated) {
+      System.out.println(
+          "WARNING: navx gyro has not completed calibrating before getRawYangle has been called");
+    }
     return m_gyro.getRoll();
-  }
-
-  /**
-   * Returns the current compass heading of the robot Between 0 - 360
-   */
-  @Override
-  public double getCompassHeading() {
-    return AngleConversionUtils.ConvertAngleToCompassHeading(getZAngle());
-  }
-
-  @Override
-  public void updateSmartDashboardReadings() {
-    SmartDashboard.putNumber("Z Angle", getZAngle());
-    SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());
   }
 
   @Override
@@ -136,13 +120,9 @@ public class RealNavXGyroSensor extends Gyro4905 {
 
   }
 
-  /**
-   * JUST FOR ODOMETRY AND 2d PATH PLANNING. IF YOU ARE NOT USING 2d PATH PLANNING
-   * DON'T USE THIS METHOD!! Use getAngle() instead pls. :)
-   */
   @Override
   public double getAngle() {
-    return -getZAngle();
+    return getZAngle();
   }
 
   @Override
@@ -153,11 +133,6 @@ public class RealNavXGyroSensor extends Gyro4905 {
   @Override
   public void close() throws Exception {
 
-  }
-
-  @Override
-  protected double getRawZAngle() {
-    return getZAngle();
   }
 
 }

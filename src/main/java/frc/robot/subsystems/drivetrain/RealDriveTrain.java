@@ -48,19 +48,22 @@ public abstract class RealDriveTrain extends DriveTrain {
   public void periodic() {
     // Update the odometry in the periodic block
     super.periodic();
-    double leftMeters = getLeftSideMeters();
-    double rightMeters = getRightsSideMeters();
-    double angle = Math.toRadians(gyro.getAngle());
-    m_odometry.update(new Rotation2d(angle), leftMeters, rightMeters);
-    SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
-    SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
-    SmartDashboard.putNumber("OdometryRotation", m_odometry.getPoseMeters().getRotation().getDegrees());
-    SmartDashboard.putNumber("OdometryAngle", angle);
-    SmartDashboard.putNumber("Odometry Romi Left Motor Position", leftMeters);
-    SmartDashboard.putNumber("Odometry Romi Right Motor Position", rightMeters);
-    SmartDashboard.putNumber("OdometryLeftSpeed", getLeftRateMetersPerSecond());
-    SmartDashboard.putNumber("OdometryRightSpeed", getRightRateMetersPerSecond());
-
+    boolean usingOdometry = false;
+    if (usingOdometry) {
+      double leftMeters = getLeftSideMeters();
+      double rightMeters = getRightsSideMeters();
+      double angle = Math.toRadians(gyro.getAngle());
+      m_odometry.update(new Rotation2d(angle), leftMeters, rightMeters);
+      SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
+      SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
+      SmartDashboard.putNumber("OdometryRotation",
+          m_odometry.getPoseMeters().getRotation().getDegrees());
+      SmartDashboard.putNumber("OdometryAngle", angle);
+      SmartDashboard.putNumber("Odometry Romi Left Motor Position", leftMeters);
+      SmartDashboard.putNumber("Odometry Romi Right Motor Position", rightMeters);
+      SmartDashboard.putNumber("OdometryLeftSpeed", getLeftRateMetersPerSecond());
+      SmartDashboard.putNumber("OdometryRightSpeed", getRightRateMetersPerSecond());
+    }
   }
 
   public void init() {
@@ -85,7 +88,8 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                 after turning this allows the robot to drift naturally as you
    *                 turn
    */
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+      boolean useSquaredInputs) {
     moveUsingGyro(forwardBackward, rotation, useDelay, useSquaredInputs, gyro.getCompassHeading());
   }
 
@@ -100,8 +104,8 @@ public abstract class RealDriveTrain extends DriveTrain {
    *                 you can tell it to correct to the heading it should have turn
    *                 to.
    */
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
-      double heading) {
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
+      boolean useSquaredInputs, double heading) {
 
     double robotDeltaAngle = gyro.getCompassHeading() - heading;
     double robotAngle = gyro.getZAngle() + robotDeltaAngle;
@@ -132,9 +136,9 @@ public abstract class RealDriveTrain extends DriveTrain {
   }
 
   /**
-   * @param heading The heading is assumed to be an angle x such that 0 <= x < 360
-   * 
-   * 
+   * @param heading The heading is an angle x such that 0 <= x < 360. it is
+   *                consistent with the heading of a compass: North = 0, East =
+   *                90, South = 180, West = 270
    */
   public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
     double zAngle = gyro.getZAngle();
@@ -186,8 +190,8 @@ public abstract class RealDriveTrain extends DriveTrain {
    * Drives the robot using arcadeDrive
    * 
    * @param forwardBackSpeed Positive values go forward, negative goes backwards
-   * @param rotateAmount     Per the right hand rule, positive goes
-   *                         counter-clockwise and negative goes clockwise.
+   * @param rotateAmount     Positive rotates clockwise, negative counter
+   *                         clockwise
    */
   public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
     if (m_invertFowardAndBack) {
@@ -218,8 +222,8 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(getLeftRateMetersPerSecond(),
-        getRightRateMetersPerSecond());
+    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(
+        getLeftRateMetersPerSecond(), getRightRateMetersPerSecond());
     return wheelSpeeds;
   }
 
