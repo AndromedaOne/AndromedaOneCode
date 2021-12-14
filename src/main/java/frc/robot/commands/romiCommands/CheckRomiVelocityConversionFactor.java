@@ -57,7 +57,8 @@ public class CheckRomiVelocityConversionFactor extends CommandBase {
     double deltaT = m_timer.get() - initialTime;
     double currentAverageVelocity = (currentPosition - m_initialPosition) / deltaT;
 
-    rateAccum += (m_driveTrain.getLeftRateMetersPerSecond() + m_driveTrain.getRightRateMetersPerSecond()) / 2.0;
+    rateAccum += (m_driveTrain.getLeftRateMetersPerSecond()
+        + m_driveTrain.getRightRateMetersPerSecond()) / 2.0;
     count++;
     double currentAverageRate = rateAccum / count;
     double ratio = currentAverageVelocity / currentAverageRate;

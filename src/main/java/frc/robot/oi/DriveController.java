@@ -38,11 +38,13 @@ public class DriveController extends ControllerBase {
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
 
-  public DriveController(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
+  public DriveController(SubsystemsContainer subsystemsContainer,
+      SensorsContainer sensorsContainer) {
     setController(new XboxController(0));
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
-    if (!Config4905.getConfig4905().isRomi() || Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
+    if (!Config4905.getConfig4905().isRomi()
+        || Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
       m_turnToNorth = getYbutton();
       m_turnToNorth.whenPressed(new TurnToCompassHeading(0));
       m_turnToEast = getBbutton();

@@ -100,7 +100,8 @@ public class Config4905 {
       String relativePathToDeploy = "/src/main/deploy";
       String jarDir = System.getProperty("user.dir");
       if (!Files.exists(Paths.get(jarDir + relativePathToDeploy))) {
-        System.out.println("ERROR: could not find robot config directory: " + jarDir + relativePathToDeploy);
+        System.out.println(
+            "ERROR: could not find robot config directory: " + jarDir + relativePathToDeploy);
       }
       // don't look for name.conf file, just use Romi
       m_baseDir = jarDir + "/src/main/";
@@ -125,7 +126,8 @@ public class Config4905 {
 
   private Config load(String fileName) {
     String filePath = m_baseDir + "deploy/robotConfigs/" + m_robotName + "/" + fileName;
-    Config config = ConfigFactory.parseFile(new File(filePath)).withFallback(m_defaultConfig).resolve();
+    Config config = ConfigFactory.parseFile(new File(filePath)).withFallback(m_defaultConfig)
+        .resolve();
     System.out.println("loaded config " + fileName + " from " + filePath);
     System.out.println(config);
     return config;

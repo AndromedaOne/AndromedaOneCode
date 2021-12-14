@@ -27,7 +27,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading, double heading) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading,
+      double heading) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("MoveUsingEncoder", 0, 0, 0, 0),
@@ -61,7 +62,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     m_maxOutput = maxOutput;
   }
 
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading, double maxOutput) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
+      double maxOutput) {
     this(drivetrain, distance, true, heading);
     m_maxOutput = maxOutput;
   }
@@ -75,8 +77,10 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     getController().setP(pidConstantsConfig.getDouble("MoveUsingEncoder.Kp"));
     getController().setI(pidConstantsConfig.getDouble("MoveUsingEncoder.Ki"));
     getController().setD(pidConstantsConfig.getDouble("MoveUsingEncoder.Kd"));
-    getController().setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingEncoder.minOutputToMove"));
-    getController().setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"));
+    getController()
+        .setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingEncoder.minOutputToMove"));
+    getController()
+        .setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"));
     // Allows anyone who calls MoveUsingEncoder to override the maxOutput defined in
     // config (if present)
     if (m_maxOutput != 0) {

@@ -10,7 +10,8 @@ public class TwoDDriveTrainPathGenerator extends TwoDPathGenerator {
 
   DriveTrain m_driveTrain;
 
-  public TwoDDriveTrainPathGenerator(String jsonFileName, DriveTrain driveTrain, boolean resetOdometry, String name) {
+  public TwoDDriveTrainPathGenerator(String jsonFileName, DriveTrain driveTrain,
+      boolean resetOdometry, String name) {
     super(jsonFileName, Config4905.getConfig4905().getDrivetrainConfig(), resetOdometry, name);
     m_driveTrain = driveTrain;
   }

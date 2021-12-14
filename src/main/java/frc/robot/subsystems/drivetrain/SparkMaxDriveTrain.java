@@ -141,14 +141,16 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
 
   @Override
   protected double getLeftSideMeters() {
-    double averageTicks = (m_backLeft.getEncoderPositionTicks() + m_frontLeft.getEncoderPositionTicks()) * 0.5;
+    double averageTicks = (m_backLeft.getEncoderPositionTicks()
+        + m_frontLeft.getEncoderPositionTicks()) * 0.5;
     double averageMeters = ticksToMeters(averageTicks);
     return averageMeters;
   }
 
   @Override
   protected double getRightsSideMeters() {
-    double averageTicks = (m_backRight.getEncoderPositionTicks() + m_frontRight.getEncoderPositionTicks()) * 0.5;
+    double averageTicks = (m_backRight.getEncoderPositionTicks()
+        + m_frontRight.getEncoderPositionTicks()) * 0.5;
     double averageMeters = ticksToMeters(averageTicks);
     return averageMeters;
   }

@@ -60,18 +60,23 @@ public class SubsystemsContainer {
      */
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       System.out.println("Using real Drive Train.");
-      if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController").equals("sparkMax")) {
+      if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
+          .equals("sparkMax")) {
         System.out.println("Using real sparkMax Drive Train");
         m_driveTrain = new SparkMaxDriveTrain();
-      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController").equals("talonSRX")) {
+      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
+          .equals("talonSRX")) {
         System.out.println("Using real talonSRX Drive Train");
         m_driveTrain = new TalonSRXDriveTrain();
-      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController").equals("romiDrive")) {
+      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
+          .equals("romiDrive")) {
         System.out.println("Using Romi drive train");
         m_driveTrain = new RomiDriveTrain();
       } else {
-        String drivetrainType = Config4905.getConfig4905().getDrivetrainConfig().getString("motorController");
-        throw (new RuntimeException("ERROR: Unknown drivetrain type: " + drivetrainType + " in drivetrain.conf"));
+        String drivetrainType = Config4905.getConfig4905().getDrivetrainConfig()
+            .getString("motorController");
+        throw (new RuntimeException(
+            "ERROR: Unknown drivetrain type: " + drivetrainType + " in drivetrain.conf"));
       }
     } else {
       System.out.println("Using mock Drive Train.");
@@ -87,8 +92,8 @@ public class SubsystemsContainer {
 
     // 7. Romi Intake
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-      m_romiIntake = new ServoMotor(
-          Config4905.getConfig4905().getHarvesterConfig().getConfig("combineHarvesterServo").getInt("port"));
+      m_romiIntake = new ServoMotor(Config4905.getConfig4905().getHarvesterConfig()
+          .getConfig("combineHarvesterServo").getInt("port"));
     }
 
     // 8. Romi Wings

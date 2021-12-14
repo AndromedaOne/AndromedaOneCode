@@ -62,7 +62,8 @@ public class DiagonalPathGeneratorTests {
     }
     TestWaypoints testPoints = new TestWaypoints();
 
-    DiagonalPathGeneratorTester diagonalPathGeneratorTester = new DiagonalPathGeneratorTester(testPoints, initialPoint);
+    DiagonalPathGeneratorTester diagonalPathGeneratorTester = new DiagonalPathGeneratorTester(
+        testPoints, initialPoint);
 
     diagonalPathGeneratorTester.getPath();
 
@@ -212,8 +213,9 @@ public class DiagonalPathGeneratorTests {
   @Test
   public void multiPoint2() {
     Waypoint initialPoint = new Waypoint(0, 0);
-    Waypoint[] waypoints = { new Waypoint(1, 1), new Waypoint(1, 1), new Waypoint(1, 1), new Waypoint(0, 2),
-        new Waypoint(0, 2), new Waypoint(0, 2), new Waypoint(7, 9), new Waypoint(7, 9) };
+    Waypoint[] waypoints = { new Waypoint(1, 1), new Waypoint(1, 1), new Waypoint(1, 1),
+        new Waypoint(0, 2), new Waypoint(0, 2), new Waypoint(0, 2), new Waypoint(7, 9),
+        new Waypoint(7, 9) };
     ArrayList<CommandBase> solution = new ArrayList<CommandBase>();
     solution.add(new DummyTurnCommand(45));
     solution.add(new DummyMoveCommand(Math.sqrt(2), 45));

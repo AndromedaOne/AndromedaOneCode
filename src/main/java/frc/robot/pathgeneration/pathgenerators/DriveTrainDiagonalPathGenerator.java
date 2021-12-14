@@ -15,8 +15,9 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
   private double m_maxOutput;
   private boolean m_pauseAfterTurn = false;
 
-  public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
-      Waypoint initialWaypoint, double maxOutputs, boolean useReverse, boolean pauseAfterTurn) {
+  public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints,
+      DriveTrain driveTrain, Waypoint initialWaypoint, double maxOutputs, boolean useReverse,
+      boolean pauseAfterTurn) {
     super(pathName, waypoints, initialWaypoint, useReverse);
     m_maxOutput = maxOutputs;
     m_driveTrain = driveTrain;
@@ -24,9 +25,10 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
   }
 
   // the first waypoint in the waypoints is the initial waypoint
-  public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
-      double maxOutputs, boolean useReverse, boolean pauseAfterTurn) {
-    this(pathName, waypoints, driveTrain, new Waypoint(0, 0), maxOutputs, useReverse, pauseAfterTurn);
+  public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints,
+      DriveTrain driveTrain, double maxOutputs, boolean useReverse, boolean pauseAfterTurn) {
+    this(pathName, waypoints, driveTrain, new Waypoint(0, 0), maxOutputs, useReverse,
+        pauseAfterTurn);
   }
 
   /**
@@ -35,7 +37,8 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
   @Override
   protected CommandBase createTurnCommand(double angle) {
     if (m_pauseAfterTurn) {
-      return (new SequentialCommandGroup(new TurnToCompassHeading(angle), new PauseRobot(10, m_driveTrain)));
+      return (new SequentialCommandGroup(new TurnToCompassHeading(angle),
+          new PauseRobot(10, m_driveTrain)));
     }
     return (new TurnToCompassHeading(angle));
   }

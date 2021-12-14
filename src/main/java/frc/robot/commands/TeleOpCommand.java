@@ -21,8 +21,9 @@ import frc.robot.subsystems.drivetrain.*;
 public class TeleOpCommand extends CommandBase {
 
   // Make the controllers a little easier to get to.
-  private DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
-  private DriveTrain m_driveTrain;
+  private DriveController m_driveController = Robot.getInstance().getOIContainer()
+      .getDriveController();
+  private DriveTrain m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
   private boolean m_slowMode = false;
   private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
@@ -36,7 +37,7 @@ public class TeleOpCommand extends CommandBase {
    */
   public TeleOpCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+    addRequirements(m_driveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -57,13 +58,15 @@ public class TeleOpCommand extends CommandBase {
         m_slowMode = true;
         Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
         m_slowModeState = SlowModeStates.SLOWPRESSED;
-        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+        System.out
+            .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
       }
       break;
     case NOTSLOWPRESSED:
       if (m_driveController.getSlowModeBumperPressed()) {
         m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
-        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+        System.out
+            .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
       }
       break;
     case SLOWRELEASED:
@@ -72,13 +75,15 @@ public class TeleOpCommand extends CommandBase {
         Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
         ;
         m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
-        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+        System.out
+            .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
       }
       break;
     case SLOWPRESSED:
       if (m_driveController.getSlowModeBumperPressed()) {
         m_slowModeState = SlowModeStates.SLOWRELEASED;
-        System.out.println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
+        System.out
+            .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
       }
       break;
     default:

@@ -219,7 +219,8 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    * @return Whether the error is within the acceptable bounds.
    */
   public boolean atSetpoint() {
-    return Math.abs(m_positionError) < m_positionTolerance && Math.abs(m_velocityError) < m_velocityTolerance;
+    return Math.abs(m_positionError) < m_positionTolerance
+        && Math.abs(m_velocityError) < m_velocityTolerance;
   }
 
   /**
@@ -327,8 +328,8 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     m_velocityError = (m_positionError - m_prevError) / m_period;
 
     if (m_Ki != 0) {
-      m_totalError = MathUtil.clamp(m_totalError + m_positionError * m_period, m_minimumIntegral / m_Ki,
-          m_maximumIntegral / m_Ki);
+      m_totalError = MathUtil.clamp(m_totalError + m_positionError * m_period,
+          m_minimumIntegral / m_Ki, m_maximumIntegral / m_Ki);
     }
 
     m_pError = m_Kp * m_positionError;

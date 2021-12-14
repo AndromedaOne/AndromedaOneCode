@@ -13,7 +13,8 @@ public class AngleConversionUtils {
     return correctedAngle;
   }
 
-  public static boolean isTurnToCompassHeadingGreaterThan90(double initialAngle, double finalAngle) {
+  public static boolean isTurnToCompassHeadingGreaterThan90(double initialAngle,
+      double finalAngle) {
     double deltaAngle = Math.abs(initialAngle - finalAngle);
     if (deltaAngle > 180) {
       deltaAngle = 360 - deltaAngle;

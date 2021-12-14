@@ -60,11 +60,13 @@ public class SensorsContainer {
 
     if (m_sensorConfig.hasPath("sensors.cameras")) {
       if (m_sensorConfig.hasPath("sensors.cameras.camera0")) {
-        System.out.println("Using real camera with id: " + m_sensorConfig.getInt("sensors.cameras.camera0.port"));
+        System.out.println(
+            "Using real camera with id: " + m_sensorConfig.getInt("sensors.cameras.camera0.port"));
         m_camera0 = new RealCamera(0, m_sensorConfig.getInt("sensors.cameras.camera0.port"));
       }
       if (m_sensorConfig.hasPath("sensors.cameras.camera1")) {
-        System.out.println("Using real camera with id: " + m_sensorConfig.getInt("sensors.cameras.camera1.port"));
+        System.out.println(
+            "Using real camera with id: " + m_sensorConfig.getInt("sensors.cameras.camera1.port"));
         m_camera1 = new RealCamera(1, m_sensorConfig.getInt("sensors.cameras.camera1.port"));
       }
     } else {
@@ -86,7 +88,8 @@ public class SensorsContainer {
       m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
     }
     if (m_sensorConfig.hasPath("sensors.analog41IRSensor")) {
-      m_analog41IRSensor = new RealAnalog41IRSensor(m_sensorConfig.getInt("sensors.analog41IRSensor.port"));
+      m_analog41IRSensor = new RealAnalog41IRSensor(
+          m_sensorConfig.getInt("sensors.analog41IRSensor.port"));
       System.out.println("Using real analog 41 IR sensor");
     } else {
       m_analog41IRSensor = new MockAnalog41IRSensor();
@@ -111,10 +114,12 @@ public class SensorsContainer {
 
   public void periodic() {
     if (m_sensorConfig.hasPath("sensors.frontcolorsensor")) {
-      SmartDashboard.putNumber("Color Sensor Value Front", m_frontColorSensor.getReflectedLightIntensity());
+      SmartDashboard.putNumber("Color Sensor Value Front",
+          m_frontColorSensor.getReflectedLightIntensity());
     }
     if (m_sensorConfig.hasPath("sensors.backcolorsensor")) {
-      SmartDashboard.putNumber("Color Sensor Value Back", m_backColorSensor.getReflectedLightIntensity());
+      SmartDashboard.putNumber("Color Sensor Value Back",
+          m_backColorSensor.getReflectedLightIntensity());
     }
   }
 

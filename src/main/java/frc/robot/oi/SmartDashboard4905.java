@@ -33,11 +33,14 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
-  public SmartDashboard4905(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
+  public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
+      SensorsContainer sensorsContainer) {
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
-    SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("DriveBackward",
+        new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
-    SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("MoveUsingEncoderTester",
+        new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("DriveTrainRectangularPathExample",
         new DriveTrainRectangularPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("DriveTrainDiagonalPathExample",
@@ -46,8 +49,10 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
-      SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
-      SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
+      SmartDashboard.putData("Enable Limelight LEDs",
+          new ToggleLimelightLED(true, sensorsContainer));
+      SmartDashboard.putData("Disable Limelight LEDs",
+          new ToggleLimelightLED(false, sensorsContainer));
     }
     if (Config4905.getConfig4905().doesCannonExist()) {
       SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
@@ -68,7 +73,9 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Mop Ball", new MopBallMopper());
       SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
     }
-    SmartDashboard.putData("AllianceAnticsSimple", new AllianceAnticsSimple(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("AllianceAnticsScoring", new AllianceAnticsScoring(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("AllianceAnticsSimple",
+        new AllianceAnticsSimple(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("AllianceAnticsScoring",
+        new AllianceAnticsScoring(subsystemsContainer.getDrivetrain()));
   }
 }

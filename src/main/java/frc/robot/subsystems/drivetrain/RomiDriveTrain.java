@@ -86,8 +86,8 @@ public class RomiDriveTrain extends RealDriveTrain {
 
     m_previousLeftPositionMeters = currentLeftPoseMeters;
     m_previousRightPositionMeters = currentRightPoseMeters;
-    SmartDashboard.putNumber("Odometry Ratio",
-        m_currentLeftVelocityMetersPerSecond / ((m_leftMotor.getEncoder().getRate() / m_ticksPerInch) * METERSPERINCH));
+    SmartDashboard.putNumber("Odometry Ratio", m_currentLeftVelocityMetersPerSecond
+        / ((m_leftMotor.getEncoder().getRate() / m_ticksPerInch) * METERSPERINCH));
     m_previousTime = currentTime;
 
     double leftVelocity = getLeftRateMetersPerSecond();

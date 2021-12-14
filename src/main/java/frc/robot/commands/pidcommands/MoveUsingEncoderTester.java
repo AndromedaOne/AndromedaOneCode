@@ -21,7 +21,8 @@ public class MoveUsingEncoderTester extends SequentialCommandGroup {
     super.initialize();
     m_command.setDistance(SmartDashboard.getNumber("MoveUsingEncoderTester Distance To Move", 12));
     Trace.getInstance().logCommandStart(this);
-    Trace.getInstance().logCommandInfo(this, "Moving distance: " + m_command.getSetpoint() + " inches");
+    Trace.getInstance().logCommandInfo(this,
+        "Moving distance: " + m_command.getSetpoint() + " inches");
   }
 
   @Override

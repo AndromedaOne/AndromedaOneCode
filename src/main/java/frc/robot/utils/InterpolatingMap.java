@@ -28,7 +28,8 @@ public class InterpolatingMap {
         System.err.println("WARN: Uneven Number of " + nameOfMap + " Map Values in Config");
         break;
       }
-      m_interpolatingMap.put(new InterpolatingDouble(nextValue), new InterpolatingDouble(it.next()));
+      m_interpolatingMap.put(new InterpolatingDouble(nextValue),
+          new InterpolatingDouble(it.next()));
     }
   }
 

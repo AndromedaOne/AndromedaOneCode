@@ -14,8 +14,8 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
 
-  public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer,
-      SendableChooser<Command> autoChooser) {
+  public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
+      SensorsContainer sensorsContainer, SendableChooser<Command> autoChooser) {
     m_autoChooser = autoChooser;
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
 

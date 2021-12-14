@@ -35,7 +35,8 @@ public class SparkMaxController extends CANSparkMax {
       this.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
     if (subsystemConfig.hasPath(configString + ".encoderTicksPerRotation")) {
-      double encoderTicksPerRotation = subsystemConfig.getDouble(configString + ".encoderTicksPerRotation");
+      double encoderTicksPerRotation = subsystemConfig
+          .getDouble(configString + ".encoderTicksPerRotation");
       m_sparkMaxEncoder.setPositionConversionFactor(encoderTicksPerRotation);
       m_sparkMaxEncoder.setVelocityConversionFactor(encoderTicksPerRotation);
     }
@@ -46,7 +47,8 @@ public class SparkMaxController extends CANSparkMax {
       return 0;
     }
     double sensorPosition = m_sparkMaxEncoder.getPosition();
-    sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorPosition
+    sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
+        ? -sensorPosition
         : sensorPosition);
     SmartDashboard.putNumber(m_configString + " position", sensorPosition);
     return sensorPosition;
@@ -57,7 +59,8 @@ public class SparkMaxController extends CANSparkMax {
       return 0;
     }
     double sensorVelocity = m_sparkMaxEncoder.getVelocity();
-    sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorVelocity
+    sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
+        ? -sensorVelocity
         : sensorVelocity);
     return sensorVelocity;
   }

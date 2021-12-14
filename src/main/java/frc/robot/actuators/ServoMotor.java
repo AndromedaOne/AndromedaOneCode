@@ -13,8 +13,8 @@ public class ServoMotor {
      * https://docs.revrobotics.com/15mm/actuators/servos/smart-robot-servo
      */
 
-    m_servoMotor.setBounds(2.5, m_servoMotor.getRawBounds().deadbandMax, 1.5, m_servoMotor.getRawBounds().deadbandMin,
-        0.5);
+    m_servoMotor.setBounds(2.5, m_servoMotor.getRawBounds().deadbandMax, 1.5,
+        m_servoMotor.getRawBounds().deadbandMin, 0.5);
 
   }
 

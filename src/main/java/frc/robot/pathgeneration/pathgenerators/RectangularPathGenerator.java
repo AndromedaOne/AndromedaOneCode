@@ -10,7 +10,8 @@ public abstract class RectangularPathGenerator extends PathGeneratorBase {
   private Waypoint m_currentWaypoint;
   private SequentialCommandGroup m_path;
 
-  public RectangularPathGenerator(String pathName, WaypointsBase waypoints, Waypoint initialWaypoint) {
+  public RectangularPathGenerator(String pathName, WaypointsBase waypoints,
+      Waypoint initialWaypoint) {
     super(pathName, waypoints);
     m_path = new SequentialCommandGroup();
     m_currentWaypoint = initialWaypoint;

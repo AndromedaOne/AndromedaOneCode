@@ -12,19 +12,20 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
   private DriveTrain m_driveTrain;
   private double m_maxMoveOutput;
 
-  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
-      Waypoint initialWaypoint, double maxMoveOutput) {
+  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints,
+      DriveTrain driveTrain, Waypoint initialWaypoint, double maxMoveOutput) {
     super(pathName, waypoints, initialWaypoint);
     m_driveTrain = driveTrain;
     m_maxMoveOutput = maxMoveOutput;
   }
 
-  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain) {
+  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints,
+      DriveTrain driveTrain) {
     this(pathName, waypoints, driveTrain, new Waypoint(0, 0), 1.0);
   }
 
-  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
-      double maxMoveOutput) {
+  public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints,
+      DriveTrain driveTrain, double maxMoveOutput) {
     this(pathName, waypoints, driveTrain, new Waypoint(0, 0), maxMoveOutput);
   }
 

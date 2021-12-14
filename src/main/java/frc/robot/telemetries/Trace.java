@@ -102,7 +102,8 @@ public class Trace {
     private Function<TracePair<T>[], String> formatter;
     private Function<TracePair<T>[], String> headerFormatter;
 
-    public TraceEntry(BufferedWriter file, int numbOfValues, Function<TracePair<T>[], String> formatter,
+    public TraceEntry(BufferedWriter file, int numbOfValues,
+        Function<TracePair<T>[], String> formatter,
         Function<TracePair<T>[], String> headerFormatter) {
       m_file = file;
       m_numbOfValues = numbOfValues;
@@ -155,7 +156,8 @@ public class Trace {
       FileWriter fstream = new FileWriter(fullFileName, false);
       m_commandTraceWriter = new BufferedWriter(fstream);
     } catch (IOException e) {
-      System.err.println("ERROR: unable to open text file " + m_commandTraceFname + " ;" + e.getMessage());
+      System.err.println(
+          "ERROR: unable to open text file " + m_commandTraceFname + " ;" + e.getMessage());
       e.printStackTrace();
     }
   }
@@ -172,7 +174,8 @@ public class Trace {
       File directory = new File(basePathOfTraceDirs);
       if (!directory.exists()) {
         if (!directory.mkdir()) {
-          System.err.println("ERROR: failed to create directory " + basePathOfTraceDirs + " for tracing data.");
+          System.err.println(
+              "ERROR: failed to create directory " + basePathOfTraceDirs + " for tracing data.");
           basePathOfTraceDirs = null;
           m_pathOfTraceDir = null;
           return;
@@ -192,8 +195,8 @@ public class Trace {
         reader.close();
         traceNumbFile.delete();
         if (line == null) {
-          System.err
-              .println("ERROR: failed to read trace file number file: " + basePathOfTraceDirs + m_traceDirNumberFile);
+          System.err.println("ERROR: failed to read trace file number file: " + basePathOfTraceDirs
+              + m_traceDirNumberFile);
           m_pathOfTraceDir = null;
           return;
         }
@@ -203,7 +206,8 @@ public class Trace {
       File traceDir = new File(m_pathOfTraceDir);
       if (!traceDir.exists()) {
         if (!traceDir.mkdirs()) {
-          System.err.println("ERROR: failed to create directory " + m_pathOfTraceDir + " for tracing data.");
+          System.err.println(
+              "ERROR: failed to create directory " + m_pathOfTraceDir + " for tracing data.");
           basePathOfTraceDirs = null;
           m_pathOfTraceDir = null;
           return;
@@ -252,8 +256,10 @@ public class Trace {
   }
 
   @SafeVarargs
-  public final synchronized <T> TraceEntry<T> registerTraceEntry(String fileName, TracePair<T>... header) {
-    return registerTraceEntry(fileName, defaultFormatter(m_startTime), defaultHeaderFormatter(), header);
+  public final synchronized <T> TraceEntry<T> registerTraceEntry(String fileName,
+      TracePair<T>... header) {
+    return registerTraceEntry(fileName, defaultFormatter(m_startTime), defaultHeaderFormatter(),
+        header);
   }
 
   @SafeVarargs
@@ -277,7 +283,8 @@ public class Trace {
         traceEntry = m_traces.get(fileName);
       }
     } catch (IOException e) {
-      System.err.println("ERROR: unable to open/write to trace file " + fileName + " ;" + e.getMessage());
+      System.err
+          .println("ERROR: unable to open/write to trace file " + fileName + " ;" + e.getMessage());
       e.printStackTrace();
     }
     return traceEntry;
@@ -346,7 +353,8 @@ public class Trace {
       if (m_pathOfTraceDir == null) {
         return;
       }
-      FileOutputStream fOut = new FileOutputStream(m_pathOfTraceDir + "/" + m_consoleOutput + ".log");
+      FileOutputStream fOut = new FileOutputStream(
+          m_pathOfTraceDir + "/" + m_consoleOutput + ".log");
       m_out = new MultipleOutputStream(System.out, fOut);
       m_err = new MultipleOutputStream(System.err, fOut);
       PrintStream stdOut = new PrintStream(m_out);
@@ -376,7 +384,8 @@ public class Trace {
       outputFile.close();
       System.out.println("Logged match started.");
     } catch (IOException e) {
-      System.err.println("ERROR: unable to open text file " + m_matchStartFname + " ;" + e.getMessage());
+      System.err
+          .println("ERROR: unable to open text file " + m_matchStartFname + " ;" + e.getMessage());
       e.printStackTrace();
     }
   }

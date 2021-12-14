@@ -17,12 +17,14 @@ public class AllianceAnticsScoring extends SequentialCommandGroup {
 
   public AllianceAnticsScoring(DriveTrain driveTrain) {
 
-    ToggleConveyor start = new ToggleConveyor(Robot.getInstance().getSubsystemsContainer().getConveyor(), 0.6);
+    ToggleConveyor start = new ToggleConveyor(
+        Robot.getInstance().getSubsystemsContainer().getConveyor(), 0.6);
     MoveUsingEncoder move = new MoveUsingEncoder(driveTrain, 69, 0.55);
     TurnDeltaAngle turn = new TurnDeltaAngle(180);
     MoveUsingEncoder backward = new MoveUsingEncoder(driveTrain, -4, 0.5);
     PauseRobot pause = new PauseRobot(5500, driveTrain);
-    ToggleConveyor stop = new ToggleConveyor(Robot.getInstance().getSubsystemsContainer().getConveyor(), 0.6);
+    ToggleConveyor stop = new ToggleConveyor(
+        Robot.getInstance().getSubsystemsContainer().getConveyor(), 0.6);
     MoveUsingEncoder foward = new MoveUsingEncoder(driveTrain, 13, 0.5);
     TurnDeltaAngle align = new TurnDeltaAngle(-90);
     MoveUsingEncoder approach = new MoveUsingEncoder(driveTrain, -16, 0.5);

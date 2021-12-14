@@ -11,8 +11,8 @@ import frc.robot.telemetries.Trace;
 
 public class TrackLineAndDrive extends PIDCommand4905 {
 
-  public TrackLineAndDrive(PIDController4905 controller, ColorSensorBase colorSensor, DoubleConsumer output,
-      DoubleSupplier desiredColorValue) {
+  public TrackLineAndDrive(PIDController4905 controller, ColorSensorBase colorSensor,
+      DoubleConsumer output, DoubleSupplier desiredColorValue) {
     super(controller, colorSensor::getReflectedLightIntensity, desiredColorValue, output,
         Robot.getInstance().getSubsystemsContainer().getDrivetrain());
 

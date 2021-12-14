@@ -25,7 +25,8 @@ public class AdjustElevation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = Robot.getInstance().getOIContainer().getSubsystemController().getElevatorAdjustElevationStick();
+    double speed = Robot.getInstance().getOIContainer().getSubsystemController()
+        .getElevatorAdjustElevationStick();
     speed = speed * 0.25;
     m_cannon.changeElevation(speed);
   }

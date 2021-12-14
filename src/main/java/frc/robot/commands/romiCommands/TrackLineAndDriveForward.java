@@ -12,8 +12,10 @@ public class TrackLineAndDriveForward extends TrackLineAndDrive {
   public TrackLineAndDriveForward() {
     super(new PIDController4905SampleStop("FrontColorSensorPID", 0, 0, 0, 0),
         Robot.getInstance().getSensorsContainer().getFrontColorSensor(),
-        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(MOVING_SPEED, -output, false),
-        () -> Config4905.getConfig4905().getCommandConstantsConfig().getDouble("ColorSensorFront.setpoint"));
+        (output) -> Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(MOVING_SPEED,
+            -output, false),
+        () -> Config4905.getConfig4905().getCommandConstantsConfig()
+            .getDouble("ColorSensorFront.setpoint"));
 
     Config commandConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
