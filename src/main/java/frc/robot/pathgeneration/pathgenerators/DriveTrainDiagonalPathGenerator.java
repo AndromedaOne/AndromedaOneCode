@@ -23,6 +23,12 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
     m_pauseAfterTurn = pauseAfterTurn;
   }
 
+  // the first waypoint in the waypoints is the initial waypoint
+  public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints, DriveTrain driveTrain,
+      double maxOutputs, boolean useReverse, boolean pauseAfterTurn) {
+    this(pathName, waypoints, driveTrain, new Waypoint(0, 0), maxOutputs, useReverse, pauseAfterTurn);
+  }
+
   /**
    * @param angle is a compassheading x such that 0<= x < 360 degrees
    */

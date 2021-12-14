@@ -84,8 +84,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
   @Override
   protected double getRawZAngle() {
     if (!calibrated) {
-      System.out.println(
-          "WARNING: navx gyro has not completed calibrating before getRawZangle has been called");
+      System.out.println("WARNING: navx gyro has not completed calibrating before getRawZangle has been called");
     }
     return m_gyro.getAngle();
   }
@@ -93,8 +92,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
   @Override
   protected double getRawXAngle() {
     if (!calibrated) {
-      System.out.println(
-          "WARNING: navx gyro has not completed calibrating before getRawXangle has been called");
+      System.out.println("WARNING: navx gyro has not completed calibrating before getRawXangle has been called");
     }
     return m_gyro.getPitch();
   }
@@ -102,8 +100,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
   @Override
   protected double getRawYAngle() {
     if (!calibrated) {
-      System.out.println(
-          "WARNING: navx gyro has not completed calibrating before getRawYangle has been called");
+      System.out.println("WARNING: navx gyro has not completed calibrating before getRawYangle has been called");
     }
     return m_gyro.getRoll();
   }

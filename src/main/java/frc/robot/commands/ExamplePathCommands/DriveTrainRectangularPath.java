@@ -34,8 +34,8 @@ public class DriveTrainRectangularPath extends SequentialCommandGroup {
 
   /** Creates a new RomiExamplePath. */
   public DriveTrainRectangularPath(DriveTrain driveTrain) {
-    PathGeneratorBase path = new DriveTrainRectangularPathGenerator(getClass().getSimpleName(),
-        new ExampleWayPoints(), driveTrain, 0.5);
+    PathGeneratorBase path = new DriveTrainRectangularPathGenerator(getClass().getSimpleName(), new ExampleWayPoints(),
+        driveTrain, 0.5);
     addCommands(path.getPath(), new TurnToCompassHeading(0));
   }
 }

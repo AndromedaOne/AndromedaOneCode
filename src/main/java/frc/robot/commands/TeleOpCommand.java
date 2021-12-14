@@ -42,8 +42,7 @@ public class TeleOpCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
-    m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -92,7 +91,7 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
     }
 
-    m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, false);
+    m_driveTrain.moveUsingGyro(forwardBackwardStickValue, -rotateStickValue, true, true);
   }
 
   // Called once the command ends or is interrupted.
