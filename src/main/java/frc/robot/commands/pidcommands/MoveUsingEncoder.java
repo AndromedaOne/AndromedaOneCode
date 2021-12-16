@@ -27,8 +27,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, boolean useCompassHeading,
-      double heading) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
+      double maxOutput) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("MoveUsingEncoder", 0, 0, 0, 0),
@@ -39,33 +39,19 @@ public class MoveUsingEncoder extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          if (useCompassHeading) {
-            // this is newer code that every new creation of move using encoder should use
-            drivetrain.moveUsingGyro(output, 0, heading);
-          } else {
-            // this is older code that every new creation of move using encoder should not
-            // use\
-            // it only exists right now to make sure that past autonomous modes still work
-            drivetrain.moveUsingGyro(output, 0, false, false);
-          }
+          drivetrain.moveUsingGyro(output, 0, false, heading);
         });
     m_distance = distance;
     m_setpoint = this::getSetpoint;
     m_driveTrain = drivetrain;
+    m_maxOutput = maxOutput;
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(drivetrain);
   }
 
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
-    this(drivetrain, distance, false, 0);
-    m_maxOutput = maxOutput;
-  }
-
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
-      double maxOutput) {
-    this(drivetrain, distance, true, heading);
-    m_maxOutput = maxOutput;
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading) {
+    this(drivetrain, distance, heading, 1.0);
   }
 
   public void initialize() {

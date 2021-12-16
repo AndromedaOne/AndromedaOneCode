@@ -14,6 +14,7 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -37,8 +38,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
         0,
         // This uses the output
         output -> {
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output,
-              false, false);
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
         });
     m_setpoint = this::getSetpoint;
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
@@ -60,6 +60,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
     System.out.println(" - Starting Angle: " + angle + " - ");
     System.out.println(" - Setpoint: " + setpoint + " - ");
     m_setpoint = () -> setpoint;
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Returns true when the command should end.
@@ -75,5 +76,6 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   public void end(boolean interrupted) {
     super.end(interrupted);
     System.out.println(" - Finish Angled: " + m_gyro.getZAngle() + " - ");
+    Trace.getInstance().logCommandStop(this);
   }
 }

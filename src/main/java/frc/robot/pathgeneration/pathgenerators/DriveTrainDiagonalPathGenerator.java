@@ -12,7 +12,7 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
 
   private DriveTrain m_driveTrain;
-  private double m_maxOutput;
+  private double m_maxOutput = 1.0;
   private boolean m_pauseAfterTurn = false;
 
   public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints,
@@ -50,10 +50,7 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
    */
   @Override
   protected CommandBase createMoveCommand(double distance, double angle) {
-    if (m_maxOutput != 0) {
-      return new MoveUsingEncoder(m_driveTrain, distance, angle, m_maxOutput);
-    }
-    return new MoveUsingEncoder(m_driveTrain, distance, true, angle);
+    return new MoveUsingEncoder(m_driveTrain, distance, angle, m_maxOutput);
   }
 
 }

@@ -16,7 +16,6 @@ public class MockDriveTrain extends DriveTrain {
    * Creates a new MockDriveTrain.
    */
   public MockDriveTrain() {
-
   }
 
   @Override
@@ -24,8 +23,11 @@ public class MockDriveTrain extends DriveTrain {
     // This method will be called once per scheduler run
   }
 
-  public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
+  @Override
+  public void init() {
+  }
 
+  public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
   }
 
   @Override
@@ -38,19 +40,9 @@ public class MockDriveTrain extends DriveTrain {
     return 0;
   }
 
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
-      boolean useSquaredInputs) {
-
-  }
-
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay,
-      boolean useSquaredInputs, double heading) {
-
-  }
-
   @Override
-  public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
-
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs,
+      double heading) {
   }
 
   @Override
@@ -72,4 +64,5 @@ public class MockDriveTrain extends DriveTrain {
   public void resetOdometry(Pose2d pose) {
 
   }
+
 }
