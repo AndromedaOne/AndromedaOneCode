@@ -103,7 +103,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    if (DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
     m_subsystemContainer.getDrivetrain().setCoast(true);
@@ -136,7 +136,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
-    if (DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
     limelight.enableLED();
@@ -163,7 +163,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    if (DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
     limelight.disableLED();

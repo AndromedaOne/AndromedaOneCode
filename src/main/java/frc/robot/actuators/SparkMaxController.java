@@ -1,14 +1,14 @@
 package frc.robot.actuators;
 
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SparkMaxController extends CANSparkMax {
   private boolean m_hasEncoder = false;
-  private CANEncoder m_sparkMaxEncoder;
+  private RelativeEncoder m_sparkMaxEncoder;
   private String m_configString;
   private Config m_subsystemConfig;
 
@@ -18,7 +18,7 @@ public class SparkMaxController extends CANSparkMax {
         + subsystemConfig.getInt("ports." + configString));
     m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     if (hasEncoder()) {
-      m_sparkMaxEncoder = new CANEncoder(this);
+      m_sparkMaxEncoder = this.getEncoder();
     }
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;

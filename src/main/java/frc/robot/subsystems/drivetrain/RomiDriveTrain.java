@@ -4,11 +4,14 @@
 
 package frc.robot.subsystems.drivetrain;
 
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+// import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
@@ -19,8 +22,8 @@ public class RomiDriveTrain extends RealDriveTrain {
   private final SparkController m_leftMotor;
   private final SparkController m_rightMotor;
 
-  private final SpeedControllerGroup m_left;
-  private final SpeedControllerGroup m_right;
+  private final MotorControllerGroup m_left;
+  private final MotorControllerGroup m_right;
   private Timer timer;
   private double m_previousLeftPositionMeters;
   private double m_previousRightPositionMeters;
@@ -38,8 +41,8 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_leftMotor = new SparkController(drivetrainConfig, "left");
     m_rightMotor = new SparkController(drivetrainConfig, "right");
 
-    m_left = new SpeedControllerGroup(m_leftMotor);
-    m_right = new SpeedControllerGroup(m_rightMotor);
+    m_left = new MotorControllerGroup(m_leftMotor);
+    m_right = new MotorControllerGroup(m_rightMotor);
 
     double ticksPerRevolution = drivetrainConfig.getInt("ticksPerRevolution");
     double wheelDiameterInch = drivetrainConfig.getDouble("wheelDiameterInch");
@@ -102,12 +105,12 @@ public class RomiDriveTrain extends RealDriveTrain {
   }
 
   @Override
-  protected SpeedControllerGroup getLeftSpeedControllerGroup() {
+  protected MotorControllerGroup getLeftSpeedControllerGroup() {
     return m_left;
   }
 
   @Override
-  protected SpeedControllerGroup getRightSpeedControllerGroup() {
+  protected MotorControllerGroup getRightSpeedControllerGroup() {
     return m_right;
   }
 
@@ -180,6 +183,11 @@ public class RomiDriveTrain extends RealDriveTrain {
     double leftSpeed = m_leftMotor.getEncoder().getRate();
     double rightSpeed = m_rightMotor.getEncoder().getRate();
     return (rightSpeed + leftSpeed) / 2.0;
+  }
+
+  @Override
+  public void resetOdometry(Pose2d pose) {
+    
   }
 
 }

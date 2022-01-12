@@ -2,6 +2,7 @@ package frc.robot.actuators;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.typesafe.config.Config;
 
@@ -38,7 +39,7 @@ public class TalonSRXController extends WPI_TalonSRX {
     if (!hasEncoder()) {
       return 0;
     }
-    int sensorPosition = this.getSelectedSensorPosition();
+    double sensorPosition = this.getSelectedSensorPosition();
     sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
         ? -sensorPosition
         : sensorPosition);
@@ -50,7 +51,7 @@ public class TalonSRXController extends WPI_TalonSRX {
     if (!hasEncoder()) {
       return 0;
     }
-    int sensorVelocity = this.getSelectedSensorVelocity();
+    double sensorVelocity = this.getSelectedSensorVelocity();
     sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
         ? -sensorVelocity
         : sensorVelocity);

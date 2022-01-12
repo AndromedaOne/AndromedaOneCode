@@ -1,7 +1,7 @@
 package frc.robot.pathgeneration.pathgenerators;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Config4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;

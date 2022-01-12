@@ -10,7 +10,7 @@ package frc.robot.subsystems.drivetrain;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
@@ -23,10 +23,10 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   private final SparkMaxController m_backRight;
 
   // motors on the Left side of the drive
-  private final SpeedControllerGroup m_leftmotors;
+  private final MotorControllerGroup m_leftmotors;
 
   // motors on the right side of the drive
-  private final SpeedControllerGroup m_rightmotors;
+  private final MotorControllerGroup m_rightmotors;
 
   private double ticksPerInch;
   public static final double metersPerInch = 0.0254;
@@ -40,10 +40,10 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
     m_backRight = new SparkMaxController(drivetrainConfig, "backright");
 
     // motors on the left side of the drive
-    m_leftmotors = new SpeedControllerGroup(m_frontLeft, m_backLeft);
+    m_leftmotors = new MotorControllerGroup(m_frontLeft, m_backLeft);
 
     // motors on the right side of the drive.
-    m_rightmotors = new SpeedControllerGroup(m_frontRight, m_backRight);
+    m_rightmotors = new MotorControllerGroup(m_frontRight, m_backRight);
 
     ticksPerInch = drivetrainConfig.getDouble("ticksPerInch");
   }
@@ -102,12 +102,12 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   }
 
   @Override
-  protected SpeedControllerGroup getLeftSpeedControllerGroup() {
+  protected MotorControllerGroup getLeftSpeedControllerGroup() {
     return m_leftmotors;
   }
 
   @Override
-  protected SpeedControllerGroup getRightSpeedControllerGroup() {
+  protected MotorControllerGroup getRightSpeedControllerGroup() {
     return m_rightmotors;
   }
 

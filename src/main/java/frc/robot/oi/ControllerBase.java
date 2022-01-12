@@ -4,8 +4,6 @@
 
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -67,35 +65,43 @@ public class ControllerBase {
   }
 
   protected double getLeftStickForwardBackwardValue() {
-    return deadband(-m_controller.getY(GenericHID.Hand.kLeft));
+    return deadband(-m_controller.getLeftY());
   }
 
   protected double getLeftStickLeftRightValue() {
-    return deadband(-m_controller.getX(GenericHID.Hand.kLeft));
+    return deadband(-m_controller.getLeftX());
   }
 
   protected double getRightStickForwardBackwardValue() {
-    return deadband(-m_controller.getY(GenericHID.Hand.kRight));
+    return deadband(-m_controller.getRightY());
   }
 
   protected double getRightStickLeftRightValue() {
-    return deadband(-m_controller.getX(GenericHID.Hand.kRight));
+    return deadband(-m_controller.getRightX());
   }
 
   protected double getLeftTriggerValue() {
-    return deadband(m_controller.getTriggerAxis(Hand.kLeft));
+    return deadband(m_controller.getLeftTriggerAxis());
   }
 
   protected double getRightTriggerValue() {
-    return deadband(m_controller.getTriggerAxis(Hand.kRight));
+    return deadband(m_controller.getRightTriggerAxis());
   }
 
   protected boolean getLeftBumperPressed() {
-    return m_controller.getBumperPressed(Hand.kLeft);
+    return m_controller.getLeftBumperPressed();
   }
 
   protected boolean getLeftBumperReleased() {
-    return m_controller.getBumperReleased(Hand.kLeft);
+    return m_controller.getLeftBumperReleased();
+  }
+
+  protected boolean getRightBumperPressed() {
+    return m_controller.getRightBumperPressed();
+  }
+
+  protected boolean getRightBumperReleased() {
+    return m_controller.getRightBumperReleased();
   }
 
   private double deadband(double stickValue) {
