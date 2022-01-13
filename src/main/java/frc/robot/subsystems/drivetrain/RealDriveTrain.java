@@ -66,6 +66,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     if (drivetrainConfig.hasPath("rightSideInverted")) {
+      // TODO DifferentialDrive does not support setRight/LeftSideInverted
       boolean rightSideInverted = drivetrainConfig.getBoolean("rightSideInverted");
       // m_drive.setRightSideInverted(rightSideInverted);
       m_rightSideInvertedMultiplier = rightSideInverted ? -1 : 1;
