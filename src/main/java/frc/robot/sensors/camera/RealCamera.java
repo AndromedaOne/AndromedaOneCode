@@ -2,8 +2,8 @@ package frc.robot.sensors.camera;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import frc.robot.Config4905;
 
 public class RealCamera extends Camera {

@@ -6,13 +6,13 @@ package frc.robot.subsystems.drivetrain;
 
 // import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
-import com.typesafe.config.Config;
-
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import com.typesafe.config.Config;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
@@ -187,7 +187,7 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   @Override
   public void resetOdometry(Pose2d pose) {
-    
+
   }
 
 }

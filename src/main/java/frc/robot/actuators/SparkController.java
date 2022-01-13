@@ -9,7 +9,6 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
-
 /** Add your docs here. */
 public class SparkController extends Spark {
   private boolean m_hasEncoder = false;

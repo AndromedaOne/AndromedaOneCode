@@ -1,7 +1,7 @@
 package frc.robot.groupcommands.sequentialgroup;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;

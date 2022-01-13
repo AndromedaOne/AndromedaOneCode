@@ -9,10 +9,10 @@ package frc.robot.subsystems.drivetrain;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -67,7 +67,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     if (drivetrainConfig.hasPath("rightSideInverted")) {
       boolean rightSideInverted = drivetrainConfig.getBoolean("rightSideInverted");
-      //m_drive.setRightSideInverted(rightSideInverted);
+      // m_drive.setRightSideInverted(rightSideInverted);
       m_rightSideInvertedMultiplier = rightSideInverted ? -1 : 1;
     }
     if (drivetrainConfig.hasPath("InvertFowardAndBack")) {

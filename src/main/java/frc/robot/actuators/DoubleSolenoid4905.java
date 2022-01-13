@@ -11,7 +11,7 @@ public class DoubleSolenoid4905 {
   private boolean m_isSolenoidOpen = false;
 
   public DoubleSolenoid4905(Config subsystemConfig, String configString) {
-    m_doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
+    m_doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
         subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
         subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
   }
