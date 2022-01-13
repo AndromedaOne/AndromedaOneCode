@@ -3,7 +3,7 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2022.1.1"
-    id "com.diffplug.spotless" version "5.9.0"
+    id "com.diffplug.spotless" version "6.1.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -100,7 +100,7 @@ wpi.java.configureTestTasks(test)
 
 spotless {
   format 'misc', {
-    target '**/*.gradle', '**/*.md', '**/.gitignore'
+    target '*.gradle', '*.md', '.gitignore'
 
     trimTrailingWhitespace()
     indentWithSpaces(2) // or spaces. Takes an integer argument if you don't like 4
