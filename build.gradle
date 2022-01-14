@@ -67,7 +67,7 @@ dependencies {
     nativeRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
-    
+
     // https://mvnrepository.com/artifact/com.typesafe/config
     implementation 'com.typesafe:config:1.4.1'
     implementation 'org.apache.commons:commons-math3:3.0'
