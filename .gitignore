@@ -165,3 +165,6 @@ imgui.ini
 *.orig
 
 # End of https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
+
+/simgui.json
+/simgui-ds.json

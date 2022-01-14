@@ -67,7 +67,7 @@ dependencies {
     nativeRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
-
+    
     // https://mvnrepository.com/artifact/com.typesafe/config
     implementation 'com.typesafe:config:1.4.1'
     implementation 'org.apache.commons:commons-math3:3.0'
@@ -75,14 +75,16 @@ dependencies {
     testImplementation "org.mockito:mockito-junit-jupiter:3.6.0"
     testImplementation "org.junit.jupiter:junit-jupiter-migrationsupport:5.6.2"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
-    //testCompile "org.junit.jupiter:junit-jupiter-engine"
-    //testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.1.1'
-    //testCompile "org.mockito:mockito-core:2.+"
 }
 
 // Simulation configuration (e.g. environment variables).
 wpi.sim.addGui().defaultEnabled = true
 wpi.sim.addDriverstation()
+
+//Sets the websocket client remote host.
+wpi.sim.envVar("HALSIMWS_HOST", "10.49.5.2")
+wpi.sim.addWebsocketsServer().defaultEnabled = true
+wpi.sim.addWebsocketsClient().defaultEnabled = true
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
 // in order to make them all available at runtime. Also adding the manifest so WPILib

@@ -63,14 +63,15 @@ public abstract class RealDriveTrain extends DriveTrain {
   public void init() {
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
-    m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
+    // DifferentialDrive no longer allows us to invert the right side. have to
+    // invert the SpeedController on the right side instead
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     if (drivetrainConfig.hasPath("rightSideInverted")) {
-      // TODO DifferentialDrive does not support setRight/LeftSideInverted
       boolean rightSideInverted = drivetrainConfig.getBoolean("rightSideInverted");
-      // m_drive.setRightSideInverted(rightSideInverted);
+      getRightSpeedControllerGroup().setInverted(rightSideInverted);
       m_rightSideInvertedMultiplier = rightSideInverted ? -1 : 1;
     }
+    m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
     if (drivetrainConfig.hasPath("InvertFowardAndBack")) {
       m_invertFowardAndBack = true;
     }

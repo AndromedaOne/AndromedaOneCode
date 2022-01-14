@@ -74,6 +74,10 @@ public class DriveController extends ControllerBase {
     return getLeftBumperPressed();
   }
 
+  public boolean getSlowModeBumperReleased() {
+    return getLeftBumperReleased();
+  }
+
   protected void limeLightButtons() {
     m_turnOnLimelight = getBackButton();
     m_turnOnLimelight.whenPressed(new ToggleLimelightLED(true, m_sensorsContainer));
