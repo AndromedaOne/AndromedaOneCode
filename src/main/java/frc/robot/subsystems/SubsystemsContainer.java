@@ -179,7 +179,9 @@ public class SubsystemsContainer {
   }
 
   public void setDefaultCommands() {
-    m_driveTrain.setDefaultCommand(new TeleOpCommand());
+    if(Config4905.getConfig4905().doesDrivetrainExist()) {
+      m_driveTrain.setDefaultCommand(new TeleOpCommand());
+    }
     if (Config4905.getConfig4905().isShowBot()) {
       m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
     }
