@@ -23,11 +23,17 @@ public class OIContainer {
 
   public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
     Config controllersConfig = Config4905.getConfig4905().getControllersConfig();
-    if (controllersConfig.hasPath("driveControler")) {
+    if (controllersConfig.hasPath("driveController")) {
+      System.out.println("Creating drive controller");
       m_driveController = new DriveController(subsystemsContainer, sensorsContainer);
+    } else {
+      System.out.println("No drive controller");
     }
     if (controllersConfig.hasPath("subsystemController")) {
+      System.out.println("Creating subsystem controller");
       m_subsystemController = new SubsystemController(subsystemsContainer);
+    } else {
+      System.out.println("No subsystem controller");
     }
     m_smartDashboard = new SmartDashboard4905(subsystemsContainer, sensorsContainer);
   }
