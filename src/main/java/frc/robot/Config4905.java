@@ -19,35 +19,25 @@ public class Config4905 {
    * This config should live on the robot and have hardware- specific configs.
    */
   private Config m_environmentalConfig;
-
   /**
    * This config lives in the jar and has hardware-independent configs.
    */
   private Config m_defaultConfig = ConfigFactory.parseResources("application.conf");
-
   /**
    * Combined config
    */
   private Config m_config;
-
-  private Config drivetrainConfig;
-
-  private Config sensorConfig;
-
-  private Config commandConstantsConfig;
-
-  private Config ledConfig;
-
-  private Config harvesterConfig;
-
-  private Config conveyorConfig;
-
-  private Config compressorConfig;
-
-  private Config cannonConfig;
-
-  private Config romiBallMopperConfig;
-  private Config wingsConfig;
+  private Config m_controllers;
+  private Config m_drivetrainConfig;
+  private Config m_sensorConfig;
+  private Config m_commandConstantsConfig;
+  private Config m_ledConfig;
+  private Config m_harvesterConfig;
+  private Config m_conveyorConfig;
+  private Config m_compressorConfig;
+  private Config m_cannonConfig;
+  private Config m_romiBallMopperConfig;
+  private Config m_wingsConfig;
 
   private static Config4905 m_config4905 = null;
 
@@ -55,11 +45,8 @@ public class Config4905 {
   private final String m_linuxPathToHomeStr = "/home/lvuser/";
 
   private String m_baseDir;
-
   private String m_robotName;
-
   private boolean m_isRomi = false;
-
   private boolean m_isShowBot = false;
 
   private Config4905() {
@@ -134,20 +121,25 @@ public class Config4905 {
   }
 
   public void reload() {
-    commandConstantsConfig = load("commandconstants.conf");
-    sensorConfig = load("sensors.conf");
-    drivetrainConfig = load("drivetrain.conf");
-    ledConfig = load("LED.conf");
-    harvesterConfig = load("harvester.conf");
-    conveyorConfig = load("conveyor.conf");
-    compressorConfig = load("compressor.conf");
-    cannonConfig = load("cannon.conf");
-    romiBallMopperConfig = load("romiBallMopper.conf");
-    wingsConfig = load("wings.conf");
+    m_commandConstantsConfig = load("commandconstants.conf");
+    m_controllers = load("controllers.conf");
+    m_sensorConfig = load("sensors.conf");
+    m_drivetrainConfig = load("drivetrain.conf");
+    m_ledConfig = load("LED.conf");
+    m_harvesterConfig = load("harvester.conf");
+    m_conveyorConfig = load("conveyor.conf");
+    m_compressorConfig = load("compressor.conf");
+    m_cannonConfig = load("cannon.conf");
+    m_romiBallMopperConfig = load("romiBallMopper.conf");
+    m_wingsConfig = load("wings.conf");
+  }
+
+  public Config getControllersConfig() {
+    return (m_controllers);
   }
 
   public Config getDrivetrainConfig() {
-    return drivetrainConfig;
+    return m_drivetrainConfig;
   }
 
   public boolean doesDrivetrainExist() {
@@ -159,7 +151,7 @@ public class Config4905 {
   }
 
   public Config getLEDConfig() {
-    return ledConfig;
+    return m_ledConfig;
   }
 
   public boolean doesLEDExist() {
@@ -183,7 +175,7 @@ public class Config4905 {
   }
 
   public Config getHarvesterConfig() {
-    return harvesterConfig;
+    return m_harvesterConfig;
   }
 
   public boolean doesConveyorExist() {
@@ -195,7 +187,7 @@ public class Config4905 {
   }
 
   public Config getConveyorConfig() {
-    return conveyorConfig;
+    return m_conveyorConfig;
   }
 
   public boolean doesCompressorExist() {
@@ -207,7 +199,7 @@ public class Config4905 {
   }
 
   public Config getCompressorConfig() {
-    return compressorConfig;
+    return m_compressorConfig;
   }
 
   public boolean doesCannonExist() {
@@ -219,11 +211,11 @@ public class Config4905 {
   }
 
   public Config getCannonConfig() {
-    return cannonConfig;
+    return m_cannonConfig;
   }
 
   public Config getRomiBallMopperConfig() {
-    return romiBallMopperConfig;
+    return m_romiBallMopperConfig;
   }
 
   public boolean doesRomiBallMopperExist() {
@@ -234,15 +226,15 @@ public class Config4905 {
   }
 
   public Config getSensorConfig() {
-    return sensorConfig;
+    return m_sensorConfig;
   }
 
   public Config getCommandConstantsConfig() {
-    return commandConstantsConfig;
+    return m_commandConstantsConfig;
   }
 
   public Config getWingsConfig() {
-    return wingsConfig;
+    return m_wingsConfig;
   }
 
   public boolean isRomi() {

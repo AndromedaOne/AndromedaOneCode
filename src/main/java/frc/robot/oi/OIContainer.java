@@ -7,6 +7,9 @@
 
 package frc.robot.oi;
 
+import com.typesafe.config.Config;
+
+import frc.robot.Config4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -19,9 +22,14 @@ public class OIContainer {
   private SubsystemController m_subsystemController;
 
   public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
-    m_driveController = new DriveController(subsystemsContainer, sensorsContainer);
+    Config controllersConfig = Config4905.getConfig4905().getControllersConfig();
+    if (controllersConfig.hasPath("driveControler")) {
+      m_driveController = new DriveController(subsystemsContainer, sensorsContainer);
+    }
+    if (controllersConfig.hasPath("subsystemController")) {
+      m_subsystemController = new SubsystemController(subsystemsContainer);
+    }
     m_smartDashboard = new SmartDashboard4905(subsystemsContainer, sensorsContainer);
-    m_subsystemController = new SubsystemController(subsystemsContainer);
   }
 
   public DriveController getDriveController() {
