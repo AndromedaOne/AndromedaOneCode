@@ -3,6 +3,7 @@ package frc.robot.actuators;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class DoubleSolenoid4905 {
   private DoubleSolenoid m_doubleSolenoid;
@@ -10,7 +11,8 @@ public class DoubleSolenoid4905 {
   private boolean m_isSolenoidOpen = false;
 
   public DoubleSolenoid4905(Config subsystemConfig, String configString) {
-    m_doubleSolenoid = new DoubleSolenoid(subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
+    m_doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+        subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
         subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
   }
 

@@ -51,4 +51,9 @@ public class MockLimeLightCamera extends LimeLightCameraBase {
 
   }
 
+  @Override
+  public boolean doesLimeLightExist() {
+    return false;
+  }
+
 }

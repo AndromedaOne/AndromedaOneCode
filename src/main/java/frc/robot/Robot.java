@@ -11,7 +11,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
@@ -65,10 +64,9 @@ public class Robot extends TimedRobot {
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(true);
     m_subsystemContainer.getWings().stop();
-
-    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
-    SmartDashboard.putNumber("ShooterRPMTarget", 3000);
-
+    if (Config4905.getConfig4905().doesLEDExist()) {
+      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
+    }
   }
 
   /**
@@ -95,8 +93,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_sensorsContainer.getGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
-    m_sensorsContainer.getBallFeederSensor().isThereBall();
-    SmartDashboard.putNumber("Powercell Detector", m_sensorsContainer.getPowercellDetector().getDistanceInches());
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
     m_sensorsContainer.periodic();
     m_sensorsContainer.getAnalog41IRSensor().updateSmartDashboardReadings();
@@ -107,7 +103,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    if (DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
     m_subsystemContainer.getDrivetrain().setCoast(true);
@@ -121,6 +117,10 @@ public class Robot extends TimedRobot {
     // limelight.disableLED();
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
+    }
+    if (Config4905.getConfig4905().doesConveyorExist()) {
+      Robot.getInstance().getSubsystemsContainer().getConveyor().stop();
+      Robot.getInstance().getSubsystemsContainer().setConveyorState(false);
     }
   }
 
@@ -136,7 +136,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
-    if (DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
     limelight.enableLED();
@@ -149,7 +149,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
 
@@ -163,7 +163,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    if (DriverStation.getInstance().isFMSAttached()) {
+    if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted();
     }
     limelight.disableLED();
@@ -178,7 +178,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runBackward();
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
 

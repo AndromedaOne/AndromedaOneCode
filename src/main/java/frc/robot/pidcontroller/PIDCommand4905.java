@@ -38,8 +38,8 @@ public class PIDCommand4905 extends CommandBase {
    * @param useOutput         the controller's output
    * @param requirements      the subsystems required by this command
    */
-  public PIDCommand4905(PIDController4905 controller, DoubleSupplier measurementSource, DoubleSupplier setpointSource,
-      DoubleConsumer useOutput, Subsystem... requirements) {
+  public PIDCommand4905(PIDController4905 controller, DoubleSupplier measurementSource,
+      DoubleSupplier setpointSource, DoubleConsumer useOutput, Subsystem... requirements) {
     requireNonNullParam(controller, "controller", "SynchronousPIDCommand");
     requireNonNullParam(measurementSource, "measurementSource", "SynchronousPIDCommand");
     requireNonNullParam(setpointSource, "setpointSource", "SynchronousPIDCommand");
@@ -62,8 +62,8 @@ public class PIDCommand4905 extends CommandBase {
    * @param useOutput         the controller's output
    * @param requirements      the subsystems required by this command
    */
-  public PIDCommand4905(PIDController4905 controller, DoubleSupplier measurementSource, double setpoint,
-      DoubleConsumer useOutput, Subsystem... requirements) {
+  public PIDCommand4905(PIDController4905 controller, DoubleSupplier measurementSource,
+      double setpoint, DoubleConsumer useOutput, Subsystem... requirements) {
     this(controller, measurementSource, () -> setpoint, useOutput, requirements);
   }
 
@@ -74,7 +74,8 @@ public class PIDCommand4905 extends CommandBase {
 
   @Override
   public void execute() {
-    m_useOutput.accept(m_controller.calculate(m_measurement.getAsDouble(), m_setpoint.getAsDouble()));
+    m_useOutput
+        .accept(m_controller.calculate(m_measurement.getAsDouble(), m_setpoint.getAsDouble()));
   }
 
   @Override

@@ -24,7 +24,7 @@ public class RealUltrasonicSensor extends UltrasonicSensor {
     int echo = conf.getInt("sensors." + confString + ".echo");
     ultrasonic = new Ultrasonic(ping, echo);
     ultrasonic.setEnabled(true);
-    ultrasonic.setAutomaticMode(true);
+    Ultrasonic.setAutomaticMode(true);
     sensorName = confString;
   }
 

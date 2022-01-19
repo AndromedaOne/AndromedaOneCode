@@ -1,6 +1,6 @@
 package frc.robot.pidcontroller;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.math.controller.PIDController;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 

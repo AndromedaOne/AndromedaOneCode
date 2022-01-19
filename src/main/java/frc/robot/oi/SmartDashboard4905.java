@@ -11,19 +11,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
-import frc.robot.commands.CheckRomiVelocityConversionFactor;
+import frc.robot.Robot;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.DriveBackwardTimed;
-import frc.robot.commands.RunAllFeederMotors;
-import frc.robot.commands.RunIntakeOut;
+import frc.robot.commands.ExamplePathCommands.DriveTrainDiagonalPath;
+import frc.robot.commands.ExamplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.ToggleLimelightLED;
-import frc.robot.commands.TuneShooterFeedForward;
-import frc.robot.commands.cannon.PressurizeCannon;
-import frc.robot.commands.cannon.ShootCannon;
 import frc.robot.commands.pidcommands.MoveUsingEncoderTester;
-import frc.robot.commands.romiBallMopper.MopBallMopper;
-import frc.robot.commands.romiBallMopper.ResetBallMopper;
-import frc.robot.groupcommands.parallelgroup.ShootWithRPM;
+import frc.robot.commands.romiCommands.romiBallMopper.MopBallMopper;
+import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
+import frc.robot.commands.showBotCannon.PressurizeCannon;
+import frc.robot.commands.showBotCannon.ShootCannon;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsScoring;
+import frc.robot.groupcommands.RomiCommands.AllianceAnticsSimple;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -33,26 +33,34 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
-  public SmartDashboard4905(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
+  public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
+      SensorsContainer sensorsContainer) {
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
-    SmartDashboard.putData("DriveBackward", new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("DriveBackward",
+        new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
-    SmartDashboard.putData("MoveUsingEncoderTester", new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
-
+    SmartDashboard.putData("MoveUsingEncoderTester",
+        new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("DriveTrainRectangularPathExample",
+        new DriveTrainRectangularPath(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("DriveTrainDiagonalPathExample",
+        new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("Auto Delay", 0);
-
     SmartDashboard.putData("Reload Config", new ConfigReload());
 
-    SmartDashboard.putData("Enable Limelight LEDs", new ToggleLimelightLED(true, sensorsContainer));
-
-    SmartDashboard.putData("Disable Limelight LEDs", new ToggleLimelightLED(false, sensorsContainer));
-    SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
-    SmartDashboard.putData("Shoot Cannon", new ShootCannon());
+    if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
+      SmartDashboard.putData("Enable Limelight LEDs",
+          new ToggleLimelightLED(true, sensorsContainer));
+      SmartDashboard.putData("Disable Limelight LEDs",
+          new ToggleLimelightLED(false, sensorsContainer));
+    }
+    if (Config4905.getConfig4905().doesCannonExist()) {
+      SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
+      SmartDashboard.putData("Shoot Cannon", new ShootCannon());
+    }
 
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
-    } else if (Config4905.getConfig4905().isTheDroidYoureLookingFor()) {
-      theDroidYoureLookingForCommands(subsystemsContainer);
     }
   }
 
@@ -61,18 +69,13 @@ public class SmartDashboard4905 {
   }
 
   private void romiCommands(SubsystemsContainer subsystemsContainer) {
-    SmartDashboard.putData("CheckRomiVelocityConversionFactor",
-        new CheckRomiVelocityConversionFactor(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("Mop Ball", new MopBallMopper());
-    SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
-  }
-
-  private void theDroidYoureLookingForCommands(SubsystemsContainer subsystemsContainer) {
-    SmartDashboard.putData("ShootRPM",
-        new ShootWithRPM(subsystemsContainer.getShooter(), subsystemsContainer.getFeeder(), true));
-
-    SmartDashboard.putData("Run All feeder motors", new RunAllFeederMotors(subsystemsContainer.getFeeder()));
-    SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(subsystemsContainer.getShooter()));
-    SmartDashboard.putData("Run Intake Out", new RunIntakeOut(subsystemsContainer.getIntake(), () -> false, 1));
+    if (Config4905.getConfig4905().doesRomiBallMopperExist()) {
+      SmartDashboard.putData("Mop Ball", new MopBallMopper());
+      SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
+    }
+    SmartDashboard.putData("AllianceAnticsSimple",
+        new AllianceAnticsSimple(subsystemsContainer.getDrivetrain()));
+    SmartDashboard.putData("AllianceAnticsScoring",
+        new AllianceAnticsScoring(subsystemsContainer.getDrivetrain()));
   }
 }

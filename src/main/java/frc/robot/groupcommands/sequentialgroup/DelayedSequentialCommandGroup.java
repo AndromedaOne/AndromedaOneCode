@@ -1,7 +1,7 @@
 package frc.robot.groupcommands.sequentialgroup;
 
+import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -38,7 +38,7 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
 
     @Override
     public boolean isFinished() {
-      return m_timer.hasPeriodPassed(m_duration);
+      return m_timer.advanceIfElapsed(m_duration);
     }
 
     @Override

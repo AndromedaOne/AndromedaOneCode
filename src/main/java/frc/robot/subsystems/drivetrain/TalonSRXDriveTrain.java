@@ -9,7 +9,7 @@ package frc.robot.subsystems.drivetrain;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.TalonSRXController;
 
@@ -20,10 +20,10 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   private final TalonSRXController m_backRight;
 
   // motors on the Left side of the drive
-  private SpeedControllerGroup m_leftmotors;
+  private MotorControllerGroup m_leftmotors;
 
   // motors on the right side of the drive
-  private SpeedControllerGroup m_rightmotors;
+  private MotorControllerGroup m_rightmotors;
 
   private double ticksPerInch;
 
@@ -36,10 +36,10 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
     m_backRight = new TalonSRXController(drivetrainConfig, "backright");
 
     // motors on the left side of the drive
-    m_leftmotors = new SpeedControllerGroup(m_frontLeft, m_backLeft);
+    m_leftmotors = new MotorControllerGroup(m_frontLeft, m_backLeft);
 
     // motors on the right side of the drive.
-    m_rightmotors = new SpeedControllerGroup(m_frontRight, m_backRight);
+    m_rightmotors = new MotorControllerGroup(m_frontRight, m_backRight);
 
     ticksPerInch = drivetrainConfig.getDouble("ticksPerInch");
     System.out.println("Done configuring TalonSRXDriveTrain");
@@ -98,12 +98,12 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   }
 
   @Override
-  protected SpeedControllerGroup getLeftSpeedControllerGroup() {
+  protected MotorControllerGroup getLeftSpeedControllerGroup() {
     return m_leftmotors;
   }
 
   @Override
-  protected SpeedControllerGroup getRightSpeedControllerGroup() {
+  protected MotorControllerGroup getRightSpeedControllerGroup() {
     return m_rightmotors;
   }
 
@@ -119,22 +119,23 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
 
   @Override
   protected double getLeftSideMeters() {
-    // TODO Auto-generated method stub
-    double averageTicks = (m_backLeft.getEncoderPositionTicks() + m_frontLeft.getEncoderPositionTicks());
+    double averageTicks = (m_backLeft.getEncoderPositionTicks()
+        + m_frontLeft.getEncoderPositionTicks());
     double averageMeters = averageTicks * ticksPerInch * SparkMaxDriveTrain.metersPerInch;
     return averageMeters;
   }
 
   @Override
   protected double getRightsSideMeters() {
-    // TODO Auto-generated method stub
-    double averageTicks = (m_frontLeft.getEncoderPositionTicks() + m_frontRight.getEncoderPositionTicks());
+    double averageTicks = (m_frontLeft.getEncoderPositionTicks()
+        + m_frontRight.getEncoderPositionTicks());
     double averageMeters = averageTicks * ticksPerInch * SparkMaxDriveTrain.metersPerInch;
     return averageMeters;
   }
 
   @Override
   protected void resetEncoders() {
-    throw new RuntimeException("Need to fill in the method ot reset encoders in talonsrx drivetrain");
+    throw new RuntimeException(
+        "Need to fill in the method ot reset encoders in talonsrx drivetrain");
   }
 }

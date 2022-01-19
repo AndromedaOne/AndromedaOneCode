@@ -2,7 +2,7 @@ package frc.robot.pathgeneration.waypoints;
 
 import java.awt.geom.Point2D;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose2d;
 
 public class Waypoint extends Point2D {
   private double m_x;

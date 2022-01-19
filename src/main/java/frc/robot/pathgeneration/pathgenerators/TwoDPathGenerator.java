@@ -5,13 +5,13 @@ import java.util.Scanner;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -33,8 +33,13 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
   private boolean m_resetOdometryToZero;
   private String m_name;
 
-  public TwoDPathGenerator(String jsonFileName, Config config, boolean resetOdometryToZero, String name) {
-    super(new WaypointsBase() {
+  // suppress the "resource leak" warning for the scanner s. you cannot close
+  // the scanner as this will will stop the scanner from reading the rest of
+  // the input stream...
+  @SuppressWarnings("resource")
+  public TwoDPathGenerator(String jsonFileName, Config config, boolean resetOdometryToZero,
+      String name) {
+    super(name, new WaypointsBase() {
 
       @Override
       protected void loadWaypoints() {
@@ -56,7 +61,8 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
 
     m_sVolts = config.getDouble("pathplanningconstants.ksVolts");
     m_vVoltSecondsPerMeter = config.getDouble("pathplanningconstants.kvVoltSecondsPerMeter");
-    m_aVoltSecondsSquaredPerMeter = config.getDouble("pathplanningconstants.kaVoltSecondsSquaredPerMeter");
+    m_aVoltSecondsSquaredPerMeter = config
+        .getDouble("pathplanningconstants.kaVoltSecondsSquaredPerMeter");
     m_pDriveVel = config.getDouble("pathplanningconstants.kPDriveVel");
     m_trackwidthMeters = config.getDouble("pathplanningconstants.kTrackwidthMeters");
     m_driveKinematics = new DifferentialDriveKinematics(m_trackwidthMeters);
@@ -86,8 +92,9 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
   protected CommandBase getGeneratedPath() {
     RamseteCommand4905 ramseteCommand = new RamseteCommand4905(trajectory, () -> getPos(),
         new RamseteController(m_ramseteB, m_ramseteZeta),
-        new SimpleMotorFeedforward(m_sVolts, m_vVoltSecondsPerMeter, m_aVoltSecondsSquaredPerMeter), m_driveKinematics,
-        () -> getWheelSpeeds(), new TracingPIDController("LeftVelocity", m_pDriveVel, 0.0, 0.0),
+        new SimpleMotorFeedforward(m_sVolts, m_vVoltSecondsPerMeter, m_aVoltSecondsSquaredPerMeter),
+        m_driveKinematics, () -> getWheelSpeeds(),
+        new TracingPIDController("LeftVelocity", m_pDriveVel, 0.0, 0.0),
         new TracingPIDController("RightVelocity", m_pDriveVel, 0.0, 0.0),
         // RamseteCommand passes volts to the callback
         (left, right) -> tankDriveVolts(left, right), getSubsystem());
@@ -97,7 +104,8 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
       return ramseteCommand;
     }
     CommandBase resetOdometry = new ResetOdometry();
-    SequentialCommandGroup resetOdometryAndThenMove = new SequentialCommandGroup(resetOdometry, ramseteCommand);
+    SequentialCommandGroup resetOdometryAndThenMove = new SequentialCommandGroup(resetOdometry,
+        ramseteCommand);
     return resetOdometryAndThenMove;
   }
 

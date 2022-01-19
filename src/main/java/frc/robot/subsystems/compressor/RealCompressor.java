@@ -5,16 +5,17 @@
 package frc.robot.subsystems.compressor;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /** Add your docs here. */
 public class RealCompressor extends CompressorBase {
   private Compressor m_compressor;
 
   public RealCompressor() {
-    m_compressor = new Compressor();
+    m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
   }
 
   public void start() {
-    m_compressor.start();
+    m_compressor.enableDigital();
   }
 }

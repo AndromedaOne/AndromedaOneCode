@@ -12,17 +12,17 @@ import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.Trajectory.State;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.telemetries.Trace;
@@ -88,9 +88,10 @@ public class RamseteCommand4905 extends CommandBase {
    * @param requirements    The subsystems to require.
    */
   @SuppressWarnings("PMD.ExcessiveParameterList")
-  public RamseteCommand4905(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller,
-      SimpleMotorFeedforward feedforward, DifferentialDriveKinematics kinematics,
-      Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds, PIDController leftController, PIDController rightController,
+  public RamseteCommand4905(Trajectory trajectory, Supplier<Pose2d> pose,
+      RamseteController controller, SimpleMotorFeedforward feedforward,
+      DifferentialDriveKinematics kinematics, Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds,
+      PIDController leftController, PIDController rightController,
       BiConsumer<Double, Double> outputVolts, Subsystem... requirements) {
     m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
     m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
@@ -123,9 +124,9 @@ public class RamseteCommand4905 extends CommandBase {
    *                              right wheel speeds.
    * @param requirements          The subsystems to require.
    */
-  public RamseteCommand4905(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController follower,
-      DifferentialDriveKinematics kinematics, BiConsumer<Double, Double> outputMetersPerSecond,
-      Subsystem... requirements) {
+  public RamseteCommand4905(Trajectory trajectory, Supplier<Pose2d> pose,
+      RamseteController follower, DifferentialDriveKinematics kinematics,
+      BiConsumer<Double, Double> outputMetersPerSecond, Subsystem... requirements) {
     m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
     m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
     m_follower = requireNonNullParam(follower, "follower", "RamseteCommand");
@@ -146,8 +147,9 @@ public class RamseteCommand4905 extends CommandBase {
   public void initialize() {
     m_prevTime = 0;
     var initialState = m_trajectory.sample(0);
-    m_prevSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(initialState.velocityMetersPerSecond, 0,
-        initialState.curvatureRadPerMeter * initialState.velocityMetersPerSecond));
+    m_prevSpeeds = m_kinematics
+        .toWheelSpeeds(new ChassisSpeeds(initialState.velocityMetersPerSecond, 0,
+            initialState.curvatureRadPerMeter * initialState.velocityMetersPerSecond));
     m_timer.reset();
     m_timer.start();
     if (m_usePID) {
@@ -168,7 +170,6 @@ public class RamseteCommand4905 extends CommandBase {
     double dt = curTime - m_prevTime;
     Pose2d currentPos = m_pose.get();
     State desiredState = m_trajectory.sample(curTime);
-
     ChassisSpeeds chassisSpeeds = m_follower.calculate(currentPos, desiredState);
 
     Trace.getInstance().addTrace(true, m_name + "ChassisSpeeds",
@@ -190,7 +191,8 @@ public class RamseteCommand4905 extends CommandBase {
       double rightFeedforward = m_feedforward.calculate(rightSpeedSetpoint,
           (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
-      leftOutput = leftFeedforward + m_leftController.calculate(m_speeds.get().leftMetersPerSecond, leftSpeedSetpoint);
+      leftOutput = leftFeedforward
+          + m_leftController.calculate(m_speeds.get().leftMetersPerSecond, leftSpeedSetpoint);
 
       rightOutput = rightFeedforward
           + m_rightController.calculate(m_speeds.get().rightMetersPerSecond, rightSpeedSetpoint);
@@ -199,12 +201,14 @@ public class RamseteCommand4905 extends CommandBase {
       rightOutput = rightSpeedSetpoint;
     }
     m_output.accept(leftOutput, rightOutput);
-    Trace.getInstance().addTrace(true, m_name, new TracePair<Double>("CurrentX", currentPos.getTranslation().getX()),
+    Trace.getInstance().addTrace(true, m_name,
+        new TracePair<Double>("CurrentX", currentPos.getTranslation().getX()),
         new TracePair<Double>("CurrentY", currentPos.getTranslation().getY()),
         new TracePair<Double>("CurrentRot", currentPos.getRotation().getDegrees() / 90.0),
         new TracePair<Double>("DesiredX", desiredState.poseMeters.getTranslation().getX()),
         new TracePair<Double>("DesiredY", desiredState.poseMeters.getTranslation().getY()),
-        new TracePair<Double>("DesiredRot", desiredState.poseMeters.getRotation().getDegrees() / 90.0));
+        new TracePair<Double>("DesiredRot",
+            desiredState.poseMeters.getRotation().getDegrees() / 90.0));
 
     Trace.getInstance().addTrace(true, m_name + "DesiredTracking",
         new TracePair<Double>("DesiredX", desiredState.poseMeters.getTranslation().getX()),

@@ -10,14 +10,19 @@ public abstract class RectangularPathGenerator extends PathGeneratorBase {
   private Waypoint m_currentWaypoint;
   private SequentialCommandGroup m_path;
 
-  public RectangularPathGenerator(WaypointsBase waypoints, Waypoint initialWaypoint) {
-    super(waypoints);
+  public RectangularPathGenerator(String pathName, WaypointsBase waypoints,
+      Waypoint initialWaypoint) {
+    super(pathName, waypoints);
     m_path = new SequentialCommandGroup();
     m_currentWaypoint = initialWaypoint;
   }
 
   @Override
   protected void generatePathForNextWaypoint(Waypoint waypoint) {
+    System.out.print("Waypoint 1: ");
+    m_currentWaypoint.prettyPrint();
+    System.out.print("Waypoint 2: ");
+    waypoint.prettyPrint();
     double deltaY = waypoint.getY() - m_currentWaypoint.getY();
     double deltaX = waypoint.getX() - m_currentWaypoint.getX();
 

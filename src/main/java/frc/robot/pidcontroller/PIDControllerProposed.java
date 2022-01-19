@@ -9,10 +9,10 @@ package frc.robot.pidcontroller;
 
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
-import edu.wpi.first.wpiutil.math.MathUtil;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.util.sendable.SendableRegistry;
 
 /**
  * Implements a PID control loop.
@@ -219,7 +219,8 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    * @return Whether the error is within the acceptable bounds.
    */
   public boolean atSetpoint() {
-    return Math.abs(m_positionError) < m_positionTolerance && Math.abs(m_velocityError) < m_velocityTolerance;
+    return Math.abs(m_positionError) < m_positionTolerance
+        && Math.abs(m_velocityError) < m_velocityTolerance;
   }
 
   /**
@@ -327,8 +328,8 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     m_velocityError = (m_positionError - m_prevError) / m_period;
 
     if (m_Ki != 0) {
-      m_totalError = MathUtil.clamp(m_totalError + m_positionError * m_period, m_minimumIntegral / m_Ki,
-          m_maximumIntegral / m_Ki);
+      m_totalError = MathUtil.clamp(m_totalError + m_positionError * m_period,
+          m_minimumIntegral / m_Ki, m_maximumIntegral / m_Ki);
     }
 
     m_pError = m_Kp * m_positionError;

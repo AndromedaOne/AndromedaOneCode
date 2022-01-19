@@ -18,7 +18,8 @@ public class WayPointWithHeading extends Waypoint {
   public Waypoint subtract(WayPointWithHeading w) {
     double deltaX = super.getX() - w.getX();
     double deltaY = super.getY() - w.getY();
-    double deltaHeading = AngleConversionUtils.ConvertAngleToCompassHeading(m_heading - w.getHeading());
+    double deltaHeading = AngleConversionUtils
+        .ConvertAngleToCompassHeading(m_heading - w.getHeading());
 
     return new WayPointWithHeading(deltaX, deltaY, deltaHeading);
   }

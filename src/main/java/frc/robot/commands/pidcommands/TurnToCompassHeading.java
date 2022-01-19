@@ -32,22 +32,18 @@ public class TurnToCompassHeading extends PIDCommand4905 {
         // The controller that the command will use
         new PIDController4905SampleStop("TurnToCompassHeading", 0, 0, 0, 0),
         // This should return the measurement
-        Robot.getInstance().getSensorsContainer().getGyro()::getCompassHeading,
+        Robot.getInstance().getSensorsContainer().getGyro().getCompassHeadingDoubleSupplier(),
         // This should return the setpoint (can also be a constant)
         compassHeading,
         // This uses the output
         output -> {
-          // Use the output here
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0, output, false, false);
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
         });
     this.m_compassHeading = compassHeading;
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
-    // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
-
     m_setpoint = () -> m_compassHeading;
-
   }
 
   public void initialize() {

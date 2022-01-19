@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public enum ButtonsEnumerated {
-  ABUTTON(1), BBUTTON(2), XBUTTON(3), YBUTTON(4), LEFTBUMPERBUTTON(5), RIGHTBUMPERBUTTON(6), BACKBUTTON(7),
-  STARTBUTTON(8), LEFTSTICKBUTTON(9), RIGHTSTICKBUTTON(10);
+  ABUTTON(1), BBUTTON(2), XBUTTON(3), YBUTTON(4), LEFTBUMPERBUTTON(5), RIGHTBUMPERBUTTON(6),
+  BACKBUTTON(7), STARTBUTTON(8), LEFTSTICKBUTTON(9), RIGHTSTICKBUTTON(10);
 
   public int getValue() {
     return m_buttonValue;

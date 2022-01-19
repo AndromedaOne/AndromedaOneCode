@@ -9,199 +9,115 @@ package frc.robot.subsystems.drivetrain;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
+import frc.robot.utils.AngleConversionUtils;
 
 public abstract class RealDriveTrain extends DriveTrain {
   // Gyro variables
   private Gyro4905 gyro;
-  private double savedAngle = 0;
-  private double newRotateValue = 0;
-  private boolean gyroCorrect = false;
-  private double currentDelay = 0;
-  private double kDelay = 0;
   private double kProportion = 0.0;
   // the robot's main drive
   private DifferentialDrive m_drive;
   private DifferentialDriveOdometry m_odometry;
   private int m_rightSideInvertedMultiplier = -1;
+  private boolean m_invertFowardAndBack = false;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     gyro = Robot.getInstance().getSensorsContainer().getGyro();
-    kDelay = drivetrainConfig.getDouble("gyrocorrect.kdelay");
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
-    System.out.println("kProportion = " + kProportion);
-
+    System.out.println("RealDriveTrain kProportion = " + kProportion);
   }
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     super.periodic();
-    double leftMeters = getLeftSideMeters();
-    double rightMeters = getRightsSideMeters();
-    double angle = Math.toRadians(gyro.getAngle());
-    m_odometry.update(new Rotation2d(angle), leftMeters, rightMeters);
-    SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
-    SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
-    SmartDashboard.putNumber("OdometryRotation", m_odometry.getPoseMeters().getRotation().getDegrees());
-    SmartDashboard.putNumber("OdometryAngle", angle);
-    SmartDashboard.putNumber("Odometry Romi Left Motor Position", leftMeters);
-    SmartDashboard.putNumber("Odometry Romi Right Motor Position", rightMeters);
-    SmartDashboard.putNumber("OdometryLeftSpeed", getLeftRateMetersPerSecond());
-    SmartDashboard.putNumber("OdometryRightSpeed", getRightRateMetersPerSecond());
-
+    boolean usingOdometry = false;
+    if (usingOdometry) {
+      double leftMeters = getLeftSideMeters();
+      double rightMeters = getRightsSideMeters();
+      double angle = Math.toRadians(gyro.getAngle());
+      m_odometry.update(new Rotation2d(angle), leftMeters, rightMeters);
+      SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
+      SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
+      SmartDashboard.putNumber("OdometryRotation",
+          m_odometry.getPoseMeters().getRotation().getDegrees());
+      SmartDashboard.putNumber("OdometryAngle", angle);
+      SmartDashboard.putNumber("Odometry Romi Left Motor Position", leftMeters);
+      SmartDashboard.putNumber("Odometry Romi Right Motor Position", rightMeters);
+      SmartDashboard.putNumber("OdometryLeftSpeed", getLeftRateMetersPerSecond());
+      SmartDashboard.putNumber("OdometryRightSpeed", getRightRateMetersPerSecond());
+    }
   }
-
-  private Timer timer;
 
   public void init() {
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
-    m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
+    // DifferentialDrive no longer allows us to invert the right side. have to
+    // invert the SpeedController on the right side instead
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     if (drivetrainConfig.hasPath("rightSideInverted")) {
       boolean rightSideInverted = drivetrainConfig.getBoolean("rightSideInverted");
-      m_drive.setRightSideInverted(rightSideInverted);
+      getRightSpeedControllerGroup().setInverted(rightSideInverted);
       m_rightSideInvertedMultiplier = rightSideInverted ? -1 : 1;
     }
-
+    m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
+    if (drivetrainConfig.hasPath("InvertFowardAndBack")) {
+      m_invertFowardAndBack = true;
+    }
   }
 
   /**
    * This moves the robot and corrects for any rotation using the gyro
    * 
-   * @param useDelay The delay will delay how long the gyro will wait to correct
-   *                 after turning this allows the robot to drift naturally as you
-   *                 turn
+   * @param compassHeading Setting a heading will allow you to set what angle the
+   *                       robot will correct to. This is useful in auto after the
+   *                       robot turns you can tell it to correct to the heading
+   *                       it should have turn to.
    */
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs) {
-    moveUsingGyro(forwardBackward, rotation, useDelay, useSquaredInputs, gyro.getCompassHeading());
-  }
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs,
+      double compassHeading) {
 
-  /**
-   * This moves the robot and corrects for any rotation using the gyro
-   * 
-   * @param useDelay The delay will delay how long the gyro will wait to correct
-   *                 after turning this allows the robot to drift naturally as you
-   *                 turn
-   * @param heading  Setting a heading will allow you to set what angle the robot
-   *                 will correct to. This is useful in auto after the robot turns
-   *                 you can tell it to correct to the heading it should have turn
-   *                 to.
-   */
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useDelay, boolean useSquaredInputs,
-      double heading) {
-
-    double robotDeltaAngle = gyro.getCompassHeading() - heading;
-    double robotAngle = gyro.getZAngle() + robotDeltaAngle;
-    /*
-     * If we are rotating or our delay time is lower than our set Delay do not use
-     * gyro correct This allows the robot to rotate naturally after we turn
-     */
-    if (isRotating(rotation) || (useDelay && !delayGreaterThanThreshold(currentDelay, kDelay))
-        || (forwardBackward == 0.0)) {
-      gyroCorrect = false;
-      savedAngle = robotAngle;
-      currentDelay++;
-    } else {
-      gyroCorrect = true;
+    if (rotation == 0.0) {
+      double robotDeltaAngle = AngleConversionUtils
+          .calculateMinimalCompassHeadingDifference(gyro.getCompassHeading(), compassHeading);
+      rotation = -robotDeltaAngle * kProportion;
+      Trace.getInstance().addTrace(true, "MoveUsingGyro",
+          new TracePair<Double>("CompassHeading", compassHeading),
+          new TracePair<>("GyroCompassHeading", gyro.getCompassHeading()),
+          new TracePair<>("robotDeltaAngle", robotDeltaAngle),
+          new TracePair<>("rotation", rotation));
     }
-
-    if (rotation != 0) {
-      currentDelay = 0;
-    }
-
-    if (gyroCorrect) {
-      double correctionEquation = (savedAngle - robotAngle) * kProportion;
-      newRotateValue = correctionEquation;
-    } else {
-      newRotateValue = rotation;
-    }
-    move(forwardBackward, newRotateValue, useSquaredInputs);
-  }
-
-  /**
-   * @param heading The heading is assumed to be an angle x such that 0 <= x < 360
-   * 
-   * 
-   */
-  public void moveUsingGyro(double forwardBackward, double rotation, double heading) {
-    double zAngle = gyro.getZAngle();
-    double absoluteHeading = convertHeadingToAbsoluteAngle(heading, zAngle);
-    double robotDeltaAngle = absoluteHeading - zAngle;
-    boolean gyroCorrect = true;
-    if (isRotating(rotation)) {
-      gyroCorrect = false;
-    }
-    newRotateValue = rotation;
-    if (gyroCorrect) {
-      double correctionEquation = robotDeltaAngle * kProportion;
-      newRotateValue = correctionEquation;
-    }
-    move(forwardBackward, newRotateValue, false);
-  }
-
-  private boolean isRotating(double rotation) {
-    return rotation != 0;
-  }
-
-  private boolean delayGreaterThanThreshold(double delay, double threshold) {
-    return delay > threshold;
-  }
-
-  private double convertHeadingToAbsoluteAngle(double heading, double zAngle) {
-
-    double headingCenteredAt0 = heading;
-    if (heading >= 180) {
-      headingCenteredAt0 -= 360;
-    }
-
-    int completeRotations = (int) (zAngle / 360);
-    double answer = headingCenteredAt0 + completeRotations * 360;
-
-    if (Math.abs(zAngle - answer) > 180) {
-
-      if (zAngle > 0) {
-        answer += 360;
-      } else {
-        answer -= 360;
-      }
-    }
-
-    return answer;
+    move(forwardBackward, rotation, useSquaredInputs);
   }
 
   /**
    * Drives the robot using arcadeDrive
    * 
    * @param forwardBackSpeed Positive values go forward, negative goes backwards
-   * @param rotateAmount     Per the right hand rule, positive goes
-   *                         counter-clockwise and negative goes clockwise.
+   * @param rotateAmount     Positive rotates clockwise, negative counter
+   *                         clockwise
    */
-  public void move(final double forwardBackSpeed, final double rotateAmount, final boolean squaredInput) {
-    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
-    if (forwardBackSpeed < 0) {
-      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setBlinking();
-      ;
-    } else if (forwardBackSpeed > 0) {
-      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
+  public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
+    if (m_invertFowardAndBack) {
+      forwardBackSpeed = -forwardBackSpeed;
     }
+    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
   }
 
-  protected abstract SpeedControllerGroup getLeftSpeedControllerGroup();
+  protected abstract MotorControllerGroup getLeftSpeedControllerGroup();
 
-  protected abstract SpeedControllerGroup getRightSpeedControllerGroup();
+  protected abstract MotorControllerGroup getRightSpeedControllerGroup();
 
   protected abstract double getLeftRateMetersPerSecond();
 
@@ -215,8 +131,8 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(getLeftRateMetersPerSecond(),
-        getRightRateMetersPerSecond());
+    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(
+        getLeftRateMetersPerSecond(), getRightRateMetersPerSecond());
     return wheelSpeeds;
   }
 

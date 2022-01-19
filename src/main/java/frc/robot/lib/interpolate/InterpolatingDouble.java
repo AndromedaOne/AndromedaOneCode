@@ -5,8 +5,8 @@ package frc.robot.lib.interpolate;
  * 
  * @see InterpolatingTreeMap
  */
-public class InterpolatingDouble implements Interpolable<InterpolatingDouble>, InverseInterpolable<InterpolatingDouble>,
-    Comparable<InterpolatingDouble> {
+public class InterpolatingDouble implements Interpolable<InterpolatingDouble>,
+    InverseInterpolable<InterpolatingDouble>, Comparable<InterpolatingDouble> {
   public Double value = 0.0;
 
   public InterpolatingDouble(Double val) {

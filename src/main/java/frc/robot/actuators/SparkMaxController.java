@@ -1,14 +1,14 @@
 package frc.robot.actuators;
 
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SparkMaxController extends CANSparkMax {
   private boolean m_hasEncoder = false;
-  private CANEncoder m_sparkMaxEncoder;
+  private RelativeEncoder m_sparkMaxEncoder;
   private String m_configString;
   private Config m_subsystemConfig;
 
@@ -18,7 +18,7 @@ public class SparkMaxController extends CANSparkMax {
         + subsystemConfig.getInt("ports." + configString));
     m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     if (hasEncoder()) {
-      m_sparkMaxEncoder = new CANEncoder(this);
+      m_sparkMaxEncoder = this.getEncoder();
     }
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;
@@ -35,7 +35,8 @@ public class SparkMaxController extends CANSparkMax {
       this.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
     if (subsystemConfig.hasPath(configString + ".encoderTicksPerRotation")) {
-      double encoderTicksPerRotation = subsystemConfig.getDouble(configString + ".encoderTicksPerRotation");
+      double encoderTicksPerRotation = subsystemConfig
+          .getDouble(configString + ".encoderTicksPerRotation");
       m_sparkMaxEncoder.setPositionConversionFactor(encoderTicksPerRotation);
       m_sparkMaxEncoder.setVelocityConversionFactor(encoderTicksPerRotation);
     }
@@ -46,7 +47,8 @@ public class SparkMaxController extends CANSparkMax {
       return 0;
     }
     double sensorPosition = m_sparkMaxEncoder.getPosition();
-    sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorPosition
+    sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
+        ? -sensorPosition
         : sensorPosition);
     SmartDashboard.putNumber(m_configString + " position", sensorPosition);
     return sensorPosition;
@@ -57,7 +59,8 @@ public class SparkMaxController extends CANSparkMax {
       return 0;
     }
     double sensorVelocity = m_sparkMaxEncoder.getVelocity();
-    sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted") ? -sensorVelocity
+    sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
+        ? -sensorVelocity
         : sensorVelocity);
     return sensorVelocity;
   }

@@ -4,12 +4,15 @@
 
 package frc.robot.subsystems.drivetrain;
 
+// import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
@@ -19,17 +22,14 @@ public class RomiDriveTrain extends RealDriveTrain {
   private final SparkController m_leftMotor;
   private final SparkController m_rightMotor;
 
-  private final SpeedControllerGroup m_left;
-  private final SpeedControllerGroup m_right;
+  private final MotorControllerGroup m_left;
+  private final MotorControllerGroup m_right;
   private Timer timer;
   private double m_previousLeftPositionMeters;
   private double m_previousRightPositionMeters;
   private double m_currentLeftVelocityMetersPerSecond;
-  private double m_currentRightVelocityMetersPerSecond;
   private double m_previousTime;
   public final double m_ticksPerInch;
-  private double numberOfTicksLeft;
-  private double numberOfTicksRight;
   DescriptiveStatistics leftRollingAverage;
   DescriptiveStatistics rightRollingAverage;
   private double m_maxLeftVelocity = 0;
@@ -41,8 +41,8 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_leftMotor = new SparkController(drivetrainConfig, "left");
     m_rightMotor = new SparkController(drivetrainConfig, "right");
 
-    m_left = new SpeedControllerGroup(m_leftMotor);
-    m_right = new SpeedControllerGroup(m_rightMotor);
+    m_left = new MotorControllerGroup(m_leftMotor);
+    m_right = new MotorControllerGroup(m_rightMotor);
 
     double ticksPerRevolution = drivetrainConfig.getInt("ticksPerRevolution");
     double wheelDiameterInch = drivetrainConfig.getDouble("wheelDiameterInch");
@@ -52,7 +52,6 @@ public class RomiDriveTrain extends RealDriveTrain {
     m_previousLeftPositionMeters = 0;
     m_previousRightPositionMeters = 0;
     m_currentLeftVelocityMetersPerSecond = 0;
-    m_currentRightVelocityMetersPerSecond = 0;
     m_previousTime = 0;
     timer = new Timer();
     leftRollingAverage = new DescriptiveStatistics(10);
@@ -61,14 +60,11 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   @Override
   public void init() {
-    // TODO Auto-generated method stub
     super.init();
     timer.start();
     m_previousLeftPositionMeters = 0;
     m_previousRightPositionMeters = 0;
     m_previousTime = 0;
-    numberOfTicksLeft = m_leftMotor.getEncoderPositionTicks();
-    numberOfTicksRight = m_rightMotor.getEncoderPositionTicks();
     m_leftMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch);
     m_rightMotor.getEncoder().setDistancePerPulse(4.0 * METERSPERINCH / m_ticksPerInch);
     m_maxRightVelocity = 0;
@@ -90,12 +86,11 @@ public class RomiDriveTrain extends RealDriveTrain {
     leftRollingAverage.addValue((currentLeftPoseMeters - m_previousLeftPositionMeters) / deltaT);
     m_currentLeftVelocityMetersPerSecond = leftRollingAverage.getMean();
     rightRollingAverage.addValue((currentRightPoseMeters - m_previousRightPositionMeters) / deltaT);
-    m_currentRightVelocityMetersPerSecond = rightRollingAverage.getMean();
 
     m_previousLeftPositionMeters = currentLeftPoseMeters;
     m_previousRightPositionMeters = currentRightPoseMeters;
-    SmartDashboard.putNumber("Odometry Ratio",
-        m_currentLeftVelocityMetersPerSecond / ((m_leftMotor.getEncoder().getRate() / m_ticksPerInch) * METERSPERINCH));
+    SmartDashboard.putNumber("Odometry Ratio", m_currentLeftVelocityMetersPerSecond
+        / ((m_leftMotor.getEncoder().getRate() / m_ticksPerInch) * METERSPERINCH));
     m_previousTime = currentTime;
 
     double leftVelocity = getLeftRateMetersPerSecond();
@@ -110,12 +105,12 @@ public class RomiDriveTrain extends RealDriveTrain {
   }
 
   @Override
-  protected SpeedControllerGroup getLeftSpeedControllerGroup() {
+  protected MotorControllerGroup getLeftSpeedControllerGroup() {
     return m_left;
   }
 
   @Override
-  protected SpeedControllerGroup getRightSpeedControllerGroup() {
+  protected MotorControllerGroup getRightSpeedControllerGroup() {
     return m_right;
   }
 
@@ -123,14 +118,28 @@ public class RomiDriveTrain extends RealDriveTrain {
   public double getRobotPositionInches() {
     double encoderPositionAvg = 0;
     int encoders = 0;
+    boolean invert = false;
+    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("InvertFowardAndBack")) {
+      invert = Config4905.getConfig4905().getDrivetrainConfig().getBoolean("InvertFowardAndBack");
+    }
     if (m_leftMotor.hasEncoder()) {
       ++encoders;
-      encoderPositionAvg += m_leftMotor.getEncoderPositionTicks();
+      if (invert) {
+        encoderPositionAvg -= m_leftMotor.getEncoderPositionTicks();
+      } else {
+        encoderPositionAvg += m_leftMotor.getEncoderPositionTicks();
+      }
+
       SmartDashboard.putNumber("left encoder", m_leftMotor.getEncoderPositionTicks());
     }
     if (m_rightMotor.hasEncoder()) {
       ++encoders;
-      encoderPositionAvg += m_rightMotor.getEncoderPositionTicks();
+      if (invert) {
+        encoderPositionAvg -= m_rightMotor.getEncoderPositionTicks();
+      } else {
+        encoderPositionAvg += m_rightMotor.getEncoderPositionTicks();
+
+      }
       SmartDashboard.putNumber("right encoder", m_rightMotor.getEncoderPositionTicks());
     }
     if (encoders > 0) {
@@ -151,7 +160,6 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   @Override
   public void resetEncoders() {
-    // TODO Auto-generated method stub
     m_leftMotor.getEncoder().reset();
     m_rightMotor.getEncoder().reset();
   }
@@ -175,6 +183,11 @@ public class RomiDriveTrain extends RealDriveTrain {
     double leftSpeed = m_leftMotor.getEncoder().getRate();
     double rightSpeed = m_rightMotor.getEncoder().getRate();
     return (rightSpeed + leftSpeed) / 2.0;
+  }
+
+  @Override
+  public void resetOdometry(Pose2d pose) {
+
   }
 
 }

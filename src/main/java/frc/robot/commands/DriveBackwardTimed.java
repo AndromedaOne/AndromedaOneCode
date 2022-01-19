@@ -46,7 +46,7 @@ public class DriveBackwardTimed extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    return m_timer.hasPeriodPassed(m_timeout);
+    return m_timer.advanceIfElapsed(m_timeout);
   }
 
   @Override
