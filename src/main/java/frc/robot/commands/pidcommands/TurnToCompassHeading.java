@@ -69,8 +69,8 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     super.end(interrupted);
     Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
     Trace.getInstance().logCommandStop(this);
-    Trace.getInstance().logCommandInfo(this, "Final heading: " + 
-      Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading());
+    Trace.getInstance().logCommandInfo(this, "Final heading: "
+        + Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading());
   }
 
   public void setCompassHeading(double compassHeading) {
