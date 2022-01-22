@@ -48,6 +48,7 @@ public class Config4905 {
 
   private Config romiBallMopperConfig;
   private Config wingsConfig;
+  private Config shooterConfig;
 
   private static Config4905 m_config4905 = null;
 
@@ -144,6 +145,7 @@ public class Config4905 {
     cannonConfig = load("cannon.conf");
     romiBallMopperConfig = load("romiBallMopper.conf");
     wingsConfig = load("wings.conf");
+    shooterConfig = load("shooter.conf");
   }
 
   public Config getDrivetrainConfig() {
@@ -231,6 +233,17 @@ public class Config4905 {
       return true;
     }
     return false;
+  }
+
+  public boolean doesShooterExist() {
+    if (m_config.hasPath("subsystems.shooter")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getShooterConfig() {
+    return shooterConfig;
   }
 
   public Config getSensorConfig() {

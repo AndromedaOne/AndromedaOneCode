@@ -27,6 +27,7 @@ import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
 import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
+import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.subsystems.showBotCannon.MockCannon;
 import frc.robot.subsystems.showBotCannon.RealCannon;
@@ -44,6 +45,7 @@ public class SubsystemsContainer {
   CompressorBase m_compressor;
   CannonBase m_cannon;
   RomiBallMopperBase m_romiBallMopper;
+  ShooterBase m_shooter;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -133,6 +135,9 @@ public class SubsystemsContainer {
     } else {
       System.out.println("using mock Romi Ball Mopper.");
       m_romiBallMopper = new MockRomiBallMopper();
+    }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+
     }
   }
 
