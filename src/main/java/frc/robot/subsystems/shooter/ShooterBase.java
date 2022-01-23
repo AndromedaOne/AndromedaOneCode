@@ -6,10 +6,16 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ShooterBase extends SubsystemBase {
+public abstract class ShooterBase extends SubsystemBase {
   /** Creates a new ShooterBase. */
   public ShooterBase() {
   }
+
+  public abstract void setShooterWheelPower(double power);
+
+  public abstract double getShooterWheelPower();
+
+  public abstract double getShooterWheelRpm();
 
   @Override
   public void periodic() {
