@@ -23,4 +23,9 @@ public class MockShooter extends ShooterBase {
 
     return 0;
   }
+
+  @Override
+  public String getShooterName() {
+    return "mockShooter";
+  }
 }

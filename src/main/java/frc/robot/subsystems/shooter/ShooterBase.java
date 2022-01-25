@@ -17,6 +17,8 @@ public abstract class ShooterBase extends SubsystemBase {
 
   public abstract double getShooterWheelRpm();
 
+  public abstract String getShooterName();
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -17,7 +17,7 @@ public class BottomShooterWheel extends ShooterBase {
   private SparkMaxController m_shooterMotor;
 
   public BottomShooterWheel() {
-    m_shooterMotor = new SparkMaxController(m_shooterConfig, "bottomShooter");
+    m_shooterMotor = new SparkMaxController(m_shooterConfig, getShooterName());
   }
 
   @Override
@@ -37,5 +37,10 @@ public class BottomShooterWheel extends ShooterBase {
     double speed = m_shooterMotor.getEncoderVelocityTicks();
     SmartDashboard.putNumber("BottomShooterSpeed", speed);
     return speed;
+  }
+
+  @Override
+  public String getShooterName() {
+    return "bottomShooterWheel";
   }
 }

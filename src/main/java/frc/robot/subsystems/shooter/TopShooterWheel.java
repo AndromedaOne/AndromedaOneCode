@@ -17,7 +17,7 @@ public class TopShooterWheel extends ShooterBase {
   private SparkMaxController m_shooterMotor;
 
   public TopShooterWheel() {
-    m_shooterMotor = new SparkMaxController(m_shooterConfig, "topShooter");
+    m_shooterMotor = new SparkMaxController(m_shooterConfig, getShooterName());
   }
 
   @Override
@@ -37,5 +37,10 @@ public class TopShooterWheel extends ShooterBase {
     double speed = m_shooterMotor.getEncoderVelocityTicks();
     SmartDashboard.putNumber("TopShooterSpeed", speed);
     return speed;
+  }
+
+  @Override
+  public String getShooterName() {
+    return "topShooterWheel";
   }
 }
