@@ -27,8 +27,10 @@ public class TuneShooterFeedForward extends CommandBase {
     m_bottomShooterWheel = bottomShooterWheel;
     SmartDashboard.putNumber("Top Shooter Feed Forward Value", 0.00025);
     SmartDashboard.putNumber("Top Shooter p Value", 0.001);
+    SmartDashboard.putNumber("TopShooterRPMTarget", 3000);
     SmartDashboard.putNumber("Bottom Shooter Feed Forward Value", 0.00025);
     SmartDashboard.putNumber("Bottom Shooter p Value", 0.001);
+    SmartDashboard.putNumber("BottomShooterRPMTarget", 3000);
     System.out.println("end constructor of TuneShooterFeedForward");
   }
 
