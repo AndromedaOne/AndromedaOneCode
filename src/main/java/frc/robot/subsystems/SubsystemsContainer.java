@@ -193,6 +193,14 @@ public class SubsystemsContainer {
     return m_romiWings;
   }
 
+  public ShooterBase getTopShooterWheel() {
+    return m_topShooterWheel;
+  }
+
+  public ShooterBase getBottomShooterWheel() {
+    return m_bottomShooterWheel;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());
