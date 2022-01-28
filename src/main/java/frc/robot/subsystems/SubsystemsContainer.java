@@ -12,6 +12,8 @@ import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.TeleOpCommand;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.AdjustElevation;
+import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.subsystems.climber.RealClimber;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -35,6 +37,7 @@ public class SubsystemsContainer {
 
   // Declare member variables.
   DriveTrain m_driveTrain;
+  ClimberBase m_climber;
   LEDs m_leds;
   ServoMotor m_romiIntake;
   ServoMotor m_conveyor;
@@ -83,6 +86,13 @@ public class SubsystemsContainer {
       m_driveTrain = new MockDriveTrain();
     }
     m_driveTrain.init();
+
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      System.out.println("Using a real Climber");
+      m_climber = new RealClimber();
+    } else {
+
+    }
 
     if (Config4905.getConfig4905().doesLEDExist()) {
       m_leds = new RealLEDs("LEDStringOne");
@@ -168,6 +178,10 @@ public class SubsystemsContainer {
 
   public CannonBase getCannon() {
     return m_cannon;
+  }
+
+  public ClimberBase getClimber() {
+    return m_climber;
   }
 
   public RomiBallMopperBase getRomiBallMopper() {

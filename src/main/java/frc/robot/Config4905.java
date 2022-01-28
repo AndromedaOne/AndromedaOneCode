@@ -46,6 +46,8 @@ public class Config4905 {
 
   private Config cannonConfig;
 
+  private Config climberConfig;
+
   private Config romiBallMopperConfig;
   private Config wingsConfig;
 
@@ -137,6 +139,7 @@ public class Config4905 {
     commandConstantsConfig = load("commandconstants.conf");
     sensorConfig = load("sensors.conf");
     drivetrainConfig = load("drivetrain.conf");
+    climberConfig = load("climber.conf");
     ledConfig = load("LED.conf");
     harvesterConfig = load("harvester.conf");
     conveyorConfig = load("conveyor.conf");
@@ -188,6 +191,14 @@ public class Config4905 {
 
   public boolean doesConveyorExist() {
     if (m_config.hasPath("subsystems.conveyor")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean doesClimberExist() {
+    if (m_config.hasPath("subsystems.climber")) {
       return true;
     } else {
       return false;
