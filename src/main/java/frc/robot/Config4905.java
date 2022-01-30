@@ -40,7 +40,6 @@ public class Config4905 {
   private Config m_wingsConfig;
   private Config climberConfig;
 
-
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
