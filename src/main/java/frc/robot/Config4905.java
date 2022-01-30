@@ -38,7 +38,7 @@ public class Config4905 {
   private Config m_cannonConfig;
   private Config m_romiBallMopperConfig;
   private Config m_wingsConfig;
-  private Config climberConfig;
+  private Config m_climberConfig;
 
   private static Config4905 m_config4905 = null;
 
@@ -126,7 +126,7 @@ public class Config4905 {
     m_controllers = load("controllers.conf");
     m_sensorConfig = load("sensors.conf");
     m_drivetrainConfig = load("drivetrain.conf");
-    climberConfig = load("climber.conf");
+    m_climberConfig = load("climber.conf");
     m_ledConfig = load("LED.conf");
     m_harvesterConfig = load("harvester.conf");
     m_conveyorConfig = load("conveyor.conf");
@@ -186,6 +186,10 @@ public class Config4905 {
     } else {
       return false;
     }
+  }
+
+  public Config getClimberConfig() {
+    return m_climberConfig;
   }
 
   public boolean doesClimberExist() {
