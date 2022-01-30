@@ -38,9 +38,9 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop(shooterWheel.getShooterName(),
-            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runShooterWheelVelocity.p"),
-            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runShooterWheelVelocity.i"),
-            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runShooterWheelVelocity.d"),
+            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runshooterwheelvelocity.p"),
+            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runshooterwheelvelocity.i"),
+            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runshooterwheelvelocity.d"),
             0),
         // This should return the measurement
         // () -> 0,
