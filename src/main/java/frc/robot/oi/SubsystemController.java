@@ -8,15 +8,12 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Config4905;
 import frc.robot.subsystems.SubsystemsContainer;
 
 public class SubsystemController extends ControllerBase {
 
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
-    if (Config4905.getConfig4905().isShowBot()) {
-      setController(new XboxController(1));
-    }
+    setController(new XboxController(1));
   }
 
   public double getElevatorAdjustElevationStick() {
