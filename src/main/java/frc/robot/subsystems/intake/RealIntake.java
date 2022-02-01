@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.intake;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.TalonSRXController;
@@ -22,13 +21,13 @@ public class RealIntake extends IntakeBase {
 
   public void runIntake(double speed) {
     // Run intake motors to bring game piece (ball) into robot
-    m_intakeController.set(speed)
+    m_intakeController.set(speed);
   }
 
   public void stopIntake() {
     // Stop intake motors
     m_intakeController.stopMotor();
-  }  
+  }
 
   @Override
   public void deployIntake() {
@@ -39,11 +38,11 @@ public class RealIntake extends IntakeBase {
   @Override
   public void retractIntake() {
     m_intakeDoubleSolenoid4905.retractPiston();
-  }  
-  
+  }
+
 //  TBD - The periodic() call is in the new subsystem base, but not in 4905 base/real/mock
 //  @Override
 //  public void periodic() {
-    // This method will be called once per scheduler run
+  // This method will be called once per scheduler run
 
 }
