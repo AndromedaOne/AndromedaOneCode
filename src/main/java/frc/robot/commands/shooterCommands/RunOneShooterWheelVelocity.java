@@ -37,14 +37,9 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
       boolean tuneValues, double feedForwardValue, double pValue, Config shooterConfig) {
     super(
         // The controller that the command will use
-        new PIDController4905SampleStop(shooterWheel.getShooterName(),
-            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runshooterwheelvelocity.p"),
-            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runshooterwheelvelocity.i"),
-            shooterConfig.getDouble(shooterWheel.getShooterName() + ".runshooterwheelvelocity.d"),
-            0),
+        new PIDController4905SampleStop(shooterWheel.getShooterName(), 0, 0, 0, 0),
         // This should return the measurement
         // () -> 0,
-
         shooterWheel::getShooterWheelRpm,
         // This should return the setpoint (can also be a constant)
         // () -> 0,
@@ -73,7 +68,7 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   }
 
   public RunOneShooterWheelVelocity(ShooterBase shooterWheel, DoubleSupplier setpoint,
-      String shooterName, Config shooterConfig) {
+      Config shooterConfig) {
     this(shooterWheel, setpoint, false, 0, 0, shooterConfig);
   }
 
