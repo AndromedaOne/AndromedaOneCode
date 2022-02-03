@@ -2,10 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ExamplePathCommands;
+package frc.robot.commands.examplePathCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainRectangularPathGenerator;
 import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.waypoints.Waypoint;
