@@ -5,16 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.groupcommands.parallelgroup;
+package frc.robot.commands.limeLightCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 
-public class PlaceHolder extends CommandBase {
+public class ToggleLimelightLED extends CommandBase {
+  private boolean m_ledStatus;
+  private LimeLightCameraBase limelight;
+
   /**
-   * Creates a new PlaceHolder.
+   * Creates a new ToggleLimelightLED.
    */
-  public PlaceHolder() {
+  public ToggleLimelightLED(boolean ledStatus, SensorsContainer sensorsContainer) {
     // Use addRequirements() here to declare subsystem dependencies.
+    limelight = sensorsContainer.getLimeLight();
+    m_ledStatus = ledStatus;
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +32,11 @@ public class PlaceHolder extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (m_ledStatus) {
+      limelight.enableLED();
+    } else {
+      limelight.disableLED();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +47,6 @@ public class PlaceHolder extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
