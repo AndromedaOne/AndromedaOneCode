@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.pidcommands;
+package frc.robot.commands.driveTrainCommands;
 
 import com.typesafe.config.Config;
 

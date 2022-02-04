@@ -2,9 +2,9 @@ package frc.robot.pathgeneration.pathgenerators;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.PauseRobot;
-import frc.robot.commands.pidcommands.MoveUsingEncoder;
-import frc.robot.commands.pidcommands.TurnToCompassHeading;
+import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;

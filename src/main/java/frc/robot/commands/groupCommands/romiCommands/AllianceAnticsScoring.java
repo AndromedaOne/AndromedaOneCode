@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.groupcommands.RomiCommands;
+package frc.robot.commands.groupCommands.romiCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
-import frc.robot.commands.PauseRobot;
-import frc.robot.commands.pidcommands.MoveUsingEncoder;
-import frc.robot.commands.pidcommands.TurnDeltaAngle;
+import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.driveTrainCommands.TurnDeltaAngle;
 import frc.robot.commands.romiCommands.ToggleConveyor;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
