@@ -6,21 +6,22 @@ package frc.robot.commands.intakeCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.telemetries.Trace;
 
-public class RunIntakeOut extends CommandBase {
-  /** Creates a new RunIntakeOut. */
+public class RetractAndStopIntake extends CommandBase {
+  /** Creates a new RetractAndStopIntake. */
   private IntakeBase m_intakeBase;
 
-  public RunIntakeOut(IntakeBase intakeBase) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public RetractAndStopIntake(IntakeBase intakeBase) {
+    addRequirements(intakeBase);
     m_intakeBase = intakeBase;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
+    m_intakeBase.retractIntake();
+    m_intakeBase.stopIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,13 +32,11 @@ public class RunIntakeOut extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeBase.stopIntake();
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

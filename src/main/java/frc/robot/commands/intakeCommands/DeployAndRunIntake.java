@@ -4,40 +4,55 @@
 
 package frc.robot.commands.intakeCommands;
 
+import java.util.function.BooleanSupplier;
+
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Config4905;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.telemetries.Trace;
 
-public class RunIntakeOut extends CommandBase {
-  /** Creates a new RunIntakeOut. */
+public class DeployAndRunIntake extends CommandBase {
+  /** Creates a new DeployAndRunIntake. */
   private IntakeBase m_intakeBase;
+  private BooleanSupplier m_finishedCondition;
+  private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
+  private double m_intakeSpeed;
 
-  public RunIntakeOut(IntakeBase intakeBase) {
+  public DeployAndRunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intakeBase);
     m_intakeBase = intakeBase;
+    m_intakeSpeed = Config4905.getConfig4905().getCommandConstantsConfig()
+        .getDouble("DeployAndRunIntake.intakespeed");
+    m_finishedCondition = finishedCondition;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
+    m_intakeBase.deployIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intakeBase.runIntake(m_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_intakeBase.stopIntake();
+    m_intakeBase.retractIntake();
     Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_finishedCondition.getAsBoolean();
   }
 }
