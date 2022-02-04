@@ -4,13 +4,15 @@
 
 package frc.robot.subsystems.intake;
 
+import com.typesafe.config.Config;
+
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.TalonSRXController;
 
 public class RealIntake extends IntakeBase {
   private TalonSRXController m_intakeController;
-  private DoubleSolenoid4905 m_intakeDoubleSolenoid4905;
+  private DoubleSolenoid4905 m_intakeDeploymentSolenoid;
 
   /** Creates a new RealIntake. */
   public RealIntake() {
@@ -37,12 +39,6 @@ public class RealIntake extends IntakeBase {
 
   @Override
   public void retractIntake() {
-    m_intakeDoubleSolenoid4905.retractPiston();
+    m_intakeDeploymentSolenoid.retractPiston();
   }
-
-//  TBD - The periodic() call is in the new subsystem base, but not in 4905 base/real/mock
-//  @Override
-//  public void periodic() {
-  // This method will be called once per scheduler run
-
 }
