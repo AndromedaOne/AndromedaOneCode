@@ -39,6 +39,7 @@ public class Config4905 {
   private Config m_romiBallMopperConfig;
   private Config m_wingsConfig;
   private Config shooterConfig;
+  private Config m_feederConfig;
 
   private static Config4905 m_config4905 = null;
 
@@ -134,6 +135,7 @@ public class Config4905 {
     m_romiBallMopperConfig = load("romiBallMopper.conf");
     m_wingsConfig = load("wings.conf");
     shooterConfig = load("shooter.conf");
+    m_feederConfig = load("feeder.conf");
   }
 
   public Config getControllersConfig() {
@@ -236,6 +238,17 @@ public class Config4905 {
 
   public Config getShooterConfig() {
     return shooterConfig;
+  }
+
+  public boolean doesFeederExist() {
+    if (m_config.hasPath("subsystems.feeder")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getFeederConfig() {
+    return m_feederConfig;
   }
 
   public Config getSensorConfig() {
