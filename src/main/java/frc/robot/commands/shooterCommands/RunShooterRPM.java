@@ -18,8 +18,8 @@ public class RunShooterRPM extends CommandBase {
   private double m_setpoint = 0;
   private boolean m_useSmartDashboardRPM = false;
 
-  public RunShooterRPM(ShooterBase topShooterWheel, ShooterBase bottomShooterWheel,
-      double setpoint, boolean useSmartDashboardRPM) {
+  public RunShooterRPM(ShooterBase topShooterWheel, ShooterBase bottomShooterWheel, double setpoint,
+      boolean useSmartDashboardRPM) {
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
     m_setpoint = setpoint;
