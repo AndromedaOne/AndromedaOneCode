@@ -16,24 +16,29 @@ public class RunShooterRPM extends CommandBase {
   private ShooterBase m_topShooterWheel;
   private ShooterBase m_bottomShooterWheel;
   private double m_setpoint = 0;
+  private boolean m_useSmartDashboardRPM = false;
 
   public RunShooterRPM(ShooterBase topShooterWheel, ShooterBase bottomShooterWheel,
-      double setpoint) {
+      double setpoint, boolean useSmartDashboardRPM) {
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
     m_setpoint = setpoint;
+    m_useSmartDashboardRPM = useSmartDashboardRPM;
     addRequirements(topShooterWheel, bottomShooterWheel);
 
   }
 
   public RunShooterRPM(ShooterBase topShooterWheel, ShooterBase bottomShooterWheel) {
-    this(topShooterWheel, bottomShooterWheel, SmartDashboard.getNumber("Run Shooter RPM", 1000));
+    this(topShooterWheel, bottomShooterWheel, 0, true);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
+    if (m_useSmartDashboardRPM) {
+      m_setpoint = SmartDashboard.getNumber("Set Shooter RPM", 1000);
+    }
     CommandScheduler.getInstance().schedule(
         new RunOneShooterWheelVelocity(m_topShooterWheel, () -> m_setpoint,
             Config4905.getConfig4905().getShooterConfig()),
