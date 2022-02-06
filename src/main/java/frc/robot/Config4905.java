@@ -50,6 +50,7 @@ public class Config4905 {
   private String m_robotName;
   private boolean m_isRomi = false;
   private boolean m_isShowBot = false;
+  private boolean m_isTopGun = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -59,7 +60,10 @@ public class Config4905 {
       m_robotName = m_nameConfig.getString("robot.name");
       if (m_robotName.equals("ShowBot")) {
         m_isShowBot = true;
+      } else if (m_robotName.equals("TopGun")) {
+        m_isTopGun = true;
       }
+
     } else {
       // try to figure out which Romi we're on by looking at the SSID's we're
       // connected to
@@ -270,6 +274,10 @@ public class Config4905 {
 
   public boolean isShowBot() {
     return m_isShowBot;
+  }
+
+  public boolean isTopGun() {
+    return m_isTopGun;
   }
 
   public String getRobotName() {
