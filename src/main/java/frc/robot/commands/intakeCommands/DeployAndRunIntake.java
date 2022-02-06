@@ -18,15 +18,18 @@ public class DeployAndRunIntake extends CommandBase {
   private IntakeBase m_intakeBase;
   private BooleanSupplier m_finishedCondition;
   private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
-  private double m_intakeSpeed;
+  private double m_intakeSpeed = 0;
+  private boolean m_runInReverse = false;
 
-  public DeployAndRunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition) {
+  public DeployAndRunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition,
+      boolean runInReverse) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
     m_intakeSpeed = Config4905.getConfig4905().getCommandConstantsConfig()
         .getDouble("DeployAndRunIntake.intakespeed");
     m_finishedCondition = finishedCondition;
+    m_runInReverse = runInReverse;
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +42,11 @@ public class DeployAndRunIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeBase.runIntake(m_intakeSpeed);
+    double intakeSpeed = m_intakeSpeed;
+    if (m_runInReverse) {
+      intakeSpeed *= -1;
+    }
+    m_intakeBase.runIntake(intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
