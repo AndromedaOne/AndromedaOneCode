@@ -7,38 +7,37 @@ package frc.robot.subsystems.intake;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
-import frc.robot.actuators.DoubleSolenoid4905;
-import frc.robot.actuators.TalonSRXController;
+import frc.robot.actuators.SparkMaxController;
 
 public class RealIntake extends IntakeBase {
-  private TalonSRXController m_intakeController;
-  private DoubleSolenoid4905 m_intakeDeploymentSolenoid;
+  private SparkMaxController m_wheelsController;
+  private SparkMaxController m_deployRetractController;
+  private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
 
   /** Creates a new RealIntake. */
   public RealIntake() {
-    Config intakeConfig = Config4905.getConfig4905().getIntakeConfig();
-    m_intakeController = new TalonSRXController(intakeConfig, "IntakeSRXController");
-    m_intakeDeploymentSolenoid = new DoubleSolenoid4905(intakeConfig, "IntakeSolonoid");
+    m_wheelsController = new SparkMaxController(m_intakeConfig, "wheelsController");
+    m_deployRetractController = new SparkMaxController(m_intakeConfig, "deployRetractController");
   }
 
   public void runIntake(double speed) {
     // Run intake motors to bring game piece (ball) into robot
-    m_intakeController.set(speed);
+    m_wheelsController.set(speed);
   }
 
   public void stopIntake() {
     // Stop intake motors
-    m_intakeController.stopMotor();
+    m_wheelsController.stopMotor();
   }
 
   @Override
   public void deployIntake() {
-    m_intakeDeploymentSolenoid.extendPiston();
+    m_deployRetractController.set(m_intakeConfig.getDouble("deploySpeed"));
     System.out.println("Deploying Intake");
   }
 
   @Override
   public void retractIntake() {
-    m_intakeDeploymentSolenoid.retractPiston();
+    m_deployRetractController.set(m_intakeConfig.getDouble("retractSpeed"));
   }
 }
