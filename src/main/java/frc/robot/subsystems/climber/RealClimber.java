@@ -72,7 +72,7 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void driveBacktRightWinch() {
+  public void driveBackRightWinch() {
     m_backRightWinch.set(1.0);
 
   }
@@ -106,6 +106,30 @@ public class RealClimber extends ClimberBase {
   @Override
   public SparkMaxController getBackRightWinch() {
     return (m_backRightWinch);
+  }
+
+  @Override
+  public void unwindFrontLeftWinch() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void unwindBackLeftWinch() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void unwindFrontRightWinch() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void unwindBackRightWinch() {
+    // TODO Auto-generated method stub
+
   }
 
 }

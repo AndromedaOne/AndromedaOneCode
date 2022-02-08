@@ -30,7 +30,15 @@ public abstract class ClimberBase extends SubsystemBase {
 
   public abstract void driveFrontRightWinch();
 
-  public abstract void driveBacktRightWinch();
+  public abstract void driveBackRightWinch();
+
+  public abstract void unwindFrontLeftWinch();
+
+  public abstract void unwindBackLeftWinch();
+
+  public abstract void unwindFrontRightWinch();
+
+  public abstract void unwindBackRightWinch();
 
   public abstract void stopFrontLeftWinch();
 

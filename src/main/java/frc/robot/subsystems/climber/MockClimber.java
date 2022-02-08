@@ -64,7 +64,27 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void driveBacktRightWinch() {
+  public void driveBackRightWinch() {
+
+  }
+
+  @Override
+  public void unwindFrontLeftWinch() {
+
+  }
+
+  @Override
+  public void unwindBackLeftWinch() {
+
+  }
+
+  @Override
+  public void unwindFrontRightWinch() {
+
+  }
+
+  @Override
+  public void unwindBackRightWinch() {
 
   }
 
