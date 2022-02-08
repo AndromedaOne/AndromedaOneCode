@@ -4,6 +4,7 @@
 
 package frc.robot.commands.shooterCommands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
@@ -32,9 +33,11 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   private SimpleMotorFeedforward m_feedForward;
   private InterpolatingMap m_kMap;
   private InterpolatingMap m_pMap;
+  private BooleanSupplier m_finishedCondition;
 
   public RunOneShooterWheelVelocity(ShooterBase shooterWheel, DoubleSupplier setpoint,
-      boolean tuneValues, double feedForwardValue, double pValue, Config shooterConfig) {
+      boolean tuneValues, double feedForwardValue, double pValue, Config shooterConfig,
+      BooleanSupplier finishedCondition) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop(shooterWheel.getShooterName(), 0, 0, 0, 0),
@@ -49,7 +52,7 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
           // Use the output here
           shooterWheel.setShooterWheelPower(output + m_computedFeedForward);
         });
-    // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(shooterWheel);
     // Configure additional PID options by calling `getController` here.
     m_shooterConfig = shooterConfig;
     getController()
@@ -65,11 +68,12 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
         shooterWheel.getShooterName() + ".shooterTargetRPMAndKValues");
     m_pMap = new InterpolatingMap(shooterConfig,
         shooterWheel.getShooterName() + ".shooterTargetRPMandPValues");
+    m_finishedCondition = finishedCondition;
   }
 
   public RunOneShooterWheelVelocity(ShooterBase shooterWheel, DoubleSupplier setpoint,
-      Config shooterConfig) {
-    this(shooterWheel, setpoint, false, 0, 0, shooterConfig);
+      Config shooterConfig, BooleanSupplier finishedCondition) {
+    this(shooterWheel, setpoint, false, 0, 0, shooterConfig, finishedCondition);
   }
 
   // Returns true when the command should end.
@@ -105,7 +109,7 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return m_finishedCondition.getAsBoolean();
   }
 
   @Override
