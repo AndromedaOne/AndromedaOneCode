@@ -1,4 +1,4 @@
-package frc.robot.commands.climber;
+package frc.robot.commands.climberCommands;
 
 import java.util.BitSet;
 

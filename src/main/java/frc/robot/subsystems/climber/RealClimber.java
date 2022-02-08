@@ -96,7 +96,16 @@ public class RealClimber extends ClimberBase {
   @Override
   public void stopBacktRightWinch() {
     m_backRightWinch.set(0);
+  }
 
+  @Override
+  public SparkMaxController getBackLeftWinch() {
+    return (m_backLeftWinch);
+  }
+
+  @Override
+  public SparkMaxController getBackRightWinch() {
+    return (m_backRightWinch);
   }
 
 }

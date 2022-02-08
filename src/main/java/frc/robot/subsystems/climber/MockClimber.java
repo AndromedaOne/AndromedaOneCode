@@ -1,5 +1,7 @@
 package frc.robot.subsystems.climber;
 
+import frc.robot.actuators.SparkMaxController;
+
 public class MockClimber extends ClimberBase {
 
   public MockClimber() {
@@ -84,6 +86,16 @@ public class MockClimber extends ClimberBase {
   @Override
   public void stopBacktRightWinch() {
 
+  }
+
+  @Override
+  public SparkMaxController getBackLeftWinch() {
+    return null;
+  }
+
+  @Override
+  public SparkMaxController getBackRightWinch() {
+    return null;
   }
 
 }
