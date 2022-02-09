@@ -65,9 +65,8 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
       SmartDashboard.putNumber("Set Shooter RPM", 1000);
-      SmartDashboard.putData("Run Shooter RPM",
-          new RunShooterRPM(subsystemsContainer.getTopShooterWheel(),
-              subsystemsContainer.getBottomShooterWheel(), () -> false));
+      SmartDashboard.putData("Run Shooter RPM", new RunShooterRPM(
+          subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
     }
 
     if (Config4905.getConfig4905().isRomi()) {

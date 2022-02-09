@@ -7,8 +7,6 @@ package frc.robot.commands.shooterCommands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -33,7 +31,8 @@ public class RunShooterRPM extends ParallelCommandGroup {
     if (useSmartDashboardRPM) {
       m_finishedCondition = new FinishedConditionSupplier();
     }
-    addCommands(new RunOneShooterWheelVelocity(m_topShooterWheel, () -> m_setpoint,
+    addCommands(
+        new RunOneShooterWheelVelocity(m_topShooterWheel, () -> m_setpoint,
             Config4905.getConfig4905().getShooterConfig(), m_finishedCondition),
         new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> m_setpoint,
             Config4905.getConfig4905().getShooterConfig(), m_finishedCondition));
@@ -72,6 +71,7 @@ public class RunShooterRPM extends ParallelCommandGroup {
   public boolean isFinished() {
     return m_finishedCondition.getAsBoolean();
   }
+
   private class FinishedConditionSupplier implements BooleanSupplier {
 
     @Override
@@ -79,6 +79,5 @@ public class RunShooterRPM extends ParallelCommandGroup {
       return m_finished;
     }
 
-  
   }
 }

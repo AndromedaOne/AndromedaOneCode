@@ -9,6 +9,8 @@ package frc.robot.commands.shooterCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Config4905;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 
@@ -44,14 +46,12 @@ public class TuneShooterFeedForward extends CommandBase {
     double bottomPValue = SmartDashboard.getNumber("Bottom Shooter p Value", 0.001);
     double bottomShootRPM = SmartDashboard.getNumber("BottomShooterRPMTarget", 3000);
     System.out.println("Scheduling  RunShooterWheelVelocity");
-    // CommandScheduler.getInstance().schedule(
-    // new RunOneShooterWheelVelocity(m_topShooterWheel, () -> topShootRPM, true,
-    // topFeedForward,
-    // topPValue, Config4905.getConfig4905().getShooterConfig()),
-    // new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> bottomShootRPM,
-    // true,
-    // bottomFeedForward, bottomPValue,
-    // Config4905.getConfig4905().getShooterConfig()));
+    CommandScheduler.getInstance()
+        .schedule(new RunOneShooterWheelVelocity(m_topShooterWheel, () -> topShootRPM, true,
+            topFeedForward, topPValue, Config4905.getConfig4905().getShooterConfig(), () -> false),
+            new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> bottomShootRPM, true,
+                bottomFeedForward, bottomPValue, Config4905.getConfig4905().getShooterConfig(),
+                () -> false));
     Trace.getInstance().logCommandStart(this);
   }
 

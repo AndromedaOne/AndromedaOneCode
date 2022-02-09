@@ -52,7 +52,7 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
           // Use the output here
           shooterWheel.setShooterWheelPower(output + m_computedFeedForward);
         });
-        addRequirements(shooterWheel);
+    addRequirements(shooterWheel);
     // Configure additional PID options by calling `getController` here.
     m_shooterConfig = shooterConfig;
     getController()
