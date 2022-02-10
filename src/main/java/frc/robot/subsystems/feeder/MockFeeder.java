@@ -16,4 +16,10 @@ public class MockFeeder extends FeederBase {
   public void stopFeeder() {
 
   }
+
+  @Override
+  public void runFeederInReverse(double speed) {
+
+  }
+
 }

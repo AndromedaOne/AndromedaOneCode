@@ -15,6 +15,8 @@ public abstract class FeederBase extends SubsystemBase {
 
   public abstract void stopFeeder();
 
+  public abstract void runFeederInReverse(double speed);
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

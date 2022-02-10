@@ -30,4 +30,10 @@ public class RealFeeder extends FeederBase {
     m_feederMotor.set(0);
   }
 
+  @Override
+  public void runFeederInReverse(double speed) {
+    m_feederMotor.set(-speed);
+
+  }
+
 }
