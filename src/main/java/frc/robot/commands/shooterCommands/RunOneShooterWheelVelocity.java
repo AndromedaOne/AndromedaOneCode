@@ -13,7 +13,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
-import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
 
@@ -22,7 +22,7 @@ import frc.robot.utils.InterpolatingMap;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   /** Creates a new RunOneShooterWheelVelocity. */
-  private ShooterBase m_shooterWheel;
+  private ShooterWheelBase m_shooterWheel;
   private DoubleSupplier m_setpoint;
   private boolean m_tuneValues;
   private double m_feedForwardValue;
@@ -35,7 +35,7 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   private InterpolatingMap m_pMap;
   private BooleanSupplier m_finishedCondition;
 
-  public RunOneShooterWheelVelocity(ShooterBase shooterWheel, DoubleSupplier setpoint,
+  public RunOneShooterWheelVelocity(ShooterWheelBase shooterWheel, DoubleSupplier setpoint,
       boolean tuneValues, double feedForwardValue, double pValue, Config shooterConfig,
       BooleanSupplier finishedCondition) {
     super(
@@ -71,7 +71,7 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
     m_finishedCondition = finishedCondition;
   }
 
-  public RunOneShooterWheelVelocity(ShooterBase shooterWheel, DoubleSupplier setpoint,
+  public RunOneShooterWheelVelocity(ShooterWheelBase shooterWheel, DoubleSupplier setpoint,
       Config shooterConfig, BooleanSupplier finishedCondition) {
     this(shooterWheel, setpoint, false, 0, 0, shooterConfig, finishedCondition);
   }

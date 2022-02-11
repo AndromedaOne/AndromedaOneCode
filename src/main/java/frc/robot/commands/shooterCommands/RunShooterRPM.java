@@ -9,20 +9,20 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
-import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
 public class RunShooterRPM extends ParallelCommandGroup {
 
-  private ShooterBase m_topShooterWheel;
-  private ShooterBase m_bottomShooterWheel;
+  private ShooterWheelBase m_topShooterWheel;
+  private ShooterWheelBase m_bottomShooterWheel;
   private double m_setpoint = 0;
   private boolean m_useSmartDashboardRPM = false;
   private BooleanSupplier m_finishedCondition;
   private boolean m_finished = false;
 
-  public RunShooterRPM(ShooterBase topShooterWheel, ShooterBase bottomShooterWheel, double setpoint,
-      boolean useSmartDashboardRPM, BooleanSupplier finishedCondition) {
+  public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel,
+      double setpoint, boolean useSmartDashboardRPM, BooleanSupplier finishedCondition) {
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
     m_setpoint = setpoint;
@@ -39,7 +39,7 @@ public class RunShooterRPM extends ParallelCommandGroup {
 
   }
 
-  public RunShooterRPM(ShooterBase topShooterWheel, ShooterBase bottomShooterWheel) {
+  public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel) {
     this(topShooterWheel, bottomShooterWheel, 0, true, () -> false);
   }
 
@@ -47,19 +47,16 @@ public class RunShooterRPM extends ParallelCommandGroup {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
+    super.initialize();
     if (m_useSmartDashboardRPM) {
       m_setpoint = SmartDashboard.getNumber("Set Shooter RPM", 1000);
     }
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    super.end(interrupted);
     m_topShooterWheel.setShooterWheelPower(0);
     m_bottomShooterWheel.setShooterWheelPower(0);
     m_finished = true;

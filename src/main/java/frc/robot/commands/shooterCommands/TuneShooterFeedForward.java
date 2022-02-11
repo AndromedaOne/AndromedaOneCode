@@ -11,17 +11,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
-import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
 public class TuneShooterFeedForward extends CommandBase {
   /**
    * Creates a new TuneShooterFeedForward.
    */
-  private ShooterBase m_topShooterWheel;
-  private ShooterBase m_bottomShooterWheel;
+  private ShooterWheelBase m_topShooterWheel;
+  private ShooterWheelBase m_bottomShooterWheel;
 
-  public TuneShooterFeedForward(ShooterBase topShooterWheel, ShooterBase bottomShooterWheel) {
+  public TuneShooterFeedForward(ShooterWheelBase topShooterWheel,
+      ShooterWheelBase bottomShooterWheel) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
