@@ -47,21 +47,24 @@ public class RunShooterRPM extends ParallelCommandGroup {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    super.initialize();
     if (m_useSmartDashboardRPM) {
       m_setpoint = SmartDashboard.getNumber("Set Shooter RPM", 1000);
+      m_finished = false;
     }
+    System.out.println("Setpoint Set To" + m_setpoint);
+    super.initialize();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    super.end(interrupted);
     m_topShooterWheel.setShooterWheelPower(0);
     m_bottomShooterWheel.setShooterWheelPower(0);
     m_finished = true;
     Trace.getInstance().logCommandStop(this);
+    super.end(interrupted);
   }
+
 
   // Returns true when the command should end.
   @Override
