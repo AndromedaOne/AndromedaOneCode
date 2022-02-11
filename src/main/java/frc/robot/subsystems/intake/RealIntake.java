@@ -7,17 +7,17 @@ package frc.robot.subsystems.intake;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
-import frc.robot.actuators.SparkMaxController;
+import frc.robot.actuators.TalonSRXController;
 
 public class RealIntake extends IntakeBase {
-  private SparkMaxController m_wheelsController;
-  private SparkMaxController m_deployRetractController;
+  private TalonSRXController m_wheelsController;
+  private TalonSRXController m_deployRetractController;
   private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
 
   /** Creates a new RealIntake. */
   public RealIntake() {
-    m_wheelsController = new SparkMaxController(m_intakeConfig, "wheelsController");
-    m_deployRetractController = new SparkMaxController(m_intakeConfig, "deployRetractController");
+    m_wheelsController = new TalonSRXController(m_intakeConfig, "wheelsController");
+    m_deployRetractController = new TalonSRXController(m_intakeConfig, "deployRetractController");
   }
 
   public void runIntake(double speed) {
