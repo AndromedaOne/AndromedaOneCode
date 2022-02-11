@@ -62,11 +62,6 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void driveBackLeftWinch() {
-    m_backLeftWinch.set(1.0);
-  }
-
-  @Override
   public void driveFrontRightWinch() {
 
   }
@@ -110,25 +105,28 @@ public class RealClimber extends ClimberBase {
 
   @Override
   public void unwindFrontLeftWinch() {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void unwindBackLeftWinch() {
-    // TODO Auto-generated method stub
+    m_backLeftWinch.set(-1.0);
 
   }
 
   @Override
+  public void driveBackLeftWinch() {
+    m_backLeftWinch.set(1.0);
+  }
+
+  @Override
   public void unwindFrontRightWinch() {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void unwindBackRightWinch() {
-    // TODO Auto-generated method stub
+    m_backRightWinch.set(-1.0);
 
   }
 

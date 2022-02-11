@@ -96,12 +96,20 @@ public class ControllerBase {
     return m_controller.getLeftBumperReleased();
   }
 
+  protected JoystickButton getLeftBumperButton() {
+    return new JoystickButton(m_controller, ButtonsEnumerated.LEFTBUMPERBUTTON.getValue());
+  }
+
   protected boolean getRightBumperPressed() {
     return m_controller.getRightBumperPressed();
   }
 
   protected boolean getRightBumperReleased() {
     return m_controller.getRightBumperReleased();
+  }
+
+  protected JoystickButton getRightBumperButton() {
+    return new JoystickButton(m_controller, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
   }
 
   private double deadband(double stickValue) {

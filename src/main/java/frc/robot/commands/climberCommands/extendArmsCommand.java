@@ -31,9 +31,9 @@ public class extendArmsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.driveBackLeftWinch();
+    m_climber.unwindBackLeftWinch();
 
-    m_climber.driveBackRightWinch();
+    m_climber.unwindBackRightWinch();
   }
 
   // Called once the command ends or is interrupted.
