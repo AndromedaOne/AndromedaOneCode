@@ -8,12 +8,11 @@ import frc.robot.actuators.SparkMaxController;
 public class RealClimber extends ClimberBase {
   public SparkMaxController m_backLeftWinch;
   public SparkMaxController m_backRightWinch;
-  public SparkMaxController m_frontLeftWinch;
-  public SparkMaxController m_frontRightWinch;
 
   public RealClimber() {
     Config climberConfig = Config4905.getConfig4905().getClimberConfig();
-
+    m_backLeftWinch = new SparkMaxController(climberConfig, "backLeftWinch");
+    m_backRightWinch = new SparkMaxController(climberConfig, "backRightWinch");
   }
 
   @Override

@@ -27,8 +27,8 @@ public class contractArmsCommand extends CommandBase {
 
   @Override
   public void execute() {
-    m_climber.unwindBackLeftWinch();
-    m_climber.unwindBackRightWinch();
+    m_climber.driveBackLeftWinch();
+    m_climber.driveBackRightWinch();
   }
 
   @Override
@@ -38,6 +38,6 @@ public class contractArmsCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return (m_climber.getBackLeftWinch().getEncoderPositionTicks() >= m_contractHeight
-        || m_climber.getBackLeftWinch().getEncoderPositionTicks() >= m_contractHeight);
+        || m_climber.getBackRightWinch().getEncoderPositionTicks() >= m_contractHeight);
   }
 }

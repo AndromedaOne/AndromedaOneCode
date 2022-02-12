@@ -38,7 +38,7 @@ public class DriveController extends ControllerBase {
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
   private JoystickButton m_extendArmsButton;
-  private JoystickButton m_contractArmsButton; 
+  private JoystickButton m_contractArmsButton;
 
   public DriveController(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
@@ -63,8 +63,10 @@ public class DriveController extends ControllerBase {
       setupRomiButtons();
     }
     if (Config4905.getConfig4905().doesClimberExist()) {
+      setUpClimberButtons();
     }
-  
+
+  }
 
   public double getDriveTrainForwardBackwardStick() {
     return getLeftStickForwardBackwardValue();
@@ -81,9 +83,12 @@ public class DriveController extends ControllerBase {
   public boolean getSlowModeBumperReleased() {
     return getLeftBumperReleased();
   }
-  public void setUpClimberButtons() {
-    
+
+  private void setUpClimberButtons() {
+    m_extendArmsButton = getRightBumperButton();
+    m_contractArmsButton = getLeftBumperButton();
   }
+
   protected void limeLightButtons() {
     m_turnOnLimelight = getBackButton();
     m_turnOnLimelight.whenPressed(new ToggleLimelightLED(true, m_sensorsContainer));
