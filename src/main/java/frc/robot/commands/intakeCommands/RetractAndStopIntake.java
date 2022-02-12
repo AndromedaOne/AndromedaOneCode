@@ -14,19 +14,19 @@ public class RetractAndStopIntake extends CommandBase {
   public RetractAndStopIntake(IntakeBase intakeBase) {
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeBase.retractIntake();
-    m_intakeBase.stopIntake();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intakeBase.retractIntake();
+    m_intakeBase.stopIntake();
   }
 
   // Called once the command ends or is interrupted.

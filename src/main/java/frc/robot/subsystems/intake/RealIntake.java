@@ -22,6 +22,7 @@ public class RealIntake extends IntakeBase {
 
   public void runIntake(double speed) {
     // Run intake motors to bring game piece (ball) into robot
+    // Or to push Ball out of Robot
     m_wheelsController.set(speed);
   }
 
@@ -33,7 +34,6 @@ public class RealIntake extends IntakeBase {
   @Override
   public void deployIntake() {
     m_deployRetractController.set(m_intakeConfig.getDouble("deploySpeed"));
-    System.out.println("Deploying Intake");
   }
 
   @Override

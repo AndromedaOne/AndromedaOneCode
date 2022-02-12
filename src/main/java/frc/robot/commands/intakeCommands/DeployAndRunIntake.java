@@ -4,31 +4,26 @@
 
 package frc.robot.commands.intakeCommands;
 
-import java.util.function.BooleanSupplier;
-
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.telemetries.Trace;
 
 public class DeployAndRunIntake extends CommandBase {
   /** Creates a new DeployAndRunIntake. */
   private IntakeBase m_intakeBase;
-  private BooleanSupplier m_finishedCondition;
   private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
   private double m_intakeSpeed = 0;
   private boolean m_runInReverse = false;
 
-  public DeployAndRunIntake(IntakeBase intakeBase, BooleanSupplier finishedCondition,
-      boolean runInReverse) {
+  public DeployAndRunIntake(IntakeBase intakeBase, boolean runInReverse) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeBase);
     m_intakeBase = intakeBase;
-    m_intakeSpeed = Config4905.getConfig4905().getCommandConstantsConfig()
-        .getDouble("DeployAndRunIntake.intakespeed");
-    m_finishedCondition = finishedCondition;
+    m_intakeSpeed = m_intakeConfig.getDouble("intakeSpeed");
     m_runInReverse = runInReverse;
   }
 
@@ -60,6 +55,7 @@ public class DeployAndRunIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_finishedCondition.getAsBoolean();
+    return Robot.getInstance().getOIContainer().getSubsystemController()
+        .getRunIntakeButtonReleased();
   }
 }

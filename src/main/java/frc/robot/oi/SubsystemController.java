@@ -8,20 +8,33 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Config4905;
+import frc.robot.commands.intakeCommands.DeployAndRunIntake;
 import frc.robot.subsystems.SubsystemsContainer;
 
 public class SubsystemController extends ControllerBase {
 
-  private JoystickButton m_DeployAndRunIntakeReverse;
-  private JoystickButton m_DeployAndRunIntake;
-  private JoystickButton m_RetractAndStopIntake;
+  private SubsystemsContainer m_subsystemsContainer;
 
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
+    m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
+    if (Config4905.getConfig4905().doesIntakeExist()) {
+      setUpIntakeButtons();
+    }
   }
 
   public double getElevatorAdjustElevationStick() {
     return (getLeftStickForwardBackwardValue());
+  }
+
+  private void setUpIntakeButtons() {
+    getRightBumperButton()
+        .whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
+
+  }
+
+  public boolean getRunIntakeButtonReleased() {
+    return getRightBumperReleased();
   }
 }
