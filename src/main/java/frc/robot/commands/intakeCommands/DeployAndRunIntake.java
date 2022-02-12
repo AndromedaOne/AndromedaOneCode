@@ -55,7 +55,12 @@ public class DeployAndRunIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Robot.getInstance().getOIContainer().getSubsystemController()
+    boolean finished = Robot.getInstance().getOIContainer().getSubsystemController()
         .getRunIntakeButtonReleased();
+    if (m_runInReverse) {
+      finished = Robot.getInstance().getOIContainer().getSubsystemController()
+          .getRunIntakeinReverseButtonReleased();
+    }
+    return finished;
   }
 }
