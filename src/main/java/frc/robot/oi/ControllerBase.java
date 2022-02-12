@@ -44,6 +44,14 @@ public class ControllerBase {
     return (new JoystickButton(m_controller, ButtonsEnumerated.BACKBUTTON.getValue()));
   }
 
+  protected boolean getBackButtonPressed() {
+    return m_controller.getBackButtonPressed();
+  }
+
+  protected boolean getBackButtonReleased() {
+    return m_controller.getBackButtonReleased();
+  }
+
   protected JoystickButton getStartButton() {
     return (new JoystickButton(m_controller, ButtonsEnumerated.STARTBUTTON.getValue()));
   }

@@ -31,10 +31,14 @@ public class SubsystemController extends ControllerBase {
   private void setUpIntakeButtons() {
     getRightBumperButton()
         .whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
-
+    getBackButton().whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), true));
   }
 
   public boolean getRunIntakeButtonReleased() {
     return getRightBumperReleased();
+  }
+
+  public boolean getRunIntakeinReverseButtonReleased() {
+    return getBackButtonReleased();
   }
 }
