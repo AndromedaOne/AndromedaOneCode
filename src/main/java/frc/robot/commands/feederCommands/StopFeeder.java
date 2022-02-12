@@ -13,16 +13,19 @@ public class StopFeeder extends CommandBase {
   /** Creates a new StopFeeder. */
   public StopFeeder(FeederBase feeder) {
     m_feeder = feeder;
+    addRequirements(m_feeder);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_feeder.stopFeeder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
   }
 
   // Called once the command ends or is interrupted.

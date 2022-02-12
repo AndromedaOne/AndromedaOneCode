@@ -9,10 +9,13 @@ import frc.robot.subsystems.feeder.FeederBase;
 
 public class ReverseFeeder extends CommandBase {
   private FeederBase m_feeder;
+  private double m_speed = 0;
 
   /** Creates a new ReverseFeeder. */
-  public ReverseFeeder(FeederBase feeder) {
+  public ReverseFeeder(FeederBase feeder, double speed) {
     m_feeder = feeder;
+    m_speed = speed;
+    addRequirements(m_feeder);
   }
 
   // Called when the command is initially scheduled.
@@ -23,6 +26,7 @@ public class ReverseFeeder extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_feeder.runFeederInReverse(-m_speed);
   }
 
   // Called once the command ends or is interrupted.

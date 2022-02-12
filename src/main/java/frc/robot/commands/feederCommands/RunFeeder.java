@@ -9,21 +9,25 @@ import frc.robot.subsystems.feeder.FeederBase;
 
 public class RunFeeder extends CommandBase {
   private FeederBase m_feeder;
+  private double m_speed = 0;
 
   /** Creates a new RunFeeder. */
-  public RunFeeder(FeederBase feeder) {
+  public RunFeeder(FeederBase feeder, double speed) {
     m_feeder = feeder;
-
+    m_speed = speed;
+    addRequirements(m_feeder);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_feeder.runFeeder(m_speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
   }
 
   // Called once the command ends or is interrupted.
