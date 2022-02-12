@@ -22,6 +22,7 @@ import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
+import frc.robot.commands.shooterCommands.RunShooterRPM;
 import frc.robot.commands.shooterCommands.TuneShooterFeedForward;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
@@ -62,6 +63,9 @@ public class SmartDashboard4905 {
 
     if (Config4905.getConfig4905().doesShooterExist()) {
       SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(
+          subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
+      SmartDashboard.putNumber("Set Shooter RPM", 1000);
+      SmartDashboard.putData("Run Shooter RPM", new RunShooterRPM(
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
     }
 
