@@ -16,46 +16,6 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void extendFrontLeftArm() {
-
-  }
-
-  @Override
-  public void extendBackLeftArm() {
-
-  }
-
-  @Override
-  public void extendFrontRightArm() {
-
-  }
-
-  @Override
-  public void extendBackRightArm() {
-
-  }
-
-  @Override
-  public void retractFrontLeftArm() {
-
-  }
-
-  @Override
-  public void retractBackLeftArm() {
-
-  }
-
-  @Override
-  public void retractFrontRightArm() {
-
-  }
-
-  @Override
-  public void retractBackRightArm() {
-
-  }
-
-  @Override
   public void driveFrontLeftWinch() {
 
   }

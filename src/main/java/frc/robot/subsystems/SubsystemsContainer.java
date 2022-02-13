@@ -13,6 +13,7 @@ import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.subsystems.climber.MockClimber;
 import frc.robot.subsystems.climber.RealClimber;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
@@ -97,7 +98,7 @@ public class SubsystemsContainer {
       System.out.println("Using a real Climber");
       m_climber = new RealClimber();
     } else {
-
+      m_climber = new MockClimber();
     }
 
     if (Config4905.getConfig4905().doesLEDExist()) {

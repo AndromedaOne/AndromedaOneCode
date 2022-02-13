@@ -8,22 +8,6 @@ public abstract class ClimberBase extends SubsystemBase {
   public ClimberBase() {
   }
 
-  public abstract void extendFrontLeftArm();
-
-  public abstract void extendBackLeftArm();
-
-  public abstract void extendFrontRightArm();
-
-  public abstract void extendBackRightArm();
-
-  public abstract void retractFrontLeftArm();
-
-  public abstract void retractBackLeftArm();
-
-  public abstract void retractFrontRightArm();
-
-  public abstract void retractBackRightArm();
-
   public abstract void driveFrontLeftWinch();
 
   public abstract void driveBackLeftWinch();
