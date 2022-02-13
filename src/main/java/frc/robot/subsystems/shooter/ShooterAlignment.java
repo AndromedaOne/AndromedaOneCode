@@ -23,11 +23,11 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   }
 
   public boolean atTopLimitSwitch() {
-    return true;
+    return m_angleMotor.isForwardLimitSwitchOn();
   }
 
   public boolean atBottomLimitSwitch() {
-    return true;
+    return m_angleMotor.isReverseLimitSwitchOn();
   }
 
   @Override
