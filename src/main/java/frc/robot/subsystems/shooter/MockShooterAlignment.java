@@ -28,4 +28,9 @@ public class MockShooterAlignment extends ShooterAlignmentBase {
   public boolean atBottomLimitSwitch() {
     return false;
   }
+
+  @Override
+  public double getAngle() {
+    return 0;
+  }
 }

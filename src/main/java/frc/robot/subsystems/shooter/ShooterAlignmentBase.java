@@ -17,6 +17,8 @@ public abstract class ShooterAlignmentBase extends SubsystemBase {
 
   public abstract boolean atBottomLimitSwitch();
 
+  public abstract double getAngle();
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
