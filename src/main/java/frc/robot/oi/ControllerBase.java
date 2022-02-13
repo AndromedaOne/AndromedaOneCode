@@ -127,8 +127,8 @@ public class ControllerBase {
 
   protected JoystickButton getRightBumperButton() {
     return new JoystickButton(m_controller, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
-    }
-    
+  }
+
   protected boolean getPOVnorthPressed() {
     return (m_controller.getPOV() == POVDirectionNames.NORTH.getValue());
   }
