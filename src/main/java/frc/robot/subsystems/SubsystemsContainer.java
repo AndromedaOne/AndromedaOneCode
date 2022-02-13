@@ -31,8 +31,8 @@ import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
 import frc.robot.subsystems.shooter.BottomShooterWheel;
-import frc.robot.subsystems.shooter.MockShooter;
-import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.subsystems.shooter.MockShooterWheel;
+import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.subsystems.shooter.TopShooterWheel;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.subsystems.showBotCannon.MockCannon;
@@ -51,8 +51,8 @@ public class SubsystemsContainer {
   CompressorBase m_compressor;
   CannonBase m_cannon;
   RomiBallMopperBase m_romiBallMopper;
-  ShooterBase m_topShooterWheel;
-  ShooterBase m_bottomShooterWheel;
+  ShooterWheelBase m_topShooterWheel;
+  ShooterWheelBase m_bottomShooterWheel;
   IntakeBase m_intake;
 
   /**
@@ -150,8 +150,8 @@ public class SubsystemsContainer {
       m_bottomShooterWheel = new BottomShooterWheel();
     } else {
       System.out.println("using mock shooters");
-      m_topShooterWheel = new MockShooter();
-      m_bottomShooterWheel = new MockShooter();
+      m_topShooterWheel = new MockShooterWheel();
+      m_bottomShooterWheel = new MockShooterWheel();
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       System.out.println("using real intake");
@@ -205,11 +205,11 @@ public class SubsystemsContainer {
     return m_romiWings;
   }
 
-  public ShooterBase getTopShooterWheel() {
+  public ShooterWheelBase getTopShooterWheel() {
     return m_topShooterWheel;
   }
 
-  public ShooterBase getBottomShooterWheel() {
+  public ShooterWheelBase getBottomShooterWheel() {
     return m_bottomShooterWheel;
   }
 

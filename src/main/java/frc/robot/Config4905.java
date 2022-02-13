@@ -38,7 +38,7 @@ public class Config4905 {
   private Config m_cannonConfig;
   private Config m_romiBallMopperConfig;
   private Config m_wingsConfig;
-  private Config shooterConfig;
+  private Config m_shooterConfig;
   private Config m_intakeConfig;
 
   private static Config4905 m_config4905 = null;
@@ -138,7 +138,7 @@ public class Config4905 {
     m_cannonConfig = load("cannon.conf");
     m_romiBallMopperConfig = load("romiBallMopper.conf");
     m_wingsConfig = load("wings.conf");
-    shooterConfig = load("shooter.conf");
+    m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
   }
 
@@ -241,7 +241,7 @@ public class Config4905 {
   }
 
   public Config getShooterConfig() {
-    return shooterConfig;
+    return m_shooterConfig;
   }
 
   public Config getSensorConfig() {

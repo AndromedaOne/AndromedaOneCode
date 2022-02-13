@@ -20,7 +20,8 @@ public class ControllerBase {
 
   // direct access to buttons is not allowed. to access a button, create
   // a public method with a name that describes the function being performed
-  // this forces all buttons to be mapped in this file and makes it easier
+  // this forces all buttons to be mapped in the controller file and makes it
+  // easier
   // to figure out what button is mapped to what function, instead of having
   // to search the code base to figure it out.
 
@@ -60,16 +61,32 @@ public class ControllerBase {
     return (new POVButton(m_controller, POVDirectionNames.NORTH.getValue()));
   }
 
+  protected POVButton getPOVnorthEast() {
+    return (new POVButton(m_controller, POVDirectionNames.NORTHEAST.getValue()));
+  }
+
+  protected POVButton getPOVeast() {
+    return (new POVButton(m_controller, POVDirectionNames.EAST.getValue()));
+  }
+
+  protected POVButton getPOVsouthEast() {
+    return (new POVButton(m_controller, POVDirectionNames.SOUTHEAST.getValue()));
+  }
+
   protected POVButton getPOVsouth() {
     return (new POVButton(m_controller, POVDirectionNames.SOUTH.getValue()));
+  }
+
+  protected POVButton getPOVsouthWest() {
+    return (new POVButton(m_controller, POVDirectionNames.SOUTHWEST.getValue()));
   }
 
   protected POVButton getPOVwest() {
     return (new POVButton(m_controller, POVDirectionNames.WEST.getValue()));
   }
 
-  protected POVButton getPOVeast() {
-    return (new POVButton(m_controller, POVDirectionNames.EAST.getValue()));
+  protected POVButton getPOVnorthWest() {
+    return (new POVButton(m_controller, POVDirectionNames.NORTHWEST.getValue()));
   }
 
   protected double getLeftStickForwardBackwardValue() {
@@ -118,6 +135,38 @@ public class ControllerBase {
 
   protected JoystickButton getRightBumperButton() {
     return new JoystickButton(m_controller, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
+  }
+  
+  protected boolean getPOVnorthPressed() {
+    return (m_controller.getPOV() == POVDirectionNames.NORTH.getValue());
+  }
+
+  protected boolean getPOVnorthEastPressed() {
+    return (m_controller.getPOV() == POVDirectionNames.NORTHEAST.getValue());
+  }
+
+  protected boolean getPOVeastPressed() {
+    return (m_controller.getPOV() == POVDirectionNames.EAST.getValue());
+  }
+
+  protected boolean getPOVnsouthEastPressed() {
+    return (m_controller.getPOV() == POVDirectionNames.SOUTHEAST.getValue());
+  }
+
+  protected boolean getPOVsouthPressed() {
+    return (m_controller.getPOV() == POVDirectionNames.SOUTH.getValue());
+  }
+
+  protected boolean getPOVsouthWestPressed() {
+    return (m_controller.getPOV() == POVDirectionNames.SOUTHWEST.getValue());
+  }
+
+  protected boolean getPOVwestPressed() {
+    return (m_controller.getPOV() == POVDirectionNames.WEST.getValue());
+  }
+
+  protected boolean getPOVnorthWestPressed() {
+    return (m_controller.getPOV() == POVDirectionNames.NORTHWEST.getValue());
   }
 
   private double deadband(double stickValue) {

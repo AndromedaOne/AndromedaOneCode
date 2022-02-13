@@ -5,7 +5,7 @@
 package frc.robot.subsystems.shooter;
 
 /** Add your docs here. */
-public class MockShooter extends ShooterBase {
+public class MockShooterWheel extends ShooterWheelBase {
 
   @Override
   public void setShooterWheelPower(double power) {

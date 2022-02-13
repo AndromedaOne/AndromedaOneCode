@@ -12,6 +12,10 @@ import frc.robot.Config4905;
 import frc.robot.commands.intakeCommands.DeployAndRunIntake;
 import frc.robot.subsystems.SubsystemsContainer;
 
+/**
+ * All subsystemController buttons get mapped here with descriptive names so
+ * they are easier to find.
+ */
 public class SubsystemController extends ControllerBase {
 
   private SubsystemsContainer m_subsystemsContainer;
