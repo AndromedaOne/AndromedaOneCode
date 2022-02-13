@@ -23,7 +23,8 @@ import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
- * Add your docs here.
+ * All driveController buttons get mapped here with descriptive names so they
+ * are easier to find.
  */
 public class DriveController extends ControllerBase {
   private JoystickButton m_turnToNorth;
