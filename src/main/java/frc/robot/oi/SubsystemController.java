@@ -8,6 +8,8 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Config4905;
+import frc.robot.commands.FakeCommand;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -15,12 +17,24 @@ import frc.robot.subsystems.SubsystemsContainer;
  * they are easier to find.
  */
 public class SubsystemController extends ControllerBase {
+  private SubsystemsContainer m_subsystemsContainer;
 
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
     setController(new XboxController(1));
+    m_subsystemsContainer = subsystemsContainer;
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      setupShooterButtons();
+    }
   }
 
   public double getElevatorAdjustElevationStick() {
     return (getLeftStickForwardBackwardValue());
+  }
+
+  private void setupShooterButtons() {
+    getYbutton().whileHeld(new FakeCommand());
+    getXbutton().whileHeld(new FakeCommand());
+    getAbutton().whileHeld(new FakeCommand());
+    getBbutton().whileHeld(new FakeCommand());
   }
 }
