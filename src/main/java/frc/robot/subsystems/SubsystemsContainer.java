@@ -28,7 +28,10 @@ import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
 import frc.robot.subsystems.shooter.BottomShooterWheel;
+import frc.robot.subsystems.shooter.MockShooterAlignment;
 import frc.robot.subsystems.shooter.MockShooterWheel;
+import frc.robot.subsystems.shooter.ShooterAlignment;
+import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.subsystems.shooter.TopShooterWheel;
 import frc.robot.subsystems.showBotCannon.CannonBase;
@@ -50,6 +53,7 @@ public class SubsystemsContainer {
   RomiBallMopperBase m_romiBallMopper;
   ShooterWheelBase m_topShooterWheel;
   ShooterWheelBase m_bottomShooterWheel;
+  ShooterAlignmentBase m_shooterAlignment;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -144,10 +148,12 @@ public class SubsystemsContainer {
       System.out.println("using real shooters");
       m_topShooterWheel = new TopShooterWheel();
       m_bottomShooterWheel = new BottomShooterWheel();
+      m_shooterAlignment = new ShooterAlignment();
     } else {
       System.out.println("using mock shooters");
       m_topShooterWheel = new MockShooterWheel();
       m_bottomShooterWheel = new MockShooterWheel();
+      m_shooterAlignment = new MockShooterAlignment();
     }
   }
 
