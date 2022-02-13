@@ -11,17 +11,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
-import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
 public class TuneShooterFeedForward extends CommandBase {
   /**
    * Creates a new TuneShooterFeedForward.
    */
-  private ShooterBase m_topShooterWheel;
-  private ShooterBase m_bottomShooterWheel;
+  private ShooterWheelBase m_topShooterWheel;
+  private ShooterWheelBase m_bottomShooterWheel;
 
-  public TuneShooterFeedForward(ShooterBase topShooterWheel, ShooterBase bottomShooterWheel) {
+  public TuneShooterFeedForward(ShooterWheelBase topShooterWheel,
+      ShooterWheelBase bottomShooterWheel) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
@@ -46,11 +47,12 @@ public class TuneShooterFeedForward extends CommandBase {
     double bottomPValue = SmartDashboard.getNumber("Bottom Shooter p Value", 0.001);
     double bottomShootRPM = SmartDashboard.getNumber("BottomShooterRPMTarget", 3000);
     System.out.println("Scheduling  RunShooterWheelVelocity");
-    CommandScheduler.getInstance().schedule(
-        new RunOneShooterWheelVelocity(m_topShooterWheel, () -> topShootRPM, true, topFeedForward,
-            topPValue, Config4905.getConfig4905().getShooterConfig()),
-        new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> bottomShootRPM, true,
-            bottomFeedForward, bottomPValue, Config4905.getConfig4905().getShooterConfig()));
+    CommandScheduler.getInstance()
+        .schedule(new RunOneShooterWheelVelocity(m_topShooterWheel, () -> topShootRPM, true,
+            topFeedForward, topPValue, Config4905.getConfig4905().getShooterConfig(), () -> false),
+            new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> bottomShootRPM, true,
+                bottomFeedForward, bottomPValue, Config4905.getConfig4905().getShooterConfig(),
+                () -> false));
     Trace.getInstance().logCommandStart(this);
   }
 

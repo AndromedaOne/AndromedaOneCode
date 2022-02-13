@@ -6,9 +6,9 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public abstract class ShooterBase extends SubsystemBase {
+public abstract class ShooterWheelBase extends SubsystemBase {
   /** Creates a new ShooterBase. */
-  public ShooterBase() {
+  public ShooterWheelBase() {
   }
 
   public abstract void setShooterWheelPower(double power);

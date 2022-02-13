@@ -11,7 +11,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
-public class BottomShooterWheel extends ShooterBase {
+public class BottomShooterWheel extends ShooterWheelBase {
 
   private Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
   private SparkMaxController m_shooterMotor;
