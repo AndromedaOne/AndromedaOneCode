@@ -23,15 +23,13 @@ public class StopShooterFeeder extends CommandBase {
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
     m_finishedCondition = finishedCondition;
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_realFeeder, m_topShooterWheel, m_bottomShooterWheel);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_realFeeder.stopFeeder();
-    m_topShooterWheel.setShooterWheelPower(0);
-    m_bottomShooterWheel.setShooterWheelPower(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +40,9 @@ public class StopShooterFeeder extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_realFeeder.stopFeeder();
+    m_topShooterWheel.setShooterWheelPower(0);
+    m_bottomShooterWheel.setShooterWheelPower(0);
   }
 
   // Returns true when the command should end.
