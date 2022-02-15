@@ -37,6 +37,6 @@ public class ShooterAlignment extends ShooterAlignmentBase {
 
   @Override
   public double getAngle() {
-    return m_angleMotor.getEncoderPositionTicks();
+    return m_angleMotor.getEncoderPositionTicks() - getOffset();
   }
 }
