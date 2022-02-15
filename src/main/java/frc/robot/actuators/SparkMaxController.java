@@ -2,15 +2,20 @@ package frc.robot.actuators;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SparkMaxController extends CANSparkMax {
   private boolean m_hasEncoder = false;
+  private boolean m_hasForwardLimitSwitch = false;
+  private boolean m_hasReverseLimitSwitch = false;
   private RelativeEncoder m_sparkMaxEncoder;
   private String m_configString;
   private Config m_subsystemConfig;
+  private SparkMaxLimitSwitch m_forwardLimitSwitch;
+  private SparkMaxLimitSwitch m_reverseLimitSwitch;
 
   public SparkMaxController(Config subsystemConfig, String configString) {
     super(subsystemConfig.getInt("ports." + configString), MotorType.kBrushless);
@@ -19,6 +24,16 @@ public class SparkMaxController extends CANSparkMax {
     m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     if (hasEncoder()) {
       m_sparkMaxEncoder = this.getEncoder();
+    }
+    m_hasForwardLimitSwitch = subsystemConfig.getBoolean(configString + ".hasForwardLimitSwitch");
+    if (m_hasForwardLimitSwitch) {
+      m_forwardLimitSwitch = this.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+      m_forwardLimitSwitch.enableLimitSwitch(true);
+    }
+    m_hasReverseLimitSwitch = subsystemConfig.getBoolean(configString + ".hasReverseLimitSwitch");
+    if (m_hasReverseLimitSwitch) {
+      m_reverseLimitSwitch = this.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+      m_reverseLimitSwitch.enableLimitSwitch(true);
     }
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;
@@ -67,5 +82,13 @@ public class SparkMaxController extends CANSparkMax {
 
   public boolean hasEncoder() {
     return m_hasEncoder;
+  }
+
+  public boolean isForwardLimitSwitchOn() {
+    return m_forwardLimitSwitch.isPressed();
+  }
+
+  public boolean isReverseLimitSwitchOn() {
+    return m_reverseLimitSwitch.isPressed();
   }
 }
