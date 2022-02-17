@@ -9,6 +9,7 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
+import frc.robot.commands.intakeCommands.DeployAndRunIntake;
 import frc.robot.commands.FakeCommand;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -19,11 +20,17 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class SubsystemController extends ControllerBase {
   private SubsystemsContainer m_subsystemsContainer;
 
+  private SubsystemsContainer m_subsystemsContainer;
+
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
+    m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
     m_subsystemsContainer = subsystemsContainer;
     if (Config4905.getConfig4905().doesShooterExist()) {
       setupShooterButtons();
+    if (Config4905.getConfig4905().doesIntakeExist()) {
+      setUpIntakeButtons();
+    }
     }
   }
 
@@ -36,5 +43,18 @@ public class SubsystemController extends ControllerBase {
     getXbutton().whileHeld(new FakeCommand());
     getAbutton().whileHeld(new FakeCommand());
     getBbutton().whileHeld(new FakeCommand());
+
+  private void setUpIntakeButtons() {
+    getRightBumperButton()
+        .whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
+    getBackButton().whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), true));
+  }
+
+  public boolean getRunIntakeButtonReleased() {
+    return getRightBumperReleased();
+  }
+
+  public boolean getRunIntakeinReverseButtonReleased() {
+    return getBackButtonReleased();
   }
 }

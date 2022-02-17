@@ -4,46 +4,28 @@
 
 package frc.robot.commands.groupCommands.shooterFeederCommands;
 
-import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.feederCommands.RunFeeder;
+import frc.robot.commands.shooterCommands.InitializeShooterAlignment;
+import frc.robot.commands.shooterCommands.MoveShooterAlignment;
+import frc.robot.commands.shooterCommands.RunShooter;
 import frc.robot.subsystems.feeder.RealFeeder;
+import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 
-public class RunShooterFeeder extends ParallelCommandGroup {
-  private RealFeeder m_realFeeder;
-  private double m_speed = 0;
-  private BooleanSupplier m_finishedCondition;
-  private ShooterWheelBase m_topShooterWheel;
-  private ShooterWheelBase m_bottomShooterWheel;
+public class RunShooterFeeder extends SequentialCommandGroup {
 
   public RunShooterFeeder(RealFeeder realFeeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, BooleanSupplier finishedCondition) {
-    m_realFeeder = realFeeder;
-    m_topShooterWheel = topShooterWheel;
-    m_bottomShooterWheel = bottomShooterWheel;
-    m_finishedCondition = finishedCondition;
-    // addRequirements()
-  }
+      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
+      DoubleSupplier setpoint, boolean tunePID, double pValue, double minOutputToMove,
+      double tolerance, boolean runInReverse) {
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return m_finishedCondition.getAsBoolean();
+    addCommands(new InitializeShooterAlignment(shooterAlignment),
+        new MoveShooterAlignment(shooterAlignment, setpoint, tunePID, pValue, minOutputToMove,
+            tolerance),
+        new RunShooter(topShooterWheel, bottomShooterWheel, 0, runInReverse),
+        new RunFeeder(realFeeder, 0, runInReverse));
   }
 }

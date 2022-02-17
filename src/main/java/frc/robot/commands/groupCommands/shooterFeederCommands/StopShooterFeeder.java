@@ -4,50 +4,17 @@
 
 package frc.robot.commands.groupCommands.shooterFeederCommands;
 
-import java.util.function.BooleanSupplier;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.feederCommands.StopFeeder;
+import frc.robot.commands.shooterCommands.StopShooter;
 import frc.robot.subsystems.feeder.RealFeeder;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 
-public class StopShooterFeeder extends CommandBase {
-  private RealFeeder m_realFeeder;
-  private ShooterWheelBase m_topShooterWheel;
-  private ShooterWheelBase m_bottomShooterWheel;
-  private BooleanSupplier m_finishedCondition;
+public class StopShooterFeeder extends SequentialCommandGroup {
 
   /** Creates a new StopShooterFeeder. */
   public StopShooterFeeder(RealFeeder realFeeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, BooleanSupplier finishedCondition) {
-    m_realFeeder = realFeeder;
-    m_topShooterWheel = topShooterWheel;
-    m_bottomShooterWheel = bottomShooterWheel;
-    m_finishedCondition = finishedCondition;
-    addRequirements(m_realFeeder, m_topShooterWheel, m_bottomShooterWheel);
-
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_realFeeder.stopFeeder();
-    m_topShooterWheel.setShooterWheelPower(0);
-    m_bottomShooterWheel.setShooterWheelPower(0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return true;
+      ShooterWheelBase bottomShooterWheel) {
+    addCommands(new StopFeeder(realFeeder), new StopShooter(topShooterWheel, bottomShooterWheel));
   }
 }

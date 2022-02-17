@@ -33,9 +33,9 @@ public class RunShooterRPM extends ParallelCommandGroup {
     }
     addCommands(
         new RunOneShooterWheelVelocity(m_topShooterWheel, () -> m_setpoint,
-            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition),
+            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition, false),
         new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> m_setpoint,
-            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition));
+            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition, false));
 
   }
 

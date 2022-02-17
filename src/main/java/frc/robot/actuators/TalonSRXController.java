@@ -11,6 +11,8 @@ public class TalonSRXController extends WPI_TalonSRX {
   private boolean hasEncoder = false;
   private String m_configString;
   private Config m_subsystemConfig;
+  private boolean m_hasForwardLimitSwitch = false;
+  private boolean m_hasReverseLimitSwitch = false;
 
   public TalonSRXController(Config subsystemConfig, String configString) {
     super(subsystemConfig.getInt("ports." + configString));
@@ -18,6 +20,14 @@ public class TalonSRXController extends WPI_TalonSRX {
     m_subsystemConfig = subsystemConfig;
     configure(subsystemConfig, configString);
     hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
+    m_hasForwardLimitSwitch = subsystemConfig.getBoolean(configString + ".hasForwardLimitSwitch");
+    if (m_hasForwardLimitSwitch) {
+      configForwardSoftLimitEnable(true);
+    }
+    m_hasReverseLimitSwitch = subsystemConfig.getBoolean(configString + ".hasReverseLimitSwitch");
+    if (m_hasReverseLimitSwitch) {
+      configReverseSoftLimitEnable(true);
+    }
     System.out.println("Creating new TalonSRX from port: " + configString);
   }
 

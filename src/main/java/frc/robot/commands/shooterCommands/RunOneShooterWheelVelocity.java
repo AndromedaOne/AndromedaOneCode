@@ -34,10 +34,11 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   private InterpolatingMap m_kMap;
   private InterpolatingMap m_pMap;
   private BooleanSupplier m_finishedCondition;
+  private boolean m_runInReverse;
 
   public RunOneShooterWheelVelocity(ShooterWheelBase shooterWheel, DoubleSupplier setpoint,
       boolean tuneValues, double feedForwardValue, double pValue, Config shooterConfig,
-      BooleanSupplier finishedCondition) {
+      BooleanSupplier finishedCondition, boolean runInReverse) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop(shooterWheel.getShooterName(), 0, 0, 0, 0),
@@ -72,8 +73,8 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   }
 
   public RunOneShooterWheelVelocity(ShooterWheelBase shooterWheel, DoubleSupplier setpoint,
-      Config shooterConfig, BooleanSupplier finishedCondition) {
-    this(shooterWheel, setpoint, false, 0, 0, shooterConfig, finishedCondition);
+      Config shooterConfig, BooleanSupplier finishedCondition, boolean runInReverse) {
+    this(shooterWheel, setpoint, false, 0, 0, shooterConfig, finishedCondition, runInReverse);
   }
 
   // Returns true when the command should end.

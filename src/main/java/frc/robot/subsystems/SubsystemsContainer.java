@@ -11,6 +11,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
+import frc.robot.commands.shooterCommands.DefaultShooterSystem;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
@@ -20,6 +21,9 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
+import frc.robot.subsystems.intake.IntakeBase;
+import frc.robot.subsystems.intake.MockIntake;
+import frc.robot.subsystems.intake.RealIntake;
 import frc.robot.subsystems.ledlights.*;
 import frc.robot.subsystems.romiBallMopper.MockRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RealRomiBallMopper;
@@ -28,7 +32,10 @@ import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
 import frc.robot.subsystems.shooter.BottomShooterWheel;
+import frc.robot.subsystems.shooter.MockShooterAlignment;
 import frc.robot.subsystems.shooter.MockShooterWheel;
+import frc.robot.subsystems.shooter.ShooterAlignment;
+import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.subsystems.shooter.TopShooterWheel;
 import frc.robot.subsystems.showBotCannon.CannonBase;
@@ -50,6 +57,8 @@ public class SubsystemsContainer {
   RomiBallMopperBase m_romiBallMopper;
   ShooterWheelBase m_topShooterWheel;
   ShooterWheelBase m_bottomShooterWheel;
+  IntakeBase m_intake;
+  ShooterAlignmentBase m_shooterAlignment;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -144,11 +153,21 @@ public class SubsystemsContainer {
       System.out.println("using real shooters");
       m_topShooterWheel = new TopShooterWheel();
       m_bottomShooterWheel = new BottomShooterWheel();
+      m_shooterAlignment = new ShooterAlignment();
     } else {
       System.out.println("using mock shooters");
       m_topShooterWheel = new MockShooterWheel();
       m_bottomShooterWheel = new MockShooterWheel();
+      m_shooterAlignment = new MockShooterAlignment();
     }
+    if (Config4905.getConfig4905().doesIntakeExist()) {
+      System.out.println("using real intake");
+      m_intake = new RealIntake();
+    } else {
+      System.out.println("Using mock Intake");
+      m_intake = new MockIntake();
+    }
+
   }
 
   public DriveTrain getDrivetrain() {
@@ -201,6 +220,10 @@ public class SubsystemsContainer {
     return m_bottomShooterWheel;
   }
 
+  public IntakeBase getIntake() {
+    return m_intake;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());
@@ -210,6 +233,14 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().isRomi()) {
       m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
+    }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      m_topShooterWheel.setDefaultCommand(
+          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
+      m_bottomShooterWheel.setDefaultCommand(
+          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
+      m_shooterAlignment.setDefaultCommand(
+          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
     }
   }
 

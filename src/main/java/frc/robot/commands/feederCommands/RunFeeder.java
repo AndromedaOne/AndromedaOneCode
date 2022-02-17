@@ -10,18 +10,24 @@ import frc.robot.subsystems.feeder.FeederBase;
 public class RunFeeder extends CommandBase {
   private FeederBase m_feeder;
   private double m_speed = 0;
+  private boolean m_runInReverse;
 
   /** Creates a new RunFeeder. */
-  public RunFeeder(FeederBase feeder, double speed) {
+  public RunFeeder(FeederBase feeder, double speed, boolean runInReverse) {
     m_feeder = feeder;
     m_speed = speed;
+    m_runInReverse = runInReverse;
     addRequirements(m_feeder);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_feeder.runFeeder(m_speed);
+    if (m_runInReverse) {
+      m_feeder.runFeeder(-m_speed);
+    } else {
+      m_feeder.runFeeder(m_speed);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +44,6 @@ public class RunFeeder extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

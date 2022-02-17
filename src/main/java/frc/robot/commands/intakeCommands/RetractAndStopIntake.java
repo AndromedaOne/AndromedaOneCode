@@ -2,31 +2,31 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.feederCommands;
+package frc.robot.commands.intakeCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.feeder.FeederBase;
+import frc.robot.subsystems.intake.IntakeBase;
 
-public class ReverseFeeder extends CommandBase {
-  private FeederBase m_feeder;
-  private double m_speed = 0;
+public class RetractAndStopIntake extends CommandBase {
+  /** Creates a new RetractAndStopIntake. */
+  private IntakeBase m_intakeBase;
 
-  /** Creates a new ReverseFeeder. */
-  public ReverseFeeder(FeederBase feeder, double speed) {
-    m_feeder = feeder;
-    m_speed = speed;
-    addRequirements(m_feeder);
+  public RetractAndStopIntake(IntakeBase intakeBase) {
+    addRequirements(intakeBase);
+    m_intakeBase = intakeBase;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_feeder.runFeederInReverse(-m_speed);
+    m_intakeBase.retractIntake();
+    m_intakeBase.stopIntake();
   }
 
   // Called once the command ends or is interrupted.
