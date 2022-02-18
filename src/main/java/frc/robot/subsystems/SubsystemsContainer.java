@@ -21,6 +21,9 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
+import frc.robot.subsystems.feeder.FeederBase;
+import frc.robot.subsystems.feeder.MockFeeder;
+import frc.robot.subsystems.feeder.RealFeeder;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.intake.MockIntake;
 import frc.robot.subsystems.intake.RealIntake;
@@ -58,6 +61,7 @@ public class SubsystemsContainer {
   ShooterWheelBase m_topShooterWheel;
   ShooterWheelBase m_bottomShooterWheel;
   IntakeBase m_intake;
+  FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
 
   /**
@@ -164,8 +168,16 @@ public class SubsystemsContainer {
       System.out.println("using real intake");
       m_intake = new RealIntake();
     } else {
-      System.out.println("Using mock Intake");
+      System.out.println("using mock Intake");
       m_intake = new MockIntake();
+    }
+
+    if (Config4905.getConfig4905().doesFeederExist()) {
+      System.out.println("using real feeder");
+      m_feeder = new RealFeeder();
+    } else {
+      System.out.println("using mock feeder");
+      m_feeder = new MockFeeder();
     }
 
   }
@@ -224,6 +236,10 @@ public class SubsystemsContainer {
     return m_intake;
   }
 
+  public FeederBase getFeeder() {
+    return m_feeder;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());
@@ -243,5 +259,4 @@ public class SubsystemsContainer {
           new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
     }
   }
-
 }

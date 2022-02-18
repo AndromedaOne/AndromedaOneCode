@@ -20,6 +20,8 @@ public class RunShooterRPM extends ParallelCommandGroup {
   private boolean m_useSmartDashboardRPM = false;
   private BooleanSupplier m_finishedCondition;
   private boolean m_finished = false;
+  private RunOneShooterWheelVelocity m_topShooterCommand;
+  private RunOneShooterWheelVelocity m_bottomShooterCommand;
 
   public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel,
       double setpoint, boolean useSmartDashboardRPM, BooleanSupplier finishedCondition) {
@@ -28,15 +30,20 @@ public class RunShooterRPM extends ParallelCommandGroup {
     m_setpoint = setpoint;
     m_useSmartDashboardRPM = useSmartDashboardRPM;
     m_finishedCondition = finishedCondition;
+    m_topShooterCommand = new RunOneShooterWheelVelocity(m_topShooterWheel, () -> m_setpoint,
+        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition, false);
+    m_bottomShooterCommand = new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> m_setpoint,
+        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition, false);
     if (useSmartDashboardRPM) {
       m_finishedCondition = new FinishedConditionSupplier();
     }
-    addCommands(
-        new RunOneShooterWheelVelocity(m_topShooterWheel, () -> m_setpoint,
-            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition, false),
-        new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> m_setpoint,
-            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition, false));
+    addCommands(m_topShooterCommand, m_bottomShooterCommand);
 
+  }
+
+  public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel,
+      double setpoint) {
+    this(topShooterWheel, bottomShooterWheel, setpoint, false, () -> false);
   }
 
   public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel) {
@@ -78,5 +85,9 @@ public class RunShooterRPM extends ParallelCommandGroup {
       return m_finished;
     }
 
+  }
+
+  public BooleanSupplier atSetpoint() {
+    return () -> (m_topShooterCommand.atSetpoint() && m_bottomShooterCommand.atSetpoint());
   }
 }
