@@ -10,6 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
 import frc.robot.commands.intakeCommands.DeployAndRunIntake;
+import frc.robot.commands.FakeCommand;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -17,6 +18,7 @@ import frc.robot.subsystems.SubsystemsContainer;
  * they are easier to find.
  */
 public class SubsystemController extends ControllerBase {
+  private SubsystemsContainer m_subsystemsContainer;
 
   private SubsystemsContainer m_subsystemsContainer;
 
@@ -26,10 +28,16 @@ public class SubsystemController extends ControllerBase {
     if (Config4905.getConfig4905().doesIntakeExist()) {
       setUpIntakeButtons();
     }
+    m_subsystemsContainer = subsystemsContainer;
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      setupShooterButtons();
+    }
   }
 
   public double getElevatorAdjustElevationStick() {
     return (getLeftStickForwardBackwardValue());
+  }
+
   }
 
   private void setUpIntakeButtons() {
@@ -37,6 +45,11 @@ public class SubsystemController extends ControllerBase {
         .whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
     getBackButton().whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), true));
   }
+  private void setupShooterButtons() {
+    getYbutton().whileHeld(new FakeCommand());
+    getXbutton().whileHeld(new FakeCommand());
+    getAbutton().whileHeld(new FakeCommand());
+    getBbutton().whileHeld(new FakeCommand());
 
   public boolean getRunIntakeButtonReleased() {
     return getRightBumperReleased();
