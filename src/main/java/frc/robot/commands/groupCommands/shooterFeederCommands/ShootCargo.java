@@ -12,13 +12,13 @@ import frc.robot.commands.feederCommands.RunFeeder;
 import frc.robot.commands.shooterCommands.InitializeShooterAlignment;
 import frc.robot.commands.shooterCommands.MoveShooterAlignment;
 import frc.robot.commands.shooterCommands.RunShooterRPM;
-import frc.robot.subsystems.feeder.RealFeeder;
+import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 
 public class ShootCargo extends SequentialCommandGroup {
 
-  public ShootCargo(RealFeeder realFeeder, ShooterWheelBase topShooterWheel,
+  public ShootCargo(FeederBase feeder, ShooterWheelBase topShooterWheel,
       ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
       DoubleSupplier shooterSetpoint, DoubleSupplier angle, DoubleSupplier feederSetpoint) {
 
@@ -27,7 +27,7 @@ public class ShootCargo extends SequentialCommandGroup {
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
         new MoveShooterAlignment(shooterAlignment, angle),
-        new ParallelCommandGroup(runShooterCommand,
-            new RunFeeder(realFeeder, 0, false, runShooterCommand.atSetpoint())));
+        new ParallelCommandGroup(runShooterCommand, new RunFeeder(feeder,
+            feederSetpoint.getAsDouble(), false, runShooterCommand.atSetpoint())));
   }
 }

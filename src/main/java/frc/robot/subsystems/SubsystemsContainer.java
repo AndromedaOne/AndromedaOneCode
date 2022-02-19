@@ -232,6 +232,10 @@ public class SubsystemsContainer {
     return m_bottomShooterWheel;
   }
 
+  public ShooterAlignmentBase getShooterAlignment() {
+    return m_shooterAlignment;
+  }
+
   public IntakeBase getIntake() {
     return m_intake;
   }
