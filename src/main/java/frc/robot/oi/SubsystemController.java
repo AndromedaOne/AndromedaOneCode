@@ -9,11 +9,10 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootFenderHigh;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPadHigh;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmacHigh;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootWallHigh;
-import frc.robot.commands.groupCommands.shooterFeederCommands.StopShooterFeeder;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootFender;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPad;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootWall;
 import frc.robot.commands.intakeCommands.DeployAndRunIntake;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -47,27 +46,20 @@ public class SubsystemController extends ControllerBase {
   }
 
   private void setupShooterButtons() {
+
     // Y = fender, X = launchpad, A = wall, B = tarmac
-    getYbutton().whileHeld(new ShootFenderHigh(m_subsystemsContainer.getFeeder(),
+    getYbutton().whileHeld(new ShootFender(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getXbutton().whileHeld(new ShootLaunchPadHigh(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getShooterAlignment(), getLeftBumperPressed()));
+    getXbutton().whileHeld(new ShootLaunchPad(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getAbutton().whileHeld(new ShootWallHigh(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getShooterAlignment(), getLeftBumperPressed()));
+    getAbutton().whileHeld(new ShootWall(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getBbutton().whileHeld(new ShootTarmacHigh(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getShooterAlignment(), getLeftBumperPressed()));
+    getBbutton().whileHeld(new ShootTarmac(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getYbutton().whenReleased(new StopShooterFeeder(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel()));
-    getXbutton().whenReleased(new StopShooterFeeder(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel()));
-    getAbutton().whenReleased(new StopShooterFeeder(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel()));
-    getBbutton().whenReleased(new StopShooterFeeder(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel()));
+        m_subsystemsContainer.getShooterAlignment(), getLeftBumperPressed()));
   }
 
   public boolean getRunIntakeButtonReleased() {

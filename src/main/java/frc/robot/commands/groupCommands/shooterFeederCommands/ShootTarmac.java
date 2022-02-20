@@ -9,17 +9,24 @@ import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 
-public class ShootTarmacHigh extends SequentialCommandGroup {
+public class ShootTarmac extends SequentialCommandGroup {
 
   private double m_shooterSetpoint;
   private double m_shooterAngle;
   private double m_feederSetpoint;
 
-  public ShootTarmacHigh(FeederBase feeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment) {
-    m_shooterSetpoint = 3000.0;
-    m_shooterAngle = 69.1;
-    m_feederSetpoint = 1000.0;
+  public ShootTarmac(FeederBase feeder, ShooterWheelBase topShooterWheel,
+      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
+      boolean shootLow) {
+    if (shootLow) {
+      m_shooterSetpoint = 3000.0;
+      m_shooterAngle = 45.2;
+      m_feederSetpoint = 1000.0;
+    } else {
+      m_shooterSetpoint = 3000.0;
+      m_shooterAngle = 69.1;
+      m_feederSetpoint = 1000.0;
+    }
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
         () -> m_shooterSetpoint, () -> m_shooterAngle, () -> m_feederSetpoint));
