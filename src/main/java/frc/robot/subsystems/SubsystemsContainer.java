@@ -11,7 +11,8 @@ import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
-import frc.robot.commands.shooterCommands.DefaultShooterSystem;
+import frc.robot.commands.shooterCommands.DefaultShooterAlignment;
+import frc.robot.commands.shooterCommands.StopShooter;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
@@ -235,12 +236,10 @@ public class SubsystemsContainer {
       m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
-      m_topShooterWheel.setDefaultCommand(
-          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
-      m_bottomShooterWheel.setDefaultCommand(
-          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
-      m_shooterAlignment.setDefaultCommand(
-          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
+      m_topShooterWheel.setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
+      m_bottomShooterWheel
+          .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
+      m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
     }
   }
 
