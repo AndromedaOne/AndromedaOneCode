@@ -11,9 +11,9 @@ public abstract class IntakeBase extends SubsystemBase {
   public IntakeBase() {
   }
 
-  public abstract void runIntake(double speed);
+  public abstract void runIntakeWheels(double speed);
 
-  public abstract void stopIntake();
+  public abstract void stopIntakeWheels();
 
   public abstract void deployIntake();
 

@@ -26,7 +26,7 @@ public class RetractAndStopIntake extends CommandBase {
   @Override
   public void execute() {
     m_intakeBase.retractIntake();
-    m_intakeBase.stopIntake();
+    m_intakeBase.stopIntakeWheels();
   }
 
   // Called once the command ends or is interrupted.

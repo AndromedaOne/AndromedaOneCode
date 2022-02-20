@@ -41,13 +41,13 @@ public class DeployAndRunIntake extends CommandBase {
     if (m_runInReverse) {
       intakeSpeed *= -1;
     }
-    m_intakeBase.runIntake(intakeSpeed);
+    m_intakeBase.runIntakeWheels(intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeBase.stopIntake();
+    m_intakeBase.stopIntakeWheels();
     m_intakeBase.retractIntake();
     Trace.getInstance().logCommandStop(this);
   }
