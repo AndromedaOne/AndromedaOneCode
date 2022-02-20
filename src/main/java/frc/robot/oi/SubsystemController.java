@@ -34,8 +34,8 @@ public class SubsystemController extends ControllerBase {
 
   private void setUpIntakeButtons() {
     getRightBumperButton()
-        .whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
-    getBackButton().whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), true));
+        .whileHeld(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
+    getBackButton().whileHeld(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), true));
   }
 
   public boolean getRunIntakeButtonReleased() {

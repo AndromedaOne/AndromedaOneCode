@@ -8,7 +8,6 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
-import frc.robot.Robot;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.telemetries.Trace;
 
@@ -31,7 +30,6 @@ public class DeployAndRunIntake extends CommandBase {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    m_intakeBase.deployIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +40,7 @@ public class DeployAndRunIntake extends CommandBase {
       intakeSpeed *= -1;
     }
     m_intakeBase.runIntakeWheels(intakeSpeed);
+    m_intakeBase.deployIntake();
   }
 
   // Called once the command ends or is interrupted.
@@ -55,12 +54,6 @@ public class DeployAndRunIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean finished = Robot.getInstance().getOIContainer().getSubsystemController()
-        .getRunIntakeButtonReleased();
-    if (m_runInReverse) {
-      finished = Robot.getInstance().getOIContainer().getSubsystemController()
-          .getRunIntakeinReverseButtonReleased();
-    }
-    return finished;
+    return false;
   }
 }
