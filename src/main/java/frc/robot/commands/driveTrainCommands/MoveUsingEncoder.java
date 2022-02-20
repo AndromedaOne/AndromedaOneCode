@@ -23,12 +23,13 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   private double m_distance = 0;
   private double m_maxOutput = 0;
   private double m_target;
+  private boolean m_useCurrentHeading = false;
 
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
-      double maxOutput) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading, double maxOutput,
+      boolean useCurrentHeading) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("MoveUsingEncoder", 0, 0, 0, 0),
@@ -45,13 +46,18 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     m_setpoint = this::getSetpoint;
     m_driveTrain = drivetrain;
     m_maxOutput = maxOutput;
-    // Use addRequirements() here to declare subsystem dependencies.
+    m_useCurrentHeading = useCurrentHeading;
     // Configure additional PID options by calling `getController` here.
     addRequirements(drivetrain);
   }
 
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading) {
-    this(drivetrain, distance, heading, 1.0);
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
+      double maxOutput) {
+    this(drivetrain, distance, heading, maxOutput, false);
+  }
+
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
+    this(drivetrain, distance, 0.0, maxOutput, true);
   }
 
   public void initialize() {
