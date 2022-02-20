@@ -65,7 +65,6 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
-  FeederBase m_feeder;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.

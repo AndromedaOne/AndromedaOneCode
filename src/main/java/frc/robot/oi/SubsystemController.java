@@ -40,7 +40,6 @@ public class SubsystemController extends ControllerBase {
     return (getLeftStickForwardBackwardValue());
   }
 
-
   private void setUpIntakeButtons() {
     getRightBumperButton()
         .whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));

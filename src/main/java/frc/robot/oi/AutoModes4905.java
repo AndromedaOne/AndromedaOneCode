@@ -4,10 +4,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
-import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
-import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.autonomousCommands.DoNothingAuto;
 import frc.robot.commands.groupCommands.autonomousCommands.TaxiAuto;
+import frc.robot.commands.groupCommands.autonomousCommands.highHub2Auto;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.sensors.SensorsContainer;
@@ -38,8 +37,7 @@ public class AutoModes4905 {
     if (Config4905.getConfig4905().isTopGun()) {
       m_autoChooser.addOption("1: Taxi", new TaxiAuto());
       // ?? Check heading angle, output power
-      m_autoChooser.addOption("2: High Hub 2",
-          new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, (4 * 12), 0, 6)));
+      m_autoChooser.addOption("2: High Hub 2", new highHub2Auto());
       // m_autoChooser.addOption("3: Low Hub 2", new FakeCommand());
 
     }
