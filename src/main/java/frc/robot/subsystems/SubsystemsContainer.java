@@ -10,8 +10,10 @@ package frc.robot.subsystems;
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.feederCommands.StopFeeder;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
-import frc.robot.commands.shooterCommands.DefaultShooterSystem;
+import frc.robot.commands.shooterCommands.DefaultShooterAlignment;
+import frc.robot.commands.shooterCommands.StopShooter;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
@@ -61,6 +63,7 @@ public class SubsystemsContainer {
   ShooterWheelBase m_topShooterWheel;
   ShooterWheelBase m_bottomShooterWheel;
   IntakeBase m_intake;
+  FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
   FeederBase m_feeder;
 
@@ -168,7 +171,7 @@ public class SubsystemsContainer {
       System.out.println("using real intake");
       m_intake = new RealIntake();
     } else {
-      System.out.println("Using mock Intake");
+      System.out.println("using mock Intake");
       m_intake = new MockIntake();
     }
     if (Config4905.getConfig4905().doesFeederExist()) {
@@ -176,6 +179,14 @@ public class SubsystemsContainer {
       m_feeder = new RealFeeder();
     } else {
       System.out.println("Using mock feeder");
+      m_feeder = new MockFeeder();
+    }
+
+    if (Config4905.getConfig4905().doesFeederExist()) {
+      System.out.println("using real feeder");
+      m_feeder = new RealFeeder();
+    } else {
+      System.out.println("using mock feeder");
       m_feeder = new MockFeeder();
     }
 
@@ -231,6 +242,10 @@ public class SubsystemsContainer {
     return m_bottomShooterWheel;
   }
 
+  public ShooterAlignmentBase getShooterAlignment() {
+    return m_shooterAlignment;
+  }
+
   public IntakeBase getIntake() {
     return m_intake;
   }
@@ -249,14 +264,14 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().isRomi()) {
       m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
     }
+    if (Config4905.getConfig4905().doesFeederExist()) {
+      m_feeder.setDefaultCommand(new StopFeeder(m_feeder));
+    }
     if (Config4905.getConfig4905().doesShooterExist()) {
-      m_topShooterWheel.setDefaultCommand(
-          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
-      m_bottomShooterWheel.setDefaultCommand(
-          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
-      m_shooterAlignment.setDefaultCommand(
-          new DefaultShooterSystem(m_topShooterWheel, m_bottomShooterWheel, m_shooterAlignment));
+      m_topShooterWheel.setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
+      m_bottomShooterWheel
+          .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
+      m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
     }
   }
-
 }

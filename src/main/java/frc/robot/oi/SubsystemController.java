@@ -9,7 +9,11 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.FakeCommand;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootFenderHigh;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPadHigh;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmacHigh;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootWallHigh;
+import frc.robot.commands.groupCommands.shooterFeederCommands.StopShooterFeeder;
 import frc.robot.commands.intakeCommands.DeployAndRunIntake;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -23,12 +27,12 @@ public class SubsystemController extends ControllerBase {
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
     m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
+    if (Config4905.getConfig4905().doesIntakeExist()) {
+      setUpIntakeButtons();
+    }
     m_subsystemsContainer = subsystemsContainer;
     if (Config4905.getConfig4905().doesShooterExist()) {
       setupShooterButtons();
-      if (Config4905.getConfig4905().doesIntakeExist()) {
-        setUpIntakeButtons();
-      }
     }
   }
 
@@ -36,17 +40,35 @@ public class SubsystemController extends ControllerBase {
     return (getLeftStickForwardBackwardValue());
   }
 
-  private void setupShooterButtons() {
-    getYbutton().whileHeld(new FakeCommand());
-    getXbutton().whileHeld(new FakeCommand());
-    getAbutton().whileHeld(new FakeCommand());
-    getBbutton().whileHeld(new FakeCommand());
-  }
 
   private void setUpIntakeButtons() {
     getRightBumperButton()
         .whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
     getBackButton().whenPressed(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), true));
+  }
+
+  private void setupShooterButtons() {
+    // Y = fender, X = launchpad, A = wall, B = tarmac
+    getYbutton().whileHeld(new ShootFenderHigh(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment()));
+    getXbutton().whileHeld(new ShootLaunchPadHigh(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment()));
+    getAbutton().whileHeld(new ShootWallHigh(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment()));
+    getBbutton().whileHeld(new ShootTarmacHigh(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment()));
+    getYbutton().whenReleased(new StopShooterFeeder(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel()));
+    getXbutton().whenReleased(new StopShooterFeeder(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel()));
+    getAbutton().whenReleased(new StopShooterFeeder(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel()));
+    getBbutton().whenReleased(new StopShooterFeeder(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel()));
   }
 
   public boolean getRunIntakeButtonReleased() {

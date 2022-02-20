@@ -4,6 +4,8 @@
 
 package frc.robot.commands.feederCommands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.feeder.FeederBase;
 
@@ -11,39 +13,45 @@ public class RunFeeder extends CommandBase {
   private FeederBase m_feeder;
   private double m_speed = 0;
   private boolean m_runInReverse;
+  private BooleanSupplier m_readyToShoot;
 
   /** Creates a new RunFeeder. */
-  public RunFeeder(FeederBase feeder, double speed, boolean runInReverse) {
+  public RunFeeder(FeederBase feeder, double speed, boolean runInReverse,
+      BooleanSupplier readyToShoot) {
     m_feeder = feeder;
     m_speed = speed;
     m_runInReverse = runInReverse;
+    m_readyToShoot = readyToShoot;
     addRequirements(m_feeder);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_runInReverse) {
-      m_feeder.runFeeder(-m_speed);
-    } else {
-      m_feeder.runFeeder(m_speed);
-    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    if (m_runInReverse) {
+      m_feeder.runFeeder(-m_speed);
+    } else if (m_readyToShoot.getAsBoolean()) {
+      m_feeder.runFeeder(m_speed);
+    } else {
+      m_feeder.runFeeder(0);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_feeder.stopFeeder();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
