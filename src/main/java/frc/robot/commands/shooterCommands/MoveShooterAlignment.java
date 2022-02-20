@@ -40,6 +40,10 @@ public class MoveShooterAlignment extends PIDCommand4905 {
     getController().setD(m_shooterConfig.getDouble("dValue"));
   }
 
+  public MoveShooterAlignment(ShooterAlignmentBase shooterAlignment, DoubleSupplier setpoint) {
+    this(shooterAlignment, setpoint, false, 0.0, 0.0, 0.0);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
