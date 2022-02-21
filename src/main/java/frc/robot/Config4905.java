@@ -39,6 +39,7 @@ public class Config4905 {
   private Config m_romiBallMopperConfig;
   private Config m_wingsConfig;
   private Config m_shooterConfig;
+  private Config m_intakeConfig;
 
   private static Config4905 m_config4905 = null;
 
@@ -138,6 +139,7 @@ public class Config4905 {
     m_romiBallMopperConfig = load("romiBallMopper.conf");
     m_wingsConfig = load("wings.conf");
     m_shooterConfig = load("shooter.conf");
+    m_intakeConfig = load("intake.conf");
   }
 
   public Config getControllersConfig() {
@@ -252,6 +254,17 @@ public class Config4905 {
 
   public Config getWingsConfig() {
     return m_wingsConfig;
+  }
+
+  public Config getIntakeConfig() {
+    return m_intakeConfig;
+  }
+
+  public boolean doesIntakeExist() {
+    if (m_config.hasPath("subsystems.intake")) {
+      return true;
+    }
+    return false;
   }
 
   public boolean isRomi() {

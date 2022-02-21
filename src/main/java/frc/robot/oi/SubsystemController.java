@@ -8,6 +8,8 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Config4905;
+import frc.robot.commands.intakeCommands.DeployAndRunIntake;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -16,11 +18,31 @@ import frc.robot.subsystems.SubsystemsContainer;
  */
 public class SubsystemController extends ControllerBase {
 
+  private SubsystemsContainer m_subsystemsContainer;
+
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
+    m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
+    if (Config4905.getConfig4905().doesIntakeExist()) {
+      setUpIntakeButtons();
+    }
   }
 
   public double getElevatorAdjustElevationStick() {
     return (getLeftStickForwardBackwardValue());
+  }
+
+  private void setUpIntakeButtons() {
+    getRightBumperButton()
+        .whileHeld(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
+    getBackButton().whileHeld(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), true));
+  }
+
+  public boolean getRunIntakeButtonReleased() {
+    return getRightBumperReleased();
+  }
+
+  public boolean getRunIntakeinReverseButtonReleased() {
+    return getBackButtonReleased();
   }
 }
