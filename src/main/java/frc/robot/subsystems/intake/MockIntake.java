@@ -7,14 +7,14 @@ package frc.robot.subsystems.intake;
 public class MockIntake extends IntakeBase {
   private double m_previousSpeed = 0;
 
-  public void runIntake(double speed) {
+  public void runIntakeWheels(double speed) {
     if (speed != m_previousSpeed) {
       System.out.println("Running intake at speed :" + speed);
       m_previousSpeed = speed;
     }
   }
 
-  public void stopIntake() {
+  public void stopIntakeWheels() {
     System.out.println("Stopping intake.");
     m_previousSpeed = 0;
   }

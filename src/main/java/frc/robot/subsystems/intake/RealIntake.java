@@ -11,33 +11,39 @@ import frc.robot.actuators.TalonSRXController;
 
 public class RealIntake extends IntakeBase {
   private TalonSRXController m_wheelsController;
-  private TalonSRXController m_deployRetractController;
+  private TalonSRXController m_deployRetractControllerDriverSide;
+  private TalonSRXController m_deployRetractControllerPassengerSide;
   private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
 
   /** Creates a new RealIntake. */
   public RealIntake() {
     m_wheelsController = new TalonSRXController(m_intakeConfig, "wheelsController");
-    m_deployRetractController = new TalonSRXController(m_intakeConfig, "deployRetractController");
+    m_deployRetractControllerDriverSide = new TalonSRXController(m_intakeConfig,
+        "deployRetractControllerDriverSide");
+    m_deployRetractControllerPassengerSide = new TalonSRXController(m_intakeConfig,
+        "deployRetractControllerPassengerSide");
   }
 
-  public void runIntake(double speed) {
+  public void runIntakeWheels(double speed) {
     // Run intake motors to bring game piece (ball) into robot
     // Or to push Ball out of Robot
     m_wheelsController.set(speed);
   }
 
-  public void stopIntake() {
+  public void stopIntakeWheels() {
     // Stop intake motors
     m_wheelsController.stopMotor();
   }
 
   @Override
   public void deployIntake() {
-    m_deployRetractController.set(m_intakeConfig.getDouble("deploySpeed"));
+    m_deployRetractControllerDriverSide.set(m_intakeConfig.getDouble("deploySpeed"));
+    m_deployRetractControllerPassengerSide.set(m_intakeConfig.getDouble("deploySpeed"));
   }
 
   @Override
   public void retractIntake() {
-    m_deployRetractController.set(m_intakeConfig.getDouble("retractSpeed"));
+    m_deployRetractControllerDriverSide.set(m_intakeConfig.getDouble("retractSpeed"));
+    m_deployRetractControllerPassengerSide.set(m_intakeConfig.getDouble("retractSpeed"));
   }
 }
