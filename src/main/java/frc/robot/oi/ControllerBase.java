@@ -45,6 +45,14 @@ public class ControllerBase {
     return (new JoystickButton(m_controller, ButtonsEnumerated.BACKBUTTON.getValue()));
   }
 
+  protected boolean getBackButtonPressed() {
+    return m_controller.getBackButtonPressed();
+  }
+
+  protected boolean getBackButtonReleased() {
+    return m_controller.getBackButtonReleased();
+  }
+
   protected JoystickButton getStartButton() {
     return (new JoystickButton(m_controller, ButtonsEnumerated.STARTBUTTON.getValue()));
   }
@@ -113,12 +121,20 @@ public class ControllerBase {
     return m_controller.getLeftBumperReleased();
   }
 
+  protected JoystickButton getLeftBumperButton() {
+    return new JoystickButton(m_controller, ButtonsEnumerated.LEFTBUMPERBUTTON.getValue());
+  }
+
   protected boolean getRightBumperPressed() {
     return m_controller.getRightBumperPressed();
   }
 
   protected boolean getRightBumperReleased() {
     return m_controller.getRightBumperReleased();
+  }
+
+  protected JoystickButton getRightBumperButton() {
+    return new JoystickButton(m_controller, ButtonsEnumerated.RIGHTBUMPERBUTTON.getValue());
   }
 
   protected boolean getPOVnorthPressed() {
