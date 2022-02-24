@@ -35,7 +35,7 @@ public class highHub2Auto extends SequentialCommandGroup {
     final double feederSetPoint = 1000;
     final double distanceToBall = 48.0;
     final double maxSpeed = 0.6;
-    MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, 0.0, maxSpeed);
+    MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
