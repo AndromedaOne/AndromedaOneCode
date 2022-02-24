@@ -10,6 +10,7 @@ package frc.robot.commands.driveTrainCommands;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -51,13 +52,15 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     addRequirements(drivetrain);
   }
 
+  // Use this constructor to move the robot in the heading passed in
   public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
       double maxOutput) {
     this(drivetrain, distance, heading, maxOutput, false);
   }
 
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double maxOutput) {
-    this(drivetrain, distance, 0.0, maxOutput, true);
+  // Use this constructor to move the robot in the direction it's already pointing
+  public MoveUsingEncoder(DriveTrain driveTrain, double distance, double maxOutput) {
+    this(driveTrain, distance, 0, maxOutput, true);
   }
 
   public void initialize() {
@@ -79,6 +82,12 @@ public class MoveUsingEncoder extends PIDCommand4905 {
       getController().setMaxOutput(m_maxOutput);
     } else if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
       getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
+    }
+    if (m_useCurrentHeading) {
+      double heading = Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading();
+      super.setOutput(output -> {
+        m_driveTrain.moveUsingGyro(output, 0, false, heading);
+      });
     }
     Trace.getInstance().logCommandInfo(this, "Moving with encoder to position: " + getSetpoint());
 
