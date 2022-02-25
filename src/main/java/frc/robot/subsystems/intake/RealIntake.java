@@ -6,6 +6,7 @@ package frc.robot.subsystems.intake;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.TalonSRXController;
 
@@ -45,5 +46,18 @@ public class RealIntake extends IntakeBase {
   public void retractIntake() {
     m_deployRetractControllerDriverSide.set(m_intakeConfig.getDouble("retractSpeed"));
     m_deployRetractControllerPassengerSide.set(m_intakeConfig.getDouble("retractSpeed"));
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("IntakeDriverSideLimitSwitchFwdClosed",
+        m_deployRetractControllerDriverSide.isFwdLimitSwitchClosed() == 1);
+    SmartDashboard.putBoolean("IntakeDriverSideLimitSwitchRevClosed",
+        m_deployRetractControllerDriverSide.isRevLimitSwitchClosed() == 1);
+    SmartDashboard.putBoolean("IntakePassengerSideLimitSwitchFwdClosed",
+        m_deployRetractControllerPassengerSide.isFwdLimitSwitchClosed() == 1);
+    SmartDashboard.putBoolean("IntakePassengerSideLimitSwitchRevClosed",
+        m_deployRetractControllerPassengerSide.isRevLimitSwitchClosed() == 1);
   }
 }
