@@ -36,7 +36,7 @@ public class AutoModes4905 {
       m_autoChooser.addOption("1: Simple Park", new AllianceAnticsSimple(driveTrain));
       m_autoChooser.addOption("2: Scoring And Park", new AllianceAnticsScoring(driveTrain));
     }
-    if (Config4905.getConfig4905().isTopGun()) {
+    if (Config4905.getConfig4905().isTopGun()|| Config4905.getConfig4905().isShowBot()) {
       m_autoChooser.addOption("1: Taxi", new TaxiAuto());
       m_autoChooser.addOption("2: High Hub 2", new highHub2Auto());
       m_autoChooser.addOption("3: Low Hub 2", new lowHub2Auto());
