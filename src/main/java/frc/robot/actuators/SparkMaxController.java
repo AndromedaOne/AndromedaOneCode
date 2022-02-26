@@ -5,8 +5,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class SparkMaxController extends CANSparkMax {
   private boolean m_hasEncoder = false;
   private boolean m_hasForwardLimitSwitch = false;
@@ -65,7 +63,6 @@ public class SparkMaxController extends CANSparkMax {
     sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
         ? -sensorPosition
         : sensorPosition);
-    SmartDashboard.putNumber(m_configString + " position", sensorPosition);
     return sensorPosition;
   }
 
