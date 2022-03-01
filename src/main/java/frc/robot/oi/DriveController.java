@@ -27,10 +27,6 @@ import frc.robot.subsystems.SubsystemsContainer;
  * are easier to find.
  */
 public class DriveController extends ControllerBase {
-  private JoystickButton m_turnToNorth;
-  private JoystickButton m_turnToEast;
-  private JoystickButton m_turnToSouth;
-  private JoystickButton m_turnToWest;
   private JoystickButton m_turnOnLimelight;
   private JoystickButton m_turnOffLimelight;
   private POVButton m_driveForwardAndTrackLine;
@@ -46,16 +42,11 @@ public class DriveController extends ControllerBase {
     setController(new XboxController(0));
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
-    if (!Config4905.getConfig4905().isRomi()
-        || Config4905.getConfig4905().getRobotName().equals("4905_Romi")) {
-      m_turnToNorth = getYbutton();
-      m_turnToNorth.whenPressed(new TurnToCompassHeading(0));
-      m_turnToEast = getBbutton();
-      m_turnToEast.whenPressed(new TurnToCompassHeading(90));
-      m_turnToSouth = getAbutton();
-      m_turnToSouth.whenPressed(new TurnToCompassHeading(180));
-      m_turnToWest = getXbutton();
-      m_turnToWest.whenPressed(new TurnToCompassHeading(270));
+    if (!Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
+      getPOVnorth().whenPressed(new TurnToCompassHeading(0));
+      getPOVeast().whenPressed(new TurnToCompassHeading(90));
+      getPOVsouth().whenPressed(new TurnToCompassHeading(180));
+      getPOVwest().whenPressed(new TurnToCompassHeading(270));
     }
     if (sensorsContainer.hasLimeLight()) {
       limeLightButtons();
