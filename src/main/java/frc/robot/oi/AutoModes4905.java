@@ -5,18 +5,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.autonomousCommands.DoNothingAuto;
+import frc.robot.commands.groupCommands.autonomousCommands.HighHub2Auto;
+import frc.robot.commands.groupCommands.autonomousCommands.HighHub2AutoFromWallToTerminal;
+import frc.robot.commands.groupCommands.autonomousCommands.LowHub2Auto;
 import frc.robot.commands.groupCommands.autonomousCommands.TaxiAuto;
-import frc.robot.commands.groupCommands.autonomousCommands.highHub2Auto;
-import frc.robot.commands.groupCommands.autonomousCommands.highHub2AutoFromWallToTerminal;
-import frc.robot.commands.groupCommands.autonomousCommands.lowHub2Auto;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
-import frc.robot.subsystems.feeder.FeederBase;
-import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.subsystems.shooter.ShooterWheelBase;
 
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
@@ -25,10 +22,6 @@ public class AutoModes4905 {
       SensorsContainer sensorsContainer, SendableChooser<Command> autoChooser) {
     m_autoChooser = autoChooser;
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    IntakeBase intake = subsystemsContainer.getIntake();
-    ShooterWheelBase topShooterWheel = subsystemsContainer.getTopShooterWheel();
-    ShooterWheelBase bottomShooterWheel = subsystemsContainer.getBottomShooterWheel();
-    FeederBase feeder = subsystemsContainer.getFeeder();
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
@@ -36,12 +29,12 @@ public class AutoModes4905 {
       m_autoChooser.addOption("1: Simple Park", new AllianceAnticsSimple(driveTrain));
       m_autoChooser.addOption("2: Scoring And Park", new AllianceAnticsScoring(driveTrain));
     }
-    if (Config4905.getConfig4905().isTopGun()|| Config4905.getConfig4905().isShowBot()) {
+    if (Config4905.getConfig4905().isTopGun() || Config4905.getConfig4905().isShowBot()) {
       m_autoChooser.addOption("1: Taxi", new TaxiAuto());
-      m_autoChooser.addOption("2: High Hub 2", new highHub2Auto());
-      m_autoChooser.addOption("3: Low Hub 2", new lowHub2Auto());
+      m_autoChooser.addOption("2: High Hub 2", new HighHub2Auto());
+      m_autoChooser.addOption("3: Low Hub 2", new LowHub2Auto());
       m_autoChooser.addOption("4: High Hub 2 From Wall To Terminal",
-          new highHub2AutoFromWallToTerminal());
+          new HighHub2AutoFromWallToTerminal());
 
     }
 

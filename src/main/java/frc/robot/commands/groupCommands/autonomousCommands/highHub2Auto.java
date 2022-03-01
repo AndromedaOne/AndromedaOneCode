@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmacHigh;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
 import frc.robot.commands.groupCommands.shooterFeederCommands.StopShooterFeeder;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -21,9 +21,9 @@ import frc.robot.subsystems.shooter.ShooterWheelBase;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class highHub2Auto extends SequentialCommandGroup {
+public class HighHub2Auto extends SequentialCommandGroup {
   /** Creates a new highHub2Auto. */
-  public highHub2Auto() {
+  public HighHub2Auto() {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     FeederBase feeder = subsystemsContainer.getFeeder();
@@ -35,6 +35,7 @@ public class highHub2Auto extends SequentialCommandGroup {
     final double feederSetPoint = 1000;
     final double distanceToBall = 48.0;
     final double maxSpeed = 0.6;
+    final boolean shootLow = false;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);
 
     // Add your commands in the addCommands() call, e.g.
@@ -43,7 +44,7 @@ public class highHub2Auto extends SequentialCommandGroup {
         new ParallelCommandGroup(moveCommand,
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 () -> shooterSetPoint, () -> feederSetPoint, intake)),
-        new ShootTarmacHigh(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment),
+        new ShootTarmac(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, shootLow),
         new StopShooterFeeder(feeder, topShooterWheel, bottomShooterWheel));
     // drive to the cargo and pick up with deploy and run intake command. We will
     // shoot the cargo with the location command

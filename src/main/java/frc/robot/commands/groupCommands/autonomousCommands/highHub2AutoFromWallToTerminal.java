@@ -14,9 +14,9 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class highHub2AutoFromWallToTerminal extends SequentialCommandGroup {
+public class HighHub2AutoFromWallToTerminal extends SequentialCommandGroup {
   /** Creates a new highHub2AutoFromWallToTerminal. */
-  public highHub2AutoFromWallToTerminal() {
+  public HighHub2AutoFromWallToTerminal() {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     final double distanceToReverse = -10.0;
@@ -26,7 +26,7 @@ public class highHub2AutoFromWallToTerminal extends SequentialCommandGroup {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new highHub2Auto(), new MoveUsingEncoder(driveTrain, distanceToReverse, maxSpeed),
+    addCommands(new HighHub2Auto(), new MoveUsingEncoder(driveTrain, distanceToReverse, maxSpeed),
         new TurnToCompassHeading(compassHeading),
         new MoveUsingEncoder(driveTrain, distanceToTerminal, maxSpeed));
   }
