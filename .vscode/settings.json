@@ -14,6 +14,13 @@
     "**/.factorypath": true,
     "**/*~": true
   },
+  "editor.rulers": [
+    {
+      "column": 100,
+      "color": "#ff0000"
+    }
+  ],
+  "editor.minimap.enabled": false,
   "java.test.config": [
     {
       "name": "WPIlibUnitTests",
