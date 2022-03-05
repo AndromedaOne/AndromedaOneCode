@@ -6,6 +6,7 @@ package frc.robot.subsystems.shooter;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
@@ -33,6 +34,9 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("ShooterAlignmentLimitSwitchTop", atTopLimitSwitch());
+    SmartDashboard.putBoolean("ShooterAlignmentLimitSwitchBottom", atBottomLimitSwitch());
+    SmartDashboard.putNumber("ShooterAlignmentAngle", getAngle());
   }
 
   @Override

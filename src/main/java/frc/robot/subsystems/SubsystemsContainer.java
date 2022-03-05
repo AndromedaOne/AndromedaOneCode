@@ -182,14 +182,6 @@ public class SubsystemsContainer {
       m_feeder = new MockFeeder();
     }
 
-    if (Config4905.getConfig4905().doesFeederExist()) {
-      System.out.println("using real feeder");
-      m_feeder = new RealFeeder();
-    } else {
-      System.out.println("using mock feeder");
-      m_feeder = new MockFeeder();
-    }
-
   }
 
   public DriveTrain getDrivetrain() {

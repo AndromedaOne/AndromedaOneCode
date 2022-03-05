@@ -43,6 +43,7 @@ public class MoveShooterAlignment extends PIDCommand4905 {
         .setI(m_shooterConfig.getDouble(m_shooterAlignment.getShooterName() + ".iValue"));
     getController()
         .setD(m_shooterConfig.getDouble(m_shooterAlignment.getShooterName() + ".dValue"));
+    getController().setMaxOutput(1.0);
   }
 
   public MoveShooterAlignment(ShooterAlignmentBase shooterAlignment, DoubleSupplier setpoint) {
