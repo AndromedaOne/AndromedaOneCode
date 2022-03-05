@@ -4,12 +4,12 @@
 
 package frc.robot.commands.groupCommands;
 
-import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -32,15 +32,16 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
     @Override
     public void initialize() {
       m_duration = SmartDashboard.getNumber("Auto Delay", 0);
-      System.out.println("Auto Dealy = " + m_duration);
-      SendableRegistry.setName(this, getName() + ": " + m_duration + " seconds");
       m_timer.reset();
       m_timer.start();
+      Trace.getInstance().logCommandStart(this);
+      Trace.getInstance().logCommandInfo(this, "Auto Delay; " + m_duration);
     }
 
     @Override
     public void end(boolean interrupted) {
       m_timer.stop();
+      Trace.getInstance().logCommandStop(this);
     }
 
     @Override
