@@ -238,6 +238,7 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
+    }
     if (Config4905.getConfig4905().doesShooterExist()) {
       m_topShooterWheel.setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
       m_bottomShooterWheel

@@ -15,7 +15,7 @@ public class ShooterAlignment extends ShooterAlignmentBase {
 
   /** Creates a new ShooterAlignment. */
   public ShooterAlignment() {
-    m_angleMotor = new SparkMaxController(m_shooterConfig, "angleMotor");
+    m_angleMotor = new SparkMaxController(m_shooterConfig, getShooterName());
   }
 
   public void rotateShooter(double speed) {
@@ -38,5 +38,10 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   @Override
   public double getAngle() {
     return m_angleMotor.getEncoderPositionTicks() - getOffset();
+  }
+
+  @Override
+  public String getShooterName() {
+    return "angleMotor";
   }
 }
