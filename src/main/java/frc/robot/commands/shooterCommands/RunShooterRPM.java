@@ -39,7 +39,8 @@ public class RunShooterRPM extends ParallelCommandGroup {
     }
     addCommands(m_topShooterCommand, m_bottomShooterCommand);
 
-  }
+            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition),
+            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition));
 
   public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel,
       double setpoint) {
@@ -48,6 +49,11 @@ public class RunShooterRPM extends ParallelCommandGroup {
 
   public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel) {
     this(topShooterWheel, bottomShooterWheel, 0, true, () -> false);
+  }
+
+  public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel,
+      double setpoint) {
+    this(topShooterWheel, bottomShooterWheel, setpoint, false, () -> false);
   }
 
   // Called when the command is initially scheduled.
