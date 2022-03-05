@@ -174,6 +174,13 @@ public class SubsystemsContainer {
       System.out.println("using mock Intake");
       m_intake = new MockIntake();
     }
+    if (Config4905.getConfig4905().doesFeederExist()) {
+      System.out.println("using real feeder");
+      m_feeder = new RealFeeder();
+    } else {
+      System.out.println("Using mock feeder");
+      m_feeder = new MockFeeder();
+    }
 
     if (Config4905.getConfig4905().doesFeederExist()) {
       System.out.println("using real feeder");

@@ -91,4 +91,8 @@ public class PIDCommand4905 extends CommandBase {
   public PIDController4905 getController() {
     return m_controller;
   }
+
+  public void setOutput(DoubleConsumer output) {
+    m_useOutput = output;
+  }
 }
