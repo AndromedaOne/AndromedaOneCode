@@ -4,7 +4,6 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
@@ -19,7 +18,7 @@ public class TaxiAuto extends SequentialCommandGroup {
     final double maxOutput = 0.6;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    addCommands(
-    new DelayedSequentialCommandGroup(new MoveUsingEncoder(driveTrain, distanceToMove, maxOutput)));
+    addCommands(new DelayedSequentialCommandGroup(
+        new MoveUsingEncoder(driveTrain, distanceToMove, maxOutput)));
   }
 }

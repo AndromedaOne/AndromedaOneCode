@@ -136,7 +136,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
       System.out.println("Autonamous Command Schedule: " + m_autonomousCommand.getName());
-    } else{
+    } else {
       System.out.println("No Autonamous Command Scheduled");
     }
     if (DriverStation.isFMSAttached()) {
