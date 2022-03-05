@@ -24,7 +24,7 @@ public class highHub2AutoFromWallToTerminal extends SequentialCommandGroup {
     final double distanceToReverse = -10.0;
     final double maxSpeed = 0.6;
     final double compassHeading = -90.0;
-    final double distanceToTerminal = 192.0;
+    final double distanceToTerminal = 100;
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

@@ -14,8 +14,9 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class TaxiAuto extends SequentialCommandGroup {
   /** Add your docs here. */
   public TaxiAuto() {
-    final double distanceToMove = 48;
-    final double maxOutput = 0.6;
+    final double distanceToMove = 44;
+    final double maxOutput = 0.8;
+    final double compassHeading = -90.0;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     addCommands(new DelayedSequentialCommandGroup(
