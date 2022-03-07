@@ -48,4 +48,9 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   public String getShooterName() {
     return "angleMotor";
   }
+
+  @Override
+  public void stopShooterAlignment() {
+    m_angleMotor.set(0);
+  }
 }

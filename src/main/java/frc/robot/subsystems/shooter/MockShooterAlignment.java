@@ -39,4 +39,7 @@ public class MockShooterAlignment extends ShooterAlignmentBase {
     return "MockShooterAlignment";
   }
 
+  @Override
+  public void stopShooterAlignment() {
+  }
 }
