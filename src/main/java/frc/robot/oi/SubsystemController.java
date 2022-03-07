@@ -9,11 +9,11 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
+import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootFender;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPad;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootWall;
-import frc.robot.commands.intakeCommands.DeployAndRunIntake;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -29,7 +29,6 @@ public class SubsystemController extends ControllerBase {
     if (Config4905.getConfig4905().doesIntakeExist()) {
       setUpIntakeButtons();
     }
-    m_subsystemsContainer = subsystemsContainer;
     if (Config4905.getConfig4905().doesShooterExist()) {
       setupShooterButtons();
     }
@@ -40,9 +39,12 @@ public class SubsystemController extends ControllerBase {
   }
 
   private void setUpIntakeButtons() {
-    getRightBumperButton()
-        .whileHeld(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), false));
-    getBackButton().whileHeld(new DeployAndRunIntake(m_subsystemsContainer.getIntake(), true));
+    getRightBumperButton().whileHeld(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), false));
+    getBackButton().whileHeld(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), true));
   }
 
   private void setupShooterButtons() {

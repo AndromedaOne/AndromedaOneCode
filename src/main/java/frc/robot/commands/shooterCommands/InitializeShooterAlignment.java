@@ -25,7 +25,7 @@ public class InitializeShooterAlignment extends CommandBase {
   @Override
   public void execute() {
     if (!m_shooterAlignment.getInitialized()) {
-      m_shooterAlignment.rotateShooter(0.3);
+      m_shooterAlignment.rotateShooter(-0.3);
     }
   }
 
@@ -40,7 +40,7 @@ public class InitializeShooterAlignment extends CommandBase {
   public boolean isFinished() {
     if (m_shooterAlignment.getInitialized()) {
       return true;
-    } else if (m_shooterAlignment.atTopLimitSwitch()) {
+    } else if (m_shooterAlignment.atBottomLimitSwitch()) {
       m_shooterAlignment.setOffset(m_shooterAlignment.getAngle());
       m_shooterAlignment.setInitialized();
       return true;

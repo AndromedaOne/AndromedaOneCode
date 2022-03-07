@@ -30,15 +30,16 @@ public class RunShooterRPM extends ParallelCommandGroup {
     m_setpoint = setpoint;
     m_useSmartDashboardRPM = useSmartDashboardRPM;
     m_finishedCondition = finishedCondition;
+
     m_topShooterCommand = new RunOneShooterWheelVelocity(m_topShooterWheel, () -> m_setpoint,
-        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition, false);
+        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition);
     m_bottomShooterCommand = new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> m_setpoint,
-        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition, false);
+        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition);
+
     if (useSmartDashboardRPM) {
       m_finishedCondition = new FinishedConditionSupplier();
     }
     addCommands(m_topShooterCommand, m_bottomShooterCommand);
-
   }
 
   public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel,

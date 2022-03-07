@@ -23,6 +23,10 @@ public abstract class ShooterAlignmentBase extends SubsystemBase {
 
   public abstract double getAngle();
 
+  public abstract String getShooterName();
+
+  public abstract void stopShooterAlignment();
+
   public boolean getInitialized() {
     return m_initialized;
   }

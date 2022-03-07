@@ -33,4 +33,13 @@ public class MockShooterAlignment extends ShooterAlignmentBase {
   public double getAngle() {
     return 0;
   }
+
+  @Override
+  public String getShooterName() {
+    return "MockShooterAlignment";
+  }
+
+  @Override
+  public void stopShooterAlignment() {
+  }
 }
