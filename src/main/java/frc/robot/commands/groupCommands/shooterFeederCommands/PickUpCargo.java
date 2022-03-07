@@ -4,6 +4,7 @@
 
 package frc.robot.commands.groupCommands.shooterFeederCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.feederCommands.RunFeeder;
 import frc.robot.commands.intakeCommands.DeployAndRunIntake;
@@ -23,11 +24,15 @@ public class PickUpCargo extends SequentialCommandGroup {
 
     final double m_shooterSetpoint = -1000.0;
     final double m_feederSetpoint = 0.5;
+    final double m_shooterAngle = 0.0;
+
+    RunShooterRPM runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel,
+        m_shooterSetpoint);
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
-        new MoveShooterAlignment(shooterAlignment, () -> 0), // angle for intake tbd
-        new RunShooterRPM(topShooterWheel, bottomShooterWheel, m_shooterSetpoint),
-        new RunFeeder(feeder, m_feederSetpoint, true, () -> false),
-        new DeployAndRunIntake(intakeBase, reverse));
+        new MoveShooterAlignment(shooterAlignment, () -> m_shooterAngle), // angle for intake tbd
+        new ParallelCommandGroup(runShooterCommand,
+            new RunFeeder(feeder, m_feederSetpoint, true, runShooterCommand.atSetpoint()),
+            new DeployAndRunIntake(intakeBase, reverse)));
   }
 }
