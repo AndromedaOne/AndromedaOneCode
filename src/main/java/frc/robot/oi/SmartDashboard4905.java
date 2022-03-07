@@ -68,9 +68,8 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("Set Shooter RPM", 1000);
       SmartDashboard.putData("Run Shooter RPM", new RunShooterRPM(
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
-      SmartDashboard.putData("Tune Shooter Angle", 
-      new MoveShooterAlignment(subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 
-      0.1, 0.5));
+      SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
+          subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
