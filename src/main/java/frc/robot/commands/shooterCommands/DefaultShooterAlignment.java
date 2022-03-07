@@ -12,6 +12,7 @@ public class DefaultShooterAlignment extends SequentialCommandGroup {
   public DefaultShooterAlignment(ShooterAlignmentBase shooterAlignment) {
     final double defaultAngle = 0;
     addCommands(new InitializeShooterAlignment(shooterAlignment),
-        new MoveShooterAlignment(shooterAlignment, () -> defaultAngle));
+        new MoveShooterAlignment(shooterAlignment, () -> defaultAngle),
+        new StopShooterAlignment(shooterAlignment));
   }
 }
