@@ -77,8 +77,8 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpClimberButtons() {
-    m_extendArmsButton = getAbutton();
-    m_contractArmsButton = getBbutton();
+    m_extendArmsButton = getBbutton();
+    m_contractArmsButton = getAbutton();
   }
 
   protected void limeLightButtons() {
