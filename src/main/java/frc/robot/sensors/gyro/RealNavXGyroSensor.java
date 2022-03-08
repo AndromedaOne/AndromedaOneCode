@@ -1,5 +1,7 @@
 package frc.robot.sensors.gyro;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.TimerTask;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -16,6 +18,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
   private long kInitializeDelay = 3000;
   private long kDefaultPeriod = 50;
   private java.util.Timer controlLoop;
+  private Instant m_start;
 
   /**
    * Trys creating the gyro and if it can not then it reports an error to the
@@ -56,6 +59,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
         DriverStation.reportError("Error instantiating navX MXP: " + ex.getMessage(), true);
       }
     }
+    m_start = Instant.now();
   }
 
   private boolean calibrated = false;
@@ -83,7 +87,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
 
   @Override
   protected double getRawZAngle() {
-    if (!calibrated) {
+    if (!calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
       System.out.println(
           "WARNING: navx gyro has not completed calibrating before getRawZangle has been called");
     }
@@ -92,7 +96,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
 
   @Override
   protected double getRawXAngle() {
-    if (!calibrated) {
+    if (!calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
       System.out.println(
           "WARNING: navx gyro has not completed calibrating before getRawXangle has been called");
     }
@@ -101,7 +105,7 @@ public class RealNavXGyroSensor extends Gyro4905 {
 
   @Override
   protected double getRawYAngle() {
-    if (!calibrated) {
+    if (!calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
       System.out.println(
           "WARNING: navx gyro has not completed calibrating before getRawYangle has been called");
     }
