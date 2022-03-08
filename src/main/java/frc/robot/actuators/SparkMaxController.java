@@ -88,4 +88,14 @@ public class SparkMaxController extends CANSparkMax {
   public boolean isReverseLimitSwitchOn() {
     return m_reverseLimitSwitch.isPressed();
   }
+
+  public void setCoastMode() {
+    this.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    System.out.println("SparxMax set to coast");
+  }
+
+  public void setBrakeMode() {
+    this.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    System.out.println("SparxMax set to brake");
+  }
 }

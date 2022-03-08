@@ -110,6 +110,8 @@ public class Robot extends TimedRobot {
     Trace.getInstance().flushTraceFiles();
     limelight.disableLED();
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
+    m_subsystemContainer.getShooterAlignment().setCoastMode();
+    System.out.println("Shooter Allignment set to coast");
   }
 
   @Override
@@ -144,6 +146,8 @@ public class Robot extends TimedRobot {
     }
     limelight.enableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
+    m_subsystemContainer.getShooterAlignment().setBrakeMode();
+    System.out.println("Shooter Allignment set to brake");
   }
 
   /**
@@ -172,7 +176,8 @@ public class Robot extends TimedRobot {
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
     Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
-
+    m_subsystemContainer.getShooterAlignment().setBrakeMode();
+    System.out.println("Shooter Allignment set to brake");
   }
 
   /**

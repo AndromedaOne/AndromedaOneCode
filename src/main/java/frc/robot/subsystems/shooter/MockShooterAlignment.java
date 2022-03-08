@@ -42,4 +42,14 @@ public class MockShooterAlignment extends ShooterAlignmentBase {
   @Override
   public void stopShooterAlignment() {
   }
+
+  @Override
+  public void setCoastMode() {
+
+  }
+
+  @Override
+  public void setBrakeMode() {
+
+  }
 }
