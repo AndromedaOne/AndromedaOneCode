@@ -27,6 +27,10 @@ public abstract class ShooterAlignmentBase extends SubsystemBase {
 
   public abstract void stopShooterAlignment();
 
+  public abstract void setCoastMode();
+
+  public abstract void setBrakeMode();
+
   public boolean getInitialized() {
     return m_initialized;
   }
