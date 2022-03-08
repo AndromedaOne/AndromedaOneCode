@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
+import frc.robot.telemetries.Trace;
 
 public class ShootTarmac extends SequentialCommandGroup {
   final double m_shooterSetpoint;
@@ -30,4 +31,17 @@ public class ShootTarmac extends SequentialCommandGroup {
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
         () -> m_shooterSetpoint, () -> m_shooterAngle, () -> m_feederSetpoint));
   }
+
+  @Override
+  public void initialize() {
+    Trace.getInstance().logCommandStart(this);
+    super.initialize();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
+    super.end(interrupted);
+  }
+
 }

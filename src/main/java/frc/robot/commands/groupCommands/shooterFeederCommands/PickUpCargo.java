@@ -25,14 +25,29 @@ public class PickUpCargo extends SequentialCommandGroup {
     final double m_shooterSetpoint = -1000.0;
     final double m_feederSetpoint = 0.5;
     final double m_shooterAngle = 0.0;
+    // m_feederReverseState is used to let the feeder subsystem know to negate the
+    // setpoint
+    boolean m_feederReverseState = false;
+    RunShooterRPM runShooterCommand;
 
-    RunShooterRPM runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel,
-        m_shooterSetpoint);
+    // PickUpCargo - this takes in cargo from floor as well as push cargo out
+    // through the intake.
+    // 6th parameter reverse is true when pushing out cargo through intake.
+    // When true, shooter setpoint and feeder setoint will be negative.
+
+    if (reverse) {
+      runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel,
+          -m_shooterSetpoint);
+      m_feederReverseState = false;
+    } else {
+      runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel, m_shooterSetpoint);
+      m_feederReverseState = true;
+    }
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
-        new MoveShooterAlignment(shooterAlignment, () -> m_shooterAngle), // angle for intake tbd
-        new ParallelCommandGroup(runShooterCommand,
-            new RunFeeder(feeder, m_feederSetpoint, true, runShooterCommand.atSetpoint()),
+        new MoveShooterAlignment(shooterAlignment, () -> m_shooterAngle),
+        new ParallelCommandGroup(runShooterCommand, new RunFeeder(feeder, m_feederSetpoint,
+            m_feederReverseState, runShooterCommand.atSetpoint()),
             new DeployAndRunIntake(intakeBase, reverse)));
   }
 }

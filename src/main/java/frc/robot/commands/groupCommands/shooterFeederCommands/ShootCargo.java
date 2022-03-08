@@ -15,6 +15,7 @@ import frc.robot.commands.shooterCommands.RunShooterRPM;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
+import frc.robot.telemetries.Trace;
 
 public class ShootCargo extends SequentialCommandGroup {
 
@@ -30,4 +31,17 @@ public class ShootCargo extends SequentialCommandGroup {
         new ParallelCommandGroup(runShooterCommand, new RunFeeder(feeder,
             feederSetpoint.getAsDouble(), false, runShooterCommand.atSetpoint())));
   }
+
+  @Override
+  public void initialize() {
+    Trace.getInstance().logCommandStart(this);
+    super.initialize();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
+    super.end(interrupted);
+  }
+
 }
