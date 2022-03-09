@@ -63,6 +63,7 @@ public class MoveShooterAlignment extends PIDCommand4905 {
   @Override
   public void end(boolean interrupted) {
     m_shooterAlignment.rotateShooter(0);
+    super.end(interrupted);
   }
 
   // Returns true when the command should end.

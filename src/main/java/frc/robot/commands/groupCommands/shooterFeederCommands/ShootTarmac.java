@@ -20,11 +20,11 @@ public class ShootTarmac extends SequentialCommandGroup {
       boolean shootLow) {
     if (shootLow) {
       m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 45.2;
+      m_shooterAngle = 29.1;
       m_feederSetpoint = 0.5;
     } else {
-      m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 69.1;
+      m_shooterSetpoint = 3200.0;
+      m_shooterAngle = 47.5;
       m_feederSetpoint = 0.5;
     }
 

@@ -24,7 +24,7 @@ public class ShootCargo extends SequentialCommandGroup {
       DoubleSupplier shooterSetpoint, DoubleSupplier angle, DoubleSupplier feederSetpoint) {
 
     RunShooterRPM runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel,
-        shooterSetpoint.getAsDouble());
+        shooterSetpoint);
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
         new MoveShooterAlignment(shooterAlignment, angle),

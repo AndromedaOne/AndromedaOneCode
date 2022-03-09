@@ -71,4 +71,8 @@ public class SubsystemController extends ControllerBase {
   public boolean getRunIntakeinReverseButtonReleased() {
     return getBackButtonReleased();
   }
+
+  public boolean getShootLowHubButtonPressed() {
+    return getLeftBumperPressed();
+  }
 }

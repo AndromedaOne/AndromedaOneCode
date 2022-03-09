@@ -19,12 +19,12 @@ public class ShootLaunchPad extends SequentialCommandGroup {
       ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
       boolean shootLow) {
     if (shootLow) {
-      m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 42.7;
+      m_shooterSetpoint = 3850.0;
+      m_shooterAngle = 27.5;
       m_feederSetpoint = 0.5;
     } else {
-      m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 62.0;
+      m_shooterSetpoint = 3850.0;
+      m_shooterAngle = 44;
       m_feederSetpoint = 0.5;
     }
 
