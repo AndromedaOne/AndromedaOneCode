@@ -10,8 +10,8 @@ package frc.robot.subsystems;
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
-import frc.robot.commands.intakeCommands.RetractAndStopIntake;
 import frc.robot.commands.feederCommands.StopFeeder;
+import frc.robot.commands.intakeCommands.RetractAndStopIntake;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.subsystems.compressor.CompressorBase;
@@ -22,12 +22,12 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
-import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.subsystems.intake.MockIntake;
-import frc.robot.subsystems.intake.RealIntake;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.feeder.MockFeeder;
 import frc.robot.subsystems.feeder.RealFeeder;
+import frc.robot.subsystems.intake.IntakeBase;
+import frc.robot.subsystems.intake.MockIntake;
+import frc.robot.subsystems.intake.RealIntake;
 import frc.robot.subsystems.ledlights.*;
 import frc.robot.subsystems.romiBallMopper.MockRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RealRomiBallMopper;
@@ -162,13 +162,14 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesIntakeExist()) {
       System.out.println("using real intake");
       m_intake = new RealIntake();
+    } else {
+      System.out.println("Using mock Intake");
+      m_intake = new MockIntake();
+    }
     if (Config4905.getConfig4905().doesFeederExist()) {
       System.out.println("using real feeder");
       m_feeder = new RealFeeder();
     } else {
-    } else {
-      System.out.println("Using mock Intake");
-      m_intake = new MockIntake();
       System.out.println("Using mock feeder");
       m_feeder = new MockFeeder();
     }
@@ -227,6 +228,8 @@ public class SubsystemsContainer {
 
   public IntakeBase getIntake() {
     return m_intake;
+  }
+
   public FeederBase getFeeder() {
     return m_feeder;
   }
@@ -243,9 +246,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
+    }
     if (Config4905.getConfig4905().doesFeederExist()) {
       m_feeder.setDefaultCommand(new StopFeeder(m_feeder));
     }
   }
-
 }
