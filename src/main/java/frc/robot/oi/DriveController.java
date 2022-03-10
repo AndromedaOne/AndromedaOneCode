@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
+import frc.robot.commands.climberCommands.contractArmsCommand;
+import frc.robot.commands.climberCommands.extendArmsCommand;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.BringWingsUp;
@@ -34,8 +36,6 @@ public class DriveController extends ControllerBase {
   private JoystickButton m_toggleConveyor;
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
-  private JoystickButton m_extendArmsButton;
-  private JoystickButton m_contractArmsButton;
 
   public DriveController(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
@@ -77,8 +77,8 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpClimberButtons() {
-    m_extendArmsButton = getBbutton();
-    m_contractArmsButton = getAbutton();
+    getBbutton().whenPressed(new extendArmsCommand());
+    getAbutton().whenPressed(new contractArmsCommand());
   }
 
   protected void limeLightButtons() {

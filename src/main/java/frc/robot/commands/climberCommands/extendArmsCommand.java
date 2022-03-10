@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.telemetries.Trace;
 
 public class extendArmsCommand extends CommandBase {
   public ClimberBase m_climber = Robot.getInstance().getSubsystemsContainer().getClimber();
@@ -26,6 +27,7 @@ public class extendArmsCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,6 +41,9 @@ public class extendArmsCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_climber.stopBackLeftWinch();
+    m_climber.stopBacktRightWinch();
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
