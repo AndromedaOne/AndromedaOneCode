@@ -35,4 +35,12 @@ public abstract class ClimberBase extends SubsystemBase {
   public abstract SparkMaxController getBackLeftWinch();
 
   public abstract SparkMaxController getBackRightWinch();
+
+  public abstract boolean backLeftWinchAtTopLimitSwitch();
+
+  public abstract boolean backLeftWinchAtBottomLimitSwitch();
+
+  public abstract boolean backRightWinchAtTopLimitSwitch();
+
+  public abstract boolean backRightWinchAtBottomLimitSwitch();
 }

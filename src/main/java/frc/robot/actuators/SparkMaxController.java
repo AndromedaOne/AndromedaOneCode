@@ -68,4 +68,16 @@ public class SparkMaxController extends CANSparkMax {
   public boolean hasEncoder() {
     return m_hasEncoder;
   }
+
+  public boolean isForwardLimitSwitchOn() {
+    return false;
+  }
+
+  public boolean isReverseLimitSwitchOn() {
+    return false;
+  }
+
+  public boolean backRightWinchAtBottomLimitSwitch() {
+    return isReverseLimitSwitchOn();
+  }
 }

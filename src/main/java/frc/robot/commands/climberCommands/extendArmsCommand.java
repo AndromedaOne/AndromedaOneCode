@@ -45,7 +45,8 @@ public class extendArmsCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return (m_climber.getBackLeftWinch().getEncoderPositionTicks() >= m_extendHeight
-        || m_climber.getBackRightWinch().getEncoderPositionTicks() >= m_extendHeight);
+        || m_climber.getBackRightWinch().getEncoderPositionTicks() >= m_extendHeight
+        || m_climber.backLeftWinchAtTopLimitSwitch() || m_climber.backRightWinchAtTopLimitSwitch());
   }
 
 }

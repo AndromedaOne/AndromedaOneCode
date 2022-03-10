@@ -38,6 +38,8 @@ public class contractArmsCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return (m_climber.getBackLeftWinch().getEncoderPositionTicks() >= m_contractHeight
-        || m_climber.getBackRightWinch().getEncoderPositionTicks() >= m_contractHeight);
+        || m_climber.getBackRightWinch().getEncoderPositionTicks() >= m_contractHeight
+        || m_climber.backLeftWinchAtBottomLimitSwitch()
+        || m_climber.backRightWinchAtBottomLimitSwitch());
   }
 }

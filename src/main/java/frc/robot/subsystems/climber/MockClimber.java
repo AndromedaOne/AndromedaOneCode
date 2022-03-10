@@ -78,4 +78,24 @@ public class MockClimber extends ClimberBase {
     return null;
   }
 
+  @Override
+  public boolean backLeftWinchAtTopLimitSwitch() {
+    return false;
+  }
+
+  @Override
+  public boolean backLeftWinchAtBottomLimitSwitch() {
+    return false;
+  }
+
+  @Override
+  public boolean backRightWinchAtTopLimitSwitch() {
+    return false;
+  }
+
+  @Override
+  public boolean backRightWinchAtBottomLimitSwitch() {
+    return false;
+  }
+
 }
