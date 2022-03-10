@@ -37,16 +37,17 @@ public class PickUpCargo extends SequentialCommandGroup {
 
     if (reverse) {
       runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel,
-         () -> -m_shooterSetpoint);
+          () -> -m_shooterSetpoint);
       m_feederReverseState = false;
     } else {
-      runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel, () -> m_shooterSetpoint);
+      runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel,
+          () -> m_shooterSetpoint);
       m_feederReverseState = true;
     }
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
         new MoveShooterAlignment(shooterAlignment, () -> m_shooterAngle),
-        new ParallelCommandGroup(runShooterCommand, new RunFeeder(feeder, m_feederSetpoint,
+        new ParallelCommandGroup(runShooterCommand, new RunFeeder(feeder, () -> m_feederSetpoint,
             m_feederReverseState, runShooterCommand.atSetpoint()),
             new DeployAndRunIntake(intakeBase, reverse)));
   }

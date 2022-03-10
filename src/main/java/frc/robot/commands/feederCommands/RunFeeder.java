@@ -17,7 +17,7 @@ public class RunFeeder extends CommandBase {
   private BooleanSupplier m_readyToShoot;
 
   /** Creates a new RunFeeder. */
-  public RunFeeder(FeederBase feeder, DoubleSupplier speed, boolean runInReverse) {
+  public RunFeeder(FeederBase feeder, DoubleSupplier speed, boolean runInReverse,
       BooleanSupplier readyToShoot) {
     m_feeder = feeder;
     m_speed = speed;
@@ -30,17 +30,17 @@ public class RunFeeder extends CommandBase {
   @Override
   public void initialize() {
 
-      m_feeder.runFeeder(-m_speed.getAsDouble());
-      m_feeder.runFeeder(m_speed.getAsDouble());
+    m_feeder.runFeeder(-m_speed.getAsDouble());
+    m_feeder.runFeeder(m_speed.getAsDouble());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (m_runInReverse) {
-      m_feeder.runFeeder(-m_speed);
+      m_feeder.runFeeder(-m_speed.getAsDouble());
     } else if (m_readyToShoot.getAsBoolean()) {
-      m_feeder.runFeeder(m_speed);
+      m_feeder.runFeeder(m_speed.getAsDouble());
     } else {
       m_feeder.runFeeder(0);
     }

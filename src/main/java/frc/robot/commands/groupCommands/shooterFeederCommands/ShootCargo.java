@@ -28,8 +28,8 @@ public class ShootCargo extends SequentialCommandGroup {
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
         new MoveShooterAlignment(shooterAlignment, angle),
-        new ParallelCommandGroup(runShooterCommand, new RunFeeder(feeder,
-            feederSetpoint.getAsDouble(), false, runShooterCommand.atSetpoint())));
+        new ParallelCommandGroup(runShooterCommand,
+            new RunFeeder(feeder, feederSetpoint, false, runShooterCommand.atSetpoint())));
   }
 
   @Override
