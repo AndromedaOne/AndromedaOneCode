@@ -80,6 +80,9 @@ public class RealNavXGyroSensor extends Gyro4905 {
         m_navX.setInitialXAngleReading(m_gyro.getPitch());
         m_navX.setInitialYAngleReading(m_gyro.getRoll());
         calibrated = true;
+        System.out.println("Gyro is calibrated. Initial Angles: \n\tZangle: " +
+          m_gyro.getAngle() + "\n\tXangle: " + m_gyro.getPitch() + "\n\tYangle: " +
+          m_gyro.getRoll() + "\n");
         cancel();
       }
     }
