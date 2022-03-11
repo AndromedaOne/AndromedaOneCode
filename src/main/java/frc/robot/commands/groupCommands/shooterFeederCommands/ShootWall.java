@@ -23,8 +23,8 @@ public class ShootWall extends SequentialCommandGroup {
       m_shooterAngle = 30.2;
       m_feederSetpoint = 0.5;
     } else {
-      m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 41.2;
+      m_shooterSetpoint = 2900.0;
+      m_shooterAngle = 44.2;
       m_feederSetpoint = 0.5;
     }
 
