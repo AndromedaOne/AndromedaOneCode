@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.Timer;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
@@ -34,8 +35,6 @@ public class AHighHub2 extends SequentialCommandGroup {
     ShooterWheelBase bottomShooterWheel = subsystemsContainer.getBottomShooterWheel();
     ShooterAlignmentBase shooterAlignment = subsystemsContainer.getShooterAlignment();
     IntakeBase intake = subsystemsContainer.getIntake();
-    final double shooterSetPoint = 1000;
-    final double feederSetPoint = 1000;
     final double distanceToBall = 45.0;
     final double maxSpeed = 0.6;
     final boolean shootLow = false;
@@ -43,11 +42,11 @@ public class AHighHub2 extends SequentialCommandGroup {
 
     addCommands(new SequentialCommandGroup(
         new ParallelDeadlineGroup(moveCommand,
-            new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake,
-                false)),
+            new PickUpCargo(
+                feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake, false)),
         new TurnToCompassHeading(97),
         new ParallelDeadlineGroup(new Timer(5000), new ShootTarmac(feeder, topShooterWheel,
-            bottomShooterWheel, shooterAlignment, shootLow)),
+            bottomShooterWheel, shooterAlignment, shootLow), new PauseRobot(5000, driveTrain)),
         new TurnToCompassHeading(180)));
   }
 
