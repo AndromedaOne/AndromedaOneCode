@@ -38,6 +38,7 @@ public class AHighHub2 extends SequentialCommandGroup {
     final double distanceToBall = 45.0;
     final double maxSpeed = 0.6;
     final boolean shootLow = false;
+    final long waitTime = 5000;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);
 
     addCommands(new SequentialCommandGroup(
@@ -45,8 +46,8 @@ public class AHighHub2 extends SequentialCommandGroup {
             new PickUpCargo(
                 feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake, false)),
         new TurnToCompassHeading(97),
-        new ParallelDeadlineGroup(new Timer(5000), new ShootTarmac(feeder, topShooterWheel,
-            bottomShooterWheel, shooterAlignment, shootLow), new PauseRobot(5000, driveTrain)),
+        new ParallelDeadlineGroup(new Timer(waitTime), new ShootTarmac(feeder, topShooterWheel,
+            bottomShooterWheel, shooterAlignment, shootLow), new PauseRobot(waitTime, driveTrain)),
         new TurnToCompassHeading(180)));
   }
 
