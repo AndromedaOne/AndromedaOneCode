@@ -20,9 +20,9 @@ import frc.robot.subsystems.shooter.ShooterWheelBase;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AHighHub2 extends SequentialCommandGroup {
-  /** Creates a new AhighHub2. */
-  public AHighHub2() {
+public class CHighHub2 extends SequentialCommandGroup {
+  /** Creates a new CHighHub2. */
+  public CHighHub2() {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     FeederBase feeder = subsystemsContainer.getFeeder();
@@ -32,7 +32,7 @@ public class AHighHub2 extends SequentialCommandGroup {
     IntakeBase intake = subsystemsContainer.getIntake();
     final double shooterSetPoint = 1000;
     final double feederSetPoint = 1000;
-    final double distanceToBall = 48.0;
+    final double distanceToBall = 60.0;
     final double maxSpeed = 0.6;
     final boolean shootLow = false;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);

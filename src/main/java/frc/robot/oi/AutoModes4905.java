@@ -5,9 +5,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.autonomousCommands.AHighHub2;
+import frc.robot.commands.groupCommands.autonomousCommands.BHighHub2;
+import frc.robot.commands.groupCommands.autonomousCommands.CHighHub2;
 import frc.robot.commands.groupCommands.autonomousCommands.DoNothingAuto;
 import frc.robot.commands.groupCommands.autonomousCommands.TaxiAuto;
-import frc.robot.commands.groupCommands.autonomousCommands.highHub2AutoFromWallToTerminal;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.sensors.SensorsContainer;
@@ -30,10 +31,9 @@ public class AutoModes4905 {
     }
     if (Config4905.getConfig4905().isTopGun() || Config4905.getConfig4905().isShowBot()) {
       m_autoChooser.addOption("1: Taxi", new TaxiAuto());
-      m_autoChooser.addOption("2: High Hub 2", new AHighHub2());
-      // m_autoChooser.addOption("3: Low Hub 2", new lowHub2Auto());
-      //m_autoChooser.addOption("4: High Hub 2 From Wall To Terminal",
-         // new highHub2AutoFromWallToTerminal());
+      m_autoChooser.addOption("2: AHighHub2", new AHighHub2());
+      m_autoChooser.addOption("3: CHighHub2", new CHighHub2());
+      m_autoChooser.addOption("4: BHighHub2", new BHighHub2());
 
     }
 
