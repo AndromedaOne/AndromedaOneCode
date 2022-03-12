@@ -31,6 +31,14 @@ public class ShooterAlignment extends ShooterAlignmentBase {
     return m_angleMotor.isReverseLimitSwitchOn();
   }
 
+  public void setCoastMode() {
+    m_angleMotor.setCoastMode();
+  }
+
+  public void setBrakeMode() {
+    m_angleMotor.setBrakeMode();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

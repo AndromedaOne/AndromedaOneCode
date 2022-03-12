@@ -7,6 +7,7 @@ package frc.robot.commands.groupCommands.shooterFeederCommands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.feederCommands.RunFeeder;
 import frc.robot.commands.shooterCommands.InitializeShooterAlignment;
@@ -15,6 +16,7 @@ import frc.robot.commands.shooterCommands.RunShooterRPM;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
+import frc.robot.telemetries.Trace;
 
 public class ShootCargo extends SequentialCommandGroup {
 
@@ -23,11 +25,25 @@ public class ShootCargo extends SequentialCommandGroup {
       DoubleSupplier shooterSetpoint, DoubleSupplier angle, DoubleSupplier feederSetpoint) {
 
     RunShooterRPM runShooterCommand = new RunShooterRPM(topShooterWheel, bottomShooterWheel,
-        shooterSetpoint.getAsDouble());
+        shooterSetpoint);
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
-        new MoveShooterAlignment(shooterAlignment, angle),
-        new ParallelCommandGroup(runShooterCommand, new RunFeeder(feeder,
-            feederSetpoint.getAsDouble(), false, runShooterCommand.atSetpoint())));
+        new ParallelDeadlineGroup(new MoveShooterAlignment(shooterAlignment, angle),
+            new RunFeeder(feeder, feederSetpoint, true, () -> false)),
+        new ParallelCommandGroup(runShooterCommand,
+            new RunFeeder(feeder, feederSetpoint, false, runShooterCommand.atSetpoint())));
   }
+
+  @Override
+  public void initialize() {
+    Trace.getInstance().logCommandStart(this);
+    super.initialize();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
+    super.end(interrupted);
+  }
+
 }

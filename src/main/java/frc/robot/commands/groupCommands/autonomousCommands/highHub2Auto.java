@@ -46,7 +46,8 @@ public class highHub2Auto extends SequentialCommandGroup {
         new ParallelCommandGroup(moveCommand,
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake,
                 false)),
-        new ShootTarmac(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, shootLow),
+        new ShootTarmac(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, shootLow,
+            true),
         new StopShooterFeeder(feeder, topShooterWheel, bottomShooterWheel));
     // drive to the cargo and pick up with deploy and run intake command. We will
     // shoot the cargo with the location command
