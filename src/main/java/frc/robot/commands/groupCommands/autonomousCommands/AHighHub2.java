@@ -27,7 +27,7 @@ import frc.robot.subsystems.shooter.ShooterWheelBase;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AHighHub2 extends SequentialCommandGroup {
   /** Creates a new BHighHub2. */
-  public AHighHub2() {
+  public AHighHub2(double finalHeading) {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     FeederBase feeder = subsystemsContainer.getFeeder();
@@ -35,10 +35,10 @@ public class AHighHub2 extends SequentialCommandGroup {
     ShooterWheelBase bottomShooterWheel = subsystemsContainer.getBottomShooterWheel();
     ShooterAlignmentBase shooterAlignment = subsystemsContainer.getShooterAlignment();
     IntakeBase intake = subsystemsContainer.getIntake();
-    final double distanceToBall = 45.0;
-    final double maxSpeed = 0.6;
+    final double distanceToBall = 50.0;
+    final double maxSpeed = 1;
     final boolean shootLow = false;
-    final long waitTime = 5000;
+    final long waitTime = 2000;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);
 
     addCommands(new SequentialCommandGroup(
@@ -46,9 +46,11 @@ public class AHighHub2 extends SequentialCommandGroup {
             new PickUpCargo(
                 feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake, false)),
         new TurnToCompassHeading(97),
-        new ParallelDeadlineGroup(new Timer(waitTime), new ShootTarmac(feeder, topShooterWheel,
-            bottomShooterWheel, shooterAlignment, shootLow), new PauseRobot(waitTime, driveTrain)),
-        new TurnToCompassHeading(180)));
+        new ParallelDeadlineGroup(new Timer(waitTime),
+            new ShootTarmac(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
+                shootLow),
+            new PauseRobot(waitTime, driveTrain)),
+        new TurnToCompassHeading(finalHeading)));
   }
 
 }
