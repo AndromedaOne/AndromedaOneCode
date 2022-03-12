@@ -15,12 +15,11 @@ import frc.robot.telemetries.Trace;
 public class extendArmsCommand extends CommandBase {
   public ClimberBase m_climber = Robot.getInstance().getSubsystemsContainer().getClimber();
   Config m_climberConfig = Config4905.getConfig4905().getClimberConfig();
-  private int m_extendHeight = 0;
+  private double m_extendHeight = 0;
+  private double m_rightHeight = 0;
+  private double m_leftHeight = 0;
 
   public extendArmsCommand() {
-
-    m_extendHeight = m_climberConfig.getInt("extendHeight");
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_climber);
   }
 
@@ -28,13 +27,17 @@ public class extendArmsCommand extends CommandBase {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
+    m_extendHeight = m_climberConfig.getInt("extendHeight");
+    m_rightHeight = (m_climber.getBackRightWinch().getEncoderPositionTicks() + m_extendHeight);
+    System.out.println("RIghtHeight " + m_rightHeight);
+    m_leftHeight = (m_climber.getBackLeftWinch().getEncoderPositionTicks() + m_extendHeight);
+    System.out.println("LeftHeight " + m_leftHeight);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_climber.unwindBackLeftWinch();
-
     m_climber.unwindBackRightWinch();
   }
 
@@ -49,9 +52,10 @@ public class extendArmsCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_climber.getBackLeftWinch().getEncoderPositionTicks() >= m_extendHeight
-        || m_climber.getBackRightWinch().getEncoderPositionTicks() >= m_extendHeight
-        || m_climber.backLeftWinchAtTopLimitSwitch() || m_climber.backRightWinchAtTopLimitSwitch());
+    System.out.println("Left Encoder Position " + m_climber.getBackLeftWinch().getEncoderPositionTicks());
+    System.out.println("Right Encoder Position " + m_climber.getBackRightWinch().getEncoderPositionTicks());
+    return (m_climber.getBackLeftWinch().getEncoderPositionTicks() >= m_leftHeight
+        || m_climber.getBackRightWinch().getEncoderPositionTicks() >= m_rightHeight);
   }
 
 }

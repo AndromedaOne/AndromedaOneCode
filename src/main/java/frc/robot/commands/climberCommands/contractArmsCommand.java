@@ -15,16 +15,22 @@ import frc.robot.telemetries.Trace;
 public class contractArmsCommand extends CommandBase {
   public ClimberBase m_climber = Robot.getInstance().getSubsystemsContainer().getClimber();
   Config m_climberConfig = Config4905.getConfig4905().getClimberConfig();
-  private int m_contractHeight = 0;
+  private double m_contractHeight = 0;
+  private double m_rightHeight = 0;
+  private double m_leftHeight = 0;
 
   public contractArmsCommand() {
-    m_contractHeight = m_climberConfig.getInt("contractHeight");
     addRequirements(m_climber);
   }
 
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
+    m_contractHeight = m_climberConfig.getInt("contractHeight");
+    m_rightHeight = (m_climber.getBackRightWinch().getEncoderPositionTicks() - m_contractHeight);
+    System.out.println("RIghtHeight " + m_rightHeight);
+    m_leftHeight = (m_climber.getBackLeftWinch().getEncoderPositionTicks() - m_contractHeight);
+    System.out.println("LeftHeight " + m_leftHeight);
   }
 
   @Override
@@ -42,8 +48,10 @@ public class contractArmsCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return (m_climber.getBackLeftWinch().getEncoderPositionTicks() >= m_contractHeight
-        || m_climber.getBackRightWinch().getEncoderPositionTicks() >= m_contractHeight
+    System.out.println("Left Encoder Position " + m_climber.getBackLeftWinch().getEncoderPositionTicks());
+    System.out.println("Right Encoder Position " + m_climber.getBackRightWinch().getEncoderPositionTicks());
+    return (m_climber.getBackLeftWinch().getEncoderPositionTicks() <= m_leftHeight
+        || m_climber.getBackRightWinch().getEncoderPositionTicks() <= m_rightHeight
         || m_climber.backLeftWinchAtBottomLimitSwitch()
         || m_climber.backRightWinchAtBottomLimitSwitch());
   }

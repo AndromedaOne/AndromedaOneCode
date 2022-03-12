@@ -77,8 +77,8 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpClimberButtons() {
-    getBbutton().whenPressed(new extendArmsCommand());
-    getAbutton().whenPressed(new contractArmsCommand());
+    getBbutton().whileHeld(new extendArmsCommand());
+    getAbutton().whileHeld(new contractArmsCommand());
   }
 
   protected void limeLightButtons() {

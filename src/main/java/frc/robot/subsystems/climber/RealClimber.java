@@ -17,12 +17,8 @@ public class RealClimber extends ClimberBase {
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("BackLeftWinchAtTopLimitSwitch", backLeftWinchAtTopLimitSwitch());
-    SmartDashboard.putBoolean("BackLeftWinchAtBottomLimitSwitch",
-        backLeftWinchAtBottomLimitSwitch());
-    SmartDashboard.putBoolean("BackRightWinchAtTopLimitSwitch", backRightWinchAtTopLimitSwitch());
-    SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch",
-        backRightWinchAtBottomLimitSwitch());
+    SmartDashboard.putBoolean("BackLeftWinchAtBottomLimitSwitch", backLeftWinchAtBottomLimitSwitch());
+    SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch", backRightWinchAtBottomLimitSwitch());
   }
 
   @Override
@@ -37,7 +33,7 @@ public class RealClimber extends ClimberBase {
 
   @Override
   public void driveBackRightWinch() {
-    m_backRightWinch.set(1.0);
+    m_backRightWinch.set(0.2);
 
   }
 
@@ -79,13 +75,13 @@ public class RealClimber extends ClimberBase {
 
   @Override
   public void unwindBackLeftWinch() {
-    m_backLeftWinch.set(-1.0);
+    m_backLeftWinch.set(-0.2);
 
   }
 
   @Override
   public void driveBackLeftWinch() {
-    m_backLeftWinch.set(1.0);
+    m_backLeftWinch.set(0.2);
   }
 
   @Override
@@ -95,28 +91,28 @@ public class RealClimber extends ClimberBase {
 
   @Override
   public void unwindBackRightWinch() {
-    m_backRightWinch.set(-1.0);
+    m_backRightWinch.set(-0.2);
 
   }
 
   @Override
   public boolean backLeftWinchAtTopLimitSwitch() {
-    return m_backLeftWinch.isForwardLimitSwitchOn();
-  }
-
-  @Override
-  public boolean backLeftWinchAtBottomLimitSwitch() {
     return m_backLeftWinch.isReverseLimitSwitchOn();
   }
 
   @Override
+  public boolean backLeftWinchAtBottomLimitSwitch() {
+    return m_backLeftWinch.isForwardLimitSwitchOn();
+  }
+
+  @Override
   public boolean backRightWinchAtTopLimitSwitch() {
-    return m_backRightWinch.isForwardLimitSwitchOn();
+    return m_backRightWinch.isReverseLimitSwitchOn();
   }
 
   @Override
   public boolean backRightWinchAtBottomLimitSwitch() {
-    return m_backRightWinch.isReverseLimitSwitchOn();
+    return m_backRightWinch.isForwardLimitSwitchOn();
   }
 
 }
