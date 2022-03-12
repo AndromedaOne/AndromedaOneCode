@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.autonomousCommands.AHighHub2;
+import frc.robot.commands.groupCommands.autonomousCommands.B4Cargo;
 import frc.robot.commands.groupCommands.autonomousCommands.BHighHub2;
 import frc.robot.commands.groupCommands.autonomousCommands.CHighHub2;
 import frc.robot.commands.groupCommands.autonomousCommands.DoNothingAuto;
@@ -34,7 +35,7 @@ public class AutoModes4905 {
       m_autoChooser.addOption("2: AHighHub2", new AHighHub2());
       m_autoChooser.addOption("3: CHighHub2", new CHighHub2());
       m_autoChooser.addOption("4: BHighHub2", new BHighHub2());
-
+      m_autoChooser.addOption("5: B4Cargo", new B4Cargo());
     }
 
     SmartDashboard.putData("autoModes", m_autoChooser);
