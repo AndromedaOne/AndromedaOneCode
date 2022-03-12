@@ -12,6 +12,7 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPad;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -39,9 +40,13 @@ public class B4Cargo extends SequentialCommandGroup {
         new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, 53, 1),
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 intakeBase, false)),
-        new ParallelDeadlineGroup(new Timer(waitTime), new PickUpCargo(feeder, topShooterWheel,
-            bottomShooterWheel, shooterAlignment, intakeBase, false),
-            new PauseRobot(waitTime, driveTrain)));
+        new ParallelDeadlineGroup(new Timer(waitTime),
+            new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
+                intakeBase, false),
+            new PauseRobot(waitTime, driveTrain)),
+        new TurnToCompassHeading(153),
+        new ParallelDeadlineGroup(new Timer(waitTime), new ShootLaunchPad(feeder, topShooterWheel,
+            bottomShooterWheel, shooterAlignment, false), new PauseRobot(waitTime, driveTrain)));
 
   }
 }
