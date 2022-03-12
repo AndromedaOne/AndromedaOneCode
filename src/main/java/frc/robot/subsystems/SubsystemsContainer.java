@@ -38,8 +38,9 @@ import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
 import frc.robot.subsystems.shooter.BottomShooterWheel;
+import frc.robot.subsystems.shooter.MockBottomShooter;
 import frc.robot.subsystems.shooter.MockShooterAlignment;
-import frc.robot.subsystems.shooter.MockShooterWheel;
+import frc.robot.subsystems.shooter.MockTopShooter;
 import frc.robot.subsystems.shooter.ShooterAlignment;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
@@ -163,8 +164,8 @@ public class SubsystemsContainer {
       m_shooterAlignment = new ShooterAlignment();
     } else {
       System.out.println("using mock shooters");
-      m_topShooterWheel = new MockShooterWheel();
-      m_bottomShooterWheel = new MockShooterWheel();
+      m_topShooterWheel = new MockTopShooter();
+      m_bottomShooterWheel = new MockBottomShooter();
       m_shooterAlignment = new MockShooterAlignment();
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {

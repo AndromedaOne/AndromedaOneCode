@@ -6,10 +6,14 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
+import frc.robot.commands.Timer;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -37,19 +41,14 @@ public class AHighHub2 extends SequentialCommandGroup {
     final boolean shootLow = false;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);
 
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(moveCommand, new TurnToCompassHeading(100));
-
-    // new ParallelCommandGroup(moveCommand,
-    // new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel,
-    // shooterAlignment, intake,
-    // false)),
-    // new ShootTarmac(feeder, topShooterWheel, bottomShooterWheel,
-    // shooterAlignment, shootLow),
-    // new StopShooterFeeder(feeder, topShooterWheel, bottomShooterWheel));
-    // drive to the cargo and pick up with deploy and run intake command. We will
-    // shoot the cargo with the location command
+    addCommands(new SequentialCommandGroup(
+        new ParallelDeadlineGroup(moveCommand,
+            new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake,
+                false)),
+        new TurnToCompassHeading(97),
+        new ParallelDeadlineGroup(new Timer(5000), new ShootTarmac(feeder, topShooterWheel,
+            bottomShooterWheel, shooterAlignment, shootLow)),
+        new TurnToCompassHeading(180)));
   }
 
 }
