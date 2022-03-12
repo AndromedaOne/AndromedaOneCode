@@ -15,6 +15,7 @@ import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
+import frc.robot.telemetries.Trace;
 
 public class PickUpCargo extends SequentialCommandGroup {
 
@@ -51,4 +52,17 @@ public class PickUpCargo extends SequentialCommandGroup {
             m_feederReverseState, runShooterCommand.atSetpoint()),
             new DeployAndRunIntake(intakeBase, reverse)));
   }
+
+  @Override
+  public void initialize() {
+    Trace.getInstance().logCommandStart(this);
+    super.initialize();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
+    super.end(interrupted);
+  }
+
 }

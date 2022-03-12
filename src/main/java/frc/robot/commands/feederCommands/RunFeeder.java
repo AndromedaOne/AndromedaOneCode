@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.feeder.FeederBase;
+import frc.robot.telemetries.Trace;
 
 public class RunFeeder extends CommandBase {
   private FeederBase m_feeder;
@@ -29,8 +30,7 @@ public class RunFeeder extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    m_feeder.runFeeder(-m_speed.getAsDouble());
+    Trace.getInstance().logCommandStart(this);
     m_feeder.runFeeder(m_speed.getAsDouble());
   }
 
@@ -49,6 +49,7 @@ public class RunFeeder extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
     m_feeder.stopFeeder();
   }
 

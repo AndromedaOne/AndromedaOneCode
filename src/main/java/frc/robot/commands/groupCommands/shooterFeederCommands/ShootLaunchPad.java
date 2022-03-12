@@ -5,28 +5,20 @@
 package frc.robot.commands.groupCommands.shooterFeederCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
 public class ShootLaunchPad extends SequentialCommandGroup {
-  final double m_shooterSetpoint;
-  final double m_shooterAngle;
-  final double m_feederSetpoint;
+  double m_shooterSetpoint;
+  double m_shooterAngle;
+  double m_feederSetpoint;
 
   public ShootLaunchPad(FeederBase feeder, ShooterWheelBase topShooterWheel,
       ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
       boolean shootLow) {
-    if (shootLow) {
-      m_shooterSetpoint = 3850.0;
-      m_shooterAngle = 27.5;
-      m_feederSetpoint = 0.5;
-    } else {
-      m_shooterSetpoint = 3850.0;
-      m_shooterAngle = 44;
-      m_feederSetpoint = 0.5;
-    }
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
         () -> m_shooterSetpoint, () -> m_shooterAngle, () -> m_feederSetpoint));
@@ -35,6 +27,17 @@ public class ShootLaunchPad extends SequentialCommandGroup {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
+
+    if (Robot.getInstance().getOIContainer().getSubsystemController()
+        .getShootLowHubButtonPressed()) {
+      m_shooterSetpoint = 3850.0;
+      m_shooterAngle = 27.5;
+      m_feederSetpoint = 0.5;
+    } else {
+      m_shooterSetpoint = 3850.0;
+      m_shooterAngle = 44;
+      m_feederSetpoint = 0.5;
+    }
     super.initialize();
   }
 
