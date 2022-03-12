@@ -48,7 +48,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
 
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    System.out.println("Initalizing Turn to Compass");
     Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
     super.initialize();
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
@@ -72,7 +71,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     Trace.getInstance().logCommandStop(this);
     Trace.getInstance().logCommandInfo(this, "Final heading: "
         + Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading());
-    System.out.println("Exiting Turn to Compass");
   }
 
   public void setCompassHeading(double compassHeading) {

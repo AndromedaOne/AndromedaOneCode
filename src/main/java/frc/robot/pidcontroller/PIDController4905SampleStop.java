@@ -12,7 +12,7 @@ package frc.robot.pidcontroller;
  */
 public class PIDController4905SampleStop extends PIDController4905 {
   int counter = 0;
-  final int numberOfSamplesOnTarget = 4;
+  final int numberOfSamplesOnTarget = 8;
 
   public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
       double minOutputToMove) {

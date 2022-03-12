@@ -112,5 +112,6 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     super.end(interrupted);
     m_driveTrain.stop();
     Trace.getInstance().logCommandStop(this);
+    Trace.getInstance().logCommandInfo(this, "Endong position: " + m_driveTrain.getRobotPositionInches());
   }
 }

@@ -39,7 +39,7 @@ public class CHighHub2 extends SequentialCommandGroup {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(moveCommand, new TurnToCompassHeading(345), new TurnToCompassHeading(90));
+    addCommands(moveCommand, new TurnToCompassHeading(33));
 
     // new ParallelCommandGroup(moveCommand,
     // new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel,
