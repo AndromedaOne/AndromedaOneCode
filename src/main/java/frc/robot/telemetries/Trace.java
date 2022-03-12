@@ -65,7 +65,7 @@ public class Trace {
   private String m_pathOfTraceDir;
   private static String m_consoleOutput = "ConsoleOutput";
   private static Trace m_instance;
-  private Map<String, TraceEntry> m_traces;
+  private Map<String, TraceMapEntry> m_traces;
   private long m_startTime = 0;
   private MultipleOutputStream m_out;
   private MultipleOutputStream m_err;
@@ -96,7 +96,11 @@ public class Trace {
     });
   }
 
-  private class TraceEntry<T> {
+  private interface TraceMapEntry {
+    public TraceEntry<?> getTraceEntry();
+  }
+
+  private class TraceEntry<T> implements TraceMapEntry {
     private BufferedWriter m_file;
     private int m_numbOfValues;
     private Function<TracePair<T>[], String> formatter;
@@ -119,12 +123,19 @@ public class Trace {
       return (m_numbOfValues);
     }
 
-    public String format(TracePair<T>... tracePair) {
+    @SafeVarargs
+    public final String format(TracePair<T>... tracePair) {
       return formatter.apply(tracePair);
     }
 
-    public String formatHeader(TracePair<T>... header) {
+    @SafeVarargs
+    public final String formatHeader(TracePair<T>... header) {
       return headerFormatter.apply(header);
+    }
+
+    @Override
+    public TraceEntry<T> getTraceEntry() {
+      return this;
     }
 
   }
@@ -139,7 +150,7 @@ public class Trace {
   private Trace() {
     basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
     System.out.println("Trace Base Directory: " + basePathOfTraceDirs);
-    m_traces = new TreeMap<String, TraceEntry>();
+    m_traces = new TreeMap<String, TraceMapEntry>();
     m_startTime = System.currentTimeMillis();
     createNewTraceDir();
     redirectOutput();
@@ -262,6 +273,7 @@ public class Trace {
         header);
   }
 
+  @SuppressWarnings("unchecked")
   @SafeVarargs
   public final synchronized <T> TraceEntry<T> registerTraceEntry(String fileName,
       Function<TracePair<T>[], String> formatter, Function<TracePair<T>[], String> headerFormatter,
@@ -280,7 +292,9 @@ public class Trace {
         outputFile.newLine();
         System.out.println("Opened trace file " + m_pathOfTraceDir + "/" + fileName);
       } else {
-        traceEntry = m_traces.get(fileName);
+        // unfortunately there is no dynamic cast in java. have to just cast it and
+        // hope... this is the reason for suppressing "unchecked"
+        traceEntry = (TraceEntry<T>) m_traces.get(fileName).getTraceEntry();
       }
     } catch (IOException e) {
       System.err
@@ -291,7 +305,7 @@ public class Trace {
   }
 
   @SafeVarargs
-  private final <T> void addEntry(TraceEntry traceEntry, TracePair<T>... values) {
+  private final <T> void addEntry(TraceEntry<T> traceEntry, TracePair<T>... values) {
     try {
       if (!Robot.getInstance().isEnabled()) {
         return;
@@ -308,7 +322,6 @@ public class Trace {
         err += String.valueOf(traceEntry.getNumbOfValues());
         throw (new Exception(err));
       }
-      long correctedTime = System.currentTimeMillis() - m_startTime;
       String line = traceEntry.format(values);
       traceEntry.getFile().write(line);
       traceEntry.getFile().newLine();
@@ -329,7 +342,7 @@ public class Trace {
       // new lambda functionality!!
       m_traces.forEach((k, v) -> {
         try {
-          v.getFile().flush();
+          v.getTraceEntry().getFile().flush();
           // System.out.println("Flushing file " + k);
         } catch (IOException e) {
           System.err.println("ERROR: failed to flush trace file" + k);
