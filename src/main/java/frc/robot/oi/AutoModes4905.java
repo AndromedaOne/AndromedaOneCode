@@ -33,8 +33,8 @@ public class AutoModes4905 {
     if (Config4905.getConfig4905().isTopGun() || Config4905.getConfig4905().isShowBot()) {
       m_autoChooser.addOption("1: Taxi", new TaxiAuto());
       m_autoChooser.addOption("2: AHighHub2", new AHighHub2(180));
-      m_autoChooser.addOption("3: CHighHub2", new CHighHub2());
-      m_autoChooser.addOption("4: BHighHub2", new BHighHub2());
+      m_autoChooser.addOption("3: BHighHub2", new BHighHub2());
+      m_autoChooser.addOption("4: CHighHub2", new CHighHub2());
       m_autoChooser.addOption("5: B4Cargo", new B4Cargo());
     }
 

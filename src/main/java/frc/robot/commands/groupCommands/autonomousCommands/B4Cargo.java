@@ -4,6 +4,7 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
@@ -12,7 +13,8 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTerminal;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootCargo;
+import frc.robot.commands.shooterCommands.MoveShooterAlignment;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -33,21 +35,27 @@ public class B4Cargo extends SequentialCommandGroup {
     ShooterWheelBase bottomShooterWheel = subsystemsContainer.getBottomShooterWheel();
     ShooterAlignmentBase shooterAlignment = subsystemsContainer.getShooterAlignment();
     IntakeBase intakeBase = subsystemsContainer.getIntake();
-    long waitTime = 4000;
+    final double shooterSetpoint = 5000;
+    final double shooterAngle = 71.0;
+    final double feederSetpoint = 1.0;
+    long pickUpWaitTime = 500;
+    long shootWaitTime = 3300;
 
-    addCommands(new BHighHub2(), new TurnToCompassHeading(180),
-        new MoveUsingEncoder(driveTrain, 133, 1), new TurnToCompassHeading(135),
-        new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, 53, 1),
+    addCommands(new BHighHub2(), new TurnToCompassHeading(164),
+
+        new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, 157, 1),
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 intakeBase, false)),
-        new ParallelDeadlineGroup(new Timer(waitTime),
+        new ParallelDeadlineGroup(new Timer(pickUpWaitTime),
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 intakeBase, false),
-            new PauseRobot(waitTime, driveTrain)),
-        new TurnToCompassHeading(153),
-        new ParallelDeadlineGroup(new Timer(waitTime),
-            new ShootTerminal(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, false),
-            new PauseRobot(waitTime, driveTrain)));
+            new PauseRobot(pickUpWaitTime, driveTrain)),
+        new ParallelCommandGroup(new TurnToCompassHeading(155),
+            new MoveShooterAlignment(shooterAlignment, () -> shooterAngle)),
+        new ParallelDeadlineGroup(new Timer(shootWaitTime),
+            new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
+                () -> shooterSetpoint, () -> shooterAngle, () -> feederSetpoint),
+            new PauseRobot(shootWaitTime, driveTrain)));
 
   }
 }

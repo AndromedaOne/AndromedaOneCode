@@ -6,6 +6,7 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
@@ -14,7 +15,8 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
+import frc.robot.commands.groupCommands.shooterFeederCommands.ShootCargo;
+import frc.robot.commands.shooterCommands.MoveShooterAlignment;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.feeder.FeederBase;
@@ -38,16 +40,22 @@ public class BHighHub2 extends SequentialCommandGroup {
     final double distanceToBall = 60.0;
     final double maxSpeed = 0.6;
     final boolean shootLow = false;
+    final double shooterSetpoint = 3400;
+    final double shooterAngle = 62.5;
+    final double feederSetpoint = 0.5;
     final long waitTime = 5000;
+    final long pauseWaitTime = 1000;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);
     addCommands(new SequentialCommandGroup(
         new ParallelDeadlineGroup(moveCommand,
-            new PickUpCargo(
-                feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake, false)),
-        new TurnToCompassHeading(144),
-        new ParallelDeadlineGroup(new Timer(waitTime), new ShootTarmac(feeder, topShooterWheel,
-            bottomShooterWheel, shooterAlignment, shootLow),
-            new PauseRobot(waitTime, driveTrain))));
+            new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake,
+                false)),
+        new ParallelCommandGroup(new TurnToCompassHeading(144),
+            new MoveShooterAlignment(shooterAlignment, () -> shooterAngle)),
+        new ParallelDeadlineGroup(new Timer(waitTime),
+            new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
+                () -> shooterSetpoint, () -> shooterAngle, () -> feederSetpoint),
+            new PauseRobot(pauseWaitTime, driveTrain))));
   }
 
 }

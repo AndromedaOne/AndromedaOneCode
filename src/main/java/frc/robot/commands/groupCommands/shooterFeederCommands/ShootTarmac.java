@@ -23,10 +23,6 @@ public class ShootTarmac extends SequentialCommandGroup {
 
     m_shootBackwards = shootBackwards;
 
-    if (m_shootBackwards) {
-      m_shooterAngle = 62.5;
-    }
-
     System.out.println("ShooterSetpoint =" + m_shooterSetpoint);
     System.out.println(" FeederSetpoint =" + m_feederSetpoint);
     System.out.println(" angle = " + m_shooterAngle);
@@ -49,6 +45,9 @@ public class ShootTarmac extends SequentialCommandGroup {
       System.out.println("Tarmac Initialize Button Not Pressed");
       m_shooterSetpoint = 3200.0;
       m_shooterAngle = 47.5;
+      if (m_shootBackwards) {
+        m_shooterAngle = 62.5;
+      }
       m_feederSetpoint = 0.5;
     }
     super.initialize();
