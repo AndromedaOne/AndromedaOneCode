@@ -17,8 +17,10 @@ public class RealClimber extends ClimberBase {
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("BackLeftWinchAtBottomLimitSwitch", backLeftWinchAtBottomLimitSwitch());
-    SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch", backRightWinchAtBottomLimitSwitch());
+    SmartDashboard.putBoolean("BackLeftWinchAtBottomLimitSwitch",
+        backLeftWinchAtBottomLimitSwitch());
+    SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch",
+        backRightWinchAtBottomLimitSwitch());
   }
 
   @Override
@@ -33,7 +35,7 @@ public class RealClimber extends ClimberBase {
 
   @Override
   public void driveBackRightWinch() {
-    m_backRightWinch.set(0.2);
+    m_backRightWinch.set(0.8);
 
   }
 
@@ -54,7 +56,7 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void stopBacktRightWinch() {
+  public void stopBackRightWinch() {
     m_backRightWinch.set(0);
   }
 
@@ -81,7 +83,7 @@ public class RealClimber extends ClimberBase {
 
   @Override
   public void driveBackLeftWinch() {
-    m_backLeftWinch.set(0.2);
+    m_backLeftWinch.set(0.8);
   }
 
   @Override

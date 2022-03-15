@@ -64,7 +64,7 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void stopBacktRightWinch() {
+  public void stopBackRightWinch() {
 
   }
 

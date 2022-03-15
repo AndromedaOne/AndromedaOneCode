@@ -42,14 +42,16 @@ public class contractArmsCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_climber.stopBackLeftWinch();
-    m_climber.stopBacktRightWinch();
+    m_climber.stopBackRightWinch();
     Trace.getInstance().logCommandStop(this);
   }
 
   @Override
   public boolean isFinished() {
-    System.out.println("Left Encoder Position " + m_climber.getBackLeftWinch().getEncoderPositionTicks());
-    System.out.println("Right Encoder Position " + m_climber.getBackRightWinch().getEncoderPositionTicks());
+    System.out
+        .println("Left Encoder Position " + m_climber.getBackLeftWinch().getEncoderPositionTicks());
+    System.out.println(
+        "Right Encoder Position " + m_climber.getBackRightWinch().getEncoderPositionTicks());
     return (m_climber.getBackLeftWinch().getEncoderPositionTicks() <= m_leftHeight
         || m_climber.getBackRightWinch().getEncoderPositionTicks() <= m_rightHeight
         || m_climber.backLeftWinchAtBottomLimitSwitch()
