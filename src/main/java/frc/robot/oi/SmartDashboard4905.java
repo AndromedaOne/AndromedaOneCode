@@ -63,9 +63,9 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().doesShooterExist()) {
-      SmartDashboard.putData("Tune Shooter Feed Forward", new TuneShooterFeedForward(
-          subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel(),
-          subsystemsContainer.getFeeder()));
+      SmartDashboard.putData("Tune Shooter Feed Forward",
+          new TuneShooterFeedForward(subsystemsContainer.getTopShooterWheel(),
+              subsystemsContainer.getBottomShooterWheel(), subsystemsContainer.getFeeder()));
       SmartDashboard.putNumber("Set Shooter RPM", 1000);
       SmartDashboard.putData("Run Shooter RPM", new RunShooterRPM(
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));

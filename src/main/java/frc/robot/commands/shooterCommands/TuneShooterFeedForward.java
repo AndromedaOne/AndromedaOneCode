@@ -58,8 +58,8 @@ public class TuneShooterFeedForward extends CommandBase {
             topFeedForward, topPValue, Config4905.getConfig4905().getShooterConfig(), () -> false),
             new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> bottomShootRPM, true,
                 bottomFeedForward, bottomPValue, Config4905.getConfig4905().getShooterConfig(),
-                () -> false), 
-                new RunFeeder(m_feeder, () -> m_feederSetpoint, false, () -> true));
+                () -> false),
+            new RunFeeder(m_feeder, () -> m_feederSetpoint, false, () -> true));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

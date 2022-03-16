@@ -16,8 +16,6 @@ public class contractArmsCommand extends CommandBase {
   public ClimberBase m_climber = Robot.getInstance().getSubsystemsContainer().getClimber();
   Config m_climberConfig = Config4905.getConfig4905().getClimberConfig();
   private double m_contractHeight = 0;
-  private double m_rightHeight = 0;
-  private double m_leftHeight = 0;
 
   public contractArmsCommand() {
     addRequirements(m_climber);
