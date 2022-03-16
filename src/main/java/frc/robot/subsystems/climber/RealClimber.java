@@ -27,7 +27,7 @@ public class RealClimber extends ClimberBase {
     SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch",
         backRightWinchAtBottomLimitSwitch());
     SmartDashboard.putNumber("ClimberHeightRightBack", getBackRightWinchAdjustedEncoderValue());
-    SmartDashboard.putNumber("ClimberHeightLeftBack", getBackRightWinchAdjustedEncoderValue());
+    SmartDashboard.putNumber("ClimberHeightLeftBack", getBackLeftWinchAdjustedEncoderValue());
   }
 
   @Override
