@@ -27,10 +27,6 @@ public class contractArmsCommand extends CommandBase {
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     m_contractHeight = m_climberConfig.getInt("contractHeight");
-    m_rightHeight = (m_climber.getBackRightWinch().getEncoderPositionTicks() - m_contractHeight);
-    System.out.println("RIghtHeight " + m_rightHeight);
-    m_leftHeight = (m_climber.getBackLeftWinch().getEncoderPositionTicks() - m_contractHeight);
-    System.out.println("LeftHeight " + m_leftHeight);
   }
 
   @Override
@@ -48,12 +44,8 @@ public class contractArmsCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    System.out
-        .println("Left Encoder Position " + m_climber.getBackLeftWinch().getEncoderPositionTicks());
-    System.out.println(
-        "Right Encoder Position " + m_climber.getBackRightWinch().getEncoderPositionTicks());
-    return (m_climber.getBackLeftWinch().getEncoderPositionTicks() <= m_leftHeight
-        || m_climber.getBackRightWinch().getEncoderPositionTicks() <= m_rightHeight
+    return (m_climber.getBackLeftWinchAdjustedEncoderValue() <= m_contractHeight
+        || m_climber.getBackRightWinchAdjustedEncoderValue() <= m_contractHeight
         || m_climber.backLeftWinchAtBottomLimitSwitch()
         || m_climber.backRightWinchAtBottomLimitSwitch());
   }

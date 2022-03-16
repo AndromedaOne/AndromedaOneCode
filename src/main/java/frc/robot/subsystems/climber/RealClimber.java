@@ -1,5 +1,6 @@
 package frc.robot.subsystems.climber;
 
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,11 +10,15 @@ import frc.robot.actuators.SparkMaxController;
 public class RealClimber extends ClimberBase {
   public SparkMaxController m_backLeftWinch;
   public SparkMaxController m_backRightWinch;
+  private double m_initialEncoderBackRightWinch = 0;
+  private double m_initialEncoderBackLeftWinch = 0;
 
   public RealClimber() {
     Config climberConfig = Config4905.getConfig4905().getClimberConfig();
     m_backLeftWinch = new SparkMaxController(climberConfig, "backLeftWinch");
     m_backRightWinch = new SparkMaxController(climberConfig, "backRightWinch");
+    m_initialEncoderBackLeftWinch = m_backLeftWinch.getEncoderPositionTicks();
+    m_initialEncoderBackRightWinch = m_backRightWinch.getEncoderPositionTicks();
   }
 
   public void periodic() {
@@ -21,6 +26,8 @@ public class RealClimber extends ClimberBase {
         backLeftWinchAtBottomLimitSwitch());
     SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch",
         backRightWinchAtBottomLimitSwitch());
+    SmartDashboard.putNumber("ClimberHeightRightBack", getBackRightWinchAdjustedEncoderValue());
+    SmartDashboard.putNumber("ClimberHeightLeftBack", getBackRightWinchAdjustedEncoderValue());
   }
 
   @Override
@@ -35,7 +42,7 @@ public class RealClimber extends ClimberBase {
 
   @Override
   public void driveBackRightWinch() {
-    m_backRightWinch.set(0.8);
+    m_backRightWinch.set(1);
 
   }
 
@@ -61,29 +68,19 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public SparkMaxController getBackLeftWinch() {
-    return (m_backLeftWinch);
-  }
-
-  @Override
-  public SparkMaxController getBackRightWinch() {
-    return (m_backRightWinch);
-  }
-
-  @Override
   public void unwindFrontLeftWinch() {
 
   }
 
   @Override
   public void unwindBackLeftWinch() {
-    m_backLeftWinch.set(-0.2);
+    m_backLeftWinch.set(-1);
 
   }
 
   @Override
   public void driveBackLeftWinch() {
-    m_backLeftWinch.set(0.8);
+    m_backLeftWinch.set(1);
   }
 
   @Override
@@ -93,7 +90,7 @@ public class RealClimber extends ClimberBase {
 
   @Override
   public void unwindBackRightWinch() {
-    m_backRightWinch.set(-0.2);
+    m_backRightWinch.set(-1);
 
   }
 
@@ -117,4 +114,24 @@ public class RealClimber extends ClimberBase {
     return m_backRightWinch.isForwardLimitSwitchOn();
   }
 
+  @Override
+  public double getBackLeftWinchAdjustedEncoderValue() {
+    return m_backLeftWinch.getEncoderPositionTicks() - m_initialEncoderBackLeftWinch;
+  }
+
+  @Override
+  public double getBackRightWinchAdjustedEncoderValue() {
+    return m_backRightWinch.getEncoderPositionTicks() - m_initialEncoderBackRightWinch;
+  }
+
+  @Override
+  public void setWinchBrakeMode(boolean brakeOn) {
+    if (brakeOn) {
+      m_backLeftWinch.setIdleMode(IdleMode.kBrake);
+      m_backRightWinch.setIdleMode(IdleMode.kBrake);
+    } else {
+      m_backLeftWinch.setIdleMode(IdleMode.kCoast);
+      m_backRightWinch.setIdleMode(IdleMode.kCoast);
+    }
+  }
 }
