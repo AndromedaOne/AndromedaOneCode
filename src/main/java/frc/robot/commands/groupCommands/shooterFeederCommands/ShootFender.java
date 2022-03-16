@@ -32,11 +32,11 @@ public class ShootFender extends SequentialCommandGroup {
         .getShootLowHubButtonPressed()) {
       m_shooterSetpoint = 2400.0;
       m_shooterAngle = 43.9;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 3050.0;
       m_shooterAngle = 52;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     }
     super.initialize();
   }

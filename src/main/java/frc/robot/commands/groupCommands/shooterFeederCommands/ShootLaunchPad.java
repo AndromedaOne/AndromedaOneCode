@@ -32,11 +32,11 @@ public class ShootLaunchPad extends SequentialCommandGroup {
         .getShootLowHubButtonPressed()) {
       m_shooterSetpoint = 3850.0;
       m_shooterAngle = 27.5;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 3850.0;
       m_shooterAngle = 44;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     }
     super.initialize();
   }

@@ -20,11 +20,11 @@ public class ShootTerminal extends SequentialCommandGroup {
     if (shootLow) {
       m_shooterSetpoint = 3000.0;
       m_shooterAngle = 42.7;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 3000.0;
       m_shooterAngle = 62.0;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     }
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,

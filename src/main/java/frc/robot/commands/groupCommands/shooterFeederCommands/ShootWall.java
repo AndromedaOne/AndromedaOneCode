@@ -32,11 +32,11 @@ public class ShootWall extends SequentialCommandGroup {
         .getShootLowHubButtonPressed()) {
       m_shooterSetpoint = 3000.0;
       m_shooterAngle = 30.2;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 2900.0;
       m_shooterAngle = 44.2;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     }
     super.initialize();
   }

@@ -23,10 +23,6 @@ public class ShootTarmac extends SequentialCommandGroup {
 
     m_shootBackwards = shootBackwards;
 
-    System.out.println("ShooterSetpoint =" + m_shooterSetpoint);
-    System.out.println(" FeederSetpoint =" + m_feederSetpoint);
-    System.out.println(" angle = " + m_shooterAngle);
-
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
         () -> m_shooterSetpoint, () -> m_shooterAngle, () -> m_feederSetpoint));
   }
@@ -37,18 +33,16 @@ public class ShootTarmac extends SequentialCommandGroup {
 
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {
-      System.out.println("Tarmac Initialize Button Pressed");
       m_shooterSetpoint = 3000.0;
       m_shooterAngle = 29.1;
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     } else {
-      System.out.println("Tarmac Initialize Button Not Pressed");
       m_shooterSetpoint = 3200.0;
       m_shooterAngle = 47.5;
       if (m_shootBackwards) {
         m_shooterAngle = 62.5;
       }
-      m_feederSetpoint = 0.5;
+      m_feederSetpoint = 1.0;
     }
     super.initialize();
   }

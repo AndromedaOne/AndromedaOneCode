@@ -24,7 +24,7 @@ public class PickUpCargo extends SequentialCommandGroup {
       IntakeBase intakeBase, boolean reverse) {
 
     final double m_shooterSetpoint = -1000.0;
-    final double m_feederSetpoint = 0.5;
+    final double m_feederSetpoint = 0.5;  // do we want to run full speed?
     final double m_shooterAngle = 0.0;
     // m_feederReverseState is used to let the feeder subsystem know to negate the
     // setpoint
