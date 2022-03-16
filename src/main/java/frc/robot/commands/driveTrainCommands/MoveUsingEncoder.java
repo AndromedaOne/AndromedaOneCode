@@ -10,6 +10,7 @@ package frc.robot.commands.driveTrainCommands;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -23,12 +24,13 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   private double m_distance = 0;
   private double m_maxOutput = 0;
   private double m_target;
+  private boolean m_useCurrentHeading = false;
 
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
-      double maxOutput) {
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading, double maxOutput,
+      boolean useCurrentHeading) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("MoveUsingEncoder", 0, 0, 0, 0),
@@ -45,13 +47,20 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     m_setpoint = this::getSetpoint;
     m_driveTrain = drivetrain;
     m_maxOutput = maxOutput;
-    // Use addRequirements() here to declare subsystem dependencies.
+    m_useCurrentHeading = useCurrentHeading;
     // Configure additional PID options by calling `getController` here.
     addRequirements(drivetrain);
   }
 
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading) {
-    this(drivetrain, distance, heading, 1.0);
+  // Use this constructor to move the robot in the heading passed in
+  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
+      double maxOutput) {
+    this(drivetrain, distance, heading, maxOutput, false);
+  }
+
+  // Use this constructor to move the robot in the direction it's already pointing
+  public MoveUsingEncoder(DriveTrain driveTrain, double distance, double maxOutput) {
+    this(driveTrain, distance, 0, maxOutput, true);
   }
 
   public void initialize() {
@@ -73,6 +82,12 @@ public class MoveUsingEncoder extends PIDCommand4905 {
       getController().setMaxOutput(m_maxOutput);
     } else if (pidConstantsConfig.hasPath("MoveUsingEncoder.maxOutput")) {
       getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
+    }
+    if (m_useCurrentHeading) {
+      double heading = Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading();
+      super.setOutput(output -> {
+        m_driveTrain.moveUsingGyro(output, 0, false, heading);
+      });
     }
     Trace.getInstance().logCommandInfo(this, "Moving with encoder to position: " + getSetpoint());
 
@@ -97,5 +112,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     super.end(interrupted);
     m_driveTrain.stop();
     Trace.getInstance().logCommandStop(this);
+    Trace.getInstance().logCommandInfo(this,
+        "Endong position: " + m_driveTrain.getRobotPositionInches());
   }
 }

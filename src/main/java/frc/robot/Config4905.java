@@ -41,6 +41,7 @@ public class Config4905 {
   private Config m_shooterConfig;
   private Config m_climberConfig;
   private Config m_intakeConfig;
+  private Config m_feederConfig;
 
   private static Config4905 m_config4905 = null;
 
@@ -142,6 +143,7 @@ public class Config4905 {
     m_wingsConfig = load("wings.conf");
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
+    m_feederConfig = load("feeder.conf");
   }
 
   public Config getControllersConfig() {
@@ -256,6 +258,17 @@ public class Config4905 {
 
   public Config getShooterConfig() {
     return m_shooterConfig;
+  }
+
+  public boolean doesFeederExist() {
+    if (m_config.hasPath("subsystems.feeder")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getFeederConfig() {
+    return m_feederConfig;
   }
 
   public Config getSensorConfig() {
