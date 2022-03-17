@@ -12,17 +12,7 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void driveBackLeftWinch() {
-
-  }
-
-  @Override
   public void driveFrontRightWinch() {
-
-  }
-
-  @Override
-  public void driveBackRightWinch() {
 
   }
 
@@ -98,6 +88,16 @@ public class MockClimber extends ClimberBase {
 
   @Override
   public void setWinchBrakeMode(boolean brakeOn) {
+
+  }
+
+  @Override
+  public void driveBackLeftWinch(double speed) {
+
+  }
+
+  @Override
+  public void driveBackRightWinch(double speed) {
 
   }
 
