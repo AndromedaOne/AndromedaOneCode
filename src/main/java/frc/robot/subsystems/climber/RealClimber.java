@@ -41,8 +41,8 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void driveBackRightWinch() {
-    m_backRightWinch.set(1);
+  public void driveBackRightWinch(double speed) {
+    m_backRightWinch.set(speed);
 
   }
 
@@ -79,8 +79,8 @@ public class RealClimber extends ClimberBase {
   }
 
   @Override
-  public void driveBackLeftWinch() {
-    m_backLeftWinch.set(1);
+  public void driveBackLeftWinch(double speed) {
+    m_backLeftWinch.set(speed);
   }
 
   @Override
