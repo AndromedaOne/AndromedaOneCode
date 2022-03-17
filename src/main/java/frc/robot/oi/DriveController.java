@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
+import frc.robot.commands.climberCommands.contractArmsCommand;
+import frc.robot.commands.climberCommands.extendArmsCommand;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.BringWingsUp;
@@ -52,6 +54,10 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().isRomi()) {
       setupRomiButtons();
     }
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      setUpClimberButtons();
+    }
+
   }
 
   public double getDriveTrainForwardBackwardStick() {
@@ -68,6 +74,11 @@ public class DriveController extends ControllerBase {
 
   public boolean getSlowModeBumperReleased() {
     return getLeftBumperReleased();
+  }
+
+  private void setUpClimberButtons() {
+    getBbutton().whileHeld(new extendArmsCommand());
+    getAbutton().whileHeld(new contractArmsCommand());
   }
 
   protected void limeLightButtons() {

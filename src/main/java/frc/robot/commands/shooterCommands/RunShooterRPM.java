@@ -5,6 +5,7 @@
 package frc.robot.commands.shooterCommands;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -16,31 +17,39 @@ public class RunShooterRPM extends ParallelCommandGroup {
 
   private ShooterWheelBase m_topShooterWheel;
   private ShooterWheelBase m_bottomShooterWheel;
-  private double m_setpoint = 0;
+  private DoubleSupplier m_setpoint;
   private boolean m_useSmartDashboardRPM = false;
   private BooleanSupplier m_finishedCondition;
   private boolean m_finished = false;
+  private RunOneShooterWheelVelocity m_topShooterCommand;
+  private RunOneShooterWheelVelocity m_bottomShooterCommand;
 
   public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel,
-      double setpoint, boolean useSmartDashboardRPM, BooleanSupplier finishedCondition) {
+      DoubleSupplier setpoint, boolean useSmartDashboardRPM, BooleanSupplier finishedCondition) {
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
     m_setpoint = setpoint;
     m_useSmartDashboardRPM = useSmartDashboardRPM;
     m_finishedCondition = finishedCondition;
+
+    m_topShooterCommand = new RunOneShooterWheelVelocity(m_topShooterWheel, m_setpoint,
+        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition);
+    m_bottomShooterCommand = new RunOneShooterWheelVelocity(m_bottomShooterWheel, m_setpoint,
+        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition);
+
     if (useSmartDashboardRPM) {
       m_finishedCondition = new FinishedConditionSupplier();
     }
-    addCommands(
-        new RunOneShooterWheelVelocity(m_topShooterWheel, () -> m_setpoint,
-            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition),
-        new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> m_setpoint,
-            Config4905.getConfig4905().getShooterConfig(), m_finishedCondition));
+    addCommands(m_topShooterCommand, m_bottomShooterCommand);
+  }
 
+  public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel,
+      DoubleSupplier setpoint) {
+    this(topShooterWheel, bottomShooterWheel, setpoint, false, () -> false);
   }
 
   public RunShooterRPM(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel) {
-    this(topShooterWheel, bottomShooterWheel, 0, true, () -> false);
+    this(topShooterWheel, bottomShooterWheel, () -> 0, true, () -> false);
   }
 
   // Called when the command is initially scheduled.
@@ -48,7 +57,7 @@ public class RunShooterRPM extends ParallelCommandGroup {
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     if (m_useSmartDashboardRPM) {
-      m_setpoint = SmartDashboard.getNumber("Set Shooter RPM", 1000);
+      m_setpoint = () -> SmartDashboard.getNumber("Set Shooter RPM", 1000);
       m_finished = false;
     }
     System.out.println("Setpoint Set To" + m_setpoint);
@@ -78,5 +87,9 @@ public class RunShooterRPM extends ParallelCommandGroup {
       return m_finished;
     }
 
+  }
+
+  public BooleanSupplier atSetpoint() {
+    return () -> (m_topShooterCommand.atSetpoint() && m_bottomShooterCommand.atSetpoint());
   }
 }

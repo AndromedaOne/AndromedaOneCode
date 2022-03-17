@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
+import frc.robot.commands.feederCommands.RunFeeder;
+import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
@@ -20,17 +22,20 @@ public class TuneShooterFeedForward extends CommandBase {
    */
   private ShooterWheelBase m_topShooterWheel;
   private ShooterWheelBase m_bottomShooterWheel;
+  private FeederBase m_feeder;
+  private double m_feederSetpoint = 1.0;
 
   public TuneShooterFeedForward(ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel) {
+      ShooterWheelBase bottomShooterWheel, FeederBase feeder) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
+    m_feeder = feeder;
     SmartDashboard.putNumber("Top Shooter Feed Forward Value", 0.00025);
-    SmartDashboard.putNumber("Top Shooter p Value", 0.001);
+    SmartDashboard.putNumber("Top Shooter p Value", 0.0001);
     SmartDashboard.putNumber("TopShooterRPMTarget", 3000);
     SmartDashboard.putNumber("Bottom Shooter Feed Forward Value", 0.00025);
-    SmartDashboard.putNumber("Bottom Shooter p Value", 0.001);
+    SmartDashboard.putNumber("Bottom Shooter p Value", 0.0001);
     SmartDashboard.putNumber("BottomShooterRPMTarget", 3000);
     System.out.println("end constructor of TuneShooterFeedForward");
   }
@@ -38,13 +43,14 @@ public class TuneShooterFeedForward extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
     System.out.println("TuneShooterInitialize");
     double topFeedForward = SmartDashboard.getNumber("Top Shooter Feed Forward Value", 0.00025);
-    double topPValue = SmartDashboard.getNumber("Top Shooter p Value", 0.001);
+    double topPValue = SmartDashboard.getNumber("Top Shooter p Value", 0.0001);
     double topShootRPM = SmartDashboard.getNumber("TopShooterRPMTarget", 3000);
     double bottomFeedForward = SmartDashboard.getNumber("Bottom Shooter Feed Forward Value",
         0.00025);
-    double bottomPValue = SmartDashboard.getNumber("Bottom Shooter p Value", 0.001);
+    double bottomPValue = SmartDashboard.getNumber("Bottom Shooter p Value", 0.0001);
     double bottomShootRPM = SmartDashboard.getNumber("BottomShooterRPMTarget", 3000);
     System.out.println("Scheduling  RunShooterWheelVelocity");
     CommandScheduler.getInstance()
@@ -52,8 +58,8 @@ public class TuneShooterFeedForward extends CommandBase {
             topFeedForward, topPValue, Config4905.getConfig4905().getShooterConfig(), () -> false),
             new RunOneShooterWheelVelocity(m_bottomShooterWheel, () -> bottomShootRPM, true,
                 bottomFeedForward, bottomPValue, Config4905.getConfig4905().getShooterConfig(),
-                () -> false));
-    Trace.getInstance().logCommandStart(this);
+                () -> false),
+            new RunFeeder(m_feeder, () -> m_feederSetpoint, false, () -> true));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

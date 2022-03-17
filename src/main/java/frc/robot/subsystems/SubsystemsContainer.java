@@ -10,9 +10,15 @@ package frc.robot.subsystems;
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.feederCommands.StopFeeder;
 import frc.robot.commands.intakeCommands.RetractAndStopIntake;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
+import frc.robot.commands.shooterCommands.DefaultShooterAlignment;
+import frc.robot.commands.shooterCommands.StopShooter;
 import frc.robot.commands.showBotCannon.AdjustElevation;
+import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.subsystems.climber.MockClimber;
+import frc.robot.subsystems.climber.RealClimber;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -21,6 +27,9 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
+import frc.robot.subsystems.feeder.FeederBase;
+import frc.robot.subsystems.feeder.MockFeeder;
+import frc.robot.subsystems.feeder.RealFeeder;
 import frc.robot.subsystems.intake.IntakeBase;
 import frc.robot.subsystems.intake.MockIntake;
 import frc.robot.subsystems.intake.RealIntake;
@@ -32,7 +41,11 @@ import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
 import frc.robot.subsystems.shooter.BottomShooterWheel;
-import frc.robot.subsystems.shooter.MockShooterWheel;
+import frc.robot.subsystems.shooter.MockBottomShooter;
+import frc.robot.subsystems.shooter.MockShooterAlignment;
+import frc.robot.subsystems.shooter.MockTopShooter;
+import frc.robot.subsystems.shooter.ShooterAlignment;
+import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
 import frc.robot.subsystems.shooter.TopShooterWheel;
 import frc.robot.subsystems.showBotCannon.CannonBase;
@@ -43,6 +56,7 @@ public class SubsystemsContainer {
 
   // Declare member variables.
   DriveTrain m_driveTrain;
+  ClimberBase m_climber;
   LEDs m_leds;
   ServoMotor m_romiIntake;
   ServoMotor m_conveyor;
@@ -55,6 +69,8 @@ public class SubsystemsContainer {
   ShooterWheelBase m_topShooterWheel;
   ShooterWheelBase m_bottomShooterWheel;
   IntakeBase m_intake;
+  FeederBase m_feeder;
+  ShooterAlignmentBase m_shooterAlignment;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -94,6 +110,13 @@ public class SubsystemsContainer {
       m_driveTrain = new MockDriveTrain();
     }
     m_driveTrain.init();
+
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      System.out.println("Using a real Climber");
+      m_climber = new RealClimber();
+    } else {
+      m_climber = new MockClimber();
+    }
 
     if (Config4905.getConfig4905().doesLEDExist()) {
       m_leds = new RealLEDs("LEDStringOne");
@@ -149,17 +172,26 @@ public class SubsystemsContainer {
       System.out.println("using real shooters");
       m_topShooterWheel = new TopShooterWheel();
       m_bottomShooterWheel = new BottomShooterWheel();
+      m_shooterAlignment = new ShooterAlignment();
     } else {
       System.out.println("using mock shooters");
-      m_topShooterWheel = new MockShooterWheel();
-      m_bottomShooterWheel = new MockShooterWheel();
+      m_topShooterWheel = new MockTopShooter();
+      m_bottomShooterWheel = new MockBottomShooter();
+      m_shooterAlignment = new MockShooterAlignment();
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       System.out.println("using real intake");
       m_intake = new RealIntake();
     } else {
-      System.out.println("Using mock Intake");
+      System.out.println("using mock Intake");
       m_intake = new MockIntake();
+    }
+    if (Config4905.getConfig4905().doesFeederExist()) {
+      System.out.println("using real feeder");
+      m_feeder = new RealFeeder();
+    } else {
+      System.out.println("Using mock feeder");
+      m_feeder = new MockFeeder();
     }
 
   }
@@ -198,6 +230,10 @@ public class SubsystemsContainer {
     return m_cannon;
   }
 
+  public ClimberBase getClimber() {
+    return m_climber;
+  }
+
   public RomiBallMopperBase getRomiBallMopper() {
     return m_romiBallMopper;
   }
@@ -214,8 +250,16 @@ public class SubsystemsContainer {
     return m_bottomShooterWheel;
   }
 
+  public ShooterAlignmentBase getShooterAlignment() {
+    return m_shooterAlignment;
+  }
+
   public IntakeBase getIntake() {
     return m_intake;
+  }
+
+  public FeederBase getFeeder() {
+    return m_feeder;
   }
 
   public void setDefaultCommands() {
@@ -231,6 +275,14 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesIntakeExist()) {
       m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
     }
+    if (Config4905.getConfig4905().doesFeederExist()) {
+      m_feeder.setDefaultCommand(new StopFeeder(m_feeder));
+    }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      m_topShooterWheel.setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
+      m_bottomShooterWheel
+          .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
+      m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
+    }
   }
-
 }

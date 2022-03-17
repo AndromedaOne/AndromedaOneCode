@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
@@ -55,18 +56,22 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
     if (m_frontLeft.hasEncoder()) {
       encoders++;
       encoderPositionAvg += m_frontLeft.getEncoderPositionTicks();
+      SmartDashboard.putNumber("FrontLeftDriveTrain", m_frontLeft.getEncoderPositionTicks());
     }
     if (m_backLeft.hasEncoder()) {
       encoders++;
       encoderPositionAvg += m_backLeft.getEncoderPositionTicks();
+      SmartDashboard.putNumber("BackLeftDriveTrain", m_backLeft.getEncoderPositionTicks());
     }
     if (m_frontRight.hasEncoder()) {
       encoders++;
       encoderPositionAvg += m_frontRight.getEncoderPositionTicks();
+      SmartDashboard.putNumber("FrontRightDriveTrain", m_frontRight.getEncoderPositionTicks());
     }
     if (m_backRight.hasEncoder()) {
       encoders++;
       encoderPositionAvg += m_backRight.getEncoderPositionTicks();
+      SmartDashboard.putNumber("BackRightDriveTrain", m_backRight.getEncoderPositionTicks());
     }
 
     if (encoders > 0) {

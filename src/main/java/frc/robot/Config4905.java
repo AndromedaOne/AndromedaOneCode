@@ -39,7 +39,9 @@ public class Config4905 {
   private Config m_romiBallMopperConfig;
   private Config m_wingsConfig;
   private Config m_shooterConfig;
+  private Config m_climberConfig;
   private Config m_intakeConfig;
+  private Config m_feederConfig;
 
   private static Config4905 m_config4905 = null;
 
@@ -131,6 +133,7 @@ public class Config4905 {
     m_controllers = load("controllers.conf");
     m_sensorConfig = load("sensors.conf");
     m_drivetrainConfig = load("drivetrain.conf");
+    m_climberConfig = load("climber.conf");
     m_ledConfig = load("LED.conf");
     m_harvesterConfig = load("harvester.conf");
     m_conveyorConfig = load("conveyor.conf");
@@ -140,6 +143,7 @@ public class Config4905 {
     m_wingsConfig = load("wings.conf");
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
+    m_feederConfig = load("feeder.conf");
   }
 
   public Config getControllersConfig() {
@@ -194,6 +198,18 @@ public class Config4905 {
     }
   }
 
+  public Config getClimberConfig() {
+    return m_climberConfig;
+  }
+
+  public boolean doesClimberExist() {
+    if (m_config.hasPath("subsystems.climber")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public Config getConveyorConfig() {
     return m_conveyorConfig;
   }
@@ -242,6 +258,17 @@ public class Config4905 {
 
   public Config getShooterConfig() {
     return m_shooterConfig;
+  }
+
+  public boolean doesFeederExist() {
+    if (m_config.hasPath("subsystems.feeder")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getFeederConfig() {
+    return m_feederConfig;
   }
 
   public Config getSensorConfig() {

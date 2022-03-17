@@ -17,6 +17,7 @@ public class DeployAndRunIntake extends CommandBase {
   private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
   private double m_intakeSpeed = 0;
   private boolean m_runInReverse = false;
+  private boolean m_deployed = false;
 
   public DeployAndRunIntake(IntakeBase intakeBase, boolean runInReverse) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,16 +39,20 @@ public class DeployAndRunIntake extends CommandBase {
     double intakeSpeed = m_intakeSpeed;
     if (m_runInReverse) {
       intakeSpeed *= -1;
+    } else if (!m_runInReverse) {
+      m_intakeBase.deployIntake();
+      m_deployed = true;
     }
     m_intakeBase.runIntakeWheels(intakeSpeed);
-    m_intakeBase.deployIntake();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_intakeBase.stopIntakeWheels();
-    m_intakeBase.retractIntake();
+    if (m_deployed) {
+      m_intakeBase.retractIntake();
+    }
     Trace.getInstance().logCommandStop(this);
   }
 
