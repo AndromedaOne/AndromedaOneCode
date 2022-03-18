@@ -17,6 +17,8 @@ public class contractArmsCommand extends CommandBase {
   Config m_climberConfig = Config4905.getConfig4905().getClimberConfig();
   private double m_contractHeight = 0;
 
+  private double m_slightlyLowerThanBarHeight = 118;
+
   public contractArmsCommand() {
     addRequirements(m_climber);
   }
@@ -31,14 +33,28 @@ public class contractArmsCommand extends CommandBase {
   public void execute() {
     if (m_climber.getBackLeftWinchAdjustedEncoderValue() >= m_contractHeight
         && !m_climber.backLeftWinchAtBottomLimitSwitch()) {
-      m_climber.driveBackLeftWinch();
-    } else {
+      if (m_climber.getBackLeftWinchAdjustedEncoderValue() >= m_slightlyLowerThanBarHeight) {
+        m_climber.driveBackLeftWinch(0.2);
+      }
+
+      else {
+        m_climber.driveBackLeftWinch(1);
+      }
+    }
+
+    else {
       m_climber.stopBackLeftWinch();
     }
     if (m_climber.getBackRightWinchAdjustedEncoderValue() >= m_contractHeight
         && !m_climber.backRightWinchAtBottomLimitSwitch()) {
-      m_climber.driveBackRightWinch();
-    } else {
+      if (m_climber.getBackRightWinchAdjustedEncoderValue() >= m_slightlyLowerThanBarHeight) {
+        m_climber.driveBackRightWinch(0.2);
+      } else {
+        m_climber.driveBackRightWinch(1);
+      }
+    }
+
+    else {
       m_climber.stopBackRightWinch();
     }
   }
