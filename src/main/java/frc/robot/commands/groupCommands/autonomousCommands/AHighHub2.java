@@ -42,7 +42,7 @@ public class AHighHub2 extends SequentialCommandGroup {
     final double distanceToBall = 50.0;
     final double maxSpeed = 1;
     final double shooterSetpoint = 3200;
-    final double shooterAngle = 64.0;
+    final double shooterAngle = 65.0;
     final double feederSetpoint = 1.0;
     final long waitTime = 5000;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);

@@ -37,25 +37,25 @@ public class B4Cargo extends SequentialCommandGroup {
     ShooterWheelBase bottomShooterWheel = subsystemsContainer.getBottomShooterWheel();
     ShooterAlignmentBase shooterAlignment = subsystemsContainer.getShooterAlignment();
     IntakeBase intakeBase = subsystemsContainer.getIntake();
-    final double shooterSetpoint = 5000;
-    final double shooterAngle = 71.0;
+    final double shooterSetpoint = 4500;
+    final double shooterAngle = 66.0;
     final double feederSetpoint = 1.0;
-    long pickUpWaitTime = 500;
+    long pickUpWaitTime = 1500;
     long shootWaitTime = 3300;
 
-    addCommands(new BHighHub2(), new TurnToCompassHeading(164),
+    addCommands(new BHighHub2(), new TurnToCompassHeading(166),
 
-        new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, 157, 1),
+        new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, 152, 1),
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 intakeBase, false)),
         new ParallelDeadlineGroup(new Timer(pickUpWaitTime),
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 intakeBase, false),
             new PauseRobot(pickUpWaitTime, driveTrain)),
-        new ParallelCommandGroup(new TurnToCompassHeading(155),
+        new ParallelCommandGroup(new TurnToCompassHeading(154),
             new MoveShooterAlignment(shooterAlignment, () -> shooterAngle)),
         new ParallelDeadlineGroup(new Timer(40),
-            new RunFeeder(feeder, () -> feederSetpoint, true, () -> false)),
+            new RunFeeder(feeder, () -> 0.5, true, () -> false)),
         new ParallelDeadlineGroup(new Timer(shootWaitTime),
             new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 () -> shooterSetpoint, () -> shooterAngle, () -> feederSetpoint),

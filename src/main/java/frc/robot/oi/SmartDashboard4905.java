@@ -17,6 +17,7 @@ import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
+import frc.robot.commands.groupCommands.autonomousCommands.B4Cargo;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
@@ -71,6 +72,7 @@ public class SmartDashboard4905 {
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
       SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
           subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
+      SmartDashboard.putData("B4Cargo", new B4Cargo());
     }
 
     if (Config4905.getConfig4905().isRomi()) {

@@ -41,10 +41,10 @@ public class BHighHub2 extends SequentialCommandGroup {
     IntakeBase intake = subsystemsContainer.getIntake();
     final double distanceToBall = 60.0;
     final double maxSpeed = 0.6;
-    final double shooterSetpoint = 3400;
+    final double shooterSetpoint = 3300;
     final double shooterAngle = 64.5;
     final double feederSetpoint = 0.5;
-    final long waitTime = 5000;
+    final long waitTime = 3500;
     final long pauseWaitTime = 1000;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToBall, maxSpeed);
     addCommands(new SequentialCommandGroup(
