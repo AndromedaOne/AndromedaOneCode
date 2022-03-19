@@ -64,6 +64,7 @@ public class MoveShooterAlignment extends PIDCommand4905 {
   public void end(boolean interrupted) {
     m_shooterAlignment.rotateShooter(0);
     super.end(interrupted);
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Timer;
 import frc.robot.commands.feederCommands.RunFeeder;
 import frc.robot.commands.shooterCommands.InitializeShooterAlignment;
 import frc.robot.commands.shooterCommands.MoveShooterAlignment;
@@ -30,6 +31,8 @@ public class ShootCargo extends SequentialCommandGroup {
     addCommands(new InitializeShooterAlignment(shooterAlignment),
         new ParallelDeadlineGroup(new MoveShooterAlignment(shooterAlignment, angle),
             new RunFeeder(feeder, feederSetpoint, true, () -> false)),
+        new ParallelDeadlineGroup(new Timer(40),
+            new RunFeeder(feeder, () -> 0.3, true, () -> false)),
         new ParallelCommandGroup(runShooterCommand,
             new RunFeeder(feeder, feederSetpoint, false, runShooterCommand.atSetpoint())));
   }

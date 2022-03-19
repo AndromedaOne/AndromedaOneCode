@@ -25,7 +25,7 @@ public class PickUpCargo extends SequentialCommandGroup {
 
     final double m_shooterSetpoint = -1000.0;
     final double m_feederSetpoint = 0.5; // do we want to run full speed?
-    final double m_shooterAngle = 0.0;
+    final double m_shooterAngle = 2.0;
     // m_feederReverseState is used to let the feeder subsystem know to negate the
     // setpoint
     boolean m_feederReverseState = false;
@@ -48,8 +48,8 @@ public class PickUpCargo extends SequentialCommandGroup {
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
         new MoveShooterAlignment(shooterAlignment, () -> m_shooterAngle),
-        new ParallelCommandGroup(runShooterCommand, new RunFeeder(feeder, () -> m_feederSetpoint,
-            m_feederReverseState, runShooterCommand.atSetpoint()),
+        new ParallelCommandGroup(runShooterCommand,
+            new RunFeeder(feeder, () -> m_feederSetpoint, m_feederReverseState, () -> false),
             new DeployAndRunIntake(intakeBase, reverse)));
   }
 

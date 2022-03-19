@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   private LimeLightCameraBase limelight;
 
   private Robot() {
-
+    m_sensorsContainer = new SensorsContainer();
   }
 
   static Robot m_instance;
@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
 
-    m_sensorsContainer = new SensorsContainer();
+    System.out.println("Robot init called");
     m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
     m_subsystemContainer.setDefaultCommands();
