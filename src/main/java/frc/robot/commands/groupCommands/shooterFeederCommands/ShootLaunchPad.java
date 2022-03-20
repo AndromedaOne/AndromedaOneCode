@@ -35,7 +35,7 @@ public class ShootLaunchPad extends SequentialCommandGroup {
       m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 3850.0;
-      m_shooterAngle = 44;
+      m_shooterAngle = 46;
       m_feederSetpoint = 1.0;
     }
     super.initialize();

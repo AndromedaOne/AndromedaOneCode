@@ -35,7 +35,7 @@ public class ShootFender extends SequentialCommandGroup {
       m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 2950.0; // was 3050
-      m_shooterAngle = 52;
+      m_shooterAngle = 53;
       m_feederSetpoint = 1.0;
     }
     super.initialize();
