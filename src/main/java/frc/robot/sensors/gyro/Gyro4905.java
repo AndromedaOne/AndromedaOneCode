@@ -12,9 +12,13 @@ public abstract class Gyro4905 implements Gyro {
   private double m_initialXAngleReading = 0.0;
   private double m_initialYAngleReading = 0.0;
 
-  protected void setInitialZAngleReading(double value) {
+  public void setInitialZAngleReading(double value) {
     m_initialZAngleReading = value;
 
+  }
+
+  public double getInitialZAngleReading() {
+    return m_initialZAngleReading;
   }
 
   protected void setInitialXAngleReading(double value) {
@@ -101,5 +105,7 @@ public abstract class Gyro4905 implements Gyro {
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("Z Angle", getZAngle());
     SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());
+    SmartDashboard.putNumber("CurrentGyroOffset", m_initialZAngleReading);
+    SmartDashboard.putNumber("Raw Z Value", getRawZAngle());
   }
 }

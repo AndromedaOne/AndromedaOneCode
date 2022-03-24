@@ -10,7 +10,7 @@ import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 public class DefaultShooterAlignment extends SequentialCommandGroup {
 
   public DefaultShooterAlignment(ShooterAlignmentBase shooterAlignment) {
-    final double defaultAngle = 0;
+    final double defaultAngle = 1.5;
     addCommands(new InitializeShooterAlignment(shooterAlignment),
         new MoveShooterAlignment(shooterAlignment, () -> defaultAngle),
         new StopShooterAlignment(shooterAlignment));
