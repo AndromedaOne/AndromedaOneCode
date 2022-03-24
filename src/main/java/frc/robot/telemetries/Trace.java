@@ -60,7 +60,7 @@ import frc.robot.Robot;
 // file so that at least something will be written out before the robot it turned 
 // off.
 public class Trace {
-  private static String basePathOfTraceDirs = "/home/lvuser/traceLogs";
+  private static String m_basePathOfTraceDirs = "/home/lvuser/traceLogs";
   private static String m_traceDirNumberFile = ".traceNumb";
   private String m_pathOfTraceDir;
   private static String m_consoleOutput = "ConsoleOutput";
@@ -148,8 +148,12 @@ public class Trace {
   }
 
   private Trace() {
-    // basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
-    System.out.println("Trace Base Directory: " + basePathOfTraceDirs);
+    if (!Files.exists(Paths.get(m_basePathOfTraceDirs))) {
+      // if the base path does not exists (we're not on a roborio), just
+      // use system temp directory
+      m_basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
+    }
+    System.out.println("Trace Base Directory: " + m_basePathOfTraceDirs);
     m_traces = new TreeMap<String, TraceMapEntry>();
     m_startTime = System.currentTimeMillis();
     createNewTraceDir();
@@ -182,23 +186,23 @@ public class Trace {
 
   private void createNewTraceDir() {
     try {
-      File directory = new File(basePathOfTraceDirs);
+      File directory = new File(m_basePathOfTraceDirs);
       if (!directory.exists()) {
         if (!directory.mkdir()) {
           System.err.println(
-              "ERROR: failed to create directory " + basePathOfTraceDirs + " for tracing data.");
-          basePathOfTraceDirs = null;
+              "ERROR: failed to create directory " + m_basePathOfTraceDirs + " for tracing data.");
+          m_basePathOfTraceDirs = null;
           m_pathOfTraceDir = null;
           return;
         }
       }
       // open the trace dir number file to retrieve the number to concatenate
       // to the trace dir
-      String traceNumFileName = basePathOfTraceDirs + "/" + m_traceDirNumberFile;
+      String traceNumFileName = m_basePathOfTraceDirs + "/" + m_traceDirNumberFile;
       File traceNumbFile = new File(traceNumFileName);
       if (!traceNumbFile.exists()) {
         System.out.println("Trace numb file does not exist");
-        m_pathOfTraceDir = basePathOfTraceDirs + "/" + "trace0";
+        m_pathOfTraceDir = m_basePathOfTraceDirs + "/" + "trace0";
       } else {
         System.out.println("Found trace numb file: " + traceNumFileName);
         BufferedReader reader = new BufferedReader(new FileReader(traceNumbFile));
@@ -206,12 +210,12 @@ public class Trace {
         reader.close();
         traceNumbFile.delete();
         if (line == null) {
-          System.err.println("ERROR: failed to read trace file number file: " + basePathOfTraceDirs
-              + m_traceDirNumberFile);
+          System.err.println("ERROR: failed to read trace file number file: "
+              + m_basePathOfTraceDirs + m_traceDirNumberFile);
           m_pathOfTraceDir = null;
           return;
         }
-        m_pathOfTraceDir = basePathOfTraceDirs + "/trace" + line;
+        m_pathOfTraceDir = m_basePathOfTraceDirs + "/trace" + line;
         m_dirNumb = Integer.parseInt(line);
       }
       File traceDir = new File(m_pathOfTraceDir);
@@ -219,14 +223,14 @@ public class Trace {
         if (!traceDir.mkdirs()) {
           System.err.println(
               "ERROR: failed to create directory " + m_pathOfTraceDir + " for tracing data.");
-          basePathOfTraceDirs = null;
+          m_basePathOfTraceDirs = null;
           m_pathOfTraceDir = null;
           return;
         }
       }
       System.out.println("OS is " + System.getProperty("os.name"));
       if (!Objects.equals(System.getProperty("os.name"), "Windows 10")) {
-        Path link = Paths.get(basePathOfTraceDirs + "/latest");
+        Path link = Paths.get(m_basePathOfTraceDirs + "/latest");
         if (Files.exists(link)) {
           Files.delete(link);
         }
@@ -235,7 +239,7 @@ public class Trace {
 
       FileWriter fstream = new FileWriter(traceNumFileName, false);
       BufferedWriter dirNumbFile = new BufferedWriter(fstream);
-      System.out.println("Created trace file " + basePathOfTraceDirs + m_traceDirNumberFile);
+      System.out.println("Created trace file " + m_basePathOfTraceDirs + m_traceDirNumberFile);
       ++m_dirNumb;
       dirNumbFile.write(Integer.toString(m_dirNumb));
       dirNumbFile.close();
