@@ -72,8 +72,16 @@ public class DriveController extends ControllerBase {
     return getLeftBumperPressed();
   }
 
+  public boolean getMidModeBumperPressed() {
+    return getRightBumperPressed();
+  }
+
   public boolean getSlowModeBumperReleased() {
     return getLeftBumperReleased();
+  }
+
+  public boolean getMidModeBumperReleased() {
+    return getRightBumperReleased();
   }
 
   private void setUpClimberButtons() {
