@@ -30,8 +30,12 @@ public class ShootTarmac extends SequentialCommandGroup {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-
     if (Robot.getInstance().getOIContainer().getSubsystemController()
+        .getShootBackwardButtonPressed()) {
+      m_shooterSetpoint = 3200.0;
+      m_shooterAngle = 32.5;
+      m_feederSetpoint = 1.0;
+    } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {
       m_shooterSetpoint = 3000.0;
       m_shooterAngle = 29.1;
