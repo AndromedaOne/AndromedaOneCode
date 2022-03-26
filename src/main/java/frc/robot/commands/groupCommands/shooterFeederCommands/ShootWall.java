@@ -17,8 +17,7 @@ public class ShootWall extends SequentialCommandGroup {
   double m_feederSetpoint;
 
   public ShootWall(FeederBase feeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
-      boolean shootLow) {
+      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment) {
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
         () -> m_shooterSetpoint, () -> m_shooterAngle, () -> m_feederSetpoint));
