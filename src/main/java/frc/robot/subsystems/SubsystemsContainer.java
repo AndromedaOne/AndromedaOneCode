@@ -119,7 +119,11 @@ public class SubsystemsContainer {
     }
 
     if (Config4905.getConfig4905().doesLEDExist()) {
-      m_leds = new RealLEDs("LEDStringOne");
+      if (Config4905.getConfig4905().isTopGun()) {
+        m_leds = new TopGunLEDs();
+      } else {
+        m_leds = new RealLEDs("LEDStringOne");
+      }
     } else {
       m_leds = new MockLEDs();
     }
