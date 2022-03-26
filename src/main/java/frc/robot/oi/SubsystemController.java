@@ -61,7 +61,7 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getShooterAlignment(), false));
     getBbutton().whileHeld(new ShootTarmac(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment(), false, false));
+        m_subsystemsContainer.getShooterAlignment()));
   }
 
   public boolean getRunIntakeButtonReleased() {
