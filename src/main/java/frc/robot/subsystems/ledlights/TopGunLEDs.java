@@ -20,8 +20,10 @@ public class TopGunLEDs extends RealLEDs {
       double matchTime = DriverStation.getMatchTime();
       if (matchTime <= 30 && matchTime > 20) {
         setGreen(1);
+        setSolid();
       } else if (matchTime <= 20 && matchTime > 10) {
         setYellow(1);
+        setSolid();
       } else if (matchTime <= 10 && matchTime >= 0) {
         setRed(1);
         setBlinking();
@@ -29,6 +31,11 @@ public class TopGunLEDs extends RealLEDs {
           setPurple(1);
           setSolid();
       }
+    }else if (Robot.getInstance().isAutonomous()){
+        setWhite(1);
+        setSolid();
+    }else {
+        setRainbow();
     }
     super.periodic();
   }
