@@ -265,6 +265,10 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public LEDs getLEDs() {
+    return m_leds;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());

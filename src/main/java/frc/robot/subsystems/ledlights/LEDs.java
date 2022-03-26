@@ -22,7 +22,13 @@ public abstract class LEDs extends SubsystemBase {
     SOLID, BLINKING, RAINBOW,
   };
 
-  Mode m_mode = Mode.BLINKING;
+  private Mode m_mode = Mode.BLINKING;
+
+  public enum TeleOpMode {
+    SLOW, MEDIUM, FAST
+  };
+
+  private TeleOpMode m_teleOpMode = TeleOpMode.FAST;
 
   public LEDs() {
   }
@@ -175,7 +181,15 @@ public abstract class LEDs extends SubsystemBase {
   public void setPurple(double brightness) {
     clearColor();
     m_redValue = brightness;
+    m_greenValue = 0;
     m_blueValue = brightness;
+  }
+
+  public void setOrange(double brightness) {
+    clearColor();
+    m_redValue = brightness;
+    m_greenValue = brightness * 0.65;
+    m_blueValue = 0;
   }
 
 //#get the i'th color, of n colors. 
@@ -212,5 +226,13 @@ public abstract class LEDs extends SubsystemBase {
       break;
     }
     return new Color(r / 256.0, g / 256.0, b / 256.0);
+  }
+
+  public void setTeleopMode(TeleOpMode teleOpMode) {
+    m_teleOpMode = teleOpMode;
+  }
+
+  protected TeleOpMode getTeleOpMode() {
+    return m_teleOpMode;
   }
 }

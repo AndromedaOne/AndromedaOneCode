@@ -15,6 +15,7 @@ import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.*;
+import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
@@ -93,6 +94,11 @@ public class TeleOpCommand extends CommandBase {
     if (m_slowMode) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
+      Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.SLOW);
+
+    } else {
+      Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.FAST);
+
     }
     Trace.getInstance().addTrace(true, "TeleopDrive",
         new TracePair<Double>("Gyro", m_gyro.getZAngle()),
@@ -119,6 +125,7 @@ public class TeleOpCommand extends CommandBase {
     case NOTSLOWRELEASED:
       if (m_driveController.getSlowModeBumperPressed()) {
         m_slowMode = true;
+
         m_slowModeState = SlowModeStates.SLOWPRESSED;
         System.out
             .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
@@ -150,6 +157,7 @@ public class TeleOpCommand extends CommandBase {
       System.err.println("WARN: Unknown slowmode state: " + m_slowModeState.toString());
       break;
     }
+
   }
 
   private void calculateMidMode() {
@@ -157,7 +165,6 @@ public class TeleOpCommand extends CommandBase {
     case NOTMIDRELEASED:
       if (m_driveController.getMidModeBumperPressed()) {
         m_midMode = true;
-        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
         m_midModeState = MidModeStates.MIDPRESSED;
         System.out
             .println("Midmode state: " + m_midModeState.toString() + "  MidMode: " + m_midMode);
@@ -173,7 +180,6 @@ public class TeleOpCommand extends CommandBase {
     case MIDRELEASED:
       if (m_driveController.getMidModeBumperPressed()) {
         m_midMode = false;
-        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
         m_midModeState = MidModeStates.NOTMIDPRESSED;
         System.out
             .println("Midmode state: " + m_midModeState.toString() + "  MidMode: " + m_midMode);

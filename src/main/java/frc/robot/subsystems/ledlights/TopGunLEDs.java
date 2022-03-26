@@ -27,15 +27,33 @@ public class TopGunLEDs extends RealLEDs {
       } else if (matchTime <= 10 && matchTime >= 0) {
         setRed(1);
         setBlinking();
-      }else {
+      } else {
+        switch (getTeleOpMode()) {
+        case SLOW:
           setPurple(1);
           setSolid();
+          break;
+
+        case MEDIUM:
+          setWhite(1);
+          setSolid();
+          break;
+
+        case FAST:
+          setOrange(1);
+          setSolid();
+          break;
+
+        default:
+          setRed(1);
+          setSolid();
+        }
       }
-    }else if (Robot.getInstance().isAutonomous()){
-        setWhite(1);
-        setSolid();
-    }else {
-        setRainbow();
+    } else if (Robot.getInstance().isAutonomous()) {
+      setWhite(1);
+      setSolid();
+    } else {
+      setRainbow();
     }
     super.periodic();
   }
