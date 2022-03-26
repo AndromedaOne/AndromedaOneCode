@@ -112,7 +112,6 @@ public class TeleOpCommand extends CommandBase {
     case NOTSLOWRELEASED:
       if (m_driveController.getSlowModeBumperPressed()) {
         m_slowMode = true;
-        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setYellow(1.0);
         m_slowModeState = SlowModeStates.SLOWPRESSED;
         System.out
             .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
@@ -128,7 +127,6 @@ public class TeleOpCommand extends CommandBase {
     case SLOWRELEASED:
       if (m_driveController.getSlowModeBumperPressed()) {
         m_slowMode = false;
-        Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setPurple(1.0);
         m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
         System.out
             .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);

@@ -119,12 +119,15 @@ public class SubsystemsContainer {
     }
 
     if (Config4905.getConfig4905().doesLEDExist()) {
-      if (Config4905.getConfig4905().isTopGun()) {
+      if (Config4905.getConfig4905().isShowBot()) {
+        System.out.println("Using TopGun LEDs");
         m_leds = new TopGunLEDs();
       } else {
+        System.out.println("Using Real LEDs");
         m_leds = new RealLEDs("LEDStringOne");
       }
     } else {
+      System.out.println("Using Mock LEDs");
       m_leds = new MockLEDs();
     }
 
@@ -202,10 +205,6 @@ public class SubsystemsContainer {
 
   public DriveTrain getDrivetrain() {
     return m_driveTrain;
-  }
-
-  public LEDs getLEDs(String name) {
-    return m_leds;
   }
 
   public ServoMotor getRomiIntake() {

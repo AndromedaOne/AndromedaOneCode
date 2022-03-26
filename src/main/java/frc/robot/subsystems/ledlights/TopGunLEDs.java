@@ -5,6 +5,7 @@
 package frc.robot.subsystems.ledlights;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Robot;
 
 /** Add your docs here. */
 public class TopGunLEDs extends RealLEDs {
@@ -15,14 +16,19 @@ public class TopGunLEDs extends RealLEDs {
 
   @Override
   public void periodic() {
-    double matchTime = DriverStation.getMatchTime();
-    if (matchTime <= 30 && matchTime > 20) {
-      setGreen(1);
-    } else if (matchTime <= 20 && matchTime > 10) {
-      setYellow(1);
-    } else if (matchTime <= 10) {
-      setRed(1);
-      setBlinking();
+    if (Robot.getInstance().isTeleop()) {
+      double matchTime = DriverStation.getMatchTime();
+      if (matchTime <= 30 && matchTime > 20) {
+        setGreen(1);
+      } else if (matchTime <= 20 && matchTime > 10) {
+        setYellow(1);
+      } else if (matchTime <= 10 && matchTime >= 0) {
+        setRed(1);
+        setBlinking();
+      }else {
+          setPurple(1);
+          setSolid();
+      }
     }
     super.periodic();
   }

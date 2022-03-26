@@ -16,13 +16,16 @@ public abstract class LEDs extends SubsystemBase {
   private double m_blueValue = 0;
   private boolean m_ledsOn = false;
   private int m_rainbowCounter = 0;
-  protected boolean m_readyForPeriodic;
+  protected boolean m_readyForPeriodic = false;
 
   enum Mode {
     SOLID, BLINKING, RAINBOW,
   };
 
   Mode m_mode = Mode.BLINKING;
+
+  public LEDs() {
+  }
 
   public void setSolid() {
     m_mode = Mode.SOLID;
@@ -68,7 +71,6 @@ public abstract class LEDs extends SubsystemBase {
     m_red.updateDutyCycle(validateBrightness(color.red));
     m_green.updateDutyCycle(validateBrightness(color.green));
     m_blue.updateDutyCycle(validateBrightness(color.blue));
-
   }
 
   /**
@@ -172,7 +174,6 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setPurple(double brightness) {
     clearColor();
-    System.out.println("Setting purple to: " + validateBrightness(brightness));
     m_redValue = brightness;
     m_blueValue = brightness;
   }
