@@ -61,7 +61,7 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getShooterAlignment(), false));
     getBbutton().whileHeld(new ShootTarmac(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment(), false, false));
+        m_subsystemsContainer.getShooterAlignment()));
   }
 
   public boolean getRunIntakeButtonReleased() {
@@ -72,12 +72,18 @@ public class SubsystemController extends ControllerBase {
     return getBackButtonReleased();
   }
 
-  public boolean getShootLowHubButtonPressed() {
+  public boolean getShootBackwardButtonPressed() {
     if (getLeftBumperPressed()) {
-      System.out.println("getShootLowHubButtonPressed True");
       return true;
     } else {
-      System.out.println("getShootLowHubButtonPressed False");
+      return false;
+    }
+  }
+
+  public boolean getShootLowHubButtonPressed() {
+    if (getRightTriggerValue() > 0.3) {
+      return true;
+    } else {
       return false;
     }
   }
