@@ -39,6 +39,7 @@ public class ShootTarmac extends SequentialCommandGroup {
     } else {
       m_shooterSetpoint = 3200.0;
       m_shooterAngle = 47.5;
+      m_feederSetpoint = 1.0;
     }
     super.initialize();
   }
