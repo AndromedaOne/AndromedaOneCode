@@ -30,7 +30,7 @@ public class ShootWall extends SequentialCommandGroup {
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootBackwardButtonPressed()) {
       m_shooterSetpoint = 3100.0;
-      m_shooterAngle = 29.2;
+      m_shooterAngle = 64.2;
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {

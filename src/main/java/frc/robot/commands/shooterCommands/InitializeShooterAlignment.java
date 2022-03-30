@@ -10,6 +10,7 @@ import frc.robot.telemetries.Trace;
 
 public class InitializeShooterAlignment extends CommandBase {
   private ShooterAlignmentBase m_shooterAlignment;
+  private boolean m_rotateUp = true;
 
   /** Creates a new InitializeShooterAlignment. */
   public InitializeShooterAlignment(ShooterAlignmentBase shooterAlignment) {
@@ -27,7 +28,12 @@ public class InitializeShooterAlignment extends CommandBase {
   @Override
   public void execute() {
     if (!m_shooterAlignment.getInitialized()) {
-      m_shooterAlignment.rotateShooter(-0.3);
+      // Rotating shooter up until the limit switch is turned off
+      if (m_rotateUp) {
+        m_shooterAlignment.rotateShooter(0.3);
+      } else {
+        m_shooterAlignment.rotateShooter(-0.3);
+      }
     }
   }
 
@@ -43,7 +49,11 @@ public class InitializeShooterAlignment extends CommandBase {
   public boolean isFinished() {
     if (m_shooterAlignment.getInitialized()) {
       return true;
-    } else if (m_shooterAlignment.atBottomLimitSwitch()) {
+    } else if (m_rotateUp && !m_shooterAlignment.atBottomLimitSwitch()) {
+      m_rotateUp = false;
+      return false;
+    }
+    else if (!m_rotateUp && m_shooterAlignment.atBottomLimitSwitch()) {
       m_shooterAlignment.setOffset(m_shooterAlignment.getAngle());
       m_shooterAlignment.setInitialized();
       return true;

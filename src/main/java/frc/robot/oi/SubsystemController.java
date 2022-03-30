@@ -90,10 +90,8 @@ public class SubsystemController extends ControllerBase {
 
   public boolean getPauseFeederButtonPressed() {
     if (getLeftTriggerValue() > 0.3) {
-      System.out.println("getPauseFeederButtonPressed True");
       return true;
     } else {
-      System.out.println("getPauseFeederButtonPressed False");
       return false;
     }
   }

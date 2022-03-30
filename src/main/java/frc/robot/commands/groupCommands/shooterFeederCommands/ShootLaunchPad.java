@@ -30,7 +30,7 @@ public class ShootLaunchPad extends SequentialCommandGroup {
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootBackwardButtonPressed()) {
       m_shooterSetpoint = 3850.0;
-      m_shooterAngle = 31;
+      m_shooterAngle = 66;
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {

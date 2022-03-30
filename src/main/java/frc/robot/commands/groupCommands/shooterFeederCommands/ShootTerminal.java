@@ -30,8 +30,8 @@ public class ShootTerminal extends SequentialCommandGroup {
     Trace.getInstance().logCommandStart(this);
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootBackwardButtonPressed()) {
-      m_shooterSetpoint = 1600.0;
-      m_shooterAngle = 47;
+      m_shooterSetpoint = 3000.0;
+      m_shooterAngle = 65;
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {
@@ -40,7 +40,7 @@ public class ShootTerminal extends SequentialCommandGroup {
       m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 62.0;
+      m_shooterAngle = 47.0;
       m_feederSetpoint = 1.0;
     }
   }
