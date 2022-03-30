@@ -400,6 +400,7 @@ public class Trace {
       outputFile.write("Match Started @" + getDateStr());
       outputFile.flush();
       outputFile.close();
+      logCommand("Match Started", "");
       System.out.println("Logged match started.");
     } catch (IOException e) {
       System.err
@@ -422,6 +423,10 @@ public class Trace {
       System.err.println("ERROR: failed to log command: " + e.getMessage());
       e.printStackTrace();
     }
+  }
+
+  public void logInfo(String info) {
+    logCommand(info, "");
   }
 
   public void logCommandStart(Command command) {
