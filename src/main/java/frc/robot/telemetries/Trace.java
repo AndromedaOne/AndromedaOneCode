@@ -60,7 +60,8 @@ import frc.robot.Robot;
 // file so that at least something will be written out before the robot it turned 
 // off.
 public class Trace {
-  private static String m_basePathOfTraceDirs = "/home/lvuser/traceLogs";
+  private static String m_linuxHomeDir = "/home/lvuser";
+  private static String m_basePathOfTraceDirs = m_linuxHomeDir + "/traceLogs";
   private static String m_traceDirNumberFile = ".traceNumb";
   private String m_pathOfTraceDir;
   private static String m_consoleOutput = "ConsoleOutput";
@@ -148,7 +149,7 @@ public class Trace {
   }
 
   private Trace() {
-    if (!Files.exists(Paths.get(m_basePathOfTraceDirs))) {
+    if (!Files.exists(Paths.get(m_linuxHomeDir))) {
       // if the base path does not exists (we're not on a roborio), just
       // use system temp directory
       m_basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
