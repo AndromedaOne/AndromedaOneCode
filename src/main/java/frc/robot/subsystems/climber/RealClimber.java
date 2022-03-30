@@ -22,105 +22,73 @@ public class RealClimber extends ClimberBase {
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("BackLeftWinchAtBottomLimitSwitch",
-        backLeftWinchAtBottomLimitSwitch());
-    SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch",
-        backRightWinchAtBottomLimitSwitch());
-    SmartDashboard.putNumber("ClimberHeightRightBack", getBackRightWinchAdjustedEncoderValue());
-    SmartDashboard.putNumber("ClimberHeightLeftBack", getBackLeftWinchAdjustedEncoderValue());
+    SmartDashboard.putBoolean("BackLeftWinchAtBottomLimitSwitch", leftWinchAtBottomLimitSwitch());
+    SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch", rightWinchAtBottomLimitSwitch());
+    SmartDashboard.putNumber("ClimberHeightRightBack", getRightWinchAdjustedEncoderValue());
+    SmartDashboard.putNumber("ClimberHeightLeftBack", getLeftWinchAdjustedEncoderValue());
   }
 
   @Override
-  public void driveFrontLeftWinch() {
-
-  }
-
-  @Override
-  public void driveFrontRightWinch() {
-
-  }
-
-  @Override
-  public void driveBackRightWinch(double speed) {
+  public void driveRightWinch(double speed) {
     m_backRightWinch.set(speed);
 
   }
 
   @Override
-  public void stopFrontLeftWinch() {
-
-  }
-
-  @Override
-  public void stopBackLeftWinch() {
+  public void stopLeftWinch() {
     m_backLeftWinch.set(0);
 
   }
 
   @Override
-  public void stopFrontRightWinch() {
-
-  }
-
-  @Override
-  public void stopBackRightWinch() {
+  public void stopRightWinch() {
     m_backRightWinch.set(0);
   }
 
   @Override
-  public void unwindFrontLeftWinch() {
-
-  }
-
-  @Override
-  public void unwindBackLeftWinch() {
+  public void unwindLeftWinch() {
     m_backLeftWinch.set(-1);
 
   }
 
   @Override
-  public void driveBackLeftWinch(double speed) {
+  public void driveLeftWinch(double speed) {
     m_backLeftWinch.set(speed);
   }
 
   @Override
-  public void unwindFrontRightWinch() {
-
-  }
-
-  @Override
-  public void unwindBackRightWinch() {
+  public void unwindRightWinch() {
     m_backRightWinch.set(-1);
 
   }
 
   @Override
-  public boolean backLeftWinchAtTopLimitSwitch() {
+  public boolean leftWinchAtTopLimitSwitch() {
     return m_backLeftWinch.isReverseLimitSwitchOn();
   }
 
   @Override
-  public boolean backLeftWinchAtBottomLimitSwitch() {
+  public boolean leftWinchAtBottomLimitSwitch() {
     return m_backLeftWinch.isForwardLimitSwitchOn();
   }
 
   @Override
-  public boolean backRightWinchAtTopLimitSwitch() {
+  public boolean rightWinchAtTopLimitSwitch() {
     return m_backRightWinch.isReverseLimitSwitchOn();
   }
 
   @Override
-  public boolean backRightWinchAtBottomLimitSwitch() {
+  public boolean rightWinchAtBottomLimitSwitch() {
     return m_backRightWinch.isForwardLimitSwitchOn();
   }
 
   @Override
-  public double getBackLeftWinchAdjustedEncoderValue() {
+  public double getLeftWinchAdjustedEncoderValue() {
     return m_backLeftWinch.getEncoderPositionTicks() - m_initialEncoderBackLeftWinch;
   }
 
   @Override
-  public double getBackRightWinchAdjustedEncoderValue() {
+  public double getRightWinchAdjustedEncoderValue() {
     return m_backRightWinch.getEncoderPositionTicks() - m_initialEncoderBackRightWinch;
   }
 

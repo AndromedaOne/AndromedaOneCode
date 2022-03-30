@@ -3,86 +3,55 @@ package frc.robot.subsystems.climber;
 public class MockClimber extends ClimberBase {
 
   public MockClimber() {
+  }
+
+  @Override
+  public void unwindLeftWinch() {
 
   }
 
   @Override
-  public void driveFrontLeftWinch() {
+  public void unwindRightWinch() {
 
   }
 
   @Override
-  public void driveFrontRightWinch() {
+  public void stopLeftWinch() {
 
   }
 
   @Override
-  public void unwindFrontLeftWinch() {
+  public void stopRightWinch() {
 
   }
 
   @Override
-  public void unwindBackLeftWinch() {
-
-  }
-
-  @Override
-  public void unwindFrontRightWinch() {
-
-  }
-
-  @Override
-  public void unwindBackRightWinch() {
-
-  }
-
-  @Override
-  public void stopFrontLeftWinch() {
-
-  }
-
-  @Override
-  public void stopBackLeftWinch() {
-
-  }
-
-  @Override
-  public void stopFrontRightWinch() {
-
-  }
-
-  @Override
-  public void stopBackRightWinch() {
-
-  }
-
-  @Override
-  public boolean backLeftWinchAtTopLimitSwitch() {
+  public boolean leftWinchAtTopLimitSwitch() {
     return false;
   }
 
   @Override
-  public boolean backLeftWinchAtBottomLimitSwitch() {
+  public boolean leftWinchAtBottomLimitSwitch() {
     return false;
   }
 
   @Override
-  public boolean backRightWinchAtTopLimitSwitch() {
+  public boolean rightWinchAtTopLimitSwitch() {
     return false;
   }
 
   @Override
-  public boolean backRightWinchAtBottomLimitSwitch() {
+  public boolean rightWinchAtBottomLimitSwitch() {
     return false;
   }
 
   @Override
-  public double getBackLeftWinchAdjustedEncoderValue() {
+  public double getLeftWinchAdjustedEncoderValue() {
     return 0;
   }
 
   @Override
-  public double getBackRightWinchAdjustedEncoderValue() {
+  public double getRightWinchAdjustedEncoderValue() {
     return 0;
   }
 
@@ -92,12 +61,12 @@ public class MockClimber extends ClimberBase {
   }
 
   @Override
-  public void driveBackLeftWinch(double speed) {
+  public void driveLeftWinch(double speed) {
 
   }
 
   @Override
-  public void driveBackRightWinch(double speed) {
+  public void driveRightWinch(double speed) {
 
   }
 
