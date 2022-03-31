@@ -52,4 +52,9 @@ public class MockShooterAlignment extends ShooterAlignmentBase {
   public void setBrakeMode() {
 
   }
+
+  @Override
+  public void extendShooterArms() {
+
+  }
 }

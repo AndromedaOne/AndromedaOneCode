@@ -47,6 +47,8 @@ public abstract class ShooterAlignmentBase extends SubsystemBase {
     return m_offset;
   }
 
+  public abstract void extendShooterArms();
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -8,15 +8,20 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.actuators.ServoMotor;
 import frc.robot.actuators.SparkMaxController;
 
 public class ShooterAlignment extends ShooterAlignmentBase {
   SparkMaxController m_angleMotor;
+  ServoMotor m_leftServoMotor;
+  ServoMotor m_rightServoMotor;
   Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
 
   /** Creates a new ShooterAlignment. */
   public ShooterAlignment() {
     m_angleMotor = new SparkMaxController(m_shooterConfig, getShooterName());
+    m_leftServoMotor = new ServoMotor(m_shooterConfig.getInt("leftServoMotor.port"));
+    m_rightServoMotor = new ServoMotor(m_shooterConfig.getInt("rightServoMotor.port"));
   }
 
   public void rotateShooter(double speed) {
@@ -60,5 +65,12 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   @Override
   public void stopShooterAlignment() {
     m_angleMotor.set(0);
+  }
+
+  @Override
+  public void extendShooterArms() {
+    m_leftServoMotor.runBackward();
+    m_rightServoMotor.runBackward();
+
   }
 }

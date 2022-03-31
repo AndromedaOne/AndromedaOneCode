@@ -81,4 +81,8 @@ public class SubsystemController extends ControllerBase {
       return false;
     }
   }
+
+  public double getEndgameShooterAlignmentStick() {
+    return getRightStickForwardBackwardValue();
+  }
 }
