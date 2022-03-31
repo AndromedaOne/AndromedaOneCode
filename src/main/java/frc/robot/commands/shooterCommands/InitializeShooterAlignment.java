@@ -52,8 +52,7 @@ public class InitializeShooterAlignment extends CommandBase {
     } else if (m_rotateUp && !m_shooterAlignment.atBottomLimitSwitch()) {
       m_rotateUp = false;
       return false;
-    }
-    else if (!m_rotateUp && m_shooterAlignment.atBottomLimitSwitch()) {
+    } else if (!m_rotateUp && m_shooterAlignment.atBottomLimitSwitch()) {
       m_shooterAlignment.setOffset(m_shooterAlignment.getAngle());
       m_shooterAlignment.setInitialized();
       return true;
