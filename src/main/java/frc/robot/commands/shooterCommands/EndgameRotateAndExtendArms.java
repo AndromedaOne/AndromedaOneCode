@@ -4,6 +4,7 @@
 
 package frc.robot.commands.shooterCommands;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.telemetries.Trace;
@@ -13,9 +14,11 @@ import frc.robot.telemetries.Trace;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class EndgameRotateAndExtendArms extends SequentialCommandGroup {
   private final double m_shooterAngle = 25;
+  private ShooterAlignmentBase m_shooterAlignmentBase;
 
   /** Creates a new EngameRotateAndExtendArms. */
   public EndgameRotateAndExtendArms(ShooterAlignmentBase shooterAlignmentBase) {
+    m_shooterAlignmentBase = shooterAlignmentBase;
 
     addCommands(new MoveShooterAlignment(shooterAlignmentBase, () -> m_shooterAngle),
         new ExtendShooterArms(shooterAlignmentBase));
@@ -25,6 +28,8 @@ public class EndgameRotateAndExtendArms extends SequentialCommandGroup {
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     super.initialize();
+    CommandScheduler.getInstance().setDefaultCommand(m_shooterAlignmentBase,
+        new EndgameMoveShooterAlignment(m_shooterAlignmentBase));
   }
 
   @Override

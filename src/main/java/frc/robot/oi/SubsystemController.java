@@ -14,6 +14,7 @@ import frc.robot.commands.groupCommands.shooterFeederCommands.ShootFender;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPad;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootWall;
+import frc.robot.commands.shooterCommands.EndgameRotateAndExtendArms;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -62,6 +63,8 @@ public class SubsystemController extends ControllerBase {
     getBbutton().whileHeld(new ShootTarmac(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), false, false));
+    getStartButton()
+        .whenPressed(new EndgameRotateAndExtendArms(m_subsystemsContainer.getShooterAlignment()));
   }
 
   public boolean getRunIntakeButtonReleased() {
