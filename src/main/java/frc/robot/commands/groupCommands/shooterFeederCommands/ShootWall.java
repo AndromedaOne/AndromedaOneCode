@@ -27,8 +27,12 @@ public class ShootWall extends SequentialCommandGroup {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-
     if (Robot.getInstance().getOIContainer().getSubsystemController()
+        .getShootBackwardButtonPressed()) {
+      m_shooterSetpoint = 3100.0;
+      m_shooterAngle = 66.2;
+      m_feederSetpoint = 1.0;
+    } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {
       m_shooterSetpoint = 3000.0;
       m_shooterAngle = 30.2;
