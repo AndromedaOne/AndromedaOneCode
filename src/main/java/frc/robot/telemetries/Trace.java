@@ -148,7 +148,7 @@ public class Trace {
   }
 
   private Trace() {
-    basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
+    // basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
     System.out.println("Trace Base Directory: " + basePathOfTraceDirs);
     m_traces = new TreeMap<String, TraceMapEntry>();
     m_startTime = System.currentTimeMillis();

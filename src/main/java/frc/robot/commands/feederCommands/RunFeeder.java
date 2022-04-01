@@ -31,7 +31,6 @@ public class RunFeeder extends CommandBase {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    m_feeder.runFeeder(m_speed.getAsDouble());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

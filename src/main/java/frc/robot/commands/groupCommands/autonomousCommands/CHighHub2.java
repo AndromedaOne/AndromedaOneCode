@@ -6,14 +6,12 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.Timer;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
-import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.feederCommands.RunFeeder;
 import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootCargo;
@@ -41,7 +39,7 @@ public class CHighHub2 extends SequentialCommandGroup {
     IntakeBase intake = subsystemsContainer.getIntake();
     final double distanceToBall = 60.0;
     final double maxSpeed = 0.6;
-    final double shooterSetpoint = 3450;
+    final double shooterSetpoint = 3350; // was 3450
     final double shooterAngle = 64.5;
     final double feederSetpoint = 1.0;
     final long waitTime = 5000;
@@ -52,10 +50,10 @@ public class CHighHub2 extends SequentialCommandGroup {
         new ParallelDeadlineGroup(moveCommand,
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake,
                 false)),
-        new ParallelCommandGroup(new TurnToCompassHeading(213),
-            new MoveShooterAlignment(shooterAlignment, () -> shooterAngle)),
+        // new ParallelCommandGroup(new TurnToCompassHeading(213),
+        new MoveShooterAlignment(shooterAlignment, () -> shooterAngle),
         new ParallelDeadlineGroup(new Timer(40),
-            new RunFeeder(feeder, () -> feederSetpoint, true, () -> false)),
+            new RunFeeder(feeder, () -> 0.5, true, () -> false)),
         new ParallelDeadlineGroup(new Timer(waitTime),
             new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 () -> shooterSetpoint, () -> shooterAngle, () -> feederSetpoint),

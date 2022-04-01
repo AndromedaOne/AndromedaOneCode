@@ -54,7 +54,7 @@ public class AHighHub2 extends SequentialCommandGroup {
         new ParallelCommandGroup(new TurnToCompassHeading(97),
             new MoveShooterAlignment(shooterAlignment, () -> shooterAngle)),
         new ParallelDeadlineGroup(new Timer(40),
-            new RunFeeder(feeder, () -> feederSetpoint, true, () -> false)),
+            new RunFeeder(feeder, () -> 0.5, true, () -> false)),
         new ParallelDeadlineGroup(new Timer(waitTime),
             new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 () -> shooterSetpoint, () -> shooterAngle, () -> feederSetpoint),
