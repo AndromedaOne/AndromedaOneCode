@@ -30,17 +30,17 @@ public class TopGunLEDs extends RealLEDs {
       } else {
         switch (getTeleOpMode()) {
         case SLOW:
-          setPurple(1);
+          setBlue(1);
           setSolid();
           break;
 
         case MID:
-          setWhite(1);
+          setPurple(1);
           setSolid();
           break;
 
         case FAST:
-          setOrange(1);
+          setGreen(1);
           setSolid();
           break;
 
