@@ -171,6 +171,7 @@ public class Trace {
       String fullFileName = new String(m_pathOfTraceDir + "/" + m_commandTraceFname + ".txt");
       FileWriter fstream = new FileWriter(fullFileName, false);
       m_commandTraceWriter = new BufferedWriter(fstream);
+      m_commandTraceWriter.write("Time(sec)\tCommand/Info\n");
     } catch (IOException e) {
       System.err.println(
           "ERROR: unable to open text file " + m_commandTraceFname + " ;" + e.getMessage());
@@ -413,7 +414,7 @@ public class Trace {
     if ((m_commandTraceFname == null) || (m_commandTraceWriter == null)) {
       return;
     }
-    long correctedTime = System.currentTimeMillis() - m_startTime;
+    double correctedTime = ((double)(System.currentTimeMillis() - m_startTime)) / 1000;
     String line = new String(String.valueOf(correctedTime));
     line += "  " + commandName + " " + startEnd + "\n";
     System.out.print(line);
