@@ -23,7 +23,7 @@ public class ShootTerminal extends SequentialCommandGroup {
       m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 62.0;
+      m_shooterAngle = 47.0;
       m_feederSetpoint = 1.0;
     }
 

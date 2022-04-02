@@ -40,7 +40,7 @@ public class ShootTarmac extends SequentialCommandGroup {
       m_shooterSetpoint = 3200.0;
       m_shooterAngle = 47.5;
       if (m_shootBackwards) {
-        m_shooterAngle = 62.5;
+        m_shooterAngle = 64.5;
       }
       m_feederSetpoint = 1.0;
     }
