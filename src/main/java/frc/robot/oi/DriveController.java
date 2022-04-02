@@ -68,12 +68,20 @@ public class DriveController extends ControllerBase {
     return getRightStickLeftRightValue();
   }
 
-  public boolean getSlowModeBumperPressed() {
+  public boolean getDownShiftPressed() {
     return getLeftBumperPressed();
   }
 
-  public boolean getSlowModeBumperReleased() {
+  public boolean getUpShiftPressed() {
+    return getRightBumperPressed();
+  }
+
+  public boolean getDownShiftReleased() {
     return getLeftBumperReleased();
+  }
+
+  public boolean getUpShiftReleased() {
+    return getRightBumperReleased();
   }
 
   private void setUpClimberButtons() {
