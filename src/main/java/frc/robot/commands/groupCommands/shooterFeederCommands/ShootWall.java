@@ -17,8 +17,7 @@ public class ShootWall extends SequentialCommandGroup {
   double m_feederSetpoint;
 
   public ShootWall(FeederBase feeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
-      boolean shootLow) {
+      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment) {
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
         () -> m_shooterSetpoint, () -> m_shooterAngle, () -> m_feederSetpoint));
@@ -30,7 +29,7 @@ public class ShootWall extends SequentialCommandGroup {
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootBackwardButtonPressed()) {
       m_shooterSetpoint = 3100.0;
-      m_shooterAngle = 29.2;
+      m_shooterAngle = 66.2;
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {

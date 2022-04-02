@@ -29,7 +29,7 @@ public class ShootTarmac extends SequentialCommandGroup {
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootBackwardButtonPressed()) {
       m_shooterSetpoint = 3200.0;
-      m_shooterAngle = 62.5;
+      m_shooterAngle = 64.5;
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {
