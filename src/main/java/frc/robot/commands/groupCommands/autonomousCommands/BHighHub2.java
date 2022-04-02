@@ -63,9 +63,9 @@ public class BHighHub2 extends SequentialCommandGroup {
 
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
-    super.initialize();
+    Trace.getInstance().logCommandStart(this);   
     Robot.getInstance().getSensorsContainer().getGyro().setInitialOffset(154.4);
+    super.initialize();
   }
 
   @Override
