@@ -30,12 +30,17 @@ public class TeleOpCommand extends CommandBase {
   private DriveTrain m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
   private Gyro4905 m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
-  private boolean m_slowMode = false;
-  private boolean m_midMode = false;
   private int m_currentDelay = 0;
   private int kDelay = 0;
   private double m_savedRobotAngle = 0.0;
   private double kProportion = 0.0;
+
+  private enum SlowMidFastModeStates {
+    FASTMODEBUTTONRELEASED, FASTMODEBUTTONPRESSED, MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED,
+    SLOWMODEBUTTONRELEASED, SLOWMODEBUTTONPRESSED,
+  }
+
+  private SlowMidFastModeStates m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONRELEASED;
 
   /**
    * Takes inputs from the two joysticks on the drive controller.
@@ -59,6 +64,7 @@ public class TeleOpCommand extends CommandBase {
   public void execute() {
     double forwardBackwardStickValue = m_driveController.getDriveTrainForwardBackwardStick();
     double rotateStickValue = m_driveController.getDriveTrainRotateStick();
+    calculateSlowMidFastMode();
 
     // if the robot is not rotating, want to gyro correct to drive straight. but
     // if this correction kicks in right after the driver is turning, this will
@@ -78,14 +84,20 @@ public class TeleOpCommand extends CommandBase {
       m_savedRobotAngle = m_gyro.getZAngle();
       m_currentDelay = 0;
     }
-    if (m_slowMode) {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.forwardbackslowscale");
-      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.rotateslowscale");
+    if ((m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONPRESSED)
+        || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
+      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
+      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
       Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.SLOW);
+
+    } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
+        || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
+      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
+      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
+      Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.MID);
 
     } else {
       Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.FAST);
-
     }
     Trace.getInstance().addTrace(true, "TeleopDrive",
         new TracePair<Double>("Gyro", m_gyro.getZAngle()),
@@ -105,6 +117,52 @@ public class TeleOpCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  private void calculateSlowMidFastMode() {
+    switch (m_slowMidFastMode) {
+    case FASTMODEBUTTONRELEASED:
+      if (m_driveController.getDownShiftPressed()) {
+        m_slowMidFastMode = SlowMidFastModeStates.MIDMODEBUTTONPRESSED;
+        System.out.println("DownShiftPressed, Entering MidMode");
+      }
+
+    case FASTMODEBUTTONPRESSED:
+      if (m_driveController.getUpShiftReleased()) {
+        m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONRELEASED;
+        System.out.println("UpShiftReleased, Entering FastMode");
+      }
+
+    case MIDMODEBUTTONRELEASED:
+      if (m_driveController.getDownShiftPressed()) {
+        m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONPRESSED;
+        System.out.println("DownShiftPressed, Entering SlowMode");
+      } else if (m_driveController.getUpShiftPressed()) {
+        m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONPRESSED;
+        System.out.println("UpShiftPressed, Entering FastMode");
+      }
+
+    case MIDMODEBUTTONPRESSED:
+      if (m_driveController.getDownShiftReleased()) {
+        m_slowMidFastMode = SlowMidFastModeStates.MIDMODEBUTTONRELEASED;
+        System.out.println("DownShiftReleased, Entering MidMode");
+      }
+
+    case SLOWMODEBUTTONRELEASED:
+      if (m_driveController.getUpShiftPressed()) {
+        m_slowMidFastMode = SlowMidFastModeStates.MIDMODEBUTTONPRESSED;
+        System.out.println("UpShiftPressed, Entering MidMode");
+      }
+
+    case SLOWMODEBUTTONPRESSED:
+      if (m_driveController.getDownShiftReleased()) {
+        m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
+        System.out.println("DownShiftPressed, Entering SlowMode");
+      }
+
+    default:
+      System.out.println("WARNING: unknown state detected: " + m_slowMidFastMode.toString());
+    }
   }
 
 }

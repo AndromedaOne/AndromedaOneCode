@@ -25,7 +25,7 @@ public abstract class LEDs extends SubsystemBase {
   private Mode m_mode = Mode.BLINKING;
 
   public enum TeleOpMode {
-    SLOW, MEDIUM, FAST
+    SLOW, MID, FAST
   };
 
   private TeleOpMode m_teleOpMode = TeleOpMode.FAST;

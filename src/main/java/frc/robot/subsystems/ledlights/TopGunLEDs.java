@@ -34,7 +34,7 @@ public class TopGunLEDs extends RealLEDs {
           setSolid();
           break;
 
-        case MEDIUM:
+        case MID:
           setWhite(1);
           setSolid();
           break;
