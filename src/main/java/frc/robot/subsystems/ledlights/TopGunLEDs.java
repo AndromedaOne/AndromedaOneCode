@@ -16,17 +16,19 @@ public class TopGunLEDs extends RealLEDs {
 
   @Override
   public void periodic() {
-    if (Robot.getInstance().isTeleop()) {
+    if (Robot.getInstance().isDisabled()) {
+      setRainbow();
+    } else if (Robot.getInstance().isTeleop()) {
       double matchTime = DriverStation.getMatchTime();
       if (matchTime <= 30 && matchTime > 20) {
-        setGreen(1);
-        setSolid();
+        setOrange(1);
+        setBlinking(1);
       } else if (matchTime <= 20 && matchTime > 10) {
         setYellow(1);
-        setSolid();
+        setBlinking(0.5);
       } else if (matchTime <= 10 && matchTime >= 0) {
         setRed(1);
-        setBlinking();
+        setBlinking(0.25);
       } else {
         switch (getTeleOpMode()) {
         case SLOW:
