@@ -123,8 +123,8 @@ public class SubsystemsContainer {
         System.out.println("Using TopGun LEDs");
         m_leds = new TopGunLEDs();
       } else {
-        System.out.println("Using Real LEDs");
-        m_leds = new RealLEDs("LEDStringOne");
+        System.out.println("Using TopGun LEDs");
+        m_leds = new TopGunLEDs();
       }
     } else {
       System.out.println("Using Mock LEDs");
