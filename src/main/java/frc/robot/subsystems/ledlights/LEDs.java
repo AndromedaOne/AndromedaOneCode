@@ -9,7 +9,9 @@ public abstract class LEDs extends SubsystemBase {
   protected DigitalOutput m_red;
   protected DigitalOutput m_green;
   protected DigitalOutput m_blue;
-  protected final int KBLINKPERIOD = 100;
+  // The 1 in m_blinkRate makes the LEDs blink for one second on and one second
+  // off.
+  protected double m_blinkRate = 1;
   protected int m_blinkCounter = 0;
   private double m_redValue = 0;
   private double m_greenValue = 0;
@@ -37,8 +39,9 @@ public abstract class LEDs extends SubsystemBase {
     m_mode = Mode.SOLID;
   }
 
-  public void setBlinking() {
+  public void setBlinking(double blinkRateSeconds) {
     m_mode = Mode.BLINKING;
+    m_blinkRate = blinkRateSeconds;
   }
 
   public void setRainbow() {
@@ -58,12 +61,12 @@ public abstract class LEDs extends SubsystemBase {
       break;
 
     case BLINKING:
-      if (m_blinkCounter < KBLINKPERIOD / 2) {
+      if (m_blinkCounter < m_blinkRate * 50) {
         color = new Color(0, 0, 0);
       } else {
         color = new Color(m_redValue, m_greenValue, m_blueValue);
       }
-      m_blinkCounter = (m_blinkCounter + 1) % KBLINKPERIOD;
+      m_blinkCounter = (m_blinkCounter + 1) % (int) m_blinkRate;
       break;
 
     case RAINBOW:
