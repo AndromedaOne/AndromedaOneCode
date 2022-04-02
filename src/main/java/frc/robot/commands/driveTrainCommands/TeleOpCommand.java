@@ -32,20 +32,10 @@ public class TeleOpCommand extends CommandBase {
   private Gyro4905 m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
   private boolean m_slowMode = false;
   private boolean m_midMode = false;
-  private SlowModeStates m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
-  private MidModeStates m_midModeState = MidModeStates.NOTMIDRELEASED;
   private int m_currentDelay = 0;
   private int kDelay = 0;
   private double m_savedRobotAngle = 0.0;
   private double kProportion = 0.0;
-
-  private enum SlowModeStates {
-    NOTSLOWPRESSED, NOTSLOWRELEASED, SLOWPRESSED, SLOWRELEASED
-  }
-
-  private enum MidModeStates {
-    NOTMIDPRESSED, NOTMIDRELEASED, MIDPRESSED, MIDRELEASED
-  }
 
   /**
    * Takes inputs from the two joysticks on the drive controller.
@@ -70,9 +60,6 @@ public class TeleOpCommand extends CommandBase {
     double forwardBackwardStickValue = m_driveController.getDriveTrainForwardBackwardStick();
     double rotateStickValue = m_driveController.getDriveTrainRotateStick();
 
-    // calc slow mode must come first
-    calculateSlowMode();
-    calculateMidMode();
     // if the robot is not rotating, want to gyro correct to drive straight. but
     // if this correction kicks in right after the driver is turning, this will
     // cause
@@ -118,84 +105,6 @@ public class TeleOpCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
-  }
-
-  private void calculateSlowMode() {
-    switch (m_slowModeState) {
-    case NOTSLOWRELEASED:
-      if (m_driveController.getSlowModeBumperPressed()) {
-        m_slowMode = true;
-
-        m_slowModeState = SlowModeStates.SLOWPRESSED;
-        System.out
-            .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-      }
-      break;
-    case NOTSLOWPRESSED:
-      if (m_driveController.getSlowModeBumperReleased()) {
-        m_slowModeState = SlowModeStates.NOTSLOWRELEASED;
-        System.out
-            .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-      }
-      break;
-    case SLOWRELEASED:
-      if (m_driveController.getSlowModeBumperPressed()) {
-        m_slowMode = false;
-        m_slowModeState = SlowModeStates.NOTSLOWPRESSED;
-        System.out
-            .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-      }
-      break;
-    case SLOWPRESSED:
-      if (m_driveController.getSlowModeBumperReleased()) {
-        m_slowModeState = SlowModeStates.SLOWRELEASED;
-        System.out
-            .println("Slowmode state: " + m_slowModeState.toString() + "  SlowMode: " + m_slowMode);
-      }
-      break;
-    default:
-      System.err.println("WARN: Unknown slowmode state: " + m_slowModeState.toString());
-      break;
-    }
-
-  }
-
-  private void calculateMidMode() {
-    switch (m_midModeState) {
-    case NOTMIDRELEASED:
-      if (m_driveController.getMidModeBumperPressed()) {
-        m_midMode = true;
-        m_midModeState = MidModeStates.MIDPRESSED;
-        System.out
-            .println("Midmode state: " + m_midModeState.toString() + "  MidMode: " + m_midMode);
-      }
-      break;
-    case NOTMIDPRESSED:
-      if (m_driveController.getMidModeBumperReleased()) {
-        m_midModeState = MidModeStates.NOTMIDRELEASED;
-        System.out
-            .println("Midmode state: " + m_midModeState.toString() + "  MidMode: " + m_midMode);
-      }
-      break;
-    case MIDRELEASED:
-      if (m_driveController.getMidModeBumperPressed()) {
-        m_midMode = false;
-        m_midModeState = MidModeStates.NOTMIDPRESSED;
-        System.out
-            .println("Midmode state: " + m_midModeState.toString() + "  MidMode: " + m_midMode);
-      }
-      break;
-    case MIDPRESSED:
-      if (m_driveController.getMidModeBumperReleased()) {
-        m_midModeState = MidModeStates.MIDRELEASED;
-        System.out
-            .println("Midmode state: " + m_midModeState.toString() + "  MidMode: " + m_midMode);
-      }
-      break;
-    default:
-      System.err.println("WARN: Unknown midmode state: " + m_midModeState.toString());
-      break;
-    }
   }
 
 }
