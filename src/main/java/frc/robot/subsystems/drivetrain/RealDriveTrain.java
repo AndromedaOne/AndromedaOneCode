@@ -150,12 +150,6 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    double averageSpeed = leftVolts + rightVolts;
-    if (averageSpeed < 0) {
-      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(1.0, 1.0, 1.0);
-    } else {
-      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRGB(0, 0, 1.0);
-    }
     getLeftSpeedControllerGroup().setVoltage(leftVolts);
     getRightSpeedControllerGroup().setVoltage(m_rightSideInvertedMultiplier * rightVolts);
     m_drive.feed();

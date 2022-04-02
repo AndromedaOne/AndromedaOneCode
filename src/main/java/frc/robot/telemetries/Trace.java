@@ -404,7 +404,7 @@ public class Trace {
   }
 
   private void logCommand(String commandName, String startEnd) {
-    if (m_commandTraceFname == null) {
+    if ((m_commandTraceFname == null) || (m_commandTraceWriter == null)) {
       return;
     }
     long correctedTime = System.currentTimeMillis() - m_startTime;

@@ -66,9 +66,6 @@ public class Robot extends TimedRobot {
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(true);
     m_subsystemContainer.getWings().stop();
-    if (Config4905.getConfig4905().doesLEDExist()) {
-      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
-    }
     LiveWindow.disableAllTelemetry();
     SmartDashboard.putNumber("Gyro Offset", -1);
   }
@@ -113,7 +110,6 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDrivetrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
     limelight.disableLED();
-    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
     System.out.println("Shooter Allignment set to coast");
   }
@@ -191,7 +187,6 @@ public class Robot extends TimedRobot {
     }
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
-    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
     LiveWindow.disableAllTelemetry();

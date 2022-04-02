@@ -114,11 +114,11 @@ public class ControllerBase {
   }
 
   protected boolean getLeftBumperPressed() {
-    return m_controller.getLeftBumperPressed();
+    return m_controller.getLeftBumper();
   }
 
   protected boolean getLeftBumperReleased() {
-    return m_controller.getLeftBumperReleased();
+    return !m_controller.getLeftBumper();
   }
 
   protected JoystickButton getLeftBumperButton() {
@@ -126,11 +126,11 @@ public class ControllerBase {
   }
 
   protected boolean getRightBumperPressed() {
-    return m_controller.getRightBumperPressed();
+    return m_controller.getRightBumper();
   }
 
   protected boolean getRightBumperReleased() {
-    return m_controller.getRightBumperReleased();
+    return !m_controller.getRightBumper();
   }
 
   protected JoystickButton getRightBumperButton() {

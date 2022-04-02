@@ -86,6 +86,8 @@ public class SubsystemController extends ControllerBase {
 
   public boolean getShootLowHubButtonPressed() {
     if (getRightTriggerValue() > 0.3) {
+  public boolean getPauseFeederButtonPressed() {
+    if (getLeftTriggerValue() > 0.3) {
       return true;
     } else {
       return false;
