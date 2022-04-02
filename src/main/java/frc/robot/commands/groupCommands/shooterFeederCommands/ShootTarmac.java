@@ -18,7 +18,7 @@ public class ShootTarmac extends SequentialCommandGroup {
   boolean m_shootBackwards = false;
 
   public ShootTarmac(FeederBase feeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
+      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment, boolean shootLow,
       boolean shootBackwards) {
 
     m_shootBackwards = shootBackwards;

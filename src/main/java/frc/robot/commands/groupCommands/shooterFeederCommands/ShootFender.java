@@ -17,7 +17,8 @@ public class ShootFender extends SequentialCommandGroup {
   double m_feederSetpoint = 0;
 
   public ShootFender(FeederBase feeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment) {
+      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
+      boolean shootLow) {
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
         () -> m_shooterSetpoint, () -> m_shooterAngle, () -> m_feederSetpoint));

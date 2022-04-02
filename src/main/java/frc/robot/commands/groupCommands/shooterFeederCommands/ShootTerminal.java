@@ -5,7 +5,6 @@
 package frc.robot.commands.groupCommands.shooterFeederCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.subsystems.shooter.ShooterWheelBase;
@@ -16,9 +15,9 @@ public class ShootTerminal extends SequentialCommandGroup {
   final double m_feederSetpoint;
 
   public ShootTerminal(FeederBase feeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment) {
-    if (Robot.getInstance().getOIContainer().getSubsystemController()
-        .getShootLowHubButtonPressed()) {
+      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
+      boolean shootLow) {
+    if (shootLow) {
       m_shooterSetpoint = 3000.0;
       m_shooterAngle = 42.7;
       m_feederSetpoint = 1.0;
