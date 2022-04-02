@@ -16,13 +16,22 @@ public abstract class LEDs extends SubsystemBase {
   private double m_blueValue = 0;
   private boolean m_ledsOn = false;
   private int m_rainbowCounter = 0;
-  protected boolean m_readyForPeriodic;
+  protected boolean m_readyForPeriodic = false;
 
   enum Mode {
     SOLID, BLINKING, RAINBOW,
   };
 
-  Mode m_mode = Mode.BLINKING;
+  private Mode m_mode = Mode.BLINKING;
+
+  public enum TeleOpMode {
+    SLOW, MID, FAST
+  };
+
+  private TeleOpMode m_teleOpMode = TeleOpMode.FAST;
+
+  public LEDs() {
+  }
 
   public void setSolid() {
     m_mode = Mode.SOLID;
@@ -68,7 +77,6 @@ public abstract class LEDs extends SubsystemBase {
     m_red.updateDutyCycle(validateBrightness(color.red));
     m_green.updateDutyCycle(validateBrightness(color.green));
     m_blue.updateDutyCycle(validateBrightness(color.blue));
-
   }
 
   /**
@@ -172,9 +180,16 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setPurple(double brightness) {
     clearColor();
-    System.out.println("Setting purple to: " + validateBrightness(brightness));
     m_redValue = brightness;
+    m_greenValue = 0;
     m_blueValue = brightness;
+  }
+
+  public void setOrange(double brightness) {
+    clearColor();
+    m_redValue = brightness;
+    m_greenValue = brightness * 0.65;
+    m_blueValue = 0;
   }
 
 //#get the i'th color, of n colors. 
@@ -211,5 +226,13 @@ public abstract class LEDs extends SubsystemBase {
       break;
     }
     return new Color(r / 256.0, g / 256.0, b / 256.0);
+  }
+
+  public void setTeleopMode(TeleOpMode teleOpMode) {
+    m_teleOpMode = teleOpMode;
+  }
+
+  protected TeleOpMode getTeleOpMode() {
+    return m_teleOpMode;
   }
 }

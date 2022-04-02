@@ -74,10 +74,16 @@ public class SubsystemController extends ControllerBase {
 
   public boolean getShootLowHubButtonPressed() {
     if (getLeftBumperPressed()) {
-      System.out.println("getShootLowHubButtonPressed True");
       return true;
     } else {
-      System.out.println("getShootLowHubButtonPressed False");
+      return false;
+    }
+  }
+
+  public boolean getPauseFeederButtonPressed() {
+    if (getLeftTriggerValue() > 0.3) {
+      return true;
+    } else {
       return false;
     }
   }

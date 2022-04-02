@@ -8,6 +8,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.feeder.FeederBase;
 import frc.robot.telemetries.Trace;
 
@@ -36,7 +37,10 @@ public class RunFeeder extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_runInReverse) {
+    if (Robot.getInstance().getOIContainer().getSubsystemController()
+        .getPauseFeederButtonPressed()) {
+      m_feeder.runFeeder(0);
+    } else if (m_runInReverse) {
       m_feeder.runFeeder(-m_speed.getAsDouble());
     } else if (m_readyToShoot.getAsBoolean()) {
       m_feeder.runFeeder(m_speed.getAsDouble());

@@ -7,7 +7,7 @@ import frc.robot.Config4905;
 
 public class RealLEDs extends LEDs {
   public RealLEDs(String led) {
-
+    super();
     System.out.println("Trying to make this LED:" + led);
     Config conf = Config4905.getConfig4905().getLEDConfig().getConfig(led);
 
@@ -18,6 +18,7 @@ public class RealLEDs extends LEDs {
     m_blue = new DigitalOutput(conf.getInt("Blue"));
     m_blue.enablePWM(0);
     setPurple(1.0);
+    setSolid();
 
     m_readyForPeriodic = true;
   }
