@@ -33,8 +33,8 @@ public class ShootFender extends SequentialCommandGroup {
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {
-      m_shooterSetpoint = 1600.0;
-      m_shooterAngle = 43.9;
+      m_shooterSetpoint = 1400.0;
+      m_shooterAngle = 41;
       m_feederSetpoint = 1.0;
     } else {
       m_shooterSetpoint = 3000.0; // was 3050

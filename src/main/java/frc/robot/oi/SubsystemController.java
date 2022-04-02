@@ -50,7 +50,7 @@ public class SubsystemController extends ControllerBase {
 
   private void setupShooterButtons() {
 
-    // Y = fender, X = launchpad, A = wall, B = tarmac
+    // Y = fender, X = launchpad, A = wall, B = tarmac, POV East = terminal
     getYbutton().whileHeld(new ShootFender(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment()));
