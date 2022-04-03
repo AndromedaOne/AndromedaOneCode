@@ -34,7 +34,6 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase limelight;
-  private boolean m_gyroOffsetDone = false;
 
   private Robot() {
   }
@@ -175,10 +174,8 @@ public class Robot extends TimedRobot {
 
   private void setInitialOffset() {
     double smartDashboardOffset = SmartDashboard.getNumber("Gyro Offset", -1);
-    if ((smartDashboardOffset != -1) && !m_gyroOffsetDone) {
-      m_sensorsContainer.getGyro().setInitialZAngleReading(
-          -smartDashboardOffset + m_sensorsContainer.getGyro().getInitialZAngleReading());
-      m_gyroOffsetDone = true;
+    if (smartDashboardOffset != -1) {
+      m_sensorsContainer.getGyro().setInitialOffset(smartDashboardOffset);
     }
   }
 
