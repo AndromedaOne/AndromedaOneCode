@@ -9,27 +9,39 @@ public abstract class LEDs extends SubsystemBase {
   protected DigitalOutput m_red;
   protected DigitalOutput m_green;
   protected DigitalOutput m_blue;
-  protected final int KBLINKPERIOD = 100;
+  // The 1 in m_blinkRate makes the LEDs blink for one second on and one second
+  // off.
+  protected double m_blinkRate = 1;
   protected int m_blinkCounter = 0;
   private double m_redValue = 0;
   private double m_greenValue = 0;
   private double m_blueValue = 0;
   private boolean m_ledsOn = false;
   private int m_rainbowCounter = 0;
-  protected boolean m_readyForPeriodic;
+  protected boolean m_readyForPeriodic = false;
 
   enum Mode {
     SOLID, BLINKING, RAINBOW,
   };
 
-  Mode m_mode = Mode.BLINKING;
+  private Mode m_mode = Mode.BLINKING;
+
+  public enum TeleOpMode {
+    SLOW, MID, FAST
+  };
+
+  private TeleOpMode m_teleOpMode = TeleOpMode.FAST;
+
+  public LEDs() {
+  }
 
   public void setSolid() {
     m_mode = Mode.SOLID;
   }
 
-  public void setBlinking() {
+  public void setBlinking(double blinkRateSeconds) {
     m_mode = Mode.BLINKING;
+    m_blinkRate = blinkRateSeconds;
   }
 
   public void setRainbow() {
@@ -49,12 +61,12 @@ public abstract class LEDs extends SubsystemBase {
       break;
 
     case BLINKING:
-      if (m_blinkCounter < KBLINKPERIOD / 2) {
+      if (m_blinkCounter < m_blinkRate * 50) {
         color = new Color(0, 0, 0);
       } else {
         color = new Color(m_redValue, m_greenValue, m_blueValue);
       }
-      m_blinkCounter = (m_blinkCounter + 1) % KBLINKPERIOD;
+      m_blinkCounter = (m_blinkCounter + 1) % (int) m_blinkRate;
       break;
 
     case RAINBOW:
@@ -68,7 +80,6 @@ public abstract class LEDs extends SubsystemBase {
     m_red.updateDutyCycle(validateBrightness(color.red));
     m_green.updateDutyCycle(validateBrightness(color.green));
     m_blue.updateDutyCycle(validateBrightness(color.blue));
-
   }
 
   /**
@@ -172,9 +183,16 @@ public abstract class LEDs extends SubsystemBase {
    */
   public void setPurple(double brightness) {
     clearColor();
-    System.out.println("Setting purple to: " + validateBrightness(brightness));
     m_redValue = brightness;
+    m_greenValue = 0;
     m_blueValue = brightness;
+  }
+
+  public void setOrange(double brightness) {
+    clearColor();
+    m_redValue = brightness;
+    m_greenValue = brightness * 0.65;
+    m_blueValue = 0;
   }
 
 //#get the i'th color, of n colors. 
@@ -211,5 +229,13 @@ public abstract class LEDs extends SubsystemBase {
       break;
     }
     return new Color(r / 256.0, g / 256.0, b / 256.0);
+  }
+
+  public void setTeleopMode(TeleOpMode teleOpMode) {
+    m_teleOpMode = teleOpMode;
+  }
+
+  protected TeleOpMode getTeleOpMode() {
+    return m_teleOpMode;
   }
 }

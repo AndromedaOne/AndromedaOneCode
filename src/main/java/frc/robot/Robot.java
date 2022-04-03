@@ -34,7 +34,6 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase limelight;
-  private boolean m_gyroOffsetDone = false;
 
   private Robot() {
     m_sensorsContainer = new SensorsContainer();
@@ -67,9 +66,6 @@ public class Robot extends TimedRobot {
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(true);
     m_subsystemContainer.getWings().stop();
-    if (Config4905.getConfig4905().doesLEDExist()) {
-      Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
-    }
     LiveWindow.disableAllTelemetry();
     SmartDashboard.putNumber("Gyro Offset", -1);
   }
@@ -114,7 +110,6 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDrivetrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
     limelight.disableLED();
-    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setRainbow();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
     System.out.println("Shooter Allignment set to coast");
   }
@@ -170,10 +165,8 @@ public class Robot extends TimedRobot {
 
   private void setInitialOffset() {
     double smartDashboardOffset = SmartDashboard.getNumber("Gyro Offset", -1);
-    if ((smartDashboardOffset != -1) && !m_gyroOffsetDone) {
-      m_sensorsContainer.getGyro().setInitialZAngleReading(
-          -smartDashboardOffset + m_sensorsContainer.getGyro().getInitialZAngleReading());
-      m_gyroOffsetDone = true;
+    if (smartDashboardOffset != -1) {
+      m_sensorsContainer.getGyro().setInitialOffset(smartDashboardOffset);
     }
   }
 
@@ -194,7 +187,6 @@ public class Robot extends TimedRobot {
     }
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
-    Robot.getInstance().getSubsystemsContainer().getLEDs("LEDStringOne").setSolid();
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
     LiveWindow.disableAllTelemetry();

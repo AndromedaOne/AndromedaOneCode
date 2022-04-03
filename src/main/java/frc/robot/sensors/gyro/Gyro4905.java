@@ -11,8 +11,9 @@ public abstract class Gyro4905 implements Gyro {
   private double m_initialZAngleReading = 0.0;
   private double m_initialXAngleReading = 0.0;
   private double m_initialYAngleReading = 0.0;
+  private boolean m_gyroOffsetDone = false;
 
-  public void setInitialZAngleReading(double value) {
+  protected void setInitialZAngleReading(double value) {
     m_initialZAngleReading = value;
 
   }
@@ -100,6 +101,13 @@ public abstract class Gyro4905 implements Gyro {
 
   public DoubleSupplier getZangleDoubleSupplier() {
     return new GetZangleDoubleSupplier();
+  }
+
+  public void setInitialOffset(double offset) {
+    if (!m_gyroOffsetDone) {
+      m_initialZAngleReading = -offset + m_initialZAngleReading;
+      m_gyroOffsetDone = true;
+    }
   }
 
   public void updateSmartDashboardReadings() {
