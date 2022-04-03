@@ -414,7 +414,7 @@ public class Trace {
     if ((m_commandTraceFname == null) || (m_commandTraceWriter == null)) {
       return;
     }
-    double correctedTime = ((double)(System.currentTimeMillis() - m_startTime)) / 1000;
+    double correctedTime = ((double) (System.currentTimeMillis() - m_startTime)) / 1000;
     String line = new String(String.valueOf(correctedTime));
     line += "  " + commandName + " " + startEnd + "\n";
     System.out.print(line);
