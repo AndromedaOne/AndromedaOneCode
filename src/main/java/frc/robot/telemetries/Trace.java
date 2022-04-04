@@ -386,7 +386,7 @@ public class Trace {
     }
   }
 
-  public void matchStarted() {
+  public void matchStarted(int matchNumber) {
     if (m_matchStarted) {
       return;
     }
@@ -395,10 +395,11 @@ public class Trace {
     }
     BufferedWriter outputFile = null;
     try {
-      String fullFileName = new String(m_pathOfTraceDir + "/" + m_matchStartFname + ".txt");
+      String fullFileName = new String(
+          m_pathOfTraceDir + "/" + m_matchStartFname + "." + matchNumber + ".txt");
       FileWriter fstream = new FileWriter(fullFileName, false);
       outputFile = new BufferedWriter(fstream);
-      outputFile.write("Match Started @" + getDateStr());
+      outputFile.write("Match #" + matchNumber + " Started @" + getDateStr());
       outputFile.flush();
       outputFile.close();
       logCommand("Match Started", "");
