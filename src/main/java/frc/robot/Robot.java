@@ -117,7 +117,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    // limelight.disableLED();
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
     }
@@ -203,11 +202,17 @@ public class Robot extends TimedRobot {
     Trace.getInstance().logInfo("teleopInit finished");
   }
 
+  private boolean m_teleopPeriodicLogged = false;
+
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
+    if (!m_teleopPeriodicLogged) {
+      Trace.getInstance().logInfo("teleopPeriodic called");
+      m_teleopPeriodicLogged = true;
+    }
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
