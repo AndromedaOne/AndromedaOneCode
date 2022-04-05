@@ -13,21 +13,18 @@ import frc.robot.actuators.SparkMaxController;
 
 public class ShooterAlignment extends ShooterAlignmentBase {
   SparkMaxController m_angleMotor;
-  ServoMotor m_leftServoMotor;
-  ServoMotor m_rightServoMotor;
+  ServoMotor m_hooksServoMotor;
   Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
 
   /** Creates a new ShooterAlignment. */
   public ShooterAlignment() {
     m_angleMotor = new SparkMaxController(m_shooterConfig, getShooterName());
-    m_leftServoMotor = new ServoMotor(m_shooterConfig.getInt("leftServoMotor.port"),
-        m_shooterConfig.getDouble("leftServoMotor.maxPWMpulseWidthMS"),
-        m_shooterConfig.getDouble("leftServoMotor.centerPWMpusleWithMS"),
-        m_shooterConfig.getDouble("leftServoMotor.minPWMpulseWidthMS"));
-    m_rightServoMotor = new ServoMotor(m_shooterConfig.getInt("rightServoMotor.port"),
-        m_shooterConfig.getDouble("rightServoMotor.maxPWMpulseWidthMS"),
-        m_shooterConfig.getDouble("rightServoMotor.centerPWMpusleWithMS"),
-        m_shooterConfig.getDouble("rightServoMotor.minPWMpulseWidthMS"));
+    m_hooksServoMotor = new ServoMotor(m_shooterConfig.getInt("hooksServoMotor.port"));
+     //   m_shooterConfig.getDouble("hooksServoMotor.maxPWMpulseWidthMS"),
+     //   m_shooterConfig.getDouble("hooksServoMotor.deadbandMax"),
+     //   m_shooterConfig.getDouble("hooksServoMotor.centerPWMpusleWithMS"),
+     //   m_shooterConfig.getDouble("hooksServoMotor.deadbandMin"),
+     //   m_shooterConfig.getDouble("hooksServoMotor.minPWMpulseWidthMS"));
   }
 
   public void rotateShooter(double speed) {
@@ -75,14 +72,12 @@ public class ShooterAlignment extends ShooterAlignmentBase {
 
   @Override
   public void extendShooterArms() {
-    m_leftServoMotor.runBackward();
-    m_rightServoMotor.runBackward();
+    m_hooksServoMotor.runBackward();
 
   }
 
   @Override
   public void stowShooterArms() {
-    m_leftServoMotor.runForward();
-    m_rightServoMotor.runForward();
+    m_hooksServoMotor.runForward();
   }
 }
