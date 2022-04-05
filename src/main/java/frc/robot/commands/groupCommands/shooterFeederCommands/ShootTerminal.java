@@ -18,8 +18,7 @@ public class ShootTerminal extends SequentialCommandGroup {
   boolean m_shootBackwards = false;
 
   public ShootTerminal(FeederBase feeder, ShooterWheelBase topShooterWheel,
-      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
-      boolean shootLow) {
+      ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment) {
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
         () -> m_shooterSetpoint, () -> m_shooterAngle, () -> m_feederSetpoint));
@@ -30,8 +29,8 @@ public class ShootTerminal extends SequentialCommandGroup {
     Trace.getInstance().logCommandStart(this);
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootBackwardButtonPressed()) {
-      m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 65;
+      m_shooterSetpoint = 4600.0;
+      m_shooterAngle = 72;
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {
@@ -39,16 +38,16 @@ public class ShootTerminal extends SequentialCommandGroup {
       m_shooterAngle = 42.7;
       m_feederSetpoint = 1.0;
     } else {
-      m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 47.0;
+      m_shooterSetpoint = 4600.0;
+      m_shooterAngle = 36.0;
       m_feederSetpoint = 1.0;
     }
+    super.initialize();
   }
 
   @Override
   public void end(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
-    super.initialize();
   }
 }
