@@ -66,7 +66,7 @@ public abstract class LEDs extends SubsystemBase {
       } else {
         color = new Color(m_redValue, m_greenValue, m_blueValue);
       }
-      m_blinkCounter = (m_blinkCounter + 1) % (int) m_blinkRate;
+      m_blinkCounter = (m_blinkCounter + 1) % (int) (m_blinkRate * 100);
       break;
 
     case RAINBOW:

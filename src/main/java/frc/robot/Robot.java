@@ -36,7 +36,6 @@ public class Robot extends TimedRobot {
   private LimeLightCameraBase limelight;
 
   private Robot() {
-    m_sensorsContainer = new SensorsContainer();
   }
 
   static Robot m_instance;
@@ -58,7 +57,8 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
 
-    System.out.println("Robot init called");
+    Trace.getInstance().logInfo("robot init started");
+    m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
     m_subsystemContainer.setDefaultCommands();
@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getWings().stop();
     LiveWindow.disableAllTelemetry();
     SmartDashboard.putNumber("Gyro Offset", -1);
+    Trace.getInstance().logInfo("robot init finished");
   }
 
   /**
@@ -105,7 +106,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     if (DriverStation.isFMSAttached()) {
-      Trace.getInstance().matchStarted();
+      Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
+
     }
     m_subsystemContainer.getDrivetrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
@@ -116,7 +118,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    // limelight.disableLED();
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
     }
@@ -132,6 +133,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Trace.getInstance().logInfo("autonomousInit called");
     setInitialOffset();
 
     m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
@@ -144,20 +146,27 @@ public class Robot extends TimedRobot {
       System.out.println("No Autonamous Command Scheduled");
     }
     if (DriverStation.isFMSAttached()) {
-      Trace.getInstance().matchStarted();
+      Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
     limelight.enableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
     LiveWindow.disableAllTelemetry();
+    Trace.getInstance().logInfo("autonomousInit finished");
   }
+
+  private boolean m_autoPeriodicLogged = false;
 
   /**
    * This function is called periodically during autonomous.
    */
   @Override
   public void autonomousPeriodic() {
+    if (!m_autoPeriodicLogged) {
+      Trace.getInstance().logInfo("autonomousPeriodic called");
+      m_autoPeriodicLogged = true;
+    }
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
@@ -172,6 +181,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    Trace.getInstance().logInfo("teleopInit called");
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -183,20 +193,27 @@ public class Robot extends TimedRobot {
     setInitialOffset();
 
     if (DriverStation.isFMSAttached()) {
-      Trace.getInstance().matchStarted();
+      Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
     LiveWindow.disableAllTelemetry();
+    Trace.getInstance().logInfo("teleopInit finished");
   }
+
+  private boolean m_teleopPeriodicLogged = false;
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
+    if (!m_teleopPeriodicLogged) {
+      Trace.getInstance().logInfo("teleopPeriodic called");
+      m_teleopPeriodicLogged = true;
+    }
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
