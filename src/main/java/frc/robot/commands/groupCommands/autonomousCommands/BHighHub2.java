@@ -40,7 +40,7 @@ public class BHighHub2 extends SequentialCommandGroup {
     ShooterAlignmentBase shooterAlignment = subsystemsContainer.getShooterAlignment();
     IntakeBase intake = subsystemsContainer.getIntake();
     final double distanceToBall = 60.0;
-    final double maxSpeed = 0.6;
+    final double maxSpeed = 1.0;
     final double shooterSetpoint = 3300;
     final double shooterAngle = 64.5;
     final double feederSetpoint = 1.0;

@@ -16,7 +16,7 @@ public class TaxiAuto extends SequentialCommandGroup {
   /** Add your docs here. */
   public TaxiAuto() {
     final double distanceToMove = 50;
-    final double maxOutput = 0.8;
+    final double maxOutput = 1.0;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     addCommands(new MoveUsingEncoder(driveTrain, distanceToMove, maxOutput),
