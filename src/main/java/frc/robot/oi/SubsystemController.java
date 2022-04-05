@@ -66,9 +66,9 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getShooterAlignment()));
     getPOVeast().whileHeld(new ShootTerminal(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment()));
     getStartButton()
         .whenPressed(new EndgameRotateAndExtendArms(m_subsystemsContainer.getShooterAlignment()));
-        m_subsystemsContainer.getShooterAlignment()));
   }
 
   public boolean getRunIntakeButtonReleased() {
