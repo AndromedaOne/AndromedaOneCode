@@ -24,6 +24,7 @@ public class StopShooterAlignment extends CommandBase {
   @Override
   public void execute() {
     m_shooterAlignment.stopShooterAlignment();
+    m_shooterAlignment.extendShooterArms();
   }
 
   // Called once the command ends or is interrupted.

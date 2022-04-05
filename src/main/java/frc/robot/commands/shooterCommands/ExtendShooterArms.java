@@ -10,6 +10,7 @@ import frc.robot.telemetries.Trace;
 
 public class ExtendShooterArms extends CommandBase {
   private ShooterAlignmentBase m_shooterAlignmentBase;
+  private int m_counter = 0;
 
   public ExtendShooterArms(ShooterAlignmentBase shooterAlignmentBase) {
     addRequirements(shooterAlignmentBase);
@@ -20,12 +21,12 @@ public class ExtendShooterArms extends CommandBase {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    m_shooterAlignmentBase.extendShooterArms();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shooterAlignmentBase.extendShooterArms();
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +38,10 @@ public class ExtendShooterArms extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    ++m_counter;
+    if (m_counter > 400) {
+      return true;
+    }
+   return false;
   }
 }

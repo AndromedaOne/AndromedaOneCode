@@ -34,6 +34,7 @@ public class InitializeShooterAlignment extends CommandBase {
       } else {
         m_shooterAlignment.rotateShooter(-0.3);
       }
+      m_shooterAlignment.stowShooterArms();
     }
   }
 

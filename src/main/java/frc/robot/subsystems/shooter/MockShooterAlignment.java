@@ -57,4 +57,9 @@ public class MockShooterAlignment extends ShooterAlignmentBase {
   public void extendShooterArms() {
 
   }
+
+  @Override
+  public void stowShooterArms() {
+    
+  }
 }

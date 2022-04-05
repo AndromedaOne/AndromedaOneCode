@@ -73,4 +73,10 @@ public class ShooterAlignment extends ShooterAlignmentBase {
     m_rightServoMotor.runBackward();
 
   }
+
+  @Override
+  public void stowShooterArms() {
+    m_leftServoMotor.runForward();
+    m_rightServoMotor.runForward();
+  }
 }

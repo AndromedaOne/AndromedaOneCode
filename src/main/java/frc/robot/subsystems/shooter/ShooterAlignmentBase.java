@@ -49,6 +49,8 @@ public abstract class ShooterAlignmentBase extends SubsystemBase {
 
   public abstract void extendShooterArms();
 
+  public abstract void stowShooterArms();
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
