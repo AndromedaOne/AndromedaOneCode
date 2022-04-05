@@ -20,8 +20,14 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   /** Creates a new ShooterAlignment. */
   public ShooterAlignment() {
     m_angleMotor = new SparkMaxController(m_shooterConfig, getShooterName());
-    m_leftServoMotor = new ServoMotor(m_shooterConfig.getInt("leftServoMotor.port"));
-    m_rightServoMotor = new ServoMotor(m_shooterConfig.getInt("rightServoMotor.port"));
+    m_leftServoMotor = new ServoMotor(m_shooterConfig.getInt("leftServoMotor.port"),
+        m_shooterConfig.getDouble("leftServoMotor.maxPWMpulseWidthMS"),
+        m_shooterConfig.getDouble("leftServoMotor.centerPWMpusleWithMS"),
+        m_shooterConfig.getDouble("leftServoMotor.minPWMpulseWidthMS"));
+    m_rightServoMotor = new ServoMotor(m_shooterConfig.getInt("rightServoMotor.port"),
+        m_shooterConfig.getDouble("rightServoMotor.maxPWMpulseWidthMS"),
+        m_shooterConfig.getDouble("rightServoMotor.centerPWMpusleWithMS"),
+        m_shooterConfig.getDouble("rightServoMotor.minPWMpulseWidthMS"));
   }
 
   public void rotateShooter(double speed) {

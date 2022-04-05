@@ -42,6 +42,6 @@ public class ExtendShooterArms extends CommandBase {
     if (m_counter > 400) {
       return true;
     }
-   return false;
+    return false;
   }
 }

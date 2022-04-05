@@ -6,16 +6,19 @@ public class ServoMotor {
 
   private Servo m_servoMotor;
 
-  public ServoMotor(int port) {
+  public ServoMotor(int port, double maxPWMpulseWidthMS, double centerPWMpusleWithMS,
+      double minPWMpulseWidthMS) {
     m_servoMotor = new Servo(port);
+    m_servoMotor.setBounds(maxPWMpulseWidthMS, m_servoMotor.getRawBounds().deadbandMax,
+        centerPWMpusleWithMS, m_servoMotor.getRawBounds().deadbandMin, minPWMpulseWidthMS);
+  }
+
+  public ServoMotor(int port) {
     /*
      * values from motor data sheet
      * https://docs.revrobotics.com/15mm/actuators/servos/smart-robot-servo
      */
-
-    m_servoMotor.setBounds(2.5, m_servoMotor.getRawBounds().deadbandMax, 1.5,
-        m_servoMotor.getRawBounds().deadbandMin, 0.5);
-
+    this(port, 2.5, 1.5, 0.5);
   }
 
   public void runForward() {

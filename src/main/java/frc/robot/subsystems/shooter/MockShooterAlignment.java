@@ -60,6 +60,6 @@ public class MockShooterAlignment extends ShooterAlignmentBase {
 
   @Override
   public void stowShooterArms() {
-    
+
   }
 }
