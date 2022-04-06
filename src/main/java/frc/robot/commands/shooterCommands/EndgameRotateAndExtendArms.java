@@ -23,8 +23,6 @@ public class EndgameRotateAndExtendArms extends SequentialCommandGroup {
 
     addCommands(new MoveShooterAlignment(shooterAlignmentBase, () -> m_shooterAngle),
         new ExtendShooterArms(shooterAlignmentBase));
-    Robot.getInstance().getOIContainer().getSubsystemController()
-        .topGunEndGameDisableShooterAndIntakeButtons();
   }
 
   @Override
@@ -33,6 +31,8 @@ public class EndgameRotateAndExtendArms extends SequentialCommandGroup {
     super.initialize();
     CommandScheduler.getInstance().setDefaultCommand(m_shooterAlignmentBase,
         new EndgameMoveShooterAlignment(m_shooterAlignmentBase));
+    Robot.getInstance().getOIContainer().getSubsystemController()
+        .topGunEndGameDisableShooterAndIntakeButtons();
   }
 
   @Override
