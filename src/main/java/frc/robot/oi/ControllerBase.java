@@ -97,12 +97,20 @@ public class ControllerBase {
     return deadband(-m_controller.getLeftX());
   }
 
+  protected JoystickButton getLeftStickButton() {
+    return (new JoystickButton(m_controller, ButtonsEnumerated.LEFTSTICKBUTTON.getValue()));
+  }
+
   protected double getRightStickForwardBackwardValue() {
     return deadband(-m_controller.getRightY());
   }
 
   protected double getRightStickLeftRightValue() {
     return deadband(-m_controller.getRightX());
+  }
+
+  protected JoystickButton getRightStickButton() {
+    return (new JoystickButton(m_controller, ButtonsEnumerated.RIGHTSTICKBUTTON.getValue()));
   }
 
   protected double getLeftTriggerValue() {

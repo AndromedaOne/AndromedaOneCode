@@ -16,6 +16,7 @@ import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTerminal;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootWall;
 import frc.robot.commands.shooterCommands.EndgameRotateAndExtendArms;
+import frc.robot.commands.shooterCommands.MoveShooterAlignment;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -69,6 +70,8 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getShooterAlignment()));
     getStartButton()
         .whenPressed(new EndgameRotateAndExtendArms(m_subsystemsContainer.getShooterAlignment()));
+    getLeftStickButton()
+    .whenPressed(new MoveShooterAlignment(m_subsystemsContainer.getShooterAlignment(), () -> 60));
   }
 
   public void addEndGameButtons() {
