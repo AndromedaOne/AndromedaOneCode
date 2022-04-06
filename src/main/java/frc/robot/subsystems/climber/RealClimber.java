@@ -22,8 +22,6 @@ public class RealClimber extends ClimberBase {
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("BackLeftWinchAtBottomLimitSwitch", leftWinchAtBottomLimitSwitch());
-    SmartDashboard.putBoolean("BackRightWinchAtBottomLimitSwitch", rightWinchAtBottomLimitSwitch());
     SmartDashboard.putNumber("ClimberHeightRightBack", getRightWinchAdjustedEncoderValue());
     SmartDashboard.putNumber("ClimberHeightLeftBack", getLeftWinchAdjustedEncoderValue());
   }
@@ -60,26 +58,6 @@ public class RealClimber extends ClimberBase {
   public void unwindRightWinch() {
     m_backRightWinch.set(-1);
 
-  }
-
-  @Override
-  public boolean leftWinchAtTopLimitSwitch() {
-    return m_backLeftWinch.isReverseLimitSwitchOn();
-  }
-
-  @Override
-  public boolean leftWinchAtBottomLimitSwitch() {
-    return m_backLeftWinch.isForwardLimitSwitchOn();
-  }
-
-  @Override
-  public boolean rightWinchAtTopLimitSwitch() {
-    return m_backRightWinch.isReverseLimitSwitchOn();
-  }
-
-  @Override
-  public boolean rightWinchAtBottomLimitSwitch() {
-    return m_backRightWinch.isForwardLimitSwitchOn();
   }
 
   @Override

@@ -22,11 +22,11 @@ public class ServoMotor {
   }
 
   public void runBackward() {
-    m_servoMotor.set(1.0);
+    m_servoMotor.set(0.0);
   }
 
   public void stop() {
-    m_servoMotor.set(0);
+    m_servoMotor.set(1.0);
   }
 
   public void setPosition(double position) {

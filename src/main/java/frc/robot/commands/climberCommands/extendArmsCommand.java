@@ -55,8 +55,6 @@ public class extendArmsCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_climber.getLeftWinchAdjustedEncoderValue() >= m_maxExtendHeight
-        && m_climber.getRightWinchAdjustedEncoderValue() >= m_maxExtendHeight);
+    return false;
   }
-
 }

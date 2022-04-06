@@ -31,8 +31,7 @@ public class contractArmsCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (m_climber.getLeftWinchAdjustedEncoderValue() >= m_contractHeight
-        && !m_climber.leftWinchAtBottomLimitSwitch()) {
+    if (m_climber.getLeftWinchAdjustedEncoderValue() >= m_contractHeight) {
       if (m_climber.getLeftWinchAdjustedEncoderValue() >= m_slightlyLowerThanBarHeight) {
         m_climber.driveLeftWinch(0.2);
       }
@@ -45,8 +44,7 @@ public class contractArmsCommand extends CommandBase {
     else {
       m_climber.stopLeftWinch();
     }
-    if (m_climber.getRightWinchAdjustedEncoderValue() >= m_contractHeight
-        && !m_climber.rightWinchAtBottomLimitSwitch()) {
+    if (m_climber.getRightWinchAdjustedEncoderValue() >= m_contractHeight) {
       if (m_climber.getRightWinchAdjustedEncoderValue() >= m_slightlyLowerThanBarHeight) {
         m_climber.driveRightWinch(0.2);
       } else {
@@ -68,8 +66,6 @@ public class contractArmsCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return (((m_climber.getLeftWinchAdjustedEncoderValue() <= m_contractHeight)
-        && (m_climber.getRightWinchAdjustedEncoderValue() <= m_contractHeight))
-        || (m_climber.leftWinchAtBottomLimitSwitch() && m_climber.rightWinchAtBottomLimitSwitch()));
+    return false;
   }
 }

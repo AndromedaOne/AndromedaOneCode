@@ -19,14 +19,6 @@ public abstract class ClimberBase extends SubsystemBase {
 
   public abstract void stopRightWinch();
 
-  public abstract boolean leftWinchAtTopLimitSwitch();
-
-  public abstract boolean leftWinchAtBottomLimitSwitch();
-
-  public abstract boolean rightWinchAtTopLimitSwitch();
-
-  public abstract boolean rightWinchAtBottomLimitSwitch();
-
   public abstract double getLeftWinchAdjustedEncoderValue();
 
   public abstract double getRightWinchAdjustedEncoderValue();

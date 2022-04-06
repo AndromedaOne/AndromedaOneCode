@@ -12,7 +12,7 @@ import frc.robot.telemetries.Trace;
 public class EndgameMoveShooterAlignment extends CommandBase {
   private ShooterAlignmentBase m_shooterAlignmentBase;
   private final double m_minimumEndgameAngle = 25;
-  private final double m_maximumEndgameAngle = 50;
+  private final double m_maximumEndgameAngle = 60;
 
   /** Creates a new EndgameMoveShooterAlignment. */
   public EndgameMoveShooterAlignment(ShooterAlignmentBase shooterAlignmentBase) {
