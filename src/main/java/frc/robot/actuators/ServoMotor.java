@@ -14,7 +14,7 @@ public class ServoMotor {
   }
 
   public ServoMotor(int port) {
-    m_servoMotor= new Servo(port);
+    m_servoMotor = new Servo(port);
   }
 
   public void runForward() {
