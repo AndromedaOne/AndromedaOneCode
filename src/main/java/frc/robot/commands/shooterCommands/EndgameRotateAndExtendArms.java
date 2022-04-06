@@ -6,6 +6,7 @@ package frc.robot.commands.shooterCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
 import frc.robot.telemetries.Trace;
 
@@ -22,6 +23,8 @@ public class EndgameRotateAndExtendArms extends SequentialCommandGroup {
 
     addCommands(new MoveShooterAlignment(shooterAlignmentBase, () -> m_shooterAngle),
         new ExtendShooterArms(shooterAlignmentBase));
+    Robot.getInstance().getOIContainer().getSubsystemController()
+        .topGunEndGameDisableShooterAndIntakeButtons();
   }
 
   @Override
