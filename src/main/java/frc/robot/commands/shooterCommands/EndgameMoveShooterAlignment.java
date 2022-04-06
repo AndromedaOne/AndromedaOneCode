@@ -30,12 +30,15 @@ public class EndgameMoveShooterAlignment extends CommandBase {
   @Override
   public void execute() {
    double stickValue = Robot.getInstance().getOIContainer()
-   .getSubsystemController().getEndgameShooterAlignmentStick();
+   .getSubsystemController().getEndgameShooterAlignmentStick() * 0.5;
     if ((m_shooterAlignmentBase.getAngle() > m_minimumEndgameAngle) && (stickValue < 0)) {
       m_shooterAlignmentBase.rotateShooter(stickValue);
-    }
-    if ((m_shooterAlignmentBase.getAngle() < m_maximumEndgameAngle) && (stickValue > 0)) {
+      System.out.println("Rotating Down Angle = " + m_shooterAlignmentBase.getAngle());
+    } else if ((m_shooterAlignmentBase.getAngle() < m_maximumEndgameAngle) && (stickValue > 0)) {
       m_shooterAlignmentBase.rotateShooter(stickValue);
+      System.out.println("Rotating Up Angle = " + m_shooterAlignmentBase.getAngle());
+    } else {
+      m_shooterAlignmentBase.rotateShooter(0.0);
     }
   }
 

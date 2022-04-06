@@ -39,7 +39,7 @@ public class ExtendShooterArms extends CommandBase {
   @Override
   public boolean isFinished() {
     ++m_counter;
-    if (m_counter > 400) {
+    if (m_counter > 2) {
       return true;
     }
     return false;
