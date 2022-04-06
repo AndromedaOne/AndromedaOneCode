@@ -18,18 +18,18 @@ public class ServoMotor {
   }
 
   public void runForward() {
-    m_servoMotor.setSpeed(1.0);
+    m_servoMotor.set(1.0);
   }
 
   public void runBackward() {
-    m_servoMotor.setSpeed(0.0);
+    m_servoMotor.set(1.0);
   }
 
   public void stop() {
-    m_servoMotor.setSpeed(0);
+    m_servoMotor.set(0);
   }
 
   public void setPosition(double position) {
-    m_servoMotor.setSpeed(position);
+    m_servoMotor.set(position);
   }
 }

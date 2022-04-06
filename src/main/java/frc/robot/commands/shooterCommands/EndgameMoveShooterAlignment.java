@@ -29,10 +29,13 @@ public class EndgameMoveShooterAlignment extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((m_shooterAlignmentBase.getAngle() > m_minimumEndgameAngle)
-        && (m_shooterAlignmentBase.getAngle() < m_maximumEndgameAngle)) {
-      m_shooterAlignmentBase.rotateShooter(Robot.getInstance().getOIContainer()
-          .getSubsystemController().getEndgameShooterAlignmentStick());
+   double stickValue = Robot.getInstance().getOIContainer()
+   .getSubsystemController().getEndgameShooterAlignmentStick();
+    if ((m_shooterAlignmentBase.getAngle() > m_minimumEndgameAngle) && (stickValue < 0)) {
+      m_shooterAlignmentBase.rotateShooter(stickValue);
+    }
+    if ((m_shooterAlignmentBase.getAngle() < m_maximumEndgameAngle) && (stickValue > 0)) {
+      m_shooterAlignmentBase.rotateShooter(stickValue);
     }
   }
 
