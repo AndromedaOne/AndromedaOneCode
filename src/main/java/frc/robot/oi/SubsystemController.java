@@ -9,7 +9,6 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.FakeCommand;
 import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootFender;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPad;
@@ -72,15 +71,8 @@ public class SubsystemController extends ControllerBase {
         .whenPressed(new EndgameRotateAndExtendArms(m_subsystemsContainer.getShooterAlignment()));
   }
 
-  public void topGunEndGameDisableShooterAndIntakeButtons() {
-    // disable intake and shooter buttons so the shooter does not rotate
-    getRightBumperButton().whileHeld(new FakeCommand());
-    getBackButton().whileHeld(new FakeCommand());
-    getYbutton().whileHeld(new FakeCommand());
-    getXbutton().whileHeld(new FakeCommand());
-    getAbutton().whileHeld(new FakeCommand());
-    getBbutton().whileHeld(new FakeCommand());
-    getPOVeast().whileHeld(new FakeCommand());
+  public void addEndGameButtons() {
+
   }
 
   public boolean getShootBackwardButtonPressed() {

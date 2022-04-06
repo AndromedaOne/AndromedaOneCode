@@ -89,6 +89,15 @@ public class DriveController extends ControllerBase {
     getAbutton().whileHeld(new contractArmsCommand());
   }
 
+  public void addEndGameButtons() {
+    getBbutton().whileHeld(new extendArmsCommand());
+    getAbutton().whileHeld(new contractArmsCommand());
+    getPOVnorth().whenPressed(new TurnToCompassHeading(0));
+    getPOVeast().whenPressed(new TurnToCompassHeading(90));
+    getPOVsouth().whenPressed(new TurnToCompassHeading(180));
+    getPOVwest().whenPressed(new TurnToCompassHeading(270));
+  }
+
   protected void limeLightButtons() {
     m_turnOnLimelight = getBackButton();
     m_turnOnLimelight.whenPressed(new ToggleLimelightLED(true, m_sensorsContainer));
