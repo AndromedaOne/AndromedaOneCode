@@ -70,12 +70,11 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getShooterAlignment()));
     getStartButton()
         .whenPressed(new EndgameRotateAndExtendArms(m_subsystemsContainer.getShooterAlignment()));
-    getLeftStickButton()
-    .whenPressed(new MoveShooterAlignment(m_subsystemsContainer.getShooterAlignment(), () -> 60));
   }
 
   public void addEndGameButtons() {
-
+    getLeftStickButton().whenPressed(
+        new MoveShooterAlignment(m_subsystemsContainer.getShooterAlignment(), () -> 60));
   }
 
   public boolean getShootBackwardButtonPressed() {
