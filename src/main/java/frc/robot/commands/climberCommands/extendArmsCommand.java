@@ -31,32 +31,30 @@ public class extendArmsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_climber.getBackLeftWinchAdjustedEncoderValue() >= m_maxExtendHeight) {
-      m_climber.stopBackLeftWinch();
+    if (m_climber.getLeftWinchAdjustedEncoderValue() >= m_maxExtendHeight) {
+      m_climber.stopLeftWinch();
     } else {
-      m_climber.unwindBackLeftWinch();
+      m_climber.unwindLeftWinch();
     }
 
-    if (m_climber.getBackRightWinchAdjustedEncoderValue() >= m_maxExtendHeight) {
-      m_climber.stopBackRightWinch();
+    if (m_climber.getRightWinchAdjustedEncoderValue() >= m_maxExtendHeight) {
+      m_climber.stopRightWinch();
     } else {
-      m_climber.unwindBackRightWinch();
+      m_climber.unwindRightWinch();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.stopBackLeftWinch();
-    m_climber.stopBackRightWinch();
+    m_climber.stopLeftWinch();
+    m_climber.stopRightWinch();
     Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_climber.getBackLeftWinchAdjustedEncoderValue() >= m_maxExtendHeight
-        && m_climber.getBackRightWinchAdjustedEncoderValue() >= m_maxExtendHeight);
+    return false;
   }
-
 }

@@ -15,6 +15,8 @@ import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPad;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTerminal;
 import frc.robot.commands.groupCommands.shooterFeederCommands.ShootWall;
+import frc.robot.commands.shooterCommands.EndgameRotateAndExtendArms;
+import frc.robot.commands.shooterCommands.MoveShooterAlignment;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -66,14 +68,13 @@ public class SubsystemController extends ControllerBase {
     getPOVeast().whileHeld(new ShootTerminal(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment()));
+    getStartButton()
+        .whenPressed(new EndgameRotateAndExtendArms(m_subsystemsContainer.getShooterAlignment()));
   }
 
-  public boolean getRunIntakeButtonReleased() {
-    return getRightBumperReleased();
-  }
-
-  public boolean getRunIntakeinReverseButtonReleased() {
-    return getBackButtonReleased();
+  public void addEndGameButtons() {
+    getLeftStickButton().whenPressed(
+        new MoveShooterAlignment(m_subsystemsContainer.getShooterAlignment(), () -> 58));
   }
 
   public boolean getShootBackwardButtonPressed() {
@@ -98,5 +99,9 @@ public class SubsystemController extends ControllerBase {
     } else {
       return false;
     }
+  }
+
+  public double getEndgameShooterAlignmentStick() {
+    return getRightStickForwardBackwardValue();
   }
 }

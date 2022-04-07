@@ -6,35 +6,42 @@ package frc.robot.commands.shooterCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.shooter.ShooterAlignmentBase;
+import frc.robot.telemetries.Trace;
 
-public class StopShooterAlignment extends CommandBase {
-  private ShooterAlignmentBase m_shooterAlignment;
+public class ExtendShooterArms extends CommandBase {
+  private ShooterAlignmentBase m_shooterAlignmentBase;
+  private int m_counter = 0;
 
-  public StopShooterAlignment(ShooterAlignmentBase shooterAlignment) {
-    m_shooterAlignment = shooterAlignment;
-    addRequirements(shooterAlignment);
+  public ExtendShooterArms(ShooterAlignmentBase shooterAlignmentBase) {
+    addRequirements(shooterAlignmentBase);
+    m_shooterAlignmentBase = shooterAlignmentBase;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterAlignment.stopShooterAlignment();
-    m_shooterAlignment.stowShooterArms();
+    m_shooterAlignmentBase.extendShooterArms();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    ++m_counter;
+    if (m_counter > 2) {
+      return true;
+    }
     return false;
   }
 }
