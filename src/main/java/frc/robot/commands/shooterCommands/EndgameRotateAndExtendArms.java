@@ -14,7 +14,7 @@ import frc.robot.telemetries.Trace;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class EndgameRotateAndExtendArms extends SequentialCommandGroup {
-  private final double m_shooterAngle = 25;
+  private final double m_shooterAngle = 50;
   private ShooterAlignmentBase m_shooterAlignmentBase;
 
   /** Creates a new EngameRotateAndExtendArms. */
