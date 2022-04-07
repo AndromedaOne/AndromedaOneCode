@@ -59,6 +59,12 @@ public class MoveShooterAlignment extends PIDCommand4905 {
         "moveShooter setpoint: " + getController().getSetpoint() + " p= " + getController().getP());
   }
 
+  @Override
+  public void execute() {
+    m_shooterAlignment.stowShooterArms();
+    super.execute();
+  }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

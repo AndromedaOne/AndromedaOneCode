@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
+import frc.robot.commands.climberCommands.MoveClimberArms;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.feederCommands.StopFeeder;
 import frc.robot.commands.intakeCommands.RetractAndStopIntake;
@@ -290,6 +291,9 @@ public class SubsystemsContainer {
       m_bottomShooterWheel
           .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
       m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
+    }
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      m_climber.setDefaultCommand(new MoveClimberArms(m_climber));
     }
   }
 }

@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
-import frc.robot.commands.climberCommands.contractArmsCommand;
-import frc.robot.commands.climberCommands.extendArmsCommand;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.BringWingsUp;
@@ -84,9 +82,22 @@ public class DriveController extends ControllerBase {
     return getRightBumperReleased();
   }
 
+  public double getContractTriggerValue() {
+    return getLeftTriggerValue();
+  }
+
+  public double getExtendTriggerValue() {
+    return getRightTriggerValue();
+  }
+
   private void setUpClimberButtons() {
-    getBbutton().whileHeld(new extendArmsCommand());
-    getAbutton().whileHeld(new contractArmsCommand());
+  }
+
+  public void addEndGameButtons() {
+    getPOVnorth().whenPressed(new TurnToCompassHeading(0));
+    getPOVeast().whenPressed(new TurnToCompassHeading(90));
+    getPOVsouth().whenPressed(new TurnToCompassHeading(180));
+    getPOVwest().whenPressed(new TurnToCompassHeading(270));
   }
 
   protected void limeLightButtons() {

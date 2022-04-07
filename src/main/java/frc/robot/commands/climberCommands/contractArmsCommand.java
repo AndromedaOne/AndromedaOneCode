@@ -31,46 +31,41 @@ public class contractArmsCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (m_climber.getBackLeftWinchAdjustedEncoderValue() >= m_contractHeight
-        && !m_climber.backLeftWinchAtBottomLimitSwitch()) {
-      if (m_climber.getBackLeftWinchAdjustedEncoderValue() >= m_slightlyLowerThanBarHeight) {
-        m_climber.driveBackLeftWinch(0.2);
+    if (m_climber.getLeftWinchAdjustedEncoderValue() >= m_contractHeight) {
+      if (m_climber.getLeftWinchAdjustedEncoderValue() >= m_slightlyLowerThanBarHeight) {
+        m_climber.driveLeftWinch(0.2);
       }
 
       else {
-        m_climber.driveBackLeftWinch(1);
+        m_climber.driveLeftWinch(1);
       }
     }
 
     else {
-      m_climber.stopBackLeftWinch();
+      m_climber.stopLeftWinch();
     }
-    if (m_climber.getBackRightWinchAdjustedEncoderValue() >= m_contractHeight
-        && !m_climber.backRightWinchAtBottomLimitSwitch()) {
-      if (m_climber.getBackRightWinchAdjustedEncoderValue() >= m_slightlyLowerThanBarHeight) {
-        m_climber.driveBackRightWinch(0.2);
+    if (m_climber.getRightWinchAdjustedEncoderValue() >= m_contractHeight) {
+      if (m_climber.getRightWinchAdjustedEncoderValue() >= m_slightlyLowerThanBarHeight) {
+        m_climber.driveRightWinch(0.2);
       } else {
-        m_climber.driveBackRightWinch(1);
+        m_climber.driveRightWinch(1);
       }
     }
 
     else {
-      m_climber.stopBackRightWinch();
+      m_climber.stopRightWinch();
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_climber.stopBackLeftWinch();
-    m_climber.stopBackRightWinch();
+    m_climber.stopLeftWinch();
+    m_climber.stopRightWinch();
     Trace.getInstance().logCommandStop(this);
   }
 
   @Override
   public boolean isFinished() {
-    return (((m_climber.getBackLeftWinchAdjustedEncoderValue() <= m_contractHeight)
-        && (m_climber.getBackRightWinchAdjustedEncoderValue() <= m_contractHeight))
-        || (m_climber.backLeftWinchAtBottomLimitSwitch()
-            && m_climber.backRightWinchAtBottomLimitSwitch()));
+    return false;
   }
 }

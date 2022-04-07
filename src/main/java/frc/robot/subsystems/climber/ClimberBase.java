@@ -7,41 +7,21 @@ public abstract class ClimberBase extends SubsystemBase {
   public ClimberBase() {
   }
 
-  public abstract void driveFrontLeftWinch();
+  public abstract void driveLeftWinch(double speed);
 
-  public abstract void driveBackLeftWinch(double speed);
+  public abstract void driveRightWinch(double speed);
 
-  public abstract void driveFrontRightWinch();
+  public abstract void unwindLeftWinch();
 
-  public abstract void driveBackRightWinch(double speed);
+  public abstract void unwindRightWinch();
 
-  public abstract void unwindFrontLeftWinch();
+  public abstract void stopLeftWinch();
 
-  public abstract void unwindBackLeftWinch();
+  public abstract void stopRightWinch();
 
-  public abstract void unwindFrontRightWinch();
+  public abstract double getLeftWinchAdjustedEncoderValue();
 
-  public abstract void unwindBackRightWinch();
-
-  public abstract void stopFrontLeftWinch();
-
-  public abstract void stopBackLeftWinch();
-
-  public abstract void stopFrontRightWinch();
-
-  public abstract void stopBackRightWinch();
-
-  public abstract boolean backLeftWinchAtTopLimitSwitch();
-
-  public abstract boolean backLeftWinchAtBottomLimitSwitch();
-
-  public abstract boolean backRightWinchAtTopLimitSwitch();
-
-  public abstract boolean backRightWinchAtBottomLimitSwitch();
-
-  public abstract double getBackLeftWinchAdjustedEncoderValue();
-
-  public abstract double getBackRightWinchAdjustedEncoderValue();
+  public abstract double getRightWinchAdjustedEncoderValue();
 
   public abstract void setWinchBrakeMode(boolean brakeOn);
 }
