@@ -36,6 +36,7 @@ public class InitializeShooterAlignment extends CommandBase {
       }
       m_shooterAlignment.stowShooterArms();
     }
+    }
   }
 
   // Called once the command ends or is interrupted.
