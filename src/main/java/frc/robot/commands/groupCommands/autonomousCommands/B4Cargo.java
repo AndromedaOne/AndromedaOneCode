@@ -44,7 +44,7 @@ public class B4Cargo extends SequentialCommandGroup {
     long terminalBallPickUpWaitTime = 1000;
     long shootWaitTime = 3300;
 
-    addCommands(new BHighHub2(), new TurnToCompassHeading(166),
+    addCommands(new BHighHub2(), new TurnToCompassHeading(168),
 
         new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, 153, 1), // was 152
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,

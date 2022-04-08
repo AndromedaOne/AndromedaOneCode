@@ -74,7 +74,7 @@ public class SubsystemController extends ControllerBase {
 
   public void addEndGameButtons() {
     getLeftStickButton().whenPressed(
-        new MoveShooterAlignment(m_subsystemsContainer.getShooterAlignment(), () -> 58));
+        new MoveShooterAlignment(m_subsystemsContainer.getShooterAlignment(), () -> 59));
   }
 
   public boolean getShootBackwardButtonPressed() {

@@ -51,7 +51,7 @@ public class BHighHub2 extends SequentialCommandGroup {
         new ParallelDeadlineGroup(moveCommand,
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment, intake,
                 false)),
-        new ParallelCommandGroup(new TurnToCompassHeading(144),
+        new ParallelCommandGroup(new TurnToCompassHeading(143),
             new MoveShooterAlignment(shooterAlignment, () -> shooterAngle)),
         new ParallelDeadlineGroup(new Timer(40),
             new RunFeeder(feeder, () -> 0.5, true, () -> false)),
