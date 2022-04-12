@@ -28,8 +28,8 @@ public class ShootFender extends SequentialCommandGroup {
     Trace.getInstance().logCommandStart(this);
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootBackwardButtonPressed()) {
-      m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 60;
+      m_shooterSetpoint = 3100.0;
+      m_shooterAngle = 59;
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootLowHubButtonPressed()) {
@@ -37,8 +37,8 @@ public class ShootFender extends SequentialCommandGroup {
       m_shooterAngle = 41;
       m_feederSetpoint = 1.0;
     } else {
-      m_shooterSetpoint = 3000.0; // was 3050
-      m_shooterAngle = 52;
+      m_shooterSetpoint = 3100.0; // was 3000
+      m_shooterAngle = 51;
       m_feederSetpoint = 1.0;
     }
     super.initialize();

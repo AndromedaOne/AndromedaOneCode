@@ -37,7 +37,7 @@ public class B4Cargo extends SequentialCommandGroup {
     ShooterWheelBase bottomShooterWheel = subsystemsContainer.getBottomShooterWheel();
     ShooterAlignmentBase shooterAlignment = subsystemsContainer.getShooterAlignment();
     IntakeBase intakeBase = subsystemsContainer.getIntake();
-    final double shooterSetpoint = 4600;
+    final double shooterSetpoint = 4350;
     final double shooterAngle = 72.0;
     final double feederSetpoint = 1.0;
     long pickUpWaitTime = 1500;
@@ -46,7 +46,7 @@ public class B4Cargo extends SequentialCommandGroup {
 
     addCommands(new BHighHub2(), new TurnToCompassHeading(168),
 
-        new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, 153, 1), // was 152
+        new ParallelDeadlineGroup(new MoveUsingEncoder(driveTrain, 147, 1), // was 149
             new PickUpCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
                 intakeBase, false)),
         new ParallelDeadlineGroup(new Timer(terminalBallPickUpWaitTime),
