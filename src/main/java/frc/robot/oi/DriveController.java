@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.shooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.BringWingsUp;
 import frc.robot.commands.romiCommands.LetWingsDown;
@@ -54,6 +55,9 @@ public class DriveController extends ControllerBase {
     }
     if (Config4905.getConfig4905().doesClimberExist()) {
       setUpClimberButtons();
+    }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      setUpShooterButtons();
     }
 
   }
@@ -98,6 +102,12 @@ public class DriveController extends ControllerBase {
     getPOVeast().whenPressed(new TurnToCompassHeading(90));
     getPOVsouth().whenPressed(new TurnToCompassHeading(180));
     getPOVwest().whenPressed(new TurnToCompassHeading(270));
+  }
+
+  private void setUpShooterButtons() {
+    getBackButton().whileHeld(new UnstickCargo(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake()));
   }
 
   protected void limeLightButtons() {

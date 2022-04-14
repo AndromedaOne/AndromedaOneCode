@@ -44,6 +44,8 @@ public class RunFeeder extends CommandBase {
       m_feeder.runFeeder(-m_speed.getAsDouble());
     } else if (m_readyToShoot.getAsBoolean()) {
       m_feeder.runFeeder(m_speed.getAsDouble());
+    // } else if (!m_runInReverse && !m_readyToShoot.getAsBoolean()) {
+    //  m_feeder.runFeeder(m_speed.getAsDouble());
     } else {
       m_feeder.runFeeder(0);
     }
