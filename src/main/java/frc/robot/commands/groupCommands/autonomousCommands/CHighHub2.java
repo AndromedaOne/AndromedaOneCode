@@ -39,7 +39,7 @@ public class CHighHub2 extends SequentialCommandGroup {
     IntakeBase intake = subsystemsContainer.getIntake();
     final double distanceToBall = 60.0;
     final double maxSpeed = 1.0;
-    final double shooterSetpoint = 3350; // was 3450
+    final double shooterSetpoint = 3400; // was 3450
     final double shooterAngle = 64.5;
     final double feederSetpoint = 1.0;
     final long waitTime = 5000;

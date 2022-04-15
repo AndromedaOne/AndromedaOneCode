@@ -37,7 +37,7 @@ public class B4Cargo extends SequentialCommandGroup {
     ShooterWheelBase bottomShooterWheel = subsystemsContainer.getBottomShooterWheel();
     ShooterAlignmentBase shooterAlignment = subsystemsContainer.getShooterAlignment();
     IntakeBase intakeBase = subsystemsContainer.getIntake();
-    final double shooterSetpoint = 4350;
+    final double shooterSetpoint = 4550;
     final double shooterAngle = 72.0;
     final double feederSetpoint = 1.0;
     long pickUpWaitTime = 1500;

@@ -77,5 +77,6 @@ public class MoveShooterAlignment extends PIDCommand4905 {
   @Override
   public boolean isFinished() {
     return m_controller.atSetpoint();
+    // return false;
   }
 }
