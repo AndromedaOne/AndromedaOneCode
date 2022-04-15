@@ -29,12 +29,11 @@ public class UnstickCargo extends SequentialCommandGroup {
     final double m_feederSetpoint = 0.5;
     final double m_shooterAngle = 25.0;
 
-    addCommands(
-        new ParallelCommandGroup(
-            new RunShooterRPM(topShooterWheel, bottomShooterWheel, () -> m_shooterSetpoint),
-            new RunFeeder(feeder, () -> m_feederSetpoint, true, () -> false),
-            new DeployAndRunIntake(intakeBase, true), 
-            new MoveShooterAlignment(shooterAlignment, () -> m_shooterAngle)));
+    addCommands(new ParallelCommandGroup(
+        new RunShooterRPM(topShooterWheel, bottomShooterWheel, () -> m_shooterSetpoint),
+        new RunFeeder(feeder, () -> m_feederSetpoint, true, () -> false),
+        new DeployAndRunIntake(intakeBase, true),
+        new MoveShooterAlignment(shooterAlignment, () -> m_shooterAngle)));
   }
 
   @Override
