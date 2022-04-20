@@ -5,24 +5,26 @@
 package frc.robot.subsystems.romiBallMopper;
 
 import frc.robot.Config4905;
-import frc.robot.actuators.ServoMotor;
+import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
+import frc.robot.actuators.ServoMotorPositional;
 
 /** Add your docs here. */
 public class RealRomiBallMopper extends RomiBallMopperBase {
-  private ServoMotor m_motor;
+  private ServoMotorPositional m_motor;
 
   public RealRomiBallMopper() {
-    m_motor = new ServoMotor(Config4905.getConfig4905().getRomiBallMopperConfig().getInt("port"));
+    m_motor = new HitecHS322HDpositionalServoMotor(
+        Config4905.getConfig4905().getRomiBallMopperConfig());
   }
 
   @Override
   public void mop() {
-    m_motor.setPosition(0.5);
+    m_motor.set(0.5);
   }
 
   @Override
   public void reset() {
-    m_motor.setPosition(-0.5);
+    m_motor.set(-0.5);
   }
 
   @Override

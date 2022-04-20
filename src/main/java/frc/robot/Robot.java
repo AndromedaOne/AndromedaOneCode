@@ -168,7 +168,8 @@ public class Robot extends TimedRobot {
       m_autoPeriodicLogged = true;
     }
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().setSpeed(1);
+      ;
     }
   }
 
@@ -215,7 +216,7 @@ public class Robot extends TimedRobot {
       m_teleopPeriodicLogged = true;
     }
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
+      Robot.getInstance().getSubsystemsContainer().getRomiIntake().setSpeed(1);
     }
   }
 
