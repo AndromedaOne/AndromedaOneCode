@@ -28,7 +28,7 @@ public class ShootLaunchPad extends SequentialCommandGroup {
     Trace.getInstance().logCommandStart(this);
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getShootBackwardButtonPressed()) {
-      m_shooterSetpoint = 3725.0; // was 3675
+      m_shooterSetpoint = 3675.0; // was 3725
       m_shooterAngle = 69;
       m_feederSetpoint = 1.0;
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
@@ -37,7 +37,7 @@ public class ShootLaunchPad extends SequentialCommandGroup {
       m_shooterAngle = 27.5;
       m_feederSetpoint = 1.0;
     } else {
-      m_shooterSetpoint = 3725.0; // was 3675
+      m_shooterSetpoint = 3675.0; // was 3725
       m_shooterAngle = 42;
       m_feederSetpoint = 1.0;
     }
