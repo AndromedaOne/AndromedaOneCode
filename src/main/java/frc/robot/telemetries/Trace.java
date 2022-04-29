@@ -157,6 +157,7 @@ public class Trace {
     System.out.println("Trace Base Directory: " + m_basePathOfTraceDirs);
     m_traces = new TreeMap<String, TraceMapEntry>();
     m_startTime = System.currentTimeMillis();
+    System.out.println("Setting start time to: " + m_startTime);
     createNewTraceDir();
     redirectOutput();
     createCommandTraceFile();
@@ -171,7 +172,7 @@ public class Trace {
       String fullFileName = new String(m_pathOfTraceDir + "/" + m_commandTraceFname + ".txt");
       FileWriter fstream = new FileWriter(fullFileName, false);
       m_commandTraceWriter = new BufferedWriter(fstream);
-      m_commandTraceWriter.write("Time(sec)\tCommand/Info\n");
+      m_commandTraceWriter.write("Time(ms)\tDiffTime(ms)\tDiffTime(sec)\tCommand/Info\n");
     } catch (IOException e) {
       System.err.println(
           "ERROR: unable to open text file " + m_commandTraceFname + " ;" + e.getMessage());
@@ -415,9 +416,11 @@ public class Trace {
     if ((m_commandTraceFname == null) || (m_commandTraceWriter == null)) {
       return;
     }
-    double correctedTime = ((double) (System.currentTimeMillis() - m_startTime)) / 1000;
-    String line = new String(String.valueOf(correctedTime));
-    line += "  " + commandName + " " + startEnd + "\n";
+    long correctedTimeMS = System.currentTimeMillis() - m_startTime;
+    double correctedTimeSec = ((double) correctedTimeMS) / 1000;
+    String line = new String(String.valueOf(System.currentTimeMillis()) + "\t"
+        + String.valueOf(correctedTimeMS) + "\t" + String.valueOf(correctedTimeSec));
+    line += "\t" + commandName + " " + startEnd + "\n";
     System.out.print(line);
     try {
       m_commandTraceWriter.write(line);
