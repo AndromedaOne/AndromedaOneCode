@@ -6,15 +6,15 @@ package frc.robot.commands.showBotCannon;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.subsystems.showBotCannon.CannonBase;
+import frc.robot.subsystems.showBotCannonElevator.CannonElevatorBase;
 
 public class AdjustElevation extends CommandBase {
   /** Creates a new AdjustElevation. */
-  private CannonBase m_cannon;
+  private CannonElevatorBase m_cannonElevator;
 
-  public AdjustElevation(CannonBase cannon) {
-    m_cannon = cannon;
-    addRequirements(m_cannon);
+  public AdjustElevation(CannonElevatorBase cannonElevator) {
+    m_cannonElevator = cannonElevator;
+    addRequirements(m_cannonElevator);
   }
 
   // Called when the command is initially scheduled.
@@ -36,7 +36,7 @@ public class AdjustElevation extends CommandBase {
       speed = -downSpeed;
     }
     speed *= 0.25;
-    m_cannon.changeElevation(speed);
+    m_cannonElevator.changeElevation(speed);
   }
 
   // Called once the command ends or is interrupted.

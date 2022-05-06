@@ -14,7 +14,7 @@ public class ShootCannon extends CommandBase {
   private CannonBase m_cannon;
 
   public ShootCannon() {
-    m_cannon = Robot.getInstance().getSubsystemsContainer().getCannon();
+    m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
     addRequirements(m_cannon);
   }
 

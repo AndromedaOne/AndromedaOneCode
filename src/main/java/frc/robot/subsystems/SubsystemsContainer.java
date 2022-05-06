@@ -53,6 +53,9 @@ import frc.robot.subsystems.shooter.TopShooterWheel;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.subsystems.showBotCannon.MockCannon;
 import frc.robot.subsystems.showBotCannon.RealCannon;
+import frc.robot.subsystems.showBotCannonElevator.CannonElevatorBase;
+import frc.robot.subsystems.showBotCannonElevator.MockCannonElevator;
+import frc.robot.subsystems.showBotCannonElevator.RealCannonElevator;
 
 public class SubsystemsContainer {
 
@@ -66,7 +69,8 @@ public class SubsystemsContainer {
   double m_conveyorSpeed;
   RomiWingsBase m_romiWings;
   CompressorBase m_compressor;
-  CannonBase m_cannon;
+  CannonBase m_showBotCannon;
+  CannonElevatorBase m_showBotCannonElevator;
   RomiBallMopperBase m_romiBallMopper;
   ShooterWheelBase m_topShooterWheel;
   ShooterWheelBase m_bottomShooterWheel;
@@ -163,12 +167,19 @@ public class SubsystemsContainer {
       System.out.println("Using mock Compressor");
       m_compressor = new MockCompressor();
     }
-    if (Config4905.getConfig4905().doesCannonExist()) {
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       System.out.println("using real Cannon.");
-      m_cannon = new RealCannon();
+      m_showBotCannon = new RealCannon();
     } else {
       System.out.println("Using mock Cannon");
-      m_cannon = new MockCannon();
+      m_showBotCannon = new MockCannon();
+    }
+    if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
+      System.out.println("using real Cannon elevator.");
+      m_showBotCannonElevator = new RealCannonElevator();
+    } else {
+      System.out.println("Using mock Cannon elevator");
+      m_showBotCannonElevator = new MockCannonElevator();
     }
     if (Config4905.getConfig4905().doesRomiBallMopperExist()) {
       m_romiBallMopper = new RealRomiBallMopper();
@@ -231,8 +242,12 @@ public class SubsystemsContainer {
     return m_compressor;
   }
 
-  public CannonBase getCannon() {
-    return m_cannon;
+  public CannonBase getShowBotCannon() {
+    return m_showBotCannon;
+  }
+
+  public CannonElevatorBase getShowBotCannonElevator() {
+    return m_showBotCannonElevator;
   }
 
   public ClimberBase getClimber() {
@@ -275,9 +290,6 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());
     }
-    if (Config4905.getConfig4905().isShowBot()) {
-      m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
-    }
     if (Config4905.getConfig4905().isRomi()) {
       m_romiBallMopper.setDefaultCommand(new ResetBallMopper());
     }
@@ -296,8 +308,11 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesClimberExist()) {
       m_climber.setDefaultCommand(new MoveClimberArms(m_climber));
     }
-    if (Config4905.getConfig4905().doesCannonExist()) {
-      m_cannon.setDefaultCommand(new ResetCannon());
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
+      m_showBotCannon.setDefaultCommand(new ResetCannon());
+    }
+    if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
+      m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
   }
 }

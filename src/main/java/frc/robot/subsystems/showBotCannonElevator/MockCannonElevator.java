@@ -2,29 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.showBotCannon;
+package frc.robot.subsystems.showBotCannonElevator;
 
 /** Add your docs here. */
-public class MockCannon extends CannonBase {
+public class MockCannonElevator extends CannonElevatorBase {
 
   @Override
-  public void pressurize() {
-
+  public void changeElevation(double speed) {
   }
 
   @Override
-  public void shoot() {
-
+  public void holdElevation() {
   }
 
-  @Override
-  public boolean isPressurized() {
-
-    return false;
-  }
-
-  @Override
-  public void reset() {
-
-  }
 }

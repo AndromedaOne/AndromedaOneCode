@@ -61,7 +61,7 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
     }
-    if (Config4905.getConfig4905().doesCannonExist()) {
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       setUpCannonButtons();
     }
 
