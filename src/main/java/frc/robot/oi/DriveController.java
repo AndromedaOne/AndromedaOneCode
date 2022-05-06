@@ -94,6 +94,14 @@ public class DriveController extends ControllerBase {
     return getRightTriggerValue();
   }
 
+  public double getShowBotElevatorUpTriggerValue() {
+    return getLeftTriggerValue();
+  }
+
+  public double getShowBotElevatorDownTriggerValue() {
+    return getRightTriggerValue();
+  }
+
   private void setUpClimberButtons() {
   }
 
