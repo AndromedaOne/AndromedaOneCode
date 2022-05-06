@@ -15,6 +15,8 @@ public abstract class CannonBase extends SubsystemBase {
 
   public abstract void shoot();
 
+  public abstract void reset();
+
   public abstract boolean isPressurized();
 
   public abstract void changeElevation(double speed);

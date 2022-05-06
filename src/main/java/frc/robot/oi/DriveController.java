@@ -20,6 +20,8 @@ import frc.robot.commands.romiCommands.ToggleConveyor;
 import frc.robot.commands.romiCommands.TrackLineAndDriveBackwards;
 import frc.robot.commands.romiCommands.TrackLineAndDriveForward;
 import frc.robot.commands.romiCommands.romiBallMopper.ToggleMopper;
+import frc.robot.commands.showBotCannon.PressurizeCannon;
+import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -58,6 +60,9 @@ public class DriveController extends ControllerBase {
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
+    }
+    if (Config4905.getConfig4905().doesCannonExist()) {
+      setUpCannonButtons();
     }
 
   }
@@ -142,5 +147,10 @@ public class DriveController extends ControllerBase {
       m_toggleConveyor = getYbutton();
       m_toggleConveyor.whenPressed(new ToggleConveyor(m_subsystemsContainer.getConveyor(), 1));
     }
+  }
+
+  private void setUpCannonButtons() {
+    getAbutton().whenPressed(new PressurizeCannon());
+    getBbutton().whenPressed(new ShootCannon());
   }
 }

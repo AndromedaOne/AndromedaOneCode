@@ -64,4 +64,12 @@ public class RealCannon extends CannonBase {
     SmartDashboard.putNumber("cannonSafetyUltrasonic",
         Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
   }
+
+  @Override
+  public void reset() {
+    m_solenoid0_7.stopPiston();
+    m_solenoid1_6.stopPiston();
+    m_solenoid2_5.stopPiston();
+    m_solenoid3_4.stopPiston();
+  }
 }

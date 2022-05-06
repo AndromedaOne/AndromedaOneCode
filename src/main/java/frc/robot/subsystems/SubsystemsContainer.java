@@ -17,6 +17,7 @@ import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.shooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.shooterCommands.StopShooter;
 import frc.robot.commands.showBotCannon.AdjustElevation;
+import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.subsystems.climber.ClimberBase;
 import frc.robot.subsystems.climber.MockClimber;
 import frc.robot.subsystems.climber.RealClimber;
@@ -294,6 +295,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesClimberExist()) {
       m_climber.setDefaultCommand(new MoveClimberArms(m_climber));
+    }
+    if (Config4905.getConfig4905().doesCannonExist()) {
+      m_cannon.setDefaultCommand(new ResetCannon());
     }
   }
 }

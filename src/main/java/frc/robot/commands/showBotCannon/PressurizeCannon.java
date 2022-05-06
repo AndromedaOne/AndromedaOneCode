@@ -7,6 +7,7 @@ package frc.robot.commands.showBotCannon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.showBotCannon.CannonBase;
+import frc.robot.telemetries.Trace;
 
 public class PressurizeCannon extends CommandBase {
   /** Creates a new PressurizeCannon. */
@@ -21,6 +22,7 @@ public class PressurizeCannon extends CommandBase {
   @Override
   public void initialize() {
     m_cannon.pressurize();
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,6 +33,7 @@ public class PressurizeCannon extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

@@ -30,4 +30,9 @@ public class MockCannon extends CannonBase {
   public void holdElevation() {
 
   }
+
+  @Override
+  public void reset() {
+
+  }
 }
