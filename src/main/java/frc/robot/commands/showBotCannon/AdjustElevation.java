@@ -7,6 +7,7 @@ package frc.robot.commands.showBotCannon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.showBotCannonElevator.CannonElevatorBase;
+import frc.robot.telemetries.Trace;
 
 public class AdjustElevation extends CommandBase {
   /** Creates a new AdjustElevation. */
@@ -20,6 +21,7 @@ public class AdjustElevation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -29,6 +31,7 @@ public class AdjustElevation extends CommandBase {
         .getShowBotElevatorUpTriggerValue();
     double downSpeed = Robot.getInstance().getOIContainer().getDriveController()
         .getShowBotElevatorDownTriggerValue();
+    System.out.println("AdjElev up: " + upSpeed + " down: " + downSpeed);
     double speed = 0;
     if (upSpeed > 0) {
       speed = upSpeed;
@@ -42,6 +45,7 @@ public class AdjustElevation extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

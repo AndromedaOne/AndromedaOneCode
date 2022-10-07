@@ -14,7 +14,7 @@ public class RealCannonElevator extends CannonElevatorBase {
   private Config m_config;
 
   public RealCannonElevator() {
-    m_config = Config4905.getConfig4905().getShowBotCannonConfig();
+    m_config = Config4905.getConfig4905().getShowBotCannonElevatorConfig();
     m_elevationMotor = new VictorSPXController(m_config, "elevationMotor");
   }
 

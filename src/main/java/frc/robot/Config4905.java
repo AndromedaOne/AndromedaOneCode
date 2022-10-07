@@ -140,7 +140,7 @@ public class Config4905 {
     m_conveyorConfig = load("conveyor.conf");
     m_compressorConfig = load("compressor.conf");
     m_showBotCannonConfig = load("showBotCannon.conf");
-    m_showBotCannonElevatorConfig = load("showbotCannonElevator.conf");
+    m_showBotCannonElevatorConfig = load("showBotCannonElevator.conf");
     m_romiBallMopperConfig = load("romiBallMopper.conf");
     m_wingsConfig = load("wings.conf");
     m_shooterConfig = load("shooter.conf");
