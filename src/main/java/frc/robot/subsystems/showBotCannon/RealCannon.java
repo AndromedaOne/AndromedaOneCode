@@ -17,6 +17,7 @@ public class RealCannon extends CannonBase {
   private DoubleSolenoid4905 m_solenoid1_6;
   private DoubleSolenoid4905 m_solenoid2_5;
   private DoubleSolenoid4905 m_solenoid3_4;
+  private double m_maxsafetyRange;
   private Config m_config;
 
   public RealCannon() {
@@ -25,6 +26,7 @@ public class RealCannon extends CannonBase {
     m_solenoid1_6 = new DoubleSolenoid4905(m_config, "solenoid1_6");
     m_solenoid2_5 = new DoubleSolenoid4905(m_config, "solenoid2_5");
     m_solenoid3_4 = new DoubleSolenoid4905(m_config, "solenoid3_4");
+    m_maxsafetyRange = m_config.getInt("detectionrange");
   }
 
   @Override
@@ -38,7 +40,7 @@ public class RealCannon extends CannonBase {
   @Override
   public void shoot() {
     if (Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic()
-        .getDistanceInches() >= 27) {
+        .getDistanceInches() >= m_maxsafetyRange) {
       System.out.println("Distance: " + Robot.getInstance().getSensorsContainer()
           .getCannonSafetyUltrasonic().getDistanceInches());
       m_solenoid0_7.retractPiston();
