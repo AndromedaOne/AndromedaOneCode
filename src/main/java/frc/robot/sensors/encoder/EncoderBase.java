@@ -10,4 +10,6 @@ public abstract class EncoderBase {
   public abstract void resetEncoder();
 
   public abstract double getEncoderValue();
+
+  public abstract void updateSmartDashboardReadings();
 }

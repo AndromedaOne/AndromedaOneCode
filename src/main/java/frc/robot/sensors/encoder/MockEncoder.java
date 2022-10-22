@@ -17,4 +17,8 @@ public class MockEncoder extends EncoderBase {
     return 0;
   }
 
+  @Override
+  public void updateSmartDashboardReadings() {
+  }
+
 }

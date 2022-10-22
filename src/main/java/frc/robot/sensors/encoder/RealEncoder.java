@@ -5,6 +5,7 @@
 package frc.robot.sensors.encoder;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 
 /** Add your docs here. */
@@ -25,5 +26,10 @@ public class RealEncoder extends EncoderBase {
 
   public double getEncoderValue() {
     return m_encoder.getDistance();
+  }
+
+  @Override
+  public void updateSmartDashboardReadings() {
+    SmartDashboard.putNumber("Cannon Elevator Encoder", getEncoderValue());
   }
 }

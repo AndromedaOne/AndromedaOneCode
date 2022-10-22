@@ -159,6 +159,10 @@ public class SensorsContainer {
     return m_cannonSafetyUltrasonic;
   }
 
+  public EncoderBase getCannonElevatorEncoder() {
+    return m_cannonElevatorEncoder;
+  }
+
   public Analog41IRSensor getAnalog41IRSensor() {
     return m_analog41IRSensor;
   }
