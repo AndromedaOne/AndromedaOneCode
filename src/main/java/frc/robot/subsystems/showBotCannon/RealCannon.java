@@ -37,10 +37,20 @@ public class RealCannon extends CannonBase {
 
   @Override
   public void shoot() {
-    m_solenoid0_7.retractPiston();
-    m_solenoid1_6.retractPiston();
-    m_solenoid2_5.retractPiston();
-    m_solenoid3_4.retractPiston();
+    if (Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic()
+        .getDistanceInches() >= 24) {
+
+      m_solenoid0_7.retractPiston();
+      m_solenoid1_6.retractPiston();
+      m_solenoid2_5.retractPiston();
+      m_solenoid3_4.retractPiston();
+
+    } else {
+
+      System.out.println("Cannot shoot due to something being in the way. Distance being: " + Robot
+          .getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
+    }
+
   }
 
   @Override
