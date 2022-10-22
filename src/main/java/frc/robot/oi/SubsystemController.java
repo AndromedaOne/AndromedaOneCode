@@ -104,4 +104,8 @@ public class SubsystemController extends ControllerBase {
   public double getEndgameShooterAlignmentStick() {
     return getRightStickForwardBackwardValue();
   }
+
+  public boolean getEjectCargoButton() {
+    return getBackButton().get();
+  }
 }

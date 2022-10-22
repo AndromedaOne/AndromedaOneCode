@@ -90,6 +90,9 @@ public class RunShooterRPM extends ParallelCommandGroup {
   }
 
   public BooleanSupplier atSetpoint() {
+    if (m_topShooterCommand.atSetpoint() && m_bottomShooterCommand.atSetpoint()) {
+      System.out.println("Shooter Wheel At Setpoint WheelSpeed: "+ m_topShooterWheel.getShooterWheelRpm());
+    }
     return () -> (m_topShooterCommand.atSetpoint() && m_bottomShooterCommand.atSetpoint());
   }
 }
