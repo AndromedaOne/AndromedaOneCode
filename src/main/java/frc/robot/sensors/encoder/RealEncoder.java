@@ -15,9 +15,10 @@ public class RealEncoder extends EncoderBase {
 
   public RealEncoder(String configString) {
     m_encoder = new Encoder(
-        Config4905.getConfig4905().getSensorConfig().getInt("sensors." + configString + "aChannel"),
         Config4905.getConfig4905().getSensorConfig()
-            .getInt("sensors." + configString + "bChannel"));
+            .getInt("sensors." + configString + ".aChannel"),
+        Config4905.getConfig4905().getSensorConfig()
+            .getInt("sensors." + configString + ".bChannel"));
   }
 
   public void resetEncoder() {

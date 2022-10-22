@@ -133,6 +133,7 @@ public class SensorsContainer {
       SmartDashboard.putNumber("Color Sensor Value Back",
           m_backColorSensor.getReflectedLightIntensity());
     }
+    m_cannonElevatorEncoder.updateSmartDashboardReadings();
   }
 
   public Gyro4905 getGyro() {

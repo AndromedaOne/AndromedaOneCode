@@ -31,7 +31,6 @@ public class AdjustElevation extends CommandBase {
         .getShowBotElevatorUpTriggerValue();
     double downSpeed = Robot.getInstance().getOIContainer().getDriveController()
         .getShowBotElevatorDownTriggerValue();
-    System.out.println("AdjElev up: " + upSpeed + " down: " + downSpeed);
     double speed = 0;
     if (upSpeed > 0) {
       speed = upSpeed;
