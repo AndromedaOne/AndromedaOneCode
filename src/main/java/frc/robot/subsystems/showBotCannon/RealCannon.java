@@ -38,8 +38,9 @@ public class RealCannon extends CannonBase {
   @Override
   public void shoot() {
     if (Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic()
-        .getDistanceInches() >= 24) {
-
+        .getDistanceInches() >= 27) {
+      System.out.println("Distance: " + Robot.getInstance().getSensorsContainer()
+          .getCannonSafetyUltrasonic().getDistanceInches());
       m_solenoid0_7.retractPiston();
       m_solenoid1_6.retractPiston();
       m_solenoid2_5.retractPiston();
