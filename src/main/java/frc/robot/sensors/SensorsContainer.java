@@ -18,6 +18,9 @@ import frc.robot.sensors.camera.*;
 import frc.robot.sensors.colorSensor.ColorSensorBase;
 import frc.robot.sensors.colorSensor.MockColorSensor;
 import frc.robot.sensors.colorSensor.RealColorSensor;
+import frc.robot.sensors.encoder.EncoderBase;
+import frc.robot.sensors.encoder.MockEncoder;
+import frc.robot.sensors.encoder.RealEncoder;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
@@ -42,6 +45,7 @@ public class SensorsContainer {
   private Analog41IRSensor m_analog41IRSensor;
   private ColorSensorBase m_frontColorSensor;
   private ColorSensorBase m_backColorSensor;
+  private EncoderBase m_cannonElevatorEncoder;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -110,6 +114,13 @@ public class SensorsContainer {
     } else {
       System.out.println("Using mock Color sensor for the back");
       m_backColorSensor = new MockColorSensor();
+    }
+    if (m_sensorConfig.hasPath("sensors.cannonElevationEncoder")) {
+      System.out.println("Using real cannon elevator encoder");
+      m_cannonElevatorEncoder = new RealEncoder("cannonElevationEncoder");
+    } else {
+      System.out.println("Using mock cannon elevator encoder");
+      m_cannonElevatorEncoder = new MockEncoder();
     }
   }
 
