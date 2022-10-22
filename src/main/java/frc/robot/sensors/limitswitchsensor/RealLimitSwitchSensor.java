@@ -3,6 +3,7 @@ package frc.robot.sensors.limitswitchsensor;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 
 public class RealLimitSwitchSensor extends LimitSwitchSensor {
@@ -27,5 +28,11 @@ public class RealLimitSwitchSensor extends LimitSwitchSensor {
       return !limitSwitch.get();
     }
     return limitSwitch.get();
+  }
+
+  @Override
+  public void updateSmartDashboardReadings() {
+    SmartDashboard.putBoolean("Cannon home switch", isAtLimit());
+
   }
 }

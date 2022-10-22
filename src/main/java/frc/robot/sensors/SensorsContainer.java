@@ -28,6 +28,9 @@ import frc.robot.sensors.gyro.RomiGyro;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
 import frc.robot.sensors.limelightcamera.RealLimelightCamera;
+import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
+import frc.robot.sensors.limitswitchsensor.MockLimitSwitchSensor;
+import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
@@ -46,6 +49,7 @@ public class SensorsContainer {
   private ColorSensorBase m_frontColorSensor;
   private ColorSensorBase m_backColorSensor;
   private EncoderBase m_cannonElevatorEncoder;
+  private LimitSwitchSensor m_cannonHomeSwitch;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -122,6 +126,13 @@ public class SensorsContainer {
       System.out.println("Using mock cannon elevator encoder");
       m_cannonElevatorEncoder = new MockEncoder();
     }
+    if (m_sensorConfig.hasPath("sensors.cannonHomeSwitch")) {
+      System.out.println("Using real cannon home switch");
+      m_cannonHomeSwitch = new RealLimitSwitchSensor("cannonHomeSwitch");
+    } else {
+      System.out.println("Using mock cannon home switch");
+      m_cannonHomeSwitch = new MockLimitSwitchSensor();
+    }
   }
 
   public void periodic() {
@@ -134,6 +145,7 @@ public class SensorsContainer {
           m_backColorSensor.getReflectedLightIntensity());
     }
     m_cannonElevatorEncoder.updateSmartDashboardReadings();
+    m_cannonHomeSwitch.updateSmartDashboardReadings();
   }
 
   public Gyro4905 getGyro() {
@@ -162,6 +174,10 @@ public class SensorsContainer {
 
   public EncoderBase getCannonElevatorEncoder() {
     return m_cannonElevatorEncoder;
+  }
+
+  public LimitSwitchSensor getCannonHomeSwitch() {
+    return m_cannonHomeSwitch;
   }
 
   public Analog41IRSensor getAnalog41IRSensor() {
