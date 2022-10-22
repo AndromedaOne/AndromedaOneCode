@@ -48,6 +48,9 @@ public class RunFeeder extends CommandBase {
       // set point before firing
       // } else if (!m_runInReverse && !m_readyToShoot.getAsBoolean()) {
       // m_feeder.runFeeder(m_speed.getAsDouble());
+    } else if (Robot.getInstance().getOIContainer().getSubsystemController().getEjectCargoButton()){
+      m_feeder.runFeeder(m_speed.getAsDouble());
+    
     } else {
       m_feeder.runFeeder(0);
     }
