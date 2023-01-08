@@ -10,7 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLaunchPad;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -47,30 +47,9 @@ public class SubsystemController extends ControllerBase {
   private void setupShooterButtons() {
 
     // Y = fender, X = launchpad, A = wall, B = tarmac, POV East = terminal
-    getXbutton().whileHeld(new ShootLaunchPad(m_subsystemsContainer.getFeeder(),
+    getXbutton().whileHeld(new ShootThreePointer(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment()));
-  }
-
-//  public void addEndGameButtons() {
-//    getLeftStickButton().whenPressed(
-//        new MoveShooterAlignment(m_subsystemsContainer.getShooterAlignment(), () -> 59));
-//  }
-
-  public boolean getShootBackwardButtonPressed() {
-    if (getLeftBumperPressed()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public boolean getShootLowHubButtonPressed() {
-    if (getRightTriggerValue() > 0.3) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   public boolean getPauseFeederButtonPressed() {
