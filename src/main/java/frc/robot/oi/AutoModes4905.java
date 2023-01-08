@@ -6,12 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
-import frc.robot.commands.groupCommands.topGunAutonomousCommands.AHighHub2;
-import frc.robot.commands.groupCommands.topGunAutonomousCommands.B4Cargo;
-import frc.robot.commands.groupCommands.topGunAutonomousCommands.BHighHub2;
-import frc.robot.commands.groupCommands.topGunAutonomousCommands.CHighHub2;
 import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
-import frc.robot.commands.groupCommands.topGunAutonomousCommands.TaxiAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -29,13 +24,6 @@ public class AutoModes4905 {
     if (Config4905.getConfig4905().isRomi()) {
       m_autoChooser.addOption("1: Simple Park", new AllianceAnticsSimple(driveTrain));
       m_autoChooser.addOption("2: Scoring And Park", new AllianceAnticsScoring(driveTrain));
-    }
-    if (Config4905.getConfig4905().isTopGun() || Config4905.getConfig4905().isShowBot()) {
-      m_autoChooser.addOption("1: Taxi", new TaxiAuto());
-      m_autoChooser.addOption("2: AHighHub2", new AHighHub2(180));
-      m_autoChooser.addOption("3: BHighHub2", new BHighHub2());
-      m_autoChooser.addOption("4: CHighHub2", new CHighHub2());
-      m_autoChooser.addOption("5: B4Cargo", new B4Cargo());
     }
 
     SmartDashboard.putData("autoModes", m_autoChooser);
