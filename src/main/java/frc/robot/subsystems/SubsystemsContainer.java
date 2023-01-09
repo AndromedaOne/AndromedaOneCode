@@ -9,18 +9,14 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
-import frc.robot.commands.climberCommands.MoveClimberArms;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
-import frc.robot.commands.feederCommands.StopFeeder;
-import frc.robot.commands.intakeCommands.RetractAndStopIntake;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
-import frc.robot.commands.shooterCommands.DefaultShooterAlignment;
-import frc.robot.commands.shooterCommands.StopShooter;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
-import frc.robot.subsystems.climber.ClimberBase;
-import frc.robot.subsystems.climber.MockClimber;
-import frc.robot.subsystems.climber.RealClimber;
+import frc.robot.commands.topGunFeederCommands.StopFeeder;
+import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
+import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
+import frc.robot.commands.topGunShooterCommands.StopShooter;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -29,12 +25,6 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
-import frc.robot.subsystems.feeder.FeederBase;
-import frc.robot.subsystems.feeder.MockFeeder;
-import frc.robot.subsystems.feeder.RealFeeder;
-import frc.robot.subsystems.intake.IntakeBase;
-import frc.robot.subsystems.intake.MockIntake;
-import frc.robot.subsystems.intake.RealIntake;
 import frc.robot.subsystems.ledlights.*;
 import frc.robot.subsystems.romiBallMopper.MockRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RealRomiBallMopper;
@@ -42,26 +32,31 @@ import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
 import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
-import frc.robot.subsystems.shooter.BottomShooterWheel;
-import frc.robot.subsystems.shooter.MockBottomShooter;
-import frc.robot.subsystems.shooter.MockShooterAlignment;
-import frc.robot.subsystems.shooter.MockTopShooter;
-import frc.robot.subsystems.shooter.ShooterAlignment;
-import frc.robot.subsystems.shooter.ShooterAlignmentBase;
-import frc.robot.subsystems.shooter.ShooterWheelBase;
-import frc.robot.subsystems.shooter.TopShooterWheel;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.subsystems.showBotCannon.MockCannon;
 import frc.robot.subsystems.showBotCannon.RealCannon;
 import frc.robot.subsystems.showBotCannonElevator.CannonElevatorBase;
 import frc.robot.subsystems.showBotCannonElevator.MockCannonElevator;
 import frc.robot.subsystems.showBotCannonElevator.RealCannonElevator;
+import frc.robot.subsystems.topGunFeeder.FeederBase;
+import frc.robot.subsystems.topGunFeeder.MockFeeder;
+import frc.robot.subsystems.topGunFeeder.RealFeeder;
+import frc.robot.subsystems.topGunIntake.IntakeBase;
+import frc.robot.subsystems.topGunIntake.MockIntake;
+import frc.robot.subsystems.topGunIntake.RealIntake;
+import frc.robot.subsystems.topGunShooter.BottomShooterWheel;
+import frc.robot.subsystems.topGunShooter.MockBottomShooter;
+import frc.robot.subsystems.topGunShooter.MockShooterAlignment;
+import frc.robot.subsystems.topGunShooter.MockTopShooter;
+import frc.robot.subsystems.topGunShooter.ShooterAlignment;
+import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
+import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
+import frc.robot.subsystems.topGunShooter.TopShooterWheel;
 
 public class SubsystemsContainer {
 
   // Declare member variables.
   DriveTrain m_driveTrain;
-  ClimberBase m_climber;
   LEDs m_leds;
   ServoMotor m_romiIntake;
   ServoMotor m_conveyor;
@@ -116,13 +111,6 @@ public class SubsystemsContainer {
       m_driveTrain = new MockDriveTrain();
     }
     m_driveTrain.init();
-
-    if (Config4905.getConfig4905().doesClimberExist()) {
-      System.out.println("Using a real Climber");
-      m_climber = new RealClimber();
-    } else {
-      m_climber = new MockClimber();
-    }
 
     if (Config4905.getConfig4905().doesLEDExist()) {
       if (Config4905.getConfig4905().isShowBot()) {
@@ -250,10 +238,6 @@ public class SubsystemsContainer {
     return m_showBotCannonElevator;
   }
 
-  public ClimberBase getClimber() {
-    return m_climber;
-  }
-
   public RomiBallMopperBase getRomiBallMopper() {
     return m_romiBallMopper;
   }
@@ -304,9 +288,6 @@ public class SubsystemsContainer {
       m_bottomShooterWheel
           .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
       m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
-    }
-    if (Config4905.getConfig4905().doesClimberExist()) {
-      m_climber.setDefaultCommand(new MoveClimberArms(m_climber));
     }
     if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       m_showBotCannon.setDefaultCommand(new ResetCannon());
