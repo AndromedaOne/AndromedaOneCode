@@ -9,14 +9,14 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.groupCommands.shooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootFender;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootLaunchPad;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTarmac;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootTerminal;
-import frc.robot.commands.groupCommands.shooterFeederCommands.ShootWall;
-import frc.robot.commands.shooterCommands.EndgameRotateAndExtendArms;
-import frc.robot.commands.shooterCommands.MoveShooterAlignment;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootFender;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLaunchPad;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootTarmac;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootTerminal;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootWall;
+import frc.robot.commands.topGunShooterCommands.EndgameRotateAndExtendArms;
+import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -103,5 +103,9 @@ public class SubsystemController extends ControllerBase {
 
   public double getEndgameShooterAlignmentStick() {
     return getRightStickForwardBackwardValue();
+  }
+
+  public boolean getEjectCargoButton() {
+    return getBackButton().get();
   }
 }
