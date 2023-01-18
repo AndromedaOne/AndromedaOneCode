@@ -53,9 +53,6 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().isRomi()) {
       setupRomiButtons();
     }
-    if (Config4905.getConfig4905().doesClimberExist()) {
-      setUpClimberButtons();
-    }
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
     }
@@ -84,24 +81,6 @@ public class DriveController extends ControllerBase {
 
   public boolean getUpShiftReleased() {
     return getRightBumperReleased();
-  }
-
-  public double getContractTriggerValue() {
-    return getLeftTriggerValue();
-  }
-
-  public double getExtendTriggerValue() {
-    return getRightTriggerValue();
-  }
-
-  private void setUpClimberButtons() {
-  }
-
-  public void addEndGameButtons() {
-    getPOVnorth().whenPressed(new TurnToCompassHeading(0));
-    getPOVeast().whenPressed(new TurnToCompassHeading(90));
-    getPOVsouth().whenPressed(new TurnToCompassHeading(180));
-    getPOVwest().whenPressed(new TurnToCompassHeading(270));
   }
 
   private void setUpShooterButtons() {
