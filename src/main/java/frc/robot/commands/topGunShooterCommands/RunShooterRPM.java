@@ -8,12 +8,12 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Config4905;
+import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
-public class RunShooterRPM extends ParallelCommandGroup {
+public class RunShooterRPM extends ParallelCommandGroup4905 {
 
   private ShooterWheelBase m_topShooterWheel;
   private ShooterWheelBase m_bottomShooterWheel;
@@ -54,7 +54,7 @@ public class RunShooterRPM extends ParallelCommandGroup {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void additionalInitialize() {
     Trace.getInstance().logCommandStart(this);
     if (m_useSmartDashboardRPM) {
       m_setpoint = () -> SmartDashboard.getNumber("Set Shooter RPM", 1000);
@@ -66,7 +66,7 @@ public class RunShooterRPM extends ParallelCommandGroup {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void additionalEnd(boolean interrupted) {
     m_topShooterWheel.setShooterWheelPower(0);
     m_bottomShooterWheel.setShooterWheelPower(0);
     m_finished = true;
@@ -76,7 +76,7 @@ public class RunShooterRPM extends ParallelCommandGroup {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinishedAdditional() {
     return m_finishedCondition.getAsBoolean();
   }
 
