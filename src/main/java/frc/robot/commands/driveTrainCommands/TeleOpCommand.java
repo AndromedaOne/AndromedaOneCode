@@ -97,6 +97,8 @@ public class TeleOpCommand extends CommandBase {
       Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.MID);
 
     } else {
+      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
+      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
       Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.FAST);
     }
     Trace.getInstance().addTrace(true, "TeleopDrive",

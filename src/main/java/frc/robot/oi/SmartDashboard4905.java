@@ -19,13 +19,11 @@ import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
-import frc.robot.commands.groupCommands.topGunAutonomousCommands.B4Cargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
-import frc.robot.commands.topGunShooterCommands.ExtendShooterArms;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.RunShooterRPM;
 import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
@@ -40,7 +38,6 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
-    AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putData("DriveBackward",
         new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
@@ -73,9 +70,6 @@ public class SmartDashboard4905 {
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
       SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
           subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
-      SmartDashboard.putData("B4Cargo", new B4Cargo());
-      SmartDashboard.putData("ExtendShooterArms",
-          new ExtendShooterArms(subsystemsContainer.getShooterAlignment()));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
