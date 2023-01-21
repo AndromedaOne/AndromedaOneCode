@@ -1,5 +1,6 @@
 package frc.robot.pidcontroller;
 
+import frc.robot.rewrittenWPIclasses.PIDControllerProposed;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
