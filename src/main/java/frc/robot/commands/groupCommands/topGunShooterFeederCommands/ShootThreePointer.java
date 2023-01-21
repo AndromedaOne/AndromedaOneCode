@@ -5,18 +5,17 @@
 package frc.robot.commands.groupCommands.topGunShooterFeederCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
-public class ShootTarmac extends SequentialCommandGroup {
+public class ShootThreePointer extends SequentialCommandGroup {
   double m_shooterSetpoint;
   double m_shooterAngle;
   double m_feederSetpoint;
 
-  public ShootTarmac(FeederBase feeder, ShooterWheelBase topShooterWheel,
+  public ShootThreePointer(FeederBase feeder, ShooterWheelBase topShooterWheel,
       ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment) {
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
@@ -26,21 +25,10 @@ public class ShootTarmac extends SequentialCommandGroup {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    if (Robot.getInstance().getOIContainer().getSubsystemController()
-        .getShootBackwardButtonPressed()) {
-      m_shooterSetpoint = 3200.0;
-      m_shooterAngle = 64.5;
-      m_feederSetpoint = 1.0;
-    } else if (Robot.getInstance().getOIContainer().getSubsystemController()
-        .getShootLowHubButtonPressed()) {
-      m_shooterSetpoint = 3000.0;
-      m_shooterAngle = 29.1;
-      m_feederSetpoint = 1.0;
-    } else {
-      m_shooterSetpoint = 3200.0;
-      m_shooterAngle = 47.5;
-      m_feederSetpoint = 1.0;
-    }
+    // Values need to be changed for three pointer
+    m_shooterSetpoint = 3675.0;
+    m_shooterAngle = 42;
+    m_feederSetpoint = 1.0;
     super.initialize();
   }
 
