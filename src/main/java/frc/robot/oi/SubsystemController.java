@@ -10,13 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootFender;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLaunchPad;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootTarmac;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootTerminal;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootWall;
-import frc.robot.commands.topGunShooterCommands.EndgameRotateAndExtendArms;
-import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -38,10 +32,10 @@ public class SubsystemController extends ControllerBase {
   }
 
   private void setUpIntakeButtons() {
-    getRightBumperButton().whileHeld(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+    getRightBumperButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), false));
-    getBackButton().whileHeld(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+    getBackButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), true));
   }
@@ -49,44 +43,9 @@ public class SubsystemController extends ControllerBase {
   private void setupShooterButtons() {
 
     // Y = fender, X = launchpad, A = wall, B = tarmac, POV East = terminal
-    getYbutton().whileHeld(new ShootFender(m_subsystemsContainer.getFeeder(),
+    getXbutton().whileTrue(new ShootThreePointer(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment()));
-    getXbutton().whileHeld(new ShootLaunchPad(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getAbutton().whileHeld(new ShootWall(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getBbutton().whileHeld(new ShootTarmac(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getPOVeast().whileHeld(new ShootTerminal(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getStartButton()
-        .whenPressed(new EndgameRotateAndExtendArms(m_subsystemsContainer.getShooterAlignment()));
-  }
-
-  public void addEndGameButtons() {
-    getLeftStickButton().whenPressed(
-        new MoveShooterAlignment(m_subsystemsContainer.getShooterAlignment(), () -> 59));
-  }
-
-  public boolean getShootBackwardButtonPressed() {
-    if (getLeftBumperPressed()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public boolean getShootLowHubButtonPressed() {
-    if (getRightTriggerValue() > 0.3) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   public boolean getPauseFeederButtonPressed() {
@@ -97,11 +56,7 @@ public class SubsystemController extends ControllerBase {
     }
   }
 
-  public double getEndgameShooterAlignmentStick() {
-    return getRightStickForwardBackwardValue();
-  }
-
   public boolean getEjectCargoButton() {
-    return getBackButton().get();
+    return getBackButton().getAsBoolean();
   }
 }

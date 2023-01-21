@@ -8,18 +8,18 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Timer;
 import frc.robot.commands.topGunFeederCommands.RunFeeder;
 import frc.robot.commands.topGunShooterCommands.InitializeShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.RunShooterRPM;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
-public class ShootCargo extends SequentialCommandGroup {
+public class ShootCargo extends SequentialCommandGroup4905 {
 
   public ShootCargo(FeederBase feeder, ShooterWheelBase topShooterWheel,
       ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
@@ -38,15 +38,13 @@ public class ShootCargo extends SequentialCommandGroup {
   }
 
   @Override
-  public void initialize() {
+  public void additionalInitialize() {
     Trace.getInstance().logCommandStart(this);
-    super.initialize();
   }
 
   @Override
-  public void end(boolean interrupted) {
+  public void additionalEnd(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
-    super.end(interrupted);
   }
 
 }
