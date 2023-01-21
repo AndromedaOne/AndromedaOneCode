@@ -21,7 +21,7 @@ public class PIDController4905SampleStop extends PIDController4905 {
   }
 
   public boolean atSetpoint() {
-    if (Math.abs(getPositionError()) < getPositionTolerence()) {
+    if (Math.abs(getPositionError()) < getPositionTolerance()) {
       counter++;
     } else {
       counter = 0;
