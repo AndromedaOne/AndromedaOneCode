@@ -7,7 +7,7 @@ package frc.robot.pidcontroller;
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
+import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
