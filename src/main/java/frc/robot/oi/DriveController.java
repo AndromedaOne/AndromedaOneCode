@@ -129,7 +129,7 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpCannonButtons() {
-    getAbutton().whenPressed(new PressurizeCannon());
-    getBbutton().whenPressed(new ShootCannon());
+    getAbutton().onTrue(new PressurizeCannon());
+    getBbutton().onTrue(new ShootCannon());
   }
 }
