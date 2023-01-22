@@ -9,7 +9,6 @@ package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class DriveTrain extends SubsystemBase {
@@ -20,8 +19,6 @@ public abstract class DriveTrain extends SubsystemBase {
   }
 
   public void updateSmartDashboardReadings() {
-    SmartDashboard.putNumber("RobotPositionInches", getRobotPositionInches());
-    SmartDashboard.putNumber("RobotVelocityInches", getRobotVelocityInches());
   }
 
   public abstract void init();
