@@ -4,13 +4,13 @@
 
 package frc.robot.commands.groupCommands.topGunShooterFeederCommands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
-public class ShootThreePointer extends SequentialCommandGroup {
+public class ShootThreePointer extends SequentialCommandGroup4905 {
   double m_shooterSetpoint;
   double m_shooterAngle;
   double m_feederSetpoint;
@@ -23,19 +23,17 @@ public class ShootThreePointer extends SequentialCommandGroup {
   }
 
   @Override
-  public void initialize() {
+  public void additionalInitialize() {
     Trace.getInstance().logCommandStart(this);
     // Values need to be changed for three pointer
     m_shooterSetpoint = 3675.0;
     m_shooterAngle = 42;
     m_feederSetpoint = 1.0;
-    super.initialize();
   }
 
   @Override
-  public void end(boolean interrupted) {
+  public void additionalEnd(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
-    super.end(interrupted);
   }
 
 }

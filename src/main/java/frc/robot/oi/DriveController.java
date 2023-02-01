@@ -42,10 +42,10 @@ public class DriveController extends ControllerBase {
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
     if (!Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
-      getPOVnorth().whenPressed(new TurnToCompassHeading(0));
-      getPOVeast().whenPressed(new TurnToCompassHeading(90));
-      getPOVsouth().whenPressed(new TurnToCompassHeading(180));
-      getPOVwest().whenPressed(new TurnToCompassHeading(270));
+      getPOVnorth().onTrue(new TurnToCompassHeading(0));
+      getPOVeast().onTrue(new TurnToCompassHeading(90));
+      getPOVsouth().onTrue(new TurnToCompassHeading(180));
+      getPOVwest().onTrue(new TurnToCompassHeading(270));
     }
     if (sensorsContainer.hasLimeLight()) {
       limeLightButtons();
@@ -84,34 +84,34 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpShooterButtons() {
-    getBackButton().whileHeld(new UnstickCargo(m_subsystemsContainer.getFeeder(),
+    getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake()));
   }
 
   protected void limeLightButtons() {
     m_turnOnLimelight = getBackButton();
-    m_turnOnLimelight.whenPressed(new ToggleLimelightLED(true, m_sensorsContainer));
+    m_turnOnLimelight.onTrue(new ToggleLimelightLED(true, m_sensorsContainer));
     m_turnOffLimelight = getStartButton();
-    m_turnOffLimelight.whenPressed(new ToggleLimelightLED(false, m_sensorsContainer));
+    m_turnOffLimelight.onTrue(new ToggleLimelightLED(false, m_sensorsContainer));
   }
 
   private void setupRomiButtons() {
     if (Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
       m_driveForwardAndTrackLine = getPOVnorth();
-      m_driveForwardAndTrackLine.whileHeld(new TrackLineAndDriveForward());
+      m_driveForwardAndTrackLine.whileTrue(new TrackLineAndDriveForward());
       m_driveBackwardAndTrackLine = getPOVsouth();
-      m_driveBackwardAndTrackLine.whileHeld(new TrackLineAndDriveBackwards());
+      m_driveBackwardAndTrackLine.whileTrue(new TrackLineAndDriveBackwards());
       POVButton letRomiWingsDownButton = getPOVwest();
-      letRomiWingsDownButton.whileHeld(new LetWingsDown());
+      letRomiWingsDownButton.whileTrue(new LetWingsDown());
       POVButton bringRomiWingsUpButton = getPOVeast();
-      bringRomiWingsUpButton.whileHeld(new BringWingsUp());
+      bringRomiWingsUpButton.whileTrue(new BringWingsUp());
       JoystickButton mopperButton = getXbutton();
-      mopperButton.whenPressed(new ToggleMopper());
+      mopperButton.onTrue(new ToggleMopper());
     }
     if (Config4905.getConfig4905().getRobotName().equals("4905_Romi2")) {
       m_toggleConveyor = getYbutton();
-      m_toggleConveyor.whenPressed(new ToggleConveyor(m_subsystemsContainer.getConveyor(), 1));
+      m_toggleConveyor.onTrue(new ToggleConveyor(m_subsystemsContainer.getConveyor(), 1));
     }
   }
 }

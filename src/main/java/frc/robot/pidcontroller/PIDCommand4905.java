@@ -1,13 +1,10 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.pidcontroller;
 
-import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
+import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
 
 import java.util.Set;
 import java.util.function.DoubleConsumer;
@@ -21,6 +18,9 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * by default - to add exit conditions and/or other behavior, subclass this
  * class. The controller calculation and output are performed synchronously in
  * the command's execute() method.
+ *
+ * <p>
+ * This class is provided by the NewCommands VendorDep
  */
 public class PIDCommand4905 extends CommandBase {
   protected final PIDController4905 m_controller;
@@ -40,10 +40,10 @@ public class PIDCommand4905 extends CommandBase {
    */
   public PIDCommand4905(PIDController4905 controller, DoubleSupplier measurementSource,
       DoubleSupplier setpointSource, DoubleConsumer useOutput, Subsystem... requirements) {
-    requireNonNullParam(controller, "controller", "SynchronousPIDCommand");
-    requireNonNullParam(measurementSource, "measurementSource", "SynchronousPIDCommand");
-    requireNonNullParam(setpointSource, "setpointSource", "SynchronousPIDCommand");
-    requireNonNullParam(useOutput, "useOutput", "SynchronousPIDCommand");
+    requireNonNullParam(controller, "controller", "PIDCommand");
+    requireNonNullParam(measurementSource, "measurementSource", "PIDCommand");
+    requireNonNullParam(setpointSource, "setpointSource", "PIDCommand");
+    requireNonNullParam(useOutput, "useOutput", "PIDCommand");
 
     m_controller = controller;
     m_useOutput = useOutput;
