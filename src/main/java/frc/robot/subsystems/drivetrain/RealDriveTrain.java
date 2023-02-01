@@ -112,7 +112,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     if (m_invertFowardAndBack) {
       forwardBackSpeed = -forwardBackSpeed;
     }
-    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
+    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
   }
 
   protected abstract MotorControllerGroup getLeftSpeedControllerGroup();
