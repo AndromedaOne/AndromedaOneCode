@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
+import frc.robot.commands.driveTrainCommands.BalanceRobot;
+import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
@@ -20,6 +22,7 @@ import frc.robot.commands.romiCommands.ToggleConveyor;
 import frc.robot.commands.romiCommands.TrackLineAndDriveBackwards;
 import frc.robot.commands.romiCommands.TrackLineAndDriveForward;
 import frc.robot.commands.romiCommands.romiBallMopper.ToggleMopper;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -56,7 +59,9 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
     }
-
+    getAbutton().onTrue(new SequentialCommandGroup4905(
+        new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4),
+        new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6)));
   }
 
   public double getDriveTrainForwardBackwardStick() {
