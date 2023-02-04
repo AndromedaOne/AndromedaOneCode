@@ -1,5 +1,7 @@
 package frc.robot.actuators;
+
 import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
