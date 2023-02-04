@@ -19,6 +19,7 @@ import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
+import frc.robot.commands.limeLightCommands.TestMidNodeTurnToFaceCommand;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
@@ -43,6 +44,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
     SmartDashboard.putData("MoveUsingEncoderTester",
         new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
+
     SmartDashboard.putData("DriveTrainRectangularPathExample",
         new DriveTrainRectangularPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putData("DriveTrainDiagonalPathExample",
@@ -55,6 +57,7 @@ public class SmartDashboard4905 {
           new ToggleLimelightLED(true, sensorsContainer));
       SmartDashboard.putData("Disable Limelight LEDs",
           new ToggleLimelightLED(false, sensorsContainer));
+      SmartDashboard.putData("TestMidNodeTurnToFace", new TestMidNodeTurnToFaceCommand());
     }
     if (Config4905.getConfig4905().doesCannonExist()) {
       SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());

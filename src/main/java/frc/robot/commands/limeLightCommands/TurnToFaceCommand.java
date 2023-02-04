@@ -24,6 +24,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   protected int m_lostCounter = 0;
   protected BitSet m_lostBuffer = new BitSet(50);
   protected int m_targetCounter = 0;
+  protected BitSet m_targetBuffer = new BitSet(4);
   SensorsContainer m_sensorcontainer = Robot.getInstance().getSensorsContainer();
   protected static Config m_conf = Config4905.getConfig4905().getCommandConstantsConfig();
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
@@ -31,9 +32,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
 
   public TurnToFaceCommand(DoubleSupplier sensor) {
     // controller used for pid command
-    super(new PIDController4905("TurnToFace", 0.0, 0.0, 0.0, 0.0),
-        // this variable returns the value used for the pid loop
-        sensor,
+    super(new PIDController4905("TurnToFace", 0.0, 0.0, 0.0, 0.0), sensor,
         // set point
         0,
         // uses the output
@@ -74,8 +73,26 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     m_lostCounter++;
     boolean targetFound = m_sensorcontainer.getLimeLight().targetLock();
     m_lostBuffer.set(m_lostCounter, !targetFound);
-    m_targetCounter%= 4;
-    return super.isFinished();
+    m_targetCounter %= 4;
+    m_targetBuffer.set(m_targetCounter, this.getController().atSetpoint());
+    if (m_lostBuffer.cardinality() == 250) {
+      Trace.getInstance().logCommandInfo(this, "limelight finished: target not found");
+      return true;
+    }
+
+    if (!m_conf2.hasPath("limelight") || (m_conf2.getDouble("limelight.cameraHeight") == 0.0)) {
+      Trace.getInstance().logCommandInfo(this, "no limelight found");
+      return true;
+    } else {
+      if (m_lostCounter == 1) {
+        System.out.println("limelight," + m_limelight.verticalRadiansToTarget() + " "
+            + m_limelight.distanceToPowerPort());
+      }
+    }
+
+    boolean returnValue = m_targetBuffer.cardinality() == 4 && targetFound;
+    return (returnValue);
+
   }
 
 }
