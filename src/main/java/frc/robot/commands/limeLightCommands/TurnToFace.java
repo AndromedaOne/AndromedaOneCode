@@ -6,6 +6,9 @@ package frc.robot.commands.limeLightCommands;
 
 import java.util.function.DoubleSupplier;
 
+import com.typesafe.config.Config;
+
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905;
@@ -15,7 +18,10 @@ import frc.robot.telemetries.Trace;
 // comment because gitextentions is upset
 /** Add your docs here. */
 public class TurnToFace extends PIDCommand4905 {
+  protected DoubleSupplier m_sensor;
   SensorsContainer m_sensorcontainer = Robot.getInstance().getSensorsContainer();
+  protected static Config m_conf = Config4905.getConfig4905().getCommandConstantsConfig();
+  protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
   LimeLightCameraBase m_limelight;
 
   public TurnToFace(DoubleSupplier sensor) {
@@ -30,6 +36,13 @@ public class TurnToFace extends PIDCommand4905 {
           Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0, output,
               false, 0.0);
         });
+    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+    getController().setP(m_conf.getDouble("TurnToFaceCommand.Kp"));
+    getController().setI(m_conf.getDouble("TurnToFaceCommand.Ki"));
+    getController().setD(m_conf.getDouble("TurnToFaceCommand.Kd"));
+    getController().setMinOutputToMove(m_conf.getDouble("TurnToFaceCommand.minOutputToMove"));
+    getController().setTolerance(m_conf.getDouble("TurnToFaceCommand.positionTolerance"));
+    this.m_sensor = sensor;
 
   }
 
