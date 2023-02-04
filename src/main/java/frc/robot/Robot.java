@@ -97,7 +97,6 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
     m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
     m_sensorsContainer.periodic();
-    m_sensorsContainer.getAnalog41IRSensor().updateSmartDashboardReadings();
   }
 
   /**

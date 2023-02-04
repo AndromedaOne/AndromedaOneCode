@@ -5,19 +5,19 @@
 package frc.robot.commands.groupCommands.topGunShooterFeederCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.topGunFeederCommands.RunFeeder;
 import frc.robot.commands.topGunIntakeCommands.DeployAndRunIntake;
 import frc.robot.commands.topGunShooterCommands.InitializeShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.RunShooterRPM;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunIntake.IntakeBase;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
-public class PickUpCargo extends SequentialCommandGroup {
+public class PickUpCargo extends SequentialCommandGroup4905 {
 
   public PickUpCargo(FeederBase feeder, ShooterWheelBase topShooterWheel,
       ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment,
@@ -54,15 +54,13 @@ public class PickUpCargo extends SequentialCommandGroup {
   }
 
   @Override
-  public void initialize() {
+  public void additionalInitialize() {
     Trace.getInstance().logCommandStart(this);
-    super.initialize();
   }
 
   @Override
-  public void end(boolean interrupted) {
+  public void additionalEnd(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
-    super.end(interrupted);
   }
 
 }

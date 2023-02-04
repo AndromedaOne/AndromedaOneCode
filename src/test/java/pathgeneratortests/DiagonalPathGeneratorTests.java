@@ -3,8 +3,8 @@ package pathgeneratortests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.pathgeneration.pathgenerators.DiagonalPathGenerator;

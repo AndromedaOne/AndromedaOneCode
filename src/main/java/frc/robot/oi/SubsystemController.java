@@ -36,10 +36,10 @@ public class SubsystemController extends ControllerBase {
   }
 
   private void setUpIntakeButtons() {
-    getRightBumperButton().whileHeld(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+    getRightBumperButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), false));
-    getBackButton().whileHeld(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+    getBackButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), true));
   }
@@ -47,7 +47,7 @@ public class SubsystemController extends ControllerBase {
   private void setupShooterButtons() {
 
     // Y = fender, X = launchpad, A = wall, B = tarmac, POV East = terminal
-    getXbutton().whileHeld(new ShootThreePointer(m_subsystemsContainer.getFeeder(),
+    getXbutton().whileTrue(new ShootThreePointer(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment()));
   }
@@ -61,6 +61,6 @@ public class SubsystemController extends ControllerBase {
   }
 
   public boolean getEjectCargoButton() {
-    return getBackButton().get();
+    return getBackButton().getAsBoolean();
   }
 }

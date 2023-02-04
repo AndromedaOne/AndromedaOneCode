@@ -418,9 +418,10 @@ public class Trace {
     }
     long correctedTimeMS = System.currentTimeMillis() - m_startTime;
     double correctedTimeSec = ((double) correctedTimeMS) / 1000;
-    String line = new String(String.valueOf(System.currentTimeMillis()) + "\t"
-        + String.valueOf(correctedTimeMS) + "\t" + String.valueOf(correctedTimeSec));
-    line += "\t" + commandName + " " + startEnd + "\n";
+    String line = new String(
+        "SysTime(ms): " + String.valueOf(System.currentTimeMillis()) + "  CorrectedTime(ms): "
+            + String.valueOf(correctedTimeMS) + "  RunTime(s)" + String.valueOf(correctedTimeSec));
+    line += "  Cmd: " + commandName + " " + startEnd + "\n";
     System.out.print(line);
     try {
       m_commandTraceWriter.write(line);

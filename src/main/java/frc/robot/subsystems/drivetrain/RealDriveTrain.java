@@ -62,7 +62,7 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   public void init() {
     resetEncoders();
-    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
+    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0), 0, 0);
     // DifferentialDrive no longer allows us to invert the right side. have to
     // invert the SpeedController on the right side instead
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -112,7 +112,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     if (m_invertFowardAndBack) {
       forwardBackSpeed = -forwardBackSpeed;
     }
-    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
+    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
   }
 
   protected abstract MotorControllerGroup getLeftSpeedControllerGroup();
@@ -145,7 +145,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     resetEncoders();
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("ResetOdometryAngle", angle);
-    m_odometry.resetPosition(pose, new Rotation2d(angle));
+    m_odometry.resetPosition(new Rotation2d(angle), 0, 0, pose);
   }
 
   @Override
