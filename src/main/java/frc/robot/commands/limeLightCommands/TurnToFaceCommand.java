@@ -4,6 +4,7 @@
 
 package frc.robot.commands.limeLightCommands;
 
+import java.util.BitSet;
 import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
@@ -18,14 +19,17 @@ import frc.robot.telemetries.Trace;
 
 // comment because gitextentions is upset
 /** Add your docs here. */
-public class TurnToFace extends PIDCommand4905 {
+public class TurnToFaceCommand extends PIDCommand4905 {
   protected DoubleSupplier m_sensor;
+  protected int m_lostCounter = 0;
+  protected BitSet m_lostBuffer = new BitSet(50);
+  protected int m_targetCounter = 0;
   SensorsContainer m_sensorcontainer = Robot.getInstance().getSensorsContainer();
   protected static Config m_conf = Config4905.getConfig4905().getCommandConstantsConfig();
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
   LimeLightCameraBase m_limelight;
 
-  public TurnToFace(DoubleSupplier sensor) {
+  public TurnToFaceCommand(DoubleSupplier sensor) {
     // controller used for pid command
     super(new PIDController4905("TurnToFace", 0.0, 0.0, 0.0, 0.0),
         // this variable returns the value used for the pid loop
@@ -67,6 +71,10 @@ public class TurnToFace extends PIDCommand4905 {
   @Override
   public boolean isFinished() {
     // TODO Auto-generated method stub
+    m_lostCounter++;
+    boolean targetFound = m_sensorcontainer.getLimeLight().targetLock();
+    m_lostBuffer.set(m_lostCounter, !targetFound);
+    m_targetCounter%= 4;
     return super.isFinished();
   }
 
