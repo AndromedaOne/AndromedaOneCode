@@ -55,6 +55,8 @@ public class RealLimelightCamera extends LimeLightCameraBase {
     SmartDashboard.putNumber("LimeAngleToTurn", horizontalDegreesToTarget());
     SmartDashboard.putNumber("Vertical Radians To Target", verticalRadiansToTarget());
     SmartDashboard.putNumber("Distance To Target", distanceToPowerPort());
+    // Trace.getInstance().logCommandInfo(this, "limelight finished: target not
+    // found");
   }
 
   @Override

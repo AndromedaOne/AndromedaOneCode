@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,9 +23,21 @@ public class TestMidNodeTurnToFaceCommand extends SequentialCommandGroup {
 
     m_sensorscontainer.getLimeLight().enableLED();
     m_sensorscontainer.getLimeLight().updateSmartDashboardReadings();
+    Trace.getInstance().logCommandInfo(this, "Horizonal Degrees to Target:"
+        + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
+    Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
+        + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
+    Trace.getInstance().logCommandInfo(this,
+        "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToPowerPort());
     DoubleSupplier xyz = Robot.getInstance().getSensorsContainer()
         .getLimeLight()::horizontalDegreesToTarget;
     addCommands(new TurnToFaceCommand(xyz));
+    Trace.getInstance().logCommandInfo(this, "Horizonal Degrees to Target:"
+        + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
+    Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
+        + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
+    Trace.getInstance().logCommandInfo(this,
+        "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToPowerPort());
     m_sensorscontainer.getLimeLight().updateSmartDashboardReadings();
     m_sensorscontainer.getLimeLight().disableLED();
   }
