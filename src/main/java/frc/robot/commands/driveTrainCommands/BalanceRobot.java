@@ -4,43 +4,45 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.typesafe.config.Config;
+
+import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.pidcontroller.PIDCommand4905;
+import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
 
-public class BalanceRobot extends CommandBase {
-  DriveTrain m_driveTrain;
-  int m_counter = 0;
-  double m_maxOutput = 0;
-  Gyro4905 m_gyro4905;
+public class BalanceRobot extends PIDCommand4905 {
+  private DriveTrain m_driveTrain;
+  private double m_maxOutput = 0;
+  private Gyro4905 m_gyro4905;
+  private Config m_constantConfig = Config4905.getConfig4905().getCommandConstantsConfig();
+  private double m_kP = m_constantConfig.getDouble("BalanceRobot.Kp");
 
   /** Creates a new BalanceRobot. */
   public BalanceRobot(DriveTrain driveTrain, double maxOutput) {
-    addRequirements(driveTrain);
+    super(new PIDController4905SampleStop("BalanceRobot", 0, 0, 0, 0),
+
+        Robot.getInstance().getSensorsContainer().getGyro().getYangleDoubleSupplier(), 0,
+        output -> {
+          driveTrain.moveUsingGyro(-output, 0, false, 0);
+        }, driveTrain);
     m_driveTrain = driveTrain;
     m_maxOutput = maxOutput;
     m_gyro4905 = Robot.getInstance().getSensorsContainer().getGyro();
+    getController().setP(m_constantConfig.getDouble("BalanceRobot.Kp"));
+    getController().setI(m_constantConfig.getDouble("BalanceRobot.Ki"));
+    getController().setD(m_constantConfig.getDouble("BalanceRobot.Kd"));
+    getController().setMinOutputToMove(m_constantConfig.getDouble("BalanceRobot.minOutputToMove"));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_counter = 0;
     Trace.getInstance().logCommandStart(this);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (m_gyro4905.getYAngle() > 0.1) {
-      m_driveTrain.moveUsingGyro(m_maxOutput, 0, false, m_gyro4905.getCompassHeading());
-    } else if (m_gyro4905.getXAngle() < -0.1) {
-      m_driveTrain.moveUsingGyro(-m_maxOutput, 0, false, m_gyro4905.getCompassHeading());
-    } else {
-      m_driveTrain.stop();
-    }
+    getController().setTolerance(0.1);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,19 +50,12 @@ public class BalanceRobot extends CommandBase {
   public void end(boolean interrupted) {
     m_driveTrain.stop();
     Trace.getInstance().logCommandStop(this);
+    Trace.getInstance().logCommandInfo(this, "ending Y value: " + m_gyro4905.getYAngle());
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((m_gyro4905.getYAngle() < 0.5) && (m_gyro4905.getYAngle() > -0.5)) {
-      ++m_counter;
-      if (m_counter > 5) {
-        return true;
-      }
-    } else {
-      m_counter = 0;
-    }
-    return false;
+    return getController().atSetpoint();
   }
 }
