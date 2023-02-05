@@ -13,13 +13,13 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TaxiAuto extends SequentialCommandGroup {
-  /** Creates a new TaxiAuto. */
-  public TaxiAuto() {
-    // To get out of communnity zone
+public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
+  /** Creates a new BlueRightAutoPlaceAndLeave. */
+  public RightAutoPlaceAndLeave() {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    // We ran the speed at 0.5 to accomodate charging station and cable.
-    addCommands(new MoveUsingEncoder(driveTrain, 166, 0.5));
+    // Place cube backup leaving the zone
+    // Need to add placement code
+    addCommands(new MoveUsingEncoder(driveTrain, -166, 1));
   }
 }
