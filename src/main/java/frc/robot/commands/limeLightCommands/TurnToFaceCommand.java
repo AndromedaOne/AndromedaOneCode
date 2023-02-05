@@ -71,6 +71,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   public boolean isFinished() {
     // TODO Auto-generated method stub
     m_lostCounter++;
+    m_lostCounter = m_lostCounter % 250;
     boolean targetFound = m_sensorcontainer.getLimeLight().targetLock();
     m_lostBuffer.set(m_lostCounter, !targetFound);
     m_targetCounter %= 4;
