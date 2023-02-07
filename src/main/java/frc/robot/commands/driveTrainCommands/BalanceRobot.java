@@ -16,33 +16,30 @@ import frc.robot.telemetries.Trace;
 
 public class BalanceRobot extends PIDCommand4905 {
   private DriveTrain m_driveTrain;
-  private double m_maxOutput = 0;
   private Gyro4905 m_gyro4905;
   private Config m_constantConfig = Config4905.getConfig4905().getCommandConstantsConfig();
-  private double m_kP = m_constantConfig.getDouble("BalanceRobot.Kp");
 
   /** Creates a new BalanceRobot. */
-  public BalanceRobot(DriveTrain driveTrain, double maxOutput) {
+  public BalanceRobot(DriveTrain driveTrain, double maxOutput, double compassHeading) {
     super(new PIDController4905SampleStop("BalanceRobot", 0, 0, 0, 0),
 
         Robot.getInstance().getSensorsContainer().getGyro().getYangleDoubleSupplier(), 0,
         output -> {
-          driveTrain.moveUsingGyro(-output, 0, false, 0);
+          driveTrain.moveUsingGyro(-output, 0, false, compassHeading);
         }, driveTrain);
     m_driveTrain = driveTrain;
-    m_maxOutput = maxOutput;
     m_gyro4905 = Robot.getInstance().getSensorsContainer().getGyro();
     getController().setP(m_constantConfig.getDouble("BalanceRobot.Kp"));
     getController().setI(m_constantConfig.getDouble("BalanceRobot.Ki"));
     getController().setD(m_constantConfig.getDouble("BalanceRobot.Kd"));
     getController().setMinOutputToMove(m_constantConfig.getDouble("BalanceRobot.minOutputToMove"));
+    getController().setTolerance(m_constantConfig.getDouble("BalanceRobot.tolerance"));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    getController().setTolerance(0.1);
   }
 
   // Called once the command ends or is interrupted.

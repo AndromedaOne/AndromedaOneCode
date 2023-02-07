@@ -5,17 +5,18 @@
 package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
 
 public class MoveToCenterOfChargingStation extends CommandBase {
-  DriveTrain m_driveTrain;
-  double m_distance = 0;
-  double m_maxOutput = 0;
+  private DriveTrain m_driveTrain;
+  private double m_distance = 0;
+  private double m_maxOutput = 0;
+  private double m_compassHeading = 0;
 
   /** Creates a new MoveToCenterOfChargingStation. */
-  public MoveToCenterOfChargingStation(DriveTrain driveTrain, double distance, double maxOutput) {
+  public MoveToCenterOfChargingStation(DriveTrain driveTrain, double distance, double maxOutput,
+      double compassHeading) {
     addRequirements(driveTrain);
     m_driveTrain = driveTrain;
     m_distance = distance;
@@ -32,8 +33,7 @@ public class MoveToCenterOfChargingStation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveTrain.moveUsingGyro(m_maxOutput, 0, false,
-        Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading());
+    m_driveTrain.moveUsingGyro(m_maxOutput, 0, false, m_compassHeading);
   }
 
   // Called once the command ends or is interrupted.
