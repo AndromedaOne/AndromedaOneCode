@@ -46,7 +46,7 @@ public class MoveToCenterOfChargingStation extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_driveTrain.getRobotPositionInches() >= m_distance) {
+    if (m_driveTrain.getRobotPositionInches() <= m_distance) {
       return true;
     }
     return false;

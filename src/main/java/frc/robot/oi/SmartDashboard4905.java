@@ -54,7 +54,7 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("BalanceRobot",
         new SequentialCommandGroup4905(
-            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 0),
+            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), -70, 0.4, 0),
             new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 0)));
 
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {

@@ -172,10 +172,8 @@ public class Robot extends TimedRobot {
   }
 
   private void setInitialOffset() {
-    double smartDashboardOffset = SmartDashboard.getNumber("Gyro Offset", -1);
-    if (smartDashboardOffset != -1) {
-      m_sensorsContainer.getGyro().setInitialOffset(smartDashboardOffset);
-    }
+    // For the Charged Up game 2023, the robot starts facing south.
+    m_sensorsContainer.getGyro().setInitialOffset(180);
   }
 
   @Override
