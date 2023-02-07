@@ -41,7 +41,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   }
 
   @Override
-  public double distanceToPowerPort() {
+  public double distanceToNode() {
     return distanceToTarget(34.0) - m_config.getDouble("limelight.cameraDistToFrame");
   }
 
@@ -54,7 +54,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   public void updateSmartDashboardReadings() {
     SmartDashboard.putNumber("LimeAngleToTurn", horizontalDegreesToTarget());
     SmartDashboard.putNumber("Vertical Radians To Target", verticalRadiansToTarget());
-    SmartDashboard.putNumber("Distance To Target", distanceToPowerPort());
+    SmartDashboard.putNumber("Distance To Target", distanceToNode());
     // Trace.getInstance().logCommandInfo(this, "limelight finished: target not
     // found");
   }

@@ -87,7 +87,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     } else {
       if (m_lostCounter == 1) {
         System.out.println("limelight," + m_limelight.verticalRadiansToTarget() + " "
-            + m_limelight.distanceToPowerPort());
+            + m_limelight.distanceToNode());
       }
     }
 

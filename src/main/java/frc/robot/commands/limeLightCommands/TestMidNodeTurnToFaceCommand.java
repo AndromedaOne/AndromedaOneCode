@@ -28,7 +28,7 @@ public class TestMidNodeTurnToFaceCommand extends SequentialCommandGroup {
     Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
         + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
     Trace.getInstance().logCommandInfo(this,
-        "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToPowerPort());
+        "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToNode());
     DoubleSupplier xyz = Robot.getInstance().getSensorsContainer()
         .getLimeLight()::horizontalDegreesToTarget;
     addCommands(new TurnToFaceCommand(xyz));
@@ -37,7 +37,7 @@ public class TestMidNodeTurnToFaceCommand extends SequentialCommandGroup {
     Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
         + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
     Trace.getInstance().logCommandInfo(this,
-        "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToPowerPort());
+        "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToNode());
     m_sensorscontainer.getLimeLight().updateSmartDashboardReadings();
     m_sensorscontainer.getLimeLight().disableLED();
   }

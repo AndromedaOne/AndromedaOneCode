@@ -7,7 +7,7 @@ public abstract class LimeLightCameraBase {
 
   public abstract double distanceToTarget(double targetHeight);
 
-  public abstract double distanceToPowerPort();
+  public abstract double distanceToNode();
 
   public abstract void setPipeline(int pipelineNumber);
 

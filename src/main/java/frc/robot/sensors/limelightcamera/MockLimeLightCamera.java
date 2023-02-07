@@ -21,7 +21,7 @@ public class MockLimeLightCamera extends LimeLightCameraBase {
   }
 
   @Override
-  public double distanceToPowerPort() {
+  public double distanceToNode() {
 
     return 0;
   }
