@@ -5,6 +5,10 @@
 package frc.robot.commands.groupCommands.autonomousCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
+import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.drivetrain.DriveTrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -12,8 +16,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class EngageAutoDock extends SequentialCommandGroup {
   /** Creates a new EngageAutoDock. */
   public EngageAutoDock() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
+    DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
+    addCommands(new MoveUsingEncoder(driveTrain, -166, 0.5));
+    // wait(1);
+    // 76.125
+    addCommands(new MoveUsingEncoder(driveTrain, 38.0625, 0.5));
   }
 }
