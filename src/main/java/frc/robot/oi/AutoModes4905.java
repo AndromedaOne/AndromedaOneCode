@@ -24,7 +24,7 @@ public class AutoModes4905 {
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
     // This line of code will need to be changed to check for the S.A.M. Robot
-    if (Config4905.getConfig4905().isTopGun() || Config4905.getConfig4905().isShowBot()) {
+    if (Config4905.getConfig4905().isShortCircuit()) {
       m_autoChooser.addOption("1: Taxi", new TaxiAuto());
       m_autoChooser.addOption("2: Blue Left Place, Leave", new LeftAutoPlaceAndLeave());
       m_autoChooser.addOption("3: Blue CS Leave, Dock, Engage", new EngageAutoDock());
