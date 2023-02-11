@@ -10,41 +10,50 @@ import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
+import frc.robot.telemetries.Trace;
 
 public class ExtendRetract extends PIDCommand4905 {
   /** Creates a new ExtendRetract. */
+  private double m_position = 0;
+  private SamArmExtRetBase m_armExtRet;
+
   public ExtendRetract(SamArmExtRetBase armExtRet, double position) {
 
-    super(
-      new PIDController4905SampleStop("ArmExtRet"), 
-      armExtRet::getPosition, 
-      0, 
-      output -> {
-        armExtRet.extendRetract(output);
-      }, 
-      armExtRet);
+    super(new PIDController4905SampleStop("ArmExtRet"), armExtRet::getPosition, position,
+        output -> {
+          armExtRet.extendRetract(output);
+        }, armExtRet);
+    m_position = position;
+    m_armExtRet = armExtRet;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
+    super.initialize();
+
     getController().setP(pidConstantsConfig.getDouble("ArmExtRet.Kp"));
     getController().setI(pidConstantsConfig.getDouble("ArmExtRet.Ki"));
     getController().setD(pidConstantsConfig.getDouble("ArmExtRet.Kd"));
+    getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove"));
+    getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
+    Trace.getInstance().logCommandInfo(this, "Extend Retract Arm to: " + m_position);
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    m_armExtRet.extendRetract(0);
+    Trace.getInstance().logCommandStop(this);
+    Trace.getInstance().logCommandInfo(this, "Ending Position: " + m_armExtRet.getPosition());
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return getController().atSetpoint();
   }
 }
