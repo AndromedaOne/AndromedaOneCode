@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
+import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.AdjustElevation;
@@ -16,6 +17,9 @@ import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
+import frc.robot.subsystems.SAMgripper.GripperBase;
+import frc.robot.subsystems.SAMgripper.MockGripper;
+import frc.robot.subsystems.SAMgripper.RealGripper;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -67,6 +71,7 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
+  GripperBase m_gripper;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -150,6 +155,14 @@ public class SubsystemsContainer {
       System.out.println("Using mock Compressor");
       m_compressor = new MockCompressor();
     }
+    if (Config4905.getConfig4905().doesGripperExist()) {
+      System.out.println("using real gripper.");
+      m_gripper = new RealGripper();
+      // m_gripper.start();
+    } else {
+      System.out.println("Using mock gripper");
+      m_gripper = new MockGripper();
+    }
     if (Config4905.getConfig4905().doesCannonExist()) {
       System.out.println("using real Cannon.");
       m_cannon = new RealCannon();
@@ -218,6 +231,10 @@ public class SubsystemsContainer {
     return m_compressor;
   }
 
+  public GripperBase getGripper() {
+    return m_gripper;
+  }
+
   public CannonBase getCannon() {
     return m_cannon;
   }
@@ -274,7 +291,11 @@ public class SubsystemsContainer {
       m_topShooterWheel.setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
       m_bottomShooterWheel
           .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
-      m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
     }
+    m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
+    if (Config4905.getConfig4905().doesGripperExist()) {
+      m_gripper.setDefaultCommand(new OpenCloseGripper(m_gripper, 0));
+    }
+
   }
 }

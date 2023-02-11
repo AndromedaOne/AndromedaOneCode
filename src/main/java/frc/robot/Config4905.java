@@ -229,6 +229,19 @@ public class Config4905 {
     return m_compressorConfig;
   }
 
+  public Config getGripperConfig() {
+    return m_gripperConfig;
+  }
+
+  public boolean doesGripperExist() {
+    if (m_config.hasPath("subsystems.gripper")) {
+      return true;
+
+    } else {
+      return false;
+    }
+  }
+
   public boolean doesCannonExist() {
     if (m_config.hasPath("subsystems.cannon")) {
       return true;
@@ -243,10 +256,6 @@ public class Config4905 {
 
   public Config getRomiBallMopperConfig() {
     return m_romiBallMopperConfig;
-  }
-
-  public Config getGripperConfig() {
-    return m_gripperConfig;
   }
 
   public boolean doesRomiBallMopperExist() {

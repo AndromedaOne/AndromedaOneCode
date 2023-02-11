@@ -12,8 +12,11 @@ import frc.robot.actuators.DoubleSolenoid4905;
 /** Add your docs here. */
 public class RealGripper extends GripperBase {
   private Config m_config;
-  //private DoubleSolenoid4905 m_gripperSolenoid;
+  // private DoubleSolenoid4905 m_gripperSolenoid;
   private DoubleSolenoid4905 m_solenoid7_0;
+
+  private static final int OPENGRIPPER = 0;
+  private static final int CLOSEGRIPPER = 1;
 
   public RealGripper() {
     m_config = Config4905.getConfig4905().getGripperConfig();
@@ -33,6 +36,14 @@ public class RealGripper extends GripperBase {
   @Override
   public void closeGripper() {
     m_solenoid7_0.extendPiston();
+  }
+
+  public int getState() {
+    if (m_solenoid7_0.isSolenoidOpen()) {
+      return OPENGRIPPER;
+    } else {
+      return CLOSEGRIPPER;
+    }
   }
 
 }

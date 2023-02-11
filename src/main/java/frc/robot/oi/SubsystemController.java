@@ -9,6 +9,7 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
+import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -25,6 +26,9 @@ public class SubsystemController extends ControllerBase {
     setController(new XboxController(1));
     if (Config4905.getConfig4905().doesIntakeExist()) {
       setUpIntakeButtons();
+    }
+    if (Config4905.getConfig4905().doesGripperExist()) {
+      setupGripperButtons();
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       setupShooterButtons();
@@ -52,12 +56,27 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getShooterAlignment()));
   }
 
+  private void setupGripperButtons() {
+    int currentGripperState = m_subsystemsContainer.getGripper().getState();
+    if (currentGripperState == 0) {
+      currentGripperState = 1;
+    } else {
+      currentGripperState = 0;
+    }
+    getRightBumperButton()
+        .whileTrue(new OpenCloseGripper(m_subsystemsContainer.getGripper(), currentGripperState));
+  }
+
   public boolean getPauseFeederButtonPressed() {
     if (getLeftTriggerValue() > 0.3) {
       return true;
     } else {
       return false;
     }
+  }
+
+  public boolean getXButton() {
+    return getXButton();
   }
 
   public boolean getEjectCargoButton() {
