@@ -17,6 +17,8 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   private final LimitSwitchSensor m_retractLimitSwitch;
   private boolean m_initialized = false;
   private double m_offset = 0;
+  private double m_maxExtension = 0;
+  private double m_minExtension = 0;
 
   /** Creates a new RealSamArmExtension. */
   public RealSamArmExtRet() {
@@ -24,6 +26,8 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
     m_extensionMotor = new SparkMaxController(armextensionConfig, "extensionmotor");
     m_retractLimitSwitch = new RealLimitSwitchSensor("retractLimitSwitch");
+    m_maxExtension = armextensionConfig.getDouble("maxExtension");
+    m_minExtension = armextensionConfig.getDouble("minExtension");
   }
 
   @Override
@@ -33,7 +37,13 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void extendRetract(double speed) {
-    m_extensionMotor.set(speed);
+    if ((speed < 0) && (getRetractLimitSwitchState() || (getPosition() <= m_minExtension))) {
+      m_extensionMotor.set(0);
+    } else if ((speed > 0) && (getPosition() >= m_maxExtension)) {
+      m_extensionMotor.set(0);
+    } else {
+      m_extensionMotor.set(speed);
+    }
   }
 
   @Override
