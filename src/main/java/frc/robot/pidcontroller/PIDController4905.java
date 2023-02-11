@@ -7,7 +7,6 @@ import frc.robot.telemetries.TracePair;
 
 public class PIDController4905 extends PIDControllerProposed {
   private double m_minOutputToMove;
-  private double m_minOutputToMoveAbs;
   private String m_controllerName;
   private double m_maxOutput = 1.0;
 
@@ -15,7 +14,7 @@ public class PIDController4905 extends PIDControllerProposed {
       double minOutputToMove) {
     super(Kp, Ki, Kd);
     m_controllerName = controllerName;
-    m_minOutputToMove = minOutputToMove;
+    m_minOutputToMove = Math.abs(minOutputToMove);
   }
 
   @Override
@@ -23,9 +22,9 @@ public class PIDController4905 extends PIDControllerProposed {
     double preCalculationOutput = super.calculate(measurement);
     double output = preCalculationOutput;
     if ((preCalculationOutput < 0) && (Math.abs(preCalculationOutput) < m_minOutputToMove)) {
-      output = -m_minOutputToMoveAbs;
+      output = -m_minOutputToMove;
     } else if ((preCalculationOutput > 0) && (preCalculationOutput < m_minOutputToMove)) {
-      output = m_minOutputToMoveAbs;
+      output = m_minOutputToMove;
     }
     output = MathUtil.clamp(output, -m_maxOutput, m_maxOutput);
     Trace.getInstance().addTrace(true, m_controllerName,
