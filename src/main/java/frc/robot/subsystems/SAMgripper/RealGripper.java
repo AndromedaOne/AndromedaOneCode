@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.gripper;
+package frc.robot.subsystems.SAMgripper;
 
 import com.typesafe.config.Config;
 
@@ -12,7 +12,7 @@ import frc.robot.actuators.DoubleSolenoid4905;
 /** Add your docs here. */
 public class RealGripper extends GripperBase {
   private Config m_config;
-  private DoubleSolenoid4905 m_gripperSolenoid;
+  //private DoubleSolenoid4905 m_gripperSolenoid;
   private DoubleSolenoid4905 m_solenoid7_0;
 
   public RealGripper() {
@@ -21,7 +21,7 @@ public class RealGripper extends GripperBase {
   }
 
   @Override
-  public void initGripper() {
+  public void initialize() {
 
   }
 
