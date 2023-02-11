@@ -147,6 +147,7 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
+    m_gripperConfig = load("gripper.conf");
   }
 
   public Config getControllersConfig() {

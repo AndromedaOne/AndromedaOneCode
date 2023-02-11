@@ -291,8 +291,9 @@ public class SubsystemsContainer {
       m_topShooterWheel.setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
       m_bottomShooterWheel
           .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
+      m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
     }
-    m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
+
     if (Config4905.getConfig4905().doesGripperExist()) {
       m_gripper.setDefaultCommand(new OpenCloseGripper(m_gripper, 0));
     }

@@ -28,6 +28,7 @@ public class SubsystemController extends ControllerBase {
       setUpIntakeButtons();
     }
     if (Config4905.getConfig4905().doesGripperExist()) {
+      System.out.println("Gripper is being run");
       setupGripperButtons();
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
@@ -40,7 +41,7 @@ public class SubsystemController extends ControllerBase {
   }
 
   private void setUpIntakeButtons() {
-    getRightBumperButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+    getLeftBumperButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), false));
     getBackButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
@@ -58,17 +59,20 @@ public class SubsystemController extends ControllerBase {
 
   private void setupGripperButtons() {
     int currentGripperState = m_subsystemsContainer.getGripper().getState();
-    if (currentGripperState == 0) {
-      currentGripperState = 1;
-    } else {
-      currentGripperState = 0;
-    }
     getRightBumperButton()
         .whileTrue(new OpenCloseGripper(m_subsystemsContainer.getGripper(), currentGripperState));
   }
 
   public boolean getPauseFeederButtonPressed() {
     if (getLeftTriggerValue() > 0.3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean getGripperButtonPressed() {
+    if (getRightBumperPressed() == true) {
       return true;
     } else {
       return false;
