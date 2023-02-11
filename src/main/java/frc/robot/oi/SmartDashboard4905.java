@@ -19,6 +19,7 @@ import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
+import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
@@ -57,6 +58,7 @@ public class SmartDashboard4905 {
         new SequentialCommandGroup4905(
             new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 0),
             new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 0)));
+    SmartDashboard.putData("Engage Auto Dock", new EngageAutoDock());
 
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",

@@ -20,7 +20,6 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     // Place cube backup leaving the zone
     // Need to add placement code
-    // wait(1);
     addCommands(new MoveUsingEncoder(driveTrain, -166, 0.5));
   }
 }

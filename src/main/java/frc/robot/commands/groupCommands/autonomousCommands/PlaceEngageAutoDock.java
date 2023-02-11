@@ -16,13 +16,14 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class EngageAutoDock extends SequentialCommandGroup {
-  /** Creates a new EngageAutoDock. */
-  public EngageAutoDock() {
+public class PlaceEngageAutoDock extends SequentialCommandGroup {
+  /** Creates a new PlaceEngageAutoDock. */
+  public PlaceEngageAutoDock() {
     final double distanceToMove = -166;
     final double maxOutPut = 0.5;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
+    // Need to add place code
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(moveCommand,
         new SequentialCommandGroup4905(new MoveToCenterOfChargingStation(driveTrain, 45, 0.5, 0),
