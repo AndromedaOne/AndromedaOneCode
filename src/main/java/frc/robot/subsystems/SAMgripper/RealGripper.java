@@ -30,11 +30,13 @@ public class RealGripper extends GripperBase {
 
   @Override
   public void openGripper() {
+    // retracts piston
     m_solenoid7_0.retractPiston();
   }
 
   @Override
   public void closeGripper() {
+    // extends piston
     m_solenoid7_0.extendPiston();
   }
 
