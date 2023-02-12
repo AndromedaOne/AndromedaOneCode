@@ -13,6 +13,7 @@ public class MoveToCenterOfChargingStation extends CommandBase {
   private double m_distance = 0;
   private double m_maxOutput = 0;
   private double m_compassHeading = 0;
+  private boolean m_driveForward = false;
 
   /** Creates a new MoveToCenterOfChargingStation. */
   public MoveToCenterOfChargingStation(DriveTrain driveTrain, double distance, double maxOutput,
@@ -21,6 +22,13 @@ public class MoveToCenterOfChargingStation extends CommandBase {
     m_driveTrain = driveTrain;
     m_distance = distance;
     m_maxOutput = maxOutput;
+    if (m_distance < 0) {
+      m_driveForward = false;
+      m_maxOutput = -m_maxOutput;
+    } else {
+      m_driveForward = true;
+    }
+    m_compassHeading = compassHeading;
   }
 
   // Called when the command is initially scheduled.
@@ -28,6 +36,7 @@ public class MoveToCenterOfChargingStation extends CommandBase {
   public void initialize() {
     m_distance += m_driveTrain.getRobotPositionInches();
     Trace.getInstance().logCommandStart(this);
+    Trace.getInstance().logCommandInfo(this, "target distance: " + m_distance);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,7 +55,9 @@ public class MoveToCenterOfChargingStation extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_driveTrain.getRobotPositionInches() <= m_distance) {
+    if (!m_driveForward && (m_driveTrain.getRobotPositionInches() <= m_distance)) {
+      return true;
+    } else if (m_driveForward && (m_driveTrain.getRobotPositionInches() >= m_distance)) {
       return true;
     }
     return false;
