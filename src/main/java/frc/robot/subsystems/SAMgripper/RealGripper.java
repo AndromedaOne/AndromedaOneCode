@@ -15,9 +15,6 @@ public class RealGripper extends GripperBase {
   // private DoubleSolenoid4905 m_gripperSolenoid;
   private DoubleSolenoid4905 m_solenoid7_0;
 
-  private static final int OPENGRIPPER = 0;
-  private static final int CLOSEGRIPPER = 1;
-
   public RealGripper() {
     m_config = Config4905.getConfig4905().getGripperConfig();
     m_solenoid7_0 = new DoubleSolenoid4905(m_config, "solenoid7_0");
@@ -42,9 +39,9 @@ public class RealGripper extends GripperBase {
 
   public int getState() {
     if (m_solenoid7_0.isSolenoidOpen()) {
-      return OPENGRIPPER;
+      return GripperState.OPENGRIPPER.ordinal();
     } else {
-      return CLOSEGRIPPER;
+      return GripperState.CLOSEGRIPPER.ordinal();
     }
   }
 
