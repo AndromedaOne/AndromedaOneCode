@@ -46,6 +46,10 @@ public class RealSamArmRotate extends SamArmRotateBase {
   public void rotate(double speed) {
     if ((speed < 0) && (getBackAngleLimitSwitchState() || (getAngle() <= m_minAngle))) {
       m_motor1.set(0);
+    } else if ((speed > 0) && (getFrontAngleLimitSwitchState() || (getAngle() >= m_maxAngle))) {
+      m_motor1.set(0);
+    } else {
+      m_motor1.set(speed);
     }
   }
 
