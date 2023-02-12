@@ -52,10 +52,14 @@ public class SmartDashboard4905 {
         new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
-    SmartDashboard.putData("BalanceRobot",
+    SmartDashboard.putData("BalanceRobotBackwards",
         new SequentialCommandGroup4905(
-            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 0),
-            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 0)));
+            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
+            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
+    SmartDashboard.putData("BalanceRobotForward",
+        new SequentialCommandGroup4905(
+            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
+            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
 
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",
