@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.DefaultArmRotExt;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -31,6 +32,12 @@ import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
 import frc.robot.subsystems.romiwings.MockRomiWings;
 import frc.robot.subsystems.romiwings.RealRomiWings;
 import frc.robot.subsystems.romiwings.RomiWingsBase;
+import frc.robot.subsystems.samArmExtRet.MockSamArmExtRet;
+import frc.robot.subsystems.samArmExtRet.RealSamArmExtRet;
+import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
+import frc.robot.subsystems.samArmRotate.MockSamArmRotate;
+import frc.robot.subsystems.samArmRotate.RealSamArmRotate;
+import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.subsystems.showBotCannon.MockCannon;
 import frc.robot.subsystems.showBotCannon.RealCannon;
@@ -67,6 +74,8 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
+  SamArmExtRetBase m_armExtRet;
+  SamArmRotateBase m_armRotate;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -186,8 +195,22 @@ public class SubsystemsContainer {
       System.out.println("using real feeder");
       m_feeder = new RealFeeder();
     } else {
-      System.out.println("Using mock feeder");
+      System.out.println("using mock feeder");
       m_feeder = new MockFeeder();
+    }
+    if (Config4905.getConfig4905().doesSamArmExtRetExist()) {
+      System.out.println("using real arm extend retract");
+      m_armExtRet = new RealSamArmExtRet();
+    } else {
+      System.out.println("using mock arm extend retract");
+      m_armExtRet = new MockSamArmExtRet();
+    }
+    if (Config4905.getConfig4905().doesSamArmRotateExist()) {
+      System.out.println("using real arm rotate");
+      m_armRotate = new RealSamArmRotate();
+    } else {
+      System.out.println("using mock arm rotate");
+      m_armRotate = new MockSamArmRotate();
     }
 
   }
@@ -250,6 +273,14 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public SamArmExtRetBase getArmExtRetBase() {
+    return m_armExtRet;
+  }
+
+  public SamArmRotateBase getArmRotateBase() {
+    return m_armRotate;
+  }
+
   public LEDs getLEDs() {
     return m_leds;
   }
@@ -275,6 +306,12 @@ public class SubsystemsContainer {
       m_bottomShooterWheel
           .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
       m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
+    }
+    if (Config4905.getConfig4905().doesSamArmExtRetExist()) {
+      m_armExtRet.setDefaultCommand(new DefaultArmRotExt(m_armRotate, m_armExtRet));
+    }
+    if (Config4905.getConfig4905().doesSamArmRotateExist()) {
+      m_armRotate.setDefaultCommand(new DefaultArmRotExt(m_armRotate, m_armExtRet));
     }
   }
 }

@@ -4,6 +4,8 @@
 
 package frc.robot.commands.samArmExtendRetractCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -14,10 +16,10 @@ import frc.robot.telemetries.Trace;
 
 public class ExtendRetract extends PIDCommand4905 {
   /** Creates a new ExtendRetract. */
-  private double m_position = 0;
+  private DoubleSupplier m_position;
   private SamArmExtRetBase m_armExtRet;
 
-  public ExtendRetract(SamArmExtRetBase armExtRet, double position) {
+  public ExtendRetract(SamArmExtRetBase armExtRet, DoubleSupplier position) {
 
     super(new PIDController4905SampleStop("ArmExtRet"), armExtRet::getPosition, position,
         output -> {
@@ -54,6 +56,10 @@ public class ExtendRetract extends PIDCommand4905 {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    return false;
+  }
+
+  public boolean isOnTarget() {
     return getController().atSetpoint();
   }
 }

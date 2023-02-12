@@ -301,8 +301,22 @@ public class Config4905 {
     return false;
   }
 
+  public boolean doesSamArmExtRetExist() {
+    if (m_config.hasPath("subsystems.samArmExtRet")) {
+      return true;
+    }
+    return false;
+  }
+
   public Config getSamArmRotateConfig() {
     return m_samArmRotateConfig;
+  }
+
+  public boolean doesSamArmRotateExist() {
+    if (m_config.hasPath("subsystems.samArmRotate")) {
+      return true;
+    }
+    return false;
   }
 
   public Config getSamArmExtensionConfig() {

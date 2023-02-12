@@ -4,6 +4,8 @@
 
 package frc.robot.commands.samArmRotateCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -14,10 +16,10 @@ import frc.robot.telemetries.Trace;
 
 public class RotateArm extends PIDCommand4905 {
   /** Creates a new RotateArm. */
-  private double m_angle = 0;
+  private DoubleSupplier m_angle;
   private SamArmRotateBase m_armRotate;
 
-  public RotateArm(SamArmRotateBase armRotate, double angle) {
+  public RotateArm(SamArmRotateBase armRotate, DoubleSupplier angle) {
 
     super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
       armRotate.rotate(output);
@@ -54,6 +56,10 @@ public class RotateArm extends PIDCommand4905 {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    return false;
+  }
+
+  public boolean isOnTarget() {
     return getController().atSetpoint();
   }
 }
