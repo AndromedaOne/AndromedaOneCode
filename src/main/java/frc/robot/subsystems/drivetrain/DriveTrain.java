@@ -19,11 +19,6 @@ public abstract class DriveTrain extends SubsystemBase {
   public DriveTrain() {
   }
 
-  public void updateSmartDashboardReadings() {
-    SmartDashboard.putNumber("RobotPositionInches", getRobotPositionInches());
-    SmartDashboard.putNumber("RobotVelocityInches", getRobotVelocityInches());
-  }
-
   public abstract void init();
 
   public abstract void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput);
@@ -57,5 +52,9 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public void setCoast(boolean p) {
     System.out.println("coast set to " + p);
+  }
+
+  public void periodic() {
+    SmartDashboard.putNumber("robotPositionInches", getRobotPositionInches());
   }
 }

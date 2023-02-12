@@ -96,7 +96,8 @@ public abstract class RealDriveTrain extends DriveTrain {
           new TracePair<Double>("CompassHeading", compassHeading),
           new TracePair<>("GyroCompassHeading", gyro.getCompassHeading()),
           new TracePair<>("robotDeltaAngle", robotDeltaAngle),
-          new TracePair<>("rotation", rotation));
+          new TracePair<>("rotation", rotation),
+          new TracePair<>("ForwardBackward", forwardBackward));
     }
     move(forwardBackward, rotation, useSquaredInputs);
   }
@@ -112,7 +113,7 @@ public abstract class RealDriveTrain extends DriveTrain {
     if (m_invertFowardAndBack) {
       forwardBackSpeed = -forwardBackSpeed;
     }
-    m_drive.arcadeDrive(forwardBackSpeed, rotateAmount, squaredInput);
+    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
   }
 
   protected abstract MotorControllerGroup getLeftSpeedControllerGroup();

@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
+import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
@@ -27,6 +29,7 @@ import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.RunShooterRPM;
 import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -49,6 +52,14 @@ public class SmartDashboard4905 {
         new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
+    SmartDashboard.putData("BalanceRobotBackwards",
+        new SequentialCommandGroup4905(
+            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
+            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
+    SmartDashboard.putData("BalanceRobotForward",
+        new SequentialCommandGroup4905(
+            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
+            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
 
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",
