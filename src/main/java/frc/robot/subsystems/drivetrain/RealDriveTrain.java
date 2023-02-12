@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.actuators.ServoMotor;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
@@ -30,12 +31,16 @@ public abstract class RealDriveTrain extends DriveTrain {
   private DifferentialDriveOdometry m_odometry;
   private int m_rightSideInvertedMultiplier = -1;
   private boolean m_invertFowardAndBack = false;
+  ServoMotor m_leftServoMotor;
+  ServoMotor m_rightServoMotor;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     gyro = Robot.getInstance().getSensorsContainer().getGyro();
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
     System.out.println("RealDriveTrain kProportion = " + kProportion);
+    m_leftServoMotor = new ServoMotor(drivetrainConfig.getInt("leftbrakeservomotor.port"));
+    m_rightServoMotor = new ServoMotor(drivetrainConfig.getInt("rightbrakeservomotor.port"));
   }
 
   @Override
@@ -154,6 +159,18 @@ public abstract class RealDriveTrain extends DriveTrain {
     getLeftSpeedControllerGroup().setVoltage(leftVolts);
     getRightSpeedControllerGroup().setVoltage(m_rightSideInvertedMultiplier * rightVolts);
     m_drive.feed();
+  }
+
+  @Override
+  public void enableParkingBrake() {
+    m_leftServoMotor.runBackward();
+    m_rightServoMotor.runBackward();
+  }
+
+  @Override
+  public void disableParkingBrake() {
+    m_leftServoMotor.stop();
+    m_rightServoMotor.stop();
   }
 
   protected abstract void resetEncoders();

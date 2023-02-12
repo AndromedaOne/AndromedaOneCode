@@ -61,6 +61,16 @@ public class MockDriveTrain extends DriveTrain {
   }
 
   @Override
+  public void enableParkingBrake() {
+
+  }
+
+  @Override
+  public void disableParkingBrake() {
+
+  }
+
+  @Override
   public void resetOdometry(Pose2d pose) {
 
   }
