@@ -29,8 +29,10 @@ public class ServoMotorPositional {
    * @param channel The PWM channel to which the servo is attached. 0-9 are
    *                on-board, 10-19 are on the MXP port
    */
-  public ServoMotorPositional(Config motorConfig) {
-    m_servoMotor = new PWM(motorConfig.getInt("port"));
+  public ServoMotorPositional(Config motorConfig, String servoName) {
+    // wasn't sure the best way to change this but needed to have a way to get
+    // the port for a specified servo motor out of the configuration file
+    m_servoMotor = new PWM(motorConfig.getInt(servoName + ".port"));
     HAL.report(tResourceType.kResourceType_Servo, m_servoMotor.getChannel() + 1);
   }
 
@@ -40,7 +42,7 @@ public class ServoMotorPositional {
   }
 
   public void setPeriodMultiplier(PeriodMultiplier mult) {
-    setPeriodMultiplier(mult);
+    m_servoMotor.setPeriodMultiplier(mult);
   }
 
   public void setMinMaxServoAngle(double minAngle, double maxAngle) {

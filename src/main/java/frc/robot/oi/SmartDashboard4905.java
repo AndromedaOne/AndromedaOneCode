@@ -17,6 +17,7 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
+import frc.robot.commands.driveTrainCommands.TuneBrakeSystem;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
@@ -86,6 +87,9 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
     }
+
+    // test code for servo
+    SmartDashboard.putData("Tune Brake", new TuneBrakeSystem());
   }
 
   public Command getSelectedAutoChooserCommand() {

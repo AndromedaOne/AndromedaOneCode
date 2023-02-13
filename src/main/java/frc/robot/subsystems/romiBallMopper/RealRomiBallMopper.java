@@ -14,7 +14,7 @@ public class RealRomiBallMopper extends RomiBallMopperBase {
 
   public RealRomiBallMopper() {
     m_motor = new HitecHS322HDpositionalServoMotor(
-        Config4905.getConfig4905().getRomiBallMopperConfig());
+        Config4905.getConfig4905().getRomiBallMopperConfig(), "MopperServoMotor");
   }
 
   @Override

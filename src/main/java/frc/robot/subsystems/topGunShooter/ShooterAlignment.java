@@ -20,7 +20,7 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   /** Creates a new ShooterAlignment. */
   public ShooterAlignment() {
     m_angleMotor = new SparkMaxController(m_shooterConfig, getShooterName());
-    m_hooksServoMotor = new HitecHS322HDpositionalServoMotor(m_shooterConfig);
+    m_hooksServoMotor = new HitecHS322HDpositionalServoMotor(m_shooterConfig, "hooksServoMotor");
   }
 
   public void rotateShooter(double speed) {
