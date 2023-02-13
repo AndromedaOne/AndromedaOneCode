@@ -62,7 +62,6 @@ public class Robot extends TimedRobot {
     limelight = m_sensorsContainer.getLimeLight();
     limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(true);
-    m_subsystemContainer.getWings().stop();
     LiveWindow.disableAllTelemetry();
     Trace.getInstance().logInfo("robot init finished");
   }
@@ -110,13 +109,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
-    }
-    if (Config4905.getConfig4905().doesConveyorExist()) {
-      Robot.getInstance().getSubsystemsContainer().getConveyor().stop();
-      Robot.getInstance().getSubsystemsContainer().setConveyorState(false);
-    }
   }
 
   /**
@@ -159,9 +151,6 @@ public class Robot extends TimedRobot {
       Trace.getInstance().logInfo("autonomousPeriodic called");
       m_autoPeriodicLogged = true;
     }
-    if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
-    }
   }
 
   private void setInitialZangleOffset() {
@@ -203,9 +192,6 @@ public class Robot extends TimedRobot {
     if (!m_teleopPeriodicLogged) {
       Trace.getInstance().logInfo("teleopPeriodic called");
       m_teleopPeriodicLogged = true;
-    }
-    if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
 

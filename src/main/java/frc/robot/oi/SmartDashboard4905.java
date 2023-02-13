@@ -19,11 +19,8 @@ import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
-import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
-import frc.robot.commands.romiCommands.romiBallMopper.MopBallMopper;
-import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
@@ -93,13 +90,7 @@ public class SmartDashboard4905 {
   }
 
   private void romiCommands(SubsystemsContainer subsystemsContainer) {
-    if (Config4905.getConfig4905().doesRomiBallMopperExist()) {
-      SmartDashboard.putData("Mop Ball", new MopBallMopper());
-      SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
-    }
     SmartDashboard.putData("AllianceAnticsSimple",
         new AllianceAnticsSimple(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("AllianceAnticsScoring",
-        new AllianceAnticsScoring(subsystemsContainer.getDrivetrain()));
   }
 }
