@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.actuators.ServoMotor;
+import frc.robot.actuators.ServoMotorContinuous;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.AdjustElevation;
@@ -54,8 +54,8 @@ public class SubsystemsContainer {
   // Declare member variables.
   DriveTrain m_driveTrain;
   LEDs m_leds;
-  ServoMotor m_romiIntake;
-  ServoMotor m_conveyor;
+  ServoMotorContinuous m_romiIntake;
+  ServoMotorContinuous m_conveyor;
   Boolean m_conveyorState;
   double m_conveyorSpeed;
   RomiWingsBase m_romiWings;
@@ -122,8 +122,8 @@ public class SubsystemsContainer {
 
     // 7. Romi Intake
     if (Config4905.getConfig4905().doesHarvesterExist()) {
-      m_romiIntake = new ServoMotor(Config4905.getConfig4905().getHarvesterConfig()
-          .getConfig("combineHarvesterServo").getInt("port"));
+      m_romiIntake = new ServoMotorContinuous(
+          Config4905.getConfig4905().getHarvesterConfig().getConfig("combineHarvesterServo"), true);
     }
 
     // 8. Romi Wings
@@ -135,8 +135,8 @@ public class SubsystemsContainer {
 
     // 8. Romi Conveyor
     if (Config4905.getConfig4905().doesConveyorExist()) {
-      m_conveyor = new ServoMotor(
-          Config4905.getConfig4905().getConveyorConfig().getConfig("conveyorServo").getInt("port"));
+      m_conveyor = new ServoMotorContinuous(
+          Config4905.getConfig4905().getConveyorConfig().getConfig("conveyorServo"), true);
       // True means conveyor is running
       m_conveyorState = false;
       m_conveyorSpeed = 0.0;
@@ -196,11 +196,11 @@ public class SubsystemsContainer {
     return m_driveTrain;
   }
 
-  public ServoMotor getRomiIntake() {
+  public ServoMotorContinuous getRomiIntake() {
     return m_romiIntake;
   }
 
-  public ServoMotor getConveyor() {
+  public ServoMotorContinuous getConveyor() {
     return m_conveyor;
   }
 

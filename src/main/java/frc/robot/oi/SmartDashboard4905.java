@@ -17,6 +17,7 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
+import frc.robot.commands.driveTrainCommands.TuneBrakeSystem;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
@@ -52,10 +53,14 @@ public class SmartDashboard4905 {
         new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
-    SmartDashboard.putData("BalanceRobot",
+    SmartDashboard.putData("BalanceRobotBackwards",
         new SequentialCommandGroup4905(
-            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 0),
-            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 0)));
+            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
+            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
+    SmartDashboard.putData("BalanceRobotForward",
+        new SequentialCommandGroup4905(
+            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
+            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
 
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",
@@ -82,6 +87,9 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
     }
+
+    // test code for servo
+    SmartDashboard.putData("Tune Brake", new TuneBrakeSystem());
   }
 
   public Command getSelectedAutoChooserCommand() {

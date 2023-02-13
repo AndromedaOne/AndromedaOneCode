@@ -8,23 +8,19 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
-import frc.robot.actuators.ServoMotor;
+import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
+import frc.robot.actuators.ServoMotorPositional;
 import frc.robot.actuators.SparkMaxController;
 
 public class ShooterAlignment extends ShooterAlignmentBase {
   SparkMaxController m_angleMotor;
-  ServoMotor m_hooksServoMotor;
+  ServoMotorPositional m_hooksServoMotor;
   Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
 
   /** Creates a new ShooterAlignment. */
   public ShooterAlignment() {
     m_angleMotor = new SparkMaxController(m_shooterConfig, getShooterName());
-    m_hooksServoMotor = new ServoMotor(m_shooterConfig.getInt("hooksServoMotor.port"));
-    // m_shooterConfig.getDouble("hooksServoMotor.maxPWMpulseWidthMS"),
-    // m_shooterConfig.getDouble("hooksServoMotor.deadbandMax"),
-    // m_shooterConfig.getDouble("hooksServoMotor.centerPWMpusleWithMS"),
-    // m_shooterConfig.getDouble("hooksServoMotor.deadbandMin"),
-    // m_shooterConfig.getDouble("hooksServoMotor.minPWMpulseWidthMS"));
+    m_hooksServoMotor = new HitecHS322HDpositionalServoMotor(m_shooterConfig, "hooksServoMotor");
   }
 
   public void rotateShooter(double speed) {
@@ -72,11 +68,11 @@ public class ShooterAlignment extends ShooterAlignmentBase {
 
   @Override
   public void extendShooterArms() {
-    m_hooksServoMotor.runBackward();
+    m_hooksServoMotor.set(1);
   }
 
   @Override
   public void stowShooterArms() {
-    m_hooksServoMotor.stop();
+    m_hooksServoMotor.set(0);
   }
 }

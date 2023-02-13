@@ -11,11 +11,19 @@ public abstract class Gyro4905 implements Gyro {
   private double m_initialZAngleReading = 0.0;
   private double m_initialXAngleReading = 0.0;
   private double m_initialYAngleReading = 0.0;
-  private boolean m_gyroOffsetDone = false;
+  private boolean m_isZangleOffsetinitialized = false;
 
   protected void setInitialZAngleReading(double value) {
     m_initialZAngleReading = value;
+  }
 
+  public void setInitialZangleOffset(double offset) {
+    if (!m_isZangleOffsetinitialized) {
+      System.out.print("orig init Z Angle: " + m_initialZAngleReading);
+      m_initialZAngleReading = m_initialZAngleReading + offset;
+      m_isZangleOffsetinitialized = true;
+      System.out.println(" updated init Z: " + m_initialZAngleReading);
+    }
   }
 
   public double getInitialZAngleReading() {
@@ -30,11 +38,11 @@ public abstract class Gyro4905 implements Gyro {
     m_initialYAngleReading = value;
   }
 
-  protected abstract double getRawZAngle();
+  public abstract double getRawZAngle();
 
-  protected abstract double getRawXAngle();
+  public abstract double getRawXAngle();
 
-  protected abstract double getRawYAngle();
+  public abstract double getRawYAngle();
 
   public double getZAngle() {
     return getRawZAngle() - m_initialZAngleReading;
@@ -101,13 +109,6 @@ public abstract class Gyro4905 implements Gyro {
 
   public DoubleSupplier getZangleDoubleSupplier() {
     return new GetZangleDoubleSupplier();
-  }
-
-  public void setInitialOffset(double offset) {
-    if (!m_gyroOffsetDone) {
-      m_initialZAngleReading = -offset + m_initialZAngleReading;
-      m_gyroOffsetDone = true;
-    }
   }
 
   public void updateSmartDashboardReadings() {
