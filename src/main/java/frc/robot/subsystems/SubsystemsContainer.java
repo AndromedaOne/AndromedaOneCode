@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.actuators.ServoMotor;
-import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.AdjustElevation;
@@ -294,9 +293,9 @@ public class SubsystemsContainer {
       m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
     }
 
-    if (Config4905.getConfig4905().doesGripperExist()) {
-      m_gripper.setDefaultCommand(new OpenCloseGripper(m_gripper, 0));
-    }
+    // if (Config4905.getConfig4905().doesGripperExist()) {
+    // m_gripper.setDefaultCommand(new OpenCloseGripper(m_gripper, 0));
+    // }
 
   }
 }

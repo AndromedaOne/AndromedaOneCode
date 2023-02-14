@@ -11,7 +11,7 @@ import frc.robot.subsystems.SAMgripper.GripperState;
 import frc.robot.telemetries.Trace;
 
 public class OpenCloseGripper extends CommandBase {
-  /** Creates a new OpenCloseGripper. */
+  /** Creates a new beautiful OpenCloseGripper. */
   protected GripperBase m_gripper;
   protected int m_state;
 
@@ -26,17 +26,26 @@ public class OpenCloseGripper extends CommandBase {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
+    // below was in execute
+    if (m_state == GripperState.OPENGRIPPER.ordinal()) {
+      m_gripper.closeGripper();
+      m_state = GripperState.CLOSEGRIPPER.ordinal();
+    } else if (m_state == GripperState.CLOSEGRIPPER.ordinal()) {
+      m_gripper.openGripper();
+      m_state = GripperState.OPENGRIPPER.ordinal();
+    }
+    // below was in end
+    // if (m_state == GripperState.OPENGRIPPER.ordinal()) {
+    // m_state = GripperState.CLOSEGRIPPER.ordinal();
+    // } else if (m_state == GripperState.CLOSEGRIPPER.ordinal()) {
+    // m_state = GripperState.OPENGRIPPER.ordinal();
+    // }
+    SmartDashboard.putNumber("New Gripper state =", m_state);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if (m_state == GripperState.OPENGRIPPER.ordinal()) {
-      m_gripper.closeGripper();
-    } else if (m_state == GripperState.CLOSEGRIPPER.ordinal()) {
-      m_gripper.openGripper();
-    }
 
   }
 
@@ -44,17 +53,12 @@ public class OpenCloseGripper extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
-    if (m_state == GripperState.OPENGRIPPER.ordinal()) {
-      m_state = GripperState.CLOSEGRIPPER.ordinal();
-    } else if (m_state == GripperState.CLOSEGRIPPER.ordinal()) {
-      m_state = GripperState.OPENGRIPPER.ordinal();
-    }
-    SmartDashboard.putNumber("New Gripper state =", m_state);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

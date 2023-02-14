@@ -60,7 +60,7 @@ public class SubsystemController extends ControllerBase {
   private void setupGripperButtons() {
     int currentGripperState = m_subsystemsContainer.getGripper().getState();
     getRightBumperButton()
-        .whileTrue(new OpenCloseGripper(m_subsystemsContainer.getGripper(), currentGripperState));
+        .onTrue(new OpenCloseGripper(m_subsystemsContainer.getGripper(), currentGripperState));
   }
 
   public boolean getPauseFeederButtonPressed() {
