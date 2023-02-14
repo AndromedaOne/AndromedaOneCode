@@ -89,7 +89,7 @@ public class SmartDashboard4905 {
     }
 
     // test code for servo
-    SmartDashboard.putData("Tune Brake", new TuneBrakeSystem());
+    SmartDashboard.putData("Tune Brakes", new TuneBrakeSystem());
   }
 
   public Command getSelectedAutoChooserCommand() {
