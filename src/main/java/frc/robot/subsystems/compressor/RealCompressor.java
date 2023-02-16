@@ -23,7 +23,8 @@ public class RealCompressor extends CompressorBase {
       Trace.getInstance().logInfo(moduleString);
       if (moduleString.equals("REVPH")) {
         // if (compressorConfig.getString("ModuleType") == "REVPH") {
-        m_compressor = new Compressor(60, PneumaticsModuleType.REVPH);
+        int portInt = compressorConfig.getInt("port");
+        m_compressor = new Compressor(portInt, PneumaticsModuleType.REVPH);
         // }
       }
     } else {
