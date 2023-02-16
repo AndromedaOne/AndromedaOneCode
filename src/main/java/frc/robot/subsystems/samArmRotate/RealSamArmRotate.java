@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems.samArmRotate;
 
+import com.revrobotics.SparkMaxAbsoluteEncoder;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
@@ -17,18 +20,18 @@ public class RealSamArmRotate extends SamArmRotateBase {
   private final LimitSwitchSensor m_frontAngleLimit;
   private final LimitSwitchSensor m_backAngleLimit;
   private final LimitSwitchSensor m_straightUpSwitch;
+  private SparkMaxAbsoluteEncoder m_armAngleEncoder;
   private boolean m_initialized = false;
   private double m_offset = 0;
   private double m_minAngle = 0;
   private double m_maxAngle = 0;
-  // private final SparkMaxController m_motor2;
 
   /** Creates a new RealSamArmRotate. */
   public RealSamArmRotate() {
     Config armrotateConfig = Config4905.getConfig4905().getSamArmRotateConfig();
 
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
-    // m_motor2 = new SparkMaxController(armrotateConfig, "motor2");
+    m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_frontAngleLimit = new RealLimitSwitchSensor("frontAngleLimitSwitch");
     m_backAngleLimit = new RealLimitSwitchSensor("backAngleLimitSwitch");
     m_straightUpSwitch = new RealLimitSwitchSensor("straightUpLimitSwitch");
@@ -38,7 +41,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("arm angle", getAngle());
   }
 
   // Positive speed rotates to the front, negative to the back.
@@ -55,7 +58,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
 
   @Override
   public double getAngle() {
-    return m_motor1.getEncoderPositionTicks() + m_offset;
+    return m_armAngleEncoder.getPosition();
   }
 
   @Override

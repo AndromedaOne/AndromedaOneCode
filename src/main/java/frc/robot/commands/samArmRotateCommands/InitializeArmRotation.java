@@ -10,6 +10,7 @@ import frc.robot.telemetries.Trace;
 
 public class InitializeArmRotation extends CommandBase {
   private SamArmRotateBase m_armRotate;
+  private double m_initializeAngle = 0;
 
   public InitializeArmRotation(SamArmRotateBase samArmRotate) {
     m_armRotate = samArmRotate;
@@ -28,7 +29,7 @@ public class InitializeArmRotation extends CommandBase {
   // the same direction.
   @Override
   public void execute() {
-    if (!m_armRotate.getInitialized() && !m_armRotate.getStraightUpLimitSwitchState()) {
+    if (!m_armRotate.getInitialized()) {
       m_armRotate.rotate(0);
     }
   }
@@ -40,12 +41,16 @@ public class InitializeArmRotation extends CommandBase {
     Trace.getInstance().logCommandStop(this);
   }
 
+  // 0.003 = 1 degree
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if (m_armRotate.getInitialized()) {
       return true;
-    } else if (m_armRotate.getStraightUpLimitSwitchState()) {
+    } else if ((m_armRotate.getAngle() < (m_initializeAngle + 0.003))
+        && (m_armRotate.getAngle() > (m_initializeAngle - 0.003))) {
+      // Want to initialize within 1 degree of initial angle.
       m_armRotate.setInitialized();
       return true;
     }

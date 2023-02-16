@@ -12,8 +12,10 @@ public class LowScorePosition extends CommandBase {
   /** Creates a new LowPositionScore. */
   private final double m_lowAngle = 0;
   private final double m_lowPosition = 0;
+  private SamArmRotateBase m_armRotate;
 
   public LowScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+    m_armRotate = armRotate;
   }
 
   // Called when the command is initially scheduled.
