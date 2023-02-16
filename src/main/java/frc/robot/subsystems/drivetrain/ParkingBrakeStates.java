@@ -6,5 +6,5 @@ package frc.robot.subsystems.drivetrain;
 
 /** Add your docs here. */
 public enum ParkingBrakeStates {
-  BRAKEOPEN, BRAKECLOSED
+  BRAKESON, BRAKESOFF, UNKNOWN
 }

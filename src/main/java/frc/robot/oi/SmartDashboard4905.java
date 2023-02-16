@@ -89,7 +89,10 @@ public class SmartDashboard4905 {
     }
 
     // test code for servo
-    SmartDashboard.putData("Tune Brakes", new TuneBrakeSystem());
+    if (Config4905.getConfig4905().isSAM()) {
+      SmartDashboard.putData("Tune Brakes",
+          new TuneBrakeSystem(subsystemsContainer.getDrivetrain()));
+    }
   }
 
   public Command getSelectedAutoChooserCommand() {

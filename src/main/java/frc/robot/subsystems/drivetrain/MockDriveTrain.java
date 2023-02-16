@@ -61,13 +61,23 @@ public class MockDriveTrain extends DriveTrain {
   }
 
   @Override
-  public void enableParkingBrake() {
+  public void enableParkingBrake(double value) {
 
   }
 
   @Override
-  public void disableParkingBrake() {
+  public void disableParkingBrake(double value) {
 
+  }
+
+  @Override
+  public void setParkingBrakes(double leftSpeed, double rightSpeed) {
+
+  }
+
+  @Override
+  public ParkingBrakeStates getParkingBrakeState() {
+    return ParkingBrakeStates.UNKNOWN;
   }
 
   @Override

@@ -53,7 +53,7 @@ public class Config4905 {
   private boolean m_isRomi = false;
   private boolean m_isShowBot = false;
   private boolean m_isTopGun = false;
-  private boolean m_isShortCircuit = false;
+  private boolean m_isSAM = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -65,8 +65,8 @@ public class Config4905 {
         m_isShowBot = true;
       } else if (m_robotName.equals("TopGun")) {
         m_isTopGun = true;
-      } else if (m_robotName.equals("ShortCircuit")) {
-        m_isShortCircuit = true;
+      } else if (m_robotName.equals("SAM")) {
+        m_isSAM = true;
       }
 
     } else {
@@ -309,8 +309,8 @@ public class Config4905 {
     return m_isTopGun;
   }
 
-  public boolean isShortCircuit() {
-    return m_isShortCircuit;
+  public boolean isSAM() {
+    return m_isSAM;
   }
 
   public String getRobotName() {

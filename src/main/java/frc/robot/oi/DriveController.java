@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
+import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
@@ -56,6 +57,9 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
     }
+    if (Config4905.getConfig4905().isSAM()) {
+      setUpParkingBrake();
+    }
   }
 
   public double getDriveTrainForwardBackwardStick() {
@@ -93,6 +97,10 @@ public class DriveController extends ControllerBase {
     m_turnOnLimelight.onTrue(new ToggleLimelightLED(true, m_sensorsContainer));
     m_turnOffLimelight = getStartButton();
     m_turnOffLimelight.onTrue(new ToggleLimelightLED(false, m_sensorsContainer));
+  }
+
+  private void setUpParkingBrake() {
+    getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDrivetrain()));
   }
 
   private void setupRomiButtons() {
