@@ -122,6 +122,10 @@ public class SensorsContainer {
       SmartDashboard.putNumber("Color Sensor Value Back",
           m_backColorSensor.getReflectedLightIntensity());
     }
+    if (m_sensorConfig.hasPath("navx")) {
+      SmartDashboard.putNumber("navx X angle", m_gyro.getXAngle());
+      SmartDashboard.putNumber("navx Y angle", m_gyro.getYAngle());
+    }
   }
 
   public Gyro4905 getGyro() {

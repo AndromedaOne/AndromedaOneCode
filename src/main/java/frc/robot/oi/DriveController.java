@@ -56,7 +56,6 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
     }
-
   }
 
   public double getDriveTrainForwardBackwardStick() {

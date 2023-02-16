@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
@@ -65,7 +64,6 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDrivetrain().setCoast(true);
     m_subsystemContainer.getWings().stop();
     LiveWindow.disableAllTelemetry();
-    SmartDashboard.putNumber("Gyro Offset", -1);
     Trace.getInstance().logInfo("robot init finished");
   }
 
@@ -78,7 +76,6 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
-
   @Override
   public void robotPeriodic() {
 
@@ -92,7 +89,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_sensorsContainer.getGyro().updateSmartDashboardReadings();
     m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
-    m_subsystemContainer.getDrivetrain().updateSmartDashboardReadings();
     m_sensorsContainer.periodic();
   }
 
@@ -130,7 +126,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Trace.getInstance().logInfo("autonomousInit called");
-    setInitialOffset();
+    setInitialZangleOffset();
 
     m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
 
@@ -168,11 +164,9 @@ public class Robot extends TimedRobot {
     }
   }
 
-  private void setInitialOffset() {
-    double smartDashboardOffset = SmartDashboard.getNumber("Gyro Offset", -1);
-    if (smartDashboardOffset != -1) {
-      m_sensorsContainer.getGyro().setInitialOffset(smartDashboardOffset);
-    }
+  private void setInitialZangleOffset() {
+    // For the Charged Up game 2023, the robot starts facing south.
+    m_sensorsContainer.getGyro().setInitialZangleOffset(180);
   }
 
   @Override
@@ -186,7 +180,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    setInitialOffset();
+    setInitialZangleOffset();
 
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
