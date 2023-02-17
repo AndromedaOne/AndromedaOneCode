@@ -42,7 +42,7 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
-
+  private Config m_gripperConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -147,6 +147,7 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
+    m_gripperConfig = load("gripper.conf");
   }
 
   public Config getControllersConfig() {
@@ -227,6 +228,19 @@ public class Config4905 {
 
   public Config getCompressorConfig() {
     return m_compressorConfig;
+  }
+
+  public Config getGripperConfig() {
+    return m_gripperConfig;
+  }
+
+  public boolean doesGripperExist() {
+    if (m_config.hasPath("subsystems.gripper")) {
+      return true;
+
+    } else {
+      return false;
+    }
   }
 
   public boolean doesCannonExist() {
