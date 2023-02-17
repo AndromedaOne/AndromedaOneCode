@@ -13,13 +13,12 @@ import frc.robot.telemetries.Trace;
 public class OpenCloseGripper extends CommandBase {
   /** Creates a new beautiful OpenCloseGripper. */
   protected GripperBase m_gripper;
-  protected int m_state;
 
-  public OpenCloseGripper(GripperBase gripper, int State) {
+  public OpenCloseGripper(GripperBase gripper) {
     // Use addRequirements() here to declare subsystem dependencies
     m_gripper = gripper;
     addRequirements(m_gripper);
-    m_state = State;
+
   }
 
   // Called when the command is initially scheduled.
@@ -27,12 +26,12 @@ public class OpenCloseGripper extends CommandBase {
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
     // below was in execute
-    if (m_state == GripperState.OPENGRIPPER.ordinal()) {
+    if (m_gripper.getState() == GripperState.OPENGRIPPER) {
       m_gripper.closeGripper();
-      m_state = GripperState.CLOSEGRIPPER.ordinal();
-    } else if (m_state == GripperState.CLOSEGRIPPER.ordinal()) {
+
+    } else if (m_gripper.getState() == GripperState.CLOSEGRIPPER) {
       m_gripper.openGripper();
-      m_state = GripperState.OPENGRIPPER.ordinal();
+
     }
     // below was in end
     // if (m_state == GripperState.OPENGRIPPER.ordinal()) {
@@ -40,7 +39,7 @@ public class OpenCloseGripper extends CommandBase {
     // } else if (m_state == GripperState.CLOSEGRIPPER.ordinal()) {
     // m_state = GripperState.OPENGRIPPER.ordinal();
     // }
-    SmartDashboard.putNumber("New Gripper state =", m_state);
+    SmartDashboard.putString("New Gripper state =", m_gripper.getState().name());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

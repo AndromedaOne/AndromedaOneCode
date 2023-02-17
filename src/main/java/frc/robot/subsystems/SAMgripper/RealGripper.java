@@ -14,6 +14,7 @@ public class RealGripper extends GripperBase {
   private Config m_config;
   // private DoubleSolenoid4905 m_gripperSolenoid;
   private DoubleSolenoid4905 m_solenoid7_8;
+  private GripperState m_gripperState = GripperState.CLOSEGRIPPER;
 
   public RealGripper() {
     m_config = Config4905.getConfig4905().getGripperConfig();
@@ -22,6 +23,8 @@ public class RealGripper extends GripperBase {
 
   @Override
   public void initialize() {
+    closeGripper();
+    m_gripperState = GripperState.CLOSEGRIPPER;
 
   }
 
@@ -29,20 +32,20 @@ public class RealGripper extends GripperBase {
   public void openGripper() {
     // retracts piston
     m_solenoid7_8.retractPiston();
+    System.out.println("retract piston");
+    m_gripperState = GripperState.OPENGRIPPER;
   }
 
   @Override
   public void closeGripper() {
     // extends piston
     m_solenoid7_8.extendPiston();
+    System.out.println("extend piston");
+    m_gripperState = GripperState.CLOSEGRIPPER;
   }
 
-  public int getState() {
-    if (m_solenoid7_8.isSolenoidOpen()) {
-      return GripperState.OPENGRIPPER.ordinal();
-    } else {
-      return GripperState.CLOSEGRIPPER.ordinal();
-    }
+  public GripperState getState() {
+    return m_gripperState;
   }
 
 }

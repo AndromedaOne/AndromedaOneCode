@@ -21,7 +21,7 @@ public class MockGripper extends GripperBase {
 
   }
 
-  public int getState() {
-    return 1;
+  public GripperState getState() {
+    return GripperState.CLOSEGRIPPER;
   }
 }

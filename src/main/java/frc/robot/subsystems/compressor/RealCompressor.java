@@ -25,6 +25,7 @@ public class RealCompressor extends CompressorBase {
         // if (compressorConfig.getString("ModuleType") == "REVPH") {
         int portInt = compressorConfig.getInt("port");
         m_compressor = new Compressor(portInt, PneumaticsModuleType.REVPH);
+        System.out.println("compresser config type " + m_compressor.getConfigType().toString());
         // }
       }
     } else {

@@ -18,7 +18,7 @@ public abstract class GripperBase extends SubsystemBase {
 
   public abstract void closeGripper();
 
-  public abstract int getState();
+  public abstract GripperState getState();
 
   @Override
   public void periodic() {

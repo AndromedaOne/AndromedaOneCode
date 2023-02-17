@@ -68,7 +68,8 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Shoot Cannon", new ShootCannon());
     }
     if (Config4905.getConfig4905().doesGripperExist()) {
-      SmartDashboard.putNumber("Real Gripper state =", subsystemsContainer.getGripper().getState());
+      SmartDashboard.putString("Real Gripper state =",
+          subsystemsContainer.getGripper().getState().name());
     }
 
     if (Config4905.getConfig4905().doesShooterExist()) {
