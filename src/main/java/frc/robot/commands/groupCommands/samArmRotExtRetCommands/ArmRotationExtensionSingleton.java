@@ -9,7 +9,7 @@ import java.util.function.DoubleSupplier;
 /** Add your docs here. */
 public class ArmRotationExtensionSingleton {
   private static ArmRotationExtensionSingleton m_instance = new ArmRotationExtensionSingleton();
-  private double m_angle = 0;
+  private double m_angle = 180;
   private double m_position = 0;
 
   private ArmRotationExtensionSingleton() {

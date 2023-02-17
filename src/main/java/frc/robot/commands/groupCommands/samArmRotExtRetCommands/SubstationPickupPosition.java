@@ -4,28 +4,32 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.samArmRotateCommands.RotateArm;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
+import frc.robot.telemetries.Trace;
 
-public class SubstationPickupPosition extends CommandBase {
+public class SubstationPickupPosition extends SequentialCommandGroup4905 {
   /** Creates a new SubstationPickupPosition. */
   private final double m_substationAngle = 0;
   private final double m_substationPosition = 0;
 
   public SubstationPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRotate) {
+    addCommands(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void additionalInitialize() {
     ArmRotationExtensionSingleton.getInstance().setAngle(m_substationAngle);
     ArmRotationExtensionSingleton.getInstance().setPosition(m_substationPosition);
+    Trace.getInstance().logCommandStart(this);
   }
 
-  // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return true;
+  public void additionalEnd(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
   }
 }

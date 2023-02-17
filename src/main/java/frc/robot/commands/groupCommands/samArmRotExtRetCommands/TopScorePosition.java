@@ -4,28 +4,32 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.samArmRotateCommands.RotateArm;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
+import frc.robot.telemetries.Trace;
 
-public class TopScorePosition extends CommandBase {
+public class TopScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new TopPositionScore. */
   private final double m_topAngle = 0;
   private final double m_topPosition = 0;
 
   public TopScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+    addCommands(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void additionalInitialize() {
     ArmRotationExtensionSingleton.getInstance().setAngle(m_topAngle);
     ArmRotationExtensionSingleton.getInstance().setPosition(m_topPosition);
+    Trace.getInstance().logCommandStart(this);
   }
 
-  // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return true;
+  public void additionalEnd(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
   }
 }

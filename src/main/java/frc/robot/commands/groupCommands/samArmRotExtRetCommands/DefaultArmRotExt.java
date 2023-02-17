@@ -17,7 +17,8 @@ public class DefaultArmRotExt extends ParallelCommandGroup {
   /** Creates a new DefaultArmRotExt. */
   public DefaultArmRotExt(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
 
-    addCommands(new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle()),
+    addCommands(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), false),
         new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition()));
   }
 }

@@ -10,21 +10,20 @@ import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 
-public class MiddleScorePosition extends SequentialCommandGroup4905 {
-  /** Creates a new MiddlePositionScore. */
-  private final double m_middleAngle = 248;
-  private final double m_middlePosition = 0;
+public class StowPosition extends SequentialCommandGroup4905 {
+  /** Creates a new StowPosition. */
+  private final double m_stowAngle = 180;
+  private final double m_stowPosition = 0;
 
-  public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+  public StowPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    ArmRotationExtensionSingleton.getInstance().setAngle(m_middleAngle);
-    ArmRotationExtensionSingleton.getInstance().setPosition(m_middlePosition);
+    ArmRotationExtensionSingleton.getInstance().setAngle(m_stowAngle);
+    ArmRotationExtensionSingleton.getInstance().setPosition(m_stowPosition);
     Trace.getInstance().logCommandStart(this);
   }
 

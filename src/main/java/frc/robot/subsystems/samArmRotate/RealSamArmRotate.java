@@ -58,7 +58,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
 
   @Override
   public double getAngle() {
-    return m_armAngleEncoder.getPosition();
+    return ((1 - m_armAngleEncoder.getPosition()) + 0.39) * 360;
   }
 
   @Override

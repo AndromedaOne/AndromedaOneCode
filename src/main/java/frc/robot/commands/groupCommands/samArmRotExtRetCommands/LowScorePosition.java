@@ -4,30 +4,32 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.samArmRotateCommands.RotateArm;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
+import frc.robot.telemetries.Trace;
 
-public class LowScorePosition extends CommandBase {
+public class LowScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new LowPositionScore. */
-  private final double m_lowAngle = 0;
+  private final double m_lowAngle = 289;
   private final double m_lowPosition = 0;
-  private SamArmRotateBase m_armRotate;
 
   public LowScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    m_armRotate = armRotate;
+    addCommands(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void additionalInitialize() {
     ArmRotationExtensionSingleton.getInstance().setAngle(m_lowAngle);
     ArmRotationExtensionSingleton.getInstance().setPosition(m_lowPosition);
+    Trace.getInstance().logCommandStart(this);
   }
 
-  // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return true;
+  public void additionalEnd(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
   }
 }

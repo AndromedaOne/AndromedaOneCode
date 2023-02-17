@@ -18,14 +18,16 @@ public class RotateArm extends PIDCommand4905 {
   /** Creates a new RotateArm. */
   private DoubleSupplier m_angle;
   private SamArmRotateBase m_armRotate;
+  private boolean m_needToEnd = false;
 
-  public RotateArm(SamArmRotateBase armRotate, DoubleSupplier angle) {
+  public RotateArm(SamArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
 
     super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
       armRotate.rotate(output);
     }, armRotate);
     m_angle = angle;
     m_armRotate = armRotate;
+    addRequirements(armRotate);
   }
 
   // Called when the command is initially scheduled.
@@ -48,7 +50,6 @@ public class RotateArm extends PIDCommand4905 {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    m_armRotate.rotate(0);
     Trace.getInstance().logCommandStop(this);
     Trace.getInstance().logCommandInfo(this, "Ending Angle: " + m_armRotate.getAngle());
   }
@@ -56,6 +57,9 @@ public class RotateArm extends PIDCommand4905 {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (m_needToEnd && isOnTarget()) {
+      return true;
+    }
     return false;
   }
 
