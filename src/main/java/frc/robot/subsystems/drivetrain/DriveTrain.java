@@ -58,6 +58,10 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract ParkingBrakeStates getParkingBrakeState();
 
+  public abstract double getLeftBrakeValue();
+
+  public abstract double getRightBrakeValue();
+
   public void setCoast(boolean p) {
     System.out.println("coast set to " + p);
   }

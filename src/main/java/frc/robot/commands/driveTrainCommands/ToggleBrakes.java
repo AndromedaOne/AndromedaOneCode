@@ -41,6 +41,7 @@ public class ToggleBrakes extends CommandBase {
     } else if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
       m_driveTrain.disableParkingBrake(m_brakeDisengagedValue);
     } else {
+      // Not sure what value to set the brakes in this case.
       m_driveTrain.setParkingBrakes(0, 0);
     }
   }
@@ -54,6 +55,6 @@ public class ToggleBrakes extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

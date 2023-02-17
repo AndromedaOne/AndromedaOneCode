@@ -85,4 +85,14 @@ public class MockDriveTrain extends DriveTrain {
 
   }
 
+  @Override
+  public double getLeftBrakeValue() {
+    return 0;
+  }
+
+  @Override
+  public double getRightBrakeValue() {
+    return 0;
+  }
+
 }

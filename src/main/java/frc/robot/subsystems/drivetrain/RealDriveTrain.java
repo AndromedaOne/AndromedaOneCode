@@ -88,7 +88,9 @@ public abstract class RealDriveTrain extends DriveTrain {
     if (drivetrainConfig.hasPath("InvertFowardAndBack")) {
       m_invertFowardAndBack = true;
     }
-    m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
+    if (getLeftBrakeValue() >= m_brakeEngagedValue || getRightBrakeValue() >= m_brakeEngagedValue) {
+      disableParkingBrake(m_brakeDisengagedValue);
+    }
   }
 
   /**
@@ -127,7 +129,9 @@ public abstract class RealDriveTrain extends DriveTrain {
     if (m_invertFowardAndBack) {
       forwardBackSpeed = -forwardBackSpeed;
     }
-    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
+    if (getParkingBrakeState() == ParkingBrakeStates.BRAKESOFF) {
+      m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
+    }
   }
 
   protected abstract MotorControllerGroup getLeftSpeedControllerGroup();
@@ -172,15 +176,13 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public void enableParkingBrake(double value) {
-    m_leftServoMotor.set(value);
-    m_rightServoMotor.set(value);
+    setParkingBrakes(value, value);
     m_parkingBrakeStates = ParkingBrakeStates.BRAKESON;
   }
 
   @Override
   public void disableParkingBrake(double value) {
-    m_leftServoMotor.set(value);
-    m_rightServoMotor.set(value);
+    setParkingBrakes(value, value);
     m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
   }
 
@@ -191,7 +193,18 @@ public abstract class RealDriveTrain extends DriveTrain {
   }
 
   @Override
+  public double getLeftBrakeValue() {
+    return m_leftServoMotor.get();
+  }
+
+  @Override
+  public double getRightBrakeValue() {
+    return m_rightServoMotor.get();
+  }
+
+  @Override
   public ParkingBrakeStates getParkingBrakeState() {
+    // We may need to make these conditions >= Needs to be tested.
     if (m_leftServoMotor.get() == m_brakeDisengagedValue
         || m_rightServoMotor.get() == m_brakeDisengagedValue) {
       return ParkingBrakeStates.BRAKESOFF;
