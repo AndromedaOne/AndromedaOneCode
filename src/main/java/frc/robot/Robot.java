@@ -216,7 +216,6 @@ public class Robot extends TimedRobot {
     if (Config4905.getConfig4905().doesHarvesterExist()) {
       Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
-    m_subsystemContainer.getGripper().closeGripper();
   }
 
   @Override
