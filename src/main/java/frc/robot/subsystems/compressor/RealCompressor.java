@@ -9,6 +9,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.Config4905;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealCompressor extends CompressorBase {
@@ -17,7 +18,13 @@ public class RealCompressor extends CompressorBase {
   public RealCompressor() {
     Config compressorConfig = Config4905.getConfig4905().getCompressorConfig();
     if (compressorConfig.hasPath("ModuleType")) {
-      m_compressor = new Compressor(60, PneumaticsModuleType.REVPH);
+      Trace.getInstance().logInfo("Line 21 in RealCompressor ran");
+      String moduleString = compressorConfig.getString("ModuleType");
+      Trace.getInstance().logInfo(moduleString);
+      if (moduleString.equals("REVPH")) {
+        int portInt = compressorConfig.getInt("port");
+        m_compressor = new Compressor(portInt, PneumaticsModuleType.REVPH);
+      }
     } else {
       m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     }
