@@ -17,8 +17,8 @@ public class TuneBrakeSystem extends CommandBase {
     m_driveTrain = driveTrain;
 
     // throw on the dashboard a default value
-    SmartDashboard.putNumber("Left Brake Speed", 0.0);
-    SmartDashboard.putNumber("Right Brake Speed", 0.0);
+    SmartDashboard.putNumber("Left Brake Speed", m_driveTrain.getLeftBrakeValue());
+    SmartDashboard.putNumber("Right Brake Speed", m_driveTrain.getRightBrakeValue());
   }
 
   // Called when the command is initially scheduled.

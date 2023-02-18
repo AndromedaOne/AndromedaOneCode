@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.actuators.ServoMotor;
 import frc.robot.actuators.ServoMotorContinuous;
 import frc.robot.commands.SAMgripperCommands.DefaultGripperCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;

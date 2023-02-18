@@ -88,8 +88,11 @@ public abstract class RealDriveTrain extends DriveTrain {
     if (drivetrainConfig.hasPath("InvertFowardAndBack")) {
       m_invertFowardAndBack = true;
     }
+    Trace.getInstance().logInfo("Right Brake Value = " + getRightBrakeValue()
+        + "Left Brake Value = " + getLeftBrakeValue());
     if (getLeftBrakeValue() >= m_brakeEngagedValue || getRightBrakeValue() >= m_brakeEngagedValue) {
       disableParkingBrake(m_brakeDisengagedValue);
+      Trace.getInstance().logInfo("RealDriveTrain Detects Brake Engaged");
     }
   }
 
