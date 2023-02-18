@@ -4,6 +4,7 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
+import frc.robot.Robot;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -14,6 +15,8 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new MiddlePositionScore. */
   private final double m_middleAngle = 248;
   private final double m_middlePosition = 0;
+  private final double m_forwardMiddleAngle = 112;
+  private final double m_forwardMiddlePosition = 0;
 
   public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
@@ -23,8 +26,13 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    ArmRotationExtensionSingleton.getInstance().setAngle(m_middleAngle);
-    ArmRotationExtensionSingleton.getInstance().setPosition(m_middlePosition);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabForwardButton()) {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardMiddleAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardMiddlePosition);
+    } else {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_middleAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_middlePosition);
+    }
     Trace.getInstance().logCommandStart(this);
   }
 

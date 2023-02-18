@@ -4,6 +4,7 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
+import frc.robot.Robot;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -14,6 +15,8 @@ public class LowScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new LowPositionScore. */
   private final double m_lowAngle = 289;
   private final double m_lowPosition = 0;
+  private final double m_forwardLowAngle = 71;
+  private final double m_forwardLowPosition = 0;
 
   public LowScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
@@ -23,8 +26,13 @@ public class LowScorePosition extends SequentialCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    ArmRotationExtensionSingleton.getInstance().setAngle(m_lowAngle);
-    ArmRotationExtensionSingleton.getInstance().setPosition(m_lowPosition);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabForwardButton()) {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardLowAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardLowPosition);
+    } else {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_lowAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_lowPosition);
+    }
     Trace.getInstance().logCommandStart(this);
   }
 

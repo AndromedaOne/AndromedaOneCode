@@ -96,11 +96,15 @@ public class SubsystemController extends ControllerBase {
     }
   }
 
-  public boolean getXButton() {
-    return getXButton();
-  }
-
   public boolean getEjectCargoButton() {
     return getBackButton().getAsBoolean();
   }
+
+  public boolean getGrabForwardButton() {
+    if (getLeftTriggerValue() > 0.3) {
+      return true;
+    }
+    return false;
+  }
+
 }
