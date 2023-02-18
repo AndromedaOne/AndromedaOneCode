@@ -22,6 +22,9 @@ import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
@@ -73,6 +76,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
       SmartDashboard.putData("Shoot Cannon", new ShootCannon());
     }
+    if (Config4905.getConfig4905().doesGripperExist()) {
+      SmartDashboard.putString("Real Gripper state =",
+          subsystemsContainer.getGripper().getState().name());
+    }
 
     if (Config4905.getConfig4905().doesShooterExist()) {
       SmartDashboard.putData("Tune Shooter Feed Forward",
@@ -83,6 +90,22 @@ public class SmartDashboard4905 {
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
       SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
           subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
+    }
+
+    if (Config4905.getConfig4905().doesSamArmRotateExist()) {
+      SmartDashboard.putData("Low Score Position", new LowScorePosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Mid Score Position", new MiddleScorePosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+      // SmartDashboard.putData("Top Score Position", new TopScorePosition(
+      // subsystemsContainer.getArmRotateBase(),
+      // subsystemsContainer.getArmExtRetBase()));
+      // SmartDashboard.putData("Substation Pickup Position", new
+      // SubstationPickupPosition(
+      // subsystemsContainer.getArmRotateBase(),
+      // subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Stow Position", new StowPosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
     }
 
     if (Config4905.getConfig4905().isRomi()) {

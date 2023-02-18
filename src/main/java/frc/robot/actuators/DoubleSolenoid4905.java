@@ -11,9 +11,20 @@ public class DoubleSolenoid4905 {
   private boolean m_isSolenoidOpen = false;
 
   public DoubleSolenoid4905(Config subsystemConfig, String configString) {
-    m_doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-        subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
-        subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
+    if (subsystemConfig.hasPath("ModuleType")) {
+      String moduleString = subsystemConfig.getString("ModuleType");
+      if (moduleString.equals("REVPH")) {
+        // if (subsystemConfig.getString("ModuleType") == "REVPH") {
+        m_doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+            subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
+            subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
+      }
+      // }
+    } else {
+      m_doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+          subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
+          subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
+    }
   }
 
   public void extendPiston() {
