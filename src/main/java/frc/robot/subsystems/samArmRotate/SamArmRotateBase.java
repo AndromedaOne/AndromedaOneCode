@@ -23,9 +23,4 @@ public abstract class SamArmRotateBase extends SubsystemBase {
 
   public abstract void setInitialized();
 
-  public abstract boolean getFrontAngleLimitSwitchState();
-
-  public abstract boolean getBackAngleLimitSwitchState();
-
-  public abstract boolean getStraightUpLimitSwitchState();
 }

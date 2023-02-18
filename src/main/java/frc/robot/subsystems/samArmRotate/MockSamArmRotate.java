@@ -31,19 +31,4 @@ public class MockSamArmRotate extends SamArmRotateBase {
   @Override
   public void setInitialized() {
   }
-
-  @Override
-  public boolean getFrontAngleLimitSwitchState() {
-    return true;
-  }
-
-  @Override
-  public boolean getBackAngleLimitSwitchState() {
-    return true;
-  }
-
-  @Override
-  public boolean getStraightUpLimitSwitchState() {
-    return true;
-  }
 }

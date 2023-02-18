@@ -27,6 +27,7 @@ public class RotateArm extends PIDCommand4905 {
     }, armRotate);
     m_angle = angle;
     m_armRotate = armRotate;
+    m_needToEnd = needToEnd;
     addRequirements(armRotate);
   }
 
