@@ -31,16 +31,16 @@ public class RealGripper extends GripperBase {
   @Override
   public void openGripper() {
     // retracts piston
-    m_solenoid0_1.retractPiston();
-    System.out.println("retract piston");
+    m_solenoid0_1.extendPiston();
+    System.out.println("extend piston");
     m_gripperState = GripperState.OPENGRIPPER;
   }
 
   @Override
   public void closeGripper() {
     // extends piston
-    m_solenoid0_1.extendPiston();
-    System.out.println("extend piston");
+    m_solenoid0_1.retractPiston();
+    System.out.println("retract piston");
     m_gripperState = GripperState.CLOSEGRIPPER;
   }
 
