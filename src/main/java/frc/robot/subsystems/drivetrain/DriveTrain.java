@@ -9,6 +9,7 @@ package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class DriveTrain extends SubsystemBase {
@@ -16,9 +17,6 @@ public abstract class DriveTrain extends SubsystemBase {
    * Creates a new DriveTrainBase.
    */
   public DriveTrain() {
-  }
-
-  public void updateSmartDashboardReadings() {
   }
 
   public abstract void init();
@@ -54,5 +52,9 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public void setCoast(boolean p) {
     System.out.println("coast set to " + p);
+  }
+
+  public void periodic() {
+    SmartDashboard.putNumber("robotPositionInches", getRobotPositionInches());
   }
 }
