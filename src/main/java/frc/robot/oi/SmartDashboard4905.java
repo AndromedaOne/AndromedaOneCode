@@ -62,7 +62,7 @@ public class SmartDashboard4905 {
         new SequentialCommandGroup4905(
             new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
             new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
-
+    SmartDashboard.putData("Engage Auto Dock", new EngageAutoDock());
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",
           new ToggleLimelightLED(true, sensorsContainer));
