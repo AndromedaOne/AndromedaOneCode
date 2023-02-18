@@ -6,7 +6,11 @@ package frc.robot.commands.groupCommands.autonomousCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
+import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
@@ -18,8 +22,15 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
   public LeftAutoPlaceAndLeave() {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    // Place cube backup leaving the zone
-    // Need to add placement code
-    addCommands(new MoveUsingEncoder(driveTrain, 166, 0.5));
+    // if (Config4905.getConfig4905().doesSamArmRotateExist()){
+    addCommands(new SequentialCommandGroup4905(
+        new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()),
+        new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new StowPosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()),
+        new MoveUsingEncoder(driveTrain, 166, 0.5)
+
+    ));
   }
 }
