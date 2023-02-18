@@ -13,9 +13,9 @@ import frc.robot.telemetries.Trace;
 
 public class LowScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new LowPositionScore. */
-  private final double m_lowAngle = 289;
-  private final double m_lowPosition = 0;
-  private final double m_forwardLowAngle = 71;
+  private final double m_backwardLowAngle = 71;
+  private final double m_backwardLowPosition = 0;
+  private final double m_forwardLowAngle = 289;
   private final double m_forwardLowPosition = 0;
 
   public LowScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
@@ -26,12 +26,12 @@ public class LowScorePosition extends SequentialCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabForwardButton()) {
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
       ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardLowAngle);
       ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardLowPosition);
     } else {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_lowAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_lowPosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardLowAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardLowPosition);
     }
     Trace.getInstance().logCommandStart(this);
   }

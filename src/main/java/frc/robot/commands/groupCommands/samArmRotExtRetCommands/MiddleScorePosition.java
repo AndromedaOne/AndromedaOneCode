@@ -13,9 +13,9 @@ import frc.robot.telemetries.Trace;
 
 public class MiddleScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new MiddlePositionScore. */
-  private final double m_middleAngle = 248;
-  private final double m_middlePosition = 0;
-  private final double m_forwardMiddleAngle = 112;
+  private final double m_backwardMiddleAngle = 112;
+  private final double m_backwardMiddlePosition = 0;
+  private final double m_forwardMiddleAngle = 248;
   private final double m_forwardMiddlePosition = 0;
 
   public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
@@ -26,12 +26,12 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabForwardButton()) {
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
       ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardMiddleAngle);
       ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardMiddlePosition);
     } else {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_middleAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_middlePosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardMiddleAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardMiddlePosition);
     }
     Trace.getInstance().logCommandStart(this);
   }

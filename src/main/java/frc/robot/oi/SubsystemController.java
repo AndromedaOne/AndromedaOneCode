@@ -100,7 +100,7 @@ public class SubsystemController extends ControllerBase {
     return getBackButton().getAsBoolean();
   }
 
-  public boolean getGrabForwardButton() {
+  public boolean getGrabBackwardButton() {
     if (getLeftTriggerValue() > 0.3) {
       return true;
     }

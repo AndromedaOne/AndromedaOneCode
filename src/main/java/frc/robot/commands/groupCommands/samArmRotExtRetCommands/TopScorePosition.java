@@ -4,6 +4,7 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
+import frc.robot.Robot;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -12,8 +13,10 @@ import frc.robot.telemetries.Trace;
 
 public class TopScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new TopPositionScore. */
-  private final double m_topAngle = 0;
-  private final double m_topPosition = 0;
+  private final double m_backwardTopAngle = 0;
+  private final double m_backwardTopPosition = 0;
+  private final double m_forwardTopAngle = 0;
+  private final double m_forwardTopPosition = 0;
 
   public TopScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
@@ -23,8 +26,13 @@ public class TopScorePosition extends SequentialCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    ArmRotationExtensionSingleton.getInstance().setAngle(m_topAngle);
-    ArmRotationExtensionSingleton.getInstance().setPosition(m_topPosition);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardTopAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardTopPosition);
+    } else {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardTopAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardTopPosition);
+    }
     Trace.getInstance().logCommandStart(this);
   }
 
