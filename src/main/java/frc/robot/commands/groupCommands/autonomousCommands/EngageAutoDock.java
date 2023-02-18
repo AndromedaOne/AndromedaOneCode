@@ -19,13 +19,13 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class EngageAutoDock extends SequentialCommandGroup {
   /** Creates a new EngageAutoDock. */
   public EngageAutoDock() {
-    final double distanceToMove = -166;
+    final double distanceToMove = 166;
     final double maxOutPut = 0.5;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(moveCommand,
-        new SequentialCommandGroup4905(new MoveToCenterOfChargingStation(driveTrain, 45, 0.5, 0),
+        new SequentialCommandGroup4905(new MoveToCenterOfChargingStation(driveTrain, -45, 0.75, 0),
             new BalanceRobot(driveTrain, 0.5, 0)));
 
   }

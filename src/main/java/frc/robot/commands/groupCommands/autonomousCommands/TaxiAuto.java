@@ -20,6 +20,6 @@ public class TaxiAuto extends SequentialCommandGroup {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     // We ran the speed at 0.5 to accomodate charging station and cable.
-    addCommands(new MoveUsingEncoder(driveTrain, -166, 0.5));
+    addCommands(new MoveUsingEncoder(driveTrain, 166, 0.5));
   }
 }
