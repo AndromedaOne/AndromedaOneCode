@@ -23,12 +23,4 @@ public class MockSamArmRotate extends SamArmRotateBase {
     return 0;
   }
 
-  @Override
-  public boolean getInitialized() {
-    return true;
-  }
-
-  @Override
-  public void setInitialized() {
-  }
 }

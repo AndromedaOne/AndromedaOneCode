@@ -19,8 +19,4 @@ public abstract class SamArmRotateBase extends SubsystemBase {
 
   public abstract double getAngle();
 
-  public abstract boolean getInitialized();
-
-  public abstract void setInitialized();
-
 }

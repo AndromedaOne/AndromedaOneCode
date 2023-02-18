@@ -16,8 +16,6 @@ public class RealSamArmRotate extends SamArmRotateBase {
 
   private final SparkMaxController m_motor1;
   private SparkMaxAbsoluteEncoder m_armAngleEncoder;
-  private boolean m_initialized = false;
-  private double m_offset = 0;
   private double m_minAngle = 0;
   private double m_maxAngle = 0;
 
@@ -50,17 +48,11 @@ public class RealSamArmRotate extends SamArmRotateBase {
 
   @Override
   public double getAngle() {
-    return ((1 - m_armAngleEncoder.getPosition()) + 0.39) * 360;
+    double fixedEncoderValue = (1 - m_armAngleEncoder.getPosition()) + 0.39;
+    if (fixedEncoderValue > 1) {
+      fixedEncoderValue = fixedEncoderValue - 1;
+    }
+    return fixedEncoderValue * 360;
   }
 
-  @Override
-  public boolean getInitialized() {
-    return m_initialized;
-  }
-
-  @Override
-  public void setInitialized() {
-    m_initialized = true;
-    m_offset = m_motor1.getEncoderPositionTicks();
-  }
 }
