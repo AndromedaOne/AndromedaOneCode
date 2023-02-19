@@ -22,15 +22,13 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
   public LeftAutoPlaceAndLeave() {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    // if (Config4905.getConfig4905().doesSamArmRotateExist()){
-    addCommands(new SequentialCommandGroup4905(
-        new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
-        new OpenCloseGripper(subsystemsContainer.getGripper()),
-        new StowPosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
-        new MoveUsingEncoder(driveTrain, 166, 0.5)
-
-    ));
+    addCommands(
+        new SequentialCommandGroup4905(
+            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase()),
+            new OpenCloseGripper(subsystemsContainer.getGripper()),
+            new StowPosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase()),
+            new MoveUsingEncoder(driveTrain, 166, 0.5)));
   }
 }
