@@ -108,12 +108,12 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   }
 
   @Override
-  protected double getLeftRateMetersPerSecond() {
+  public double getLeftRateMetersPerSecond() {
     return (m_backLeft.getEncoderVelocityTicks() + m_frontLeft.getEncoderVelocityTicks()) * 0.5;
   }
 
   @Override
-  protected double getRightRateMetersPerSecond() {
+  public double getRightRateMetersPerSecond() {
     return (m_backRight.getEncoderVelocityTicks() + m_frontRight.getEncoderVelocityTicks()) * 0.5;
   }
 

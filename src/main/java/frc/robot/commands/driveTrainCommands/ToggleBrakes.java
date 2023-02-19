@@ -4,10 +4,7 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Config4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
@@ -15,8 +12,6 @@ import frc.robot.telemetries.Trace;
 public class ToggleBrakes extends CommandBase {
   /** Creates a new ToggleBrakes. */
   DriveTrain m_driveTrain;
-  private double m_brakeEngagedValue = 0.0;
-  private double m_brakeDisengagedValue = 0.0;
 
   public ToggleBrakes(DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
@@ -26,11 +21,7 @@ public class ToggleBrakes extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Config driveTrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     Trace.getInstance().logCommandStart(this);
-    m_brakeDisengagedValue = driveTrainConfig.getDouble("brakedisengage");
-    m_brakeEngagedValue = driveTrainConfig.getDouble("brakeengaged");
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.

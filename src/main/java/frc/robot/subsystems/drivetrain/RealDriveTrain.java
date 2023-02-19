@@ -39,6 +39,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double m_leftBrakeDisengagedValue = 0.0;
   private double m_rightBrakeDisengagedValue = 0.0;
   private boolean m_hasParkingBrake = false;
+  private final double m_maxSpeedToEngageBrake = 0.05;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -49,11 +50,11 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_leftServoMotor = new HitecHS322HDpositionalServoMotor(drivetrainConfig,
           "parkingbrake.leftbrakeservomotor");
       m_leftBrakeEngagedValue = drivetrainConfig.getDouble("parkingbrake.leftbrakeengaged");
-      m_leftBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.leftbrakedisengaged");
+      m_leftBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.leftbrakedisengage");
       m_rightServoMotor = new HitecHS322HDpositionalServoMotor(drivetrainConfig,
           "parkingbrake.rightbrakeservomotor");
       m_rightBrakeEngagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakeengaged");
-      m_rightBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakedisengaged");
+      m_rightBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakedisengage");
       m_hasParkingBrake = true;
     }
 
@@ -153,10 +154,6 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   protected abstract MotorControllerGroup getRightSpeedControllerGroup();
 
-  protected abstract double getLeftRateMetersPerSecond();
-
-  protected abstract double getRightRateMetersPerSecond();
-
   @Override
   public Pose2d getPose() {
     Pose2d pose = m_odometry.getPoseMeters();
@@ -191,9 +188,14 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public void enableParkingBrakes() {
-    m_leftServoMotor.set(m_leftBrakeEngagedValue);
-    m_rightServoMotor.set(m_rightBrakeEngagedValue);
-    m_parkingBrakeStates = ParkingBrakeStates.BRAKESON;
+    if (!((Math.abs(getLeftRateMetersPerSecond()) >= m_maxSpeedToEngageBrake)
+        || (Math.abs(getRightRateMetersPerSecond()) >= m_maxSpeedToEngageBrake))) {
+      m_leftServoMotor.set(m_leftBrakeEngagedValue);
+      m_rightServoMotor.set(m_rightBrakeEngagedValue);
+      m_parkingBrakeStates = ParkingBrakeStates.BRAKESON;
+    } else {
+      System.out.println("Moving too fast! Please slow down to engage brakes!");
+    }
   }
 
   @Override
@@ -201,6 +203,15 @@ public abstract class RealDriveTrain extends DriveTrain {
     m_leftServoMotor.set(m_leftBrakeDisengagedValue);
     m_rightServoMotor.set(m_rightBrakeDisengagedValue);
     m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
+  }
+
+  @Override
+  public void maintainParkingBrakeState() {
+    if (m_parkingBrakeStates == ParkingBrakeStates.BRAKESON) {
+      enableParkingBrakes();
+    } else {
+      disableParkingBrakes();
+    }
   }
 
   @Override

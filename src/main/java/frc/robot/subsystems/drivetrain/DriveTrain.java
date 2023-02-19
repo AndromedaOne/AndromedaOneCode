@@ -54,7 +54,13 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract void disableParkingBrakes();
 
+  public abstract void maintainParkingBrakeState();
+
   public abstract ParkingBrakeStates getParkingBrakeState();
+
+  public abstract double getLeftRateMetersPerSecond();
+
+  public abstract double getRightRateMetersPerSecond();
 
   public void setCoast(boolean p) {
     System.out.println("coast set to " + p);
@@ -62,5 +68,8 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public void periodic() {
     SmartDashboard.putNumber("robotPositionInches", getRobotPositionInches());
+    SmartDashboard.putNumber("Left Wheel Speed", getLeftRateMetersPerSecond());
+    SmartDashboard.putNumber("Right Wheel Speed", getRightRateMetersPerSecond());
+    SmartDashboard.putString("Parking Brake State", getParkingBrakeState().name());
   }
 }
