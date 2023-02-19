@@ -50,17 +50,11 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract void resetOdometry(Pose2d pose);
 
-  public abstract void enableParkingBrake(double value);
+  public abstract void enableParkingBrakes();
 
-  public abstract void disableParkingBrake(double value);
-
-  public abstract void setParkingBrakes(double leftSpeed, double rightSpeed);
+  public abstract void disableParkingBrakes();
 
   public abstract ParkingBrakeStates getParkingBrakeState();
-
-  public abstract double getLeftBrakeValue();
-
-  public abstract double getRightBrakeValue();
 
   public void setCoast(boolean p) {
     System.out.println("coast set to " + p);

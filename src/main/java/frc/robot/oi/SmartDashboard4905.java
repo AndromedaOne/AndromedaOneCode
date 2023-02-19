@@ -17,7 +17,7 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
-import frc.robot.commands.driveTrainCommands.TuneBrakeSystem;
+import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
@@ -92,10 +92,9 @@ public class SmartDashboard4905 {
       romiCommands(subsystemsContainer);
     }
 
-    // test code for servo
-    if (Config4905.getConfig4905().isSAM()) {
-      SmartDashboard.putData("Tune Brakes",
-          new TuneBrakeSystem(subsystemsContainer.getDrivetrain()));
+    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
+      SmartDashboard.putData("Toggle Brakes",
+          new ToggleBrakes(subsystemsContainer.getDrivetrain()));
     }
   }
 

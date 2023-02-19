@@ -37,12 +37,12 @@ public class ToggleBrakes extends CommandBase {
   @Override
   public void execute() {
     if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESOFF) {
-      m_driveTrain.enableParkingBrake(m_brakeEngagedValue);
+      m_driveTrain.enableParkingBrakes();
     } else if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
-      m_driveTrain.disableParkingBrake(m_brakeDisengagedValue);
+      m_driveTrain.disableParkingBrakes();
     } else {
       // Not sure what value to set the brakes in this case.
-      m_driveTrain.setParkingBrakes(0, 0);
+      throw (new RuntimeException("Unknown Parking Brake State"));
     }
   }
 
