@@ -27,11 +27,11 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   @Override
   public void additionalInitialize() {
     if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardMiddleAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardMiddlePosition);
-    } else {
       ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardMiddleAngle);
       ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardMiddlePosition);
+    } else {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardMiddleAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardMiddlePosition);
     }
     Trace.getInstance().logCommandStart(this);
   }

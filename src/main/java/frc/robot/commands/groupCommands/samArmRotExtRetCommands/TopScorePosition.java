@@ -27,11 +27,11 @@ public class TopScorePosition extends SequentialCommandGroup4905 {
   @Override
   public void additionalInitialize() {
     if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardTopAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardTopPosition);
-    } else {
       ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardTopAngle);
       ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardTopPosition);
+    } else {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardTopAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardTopPosition);
     }
     Trace.getInstance().logCommandStart(this);
   }

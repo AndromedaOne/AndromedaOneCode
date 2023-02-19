@@ -27,11 +27,11 @@ public class LowScorePosition extends SequentialCommandGroup4905 {
   @Override
   public void additionalInitialize() {
     if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardLowAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardLowPosition);
-    } else {
       ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardLowAngle);
       ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardLowPosition);
+    } else {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardLowAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardLowPosition);
     }
     Trace.getInstance().logCommandStart(this);
   }
