@@ -29,6 +29,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   protected static Config m_conf = Config4905.getConfig4905().getCommandConstantsConfig();
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
   LimeLightCameraBase m_limelight;
+  int targetNotInFOV = 50;
 
   public TurnToFaceCommand(DoubleSupplier sensor) {
     // controller used for pid command
@@ -70,28 +71,30 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   @Override
   public boolean isFinished() {
     // TODO Auto-generated method stub
+    boolean targetInFOV = m_sensorcontainer.getLimeLight().targetLock();
+    boolean returnValue;
+
     m_lostCounter++;
-    m_lostCounter = m_lostCounter % 250;
     boolean targetFound = m_sensorcontainer.getLimeLight().targetLock();
-    m_lostBuffer.set(m_lostCounter, !targetFound);
-    m_targetCounter %= 4;
-    m_targetBuffer.set(m_targetCounter, this.getController().atSetpoint());
-    if (m_lostBuffer.cardinality() == 250) {
-      Trace.getInstance().logCommandInfo(this, "limelight finished: target not found");
-      return true;
-    }
 
     if (!m_conf2.hasPath("limelight") || (m_conf2.getDouble("limelight.cameraHeight") == 0.0)) {
       Trace.getInstance().logCommandInfo(this, "no limelight found");
       return true;
-    } else {
-      if (m_lostCounter == 1) {
-        System.out.println("limelight," + m_limelight.verticalRadiansToTarget() + " "
-            + m_limelight.distanceToNode());
-      }
+    }
+    if (m_lostCounter == targetNotInFOV) {
+      Trace.getInstance().logCommandInfo(this, "limelight finished: target not found");
+      return true;
     }
 
-    boolean returnValue = m_targetBuffer.cardinality() == 4 && targetFound;
+    if (targetInFOV == true) {
+      returnValue = this.getController().atSetpoint();
+      System.out.println("limelight return value " + returnValue);
+    } else {
+      System.out.println("limelight distance to node " + m_limelight.verticalRadiansToTarget() + " "
+          + m_limelight.distanceToNode());
+      returnValue = false;
+    }
+
     return (returnValue);
 
   }
