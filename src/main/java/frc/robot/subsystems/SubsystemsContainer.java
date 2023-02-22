@@ -29,7 +29,9 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
-import frc.robot.subsystems.ledlights.*;
+import frc.robot.subsystems.ledlights.LEDs;
+import frc.robot.subsystems.ledlights.MockLEDs;
+import frc.robot.subsystems.ledlights.TopGunLEDs;
 import frc.robot.subsystems.romiBallMopper.MockRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RealRomiBallMopper;
 import frc.robot.subsystems.romiBallMopper.RomiBallMopperBase;
@@ -165,16 +167,17 @@ public class SubsystemsContainer {
       m_compressor = new MockCompressor();
     }
     if (Config4905.getConfig4905().doesGripperExist()) {
+      // Gripper must be constructed after compressor
       System.out.println("using real gripper.");
-      m_gripper = new RealGripper();
-      // m_gripper.start();
+      m_gripper = new RealGripper(m_compressor);
     } else {
       System.out.println("Using mock gripper");
       m_gripper = new MockGripper();
     }
     if (Config4905.getConfig4905().doesCannonExist()) {
+      // Gripper must be constructed after compressor
       System.out.println("using real Cannon.");
-      m_cannon = new RealCannon();
+      m_cannon = new RealCannon(m_compressor);
     } else {
       System.out.println("Using mock Cannon");
       m_cannon = new MockCannon();
