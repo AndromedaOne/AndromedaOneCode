@@ -31,13 +31,25 @@ public class TestMidNodeTurnToFaceCommand extends SequentialCommandGroup {
         "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToNode());
     DoubleSupplier xyz = Robot.getInstance().getSensorsContainer()
         .getLimeLight()::horizontalDegreesToTarget;
-    addCommands(new TurnToFaceCommand(xyz));
-    Trace.getInstance().logCommandInfo(this, "Horizonal Degrees to Target:"
+    System.out.println(this + "Test mid-Horizonal Degrees to target"
         + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
-    Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
+    System.out.println(this + "Test mid-Vertical Radians to target"
         + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
-    Trace.getInstance().logCommandInfo(this,
-        "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToNode());
+    System.out.println(
+        this + "Test mid-Distance to target" + m_sensorscontainer.getLimeLight().distanceToNode());
+    addCommands(new TurnToFaceCommand(xyz));
+    // Trace.getInstance().logCommandInfo(this, "Horizonal Degrees to Target:"
+    // + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
+    // Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
+    // + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
+    // Trace.getInstance().logCommandInfo(this,
+    // "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToNode());
+    System.out.println(this + "Horizonal Degrees to target"
+        + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
+    System.out.println(this + "Vertical Radians to target"
+        + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
+    System.out
+        .println(this + "Distance to target" + m_sensorscontainer.getLimeLight().distanceToNode());
     m_sensorscontainer.getLimeLight().updateSmartDashboardReadings();
     m_sensorscontainer.getLimeLight().disableLED();
   }

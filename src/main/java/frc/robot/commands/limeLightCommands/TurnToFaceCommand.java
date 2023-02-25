@@ -28,7 +28,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
   protected static Config m_conf = Config4905.getConfig4905().getCommandConstantsConfig();
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
   LimeLightCameraBase m_limelight;
-  int targetNotInFOV = 50;
+  int targetNotInFOV = 500;
 
   public TurnToFaceCommand(DoubleSupplier sensor) {
     // controller used for pid command
@@ -56,6 +56,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
     Trace.getInstance().logCommandInfo(this, "turn off limelightl");
+    m_limelight.disableLED();
   }
 
   @Override
@@ -65,8 +66,13 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     super.initialize();
     m_lostCounter = 0;
     m_targetCounter = 0;
+    m_targetMovingAverageTotal = 0;
+    m_targetMovingAverage = 0;
     m_limelight = m_sensorcontainer.getLimeLight();
     Trace.getInstance().logCommandInfo(this, "initialize limelightd");
+    m_limelight.enableLED();
+    m_limelight.enableLED();
+    m_limelight.enableLED();
   }
 
   @Override
@@ -81,23 +87,27 @@ public class TurnToFaceCommand extends PIDCommand4905 {
       m_targetMovingAverageTotal += 1.0;
       m_targetMovingAverage = m_targetMovingAverageTotal / m_targetCounter;
     }
+    boolean atSetpoint = this.getController().atSetpoint();
 
     if (!m_conf2.hasPath("limelight") || (m_conf2.getDouble("limelight.cameraHeight") == 0.0)) {
       Trace.getInstance().logCommandInfo(this, "no limelight found");
       return true;
     }
     if (m_lostCounter == targetNotInFOV) {
-      Trace.getInstance().logCommandInfo(this, "limelight finished: target not found");
+      Trace.getInstance().logCommandInfo(this, "limelight finished");
       return true;
     }
-
-    if ((targetInFOV == true) && (m_targetMovingAverage >= 0.8)) {
-      returnValue = this.getController().atSetpoint();
+    // if ((targetInFOV == true) && (m_targetMovingAverage >= 0.8)) {
+    if ((targetInFOV == true) && (atSetpoint == true)) {
+      returnValue = true;
       System.out.println("limelight return value " + returnValue);
       System.out.println("target moving average =" + m_targetMovingAverage);
+      System.out.println("target seen");
     } else {
       System.out.println("limelight distance to node " + m_limelight.verticalRadiansToTarget() + " "
           + m_limelight.distanceToNode());
+      System.out.println("target moving average =" + m_targetMovingAverage);
+      System.out.println("target not seen or not a set point");
       returnValue = false;
     }
 
