@@ -38,29 +38,6 @@ public abstract class RealDriveTrain extends DriveTrain {
     System.out.println("RealDriveTrain kProportion = " + kProportion);
   }
 
-  @Override
-  public void periodic() {
-    // Update the odometry in the periodic block
-    super.periodic();
-    SmartDashboard.putNumber("RobotPositionInches", getRobotPositionInches());
-    boolean usingOdometry = false;
-    if (usingOdometry) {
-      double leftMeters = getLeftSideMeters();
-      double rightMeters = getRightsSideMeters();
-      double angle = Math.toRadians(gyro.getAngle());
-      m_odometry.update(new Rotation2d(angle), leftMeters, rightMeters);
-      SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
-      SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
-      SmartDashboard.putNumber("OdometryRotation",
-          m_odometry.getPoseMeters().getRotation().getDegrees());
-      SmartDashboard.putNumber("OdometryAngle", angle);
-      SmartDashboard.putNumber("Odometry Romi Left Motor Position", leftMeters);
-      SmartDashboard.putNumber("Odometry Romi Right Motor Position", rightMeters);
-      SmartDashboard.putNumber("OdometryLeftSpeed", getLeftRateMetersPerSecond());
-      SmartDashboard.putNumber("OdometryRightSpeed", getRightRateMetersPerSecond());
-    }
-  }
-
   public void init() {
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0), 0, 0);
