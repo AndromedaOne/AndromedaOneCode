@@ -58,12 +58,12 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_hasParkingBrake = true;
     }
 
-  }
-
     if (m_hasParkingBrake) {
       SmartDashboard.putNumber("left brake value", m_leftServoMotor.get());
       SmartDashboard.putNumber("right brake value", m_rightServoMotor.get());
     }
+  }
+
   public void init() {
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0), 0, 0);

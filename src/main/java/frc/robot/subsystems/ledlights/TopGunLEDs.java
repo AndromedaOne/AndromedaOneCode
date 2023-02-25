@@ -27,7 +27,7 @@ public class TopGunLEDs extends RealLEDs {
         setYellow(1);
         setBlinking(0.5);
       } else if (matchTime <= 10 && matchTime >= 0) {
-        setRed(1);
+        setWhite(1);
         setBlinking(0.25);
       } else {
         switch (getTeleOpMode()) {
@@ -46,8 +46,13 @@ public class TopGunLEDs extends RealLEDs {
           setSolid();
           break;
 
-        default:
+        case BRAKED:
           setRed(1);
+          setBlinking(0.05);
+          break;
+
+        default:
+          setOrange(1);
           setSolid();
         }
       }

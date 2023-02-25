@@ -101,6 +101,10 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
       Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.FAST);
     }
+    if ((m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON)) {
+      Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.BRAKED);
+    }
+
     m_driveTrain.maintainParkingBrakeState();
     Trace.getInstance().addTrace(true, "TeleopDrive",
         new TracePair<Double>("Gyro", m_gyro.getZAngle()),
