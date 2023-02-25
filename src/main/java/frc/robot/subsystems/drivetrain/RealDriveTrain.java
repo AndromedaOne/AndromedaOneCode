@@ -42,6 +42,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   public void periodic() {
     // Update the odometry in the periodic block
     super.periodic();
+    SmartDashboard.putNumber("RobotPositionInches", getRobotPositionInches());
     boolean usingOdometry = false;
     if (usingOdometry) {
       double leftMeters = getLeftSideMeters();
