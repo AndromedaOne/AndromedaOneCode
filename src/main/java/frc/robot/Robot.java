@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
-  private LimeLightCameraBase limelight;
+  private LimeLightCameraBase m_limelight;
 
   private Robot() {
   }
@@ -59,10 +59,9 @@ public class Robot extends TimedRobot {
     m_subsystemContainer = new SubsystemsContainer();
     m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
     m_subsystemContainer.setDefaultCommands();
-    limelight = m_sensorsContainer.getLimeLight();
-    limelight.disableLED();
+    m_limelight = m_sensorsContainer.getLimeLight();
+    m_limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(true);
-    m_subsystemContainer.getWings().stop();
     LiveWindow.disableAllTelemetry();
     Trace.getInstance().logInfo("robot init finished");
   }
@@ -103,20 +102,13 @@ public class Robot extends TimedRobot {
     }
     m_subsystemContainer.getDrivetrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
-    limelight.disableLED();
+    m_limelight.disableLED();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
     System.out.println("Shooter Allignment set to coast");
   }
 
   @Override
   public void disabledPeriodic() {
-    if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().stop();
-    }
-    if (Config4905.getConfig4905().doesConveyorExist()) {
-      Robot.getInstance().getSubsystemsContainer().getConveyor().stop();
-      Robot.getInstance().getSubsystemsContainer().setConveyorState(false);
-    }
   }
 
   /**
@@ -140,7 +132,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
-    limelight.enableLED();
+    m_limelight.enableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
@@ -158,9 +150,6 @@ public class Robot extends TimedRobot {
     if (!m_autoPeriodicLogged) {
       Trace.getInstance().logInfo("autonomousPeriodic called");
       m_autoPeriodicLogged = true;
-    }
-    if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
 
@@ -185,7 +174,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
-    limelight.disableLED();
+    m_limelight.disableLED();
     m_subsystemContainer.getDrivetrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
@@ -203,9 +192,6 @@ public class Robot extends TimedRobot {
     if (!m_teleopPeriodicLogged) {
       Trace.getInstance().logInfo("teleopPeriodic called");
       m_teleopPeriodicLogged = true;
-    }
-    if (Config4905.getConfig4905().doesHarvesterExist()) {
-      Robot.getInstance().getSubsystemsContainer().getRomiIntake().runForward();
     }
   }
 
