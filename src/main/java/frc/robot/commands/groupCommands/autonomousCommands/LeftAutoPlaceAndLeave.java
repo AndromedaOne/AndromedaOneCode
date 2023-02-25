@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -22,13 +23,24 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
   public LeftAutoPlaceAndLeave() {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    addCommands(
-        new SequentialCommandGroup4905(
-            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            new OpenCloseGripper(subsystemsContainer.getGripper()),
-            new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, 166, 0.5)));
+    addCommands(new SequentialCommandGroup4905(
+        new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()),
+        new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new StowPosition(
+            subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
+        new MoveUsingEncoder(driveTrain, 166, 0.5),
+        new LowScorePosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()),
+        new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new StowPosition(
+            subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
+        new MoveUsingEncoder(driveTrain, -166, 0.5),
+        new LowScorePosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()),
+        new OpenCloseGripper(subsystemsContainer.getGripper()), new StowPosition(
+            subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase())
+
+    ));
   }
 }

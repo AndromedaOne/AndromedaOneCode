@@ -7,6 +7,7 @@ import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
 import frc.robot.commands.groupCommands.autonomousCommands.LeftAutoPlaceAndLeave;
 import frc.robot.commands.groupCommands.autonomousCommands.PlaceEngageAutoDock;
+import frc.robot.commands.groupCommands.autonomousCommands.PlacePickEngageAutoDock;
 import frc.robot.commands.groupCommands.autonomousCommands.RightAutoPlaceAndLeave;
 import frc.robot.commands.groupCommands.autonomousCommands.TaxiAuto;
 import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
@@ -25,14 +26,18 @@ public class AutoModes4905 {
     // This line of code will need to be changed to check for the S.A.M. Robot
     if (Config4905.getConfig4905().isSAM()) {
       m_autoChooser.addOption("1: Taxi", new TaxiAuto());
-      m_autoChooser.addOption("2: Blue Left Place, Leave", new LeftAutoPlaceAndLeave());
+      m_autoChooser.addOption("2: Blue Left Place, Leave, Pick", new LeftAutoPlaceAndLeave());
       m_autoChooser.addOption("3: Blue CS Leave, Dock, Engage", new EngageAutoDock());
-      m_autoChooser.addOption("4: Blue Right Place, Leave", new RightAutoPlaceAndLeave());
+      m_autoChooser.addOption("4: Blue Right Place, Leave, Pick", new RightAutoPlaceAndLeave());
       m_autoChooser.addOption("5: Blue CS Place Leave Dock Engage", new PlaceEngageAutoDock());
-      m_autoChooser.addOption("6: Red Left Place, Leave", new RightAutoPlaceAndLeave());
-      m_autoChooser.addOption("7: Red CS Leave, Dock, Engage", new EngageAutoDock());
-      m_autoChooser.addOption("8: Red Right Place Leave", new LeftAutoPlaceAndLeave());
-      m_autoChooser.addOption("9: Red CS Place Leave Dock Engage", new PlaceEngageAutoDock());
+      m_autoChooser.addOption("6: Blue CS Place, Leave, Pick, Dock Engage",
+          new PlacePickEngageAutoDock());
+      m_autoChooser.addOption("7: Red Left Place, Leave, Pick", new RightAutoPlaceAndLeave());
+      m_autoChooser.addOption("8: Red CS Leave, Dock, Engage", new EngageAutoDock());
+      m_autoChooser.addOption("9: Red Right Place Leave, Pick", new LeftAutoPlaceAndLeave());
+      m_autoChooser.addOption("10: Red CS Place Leave Dock Engage", new PlaceEngageAutoDock());
+      m_autoChooser.addOption("11: Red CS Place, Leave, Pick, Dock Engage",
+          new PlacePickEngageAutoDock());
     }
     SmartDashboard.putData("autoModes", m_autoChooser);
   }
