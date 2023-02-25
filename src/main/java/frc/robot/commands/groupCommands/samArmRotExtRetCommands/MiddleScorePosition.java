@@ -13,10 +13,14 @@ import frc.robot.telemetries.Trace;
 
 public class MiddleScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new MiddlePositionScore. */
-  private final double m_backwardMiddleAngle = 112;
-  private final double m_backwardMiddlePosition = 0;
-  private final double m_forwardMiddleAngle = 248;
-  private final double m_forwardMiddlePosition = 0;
+  private final double m_cubeBackwardMiddleAngle = 112;
+  private final double m_cubeBackwardMiddlePosition = 0;
+  private final double m_coneBackwardMiddleAngle = 0;
+  private final double m_coneBackwardMiddlePosition = 0;
+  private final double m_cubeForwardMiddleAngle = 248;
+  private final double m_cubeForwardMiddlePosition = 0;
+  private final double m_coneForwardMiddleAngle = 0;
+  private final double m_coneForwardMiddlePosition = 0;
 
   public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
@@ -26,12 +30,20 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardMiddleAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardMiddlePosition);
+    if ((Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton())
+        && (Robot.getInstance().getOIContainer().getSubsystemController().getConeButton())) {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_coneBackwardMiddleAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_coneBackwardMiddlePosition);
+    } else if (Robot.getInstance().getOIContainer().getSubsystemController()
+        .getGrabBackwardButton()) {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeBackwardMiddleAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeBackwardMiddlePosition);
+    } else if (Robot.getInstance().getOIContainer().getSubsystemController().getConeButton()) {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_coneForwardMiddleAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_coneForwardMiddlePosition);
     } else {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_forwardMiddleAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_forwardMiddlePosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeForwardMiddleAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeForwardMiddlePosition);
     }
     Trace.getInstance().logCommandStart(this);
   }

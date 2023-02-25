@@ -24,6 +24,8 @@ import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.romiCommands.romiBallMopper.MopBallMopper;
 import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
@@ -91,13 +93,10 @@ public class SmartDashboard4905 {
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
       SmartDashboard.putData("Mid Score Position", new MiddleScorePosition(
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
-      // SmartDashboard.putData("Top Score Position", new TopScorePosition(
-      // subsystemsContainer.getArmRotateBase(),
-      // subsystemsContainer.getArmExtRetBase()));
-      // SmartDashboard.putData("Substation Pickup Position", new
-      // SubstationPickupPosition(
-      // subsystemsContainer.getArmRotateBase(),
-      // subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Top Score Position", new TopScorePosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Substation Pickup Position", new SubstationPickupPosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
       SmartDashboard.putData("Stow Position", new StowPosition(
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
     }
