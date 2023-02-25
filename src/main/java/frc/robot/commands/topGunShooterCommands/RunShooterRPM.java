@@ -61,7 +61,6 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
       m_finished = false;
     }
     System.out.println("Setpoint Set To" + m_setpoint);
-    super.initialize();
   }
 
   // Called once the command ends or is interrupted.
@@ -71,7 +70,6 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
     m_bottomShooterWheel.setShooterWheelPower(0);
     m_finished = true;
     Trace.getInstance().logCommandStop(this);
-    super.end(interrupted);
   }
 
   // Returns true when the command should end.

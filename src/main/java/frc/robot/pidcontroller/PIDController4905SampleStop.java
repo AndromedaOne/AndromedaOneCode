@@ -27,6 +27,10 @@ public class PIDController4905SampleStop extends PIDController4905 {
     this(controllerName, Kp, Ki, Kd, minOutputToMove, s_defaultNumberOfSamplesOnTarget);
   }
 
+  public PIDController4905SampleStop(String controllerName) {
+    this(controllerName, 0, 0, 0, 0);
+  }
+
   public boolean atSetpoint() {
     if (Math.abs(getPositionError()) < getPositionTolerance()) {
       m_counter++;
