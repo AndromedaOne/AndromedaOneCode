@@ -11,13 +11,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
-import frc.robot.sensors.analog41IRSensor.Analog41IRSensor;
-import frc.robot.sensors.analog41IRSensor.MockAnalog41IRSensor;
-import frc.robot.sensors.analog41IRSensor.RealAnalog41IRSensor;
 import frc.robot.sensors.camera.*;
-import frc.robot.sensors.colorSensor.ColorSensorBase;
-import frc.robot.sensors.colorSensor.MockColorSensor;
-import frc.robot.sensors.colorSensor.RealColorSensor;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
@@ -39,9 +33,6 @@ public class SensorsContainer {
   private LimeLightCameraBase m_limelightCameraBase;
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
-  private Analog41IRSensor m_analog41IRSensor;
-  private ColorSensorBase m_frontColorSensor;
-  private ColorSensorBase m_backColorSensor;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -88,40 +79,9 @@ public class SensorsContainer {
     } else {
       m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
     }
-    if (m_sensorConfig.hasPath("sensors.analog41IRSensor")) {
-      m_analog41IRSensor = new RealAnalog41IRSensor(
-          m_sensorConfig.getInt("sensors.analog41IRSensor.port"));
-      System.out.println("Using real analog 41 IR sensor");
-    } else {
-      m_analog41IRSensor = new MockAnalog41IRSensor();
-      System.out.println("Using mock analog 41 IR sensor");
-    }
-
-    if (m_sensorConfig.hasPath("sensors.frontcolorsensor")) {
-      m_frontColorSensor = new RealColorSensor("frontcolorsensor");
-      System.out.println("Using real Color sensor for the front");
-    } else {
-      System.out.println("Using mock Color sensor for the front");
-      m_frontColorSensor = new MockColorSensor();
-    }
-    if (m_sensorConfig.hasPath("sensors.backcolorsensor")) {
-      System.out.println("Using real Color sensor for the back");
-      m_backColorSensor = new RealColorSensor("backcolorsensor");
-    } else {
-      System.out.println("Using mock Color sensor for the back");
-      m_backColorSensor = new MockColorSensor();
-    }
   }
 
   public void periodic() {
-    if (m_sensorConfig.hasPath("sensors.frontcolorsensor")) {
-      SmartDashboard.putNumber("Color Sensor Value Front",
-          m_frontColorSensor.getReflectedLightIntensity());
-    }
-    if (m_sensorConfig.hasPath("sensors.backcolorsensor")) {
-      SmartDashboard.putNumber("Color Sensor Value Back",
-          m_backColorSensor.getReflectedLightIntensity());
-    }
     if (m_sensorConfig.hasPath("navx")) {
       SmartDashboard.putNumber("navx X angle", m_gyro.getXAngle());
       SmartDashboard.putNumber("navx Y angle", m_gyro.getYAngle());
@@ -150,17 +110,5 @@ public class SensorsContainer {
 
   public UltrasonicSensor getCannonSafetyUltrasonic() {
     return m_cannonSafetyUltrasonic;
-  }
-
-  public Analog41IRSensor getAnalog41IRSensor() {
-    return m_analog41IRSensor;
-  }
-
-  public ColorSensorBase getFrontColorSensor() {
-    return m_frontColorSensor;
-  }
-
-  public ColorSensorBase getBackColorSensor() {
-    return m_backColorSensor;
   }
 }

@@ -20,11 +20,12 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
-import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsScoring;
+import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
-import frc.robot.commands.romiCommands.romiBallMopper.MopBallMopper;
-import frc.robot.commands.romiCommands.romiBallMopper.ResetBallMopper;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
@@ -42,6 +43,7 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
+    AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putData("DriveBackward",
         new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
@@ -61,7 +63,7 @@ public class SmartDashboard4905 {
         new SequentialCommandGroup4905(
             new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
             new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
-
+    SmartDashboard.putData("Engage Auto Dock", new EngageAutoDock());
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",
           new ToggleLimelightLED(true, sensorsContainer));
@@ -88,6 +90,22 @@ public class SmartDashboard4905 {
           subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
     }
 
+    if (Config4905.getConfig4905().doesSamArmRotateExist()) {
+      SmartDashboard.putData("Low Score Position", new LowScorePosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Mid Score Position", new MiddleScorePosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+      // SmartDashboard.putData("Top Score Position", new TopScorePosition(
+      // subsystemsContainer.getArmRotateBase(),
+      // subsystemsContainer.getArmExtRetBase()));
+      // SmartDashboard.putData("Substation Pickup Position", new
+      // SubstationPickupPosition(
+      // subsystemsContainer.getArmRotateBase(),
+      // subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Stow Position", new StowPosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+    }
+
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
     }
@@ -103,13 +121,7 @@ public class SmartDashboard4905 {
   }
 
   private void romiCommands(SubsystemsContainer subsystemsContainer) {
-    if (Config4905.getConfig4905().doesRomiBallMopperExist()) {
-      SmartDashboard.putData("Mop Ball", new MopBallMopper());
-      SmartDashboard.putData("Reset ball Mopper", new ResetBallMopper());
-    }
     SmartDashboard.putData("AllianceAnticsSimple",
         new AllianceAnticsSimple(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("AllianceAnticsScoring",
-        new AllianceAnticsScoring(subsystemsContainer.getDrivetrain()));
   }
 }

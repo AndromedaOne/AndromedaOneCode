@@ -10,6 +10,9 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -33,6 +36,9 @@ public class SubsystemController extends ControllerBase {
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       setupShooterButtons();
+    }
+    if (Config4905.getConfig4905().doesSamArmRotateExist()) {
+      setUpArmButtons();
     }
   }
 
@@ -59,6 +65,19 @@ public class SubsystemController extends ControllerBase {
     getXbutton().whileTrue(new ShootThreePointer(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment()));
+  }
+
+  private void setUpArmButtons() {
+    getXbutton().onTrue(new LowScorePosition(m_subsystemsContainer.getArmRotateBase(),
+        m_subsystemsContainer.getArmExtRetBase()));
+    getYbutton().onTrue(new MiddleScorePosition(m_subsystemsContainer.getArmRotateBase(),
+        m_subsystemsContainer.getArmExtRetBase()));
+//    getBbutton().onTrue(new TopScorePosition(m_subsystemsContainer.getArmRotateBase(),
+//        m_subsystemsContainer.getArmExtRetBase()));
+//    getAbutton().onTrue(new SubstationPickupPosition(m_subsystemsContainer.getArmRotateBase(),
+//        m_subsystemsContainer.getArmExtRetBase()));
+    getLeftBumperButton().onTrue(new StowPosition(m_subsystemsContainer.getArmRotateBase(),
+        m_subsystemsContainer.getArmExtRetBase()));
   }
 
   private void setupGripperButtons() {

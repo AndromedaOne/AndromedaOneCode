@@ -43,6 +43,8 @@ public class Config4905 {
   private Config m_intakeConfig;
   private Config m_feederConfig;
   private Config m_gripperConfig;
+  private Config m_samArmRotateConfig;
+  private Config m_samArmExtensionConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -148,6 +150,8 @@ public class Config4905 {
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
     m_gripperConfig = load("gripper.conf");
+    m_samArmRotateConfig = load("armrotate.conf");
+    m_samArmExtensionConfig = load("armextension.conf");
   }
 
   public Config getControllersConfig() {
@@ -309,6 +313,28 @@ public class Config4905 {
       return true;
     }
     return false;
+  }
+
+  public boolean doesSamArmExtRetExist() {
+    if (m_config.hasPath("subsystems.samArmExtRet")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSamArmRotateConfig() {
+    return m_samArmRotateConfig;
+  }
+
+  public boolean doesSamArmRotateExist() {
+    if (m_config.hasPath("subsystems.samArmRotate")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSamArmExtensionConfig() {
+    return m_samArmExtensionConfig;
   }
 
   public boolean isRomi() {
