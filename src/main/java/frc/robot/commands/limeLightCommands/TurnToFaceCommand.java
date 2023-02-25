@@ -4,7 +4,6 @@
 
 package frc.robot.commands.limeLightCommands;
 
-import java.util.BitSet;
 import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
@@ -22,9 +21,9 @@ import frc.robot.telemetries.Trace;
 public class TurnToFaceCommand extends PIDCommand4905 {
   protected DoubleSupplier m_sensor;
   protected int m_lostCounter = 0;
-  protected BitSet m_lostBuffer = new BitSet(50);
   protected int m_targetCounter = 0;
-  protected BitSet m_targetBuffer = new BitSet(4);
+  double m_targetMovingAverageTotal = 0.0;
+  double m_targetMovingAverage = 0.0;
   SensorsContainer m_sensorcontainer = Robot.getInstance().getSensorsContainer();
   protected static Config m_conf = Config4905.getConfig4905().getCommandConstantsConfig();
   protected Config m_conf2 = Config4905.getConfig4905().getSensorConfig();
@@ -64,6 +63,8 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     Trace.getInstance().logCommandStart(this);
     // TODO Auto-generated method stub
     super.initialize();
+    m_lostCounter = 0;
+    m_targetCounter = 0;
     m_limelight = m_sensorcontainer.getLimeLight();
     Trace.getInstance().logCommandInfo(this, "initialize limelightd");
   }
@@ -75,7 +76,11 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     boolean returnValue;
 
     m_lostCounter++;
-    boolean targetFound = m_sensorcontainer.getLimeLight().targetLock();
+    m_targetCounter++;
+    if (targetInFOV == true) {
+      m_targetMovingAverageTotal += 1.0;
+      m_targetMovingAverage = m_targetMovingAverageTotal / m_targetCounter;
+    }
 
     if (!m_conf2.hasPath("limelight") || (m_conf2.getDouble("limelight.cameraHeight") == 0.0)) {
       Trace.getInstance().logCommandInfo(this, "no limelight found");
@@ -86,9 +91,10 @@ public class TurnToFaceCommand extends PIDCommand4905 {
       return true;
     }
 
-    if (targetInFOV == true) {
+    if ((targetInFOV == true) && (m_targetMovingAverage >= 0.8)) {
       returnValue = this.getController().atSetpoint();
       System.out.println("limelight return value " + returnValue);
+      System.out.println("target moving average =" + m_targetMovingAverage);
     } else {
       System.out.println("limelight distance to node " + m_limelight.verticalRadiansToTarget() + " "
           + m_limelight.distanceToNode());
