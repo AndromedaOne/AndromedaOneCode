@@ -41,11 +41,7 @@ public class TurnToFaceCommand extends PIDCommand4905 {
               false, 0.0);
         });
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
-    getController().setP(m_conf.getDouble("TurnToFaceCommand.Kp"));
-    getController().setI(m_conf.getDouble("TurnToFaceCommand.Ki"));
-    getController().setD(m_conf.getDouble("TurnToFaceCommand.Kd"));
-    getController().setMinOutputToMove(m_conf.getDouble("TurnToFaceCommand.minOutputToMove"));
-    getController().setTolerance(m_conf.getDouble("TurnToFaceCommand.positionTolerance"));
+    // 67-71 was here
     this.m_sensor = sensor;
 
   }
@@ -68,6 +64,11 @@ public class TurnToFaceCommand extends PIDCommand4905 {
     m_targetCounter = 0;
     m_targetMovingAverageTotal = 0;
     m_targetMovingAverage = 0;
+    getController().setP(m_conf.getDouble("TurnToFaceCommand.Kp"));
+    getController().setI(m_conf.getDouble("TurnToFaceCommand.Ki"));
+    getController().setD(m_conf.getDouble("TurnToFaceCommand.Kd"));
+    getController().setMinOutputToMove(m_conf.getDouble("TurnToFaceCommand.minOutputToMove"));
+    getController().setTolerance(m_conf.getDouble("TurnToFaceCommand.positionTolerance"));
     m_limelight = m_sensorcontainer.getLimeLight();
     Trace.getInstance().logCommandInfo(this, "initialize limelightd");
     m_limelight.enableLED();
