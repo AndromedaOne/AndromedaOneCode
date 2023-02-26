@@ -31,4 +31,18 @@ public class MockSamArmRotate extends SamArmRotateBase {
   @Override
   public void setInitialized() {
   }
+
+  @Override
+  public void engageArmBrake() {
+
+  }
+
+  @Override
+  public void disengageArmBrake() {
+
+  }
+
+  public ArmAngleBrakeState getState() {
+    return ArmAngleBrakeState.ENGAGEARMBRAKE;
+  }
 }

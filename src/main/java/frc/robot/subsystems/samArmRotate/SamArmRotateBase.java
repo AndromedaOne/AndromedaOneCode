@@ -23,4 +23,10 @@ public abstract class SamArmRotateBase extends SubsystemBase {
 
   public abstract void setInitialized();
 
+  public abstract void engageArmBrake();
+
+  public abstract void disengageArmBrake();
+
+  public abstract ArmAngleBrakeState getState();
+
 }
