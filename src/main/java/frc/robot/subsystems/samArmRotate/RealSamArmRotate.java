@@ -10,6 +10,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.SparkMaxController;
 
 public class RealSamArmRotate extends SamArmRotateBase {
@@ -18,12 +19,15 @@ public class RealSamArmRotate extends SamArmRotateBase {
   private SparkMaxAbsoluteEncoder m_armAngleEncoder;
   private double m_minAngle = 0;
   private double m_maxAngle = 0;
+  private ArmAngleBrakeState m_armAngleBrakeState = ArmAngleBrakeState.ENGAGEARMBRAKE;
+  private DoubleSolenoid4905 m_solenoidBrake;
 
   /** Creates a new RealSamArmRotate. */
   public RealSamArmRotate() {
     Config armrotateConfig = Config4905.getConfig4905().getSamArmRotateConfig();
 
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
+    m_solenoidBrake = new DoubleSolenoid4905(armrotateConfig, "solenoidbrake");
     m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");
@@ -47,12 +51,28 @@ public class RealSamArmRotate extends SamArmRotateBase {
   }
 
   @Override
+  public void engageArmBrake() {
+    m_solenoidBrake.retractPiston();
+    m_armAngleBrakeState = ArmAngleBrakeState.ENGAGEARMBRAKE;
+  }
+
+  @Override
+  public void disengageArmBrake() {
+    m_solenoidBrake.extendPiston();
+    m_armAngleBrakeState = ArmAngleBrakeState.DISENGAGEARMBRAKE;
+  }
+
+  @Override
   public double getAngle() {
     double fixedEncoderValue = (1 - m_armAngleEncoder.getPosition()) + 0.39;
     if (fixedEncoderValue > 1) {
       fixedEncoderValue = fixedEncoderValue - 1;
     }
     return fixedEncoderValue * 360;
+  }
+
+  public ArmAngleBrakeState getState() {
+    return m_armAngleBrakeState;
   }
 
 }

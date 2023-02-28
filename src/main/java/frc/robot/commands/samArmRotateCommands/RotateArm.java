@@ -11,6 +11,7 @@ import com.typesafe.config.Config;
 import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
+import frc.robot.subsystems.samArmRotate.ArmAngleBrakeState;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 
@@ -44,7 +45,9 @@ public class RotateArm extends PIDCommand4905 {
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmRotate.minOutputToMove"));
     getController().setTolerance(pidConstantsConfig.getDouble("ArmRotate.tolerance"));
     Trace.getInstance().logCommandInfo(this, "Rotate Arms to: " + m_angle);
-
+    if (m_armRotate.getState() == ArmAngleBrakeState.ENGAGEARMBRAKE) {
+      m_armRotate.disengageArmBrake();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -53,6 +56,7 @@ public class RotateArm extends PIDCommand4905 {
     super.end(interrupted);
     Trace.getInstance().logCommandStop(this);
     Trace.getInstance().logCommandInfo(this, "Ending Angle: " + m_armRotate.getAngle());
+    m_armRotate.engageArmBrake();
   }
 
   // Returns true when the command should end.

@@ -50,17 +50,17 @@ public class MockGyro extends Gyro4905 {
   }
 
   @Override
-  protected double getRawZAngle() {
+  public double getRawZAngle() {
     return 0;
   }
 
   @Override
-  protected double getRawXAngle() {
+  public double getRawXAngle() {
     return 0;
   }
 
   @Override
-  protected double getRawYAngle() {
+  public double getRawYAngle() {
     return 0;
   }
 
