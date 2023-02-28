@@ -4,6 +4,8 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
+import frc.robot.Robot;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -14,17 +16,25 @@ public class SubstationPickupPosition extends SequentialCommandGroup4905 {
   /** Creates a new SubstationPickupPosition. */
   private final double m_substationAngle = 0;
   private final double m_substationPosition = 0;
+  private final double m_backwardSubstationAngle = 0;
+  private final double m_backwardSubstationPosition = 0;
 
-  public SubstationPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRotate) {
+  public SubstationPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
+    new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    ArmRotationExtensionSingleton.getInstance().setAngle(m_substationAngle);
-    ArmRotationExtensionSingleton.getInstance().setPosition(m_substationPosition);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardSubstationAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardSubstationPosition);
+    } else {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_substationAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_substationPosition);
+    }
     Trace.getInstance().logCommandStart(this);
   }
 
