@@ -108,13 +108,8 @@ public class SubsystemsContainer {
     m_driveTrain.init();
 
     if (Config4905.getConfig4905().doesLEDExist()) {
-      if (Config4905.getConfig4905().isShowBot()) {
-        System.out.println("Using TopGun LEDs");
-        m_leds = new TopGunLEDs();
-      } else {
-        System.out.println("Using TopGun LEDs");
-        m_leds = new TopGunLEDs();
-      }
+      System.out.println("Using Real LEDs");
+      m_leds = new RealLEDs();
     } else {
       System.out.println("Using Mock LEDs");
       m_leds = new MockLEDs();
