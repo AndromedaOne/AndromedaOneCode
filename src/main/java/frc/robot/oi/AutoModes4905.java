@@ -9,6 +9,7 @@ import frc.robot.commands.groupCommands.autonomousCommands.LeftAutoPlaceAndLeave
 import frc.robot.commands.groupCommands.autonomousCommands.PlaceEngageAutoDock;
 import frc.robot.commands.groupCommands.autonomousCommands.PlacePickEngageAutoDock;
 import frc.robot.commands.groupCommands.autonomousCommands.RightAutoPlaceAndLeave;
+import frc.robot.commands.groupCommands.autonomousCommands.SafetyAutoCS;
 import frc.robot.commands.groupCommands.autonomousCommands.TaxiAuto;
 import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
 import frc.robot.sensors.SensorsContainer;
@@ -38,6 +39,7 @@ public class AutoModes4905 {
       m_autoChooser.addOption("10: Red CS Place Leave Dock Engage", new PlaceEngageAutoDock());
       m_autoChooser.addOption("11: Red CS Place, Leave, Pick, Dock Engage",
           new PlacePickEngageAutoDock());
+      m_autoChooser.addOption("12: Safety: Place, Leave, Engage", new SafetyAutoCS());
     }
     SmartDashboard.putData("autoModes", m_autoChooser);
   }
