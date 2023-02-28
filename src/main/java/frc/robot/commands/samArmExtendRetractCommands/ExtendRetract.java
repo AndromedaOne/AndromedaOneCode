@@ -18,8 +18,9 @@ public class ExtendRetract extends PIDCommand4905 {
   /** Creates a new ExtendRetract. */
   private DoubleSupplier m_position;
   private SamArmExtRetBase m_armExtRet;
+  private boolean m_needToEnd = false;
 
-  public ExtendRetract(SamArmExtRetBase armExtRet, DoubleSupplier position) {
+  public ExtendRetract(SamArmExtRetBase armExtRet, DoubleSupplier position, boolean needToEnd) {
 
     super(new PIDController4905SampleStop("ArmExtRet"), armExtRet::getPosition, position,
         output -> {
@@ -27,6 +28,8 @@ public class ExtendRetract extends PIDCommand4905 {
         }, armExtRet);
     m_position = position;
     m_armExtRet = armExtRet;
+    m_needToEnd = needToEnd;
+    addRequirements(armExtRet);
   }
 
   // Called when the command is initially scheduled.
@@ -56,6 +59,9 @@ public class ExtendRetract extends PIDCommand4905 {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (m_needToEnd && isOnTarget()) {
+      return true;
+    }
     return false;
   }
 
