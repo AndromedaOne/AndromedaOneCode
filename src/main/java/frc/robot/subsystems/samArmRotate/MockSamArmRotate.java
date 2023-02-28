@@ -23,7 +23,6 @@ public class MockSamArmRotate extends SamArmRotateBase {
     return 0;
   }
 
-
   @Override
   public void engageArmBrake() {
 
