@@ -151,7 +151,6 @@ public class Robot extends TimedRobot {
       Trace.getInstance().logInfo("autonomousPeriodic called");
       m_autoPeriodicLogged = true;
     }
-    ;
   }
 
   private void setInitialZangleOffset() {

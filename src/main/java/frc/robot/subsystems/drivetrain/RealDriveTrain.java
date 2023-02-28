@@ -75,15 +75,6 @@ public abstract class RealDriveTrain extends DriveTrain {
     if (drivetrainConfig.hasPath("InvertFowardAndBack")) {
       m_invertFowardAndBack = true;
     }
-    if (m_hasParkingBrake) {
-      enableParkingBrakes();
-      Trace.getInstance().logInfo("RealDriveTrain Detects Brake Engaged");
-    }
-    // These used to be in periodic... periodic has been removed.
-    if (m_hasParkingBrake) {
-      SmartDashboard.putNumber("left brake value", m_leftServoMotor.get());
-      SmartDashboard.putNumber("right brake value", m_rightServoMotor.get());
-    }
   }
 
   /**
