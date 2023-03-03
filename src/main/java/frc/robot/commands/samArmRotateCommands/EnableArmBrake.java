@@ -20,13 +20,14 @@ public class EnableArmBrake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armRotateBase.engageArmBrake();
     Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_armRotateBase.engageArmBrake();
+    m_armRotateBase.stop();
   }
 
   // Called once the command ends or is interrupted.
