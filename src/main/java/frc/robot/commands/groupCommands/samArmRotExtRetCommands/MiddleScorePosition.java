@@ -14,11 +14,11 @@ import frc.robot.telemetries.Trace;
 
 public class MiddleScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new MiddlePositionScore. */
-  private final double m_cubeBackwardMiddleAngle = 112;
+  private final double m_cubeBackwardMiddleAngle = 248;
   private final double m_cubeBackwardMiddlePosition = 0;
   private final double m_coneBackwardMiddleAngle = 0;
   private final double m_coneBackwardMiddlePosition = 0;
-  private final double m_cubeForwardMiddleAngle = 248;
+  private final double m_cubeForwardMiddleAngle = 112;
   private final double m_cubeForwardMiddlePosition = 0;
   private final double m_coneForwardMiddleAngle = 0;
   private final double m_coneForwardMiddlePosition = 0;

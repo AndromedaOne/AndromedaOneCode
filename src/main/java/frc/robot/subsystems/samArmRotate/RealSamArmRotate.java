@@ -62,10 +62,11 @@ public class RealSamArmRotate extends SamArmRotateBase {
     m_armAngleBrakeState = ArmAngleBrakeState.DISENGAGEARMBRAKE;
   }
 
+  // 90 Degrees is pointing forward, 270 is pointing backwards
   @Override
   public double getAngle() {
-    double fixedEncoderValue = (1 - m_armAngleEncoder.getPosition()) + 0.39;
-    if (fixedEncoderValue > 1) {
+    double fixedEncoderValue = (1.56 - m_armAngleEncoder.getPosition());
+    if (fixedEncoderValue >= 1) {
       fixedEncoderValue = fixedEncoderValue - 1;
     }
     return fixedEncoderValue * 360;

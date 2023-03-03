@@ -14,11 +14,11 @@ import frc.robot.telemetries.Trace;
 
 public class LowScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new LowPositionScore. */
-  private final double m_cubeBackwardLowAngle = 71;
+  private final double m_cubeBackwardLowAngle = 289;
   private final double m_cubeBackwardLowPosition = 0;
   private final double m_coneBackwardLowAngle = 0;
   private final double m_coneBackwardLowPosition = 0;
-  private final double m_cubeForwardLowAngle = 289;
+  private final double m_cubeForwardLowAngle = 71;
   private final double m_cubeForwardLowPosition = 0;
   private final double m_coneForwardLowAngle = 0;
   private final double m_coneForwardLowPosition = 0;
