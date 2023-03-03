@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -27,6 +28,7 @@ public class PIDCommand4905 extends CommandBase {
   protected DoubleSupplier m_measurement;
   protected DoubleSupplier m_setpoint;
   protected DoubleConsumer m_useOutput;
+  protected SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(0, 0);
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -74,8 +76,8 @@ public class PIDCommand4905 extends CommandBase {
 
   @Override
   public void execute() {
-    m_useOutput
-        .accept(m_controller.calculate(m_measurement.getAsDouble(), m_setpoint.getAsDouble()));
+    m_useOutput.accept(m_feedForward.calculate(m_measurement.getAsDouble())
+        + m_controller.calculate(m_measurement.getAsDouble(), m_setpoint.getAsDouble()));
   }
 
   @Override
