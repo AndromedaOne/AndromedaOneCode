@@ -37,8 +37,8 @@ public class TurnToFaceCommand extends PIDCommand4905 {
         0,
         // uses the output
         output -> {
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0, -output,
-              false, 0.0);
+          Robot.getInstance().getSubsystemsContainer().getDrivetrain().moveUsingGyro(0.0,
+              -output * 1.2, false, 0.0);
         });
     addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
     // 67-71 was here
