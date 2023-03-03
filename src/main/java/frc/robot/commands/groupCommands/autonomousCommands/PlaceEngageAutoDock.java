@@ -22,7 +22,7 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class PlaceEngageAutoDock extends SequentialCommandGroup {
   /** Creates a new PlaceEngageAutoDock. */
   public PlaceEngageAutoDock() {
-    final double distanceToMove = 146;
+    final double distanceToMove = -146;
     final double maxOutPut = 0.5;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
@@ -31,12 +31,12 @@ public class PlaceEngageAutoDock extends SequentialCommandGroup {
     addCommands(
         new SequentialCommandGroup4905(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
+                subsystemsContainer.getArmExtRetBase(), true, true, false),
             new OpenCloseGripper(subsystemsContainer.getGripper()),
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
             moveCommand),
-        new SequentialCommandGroup4905(new MoveToCenterOfChargingStation(driveTrain, -45, 0.75, 0),
+        new SequentialCommandGroup4905(new MoveToCenterOfChargingStation(driveTrain, 45, 0.75, 0),
             new BalanceRobot(driveTrain, 0.5, 0)));
   }
 }

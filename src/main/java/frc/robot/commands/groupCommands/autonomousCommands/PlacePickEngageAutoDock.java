@@ -28,24 +28,24 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     // 166 may need to be lowered.
-    final double distanceToMove = 166;
+    final double distanceToMove = -166;
     final double maxOutPut = 0.5;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(new SequentialCommandGroup4905(
         new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
+            subsystemsContainer.getArmExtRetBase(), true, true, false),
         new OpenCloseGripper(subsystemsContainer.getGripper()),
         new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()),
         moveCommand,
         // Add turn command, roughly 45 degrees.
         new LowScorePosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
+            subsystemsContainer.getArmExtRetBase(), true, true, true),
         new OpenCloseGripper(subsystemsContainer.getGripper()),
         new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()),
         // TBD: If we need to rotate before moving.
-        new MoveToCenterOfChargingStation(driveTrain, -45, 0.75, 0),
+        new MoveToCenterOfChargingStation(driveTrain, 45, 0.75, 0),
         new BalanceRobot(driveTrain, 0.5, 0)));
 
   }

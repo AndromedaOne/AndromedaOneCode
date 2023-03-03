@@ -37,7 +37,7 @@ public class SafetyAutoCS extends SequentialCommandGroup {
     addCommands(
         new SequentialCommandGroup4905(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
+                subsystemsContainer.getArmExtRetBase(), true, true, true),
             new OpenCloseGripper(subsystemsContainer.getGripper()),
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),

@@ -25,19 +25,19 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     addCommands(new SequentialCommandGroup4905(
         new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
-        new OpenCloseGripper(subsystemsContainer.getGripper()),
-        new StowPosition(
-            subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
-        new MoveUsingEncoder(driveTrain, 166, 0.5),
-        new LowScorePosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
+            subsystemsContainer.getArmExtRetBase(), true, true, false),
         new OpenCloseGripper(subsystemsContainer.getGripper()),
         new StowPosition(
             subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
         new MoveUsingEncoder(driveTrain, -166, 0.5),
         new LowScorePosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
+            subsystemsContainer.getArmExtRetBase(), true, true, true),
+        new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new StowPosition(
+            subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
+        new MoveUsingEncoder(driveTrain, 166, 0.5),
+        new LowScorePosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase(), true, true, false),
         new OpenCloseGripper(subsystemsContainer.getGripper()), new StowPosition(
             subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase())
 
