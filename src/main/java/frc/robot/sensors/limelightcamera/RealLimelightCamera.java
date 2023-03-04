@@ -42,7 +42,7 @@ public class RealLimelightCamera extends LimeLightCameraBase {
 
   @Override
   public double distanceToNode() {
-    return distanceToTarget(34.0) - m_config.getDouble("limelight.cameraDistToFrame");
+    return distanceToTarget(21.00) - m_config.getDouble("limelight.cameraDistToFrame");
   }
 
   @Override
