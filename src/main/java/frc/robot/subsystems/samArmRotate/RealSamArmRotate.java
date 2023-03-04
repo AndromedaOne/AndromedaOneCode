@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.subsystems.compressor.CompressorBase;
 
 public class RealSamArmRotate extends SamArmRotateBase {
 
@@ -23,11 +24,11 @@ public class RealSamArmRotate extends SamArmRotateBase {
   private DoubleSolenoid4905 m_solenoidBrake;
 
   /** Creates a new RealSamArmRotate. */
-  public RealSamArmRotate() {
+  public RealSamArmRotate(CompressorBase compressorBase) {
     Config armrotateConfig = Config4905.getConfig4905().getSamArmRotateConfig();
 
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
-    m_solenoidBrake = new DoubleSolenoid4905(armrotateConfig, "solenoidbrake");
+    m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
     m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");

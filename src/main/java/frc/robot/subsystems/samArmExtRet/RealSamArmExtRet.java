@@ -6,6 +6,7 @@ package frc.robot.subsystems.samArmExtRet;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
@@ -15,8 +16,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   private final SparkMaxController m_extensionMotor;
   private final LimitSwitchSensor m_retractLimitSwitch;
-  private boolean m_initialized = false;
-  private double m_offset = 0;
+  private double m_zeroOffset = 0;
   private double m_maxExtension = 0;
   private double m_minExtension = 0;
 
@@ -32,7 +32,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("arm extention position", getPosition());
   }
 
   @Override
@@ -46,9 +46,10 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     }
   }
 
+  // 100 ticks = 1 inch
   @Override
   public double getPosition() {
-    return m_extensionMotor.getEncoderPositionTicks() + m_offset;
+    return (m_extensionMotor.getEncoderPositionTicks() - m_zeroOffset) / 100;
   }
 
   @Override
@@ -57,13 +58,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   }
 
   @Override
-  public boolean getInitialized() {
-    return m_initialized;
-  }
-
-  @Override
-  public void setInitialized() {
-    m_initialized = true;
-    m_offset = m_extensionMotor.getEncoderPositionTicks();
+  public void setZeroOffset() {
+    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks();
   }
 }

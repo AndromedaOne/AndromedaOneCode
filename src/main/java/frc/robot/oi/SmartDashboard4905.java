@@ -28,6 +28,8 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
+import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
@@ -105,6 +107,12 @@ public class SmartDashboard4905 {
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
       SmartDashboard.putData("Stow Position", new StowPosition(
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Enable Arm Rotation Brake",
+          new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
+      SmartDashboard.putNumber("Extend Arm Position Value", 0);
+      SmartDashboard.putData("Extend Arms",
+          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), () -> 0, 
+          true, true));
     }
 
     if (Config4905.getConfig4905().isRomi()) {

@@ -179,7 +179,7 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
       System.out.println("using real arm rotate");
-      m_armRotate = new RealSamArmRotate();
+      m_armRotate = new RealSamArmRotate(m_compressor);
     } else {
       System.out.println("using mock arm rotate");
       m_armRotate = new MockSamArmRotate();

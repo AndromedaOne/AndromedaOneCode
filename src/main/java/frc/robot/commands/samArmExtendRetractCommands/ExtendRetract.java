@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
@@ -19,8 +20,11 @@ public class ExtendRetract extends PIDCommand4905 {
   private DoubleSupplier m_position;
   private SamArmExtRetBase m_armExtRet;
   private boolean m_needToEnd = false;
+  private boolean m_useSmartDashboard = false;
+  private double m_extArmPosValue = 0;
 
-  public ExtendRetract(SamArmExtRetBase armExtRet, DoubleSupplier position, boolean needToEnd) {
+  public ExtendRetract(SamArmExtRetBase armExtRet, DoubleSupplier position, boolean needToEnd,
+      boolean useSmartDashboard) {
 
     super(new PIDController4905SampleStop("ArmExtRet"), armExtRet::getPosition, position,
         output -> {
@@ -29,7 +33,12 @@ public class ExtendRetract extends PIDCommand4905 {
     m_position = position;
     m_armExtRet = armExtRet;
     m_needToEnd = needToEnd;
+    m_useSmartDashboard = useSmartDashboard;
     addRequirements(armExtRet);
+  }
+
+  public ExtendRetract(SamArmExtRetBase armExtRet, DoubleSupplier position, boolean needToEnd) {
+    this(armExtRet, position, needToEnd, false);
   }
 
   // Called when the command is initially scheduled.
@@ -39,12 +48,20 @@ public class ExtendRetract extends PIDCommand4905 {
     Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
     super.initialize();
 
+    if (m_useSmartDashboard) {
+      m_extArmPosValue = SmartDashboard.getNumber("Extend Arm Position Value", 0);
+      setPosition();
+    }
+    
     getController().setP(pidConstantsConfig.getDouble("ArmExtRet.Kp"));
     getController().setI(pidConstantsConfig.getDouble("ArmExtRet.Ki"));
     getController().setD(pidConstantsConfig.getDouble("ArmExtRet.Kd"));
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove"));
     getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
     Trace.getInstance().logCommandInfo(this, "Extend Retract Arm to: " + m_position.getAsDouble());
+
+    
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -67,5 +84,9 @@ public class ExtendRetract extends PIDCommand4905 {
 
   public boolean isOnTarget() {
     return getController().atSetpoint();
+  }
+
+  private void setPosition() {
+    m_position = () -> m_extArmPosValue;
   }
 }
