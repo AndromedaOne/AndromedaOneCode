@@ -28,7 +28,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("arm extention position", getPosition());
+    SmartDashboard.putNumber("arm extension position", getPosition());
   }
 
   @Override

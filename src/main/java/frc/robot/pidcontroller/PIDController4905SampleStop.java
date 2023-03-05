@@ -11,13 +11,14 @@ package frc.robot.pidcontroller;
  * Add your docs here.
  */
 public class PIDController4905SampleStop extends PIDController4905 {
-  int counter = 0;
-  final int numberOfSamplesOnTarget = 8;
+  private int m_counter = 0;
+  private final int numberOfSamplesOnTarget = 8;
 
   public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
       double minOutputToMove) {
     super(controllerName, Kp, Ki, Kd, minOutputToMove);
-    counter = 0;
+    m_counter = 0;
+    System.out.println("Sample Stop Constructed");
   }
 
   public PIDController4905SampleStop(String controllerName) {
@@ -26,11 +27,18 @@ public class PIDController4905SampleStop extends PIDController4905 {
 
   public boolean atSetpoint() {
     if (Math.abs(getPositionError()) < getPositionTolerance()) {
-      counter++;
+      m_counter++;
     } else {
-      counter = 0;
+      m_counter = 0;
     }
-    return counter >= numberOfSamplesOnTarget;
+    System.out.println("at set point: error = " + getPositionError());
+    return m_counter >= numberOfSamplesOnTarget;
   }
 
+  @Override
+  public void reset() {
+    System.out.println("Controller Reset");
+    m_counter = 0;
+    super.reset();
+  }
 }

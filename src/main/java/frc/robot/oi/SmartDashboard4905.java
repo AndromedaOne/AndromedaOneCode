@@ -111,7 +111,7 @@ public class SmartDashboard4905 {
           new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
       SmartDashboard.putNumber("Extend Arm Position Value", 0);
       SmartDashboard.putData("Extend Arms",
-          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), () -> 5, true, true));
+          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), () -> 5, true, true, false));
     }
 
     if (Config4905.getConfig4905().isRomi()) {

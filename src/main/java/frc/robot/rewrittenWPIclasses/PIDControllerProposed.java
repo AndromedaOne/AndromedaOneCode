@@ -7,6 +7,7 @@ package frc.robot.rewrittenWPIclasses;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
@@ -316,14 +317,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     m_velocityTolerance = velocityTolerance;
   }
 
-  /**
-   * Returns the difference between the setpoint and the measurement.
-   *
-   * @return The error.
-   */
-  public double getContinuousPositionError() {
-    return getContinuousError(m_positionError);
-  }
 
   public double getPositionError() {
     return m_positionError;
@@ -360,7 +353,12 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   public double calculate(double measurement) {
     m_measurement = measurement;
     m_prevError = m_positionError;
-    m_positionError = getContinuousError(m_setpoint - measurement);
+    if (m_continuous) {
+      double errorBound = (m_maximumInput - m_minimumInput) / 2.0;
+      m_positionError = MathUtil.inputModulus(m_setpoint - m_measurement, -errorBound, errorBound);
+    } else {
+      m_positionError = m_setpoint - m_measurement;
+    }
     m_velocityError = (m_positionError - m_prevError) / m_period;
 
     if (m_ki != 0) {
@@ -402,27 +400,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     builder.addDoubleProperty("i", this::getI, this::setI);
     builder.addDoubleProperty("d", this::getD, this::setD);
     builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
-  }
-
-  /**
-   * Wraps error around for continuous inputs. The original error is returned if
-   * continuous mode is disabled.
-   *
-   * @param error The current error of the PID controller.
-   * @return Error for continuous inputs.
-   */
-  protected double getContinuousError(double error) {
-    if (m_continuous && m_inputRange > 0) {
-      error %= m_inputRange;
-      if (Math.abs(error) > m_inputRange / 2) {
-        if (error > 0) {
-          return error - m_inputRange;
-        } else {
-          return error + m_inputRange;
-        }
-      }
-    }
-    return error;
   }
 
   /**
