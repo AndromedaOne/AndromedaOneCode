@@ -9,13 +9,10 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
-import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
-import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 
 public class RealSamArmExtRet extends SamArmExtRetBase {
 
   private final SparkMaxController m_extensionMotor;
-  private final LimitSwitchSensor m_retractLimitSwitch;
   private double m_zeroOffset = 0;
   private double m_maxExtension = 0;
   private double m_minExtension = 0;
@@ -25,7 +22,6 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     Config armextensionConfig = Config4905.getConfig4905().getSamArmExtensionConfig();
 
     m_extensionMotor = new SparkMaxController(armextensionConfig, "extensionmotor");
-    m_retractLimitSwitch = new RealLimitSwitchSensor("retractLimitSwitch");
     m_maxExtension = armextensionConfig.getDouble("maxExtension");
     m_minExtension = armextensionConfig.getDouble("minExtension");
   }
@@ -37,7 +33,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void extendRetract(double speed) {
-    if ((speed < 0) && (getRetractLimitSwitchState() || (getPosition() <= m_minExtension))) {
+    if ((speed < 0) && (getPosition() <= m_minExtension)) {
       m_extensionMotor.set(0);
     } else if ((speed > 0) && (getPosition() >= m_maxExtension)) {
       m_extensionMotor.set(0);
@@ -50,11 +46,6 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   @Override
   public double getPosition() {
     return (m_extensionMotor.getEncoderPositionTicks() - m_zeroOffset) / 100;
-  }
-
-  @Override
-  public boolean getRetractLimitSwitchState() {
-    return m_retractLimitSwitch.isAtLimit();
   }
 
   @Override

@@ -29,12 +29,12 @@ public class ExtendRetract extends PIDCommand4905 {
     super(new PIDController4905SampleStop("ArmExtRet"), armExtRet::getPosition, position,
         output -> {
           armExtRet.extendRetract(output);
-        }, armExtRet);
+        });
+    addRequirements(armExtRet);
     m_position = position;
     m_armExtRet = armExtRet;
     m_needToEnd = needToEnd;
     m_useSmartDashboard = useSmartDashboard;
-    addRequirements(armExtRet);
   }
 
   public ExtendRetract(SamArmExtRetBase armExtRet, DoubleSupplier position, boolean needToEnd) {
@@ -52,16 +52,15 @@ public class ExtendRetract extends PIDCommand4905 {
       m_extArmPosValue = SmartDashboard.getNumber("Extend Arm Position Value", 0);
       setPosition();
     }
-    
+
     getController().setP(pidConstantsConfig.getDouble("ArmExtRet.Kp"));
     getController().setI(pidConstantsConfig.getDouble("ArmExtRet.Ki"));
     getController().setD(pidConstantsConfig.getDouble("ArmExtRet.Kd"));
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove"));
     getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
+    Trace.getInstance().logCommandStart(this);
     Trace.getInstance().logCommandInfo(this, "Extend Retract Arm to: " + m_position.getAsDouble());
 
-    
-    
   }
 
   // Called once the command ends or is interrupted.
