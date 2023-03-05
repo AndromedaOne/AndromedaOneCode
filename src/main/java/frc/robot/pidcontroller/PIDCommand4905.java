@@ -97,4 +97,8 @@ public class PIDCommand4905 extends CommandBase {
   public void setOutput(DoubleConsumer output) {
     m_useOutput = output;
   }
+
+  public void setSetpoint(DoubleSupplier setpoint) {
+    m_setpoint = setpoint;
+  }
 }

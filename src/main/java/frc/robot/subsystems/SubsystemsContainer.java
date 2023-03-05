@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import frc.robot.Config4905;
 import frc.robot.commands.SAMgripperCommands.DefaultGripperCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.ArmRotationExtensionSingleton;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.showBotCannon.AdjustElevation;

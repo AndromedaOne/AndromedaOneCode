@@ -7,7 +7,6 @@ package frc.robot.rewrittenWPIclasses;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
@@ -316,7 +315,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     m_positionTolerance = positionTolerance;
     m_velocityTolerance = velocityTolerance;
   }
-
 
   public double getPositionError() {
     return m_positionError;

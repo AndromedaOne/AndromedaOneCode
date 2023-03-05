@@ -17,7 +17,7 @@ import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.telemetries.Trace;
 
 public class ExtendRetract extends PIDCommand4905 {
-   private SamArmExtRetBase m_armExtRet;
+  private SamArmExtRetBase m_armExtRet;
   private boolean m_needToEnd = false;
   private boolean m_useSmartDashboard = false;
   private boolean m_useSingletonValue = false;
@@ -51,14 +51,12 @@ public class ExtendRetract extends PIDCommand4905 {
     super.initialize();
 
     if (m_useSmartDashboard) {
-      double extArmPosValue = 0;
-      extArmPosValue = SmartDashboard.getNumber("Extend Arm Position Value", 0);
-      getController().setSetpoint(extArmPosValue);
+      setSetpoint(() -> SmartDashboard.getNumber("Extend Arm Position Value", 0));
     } else if (m_useSingletonValue) {
-      getController().setSetpoint(ArmRotationExtensionSingleton.getInstance().getPosition().getAsDouble());
+      setSetpoint(ArmRotationExtensionSingleton.getInstance().getPosition());
     }
-
-    ArmRotationExtensionSingleton.getInstance().setPosition(getController().getSetpoint());
+    System.out.println("Singleton = " + ArmRotationExtensionSingleton.getInstance().getPosition().getAsDouble());
+    ArmRotationExtensionSingleton.getInstance().setPosition(m_setpoint.getAsDouble());
 
     getController().setP(pidConstantsConfig.getDouble("ArmExtRet.Kp"));
     getController().setI(pidConstantsConfig.getDouble("ArmExtRet.Ki"));
@@ -67,7 +65,7 @@ public class ExtendRetract extends PIDCommand4905 {
     getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
     Trace.getInstance().logCommandStart(this);
     Trace.getInstance().logCommandInfo(this,
-        "Extend Retract Arm to: " + getController().getSetpoint());
+        "Extend Retract Arm to: " + m_setpoint.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
