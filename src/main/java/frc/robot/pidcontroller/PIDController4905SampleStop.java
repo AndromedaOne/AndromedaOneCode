@@ -18,7 +18,6 @@ public class PIDController4905SampleStop extends PIDController4905 {
       double minOutputToMove) {
     super(controllerName, Kp, Ki, Kd, minOutputToMove);
     m_counter = 0;
-    System.out.println("Sample Stop Constructed");
   }
 
   public PIDController4905SampleStop(String controllerName) {
@@ -31,13 +30,11 @@ public class PIDController4905SampleStop extends PIDController4905 {
     } else {
       m_counter = 0;
     }
-    System.out.println("at set point: error = " + getPositionError());
     return m_counter >= numberOfSamplesOnTarget;
   }
 
   @Override
   public void reset() {
-    System.out.println("Controller Reset");
     m_counter = 0;
     super.reset();
   }

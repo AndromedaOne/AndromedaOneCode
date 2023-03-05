@@ -32,6 +32,10 @@ public class ArmRotationExtensionSingleton {
   }
 
   public void setPosition(double position) {
+    if (position < 0) {
+      m_position = 0;
+    } else {
     m_position = position;
+    }
   }
 }

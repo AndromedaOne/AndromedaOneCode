@@ -55,7 +55,6 @@ public class ExtendRetract extends PIDCommand4905 {
     } else if (m_useSingletonValue) {
       setSetpoint(ArmRotationExtensionSingleton.getInstance().getPosition());
     }
-    System.out.println("Singleton = " + ArmRotationExtensionSingleton.getInstance().getPosition().getAsDouble());
     ArmRotationExtensionSingleton.getInstance().setPosition(m_setpoint.getAsDouble());
 
     getController().setP(pidConstantsConfig.getDouble("ArmExtRet.Kp"));
@@ -63,6 +62,7 @@ public class ExtendRetract extends PIDCommand4905 {
     getController().setD(pidConstantsConfig.getDouble("ArmExtRet.Kd"));
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove"));
     getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
+    getController().setMaxOutput(0.75);
     Trace.getInstance().logCommandStart(this);
     Trace.getInstance().logCommandInfo(this,
         "Extend Retract Arm to: " + m_setpoint.getAsDouble());
@@ -81,7 +81,6 @@ public class ExtendRetract extends PIDCommand4905 {
   @Override
   public boolean isFinished() {
     if (m_needToEnd && isOnTarget()) {
-      System.out.println("EXTEND IS FINISHED");
       return true;
     }
     return false;
