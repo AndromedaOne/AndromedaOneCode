@@ -64,8 +64,7 @@ public class ExtendRetract extends PIDCommand4905 {
     getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
     getController().setMaxOutput(0.75);
     Trace.getInstance().logCommandStart(this);
-    Trace.getInstance().logCommandInfo(this,
-        "Extend Retract Arm to: " + m_setpoint.getAsDouble());
+    Trace.getInstance().logCommandInfo(this, "Extend Retract Arm to: " + m_setpoint.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

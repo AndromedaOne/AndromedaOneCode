@@ -35,7 +35,7 @@ public class ArmRotationExtensionSingleton {
     if (position < 0) {
       m_position = 0;
     } else {
-    m_position = position;
+      m_position = position;
     }
   }
 }
