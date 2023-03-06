@@ -11,28 +11,24 @@ import frc.robot.Robot;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.telemetries.Trace;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TestMidNodeTurnToFaceCommand extends SequentialCommandGroup {
-  /** Creates a new TestMidNodeTurnToFaceCommand. */
-  public TestMidNodeTurnToFaceCommand() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    int currentPipeline = 0;
-    Trace.getInstance().logInfo("The pipeline is " + currentPipeline);
+public class TestMidCubeTurnToFaceCommand extends SequentialCommandGroup {
+  /** Creates a new TestMidCubeTurnToFaceCommand. */
+  public TestMidCubeTurnToFaceCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    int currentPipeline = 1;
     SensorsContainer m_sensorscontainer = Robot.getInstance().getSensorsContainer();
 
     m_sensorscontainer.getLimeLight().setPipeline(currentPipeline);
     m_sensorscontainer.getLimeLight().enableLED();
     m_sensorscontainer.getLimeLight().updateSmartDashboardReadings();
+    Trace.getInstance().logInfo("The pipeline number is " + currentPipeline);
     Trace.getInstance().logCommandInfo(this, "Horizonal Degrees to Target:"
         + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
     Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
         + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
     Trace.getInstance().logCommandInfo(this,
         "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToNode());
-    DoubleSupplier xyz = Robot.getInstance().getSensorsContainer()
+    DoubleSupplier zyx = Robot.getInstance().getSensorsContainer()
         .getLimeLight()::horizontalDegreesToTarget;
     System.out.println(this + "Test mid-Horizonal Degrees to target"
         + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
@@ -40,13 +36,7 @@ public class TestMidNodeTurnToFaceCommand extends SequentialCommandGroup {
         + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
     System.out.println(
         this + "Test mid-Distance to target" + m_sensorscontainer.getLimeLight().distanceToNode());
-    addCommands(new TurnToFaceCommand(xyz));
-    // Trace.getInstance().logCommandInfo(this, "Horizonal Degrees to Target:"
-    // + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
-    // Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
-    // + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
-    // Trace.getInstance().logCommandInfo(this,
-    // "Distance to Target:" + m_sensorscontainer.getLimeLight().distanceToNode());
+    addCommands(new TurnToFaceCommand(zyx));
     System.out.println(this + "Horizonal Degrees to target"
         + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
     System.out.println(this + "Vertical Radians to target"
@@ -56,4 +46,7 @@ public class TestMidNodeTurnToFaceCommand extends SequentialCommandGroup {
     m_sensorscontainer.getLimeLight().updateSmartDashboardReadings();
     m_sensorscontainer.getLimeLight().disableLED();
   }
+
+  // Called when the command is initially scheduled.
+
 }

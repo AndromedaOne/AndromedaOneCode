@@ -24,6 +24,7 @@ import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.commands.limeLightCommands.TestMidCubeTurnToFaceCommand;
 import frc.robot.commands.limeLightCommands.TestMidNodeTurnToFaceCommand;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
@@ -71,6 +72,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Disable Limelight LEDs",
           new ToggleLimelightLED(false, sensorsContainer));
       SmartDashboard.putData("TestMidNodeTurnToFace", new TestMidNodeTurnToFaceCommand());
+      SmartDashboard.putData("TestMidCubeTurnToFace", new TestMidCubeTurnToFaceCommand());
     }
     if (Config4905.getConfig4905().doesCannonExist()) {
       SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
