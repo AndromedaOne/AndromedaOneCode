@@ -17,7 +17,6 @@ public class RealSamArmRotate extends SamArmRotateBase {
   private final SparkMaxController m_motor1;
   private SparkMaxAbsoluteEncoder m_armAngleEncoder;
   private boolean m_initialized = false;
-  private double m_offset = 0;
   private double m_minAngle = 0;
   private double m_maxAngle = 0;
 
@@ -61,6 +60,5 @@ public class RealSamArmRotate extends SamArmRotateBase {
   @Override
   public void setInitialized() {
     m_initialized = true;
-    m_offset = m_motor1.getEncoderPositionTicks();
   }
 }
