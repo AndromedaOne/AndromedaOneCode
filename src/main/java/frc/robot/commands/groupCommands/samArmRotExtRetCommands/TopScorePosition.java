@@ -14,14 +14,14 @@ import frc.robot.telemetries.Trace;
 
 public class TopScorePosition extends SequentialCommandGroup4905 {
   /** Creates a new TopPositionScore. */
-  private final double m_cubeBackwardTopAngle = 0;
-  private final double m_cubeBackwardTopPosition = 0;
-  private final double m_coneBackwardTopAngle = 0;
-  private final double m_coneBackwardTopPosition = 0;
-  private final double m_cubeForwardTopAngle = 0;
-  private final double m_cubeForwardTopPosition = 0;
-  private final double m_coneForwardTopAngle = 0;
-  private final double m_coneForwardTopPosition = 0;
+  private final double m_cubeBackwardTopAngle = 236;
+  private final double m_cubeBackwardTopPosition = 32;
+  private final double m_coneBackwardTopAngle = 232;
+  private final double m_coneBackwardTopPosition = 36;
+  private final double m_cubeForwardTopAngle = 120;
+  private final double m_cubeForwardTopPosition = 39.6;
+  private final double m_coneForwardTopAngle = 126;
+  private final double m_coneForwardTopPosition = 42;
 
   public TopScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(

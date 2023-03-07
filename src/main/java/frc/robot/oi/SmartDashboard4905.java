@@ -22,8 +22,8 @@ import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
@@ -97,7 +97,7 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
-      SmartDashboard.putData("Low Score Position", new LowScorePosition(
+      SmartDashboard.putData("Low Score Position", new OffFloorPickupPosition(
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
       SmartDashboard.putData("Mid Score Position", new MiddleScorePosition(
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
