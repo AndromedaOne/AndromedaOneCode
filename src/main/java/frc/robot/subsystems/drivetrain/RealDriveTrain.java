@@ -33,7 +33,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private boolean m_invertFowardAndBack = false;
   private HitecHS322HDpositionalServoMotor m_leftServoMotor;
   private HitecHS322HDpositionalServoMotor m_rightServoMotor;
-  private ParkingBrakeStates m_parkingBrakeStates;
+  private ParkingBrakeStates m_parkingBrakeStates = ParkingBrakeStates.UNKNOWN;
   private double m_leftBrakeEngagedValue = 0.0;
   private double m_rightBrakeEngagedValue = 0.0;
   private double m_leftBrakeDisengagedValue = 0.0;
