@@ -45,8 +45,6 @@ public class SmartDashboard4905 {
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
-            new MoveWithoutPID(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
-            new MoveWithoutPID(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",
           new ToggleLimelightLED(true, sensorsContainer));
@@ -104,11 +102,11 @@ public class SmartDashboard4905 {
           new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
       SmartDashboard.putData("BalanceRobotBackwards",
           new SequentialCommandGroup4905(
-              new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
+              new MoveWithoutPID(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
               new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
       SmartDashboard.putData("BalanceRobotForward",
           new SequentialCommandGroup4905(
-              new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
+              new MoveWithoutPID(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
               new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
       SmartDashboard.putData("Engage Auto Dock", new EngageAutoDock());
     }
