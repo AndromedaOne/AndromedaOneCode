@@ -15,8 +15,8 @@ import frc.robot.Robot;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
-import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
+import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
@@ -102,11 +102,11 @@ public class SmartDashboard4905 {
           new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
       SmartDashboard.putData("BalanceRobotBackwards",
           new SequentialCommandGroup4905(
-              new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
+              new MoveWithoutPID(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
               new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
       SmartDashboard.putData("BalanceRobotForward",
           new SequentialCommandGroup4905(
-              new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
+              new MoveWithoutPID(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
               new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
       SmartDashboard.putData("Engage Auto Dock", new EngageAutoDock());
     }
