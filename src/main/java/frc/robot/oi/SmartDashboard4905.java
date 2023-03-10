@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
@@ -22,10 +23,14 @@ import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
+import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
@@ -77,6 +82,8 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().doesGripperExist()) {
       SmartDashboard.putString("Real Gripper state =",
           subsystemsContainer.getGripper().getState().name());
+      SmartDashboard.putData("Toggle Gripper",
+          new OpenCloseGripper(subsystemsContainer.getGripper()));
     }
 
     if (Config4905.getConfig4905().doesShooterExist()) {
@@ -91,19 +98,21 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
-      SmartDashboard.putData("Low Score Position", new LowScorePosition(
+      SmartDashboard.putData("Low Score Position", new OffFloorPickupPosition(
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
       SmartDashboard.putData("Mid Score Position", new MiddleScorePosition(
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
-      // SmartDashboard.putData("Top Score Position", new TopScorePosition(
-      // subsystemsContainer.getArmRotateBase(),
-      // subsystemsContainer.getArmExtRetBase()));
-      // SmartDashboard.putData("Substation Pickup Position", new
-      // SubstationPickupPosition(
-      // subsystemsContainer.getArmRotateBase(),
-      // subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Top Score Position", new TopScorePosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Substation Pickup Position", new SubstationPickupPosition(
+          subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
       SmartDashboard.putData("Stow Position", new StowPosition(
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Enable Arm Rotation Brake",
+          new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
+      SmartDashboard.putNumber("Extend Arm Position Value", 0);
+      SmartDashboard.putData("Extend Arms",
+          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), () -> 5, true, true, false));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
