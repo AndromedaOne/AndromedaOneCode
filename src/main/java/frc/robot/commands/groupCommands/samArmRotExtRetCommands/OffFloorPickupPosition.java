@@ -32,8 +32,8 @@ public class OffFloorPickupPosition extends SequentialCommandGroup4905 {
     new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
   }
 
-  public LowScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet, boolean auto,
-      boolean cube, boolean backwards) {
+  public OffFloorPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet,
+      boolean auto, boolean cube, boolean backwards) {
     m_auto = auto;
     m_cube = cube;
     m_backwards = backwards;

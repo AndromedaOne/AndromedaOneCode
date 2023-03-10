@@ -10,7 +10,7 @@ import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -39,7 +39,7 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
             subsystemsContainer.getArmExtRetBase()),
         moveCommand,
         // Add turn command, roughly 45 degrees.
-        new LowScorePosition(subsystemsContainer.getArmRotateBase(),
+        new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase(), true, true, true),
         new OpenCloseGripper(subsystemsContainer.getGripper()),
         new StowPosition(subsystemsContainer.getArmRotateBase(),

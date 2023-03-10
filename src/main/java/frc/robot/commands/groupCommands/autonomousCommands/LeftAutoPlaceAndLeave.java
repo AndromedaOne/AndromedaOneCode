@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -30,13 +30,13 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
         new StowPosition(
             subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
         new MoveUsingEncoder(driveTrain, -166, 0.5),
-        new LowScorePosition(subsystemsContainer.getArmRotateBase(),
+        new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase(), true, true, true),
         new OpenCloseGripper(subsystemsContainer.getGripper()),
         new StowPosition(
             subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
         new MoveUsingEncoder(driveTrain, 166, 0.5),
-        new LowScorePosition(subsystemsContainer.getArmRotateBase(),
+        new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase(), true, true, false),
         new OpenCloseGripper(subsystemsContainer.getGripper()), new StowPosition(
             subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase())
