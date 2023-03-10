@@ -28,6 +28,7 @@ public class EnableArmBrake extends CommandBase {
   public void execute() {
     m_armRotateBase.engageArmBrake();
     m_armRotateBase.stop();
+
   }
 
   // Called once the command ends or is interrupted.

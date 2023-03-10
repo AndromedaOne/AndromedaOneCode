@@ -42,6 +42,10 @@ public class RealSamArmRotate extends SamArmRotateBase {
   // Positive speed rotates to the front, negative to the back.
   @Override
   public void rotate(double speed) {
+    if (m_armAngleBrakeState == ArmAngleBrakeState.ENGAGEARMBRAKE) {
+      m_motor1.set(0);
+      return;
+    }
     if ((speed < 0) && (getAngle() <= m_minAngle)) {
       m_motor1.set(0);
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
@@ -55,6 +59,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
   public void engageArmBrake() {
     m_solenoidBrake.retractPiston();
     m_armAngleBrakeState = ArmAngleBrakeState.ENGAGEARMBRAKE;
+    m_motor1.set(0);
   }
 
   @Override
