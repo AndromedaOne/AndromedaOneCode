@@ -2,18 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.samArmExtendRetractCommands;
+package frc.robot.commands.samArmRotateCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
+import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 
-public class InitializeArmExtendRetract extends CommandBase {
-  private SamArmExtRetBase m_armExtRet;
+public class EnableArmBrake extends CommandBase {
+  /** Creates a new ToggleArmBrake. */
+  protected SamArmRotateBase m_armRotateBase;
 
-  public InitializeArmExtendRetract(SamArmExtRetBase samArmExtRet) {
-    m_armExtRet = samArmExtRet;
-    addRequirements(samArmExtRet);
+  public EnableArmBrake(SamArmRotateBase armRotateBase) {
+    m_armRotateBase = armRotateBase;
+    addRequirements(m_armRotateBase);
   }
 
   // Called when the command is initially scheduled.
@@ -25,27 +26,21 @@ public class InitializeArmExtendRetract extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!m_armExtRet.getInitialized() && !m_armExtRet.getRetractLimitSwitchState()) {
-      m_armExtRet.extendRetract(-0.1);
-    }
+    m_armRotateBase.engageArmBrake();
+    m_armRotateBase.stop();
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_armExtRet.extendRetract(0);
+    m_armRotateBase.disengageArmBrake();
     Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_armExtRet.getInitialized()) {
-      return true;
-    } else if (m_armExtRet.getRetractLimitSwitchState()) {
-      m_armExtRet.setInitialized();
-      return true;
-    }
     return false;
   }
 }

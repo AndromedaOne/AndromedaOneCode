@@ -12,21 +12,21 @@ import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 
-public class LowScorePosition extends SequentialCommandGroup4905 {
+public class OffFloorPickupPosition extends SequentialCommandGroup4905 {
   /** Creates a new LowPositionScore. */
-  private final double m_cubeBackwardLowAngle = 71;
+  private final double m_cubeBackwardLowAngle = 289;
   private final double m_cubeBackwardLowPosition = 0;
-  private final double m_coneBackwardLowAngle = 0;
+  private final double m_coneBackwardLowAngle = 289;
   private final double m_coneBackwardLowPosition = 0;
-  private final double m_cubeForwardLowAngle = 289;
-  private final double m_cubeForwardLowPosition = 0;
-  private final double m_coneForwardLowAngle = 0;
-  private final double m_coneForwardLowPosition = 0;
+  private final double m_cubeForwardLowAngle = 69.9;
+  private final double m_cubeForwardLowPosition = 5;
+  private final double m_coneForwardLowAngle = 69.9;
+  private final double m_coneForwardLowPosition = 5;
   private boolean m_auto = false;
   private boolean m_cube = false;
   private boolean m_backwards = false;
 
-  public LowScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+  public OffFloorPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
     new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);

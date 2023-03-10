@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.subsystems.compressor.CompressorBase;
 
 public class RealSamArmRotate extends SamArmRotateBase {
 
@@ -23,11 +24,11 @@ public class RealSamArmRotate extends SamArmRotateBase {
   private DoubleSolenoid4905 m_solenoidBrake;
 
   /** Creates a new RealSamArmRotate. */
-  public RealSamArmRotate() {
+  public RealSamArmRotate(CompressorBase compressorBase) {
     Config armrotateConfig = Config4905.getConfig4905().getSamArmRotateConfig();
 
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
-    m_solenoidBrake = new DoubleSolenoid4905(armrotateConfig, "solenoidbrake");
+    m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
     m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");
@@ -41,6 +42,10 @@ public class RealSamArmRotate extends SamArmRotateBase {
   // Positive speed rotates to the front, negative to the back.
   @Override
   public void rotate(double speed) {
+    if (m_armAngleBrakeState == ArmAngleBrakeState.ENGAGEARMBRAKE) {
+      m_motor1.set(0);
+      return;
+    }
     if ((speed < 0) && (getAngle() <= m_minAngle)) {
       m_motor1.set(0);
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
@@ -54,6 +59,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
   public void engageArmBrake() {
     m_solenoidBrake.retractPiston();
     m_armAngleBrakeState = ArmAngleBrakeState.ENGAGEARMBRAKE;
+    m_motor1.set(0);
   }
 
   @Override
@@ -62,10 +68,11 @@ public class RealSamArmRotate extends SamArmRotateBase {
     m_armAngleBrakeState = ArmAngleBrakeState.DISENGAGEARMBRAKE;
   }
 
+  // 90 Degrees is pointing forward, 270 is pointing backwards
   @Override
   public double getAngle() {
-    double fixedEncoderValue = (1 - m_armAngleEncoder.getPosition()) + 0.39;
-    if (fixedEncoderValue > 1) {
+    double fixedEncoderValue = (1.56 - m_armAngleEncoder.getPosition());
+    if (fixedEncoderValue >= 1) {
       fixedEncoderValue = fixedEncoderValue - 1;
     }
     return fixedEncoderValue * 360;

@@ -12,28 +12,30 @@ import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 
-public class SubstationPickupPosition extends SequentialCommandGroup4905 {
-  /** Creates a new SubstationPickupPosition. */
-  private final double m_substationAngle = 113;
-  private final double m_substationPosition = 40;
-  private final double m_backwardSubstationAngle = 242;
-  private final double m_backwardSubstationPosition = 36;
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class BottomScorePosition extends SequentialCommandGroup4905 {
 
-  public SubstationPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+  private final double m_bottomAngle = 90;
+  private final double m_bottomPosition = 0;
+  private final double m_backwardBottomAngle = 270;
+  private final double m_backwardBottomPosition = 0;
+
+  public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
     new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
     if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardSubstationAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardSubstationPosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardBottomAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardBottomPosition);
     } else {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_substationAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_substationPosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_bottomAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_bottomPosition);
     }
     Trace.getInstance().logCommandStart(this);
   }
