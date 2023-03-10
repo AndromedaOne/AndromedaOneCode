@@ -158,6 +158,9 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public void enableParkingBrakes() {
+    if (!m_hasParkingBrake) {
+      return;
+    }
     if (!((Math.abs(getLeftRateMetersPerSecond()) >= m_maxSpeedToEngageBrake)
         || (Math.abs(getRightRateMetersPerSecond()) >= m_maxSpeedToEngageBrake))) {
       m_leftServoMotor.set(m_leftBrakeEngagedValue);
@@ -170,6 +173,9 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public void disableParkingBrakes() {
+    if (!m_hasParkingBrake) {
+      return;
+    }
     m_leftServoMotor.set(m_leftBrakeDisengagedValue);
     m_rightServoMotor.set(m_rightBrakeDisengagedValue);
     m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
@@ -177,6 +183,9 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public void maintainParkingBrakeState() {
+    if (!m_hasParkingBrake) {
+      return;
+    }
     if (m_parkingBrakeStates == ParkingBrakeStates.BRAKESON) {
       enableParkingBrakes();
     } else {
