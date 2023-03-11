@@ -8,23 +8,26 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
 
-public class MoveToCenterOfChargingStation extends CommandBase {
+/*Move robot without using a PID loop. Use this to move the robot over uneven ground.
+ * The robot will roll past the distance due to momentum.
+ */
+public class MoveWithoutPID extends CommandBase {
   private DriveTrain m_driveTrain;
   private double m_distance = 0;
-  private double m_maxOutput = 0;
+  private double m_speed = 0;
   private double m_compassHeading = 0;
   private boolean m_driveForward = false;
 
   /** Creates a new MoveToCenterOfChargingStation. */
-  public MoveToCenterOfChargingStation(DriveTrain driveTrain, double distance, double maxOutput,
+  public MoveWithoutPID(DriveTrain driveTrain, double distance, double speed,
       double compassHeading) {
     addRequirements(driveTrain);
     m_driveTrain = driveTrain;
     m_distance = distance;
-    m_maxOutput = maxOutput;
+    m_speed = speed;
     if (m_distance < 0) {
       m_driveForward = false;
-      m_maxOutput = -m_maxOutput;
+      m_speed = -m_speed;
     } else {
       m_driveForward = true;
     }
@@ -42,7 +45,7 @@ public class MoveToCenterOfChargingStation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveTrain.moveUsingGyro(m_maxOutput, 0, false, m_compassHeading);
+    m_driveTrain.moveUsingGyro(m_speed, 0, false, m_compassHeading);
   }
 
   // Called once the command ends or is interrupted.
