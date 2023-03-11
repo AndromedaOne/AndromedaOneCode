@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.samArmExtRet;
 
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,6 +17,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   private double m_zeroOffset = 0;
   private double m_maxExtension = 0;
   private double m_minExtension = 0;
+  private boolean m_isInitialized = false;
 
   /** Creates a new RealSamArmExtension. */
   public RealSamArmExtRet() {
@@ -29,11 +31,15 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("arm extension position", getPosition());
+    SmartDashboard.putString("arm ret limit switch", getRetractLimitSwitchState().toString());
+    SmartDashboard.putBoolean("forwardSwitch", m_extensionMotor
+        .getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isLimitSwitchEnabled());
   }
 
   @Override
   public void extendRetract(double speed) {
-    if ((speed < 0) && (getPosition() <= m_minExtension)) {
+    if ((speed < 0) && ((getPosition() <= m_minExtension)
+        || (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED))) {
       m_extensionMotor.set(0);
     } else if ((speed > 0) && (getPosition() >= m_maxExtension)) {
       m_extensionMotor.set(0);
@@ -50,6 +56,31 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void setZeroOffset() {
-    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks();
+    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks() + 25;
+  }
+
+  @Override
+  public RetractLimitSwitchState getRetractLimitSwitchState() {
+    return m_extensionMotor.isReverseLimitSwitchOn() ? RetractLimitSwitchState.CLOSED
+        : RetractLimitSwitchState.OPEN;
+  }
+
+  @Override
+  public void retractArmInitialize() {
+    if (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED) {
+      m_extensionMotor.set(0);
+    } else {
+      m_extensionMotor.set(-0.25);
+    }
+  }
+
+  @Override
+  public boolean isInitialized() {
+    return m_isInitialized;
+  }
+
+  @Override
+  public void setInitialized() {
+    m_isInitialized = true;
   }
 }

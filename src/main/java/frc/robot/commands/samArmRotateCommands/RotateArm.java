@@ -8,7 +8,6 @@ import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
@@ -51,14 +50,6 @@ public class RotateArm extends PIDCommand4905 {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    double ks = 0;
-    double kv = 0;
-    if (m_useSmartDashboard) {
-      ks = SmartDashboard.getNumber("Rotate Arm Feed Forward", 0);
-    }
-    m_feedForward = new SimpleMotorFeedforward(ks, kv);
-
     Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
     super.initialize();
 

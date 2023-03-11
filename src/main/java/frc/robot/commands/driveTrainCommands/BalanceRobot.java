@@ -21,9 +21,9 @@ public class BalanceRobot extends PIDCommand4905 {
 
   /** Creates a new BalanceRobot. */
   public BalanceRobot(DriveTrain driveTrain, double maxOutput, double compassHeading) {
-    super(new PIDController4905SampleStop("BalanceRobot", 0, 0, 0, 0),
+    super(new PIDController4905SampleStop("BalanceRobot"),
 
-        Robot.getInstance().getSensorsContainer().getGyro().getYangleDoubleSupplier(), 0,
+        Robot.getInstance().getSensorsContainer().getGyro().getYangleDoubleSupplier(), () -> 0,
         output -> {
           driveTrain.moveUsingGyro(-output, 0, false, compassHeading);
         }, driveTrain);
