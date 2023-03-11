@@ -10,8 +10,9 @@ import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -24,15 +25,17 @@ public class PlaceEngageAutoDock extends SequentialCommandGroup {
   public PlaceEngageAutoDock() {
     final double distanceToMove = -146;
     final double maxOutPut = 0.5;
+    long waitTime = 1000;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     // Need to add place code
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(
         new SequentialCommandGroup4905(
-            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+            new TopScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
             new OpenCloseGripper(subsystemsContainer.getGripper()),
+            new PauseRobot(waitTime, driveTrain),
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
             moveCommand),

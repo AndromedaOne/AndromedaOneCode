@@ -10,8 +10,9 @@ import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosition;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -25,6 +26,7 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
   public PlacePickEngageAutoDock() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    long waitTime = 1000;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     // 166 may need to be lowered.
@@ -35,13 +37,15 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
         new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase(), true, true, false),
         new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new PauseRobot(waitTime, driveTrain),
         new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()),
         moveCommand,
         // Add turn command, roughly 45 degrees.
-        new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
+        new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase(), true, true, true),
         new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new PauseRobot(waitTime, driveTrain),
         new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()),
         // TBD: If we need to rotate before moving.

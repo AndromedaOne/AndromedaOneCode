@@ -42,9 +42,8 @@ public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
         new MoveUsingEncoder(driveTrain, 155, 0.5),
         new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase(), true, true, false),
-        new OpenCloseGripper(subsystemsContainer.getGripper()), 
-        new PauseRobot(waitTime, driveTrain),
-        new StowPosition(
+        new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new PauseRobot(waitTime, driveTrain), new StowPosition(
             subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase())));
   }
 }
