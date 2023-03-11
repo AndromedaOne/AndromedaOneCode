@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
-import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
@@ -47,10 +47,12 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
         new OpenCloseGripper(subsystemsContainer.getGripper()),
         new PauseRobot(waitTime, driveTrain),
         new StowPosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
+            subsystemsContainer.getArmExtRetBase())),
+        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, -45, 0.75, 0),
+            new BalanceRobot(driveTrain, 0.5, 0)));
         // TBD: If we need to rotate before moving.
-        new MoveToCenterOfChargingStation(driveTrain, 45, 0.75, 0),
-        new BalanceRobot(driveTrain, 0.5, 0)));
+     //   new MoveToCenterOfChargingStation(driveTrain, 45, 0.75, 0),
+    //    new BalanceRobot(driveTrain, 0.5, 0)));
 
   }
 }
