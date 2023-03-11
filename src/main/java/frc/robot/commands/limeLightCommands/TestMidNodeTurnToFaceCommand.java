@@ -40,7 +40,9 @@ public class TestMidNodeTurnToFaceCommand extends SequentialCommandGroup {
         + m_sensorscontainer.getLimeLight().verticalRadiansToTarget());
     System.out.println(
         this + "Test mid-Distance to target" + m_sensorscontainer.getLimeLight().distanceToNode());
-    addCommands(new TurnToFaceCommand(xyz));
+    if ((xyz.getAsDouble() < 27) && (xyz.getAsDouble() > -27)) {
+      addCommands(new TurnToFaceCommand(xyz));
+    }
     // Trace.getInstance().logCommandInfo(this, "Horizonal Degrees to Target:"
     // + m_sensorscontainer.getLimeLight().horizontalDegreesToTarget());
     // Trace.getInstance().logCommandInfo(this, "Vertical Radians to Target:"
