@@ -7,12 +7,16 @@
 
 package frc.robot.oi;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.limeLightCommands.TurnToFaceCommand;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -25,6 +29,7 @@ public class DriveController extends ControllerBase {
   private JoystickButton m_turnOffLimelight;
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
+  private JoystickButton m_turnToFaceButton;
 
   public DriveController(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
@@ -79,10 +84,14 @@ public class DriveController extends ControllerBase {
   }
 
   protected void limeLightButtons() {
+    DoubleSupplier xyz = Robot.getInstance().getSensorsContainer()
+        .getLimeLight()::horizontalDegreesToTarget;
     m_turnOnLimelight = getBackButton();
     m_turnOnLimelight.onTrue(new ToggleLimelightLED(true, m_sensorsContainer));
     m_turnOffLimelight = getStartButton();
     m_turnOffLimelight.onTrue(new ToggleLimelightLED(false, m_sensorsContainer));
+    m_turnToFaceButton = getXbutton();
+    m_turnToFaceButton.onTrue(new TurnToFaceCommand(xyz));
   }
 
   private void setupRomiButtons() {
