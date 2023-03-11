@@ -39,9 +39,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   // Minimum input - limit setpoint to this
   private double m_minimumInput;
 
-  // Input range - difference between maximum and minimum
-  private double m_inputRange;
-
   // Do the endpoints wrap around? eg. Absolute encoder
   private boolean m_continuous;
 
@@ -409,8 +406,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   private void setInputRange(double minimumInput, double maximumInput) {
     m_minimumInput = minimumInput;
     m_maximumInput = maximumInput;
-    m_inputRange = maximumInput - minimumInput;
-
     // Clamp setpoint to new input
     if (m_maximumInput > m_minimumInput) {
       m_setpoint = MathUtil.clamp(m_setpoint, m_minimumInput, m_maximumInput);

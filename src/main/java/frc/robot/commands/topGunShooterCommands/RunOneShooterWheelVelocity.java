@@ -9,8 +9,8 @@ import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
@@ -27,20 +27,32 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   private boolean m_tuneValues;
   private double m_feedForwardValue;
   private double m_pValue;
-  private static double m_computedFeedForward = 0;
   private double m_target = 0;
   private static Config m_shooterConfig;
-  private SimpleMotorFeedforward m_feedForward;
+  private FeedForward m_feedForward = new ShooterFeedForward();
   private InterpolatingMap m_kMap;
   private InterpolatingMap m_pMap;
   private BooleanSupplier m_finishedCondition;
+
+  private class ShooterFeedForward implements FeedForward {
+    @Override
+    public double calculate() {
+      double kv = 0;
+      if (m_tuneValues) {
+        kv = m_feedForwardValue;
+      } else {
+        kv = m_kMap.getInterpolatedValue(m_target);
+      }
+      return kv * m_shooterWheel.getShooterWheelRpm();
+    }
+  }
 
   public RunOneShooterWheelVelocity(ShooterWheelBase shooterWheel, DoubleSupplier setpoint,
       boolean tuneValues, double feedForwardValue, double pValue, Config shooterConfig,
       BooleanSupplier finishedCondition) {
     super(
         // The controller that the command will use
-        new PIDController4905SampleStop(shooterWheel.getShooterName(), 0, 0, 0, 0),
+        new PIDController4905SampleStop(shooterWheel.getShooterName()),
         // This should return the measurement
         // () -> 0,
         shooterWheel::getShooterWheelRpm,
@@ -50,13 +62,14 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
         // This uses the output
         output -> {
           // Use the output here
-          shooterWheel.setShooterWheelPower(output + m_computedFeedForward);
+          shooterWheel.setShooterWheelPower(output);
         });
     addRequirements(shooterWheel);
     // Configure additional PID options by calling `getController` here.
     m_shooterConfig = shooterConfig;
     getController()
         .setTolerance(m_shooterConfig.getDouble(shooterWheel.getShooterName() + ".tolerance"));
+    getController().setFeedforward(m_feedForward);
     m_shooterWheel = shooterWheel;
     m_setpoint = setpoint;
     if (tuneValues) {
@@ -82,7 +95,6 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
     Trace.getInstance().logCommandStart(this);
     super.initialize();
     m_target = m_setpoint.getAsDouble();
-    m_feedForward = createFeedForward();
     double pValue = 0;
     if (m_tuneValues) {
       pValue = m_pValue;
@@ -100,7 +112,6 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
 
   @Override
   public void execute() {
-    m_computedFeedForward = m_feedForward.calculate(m_target);
     super.execute();
     SmartDashboard.putNumber(m_shooterWheel.getShooterName() + " Wheel Velocity Setpoint",
         m_target);
@@ -116,18 +127,6 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   public void end(boolean interrupt) {
     m_shooterWheel.setShooterWheelPower(0);
     Trace.getInstance().logCommandStop(this);
-  }
-
-  private SimpleMotorFeedforward createFeedForward() {
-    double ks = 0;
-    double kv = 0;
-    if (m_tuneValues) {
-      kv = m_feedForwardValue;
-    } else {
-      kv = m_kMap.getInterpolatedValue(m_target);
-    }
-    System.out.println("kv " + kv);
-    return new SimpleMotorFeedforward(ks, kv);
   }
 
   public double getSetpoint() {
