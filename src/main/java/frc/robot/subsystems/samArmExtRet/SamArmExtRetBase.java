@@ -25,4 +25,8 @@ public abstract class SamArmExtRetBase extends SubsystemBase {
   public abstract RetractLimitSwitchState getRetractLimitSwitchState();
 
   public abstract void retractArmInitialize();
+
+  public abstract boolean isInitialized();
+
+  public abstract void setInitialized();
 }

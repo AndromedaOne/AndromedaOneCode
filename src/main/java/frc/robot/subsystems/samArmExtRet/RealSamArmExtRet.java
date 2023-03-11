@@ -14,10 +14,10 @@ import frc.robot.actuators.SparkMaxController;
 public class RealSamArmExtRet extends SamArmExtRetBase {
 
   private final SparkMaxController m_extensionMotor;
-  private SparkMaxLimitSwitch m_retractLimitSwitch;
   private double m_zeroOffset = 0;
   private double m_maxExtension = 0;
   private double m_minExtension = 0;
+  private boolean m_isInitialized = false;
 
   /** Creates a new RealSamArmExtension. */
   public RealSamArmExtRet() {
@@ -26,13 +26,14 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     m_extensionMotor = new SparkMaxController(armextensionConfig, "extensionmotor");
     m_maxExtension = armextensionConfig.getDouble("maxExtension");
     m_minExtension = armextensionConfig.getDouble("minExtension");
-    m_retractLimitSwitch = m_extensionMotor
-        .getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("arm extension position", getPosition());
+    SmartDashboard.putString("arm ret limit switch", getRetractLimitSwitchState().toString());
+    SmartDashboard.putBoolean("forwardSwitch", m_extensionMotor
+        .getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isLimitSwitchEnabled());
   }
 
   @Override
@@ -60,7 +61,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public RetractLimitSwitchState getRetractLimitSwitchState() {
-    return m_retractLimitSwitch.isLimitSwitchEnabled() ? RetractLimitSwitchState.CLOSED
+    return m_extensionMotor.isReverseLimitSwitchOn() ? RetractLimitSwitchState.CLOSED
         : RetractLimitSwitchState.OPEN;
   }
 
@@ -71,5 +72,15 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     } else {
       m_extensionMotor.set(-0.25);
     }
+  }
+
+  @Override
+  public boolean isInitialized() {
+    return m_isInitialized;
+  }
+
+  @Override
+  public void setInitialized() {
+    m_isInitialized = true;
   }
 }

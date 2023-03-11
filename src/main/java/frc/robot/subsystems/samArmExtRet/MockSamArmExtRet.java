@@ -36,4 +36,13 @@ public class MockSamArmExtRet extends SamArmExtRetBase {
   public void retractArmInitialize() {
 
   }
+
+  @Override
+  public boolean isInitialized() {
+    return false;
+  }
+
+  @Override
+  public void setInitialized() {
+  }
 }
