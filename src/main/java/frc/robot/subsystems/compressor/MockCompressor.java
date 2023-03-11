@@ -4,9 +4,21 @@
 
 package frc.robot.subsystems.compressor;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 /** Add your docs here. */
 public class MockCompressor extends CompressorBase {
   public void start() {
 
+  }
+
+  @Override
+  public int getPortNumber() {
+    return 0;
+  }
+
+  @Override
+  public PneumaticsModuleType getCompressorModuleType() {
+    return null;
   }
 }

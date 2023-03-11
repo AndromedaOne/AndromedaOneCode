@@ -24,16 +24,6 @@ public class MockSamArmExtRet extends SamArmExtRetBase {
   }
 
   @Override
-  public boolean getRetractLimitSwitchState() {
-    return true;
-  }
-
-  @Override
-  public boolean getInitialized() {
-    return false;
-  }
-
-  @Override
-  public void setInitialized() {
+  public void setZeroOffset() {
   }
 }

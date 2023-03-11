@@ -6,7 +6,7 @@ package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
-import frc.robot.commands.samArmRotateCommands.RotateArm;
+import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 
@@ -17,8 +17,7 @@ public class DefaultArmRotExt extends ParallelCommandGroup {
   /** Creates a new DefaultArmRotExt. */
   public DefaultArmRotExt(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
 
-    addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), false),
-        new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition()));
+    addCommands(new EnableArmBrake(armRotate), new ExtendRetract(armExtRet,
+        ArmRotationExtensionSingleton.getInstance().getPosition(), false));
   }
 }

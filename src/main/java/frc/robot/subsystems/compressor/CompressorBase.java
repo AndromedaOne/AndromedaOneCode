@@ -4,14 +4,19 @@
 
 package frc.robot.subsystems.compressor;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class CompressorBase extends SubsystemBase {
-  /** Creates a new CompressorBase. */
+
   public CompressorBase() {
   }
 
   public abstract void start();
+
+  public abstract int getPortNumber();
+
+  public abstract PneumaticsModuleType getCompressorModuleType();
 
   @Override
   public void periodic() {

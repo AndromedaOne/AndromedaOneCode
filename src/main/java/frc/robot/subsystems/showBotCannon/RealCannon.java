@@ -11,6 +11,7 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.VictorSPXController;
+import frc.robot.subsystems.compressor.CompressorBase;
 
 /** Add your docs here. */
 public class RealCannon extends CannonBase {
@@ -21,12 +22,12 @@ public class RealCannon extends CannonBase {
   private VictorSPXController m_elevationMotor;
   private Config m_config;
 
-  public RealCannon() {
+  public RealCannon(CompressorBase compressorBase) {
     m_config = Config4905.getConfig4905().getCannonConfig();
-    m_solenoid0_7 = new DoubleSolenoid4905(m_config, "solenoid0_7");
-    m_solenoid1_6 = new DoubleSolenoid4905(m_config, "solenoid1_6");
-    m_solenoid2_5 = new DoubleSolenoid4905(m_config, "solenoid2_5");
-    m_solenoid3_4 = new DoubleSolenoid4905(m_config, "solenoid3_4");
+    m_solenoid0_7 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid0_7");
+    m_solenoid1_6 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid1_6");
+    m_solenoid2_5 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid2_5");
+    m_solenoid3_4 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid3_4");
     m_elevationMotor = new VictorSPXController(m_config, "elevationMotor");
   }
 

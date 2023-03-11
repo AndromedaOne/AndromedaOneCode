@@ -1,30 +1,24 @@
 package frc.robot.actuators;
 
+import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.robot.subsystems.compressor.CompressorBase;
 
 public class DoubleSolenoid4905 {
   private DoubleSolenoid m_doubleSolenoid;
   // We are assuming the solenoid starts closed
   private boolean m_isSolenoidOpen = false;
 
-  public DoubleSolenoid4905(Config subsystemConfig, String configString) {
-    if (subsystemConfig.hasPath("ModuleType")) {
-      String moduleString = subsystemConfig.getString("ModuleType");
-      if (moduleString.equals("REVPH")) {
-        // if (subsystemConfig.getString("ModuleType") == "REVPH") {
-        m_doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-            subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
-            subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
-      }
-      // }
-    } else {
-      m_doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-          subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
-          subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
-    }
+  public DoubleSolenoid4905(CompressorBase compressorBase, Config subsystemConfig,
+      String configString) {
+    requireNonNullParam(compressorBase, "compressorBase", "DoubleSolenoid4905 Constructor");
+    m_doubleSolenoid = new DoubleSolenoid(compressorBase.getPortNumber(),
+        compressorBase.getCompressorModuleType(),
+        subsystemConfig.getInt("ports." + configString + ".forwardChannel"),
+        subsystemConfig.getInt("ports." + configString + ".reverseChannel"));
   }
 
   public void extendPiston() {

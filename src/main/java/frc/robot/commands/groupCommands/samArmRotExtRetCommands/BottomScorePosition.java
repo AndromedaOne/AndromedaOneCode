@@ -4,6 +4,7 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
+import frc.robot.Robot;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -11,12 +12,17 @@ import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 
-public class StowPosition extends SequentialCommandGroup4905 {
-  /** Creates a new StowPosition. */
-  private final double m_stowAngle = 180;
-  private final double m_stowPosition = 0;
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class BottomScorePosition extends SequentialCommandGroup4905 {
 
-  public StowPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+  private final double m_bottomAngle = 90;
+  private final double m_bottomPosition = 0;
+  private final double m_backwardBottomAngle = 270;
+  private final double m_backwardBottomPosition = 0;
+
+  public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
     new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
@@ -24,8 +30,13 @@ public class StowPosition extends SequentialCommandGroup4905 {
 
   @Override
   public void additionalInitialize() {
-    ArmRotationExtensionSingleton.getInstance().setAngle(m_stowAngle);
-    ArmRotationExtensionSingleton.getInstance().setPosition(m_stowPosition);
+    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardBottomAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardBottomPosition);
+    } else {
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_bottomAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_bottomPosition);
+    }
     Trace.getInstance().logCommandStart(this);
   }
 
