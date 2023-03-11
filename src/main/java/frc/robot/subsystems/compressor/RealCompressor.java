@@ -8,29 +8,48 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.SensorUtil;
 import frc.robot.Config4905;
-import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealCompressor extends CompressorBase {
   private Compressor m_compressor;
+  private int m_portInt = 0;
+  private PneumaticsModuleType m_compressorModuleType;
 
   public RealCompressor() {
     Config compressorConfig = Config4905.getConfig4905().getCompressorConfig();
     if (compressorConfig.hasPath("ModuleType")) {
-      Trace.getInstance().logInfo("Line 21 in RealCompressor ran");
       String moduleString = compressorConfig.getString("ModuleType");
-      Trace.getInstance().logInfo(moduleString);
       if (moduleString.equals("REVPH")) {
-        int portInt = compressorConfig.getInt("port");
-        m_compressor = new Compressor(portInt, PneumaticsModuleType.REVPH);
+        m_portInt = compressorConfig.getInt("port");
+        m_compressor = new Compressor(m_portInt, PneumaticsModuleType.REVPH);
+        m_compressorModuleType = PneumaticsModuleType.REVPH;
+      } else if (moduleString.equals("CTREPCM")) {
+        m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+        m_compressorModuleType = PneumaticsModuleType.CTREPCM;
+        m_portInt = SensorUtil.getDefaultCTREPCMModule();
+      } else {
+        throw (new RuntimeException("Unknown PCM Module Type"));
       }
     } else {
       m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+      m_compressorModuleType = PneumaticsModuleType.CTREPCM;
+      m_portInt = SensorUtil.getDefaultCTREPCMModule();
     }
   }
 
   public void start() {
     m_compressor.enableDigital();
+  }
+
+  @Override
+  public int getPortNumber() {
+    return m_portInt;
+  }
+
+  @Override
+  public PneumaticsModuleType getCompressorModuleType() {
+    return m_compressorModuleType;
   }
 }
