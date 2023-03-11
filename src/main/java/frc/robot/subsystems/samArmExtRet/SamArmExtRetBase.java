@@ -11,10 +11,18 @@ public abstract class SamArmExtRetBase extends SubsystemBase {
   public SamArmExtRetBase() {
   }
 
+  public enum RetractLimitSwitchState {
+    CLOSED, OPEN;
+  }
+
   // Arms extending is positive, arms retracting is negative.
   public abstract void extendRetract(double speed);
 
   public abstract double getPosition();
 
   public abstract void setZeroOffset();
+
+  public abstract RetractLimitSwitchState getRetractLimitSwitchState();
+
+  public abstract void retractArmInitialize();
 }

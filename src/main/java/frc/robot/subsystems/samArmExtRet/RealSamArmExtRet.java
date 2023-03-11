@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.samArmExtRet;
 
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,6 +14,7 @@ import frc.robot.actuators.SparkMaxController;
 public class RealSamArmExtRet extends SamArmExtRetBase {
 
   private final SparkMaxController m_extensionMotor;
+  private SparkMaxLimitSwitch m_retractLimitSwitch;
   private double m_zeroOffset = 0;
   private double m_maxExtension = 0;
   private double m_minExtension = 0;
@@ -24,6 +26,8 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     m_extensionMotor = new SparkMaxController(armextensionConfig, "extensionmotor");
     m_maxExtension = armextensionConfig.getDouble("maxExtension");
     m_minExtension = armextensionConfig.getDouble("minExtension");
+    m_retractLimitSwitch = m_extensionMotor
+        .getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
   }
 
   @Override
@@ -33,7 +37,8 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void extendRetract(double speed) {
-    if ((speed < 0) && (getPosition() <= m_minExtension)) {
+    if ((speed < 0) && ((getPosition() <= m_minExtension)
+        || (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED))) {
       m_extensionMotor.set(0);
     } else if ((speed > 0) && (getPosition() >= m_maxExtension)) {
       m_extensionMotor.set(0);
@@ -50,6 +55,21 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void setZeroOffset() {
-    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks();
+    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks() + 25;
+  }
+
+  @Override
+  public RetractLimitSwitchState getRetractLimitSwitchState() {
+    return m_retractLimitSwitch.isLimitSwitchEnabled() ? RetractLimitSwitchState.CLOSED
+        : RetractLimitSwitchState.OPEN;
+  }
+
+  @Override
+  public void retractArmInitialize() {
+    if (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED) {
+      m_extensionMotor.set(0);
+    } else {
+      m_extensionMotor.set(-0.25);
+    }
   }
 }
