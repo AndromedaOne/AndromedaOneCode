@@ -10,7 +10,8 @@ package frc.robot.subsystems;
 import frc.robot.Config4905;
 import frc.robot.commands.SAMgripperCommands.DefaultGripperCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.DefaultArmRotExt;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
+import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
@@ -27,7 +28,9 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
-import frc.robot.subsystems.ledlights.*;
+import frc.robot.subsystems.ledlights.LEDs;
+import frc.robot.subsystems.ledlights.MockLEDs;
+import frc.robot.subsystems.ledlights.TopGunLEDs;
 import frc.robot.subsystems.samArmExtRet.MockSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.RealSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -128,16 +131,17 @@ public class SubsystemsContainer {
       m_compressor = new MockCompressor();
     }
     if (Config4905.getConfig4905().doesGripperExist()) {
+      // Gripper must be constructed after compressor
       System.out.println("using real gripper.");
-      m_gripper = new RealGripper();
-      // m_gripper.start();
+      m_gripper = new RealGripper(m_compressor);
     } else {
       System.out.println("Using mock gripper");
       m_gripper = new MockGripper();
     }
     if (Config4905.getConfig4905().doesCannonExist()) {
+      // Gripper must be constructed after compressor
       System.out.println("using real Cannon.");
-      m_cannon = new RealCannon();
+      m_cannon = new RealCannon(m_compressor);
     } else {
       System.out.println("Using mock Cannon");
       m_cannon = new MockCannon();
@@ -176,7 +180,7 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
       System.out.println("using real arm rotate");
-      m_armRotate = new RealSamArmRotate();
+      m_armRotate = new RealSamArmRotate(m_compressor);
     } else {
       System.out.println("using mock arm rotate");
       m_armRotate = new MockSamArmRotate();
@@ -252,10 +256,10 @@ public class SubsystemsContainer {
       m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
     }
     if (Config4905.getConfig4905().doesSamArmExtRetExist()) {
-      m_armExtRet.setDefaultCommand(new DefaultArmRotExt(m_armRotate, m_armExtRet));
+      m_armExtRet.setDefaultCommand(new ExtendRetract(m_armExtRet, false));
     }
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
-      m_armRotate.setDefaultCommand(new DefaultArmRotExt(m_armRotate, m_armExtRet));
+      m_armRotate.setDefaultCommand(new EnableArmBrake(m_armRotate));
     }
 
     if (Config4905.getConfig4905().doesGripperExist()) {

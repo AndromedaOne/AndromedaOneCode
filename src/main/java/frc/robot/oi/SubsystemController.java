@@ -10,9 +10,11 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.LowScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -64,14 +66,17 @@ public class SubsystemController extends ControllerBase {
   }
 
   private void setUpArmButtons() {
-    getXbutton().onTrue(new LowScorePosition(m_subsystemsContainer.getArmRotateBase(),
+    getXbutton().onTrue(new OffFloorPickupPosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
     getYbutton().onTrue(new MiddleScorePosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
-//    getBbutton().onTrue(new TopScorePosition(m_subsystemsContainer.getArmRotateBase(),
-//        m_subsystemsContainer.getArmExtRetBase()));
-//    getAbutton().onTrue(new SubstationPickupPosition(m_subsystemsContainer.getArmRotateBase(),
-//        m_subsystemsContainer.getArmExtRetBase()));
+    getBbutton().onTrue(new TopScorePosition(m_subsystemsContainer.getArmRotateBase(),
+        m_subsystemsContainer.getArmExtRetBase()));
+    getAbutton().onTrue(new BottomScorePosition(m_subsystemsContainer.getArmRotateBase(),
+        m_subsystemsContainer.getArmExtRetBase()));
+    // getbutton().onTrue(new
+    // SubstationPickupPosition(m_subsystemsContainer.getArmRotateBase(),
+    // m_subsystemsContainer.getArmExtRetBase()));
     getLeftBumperButton().onTrue(new StowPosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
   }
@@ -96,11 +101,22 @@ public class SubsystemController extends ControllerBase {
     }
   }
 
-  public boolean getXButton() {
-    return getXButton();
-  }
-
   public boolean getEjectCargoButton() {
     return getBackButton().getAsBoolean();
   }
+
+  public boolean getGrabBackwardButton() {
+    if (getLeftTriggerValue() > 0.3) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean getConeButton() {
+    if (getRightTriggerValue() > 0.3) {
+      return true;
+    }
+    return false;
+  }
+
 }
