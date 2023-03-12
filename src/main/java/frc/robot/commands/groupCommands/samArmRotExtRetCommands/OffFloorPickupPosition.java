@@ -12,18 +12,18 @@ import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 
-public class TopScorePosition extends SequentialCommandGroup4905 {
-  /** Creates a new TopPositionScore. */
-  private final double m_cubeBackwardTopAngle = 236;
-  private final double m_cubeBackwardTopPosition = 32;
-  private final double m_coneBackwardTopAngle = 232;
-  private final double m_coneBackwardTopPosition = 36;
-  private final double m_cubeForwardTopAngle = 120;
-  private final double m_cubeForwardTopPosition = 39.6;
-  private final double m_coneForwardTopAngle = 126;
-  private final double m_coneForwardTopPosition = 42;
+public class OffFloorPickupPosition extends SequentialCommandGroup4905 {
+  /** Creates a new LowPositionScore. */
+  private final double m_cubeBackwardLowAngle = 289;
+  private final double m_cubeBackwardLowPosition = 0;
+  private final double m_coneBackwardLowAngle = 289;
+  private final double m_coneBackwardLowPosition = 0;
+  private final double m_cubeForwardLowAngle = 69.9;
+  private final double m_cubeForwardLowPosition = 5;
+  private final double m_coneForwardLowAngle = 69.9;
+  private final double m_coneForwardLowPosition = 5;
 
-  public TopScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+  public OffFloorPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
     new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
@@ -34,18 +34,18 @@ public class TopScorePosition extends SequentialCommandGroup4905 {
   public void additionalInitialize() {
     if ((Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton())
         && (Robot.getInstance().getOIContainer().getSubsystemController().getConeButton())) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_coneBackwardTopAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_coneBackwardTopPosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_coneBackwardLowAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_coneBackwardLowPosition);
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getGrabBackwardButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeBackwardTopAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeBackwardTopPosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeBackwardLowAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeBackwardLowPosition);
     } else if (Robot.getInstance().getOIContainer().getSubsystemController().getConeButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_coneForwardTopAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_coneForwardTopPosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_coneForwardLowAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_coneForwardLowPosition);
     } else {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeForwardTopAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeForwardTopPosition);
+      ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeForwardLowAngle);
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeForwardLowPosition);
     }
     Trace.getInstance().logCommandStart(this);
   }
