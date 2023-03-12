@@ -114,7 +114,7 @@ public class SubsystemsContainer {
 
     if (Config4905.getConfig4905().doesLEDExist()) {
       System.out.println("Using Real LEDs");
-      m_leds = new RealLEDs();
+      m_leds = new RealLEDs(Config4905.getConfig4905().getLEDConfig());
     } else {
       System.out.println("Using Mock LEDs");
       m_leds = new MockLEDs();
