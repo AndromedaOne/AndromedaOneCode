@@ -75,8 +75,10 @@ public class RotateArm extends PIDCommand4905 {
     } else {
       getController().setFeedforward(m_feedForward);
     }
+    
     Trace.getInstance().logCommandInfo(this, "Rotate Arms to: " + m_setpoint.getAsDouble());
     m_armRotate.disengageArmBrake();
+    Trace.getInstance().logCommandStart(this);
   }
 
   // Called once the command ends or is interrupted.
