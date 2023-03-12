@@ -18,9 +18,9 @@ public class OffFloorPickupPosition extends SequentialCommandGroup4905 {
   private final double m_cubeBackwardLowPosition = 0;
   private final double m_coneBackwardLowAngle = 289;
   private final double m_coneBackwardLowPosition = 0;
-  private final double m_cubeForwardLowAngle = 69.9;
+  private final double m_cubeForwardLowAngle = 72;
   private final double m_cubeForwardLowPosition = 5;
-  private final double m_coneForwardLowAngle = 69.9;
+  private final double m_coneForwardLowAngle = 72;
   private final double m_coneForwardLowPosition = 5;
 
   public OffFloorPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {

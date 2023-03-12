@@ -15,7 +15,7 @@ import frc.robot.telemetries.Trace;
 public class SubstationPickupPosition extends SequentialCommandGroup4905 {
   /** Creates a new SubstationPickupPosition. */
   private final double m_substationAngle = 113;
-  private final double m_substationPosition = 40;
+  private final double m_substationPosition = 33;
   private final double m_backwardSubstationAngle = 242;
   private final double m_backwardSubstationPosition = 36;
 

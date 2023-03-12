@@ -30,6 +30,7 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
+import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
@@ -94,6 +95,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("Extend Arm Position Value", 0);
       SmartDashboard.putData("Extend Arms",
           new ExtendRetract(subsystemsContainer.getArmExtRetBase(), () -> 5, true, true, false));
+    SmartDashboard.putData("Arm Angle Tuner", new RotateArm(subsystemsContainer.getArmRotateBase(), ()-> 0, false, true));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
