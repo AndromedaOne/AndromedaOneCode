@@ -4,13 +4,14 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Config4905;
 import frc.robot.Robot;
 
 public class RealLEDs extends LEDs {
-  public RealLEDs() {
-    Config conf = Config4905.getConfig4905().getLEDConfig();
+  private DigitalOutput m_red;
+  private DigitalOutput m_green;
+  private DigitalOutput m_blue;
 
+  public RealLEDs(Config conf) {
     m_red = new DigitalOutput(conf.getInt("Red"));
     m_red.enablePWM(0);
     m_green = new DigitalOutput(conf.getInt("Green"));
@@ -19,8 +20,6 @@ public class RealLEDs extends LEDs {
     m_blue.enablePWM(0);
     setPurple(1.0);
     setSolid();
-
-    m_readyForPeriodic = true;
   }
 
   @Override
@@ -66,5 +65,20 @@ public class RealLEDs extends LEDs {
       setRainbow();
     }
     super.periodic();
+  }
+
+  @Override
+  protected void updateRedDutyCycle(double brightness) {
+    m_red.updateDutyCycle(brightness);
+  }
+
+  @Override
+  protected void updateBlueDutyCycle(double brightness) {
+    m_blue.updateDutyCycle(brightness);
+  }
+
+  @Override
+  protected void updateGreenDutyCycle(double brightness) {
+    m_green.updateDutyCycle(brightness);
   }
 }

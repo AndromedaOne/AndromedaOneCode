@@ -59,4 +59,21 @@ public class MockLEDs extends LEDs {
   public void setPurple(double brightness) {
   }
 
+  @Override
+  protected void updateRedDutyCycle(double brightness) {
+  }
+
+  @Override
+  protected void updateBlueDutyCycle(double brightness) {
+  }
+
+  @Override
+  protected void updateGreenDutyCycle(double brightness) {
+  }
+
+  // override the LED base class periodic as there is nothing to do here...
+  @Override
+  public void periodic() {
+  }
+
 }
