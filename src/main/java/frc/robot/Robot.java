@@ -153,6 +153,14 @@ public class Robot extends TimedRobot {
       Trace.getInstance().logInfo("autonomousPeriodic called");
       m_autoPeriodicLogged = true;
     }
+    if (Robot.getInstance().isAutonomous()) {
+      double matchTime = DriverStation.getMatchTime();
+      if (matchTime <= 0.5 && matchTime > 0.4) {
+        // Call enable parking brake
+        m_subsystemContainer.getDrivetrain().enableParkingBrakes();
+      }
+    }
+
   }
 
   private void setInitialZangleOffset() {
@@ -195,6 +203,13 @@ public class Robot extends TimedRobot {
     if (!m_teleopPeriodicLogged) {
       Trace.getInstance().logInfo("teleopPeriodic called");
       m_teleopPeriodicLogged = true;
+    }
+    if (Robot.getInstance().isTeleop()) {
+      double matchTime = DriverStation.getMatchTime();
+      if (matchTime <= 0.5 && matchTime > 0.4) {
+        // Call enable parking brake
+        m_subsystemContainer.getDrivetrain().enableParkingBrakes();
+      }
     }
   }
 
