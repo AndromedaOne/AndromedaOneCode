@@ -16,8 +16,8 @@ import frc.robot.commands.ConfigReload;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
-import frc.robot.commands.driveTrainCommands.MoveToCenterOfChargingStation;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
+import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
@@ -49,26 +49,8 @@ public class SmartDashboard4905 {
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
-    SmartDashboard.putData("DriveBackward",
-        new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
-    SmartDashboard.putData("MoveUsingEncoderTester",
-        new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("DriveTrainRectangularPathExample",
-        new DriveTrainRectangularPath(subsystemsContainer.getDrivetrain()));
-    SmartDashboard.putData("DriveTrainDiagonalPathExample",
-        new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
-    SmartDashboard.putData("BalanceRobotBackwards",
-        new SequentialCommandGroup4905(
-            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
-            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
-    SmartDashboard.putData("BalanceRobotForward",
-        new SequentialCommandGroup4905(
-            new MoveToCenterOfChargingStation(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
-            new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
-    SmartDashboard.putData("Engage Auto Dock", new EngageAutoDock());
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",
           new ToggleLimelightLED(true, sensorsContainer));
@@ -123,6 +105,27 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Toggle Brakes",
           new ToggleBrakes(subsystemsContainer.getDrivetrain()));
     }
+    if (Config4905.getConfig4905().doesDrivetrainExist()) {
+      SmartDashboard.putData("DriveBackward",
+          new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
+      SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
+      SmartDashboard.putData("MoveUsingEncoderTester",
+          new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
+      SmartDashboard.putData("DriveTrainRectangularPathExample",
+          new DriveTrainRectangularPath(subsystemsContainer.getDrivetrain()));
+      SmartDashboard.putData("DriveTrainDiagonalPathExample",
+          new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
+      SmartDashboard.putData("BalanceRobotBackwards",
+          new SequentialCommandGroup4905(
+              new MoveWithoutPID(subsystemsContainer.getDrivetrain(), -70, 0.4, 180),
+              new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
+      SmartDashboard.putData("BalanceRobotForward",
+          new SequentialCommandGroup4905(
+              new MoveWithoutPID(subsystemsContainer.getDrivetrain(), 70, 0.4, 180),
+              new BalanceRobot(subsystemsContainer.getDrivetrain(), 0.6, 180)));
+      SmartDashboard.putData("Engage Auto Dock", new EngageAutoDock());
+    }
+
   }
 
   public Command getSelectedAutoChooserCommand() {

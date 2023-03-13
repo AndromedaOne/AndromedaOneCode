@@ -15,6 +15,11 @@ public class PIDController4905SampleStop extends PIDController4905 {
   private final int numberOfSamplesOnTarget = 8;
 
   public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
+      double minOutputToMove, FeedForward feedForward) {
+    super(controllerName, Kp, Ki, Kd, minOutputToMove, feedForward);
+  }
+
+  public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
       double minOutputToMove) {
     super(controllerName, Kp, Ki, Kd, minOutputToMove);
     m_counter = 0;

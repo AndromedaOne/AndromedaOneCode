@@ -33,11 +33,11 @@ public class MoveUsingEncoder extends PIDCommand4905 {
       boolean useCurrentHeading) {
     super(
         // The controller that the command will use
-        new PIDController4905SampleStop("MoveUsingEncoder", 0, 0, 0, 0),
+        new PIDController4905SampleStop("MoveUsingEncoder"),
         // This should return the measurement
         drivetrain::getRobotPositionInches,
         // This should return the setpoint (can also be a constant)
-        0,
+        () -> 0,
         // This uses the output
         output -> {
           // Use the output here
