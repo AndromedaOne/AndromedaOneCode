@@ -57,7 +57,6 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_rightBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakedisengage");
       m_hasParkingBrake = true;
     }
-
   }
 
   public void init() {
@@ -182,20 +181,13 @@ public abstract class RealDriveTrain extends DriveTrain {
   }
 
   @Override
-  public void maintainParkingBrakeState() {
-    if (!m_hasParkingBrake) {
-      return;
-    }
-    if (m_parkingBrakeStates == ParkingBrakeStates.BRAKESON) {
-      enableParkingBrakes();
-    } else {
-      disableParkingBrakes();
-    }
+  public ParkingBrakeStates getParkingBrakeState() {
+    return m_parkingBrakeStates;
   }
 
   @Override
-  public ParkingBrakeStates getParkingBrakeState() {
-    return m_parkingBrakeStates;
+  public boolean hasParkingBrake() {
+    return m_hasParkingBrake;
   }
 
   protected abstract void resetEncoders();
