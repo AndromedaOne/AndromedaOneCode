@@ -31,7 +31,6 @@ import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
 import frc.robot.subsystems.ledlights.LEDs;
-import frc.robot.subsystems.ledlights.MockLEDs;
 import frc.robot.subsystems.ledlights.RealLEDs;
 import frc.robot.subsystems.samArmExtRet.MockSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.RealSamArmExtRet;
@@ -115,9 +114,6 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesLEDExist()) {
       System.out.println("Using Real LEDs");
       m_leds = new RealLEDs(Config4905.getConfig4905().getLEDConfig(), m_driveTrain);
-    } else {
-      System.out.println("Using Mock LEDs");
-      m_leds = new MockLEDs();
     }
     if (Config4905.getConfig4905().doesCompressorExist()) {
       System.out.println("using real Compressor.");
@@ -227,10 +223,6 @@ public class SubsystemsContainer {
 
   public SamArmRotateBase getArmRotateBase() {
     return m_armRotate;
-  }
-
-  public LEDs getLEDs() {
-    return m_leds;
   }
 
   public void setDefaultCommands() {
