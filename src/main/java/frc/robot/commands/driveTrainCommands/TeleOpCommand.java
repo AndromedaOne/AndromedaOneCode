@@ -15,7 +15,7 @@ import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.*;
-import frc.robot.subsystems.ledlights.LEDs;
+import frc.robot.subsystems.drivetrain.DriveTrain.DriveTrainMode;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
@@ -46,7 +46,6 @@ public class TeleOpCommand extends CommandBase {
    * Takes inputs from the two joysticks on the drive controller.
    */
   public TeleOpCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveTrain);
     kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
     kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
@@ -65,7 +64,6 @@ public class TeleOpCommand extends CommandBase {
     double forwardBackwardStickValue = m_driveController.getDriveTrainForwardBackwardStick();
     double rotateStickValue = m_driveController.getDriveTrainRotateStick();
     calculateSlowMidFastMode();
-
     // if the robot is not rotating, want to gyro correct to drive straight. but
     // if this correction kicks in right after the driver is turning, this will
     // cause
@@ -88,23 +86,17 @@ public class TeleOpCommand extends CommandBase {
         || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
-      Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.SLOW);
-
+      m_driveTrain.setDriveTrainMode(DriveTrainMode.SLOW);
     } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
-      Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.MID);
-
+      m_driveTrain.setDriveTrainMode(DriveTrainMode.MID);
     } else {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
-      Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.FAST);
+      m_driveTrain.setDriveTrainMode(DriveTrainMode.FAST);
     }
-    if ((m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON)) {
-      Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.BRAKED);
-    }
-
     Trace.getInstance().addTrace(true, "TeleopDrive",
         new TracePair<Double>("Gyro", m_gyro.getZAngle()),
         new TracePair<>("savedAngle", m_savedRobotAngle),
@@ -116,7 +108,6 @@ public class TeleOpCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.

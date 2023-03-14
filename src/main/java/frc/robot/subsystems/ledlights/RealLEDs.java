@@ -5,6 +5,8 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Robot;
+import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
 public class RealLEDs extends LEDs {
   private DigitalOutput m_red;
@@ -24,7 +26,12 @@ public class RealLEDs extends LEDs {
 
   @Override
   public void periodic() {
-    if (Robot.getInstance().isDisabled()) {
+    DriveTrain driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
+
+    if (driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
+      setRed(1);
+      setBlinking(0.05);
+    } else if (Robot.getInstance().isDisabled()) {
       setRainbow();
     } else if (Robot.getInstance().isTeleop()) {
       double matchTime = DriverStation.getMatchTime();
@@ -32,7 +39,7 @@ public class RealLEDs extends LEDs {
         setYellow(1);
         setBlinking(1);
       } else {
-        switch (getTeleOpMode()) {
+        switch (driveTrain.getDriveTrainMode()) {
         case SLOW:
           setBlue(1);
           setSolid();
@@ -46,11 +53,6 @@ public class RealLEDs extends LEDs {
         case FAST:
           setGreen(1);
           setSolid();
-          break;
-
-        case BRAKED:
-          setRed(1);
-          setBlinking(0.05);
           break;
 
         default:

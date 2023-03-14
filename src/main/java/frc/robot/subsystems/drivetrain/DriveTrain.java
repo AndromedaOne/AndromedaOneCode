@@ -13,6 +13,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class DriveTrain extends SubsystemBase {
+  public enum DriveTrainMode {
+    FAST, MID, SLOW
+  }
+
+  private DriveTrainMode m_driveTrainMode = DriveTrainMode.FAST;
+
   /**
    * Creates a new DriveTrainBase.
    */
@@ -64,6 +70,14 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public void setCoast(boolean p) {
     System.out.println("coast set to " + p);
+  }
+
+  public void setDriveTrainMode(DriveTrainMode mode) {
+    m_driveTrainMode = mode;
+  }
+
+  public DriveTrainMode getDriveTrainMode() {
+    return m_driveTrainMode;
   }
 
   public void periodic() {

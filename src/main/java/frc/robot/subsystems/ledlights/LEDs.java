@@ -21,12 +21,6 @@ public abstract class LEDs extends SubsystemBase {
 
   private Mode m_mode = Mode.BLINKING;
 
-  public enum TeleOpMode {
-    SLOW, MID, FAST, BRAKED
-  };
-
-  private TeleOpMode m_teleOpMode = TeleOpMode.FAST;
-
   public LEDs() {
   }
 
@@ -223,14 +217,6 @@ public abstract class LEDs extends SubsystemBase {
       break;
     }
     return new Color(r / 256.0, g / 256.0, b / 256.0);
-  }
-
-  public void setTeleopMode(TeleOpMode teleOpMode) {
-    m_teleOpMode = teleOpMode;
-  }
-
-  protected TeleOpMode getTeleOpMode() {
-    return m_teleOpMode;
   }
 
   protected abstract void updateRedDutyCycle(double brightness);
