@@ -28,9 +28,10 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   private boolean m_backwards = false;
 
   public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetractInternal(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
+    addCommands(new SequentialCommandGroup4905(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+    new ExtendRetractInternal(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(),
+        true)));
   }
 
   public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet, boolean auto,

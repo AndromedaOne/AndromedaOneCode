@@ -22,8 +22,8 @@ public class ExtendRetractInternal extends PIDCommand4905 {
   private boolean m_useSmartDashboard = false;
   private boolean m_useSingletonValue = false;
 
-  public ExtendRetractInternal(SamArmExtRetBase armExtRet, DoubleSupplier position, boolean needToEnd,
-      boolean useSmartDashboard, boolean useSingletonValue) {
+  public ExtendRetractInternal(SamArmExtRetBase armExtRet, DoubleSupplier position,
+      boolean needToEnd, boolean useSmartDashboard, boolean useSingletonValue) {
 
     super(new PIDController4905SampleStop("ArmExtRet"), armExtRet::getPosition, position,
         output -> {
@@ -36,7 +36,8 @@ public class ExtendRetractInternal extends PIDCommand4905 {
     m_useSingletonValue = useSingletonValue;
   }
 
-  public ExtendRetractInternal(SamArmExtRetBase armExtRet, DoubleSupplier position, boolean needToEnd) {
+  public ExtendRetractInternal(SamArmExtRetBase armExtRet, DoubleSupplier position,
+      boolean needToEnd) {
     this(armExtRet, position, needToEnd, false, false);
   }
 

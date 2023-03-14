@@ -4,7 +4,6 @@
 
 package frc.robot.commands.samArmExtendRetractCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.ArmRotationExtensionSingleton;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -12,9 +11,8 @@ import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 public class ExtendRetract extends SequentialCommandGroup4905 {
   /** Creates a new ExtRetSeq. */
   public ExtendRetract(SamArmExtRetBase armExtRet) {
-    addCommands(new InitializeArmExtRet(armExtRet), 
-    new ExtendRetractInternal(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true));
+    addCommands(new InitializeArmExtRet(armExtRet), new ExtendRetractInternal(armExtRet,
+        ArmRotationExtensionSingleton.getInstance().getPosition(), true));
   }
-
 
 }
