@@ -8,7 +8,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -20,15 +23,27 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
   /** Creates a new BlueRightAutoPlaceAndLeave. */
   public RightAutoPlaceAndLeave() {
+    long waitTime = 1000;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    addCommands(
-        new SequentialCommandGroup4905(
-            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            new OpenCloseGripper(subsystemsContainer.getGripper()),
-            new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, 166, 0.5)));
+    addCommands(new SequentialCommandGroup4905(
+        new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase(), true, true, false),
+        new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new PauseRobot(waitTime, driveTrain),
+        new StowPosition(
+            subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
+        new MoveUsingEncoder(driveTrain, -160, 0.5),
+        new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase(), true, true, true),
+        new OpenCloseGripper(subsystemsContainer.getGripper()), new PauseRobot(500, driveTrain),
+        new StowPosition(
+            subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()),
+        new MoveUsingEncoder(driveTrain, 150, 0.5),
+        new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase(), true, true, false),
+        new OpenCloseGripper(subsystemsContainer.getGripper()),
+        new PauseRobot(waitTime, driveTrain), new StowPosition(
+            subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase())));
   }
 }

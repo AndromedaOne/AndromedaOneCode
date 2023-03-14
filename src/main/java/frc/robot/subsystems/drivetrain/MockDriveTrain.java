@@ -81,20 +81,18 @@ public class MockDriveTrain extends DriveTrain {
   }
 
   @Override
-  public void maintainParkingBrakeState() {
-
-  }
-
-  @Override
   public double getLeftRateMetersPerSecond() {
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public double getRightRateMetersPerSecond() {
-    // TODO Auto-generated method stub
     return 0;
+  }
+
+  @Override
+  public boolean hasParkingBrake() {
+    return false;
   }
 
 }

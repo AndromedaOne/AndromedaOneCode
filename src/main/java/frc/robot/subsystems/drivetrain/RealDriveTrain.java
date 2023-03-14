@@ -33,7 +33,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private boolean m_invertFowardAndBack = false;
   private HitecHS322HDpositionalServoMotor m_leftServoMotor;
   private HitecHS322HDpositionalServoMotor m_rightServoMotor;
-  private ParkingBrakeStates m_parkingBrakeStates;
+  private ParkingBrakeStates m_parkingBrakeStates = ParkingBrakeStates.UNKNOWN;
   private double m_leftBrakeEngagedValue = 0.0;
   private double m_rightBrakeEngagedValue = 0.0;
   private double m_leftBrakeDisengagedValue = 0.0;
@@ -57,11 +57,6 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_rightBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakedisengage");
       m_hasParkingBrake = true;
     }
-
-    if (m_hasParkingBrake) {
-      SmartDashboard.putNumber("left brake value", m_leftServoMotor.get());
-      SmartDashboard.putNumber("right brake value", m_rightServoMotor.get());
-    }
   }
 
   public void init() {
@@ -78,10 +73,6 @@ public abstract class RealDriveTrain extends DriveTrain {
     m_drive = new DifferentialDrive(getLeftSpeedControllerGroup(), getRightSpeedControllerGroup());
     if (drivetrainConfig.hasPath("InvertFowardAndBack")) {
       m_invertFowardAndBack = true;
-    }
-    if (m_hasParkingBrake) {
-      enableParkingBrakes();
-      Trace.getInstance().logInfo("RealDriveTrain Detects Brake Engaged");
     }
   }
 
@@ -166,6 +157,9 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public void enableParkingBrakes() {
+    if (!m_hasParkingBrake) {
+      return;
+    }
     if (!((Math.abs(getLeftRateMetersPerSecond()) >= m_maxSpeedToEngageBrake)
         || (Math.abs(getRightRateMetersPerSecond()) >= m_maxSpeedToEngageBrake))) {
       m_leftServoMotor.set(m_leftBrakeEngagedValue);
@@ -178,23 +172,22 @@ public abstract class RealDriveTrain extends DriveTrain {
 
   @Override
   public void disableParkingBrakes() {
+    if (!m_hasParkingBrake) {
+      return;
+    }
     m_leftServoMotor.set(m_leftBrakeDisengagedValue);
     m_rightServoMotor.set(m_rightBrakeDisengagedValue);
     m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
   }
 
   @Override
-  public void maintainParkingBrakeState() {
-    if (m_parkingBrakeStates == ParkingBrakeStates.BRAKESON) {
-      enableParkingBrakes();
-    } else {
-      disableParkingBrakes();
-    }
+  public ParkingBrakeStates getParkingBrakeState() {
+    return m_parkingBrakeStates;
   }
 
   @Override
-  public ParkingBrakeStates getParkingBrakeState() {
-    return m_parkingBrakeStates;
+  public boolean hasParkingBrake() {
+    return m_hasParkingBrake;
   }
 
   protected abstract void resetEncoders();

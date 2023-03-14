@@ -54,9 +54,9 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract void disableParkingBrakes();
 
-  public abstract void maintainParkingBrakeState();
-
   public abstract ParkingBrakeStates getParkingBrakeState();
+
+  public abstract boolean hasParkingBrake();
 
   public abstract double getLeftRateMetersPerSecond();
 

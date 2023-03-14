@@ -105,7 +105,6 @@ public class TeleOpCommand extends CommandBase {
       Robot.getInstance().getSubsystemsContainer().getLEDs().setTeleopMode(LEDs.TeleOpMode.BRAKED);
     }
 
-    m_driveTrain.maintainParkingBrakeState();
     Trace.getInstance().addTrace(true, "TeleopDrive",
         new TracePair<Double>("Gyro", m_gyro.getZAngle()),
         new TracePair<>("savedAngle", m_savedRobotAngle),
