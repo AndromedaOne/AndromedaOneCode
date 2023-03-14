@@ -12,8 +12,9 @@ public class RealLEDs extends LEDs {
   private DigitalOutput m_red;
   private DigitalOutput m_green;
   private DigitalOutput m_blue;
+  DriveTrain m_driveTrain;
 
-  public RealLEDs(Config conf) {
+  public RealLEDs(Config conf, DriveTrain driveTrain) {
     m_red = new DigitalOutput(conf.getInt("Red"));
     m_red.enablePWM(0);
     m_green = new DigitalOutput(conf.getInt("Green"));
@@ -22,13 +23,12 @@ public class RealLEDs extends LEDs {
     m_blue.enablePWM(0);
     setPurple(1.0);
     setSolid();
+    m_driveTrain = driveTrain;
   }
 
   @Override
   public void periodic() {
-    DriveTrain driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
-
-    if (driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
+    if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
       setRed(1);
       setBlinking(0.05);
     } else if (Robot.getInstance().isDisabled()) {
@@ -39,7 +39,7 @@ public class RealLEDs extends LEDs {
         setYellow(1);
         setBlinking(1);
       } else {
-        switch (driveTrain.getDriveTrainMode()) {
+        switch (m_driveTrain.getDriveTrainMode()) {
         case SLOW:
           setBlue(1);
           setSolid();
