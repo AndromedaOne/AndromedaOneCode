@@ -31,11 +31,11 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   public TurnDeltaAngle(double deltaTurnAngle) {
     super(
         // The controller that the command will use
-        new PIDController4905SampleStop("TurnDeltaAngle", 0, 0, 0, 0),
+        new PIDController4905SampleStop("TurnDeltaAngle"),
         // This should return the measurement
         Robot.getInstance().getSensorsContainer().getGyro().getZangleDoubleSupplier(),
         // This should return the setpoint (can also be a constant)
-        0,
+        () -> 0,
         // This uses the output
         output -> {
           Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);

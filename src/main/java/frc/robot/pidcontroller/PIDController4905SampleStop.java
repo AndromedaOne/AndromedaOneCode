@@ -14,6 +14,10 @@ public class PIDController4905SampleStop extends PIDController4905 {
   private int m_counter = 0;
   private static int s_defaultNumberOfSamplesOnTarget = 8;
   private int m_numberOfSamplesOnTarget = 0;
+  public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
+      double minOutputToMove, FeedForward feedForward) {
+    super(controllerName, Kp, Ki, Kd, minOutputToMove, feedForward);
+  }
 
   public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
       double minOutputToMove, int numberOfSamplesOnTarget) {
@@ -36,4 +40,9 @@ public class PIDController4905SampleStop extends PIDController4905 {
     return m_counter >= m_numberOfSamplesOnTarget;
   }
 
+  @Override
+  public void reset() {
+    m_counter = 0;
+    super.reset();
+  }
 }

@@ -9,17 +9,10 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
-import frc.robot.commands.romiCommands.BringWingsUp;
-import frc.robot.commands.romiCommands.LetWingsDown;
-import frc.robot.commands.romiCommands.ToggleConveyor;
-import frc.robot.commands.romiCommands.TrackLineAndDriveBackwards;
-import frc.robot.commands.romiCommands.TrackLineAndDriveForward;
-import frc.robot.commands.romiCommands.romiBallMopper.ToggleMopper;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -30,9 +23,6 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class DriveController extends ControllerBase {
   private JoystickButton m_turnOnLimelight;
   private JoystickButton m_turnOffLimelight;
-  private POVButton m_driveForwardAndTrackLine;
-  private POVButton m_driveBackwardAndTrackLine;
-  private JoystickButton m_toggleConveyor;
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
 
@@ -56,7 +46,6 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
     }
-
   }
 
   public double getDriveTrainForwardBackwardStick() {
@@ -97,21 +86,5 @@ public class DriveController extends ControllerBase {
   }
 
   private void setupRomiButtons() {
-    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
-      m_driveForwardAndTrackLine = getPOVnorth();
-      m_driveForwardAndTrackLine.whileTrue(new TrackLineAndDriveForward());
-      m_driveBackwardAndTrackLine = getPOVsouth();
-      m_driveBackwardAndTrackLine.whileTrue(new TrackLineAndDriveBackwards());
-      POVButton letRomiWingsDownButton = getPOVwest();
-      letRomiWingsDownButton.whileTrue(new LetWingsDown());
-      POVButton bringRomiWingsUpButton = getPOVeast();
-      bringRomiWingsUpButton.whileTrue(new BringWingsUp());
-      JoystickButton mopperButton = getXbutton();
-      mopperButton.onTrue(new ToggleMopper());
-    }
-    if (Config4905.getConfig4905().getRobotName().equals("4905_Romi2")) {
-      m_toggleConveyor = getYbutton();
-      m_toggleConveyor.onTrue(new ToggleConveyor(m_subsystemsContainer.getConveyor(), 1));
-    }
   }
 }
