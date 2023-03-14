@@ -63,9 +63,9 @@ public class RotateArm extends PIDCommand4905 {
       getController().setI(SmartDashboard.getNumber("Robot Arm I-value", 0));
       getController().setD(SmartDashboard.getNumber("Robot Arm D-value", 0));
     } else {
-    getController().setP(pidConstantsConfig.getDouble("ArmRotate.Kp"));
-    getController().setI(pidConstantsConfig.getDouble("ArmRotate.Ki"));
-    getController().setD(pidConstantsConfig.getDouble("ArmRotate.Kd"));
+      getController().setP(pidConstantsConfig.getDouble("ArmRotate.Kp"));
+      getController().setI(pidConstantsConfig.getDouble("ArmRotate.Ki"));
+      getController().setD(pidConstantsConfig.getDouble("ArmRotate.Kd"));
     }
     getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmRotate.minOutputToMove"));
     getController().setTolerance(pidConstantsConfig.getDouble("ArmRotate.tolerance"));
@@ -75,7 +75,7 @@ public class RotateArm extends PIDCommand4905 {
     } else {
       getController().setFeedforward(m_feedForward);
     }
-    
+
     Trace.getInstance().logCommandInfo(this, "Rotate Arms to: " + m_setpoint.getAsDouble());
     m_armRotate.disengageArmBrake();
     Trace.getInstance().logCommandStart(this);

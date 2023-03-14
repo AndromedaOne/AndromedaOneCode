@@ -93,9 +93,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Enable Arm Rotation Brake",
           new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
       SmartDashboard.putNumber("Extend Arm Position Value", 0);
-      SmartDashboard.putData("Extend Arms",
-          new ExtendRetractInternal(subsystemsContainer.getArmExtRetBase(), () -> 5, true, true, false));
-    SmartDashboard.putData("Arm Angle Tuner", new RotateArm(subsystemsContainer.getArmRotateBase(), ()-> 0, false, true));
+      SmartDashboard.putData("Extend Arms", new ExtendRetractInternal(
+          subsystemsContainer.getArmExtRetBase(), () -> 5, true, true, false));
+      SmartDashboard.putData("Arm Angle Tuner",
+          new RotateArm(subsystemsContainer.getArmRotateBase(), () -> 0, false, true));
     }
 
     if (Config4905.getConfig4905().isRomi()) {

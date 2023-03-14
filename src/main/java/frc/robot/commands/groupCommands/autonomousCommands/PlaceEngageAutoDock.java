@@ -4,13 +4,15 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
-import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -31,14 +33,18 @@ public class PlaceEngageAutoDock extends SequentialCommandGroup {
     // Need to add place code
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(
-        new SequentialCommandGroup4905(
-            new TopScorePosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase(), true, true, false),
-            new OpenCloseGripper(subsystemsContainer.getGripper()),
-            new PauseRobot(waitTime, driveTrain),
-            new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            moveCommand),
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup4905(
+                new TopScorePosition(subsystemsContainer.getArmRotateBase(),
+                    subsystemsContainer.getArmExtRetBase(), true, true, false),
+                new OpenCloseGripper(subsystemsContainer.getGripper())),
+            new PauseRobot(driveTrain)),
+
+        new PauseRobot(waitTime, driveTrain),
+
+        new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()), moveCommand),
+
         new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 0),
             new BalanceRobot(driveTrain, 0.5, 0)));
   }

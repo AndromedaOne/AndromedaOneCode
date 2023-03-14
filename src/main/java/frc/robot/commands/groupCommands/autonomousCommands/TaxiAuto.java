@@ -4,6 +4,8 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
@@ -20,6 +22,7 @@ public class TaxiAuto extends SequentialCommandGroup {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     // We ran the speed at 0.5 to accomodate charging station and cable.
-    addCommands(new MoveUsingEncoder(driveTrain, -166, 0.5));
+    addCommands(new ParallelDeadlineGroup(
+        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -166, 0.5))));
   }
 }

@@ -22,7 +22,8 @@ public class SubstationPickupPosition extends SequentialCommandGroup4905 {
   public SubstationPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetractInternal(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
+    new ExtendRetractInternal(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(),
+        true);
   }
 
   // Called when the command is initially scheduled.
