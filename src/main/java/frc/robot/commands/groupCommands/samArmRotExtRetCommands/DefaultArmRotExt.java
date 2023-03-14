@@ -4,20 +4,20 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DefaultArmRotExt extends ParallelCommandGroup {
+public class DefaultArmRotExt extends SequentialCommandGroup4905 {
   /** Creates a new DefaultArmRotExt. */
   public DefaultArmRotExt(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
 
-    addCommands(new EnableArmBrake(armRotate), new ExtendRetract(armExtRet,
+    addCommands(new EnableArmBrake(armRotate), new ExtendRetractInternal(armExtRet,
         ArmRotationExtensionSingleton.getInstance().getPosition(), false));
   }
 }
