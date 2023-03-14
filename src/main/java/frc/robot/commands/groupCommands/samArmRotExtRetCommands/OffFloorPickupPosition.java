@@ -29,8 +29,8 @@ public class OffFloorPickupPosition extends SequentialCommandGroup4905 {
   public OffFloorPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(new SequentialCommandGroup4905(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
-    new ExtendRetractInternal(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(),
-        true)));
+        new ExtendRetractInternal(armExtRet,
+            ArmRotationExtensionSingleton.getInstance().getPosition(), true)));
   }
 
   public OffFloorPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet,
