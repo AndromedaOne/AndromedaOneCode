@@ -11,8 +11,9 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -20,26 +21,39 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PlaceEngageAutoDock extends SequentialCommandGroup {
-  /** Creates a new PlaceEngageAutoDock. */
-  public PlaceEngageAutoDock() {
-    final double distanceToMove = -146;
-    final double maxOutPut = 0.5;
+public class PlacePickEngageAutoDock extends SequentialCommandGroup {
+  /** Creates a new PlacePickEngageAutoDock. */
+  public PlacePickEngageAutoDock() {
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
     long waitTime = 1000;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    // Need to add place code
+    // 166 may need to be lowered.
+    final double distanceToMove = -166;
+    final double maxOutPut = 0.5;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(
         new SequentialCommandGroup4905(
-            new TopScorePosition(subsystemsContainer.getArmRotateBase(),
+            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
             new OpenCloseGripper(subsystemsContainer.getGripper()),
             new PauseRobot(waitTime, driveTrain),
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            moveCommand),
-        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 0),
+            moveCommand,
+            // Add turn command, roughly 45 degrees.
+            new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase(), true, true, true),
+            new OpenCloseGripper(subsystemsContainer.getGripper()),
+            new PauseRobot(waitTime, driveTrain),
+            new StowPosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase())),
+        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, -45, 0.75, 0),
             new BalanceRobot(driveTrain, 0.5, 0)));
+    // TBD: If we need to rotate before moving.
+    // new MoveToCenterOfChargingStation(driveTrain, 45, 0.75, 0),
+    // new BalanceRobot(driveTrain, 0.5, 0)));
+
   }
 }

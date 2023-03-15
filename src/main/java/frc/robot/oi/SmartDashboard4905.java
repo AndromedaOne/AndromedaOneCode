@@ -18,6 +18,7 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
+import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
@@ -28,8 +29,9 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
-import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
+import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
@@ -92,12 +94,19 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Enable Arm Rotation Brake",
           new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
       SmartDashboard.putNumber("Extend Arm Position Value", 0);
-      SmartDashboard.putData("Extend Arms",
-          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), () -> 5, true, true, false));
+      SmartDashboard.putData("Extend Arms", new ExtendRetractInternal(
+          subsystemsContainer.getArmExtRetBase(), () -> 5, true, true, false));
+      SmartDashboard.putData("Arm Angle Tuner",
+          new RotateArm(subsystemsContainer.getArmRotateBase(), () -> 0, false, true));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
+    }
+
+    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
+      SmartDashboard.putData("Toggle Brakes",
+          new ToggleBrakes(subsystemsContainer.getDrivetrain()));
     }
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       SmartDashboard.putData("DriveBackward",

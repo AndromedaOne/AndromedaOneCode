@@ -57,6 +57,10 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), true));
   }
 
+  private void setUpParkingBrake() {
+    getBackButton().onTrue(null);
+  }
+
   private void setupShooterButtons() {
 
     // Y = fender, X = launchpad, A = wall, B = tarmac, POV East = terminal

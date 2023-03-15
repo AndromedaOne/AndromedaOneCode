@@ -5,7 +5,7 @@
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
 import frc.robot.Robot;
-import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -15,14 +15,15 @@ import frc.robot.telemetries.Trace;
 public class SubstationPickupPosition extends SequentialCommandGroup4905 {
   /** Creates a new SubstationPickupPosition. */
   private final double m_substationAngle = 113;
-  private final double m_substationPosition = 40;
+  private final double m_substationPosition = 33;
   private final double m_backwardSubstationAngle = 242;
   private final double m_backwardSubstationPosition = 36;
 
   public SubstationPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
+    addCommands(new SequentialCommandGroup4905(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+        new ExtendRetractInternal(armExtRet,
+            ArmRotationExtensionSingleton.getInstance().getPosition(), true)));
   }
 
   // Called when the command is initially scheduled.

@@ -50,11 +50,26 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract void resetOdometry(Pose2d pose);
 
+  public abstract void enableParkingBrakes();
+
+  public abstract void disableParkingBrakes();
+
+  public abstract ParkingBrakeStates getParkingBrakeState();
+
+  public abstract boolean hasParkingBrake();
+
+  public abstract double getLeftRateMetersPerSecond();
+
+  public abstract double getRightRateMetersPerSecond();
+
   public void setCoast(boolean p) {
     System.out.println("coast set to " + p);
   }
 
   public void periodic() {
     SmartDashboard.putNumber("robotPositionInches", getRobotPositionInches());
+    SmartDashboard.putNumber("Left Wheel Speed", getLeftRateMetersPerSecond());
+    SmartDashboard.putNumber("Right Wheel Speed", getRightRateMetersPerSecond());
+    SmartDashboard.putString("Parking Brake State", getParkingBrakeState().name());
   }
 }

@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
@@ -30,12 +31,32 @@ public abstract class RealDriveTrain extends DriveTrain {
   private DifferentialDriveOdometry m_odometry;
   private int m_rightSideInvertedMultiplier = -1;
   private boolean m_invertFowardAndBack = false;
+  private HitecHS322HDpositionalServoMotor m_leftServoMotor;
+  private HitecHS322HDpositionalServoMotor m_rightServoMotor;
+  private ParkingBrakeStates m_parkingBrakeStates = ParkingBrakeStates.UNKNOWN;
+  private double m_leftBrakeEngagedValue = 0.0;
+  private double m_rightBrakeEngagedValue = 0.0;
+  private double m_leftBrakeDisengagedValue = 0.0;
+  private double m_rightBrakeDisengagedValue = 0.0;
+  private boolean m_hasParkingBrake = false;
+  private final double m_maxSpeedToEngageBrake = 0.05;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     gyro = Robot.getInstance().getSensorsContainer().getGyro();
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");
     System.out.println("RealDriveTrain kProportion = " + kProportion);
+    if (drivetrainConfig.hasPath("parkingbrake")) {
+      m_leftServoMotor = new HitecHS322HDpositionalServoMotor(drivetrainConfig,
+          "parkingbrake.leftbrakeservomotor");
+      m_leftBrakeEngagedValue = drivetrainConfig.getDouble("parkingbrake.leftbrakeengaged");
+      m_leftBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.leftbrakedisengage");
+      m_rightServoMotor = new HitecHS322HDpositionalServoMotor(drivetrainConfig,
+          "parkingbrake.rightbrakeservomotor");
+      m_rightBrakeEngagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakeengaged");
+      m_rightBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakedisengage");
+      m_hasParkingBrake = true;
+    }
   }
 
   public void init() {
@@ -91,16 +112,16 @@ public abstract class RealDriveTrain extends DriveTrain {
     if (m_invertFowardAndBack) {
       forwardBackSpeed = -forwardBackSpeed;
     }
-    m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
+    if (getParkingBrakeState() == ParkingBrakeStates.BRAKESOFF) {
+      m_drive.arcadeDrive(forwardBackSpeed, -rotateAmount, squaredInput);
+    } else {
+      m_drive.arcadeDrive(0, 0);
+    }
   }
 
   protected abstract MotorControllerGroup getLeftSpeedControllerGroup();
 
   protected abstract MotorControllerGroup getRightSpeedControllerGroup();
-
-  protected abstract double getLeftRateMetersPerSecond();
-
-  protected abstract double getRightRateMetersPerSecond();
 
   @Override
   public Pose2d getPose() {
@@ -132,6 +153,41 @@ public abstract class RealDriveTrain extends DriveTrain {
     getLeftSpeedControllerGroup().setVoltage(leftVolts);
     getRightSpeedControllerGroup().setVoltage(m_rightSideInvertedMultiplier * rightVolts);
     m_drive.feed();
+  }
+
+  @Override
+  public void enableParkingBrakes() {
+    if (!m_hasParkingBrake) {
+      return;
+    }
+    if (!((Math.abs(getLeftRateMetersPerSecond()) >= m_maxSpeedToEngageBrake)
+        || (Math.abs(getRightRateMetersPerSecond()) >= m_maxSpeedToEngageBrake))) {
+      m_leftServoMotor.set(m_leftBrakeEngagedValue);
+      m_rightServoMotor.set(m_rightBrakeEngagedValue);
+      m_parkingBrakeStates = ParkingBrakeStates.BRAKESON;
+    } else {
+      System.out.println("Moving too fast! Please slow down to engage brakes!");
+    }
+  }
+
+  @Override
+  public void disableParkingBrakes() {
+    if (!m_hasParkingBrake) {
+      return;
+    }
+    m_leftServoMotor.set(m_leftBrakeDisengagedValue);
+    m_rightServoMotor.set(m_rightBrakeDisengagedValue);
+    m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
+  }
+
+  @Override
+  public ParkingBrakeStates getParkingBrakeState() {
+    return m_parkingBrakeStates;
+  }
+
+  @Override
+  public boolean hasParkingBrake() {
+    return m_hasParkingBrake;
   }
 
   protected abstract void resetEncoders();
