@@ -6,12 +6,12 @@ package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
-import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 
-public class StowPosition extends SequentialCommandGroup4905 {
+public class StowPosition extends ParallelCommandGroup4905 {
   /** Creates a new StowPosition. */
   private final double m_stowAngle = 180;
   private final double m_stowPosition = 0;
