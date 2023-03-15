@@ -56,6 +56,9 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_rightBrakeEngagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakeengaged");
       m_rightBrakeDisengagedValue = drivetrainConfig.getDouble("parkingbrake.rightbrakedisengage");
       m_hasParkingBrake = true;
+    } else {
+      m_hasParkingBrake = false;
+      m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
     }
   }
 
