@@ -1,36 +1,25 @@
 package frc.robot.subsystems.ledlights;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class LEDs extends SubsystemBase {
 
-  protected DigitalOutput m_red;
-  protected DigitalOutput m_green;
-  protected DigitalOutput m_blue;
   // The 1 in m_blinkRate makes the LEDs blink for one second on and one second
   // off.
-  protected double m_blinkRate = 1;
-  protected int m_blinkCounter = 0;
+  private double m_blinkRate = 1;
+  private int m_blinkCounter = 0;
   private double m_redValue = 0;
   private double m_greenValue = 0;
   private double m_blueValue = 0;
   private boolean m_ledsOn = false;
   private int m_rainbowCounter = 0;
-  protected boolean m_readyForPeriodic = false;
 
   enum Mode {
     SOLID, BLINKING, RAINBOW,
   };
 
   private Mode m_mode = Mode.BLINKING;
-
-  public enum TeleOpMode {
-    SLOW, MID, FAST
-  };
-
-  private TeleOpMode m_teleOpMode = TeleOpMode.FAST;
 
   public LEDs() {
   }
@@ -50,9 +39,6 @@ public abstract class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (!m_readyForPeriodic) {
-      return;
-    }
     Color color;
     switch (m_mode) {
 
@@ -77,9 +63,9 @@ public abstract class LEDs extends SubsystemBase {
     default:
       color = new Color(1.0, .8, .8); // Pink
     }
-    m_red.updateDutyCycle(validateBrightness(color.red));
-    m_green.updateDutyCycle(validateBrightness(color.green));
-    m_blue.updateDutyCycle(validateBrightness(color.blue));
+    updateRedDutyCycle(validateBrightness(color.red));
+    updateGreenDutyCycle(validateBrightness(color.green));
+    updateBlueDutyCycle(validateBrightness(color.blue));
   }
 
   /**
@@ -97,14 +83,14 @@ public abstract class LEDs extends SubsystemBase {
   // on with the same color
   protected void toggleLEDs() {
     if (m_ledsOn) {
-      m_red.updateDutyCycle(0);
-      m_green.updateDutyCycle(0);
-      m_blue.updateDutyCycle(0);
+      updateRedDutyCycle(0);
+      updateGreenDutyCycle(0);
+      updateBlueDutyCycle(0);
       m_ledsOn = false;
     } else {
-      m_red.updateDutyCycle(m_redValue);
-      m_green.updateDutyCycle(m_greenValue);
-      m_blue.updateDutyCycle(m_blueValue);
+      updateRedDutyCycle(m_redValue);
+      updateGreenDutyCycle(m_greenValue);
+      updateBlueDutyCycle(m_blueValue);
       m_ledsOn = true;
     }
   }
@@ -141,6 +127,8 @@ public abstract class LEDs extends SubsystemBase {
   public void setRed(double brightness) {
     clearColor();
     m_redValue = brightness;
+    m_greenValue = 0;
+    m_blueValue = 0.2;
   }
 
   /**
@@ -231,11 +219,9 @@ public abstract class LEDs extends SubsystemBase {
     return new Color(r / 256.0, g / 256.0, b / 256.0);
   }
 
-  public void setTeleopMode(TeleOpMode teleOpMode) {
-    m_teleOpMode = teleOpMode;
-  }
+  protected abstract void updateRedDutyCycle(double brightness);
 
-  protected TeleOpMode getTeleOpMode() {
-    return m_teleOpMode;
-  }
+  protected abstract void updateBlueDutyCycle(double brightness);
+
+  protected abstract void updateGreenDutyCycle(double brightness);
 }
