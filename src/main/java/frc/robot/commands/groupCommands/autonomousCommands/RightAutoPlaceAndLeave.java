@@ -26,7 +26,7 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
   /** Creates a new BlueRightAutoPlaceAndLeave. */
   public RightAutoPlaceAndLeave() {
-    long waitTime = 1000;
+    long waitTime = 250;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     addCommands(
@@ -34,28 +34,25 @@ public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
             new SequentialCommandGroup4905(
                 new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase(), true, true, false),
-                new OpenGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain),
+                new OpenGripper(subsystemsContainer.getGripper()),
+            new PauseRobot(driveTrain)),
 
                 new PauseRobot(waitTime, driveTrain),
 
                 new ParallelCommandGroup(
-                    new StowPosition(subsystemsContainer.getArmRotateBase(),
-                        subsystemsContainer.getArmExtRetBase()),
-                    new MoveUsingEncoder(driveTrain, -160, 0.5)),
+            new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase(), true, true, true),
+            new MoveUsingEncoder(driveTrain, -170, 0.5)),
 
-                new ParallelDeadlineGroup(
-                    new SequentialCommandGroup(
-                        new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
-                            subsystemsContainer.getArmExtRetBase(), true, true, true),
-                        new CloseGripper(subsystemsContainer.getGripper())),
+        new ParallelDeadlineGroup(new OpenCloseGripper(subsystemsContainer.getGripper()),
                     new PauseRobot(driveTrain)),
 
-                new PauseRobot(waitTime, driveTrain),
+        new PauseRobot(500, driveTrain),
 
                 new ParallelCommandGroup(
                     new StowPosition(subsystemsContainer.getArmRotateBase(),
                         subsystemsContainer.getArmExtRetBase()),
-                    new MoveUsingEncoder(driveTrain, 150, 0.5)),
+            new MoveUsingEncoder(driveTrain, 160, 0.5)),
 
                 new ParallelDeadlineGroup(
                     new SequentialCommandGroup(
@@ -67,6 +64,6 @@ public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
                 new PauseRobot(waitTime, driveTrain),
 
                 new ParallelDeadlineGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
-                    subsystemsContainer.getArmExtRetBase()), new PauseRobot(driveTrain)))));
+            subsystemsContainer.getArmExtRetBase()), new PauseRobot(driveTrain)));
   }
 }
