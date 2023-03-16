@@ -41,8 +41,10 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     if ((speed < 0) && ((getPosition() <= m_minExtension)
         || (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED))) {
       m_extensionMotor.set(0);
+      System.out.println("extend retract at mininum: speed: " + speed);
     } else if ((speed > 0) && (getPosition() >= m_maxExtension)) {
       m_extensionMotor.set(0);
+      System.out.println("extend retract at maxium: speed: " + speed);
     } else {
       m_extensionMotor.set(speed);
     }
