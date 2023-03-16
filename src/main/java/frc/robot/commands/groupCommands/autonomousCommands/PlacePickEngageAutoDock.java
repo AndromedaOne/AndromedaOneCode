@@ -40,22 +40,19 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
         new ParallelDeadlineGroup(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
-            new OpenGripper(subsystemsContainer.getGripper()),
-            new PauseRobot(driveTrain)),
+            new OpenGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain)),
 
-            new PauseRobot(waitTime, driveTrain),
+        new PauseRobot(waitTime, driveTrain),
 
-            new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()), moveCommand),
+        new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()), moveCommand),
 
-            new ParallelDeadlineGroup(
-                new SequentialCommandGroup(
-                    new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
-                        subsystemsContainer.getArmExtRetBase(), true, true, true),
-                    new CloseGripper(subsystemsContainer.getGripper())),
-                new PauseRobot(driveTrain)),
+        new ParallelDeadlineGroup(new SequentialCommandGroup(
+            new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase(), true, true, true),
+            new CloseGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
-            new PauseRobot(waitTime, driveTrain),
+        new PauseRobot(waitTime, driveTrain),
 
         new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()),
