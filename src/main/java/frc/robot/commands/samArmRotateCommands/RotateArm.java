@@ -19,7 +19,7 @@ import frc.robot.utils.InterpolatingMap;
 
 public class RotateArm extends PIDCommand4905 {
   /** Creates a new RotateArm. */
-  private DoubleSupplier m_angle;
+
   private SamArmRotateBase m_armRotate;
   private boolean m_needToEnd = false;
   private boolean m_useSmartDashboard = false;
@@ -32,7 +32,6 @@ public class RotateArm extends PIDCommand4905 {
     super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
       armRotate.rotate(output);
     }, armRotate);
-    m_angle = angle;
     m_armRotate = armRotate;
     m_needToEnd = needToEnd;
     m_useSmartDashboard = useSmartDashboard;

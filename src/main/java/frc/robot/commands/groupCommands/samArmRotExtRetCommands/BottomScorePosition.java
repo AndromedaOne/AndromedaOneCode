@@ -22,25 +22,24 @@ public class BottomScorePosition extends SequentialCommandGroup4905 {
   private final double m_backwardBottomAngle = 270;
   private final double m_backwardBottomPosition = 0;
   private boolean m_auto = false;
-  private boolean m_cube = false;
+
   private boolean m_backwards = false;
 
   public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(new SequentialCommandGroup4905(
+    addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
         new ExtendRetractInternal(armExtRet,
-            ArmRotationExtensionSingleton.getInstance().getPosition(), true)));
-
+            ArmRotationExtensionSingleton.getInstance().getPosition(), true));
   }
 
   public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet, boolean auto,
       boolean cube, boolean backwards) {
     addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetractInternal(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(),
-        true);
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+        new ExtendRetractInternal(armExtRet,
+            ArmRotationExtensionSingleton.getInstance().getPosition(), true));
     m_auto = auto;
-    m_cube = cube;
+
     m_backwards = backwards;
   }
 

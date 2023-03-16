@@ -28,10 +28,10 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   private boolean m_backwards = false;
 
   public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(new SequentialCommandGroup4905(
+    addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
         new ExtendRetractInternal(armExtRet,
-            ArmRotationExtensionSingleton.getInstance().getPosition(), true)));
+            ArmRotationExtensionSingleton.getInstance().getPosition(), true));
   }
 
   public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet, boolean auto,
@@ -40,8 +40,8 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
     m_cube = cube;
     m_backwards = backwards;
     addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetract(armExtRet);
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+        new ExtendRetract(armExtRet));
   }
 
   // Called when the command is initially scheduled.

@@ -39,8 +39,7 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
         new ParallelDeadlineGroup(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
-            new OpenCloseGripper(subsystemsContainer.getGripper()), 
-            new PauseRobot(driveTrain)),
+            new OpenCloseGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain)),
 
         new PauseRobot(waitTime, driveTrain),
 
