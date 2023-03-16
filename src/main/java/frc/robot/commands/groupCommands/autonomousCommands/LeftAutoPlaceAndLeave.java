@@ -12,9 +12,9 @@ import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -31,7 +31,7 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
     addCommands(
         new ParallelDeadlineGroup(
             new SequentialCommandGroup4905(
-                new TopScorePosition(subsystemsContainer.getArmRotateBase(),
+                new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase(), true, true, false),
                 new OpenCloseGripper(subsystemsContainer.getGripper())),
             new PauseRobot(driveTrain)),
