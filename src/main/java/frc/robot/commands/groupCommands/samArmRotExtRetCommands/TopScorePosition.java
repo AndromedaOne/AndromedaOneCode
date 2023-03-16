@@ -27,10 +27,10 @@ public class TopScorePosition extends SequentialCommandGroup4905 {
   private boolean m_backwards = false;
 
   public TopScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(new SequentialCommandGroup4905(
+    addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
         new ExtendRetractInternal(armExtRet,
-            ArmRotationExtensionSingleton.getInstance().getPosition(), true)));
+            ArmRotationExtensionSingleton.getInstance().getPosition(), true));
   }
 
   public TopScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet, boolean auto,
@@ -39,9 +39,9 @@ public class TopScorePosition extends SequentialCommandGroup4905 {
     m_cube = cube;
     m_backwards = backwards;
     addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetractInternal(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(),
-        true);
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+        new ExtendRetractInternal(armExtRet,
+            ArmRotationExtensionSingleton.getInstance().getPosition(), true));
   }
 
   // Called when the command is initially scheduled.
