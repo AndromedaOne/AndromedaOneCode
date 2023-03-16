@@ -13,6 +13,7 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -35,7 +36,7 @@ public class PlaceEngageAutoDock extends SequentialCommandGroup {
     addCommands(
         new ParallelDeadlineGroup(
             new SequentialCommandGroup4905(
-                new TopScorePosition(subsystemsContainer.getArmRotateBase(),
+                new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase(), true, true, false),
                 new OpenCloseGripper(subsystemsContainer.getGripper())),
             new PauseRobot(driveTrain)),

@@ -35,10 +35,12 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
     final double distanceToMove = -166;
     final double maxOutPut = 0.5;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
-    addCommands(new ParallelDeadlineGroup(new SequentialCommandGroup4905(
-        new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase(), true, true, false),
-        new OpenCloseGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain),
+    addCommands(
+        new ParallelDeadlineGroup(
+            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase(), true, true, false),
+            new OpenCloseGripper(subsystemsContainer.getGripper()), 
+            new PauseRobot(driveTrain)),
 
         new PauseRobot(waitTime, driveTrain),
 
@@ -54,11 +56,11 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
 
         new PauseRobot(waitTime, driveTrain),
 
-        new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()), new PauseRobot(driveTrain)),
+        new StowPosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()),
 
-        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, -45, 0.75, 0),
-            new BalanceRobot(driveTrain, 0.5, 0)))));
+        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 0),
+            new BalanceRobot(driveTrain, 0.5, 0)));
 
   }
 }

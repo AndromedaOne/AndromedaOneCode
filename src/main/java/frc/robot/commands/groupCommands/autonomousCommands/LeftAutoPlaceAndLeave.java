@@ -43,8 +43,7 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
                 subsystemsContainer.getArmExtRetBase(), true, true, true),
             new MoveUsingEncoder(driveTrain, -166, 0.5)),
 
-        new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new OpenCloseGripper(subsystemsContainer.getGripper())),
+        new ParallelDeadlineGroup(new OpenCloseGripper(subsystemsContainer.getGripper()),
             new PauseRobot(driveTrain)),
 
         new PauseRobot(500, driveTrain),
