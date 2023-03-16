@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
-import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
+import frc.robot.commands.SAMgripperCommands.CloseGripper;
+import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosition;
@@ -29,12 +30,10 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     addCommands(
-        new ParallelDeadlineGroup(
-            new SequentialCommandGroup4905(
-                new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-                    subsystemsContainer.getArmExtRetBase(), true, true, false),
-                new OpenCloseGripper(subsystemsContainer.getGripper())),
-            new PauseRobot(driveTrain)),
+        new ParallelDeadlineGroup(new SequentialCommandGroup4905(
+            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase(), true, true, false),
+            new OpenGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
         new PauseRobot(waitTime, driveTrain),
 
@@ -44,7 +43,7 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
             new MoveUsingEncoder(driveTrain, -166, 0.5)),
 
         new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new OpenCloseGripper(subsystemsContainer.getGripper())),
+            new SequentialCommandGroup(new CloseGripper(subsystemsContainer.getGripper())),
             new PauseRobot(driveTrain)),
 
         new PauseRobot(500, driveTrain),
@@ -54,12 +53,10 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup {
                 subsystemsContainer.getArmExtRetBase()),
             new MoveUsingEncoder(driveTrain, 156, 0.5)),
 
-        new ParallelDeadlineGroup(
-            new SequentialCommandGroup(
-                new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
-                    subsystemsContainer.getArmExtRetBase(), true, true, false),
-                new OpenCloseGripper(subsystemsContainer.getGripper())),
-            new PauseRobot(driveTrain)),
+        new ParallelDeadlineGroup(new SequentialCommandGroup(
+            new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase(), true, true, false),
+            new OpenGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
         new PauseRobot(waitTime, driveTrain),
 

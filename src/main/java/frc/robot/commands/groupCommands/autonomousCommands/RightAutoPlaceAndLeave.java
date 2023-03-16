@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
-import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
+import frc.robot.commands.SAMgripperCommands.CloseGripper;
+import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosition;
@@ -28,42 +29,44 @@ public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
     long waitTime = 1000;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    addCommands(new ParallelDeadlineGroup(new SequentialCommandGroup4905(
-        new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase(), true, true, false),
-        new OpenCloseGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain),
-
-        new PauseRobot(waitTime, driveTrain),
-
-        new ParallelCommandGroup(
-            new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, -160, 0.5)),
-
+    addCommands(
         new ParallelDeadlineGroup(
-            new SequentialCommandGroup(
-                new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
-                    subsystemsContainer.getArmExtRetBase(), true, true, true),
-                new OpenCloseGripper(subsystemsContainer.getGripper())),
-            new PauseRobot(driveTrain)),
-
-        new PauseRobot(waitTime, driveTrain),
-
-        new ParallelCommandGroup(
-            new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, 150, 0.5)),
-
-        new ParallelDeadlineGroup(
-            new SequentialCommandGroup(
-                new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
+            new SequentialCommandGroup4905(
+                new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase(), true, true, false),
-                new OpenCloseGripper(subsystemsContainer.getGripper())),
-            new PauseRobot(driveTrain)),
+                new OpenGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain),
 
-        new PauseRobot(waitTime, driveTrain),
+                new PauseRobot(waitTime, driveTrain),
 
-        new ParallelDeadlineGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()), new PauseRobot(driveTrain)))));
+                new ParallelCommandGroup(
+                    new StowPosition(subsystemsContainer.getArmRotateBase(),
+                        subsystemsContainer.getArmExtRetBase()),
+                    new MoveUsingEncoder(driveTrain, -160, 0.5)),
+
+                new ParallelDeadlineGroup(
+                    new SequentialCommandGroup(
+                        new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
+                            subsystemsContainer.getArmExtRetBase(), true, true, true),
+                        new CloseGripper(subsystemsContainer.getGripper())),
+                    new PauseRobot(driveTrain)),
+
+                new PauseRobot(waitTime, driveTrain),
+
+                new ParallelCommandGroup(
+                    new StowPosition(subsystemsContainer.getArmRotateBase(),
+                        subsystemsContainer.getArmExtRetBase()),
+                    new MoveUsingEncoder(driveTrain, 150, 0.5)),
+
+                new ParallelDeadlineGroup(
+                    new SequentialCommandGroup(
+                        new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
+                            subsystemsContainer.getArmExtRetBase(), true, true, false),
+                        new OpenGripper(subsystemsContainer.getGripper())),
+                    new PauseRobot(driveTrain)),
+
+                new PauseRobot(waitTime, driveTrain),
+
+                new ParallelDeadlineGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
+                    subsystemsContainer.getArmExtRetBase()), new PauseRobot(driveTrain)))));
   }
 }
