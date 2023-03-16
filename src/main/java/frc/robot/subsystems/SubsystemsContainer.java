@@ -61,6 +61,8 @@ public class SubsystemsContainer {
   // Declare member variables.
   DriveTrain m_driveTrain;
   LEDs m_leds;
+  LEDs m_leftLeds;
+  LEDs m_rightLeds;
   CompressorBase m_compressor;
   CannonBase m_cannon;
   ShooterWheelBase m_topShooterWheel;
@@ -111,6 +113,14 @@ public class SubsystemsContainer {
     }
     m_driveTrain.init();
 
+    if (Config4905.getConfig4905().doesLeftLEDExist()) {
+      System.out.println("Using Real Left LEDs");
+      m_leftLeds = new RealLEDs(Config4905.getConfig4905().getLeftLEDConfig(), m_driveTrain);
+    }
+    if (Config4905.getConfig4905().doesRightLEDExist()) {
+      System.out.println("Using Real Right LEDs");
+      m_rightLeds = new RealLEDs(Config4905.getConfig4905().getRightLEDConfig(), m_driveTrain);
+    }
     if (Config4905.getConfig4905().doesLEDExist()) {
       System.out.println("Using Real LEDs");
       m_leds = new RealLEDs(Config4905.getConfig4905().getLEDConfig(), m_driveTrain);
