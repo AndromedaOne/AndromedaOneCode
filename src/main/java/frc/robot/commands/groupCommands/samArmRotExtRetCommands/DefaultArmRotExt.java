@@ -4,7 +4,7 @@
 
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
-import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -16,8 +16,6 @@ import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 public class DefaultArmRotExt extends SequentialCommandGroup4905 {
   /** Creates a new DefaultArmRotExt. */
   public DefaultArmRotExt(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-
-    addCommands(new EnableArmBrake(armRotate), new ExtendRetractInternal(armExtRet,
-        ArmRotationExtensionSingleton.getInstance().getPosition(), false));
+    addCommands(new EnableArmBrake(armRotate), new ExtendRetract(armExtRet));
   }
 }

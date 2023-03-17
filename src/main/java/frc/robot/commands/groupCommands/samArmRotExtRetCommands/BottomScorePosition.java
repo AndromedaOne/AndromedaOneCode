@@ -5,7 +5,7 @@
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
 import frc.robot.Robot;
-import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -25,22 +25,18 @@ public class BottomScorePosition extends SequentialCommandGroup4905 {
 
   private boolean m_backwards = false;
 
-  public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
-        new ExtendRetractInternal(armExtRet,
-            ArmRotationExtensionSingleton.getInstance().getPosition(), true));
-  }
-
   public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet, boolean auto,
       boolean cube, boolean backwards) {
     addCommands(
         new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
-        new ExtendRetractInternal(armExtRet,
-            ArmRotationExtensionSingleton.getInstance().getPosition(), true));
+        new ExtendRetract(armExtRet));
     m_auto = auto;
-
     m_backwards = backwards;
+  }
+
+  public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+    // cube and backwards booleans are ignored when not in auto
+    this(armRotate, armExtRet, false, true, true);
   }
 
   @Override
