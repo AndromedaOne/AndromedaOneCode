@@ -44,7 +44,10 @@ import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
- * Add your docs here.
+ * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
+ * to run commands). DO NOT include putNumber or putString as these need to be
+ * in periodic methods to get called over and over. this class gets instantiated
+ * once when the robot is turned on...
  */
 public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
@@ -65,8 +68,6 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Shoot Cannon", new ShootCannon());
     }
     if (Config4905.getConfig4905().doesGripperExist()) {
-      SmartDashboard.putString("Real Gripper state =",
-          subsystemsContainer.getGripper().getState().name());
       SmartDashboard.putData("Toggle Gripper",
           new OpenCloseGripper(subsystemsContainer.getGripper()));
       SmartDashboard.putData("Open Gripper", new OpenGripper(subsystemsContainer.getGripper()));
@@ -97,7 +98,6 @@ public class SmartDashboard4905 {
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
       SmartDashboard.putData("Enable Arm Rotation Brake",
           new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
-      SmartDashboard.putNumber("Extend Arm Position Value", 0);
       SmartDashboard.putData("Extend Arms Tuner",
           new ExtendRetract(subsystemsContainer.getArmExtRetBase(), true, true));
       SmartDashboard.putData("Arm Angle Tuner",
