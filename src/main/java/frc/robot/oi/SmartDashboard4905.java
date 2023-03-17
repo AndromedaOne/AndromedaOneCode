@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.SAMgripperCommands.CloseGripper;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
+import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
@@ -67,6 +69,8 @@ public class SmartDashboard4905 {
           subsystemsContainer.getGripper().getState().name());
       SmartDashboard.putData("Toggle Gripper",
           new OpenCloseGripper(subsystemsContainer.getGripper()));
+      SmartDashboard.putData("Open Gripper", new OpenGripper(subsystemsContainer.getGripper()));
+      SmartDashboard.putData("Close Gripper", new CloseGripper(subsystemsContainer.getGripper()));
     }
 
     if (Config4905.getConfig4905().doesShooterExist()) {
