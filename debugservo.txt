@@ -1,0 +1,5507 @@
+[
+    {
+        "messageType": 2,
+        "timestamp": 1.9625244140625,
+        "seqNumber": 783,
+        "line": "NT: Got a NT3 connection from 10.49.5.184 port 60939"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.96527099609375,
+        "seqNumber": 784,
+        "line": "NT: CONNECTED NT3 client 'NT3@10.49.5.184:60939' (from 10.49.5.184:60939)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0,
+        "seqNumber": 785,
+        "line": "Trace Base Directory: /home/lvuser/traceLogs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.004638671875,
+        "seqNumber": 786,
+        "line": "Setting start time to: 1676338657378"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.00592041015625,
+        "seqNumber": 787,
+        "line": "Found trace numb file: /home/lvuser/traceLogs/.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.01416015625,
+        "seqNumber": 788,
+        "line": "OS is Linux"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.0194091796875,
+        "seqNumber": 789,
+        "line": "Created trace file /home/lvuser/traceLogs.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.02252197265625,
+        "seqNumber": 790,
+        "line": "Redirected console output."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.86749267578125,
+        "seqNumber": 791,
+        "line": "********** Robot program starting **********"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.9969482421875,
+        "seqNumber": 792,
+        "line": "NT: could not open persistent file '/home/lvuser/networktables.json': No such file or directory"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.99945068359375,
+        "seqNumber": 793,
+        "line": "NT: Listening on NT3 port 1735, NT4 port 5810"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.3961181640625,
+        "seqNumber": 794,
+        "line": "SysTime(ms): 1676338658756  CorrectedTime(ms): 1378  RunTime(s)1.378  Cmd: robot init started "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.55584716796875,
+        "seqNumber": 795,
+        "line": "NT: Got a NT3 connection from 10.49.5.184 port 61971"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.5697021484375,
+        "seqNumber": 796,
+        "line": "NT: CONNECTED NT3 client 'NT3@10.49.5.184:61971' (from 10.49.5.184:61971)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.92498779296875,
+        "seqNumber": 797,
+        "line": "loaded config commandconstants.conf from /home/lvuser/deploy/robotConfigs/RoadKill/commandconstants.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.9346923828125,
+        "seqNumber": 798,
+        "line": "Config(SimpleConfigObject({\"BalanceRobot\":{\"Kd\":0,\"Ki\":0.001,\"Kp\":0.01,\"minOutputToMove\":0.075,\"tolerance\":1}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.93804931640625,
+        "seqNumber": 799,
+        "line": "loaded config controllers.conf from /home/lvuser/deploy/robotConfigs/RoadKill/controllers.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.9383544921875,
+        "seqNumber": 800,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.93963623046875,
+        "seqNumber": 801,
+        "line": "loaded config sensors.conf from /home/lvuser/deploy/robotConfigs/RoadKill/sensors.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.9400634765625,
+        "seqNumber": 802,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.01617431640625,
+        "seqNumber": 803,
+        "line": "loaded config drivetrain.conf from /home/lvuser/deploy/robotConfigs/RoadKill/drivetrain.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.02545166015625,
+        "seqNumber": 804,
+        "line": "Config(SimpleConfigObject({\"backleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"inverted\":false},\"backright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"inverted\":true},\"frontleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"inverted\":false},\"frontright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"inverted\":true},\"gyrocorrect\":{\"kdelay\":25,\"kproportion\":0.025},\"leftbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":8},\"motorController\":\"sparkMax\",\"pathplanningconstants\":{\"kDDriveVel\":0,\"kMaxAccelerationMetersPerSecondSquared\":0.5,\"kMaxSpeedMetersPerSecond\":1,\"kPDriveVel\":5,\"kRamseteB\":2,\"kRamseteZeta\":0.7,\"kTrackwidthMeters\":0.6,\"kaVoltSecondsSquaredPerMeter\":0.423,\"ksVolts\":0.15,\"kvVoltSecondsPerMeter\":3.45},\"ports\":{\"backleft\":3,\"backright\":4,\"frontleft\":1,\"frontright\":2},\"rightSideInverted\":false,\"rightbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":9},\"teleop\":{\"forwardbackslowscale\":0.75,\"rotateslowscale\":0.5},\"ticksPerInch\":29.4}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.02825927734375,
+        "seqNumber": 805,
+        "line": "loaded config climber.conf from /home/lvuser/deploy/robotConfigs/RoadKill/climber.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.02874755859375,
+        "seqNumber": 806,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.02911376953125,
+        "seqNumber": 807,
+        "line": "loaded config LED.conf from /home/lvuser/deploy/robotConfigs/RoadKill/LED.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03009033203125,
+        "seqNumber": 808,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03082275390625,
+        "seqNumber": 809,
+        "line": "loaded config harvester.conf from /home/lvuser/deploy/robotConfigs/RoadKill/harvester.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03216552734375,
+        "seqNumber": 810,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.033203125,
+        "seqNumber": 811,
+        "line": "loaded config conveyor.conf from /home/lvuser/deploy/robotConfigs/RoadKill/conveyor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03363037109375,
+        "seqNumber": 812,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03424072265625,
+        "seqNumber": 813,
+        "line": "loaded config compressor.conf from /home/lvuser/deploy/robotConfigs/RoadKill/compressor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.0347900390625,
+        "seqNumber": 814,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.0361328125,
+        "seqNumber": 815,
+        "line": "loaded config cannon.conf from /home/lvuser/deploy/robotConfigs/RoadKill/cannon.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03656005859375,
+        "seqNumber": 816,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.038818359375,
+        "seqNumber": 817,
+        "line": "loaded config romiBallMopper.conf from /home/lvuser/deploy/robotConfigs/RoadKill/romiBallMopper.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03948974609375,
+        "seqNumber": 818,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.04150390625,
+        "seqNumber": 819,
+        "line": "loaded config wings.conf from /home/lvuser/deploy/robotConfigs/RoadKill/wings.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.04217529296875,
+        "seqNumber": 820,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.0767822265625,
+        "seqNumber": 821,
+        "line": "loaded config shooter.conf from /home/lvuser/deploy/robotConfigs/RoadKill/shooter.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.08367919921875,
+        "seqNumber": 822,
+        "line": "Config(SimpleConfigObject({\"bottomShooterWheel\":{\"brakeMode\":false,\"currentLimit\":60,\"encoderInverted\":false,\"hasEncoder\":true,\"inverted\":true,\"runshooterwheelvelocity\":{\"d\":0,\"i\":0,\"p\":0},\"shooterTargetRPMAndKValues\":[1000,1.81E-4,3000,1.76E-4],\"shooterTargetRPMandPValues\":[1000,1.5E-4,3000,1.7E-4],\"tolerance\":100},\"ports\":{\"bottomShooterWheel\":5,\"topShooterWheel\":6},\"topShooterWheel\":{\"brakeMode\":false,\"currentLimit\":60,\"encoderInverted\":false,\"hasEncoder\":true,\"inverted\":false,\"runshooterwheelvelocity\":{\"d\":0,\"i\":0,\"p\":0},\"shooterTargetRPMAndKValues\":[1000,1.81E-4,3000,1.76E-4],\"shooterTargetRPMandPValues\":[1000,1.5E-4,3000,2.0E-4],\"tolerance\":100}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.08636474609375,
+        "seqNumber": 823,
+        "line": "loaded config intake.conf from /home/lvuser/deploy/robotConfigs/RoadKill/intake.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.08734130859375,
+        "seqNumber": 824,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.089599609375,
+        "seqNumber": 825,
+        "line": "loaded config feeder.conf from /home/lvuser/deploy/robotConfigs/RoadKill/feeder.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.09051513671875,
+        "seqNumber": 826,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.09124755859375,
+        "seqNumber": 827,
+        "line": "Robot name = RoadKill"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.0924072265625,
+        "seqNumber": 828,
+        "line": "Using mock Navx Gyro sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.09466552734375,
+        "seqNumber": 829,
+        "line": "Using fake cameras"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.09600830078125,
+        "seqNumber": 830,
+        "line": "Using fake LimeLight"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.0992431640625,
+        "seqNumber": 831,
+        "line": "Using mock analog 41 IR sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.10028076171875,
+        "seqNumber": 832,
+        "line": "Using mock Color sensor for the front"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.1015625,
+        "seqNumber": 833,
+        "line": "Using mock Color sensor for the back"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.19219970703125,
+        "seqNumber": 834,
+        "line": "Using mock Drive Train."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.26190185546875,
+        "seqNumber": 835,
+        "line": "Using Mock LEDs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.27252197265625,
+        "seqNumber": 836,
+        "line": "Using mock Compressor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.27386474609375,
+        "seqNumber": 837,
+        "line": "Using mock Cannon"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.27532958984375,
+        "seqNumber": 838,
+        "line": "using mock Romi Ball Mopper."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.27691650390625,
+        "seqNumber": 839,
+        "line": "using mock shooters"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.28240966796875,
+        "seqNumber": 840,
+        "line": "using mock Intake"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.28399658203125,
+        "seqNumber": 841,
+        "line": "Using mock feeder"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.28802490234375,
+        "seqNumber": 842,
+        "line": "No drive controller"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.28887939453125,
+        "seqNumber": 843,
+        "line": "No subsystem controller"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.50714111328125,
+        "seqNumber": 844,
+        "line": "Generating path for DriveTrainRectangularPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.50872802734375,
+        "seqNumber": 845,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.50897216796875,
+        "seqNumber": 846,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.51019287109375,
+        "seqNumber": 847,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.51068115234375,
+        "seqNumber": 848,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.59722900390625,
+        "seqNumber": 849,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.59906005859375,
+        "seqNumber": 850,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.60089111328125,
+        "seqNumber": 851,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.60198974609375,
+        "seqNumber": 852,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.60369873046875,
+        "seqNumber": 853,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.60406494140625,
+        "seqNumber": 854,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.60662841796875,
+        "seqNumber": 855,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.60711669921875,
+        "seqNumber": 856,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.61102294921875,
+        "seqNumber": 857,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.61187744140625,
+        "seqNumber": 858,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.61627197265625,
+        "seqNumber": 859,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.61798095703125,
+        "seqNumber": 860,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.62176513671875,
+        "seqNumber": 861,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.62274169921875,
+        "seqNumber": 862,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.62725830078125,
+        "seqNumber": 863,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.62799072265625,
+        "seqNumber": 864,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.63189697265625,
+        "seqNumber": 865,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.63226318359375,
+        "seqNumber": 866,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.65985107421875,
+        "seqNumber": 867,
+        "line": "Generating path for DriveTrainDiagonalPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.66363525390625,
+        "seqNumber": 868,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.66436767578125,
+        "seqNumber": 869,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.66790771484375,
+        "seqNumber": 870,
+        "line": "Direction: forward\tdistance: 0.0\tangle: NaN"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.66864013671875,
+        "seqNumber": 871,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.66925048828125,
+        "seqNumber": 872,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.67633056640625,
+        "seqNumber": 873,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 0.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.67742919921875,
+        "seqNumber": 874,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.67816162109375,
+        "seqNumber": 875,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.68145751953125,
+        "seqNumber": 876,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 90.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.68206787109375,
+        "seqNumber": 877,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.68280029296875,
+        "seqNumber": 878,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.68597412109375,
+        "seqNumber": 879,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 180.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.68670654296875,
+        "seqNumber": 880,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.68756103515625,
+        "seqNumber": 881,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.69110107421875,
+        "seqNumber": 882,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 270.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.69195556640625,
+        "seqNumber": 883,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.69281005859375,
+        "seqNumber": 884,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.69708251953125,
+        "seqNumber": 885,
+        "line": "Direction: reverse\tdistance: -9.604165762834375\tangle: 211.37300514010846"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.69854736328125,
+        "seqNumber": 886,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.69879150390625,
+        "seqNumber": 887,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.70257568359375,
+        "seqNumber": 888,
+        "line": "Direction: forward\tdistance: 15.402921800749363\tangle: 230.00391995224035"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.70416259765625,
+        "seqNumber": 889,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.70465087890625,
+        "seqNumber": 890,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.70831298828125,
+        "seqNumber": 891,
+        "line": "Direction: reverse\tdistance: -16.142478124501206\tangle: 290.29848182042133"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.70928955078125,
+        "seqNumber": 892,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71002197265625,
+        "seqNumber": 893,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71392822265625,
+        "seqNumber": 894,
+        "line": "Direction: forward\tdistance: 18.905261172488466\tangle: 316.22161037831773"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71478271484375,
+        "seqNumber": 895,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71551513671875,
+        "seqNumber": 896,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71917724609375,
+        "seqNumber": 897,
+        "line": "Direction: reverse\tdistance: -7.924020444193717\tangle: 323.2602540776968"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71954345703125,
+        "seqNumber": 898,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71978759765625,
+        "seqNumber": 899,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.78948974609375,
+        "seqNumber": 900,
+        "line": "coast set to true"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.80230712890625,
+        "seqNumber": 901,
+        "line": "SysTime(ms): 1676338660176  CorrectedTime(ms): 2798  RunTime(s)2.798  Cmd: robot init finished "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.80328369140625,
+        "seqNumber": 902,
+        "line": "********** Robot program startup complete **********"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.81451416015625,
+        "seqNumber": 903,
+        "line": "coast set to true"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.83172607421875,
+        "seqNumber": 904,
+        "line": "Shooter Allignment set to coast"
+    },
+    {
+        "timestamp": 2.90606689453125,
+        "seqNumber": 905,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "Loop time of 0.02s overrun\n",
+        "location": "edu.wpi.first.wpilibj.IterativeRobotBase.printLoopOverrunMessage(IterativeRobotBase.java:387)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.90692138671875,
+        "seqNumber": 906,
+        "line": "Warning at edu.wpi.first.wpilibj.IterativeRobotBase.printLoopOverrunMessage(IterativeRobotBase.java:387): Loop time of 0.02s overrun"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.90887451171875,
+        "seqNumber": 907,
+        "line": ""
+    },
+    {
+        "timestamp": 3.14801025390625,
+        "seqNumber": 908,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "\tSmartDashboard.updateValues(): 0.023593s\n\tdisabledInit(): 0.021936s\n\trobotPeriodic(): 0.022812s\n\tLiveWindow.updateValues(): 0.000096s\n\tShuffleboard.update(): 0.001014s\n\tdisabledPeriodic(): 0.000909s\n",
+        "location": "edu.wpi.first.wpilibj.Tracer.lambda$printEpochs$0(Tracer.java:62)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.14862060546875,
+        "seqNumber": 909,
+        "line": "Warning at edu.wpi.first.wpilibj.Tracer.lambda$printEpochs$0(Tracer.java:62): \tSmartDashboard.updateValues(): 0.023593s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.14996337890625,
+        "seqNumber": 910,
+        "line": "\tdisabledInit(): 0.021936s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.15020751953125,
+        "seqNumber": 911,
+        "line": "\trobotPeriodic(): 0.022812s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.15045166015625,
+        "seqNumber": 912,
+        "line": "\tLiveWindow.updateValues(): 0.000096s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.15069580078125,
+        "seqNumber": 913,
+        "line": "\tShuffleboard.update(): 0.001014s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.15106201171875,
+        "seqNumber": 914,
+        "line": "\tdisabledPeriodic(): 0.000909s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.15130615234375,
+        "seqNumber": 915,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.79656982421875,
+        "seqNumber": 916,
+        "line": "CommandScheduler loop overrun"
+    },
+    {
+        "timestamp": 3.81512451171875,
+        "seqNumber": 917,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "\tMockLEDs.periodic(): 0.000134s\n\tMockRomiBallMopper.periodic(): 0.000221s\n\tMockFeeder.periodic(): 0.000190s\n\tMockDriveTrain.periodic(): 0.000197s\n\tMockIntake.periodic(): 0.000178s\n\tMockCompressor.periodic(): 0.025545s\n\tbuttons.run(): 0.000042s\n\tMockRomiWings.periodic(): 0.000124s\n\tMockCannon.periodic(): 0.000374s\n\tMockTopShooter.periodic(): 0.000324s\n\tMockBottomShooter.periodic(): 0.000346s\n\tMockShooterAlignment.periodic(): 0.000184s\n",
+        "location": "edu.wpi.first.wpilibj.Tracer.lambda$printEpochs$0(Tracer.java:62)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81561279296875,
+        "seqNumber": 918,
+        "line": "Warning at edu.wpi.first.wpilibj.Tracer.lambda$printEpochs$0(Tracer.java:62): \tMockLEDs.periodic(): 0.000134s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81610107421875,
+        "seqNumber": 919,
+        "line": "\tMockRomiBallMopper.periodic(): 0.000221s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81646728515625,
+        "seqNumber": 920,
+        "line": "\tMockFeeder.periodic(): 0.000190s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81671142578125,
+        "seqNumber": 921,
+        "line": "\tMockDriveTrain.periodic(): 0.000197s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81695556640625,
+        "seqNumber": 922,
+        "line": "\tMockIntake.periodic(): 0.000178s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81744384765625,
+        "seqNumber": 923,
+        "line": "\tMockCompressor.periodic(): 0.025545s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81781005859375,
+        "seqNumber": 924,
+        "line": "\tbuttons.run(): 0.000042s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81817626953125,
+        "seqNumber": 925,
+        "line": "\tMockRomiWings.periodic(): 0.000124s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81829833984375,
+        "seqNumber": 926,
+        "line": "\tMockCannon.periodic(): 0.000374s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81866455078125,
+        "seqNumber": 927,
+        "line": "\tMockTopShooter.periodic(): 0.000324s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81890869140625,
+        "seqNumber": 928,
+        "line": "\tMockBottomShooter.periodic(): 0.000346s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81915283203125,
+        "seqNumber": 929,
+        "line": "\tMockShooterAlignment.periodic(): 0.000184s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.81939697265625,
+        "seqNumber": 930,
+        "line": ""
+    },
+    {
+        "timestamp": 9.42547607421875,
+        "seqNumber": 931,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "Loop time of 0.02s overrun\n",
+        "location": "edu.wpi.first.wpilibj.IterativeRobotBase.printLoopOverrunMessage(IterativeRobotBase.java:387)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.43597412109375,
+        "seqNumber": 932,
+        "line": "Warning at edu.wpi.first.wpilibj.IterativeRobotBase.printLoopOverrunMessage(IterativeRobotBase.java:387): Loop time of 0.02s overrun"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.43731689453125,
+        "seqNumber": 933,
+        "line": ""
+    },
+    {
+        "timestamp": 9.43841552734375,
+        "seqNumber": 934,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "\tSmartDashboard.updateValues(): 0.000864s\n\trobotPeriodic(): 0.024156s\n\tLiveWindow.updateValues(): 0.000013s\n\tShuffleboard.update(): 0.000023s\n\tdisabledPeriodic(): 0.000199s\n",
+        "location": "edu.wpi.first.wpilibj.Tracer.lambda$printEpochs$0(Tracer.java:62)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.43902587890625,
+        "seqNumber": 935,
+        "line": "Warning at edu.wpi.first.wpilibj.Tracer.lambda$printEpochs$0(Tracer.java:62): \tSmartDashboard.updateValues(): 0.000864s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.43927001953125,
+        "seqNumber": 936,
+        "line": "\trobotPeriodic(): 0.024156s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.43963623046875,
+        "seqNumber": 937,
+        "line": "\tLiveWindow.updateValues(): 0.000013s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.43988037109375,
+        "seqNumber": 938,
+        "line": "\tShuffleboard.update(): 0.000023s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.44012451171875,
+        "seqNumber": 939,
+        "line": "\tdisabledPeriodic(): 0.000199s"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.44024658203125,
+        "seqNumber": 940,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 23.82208251953125,
+        "seqNumber": 941,
+        "line": "SysTime(ms): 1676338681196  CorrectedTime(ms): 23818  RunTime(s)23.818  Cmd: teleopInit called "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 23.82464599609375,
+        "seqNumber": 942,
+        "line": "orig init Z Angle: 0.0 updated init Z: 180.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 23.82586669921875,
+        "seqNumber": 943,
+        "line": "coast set to false"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 23.82623291015625,
+        "seqNumber": 944,
+        "line": "Shooter Allignment set to brake"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 23.82696533203125,
+        "seqNumber": 945,
+        "line": "SysTime(ms): 1676338681200  CorrectedTime(ms): 23822  RunTime(s)23.822  Cmd: teleopInit finished "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 23.82904052734375,
+        "seqNumber": 946,
+        "line": "SysTime(ms): 1676338681203  CorrectedTime(ms): 23824  RunTime(s)23.824  Cmd: teleopPeriodic called "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 46.42681884765625,
+        "seqNumber": 947,
+        "line": "SysTime(ms): 1676338703801  CorrectedTime(ms): 46423  RunTime(s)46.423  Cmd: TuneBrakeSystem start"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 46.44525146484375,
+        "seqNumber": 948,
+        "line": "SysTime(ms): 1676338703819  CorrectedTime(ms): 46441  RunTime(s)46.441  Cmd: TuneBrakeSystem stop"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 94.04473876953125,
+        "seqNumber": 949,
+        "line": "SysTime(ms): 1676338751419  CorrectedTime(ms): 94041  RunTime(s)94.041  Cmd: TuneBrakeSystem start"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 94.06402587890625,
+        "seqNumber": 950,
+        "line": "SysTime(ms): 1676338751438  CorrectedTime(ms): 94060  RunTime(s)94.06  Cmd: TuneBrakeSystem stop"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 171.80303955078125,
+        "seqNumber": 951,
+        "line": "coast set to true"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 171.80401611328125,
+        "seqNumber": 952,
+        "line": "Shooter Allignment set to coast"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0,
+        "seqNumber": -23098,
+        "line": "Trace Base Directory: /home/lvuser/traceLogs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.00439453125,
+        "seqNumber": -23097,
+        "line": "Setting start time to: 1676338873223"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.005859375,
+        "seqNumber": -23096,
+        "line": "Found trace numb file: /home/lvuser/traceLogs/.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.01318359375,
+        "seqNumber": -23095,
+        "line": "OS is Linux"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.017578125,
+        "seqNumber": -23094,
+        "line": "Created trace file /home/lvuser/traceLogs.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.02001953125,
+        "seqNumber": -23093,
+        "line": "Redirected console output."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.6982421875,
+        "seqNumber": -23092,
+        "line": "********** Robot program starting **********"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.80615234375,
+        "seqNumber": -23091,
+        "line": "NT: could not open persistent file '/home/lvuser/networktables.json': No such file or directory"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 0.80810546875,
+        "seqNumber": -23090,
+        "line": "NT: Listening on NT3 port 1735, NT4 port 5810"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.09033203125,
+        "seqNumber": -23089,
+        "line": "NT: Got a NT3 connection from 10.49.5.173 port 62465"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.09814453125,
+        "seqNumber": -23088,
+        "line": "NT: CONNECTED NT3 client 'NT3@10.49.5.173:62465' (from 10.49.5.173:62465)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.14453125,
+        "seqNumber": -23087,
+        "line": "SysTime(ms): 1676338874352  CorrectedTime(ms): 1129  RunTime(s)1.129  Cmd: robot init started "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.59228515625,
+        "seqNumber": -23086,
+        "line": "loaded config commandconstants.conf from /home/lvuser/deploy/robotConfigs/SAM/commandconstants.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.60205078125,
+        "seqNumber": -23085,
+        "line": "Config(SimpleConfigObject({\"BalanceRobot\":{\"Kd\":0,\"Ki\":0.001,\"Kp\":0.01,\"minOutputToMove\":0.075,\"tolerance\":1},\"GyroPIDCommands\":{\"TurningDTerm\":0,\"TurningITerm\":0,\"TurningPTerm\":0.006,\"minOutputToMove\":0.095,\"positionTolerance\":2,\"velocityTolerance\":10},\"MoveUsingEncoder\":{\"Kd\":0,\"Ki\":0,\"Kp\":0.01,\"minOutputToMove\":0.075,\"positionTolerance\":0.5,\"velocityTolerance\":3}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.60546875,
+        "seqNumber": -23084,
+        "line": "loaded config controllers.conf from /home/lvuser/deploy/robotConfigs/SAM/controllers.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.6064453125,
+        "seqNumber": -23083,
+        "line": "Config(SimpleConfigObject({\"driveController\":{},\"subsystemController\":{}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.6103515625,
+        "seqNumber": -23082,
+        "line": "loaded config sensors.conf from /home/lvuser/deploy/robotConfigs/SAM/sensors.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.61083984375,
+        "seqNumber": -23081,
+        "line": "Config(SimpleConfigObject({\"navx\":{\"port\":\"MXP\"}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.6806640625,
+        "seqNumber": -23080,
+        "line": "loaded config drivetrain.conf from /home/lvuser/deploy/robotConfigs/SAM/drivetrain.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.689453125,
+        "seqNumber": -23079,
+        "line": "Config(SimpleConfigObject({\"backleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"backright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"frontleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"frontright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"gyrocorrect\":{\"kproportion\":0.025},\"leftbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":8},\"motorController\":\"sparkMax\",\"ports\":{\"backleft\":3,\"backright\":4,\"frontleft\":1,\"frontright\":2},\"rightSideInverted\":false,\"rightbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":9},\"teleop\":{\"fastmodefowardbackscale\":0.75,\"fastmoderotatescale\":0.75,\"kdelay\":25,\"kproportion\":0.025,\"midmodefowardbackscale\":0.5,\"midmoderotatescale\":0.5,\"slowmodefowardbackscale\":0.35,\"slowmoderotatescale\":0.35},\"ticksPerInch\":29.4}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.6923828125,
+        "seqNumber": -23078,
+        "line": "loaded config climber.conf from /home/lvuser/deploy/robotConfigs/SAM/climber.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.693359375,
+        "seqNumber": -23077,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.6953125,
+        "seqNumber": -23076,
+        "line": "loaded config LED.conf from /home/lvuser/deploy/robotConfigs/SAM/LED.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.69580078125,
+        "seqNumber": -23075,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.6982421875,
+        "seqNumber": -23074,
+        "line": "loaded config harvester.conf from /home/lvuser/deploy/robotConfigs/SAM/harvester.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.69873046875,
+        "seqNumber": -23073,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.70166015625,
+        "seqNumber": -23072,
+        "line": "loaded config conveyor.conf from /home/lvuser/deploy/robotConfigs/SAM/conveyor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.70263671875,
+        "seqNumber": -23071,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.7060546875,
+        "seqNumber": -23070,
+        "line": "loaded config compressor.conf from /home/lvuser/deploy/robotConfigs/SAM/compressor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.7080078125,
+        "seqNumber": -23069,
+        "line": "Config(SimpleConfigObject({\"ModuleType\":\"REVPH\"}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.7099609375,
+        "seqNumber": -23068,
+        "line": "loaded config cannon.conf from /home/lvuser/deploy/robotConfigs/SAM/cannon.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.71044921875,
+        "seqNumber": -23067,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.71240234375,
+        "seqNumber": -23066,
+        "line": "loaded config romiBallMopper.conf from /home/lvuser/deploy/robotConfigs/SAM/romiBallMopper.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.71337890625,
+        "seqNumber": -23065,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.71484375,
+        "seqNumber": -23064,
+        "line": "loaded config wings.conf from /home/lvuser/deploy/robotConfigs/SAM/wings.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.7158203125,
+        "seqNumber": -23063,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.7177734375,
+        "seqNumber": -23062,
+        "line": "loaded config shooter.conf from /home/lvuser/deploy/robotConfigs/SAM/shooter.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.71826171875,
+        "seqNumber": -23061,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.72021484375,
+        "seqNumber": -23060,
+        "line": "loaded config intake.conf from /home/lvuser/deploy/robotConfigs/SAM/intake.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.720703125,
+        "seqNumber": -23059,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.72265625,
+        "seqNumber": -23058,
+        "line": "loaded config feeder.conf from /home/lvuser/deploy/robotConfigs/SAM/feeder.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.7236328125,
+        "seqNumber": -23057,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.72412109375,
+        "seqNumber": -23056,
+        "line": "Robot name = SAM"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.72509765625,
+        "seqNumber": -23055,
+        "line": "Using real NavX Gyro sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.73193359375,
+        "seqNumber": -23054,
+        "line": "Creating a NavX Gyro on port: MXP"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.79541015625,
+        "seqNumber": -23053,
+        "line": "navX-Sensor Java library for FRC"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.94775390625,
+        "seqNumber": -23052,
+        "line": "Created NavX instance"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.95703125,
+        "seqNumber": -23051,
+        "line": "Using fake cameras"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.9580078125,
+        "seqNumber": -23050,
+        "line": "Using fake LimeLight"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.9599609375,
+        "seqNumber": -23049,
+        "line": "Using mock analog 41 IR sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.9609375,
+        "seqNumber": -23048,
+        "line": "Using mock Color sensor for the front"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 1.9619140625,
+        "seqNumber": -23047,
+        "line": "Using mock Color sensor for the back"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.025390625,
+        "seqNumber": -23046,
+        "line": "navX-Sensor Connected."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03076171875,
+        "seqNumber": -23045,
+        "line": "Using real Drive Train."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.03173828125,
+        "seqNumber": -23044,
+        "line": "Using real sparkMax Drive Train"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.05517578125,
+        "seqNumber": -23043,
+        "line": "RealDriveTrain kProportion = 0.025"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.17578125,
+        "seqNumber": -23042,
+        "line": "Enabling SparkMaxController \"frontleft\" for port 1"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.20703125,
+        "seqNumber": -23041,
+        "line": "Enabling SparkMaxController \"backleft\" for port 3"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.2255859375,
+        "seqNumber": -23040,
+        "line": "Enabling SparkMaxController \"frontright\" for port 2"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.23388671875,
+        "seqNumber": -23039,
+        "line": "navX-Sensor Board Type 50 (navX2-MXP (Gen 2))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.2353515625,
+        "seqNumber": -23038,
+        "line": "navX-Sensor firmware version 4.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.236328125,
+        "seqNumber": -23037,
+        "line": "navX-Sensor onboard startup calibration complete."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.23681640625,
+        "seqNumber": -23036,
+        "line": "navX-Sensor Yaw angle auto-reset to 0.0 due to startup calibration."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.248046875,
+        "seqNumber": -23035,
+        "line": "Enabling SparkMaxController \"backright\" for port 4"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.294921875,
+        "seqNumber": -23034,
+        "line": "Using Mock LEDs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.3017578125,
+        "seqNumber": -23033,
+        "line": "using real Compressor."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.42236328125,
+        "seqNumber": -23032,
+        "line": "Using mock Cannon"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.42431640625,
+        "seqNumber": -23031,
+        "line": "using mock Romi Ball Mopper."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.42724609375,
+        "seqNumber": -23030,
+        "line": "using mock shooters"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.427734375,
+        "seqNumber": -23029,
+        "line": "using mock Intake"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.42822265625,
+        "seqNumber": -23028,
+        "line": "Using mock feeder"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.43017578125,
+        "seqNumber": -23027,
+        "line": "Creating drive controller"
+    },
+    {
+        "timestamp": 2.53955078125,
+        "seqNumber": -23026,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "Joystick POV 0 on port 0 not available, check if controller is plugged in",
+        "location": "edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1260)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.54052734375,
+        "seqNumber": -23025,
+        "line": "Warning at edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1260): Joystick POV 0 on port 0 not available, check if controller is plugged in"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.56396484375,
+        "seqNumber": -23024,
+        "line": "Creating subsystem controller"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.68505859375,
+        "seqNumber": -23023,
+        "line": "Generating path for DriveTrainRectangularPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.6865234375,
+        "seqNumber": -23022,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.689453125,
+        "seqNumber": -23021,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.689453125,
+        "seqNumber": -23020,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.68994140625,
+        "seqNumber": -23019,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71142578125,
+        "seqNumber": -23018,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7119140625,
+        "seqNumber": -23017,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7138671875,
+        "seqNumber": -23016,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71435546875,
+        "seqNumber": -23015,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.716796875,
+        "seqNumber": -23014,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71728515625,
+        "seqNumber": -23013,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.71923828125,
+        "seqNumber": -23012,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.72021484375,
+        "seqNumber": -23011,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.724609375,
+        "seqNumber": -23010,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.72509765625,
+        "seqNumber": -23009,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7294921875,
+        "seqNumber": -23008,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.72998046875,
+        "seqNumber": -23007,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7333984375,
+        "seqNumber": -23006,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.73388671875,
+        "seqNumber": -23005,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7373046875,
+        "seqNumber": -23004,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.73779296875,
+        "seqNumber": -23003,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7412109375,
+        "seqNumber": -23002,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.74169921875,
+        "seqNumber": -23001,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.76318359375,
+        "seqNumber": -23000,
+        "line": "Generating path for DriveTrainDiagonalPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.76611328125,
+        "seqNumber": -22999,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.767578125,
+        "seqNumber": -22998,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.77001953125,
+        "seqNumber": -22997,
+        "line": "Direction: forward\tdistance: 0.0\tangle: NaN"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7705078125,
+        "seqNumber": -22996,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.77099609375,
+        "seqNumber": -22995,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7763671875,
+        "seqNumber": -22994,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 0.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.77685546875,
+        "seqNumber": -22993,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.77783203125,
+        "seqNumber": -22992,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.78076171875,
+        "seqNumber": -22991,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 90.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.78173828125,
+        "seqNumber": -22990,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.78271484375,
+        "seqNumber": -22989,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.78515625,
+        "seqNumber": -22988,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 180.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7861328125,
+        "seqNumber": -22987,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.78759765625,
+        "seqNumber": -22986,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.79052734375,
+        "seqNumber": -22985,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 270.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.791015625,
+        "seqNumber": -22984,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.79150390625,
+        "seqNumber": -22983,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.79443359375,
+        "seqNumber": -22982,
+        "line": "Direction: reverse\tdistance: -9.604165762834375\tangle: 211.37300514010846"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.79541015625,
+        "seqNumber": -22981,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7958984375,
+        "seqNumber": -22980,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.7998046875,
+        "seqNumber": -22979,
+        "line": "Direction: forward\tdistance: 15.402921800749363\tangle: 230.00391995224035"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.80126953125,
+        "seqNumber": -22978,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.80224609375,
+        "seqNumber": -22977,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8046875,
+        "seqNumber": -22976,
+        "line": "Direction: reverse\tdistance: -16.142478124501206\tangle: 290.29848182042133"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.80615234375,
+        "seqNumber": -22975,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.80712890625,
+        "seqNumber": -22974,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.81103515625,
+        "seqNumber": -22973,
+        "line": "Direction: forward\tdistance: 18.905261172488466\tangle: 316.22161037831773"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.81201171875,
+        "seqNumber": -22972,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8125,
+        "seqNumber": -22971,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8154296875,
+        "seqNumber": -22970,
+        "line": "Direction: reverse\tdistance: -7.924020444193717\tangle: 323.2602540776968"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.81591796875,
+        "seqNumber": -22969,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.81640625,
+        "seqNumber": -22968,
+        "line": ""
+    },
+    {
+        "timestamp": 2.880859375,
+        "seqNumber": -22967,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 1,
+        "details": "Unhandled exception: edu.wpi.first.hal.util.AllocationException: Code: -1029\nPWM or DIO 8 previously allocated.\nLocation of the previous allocation:\n\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)\n\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)\n\tat frc.robot.subsystems.drivetrain.RealDriveTrain.<init>(RealDriveTrain.java:42)\n\tat frc.robot.subsystems.drivetrain.SparkMaxDriveTrain.<init>(SparkMaxDriveTrain.java:35)\n\tat frc.robot.subsystems.SubsystemsContainer.<init>(SubsystemsContainer.java:89)\n\tat frc.robot.Robot.robotInit(Robot.java:59)\n\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)\n\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)\n\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)\n\tat frc.robot.Main.main(Main.java:30)\n\nLocation of the current allocation:",
+        "location": "frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)",
+        "callStack": "\tat edu.wpi.first.hal.PWMJNI.initializePWMPort(Native Method)\n\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:66)\n\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:53)\n\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)\n\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)\n\tat frc.robot.commands.driveTrainCommands.TuneBrakeSystem.<init>(TuneBrakeSystem.java:34)\n\tat frc.robot.oi.SmartDashboard4905.<init>(SmartDashboard4905.java:92)\n\tat frc.robot.oi.OIContainer.<init>(OIContainer.java:38)\n\tat frc.robot.Robot.robotInit(Robot.java:60)\n\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)\n\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)\n\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)\n\tat frc.robot.Main.main(Main.java:30)\n",
+        "messageType": 0
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8818359375,
+        "seqNumber": -22966,
+        "line": "Error at frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35): Unhandled exception: edu.wpi.first.hal.util.AllocationException: Code: -1029"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8818359375,
+        "seqNumber": -22965,
+        "line": "PWM or DIO 8 previously allocated."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88232421875,
+        "seqNumber": -22964,
+        "line": "Location of the previous allocation:"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88232421875,
+        "seqNumber": -22963,
+        "line": "\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8828125,
+        "seqNumber": -22962,
+        "line": "\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8828125,
+        "seqNumber": -22961,
+        "line": "\tat frc.robot.subsystems.drivetrain.RealDriveTrain.<init>(RealDriveTrain.java:42)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88330078125,
+        "seqNumber": -22960,
+        "line": "\tat frc.robot.subsystems.drivetrain.SparkMaxDriveTrain.<init>(SparkMaxDriveTrain.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88330078125,
+        "seqNumber": -22959,
+        "line": "\tat frc.robot.subsystems.SubsystemsContainer.<init>(SubsystemsContainer.java:89)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8837890625,
+        "seqNumber": -22958,
+        "line": "\tat frc.robot.Robot.robotInit(Robot.java:59)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8837890625,
+        "seqNumber": -22957,
+        "line": "\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88427734375,
+        "seqNumber": -22956,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88427734375,
+        "seqNumber": -22955,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.884765625,
+        "seqNumber": -22954,
+        "line": "\tat frc.robot.Main.main(Main.java:30)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.884765625,
+        "seqNumber": -22953,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.884765625,
+        "seqNumber": -22952,
+        "line": "Location of the current allocation:"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88525390625,
+        "seqNumber": -22951,
+        "line": "\tat edu.wpi.first.hal.PWMJNI.initializePWMPort(Native Method)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88525390625,
+        "seqNumber": -22950,
+        "line": "\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:66)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8857421875,
+        "seqNumber": -22949,
+        "line": "\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:53)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88623046875,
+        "seqNumber": -22948,
+        "line": "\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88623046875,
+        "seqNumber": -22947,
+        "line": "\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88671875,
+        "seqNumber": -22946,
+        "line": "\tat frc.robot.commands.driveTrainCommands.TuneBrakeSystem.<init>(TuneBrakeSystem.java:34)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88720703125,
+        "seqNumber": -22945,
+        "line": "\tat frc.robot.oi.SmartDashboard4905.<init>(SmartDashboard4905.java:92)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88720703125,
+        "seqNumber": -22944,
+        "line": "\tat frc.robot.oi.OIContainer.<init>(OIContainer.java:38)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8876953125,
+        "seqNumber": -22943,
+        "line": "\tat frc.robot.Robot.robotInit(Robot.java:60)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.8876953125,
+        "seqNumber": -22942,
+        "line": "\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88818359375,
+        "seqNumber": -22941,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.88818359375,
+        "seqNumber": -22940,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.888671875,
+        "seqNumber": -22939,
+        "line": "\tat frc.robot.Main.main(Main.java:30)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.888671875,
+        "seqNumber": -22938,
+        "line": ""
+    },
+    {
+        "timestamp": 2.89013671875,
+        "seqNumber": -22937,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "The robot program quit unexpectedly. This is usually due to a code error.\n  The above stacktrace can help determine where the error occurred.\n  See https://wpilib.org/stacktrace for more information.",
+        "location": "edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:358)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.890625,
+        "seqNumber": -22936,
+        "line": "Warning at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:358): The robot program quit unexpectedly. This is usually due to a code error."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.890625,
+        "seqNumber": -22935,
+        "line": "  The above stacktrace can help determine where the error occurred."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.89111328125,
+        "seqNumber": -22934,
+        "line": "  See https://wpilib.org/stacktrace for more information."
+    },
+    {
+        "timestamp": 2.89208984375,
+        "seqNumber": -22933,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 1,
+        "details": "The startCompetition() method (or methods called by it) should have handled the exception above.",
+        "location": "edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365)",
+        "callStack": "",
+        "messageType": 0
+    },
+    {
+        "messageType": 2,
+        "timestamp": 2.89306640625,
+        "seqNumber": -22932,
+        "line": "Error at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365): The startCompetition() method (or methods called by it) should have handled the exception above."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.22900390625,
+        "seqNumber": -22931,
+        "line": "pure virtual method called"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 3.2294921875,
+        "seqNumber": -22930,
+        "line": "terminate called without an active exception"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 5.7724609375,
+        "seqNumber": -22929,
+        "line": "Trace Base Directory: /home/lvuser/traceLogs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 5.77783203125,
+        "seqNumber": -22928,
+        "line": "Setting start time to: 1676338878996"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 5.77880859375,
+        "seqNumber": -22927,
+        "line": "Found trace numb file: /home/lvuser/traceLogs/.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 5.99462890625,
+        "seqNumber": -22926,
+        "line": "OS is Linux"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 5.9990234375,
+        "seqNumber": -22925,
+        "line": "Created trace file /home/lvuser/traceLogs.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 6.001953125,
+        "seqNumber": -22924,
+        "line": "Redirected console output."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 6.677734375,
+        "seqNumber": -22923,
+        "line": "********** Robot program starting **********"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 6.783203125,
+        "seqNumber": -22922,
+        "line": "NT: could not open persistent file '/home/lvuser/networktables.json': No such file or directory"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 6.7861328125,
+        "seqNumber": -22921,
+        "line": "NT: Listening on NT3 port 1735, NT4 port 5810"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.11181640625,
+        "seqNumber": -22920,
+        "line": "SysTime(ms): 1676338880319  CorrectedTime(ms): 1323  RunTime(s)1.323  Cmd: robot init started "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.337890625,
+        "seqNumber": -22919,
+        "line": "NT: Got a NT3 connection from 10.49.5.173 port 62473"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.3408203125,
+        "seqNumber": -22918,
+        "line": "NT: CONNECTED NT3 client 'NT3@10.49.5.173:62473' (from 10.49.5.173:62473)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.568359375,
+        "seqNumber": -22917,
+        "line": "loaded config commandconstants.conf from /home/lvuser/deploy/robotConfigs/SAM/commandconstants.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.57763671875,
+        "seqNumber": -22916,
+        "line": "Config(SimpleConfigObject({\"BalanceRobot\":{\"Kd\":0,\"Ki\":0.001,\"Kp\":0.01,\"minOutputToMove\":0.075,\"tolerance\":1},\"GyroPIDCommands\":{\"TurningDTerm\":0,\"TurningITerm\":0,\"TurningPTerm\":0.006,\"minOutputToMove\":0.095,\"positionTolerance\":2,\"velocityTolerance\":10},\"MoveUsingEncoder\":{\"Kd\":0,\"Ki\":0,\"Kp\":0.01,\"minOutputToMove\":0.075,\"positionTolerance\":0.5,\"velocityTolerance\":3}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.58154296875,
+        "seqNumber": -22915,
+        "line": "loaded config controllers.conf from /home/lvuser/deploy/robotConfigs/SAM/controllers.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.58251953125,
+        "seqNumber": -22914,
+        "line": "Config(SimpleConfigObject({\"driveController\":{},\"subsystemController\":{}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.5859375,
+        "seqNumber": -22913,
+        "line": "loaded config sensors.conf from /home/lvuser/deploy/robotConfigs/SAM/sensors.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.5869140625,
+        "seqNumber": -22912,
+        "line": "Config(SimpleConfigObject({\"navx\":{\"port\":\"MXP\"}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.64599609375,
+        "seqNumber": -22911,
+        "line": "loaded config drivetrain.conf from /home/lvuser/deploy/robotConfigs/SAM/drivetrain.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.65380859375,
+        "seqNumber": -22910,
+        "line": "Config(SimpleConfigObject({\"backleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"backright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"frontleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"frontright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"gyrocorrect\":{\"kproportion\":0.025},\"leftbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":8},\"motorController\":\"sparkMax\",\"ports\":{\"backleft\":3,\"backright\":4,\"frontleft\":1,\"frontright\":2},\"rightSideInverted\":false,\"rightbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":9},\"teleop\":{\"fastmodefowardbackscale\":0.75,\"fastmoderotatescale\":0.75,\"kdelay\":25,\"kproportion\":0.025,\"midmodefowardbackscale\":0.5,\"midmoderotatescale\":0.5,\"slowmodefowardbackscale\":0.35,\"slowmoderotatescale\":0.35},\"ticksPerInch\":29.4}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.65625,
+        "seqNumber": -22909,
+        "line": "loaded config climber.conf from /home/lvuser/deploy/robotConfigs/SAM/climber.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.65673828125,
+        "seqNumber": -22908,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.65869140625,
+        "seqNumber": -22907,
+        "line": "loaded config LED.conf from /home/lvuser/deploy/robotConfigs/SAM/LED.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.65966796875,
+        "seqNumber": -22906,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.66162109375,
+        "seqNumber": -22905,
+        "line": "loaded config harvester.conf from /home/lvuser/deploy/robotConfigs/SAM/harvester.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.662109375,
+        "seqNumber": -22904,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.6640625,
+        "seqNumber": -22903,
+        "line": "loaded config conveyor.conf from /home/lvuser/deploy/robotConfigs/SAM/conveyor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.66455078125,
+        "seqNumber": -22902,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.66845703125,
+        "seqNumber": -22901,
+        "line": "loaded config compressor.conf from /home/lvuser/deploy/robotConfigs/SAM/compressor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.669921875,
+        "seqNumber": -22900,
+        "line": "Config(SimpleConfigObject({\"ModuleType\":\"REVPH\"}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.671875,
+        "seqNumber": -22899,
+        "line": "loaded config cannon.conf from /home/lvuser/deploy/robotConfigs/SAM/cannon.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.67236328125,
+        "seqNumber": -22898,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.67431640625,
+        "seqNumber": -22897,
+        "line": "loaded config romiBallMopper.conf from /home/lvuser/deploy/robotConfigs/SAM/romiBallMopper.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.6748046875,
+        "seqNumber": -22896,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.67626953125,
+        "seqNumber": -22895,
+        "line": "loaded config wings.conf from /home/lvuser/deploy/robotConfigs/SAM/wings.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.67724609375,
+        "seqNumber": -22894,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.6787109375,
+        "seqNumber": -22893,
+        "line": "loaded config shooter.conf from /home/lvuser/deploy/robotConfigs/SAM/shooter.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.67919921875,
+        "seqNumber": -22892,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.68115234375,
+        "seqNumber": -22891,
+        "line": "loaded config intake.conf from /home/lvuser/deploy/robotConfigs/SAM/intake.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.681640625,
+        "seqNumber": -22890,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.68359375,
+        "seqNumber": -22889,
+        "line": "loaded config feeder.conf from /home/lvuser/deploy/robotConfigs/SAM/feeder.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.68408203125,
+        "seqNumber": -22888,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.6845703125,
+        "seqNumber": -22887,
+        "line": "Robot name = SAM"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.685546875,
+        "seqNumber": -22886,
+        "line": "Using real NavX Gyro sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.69189453125,
+        "seqNumber": -22885,
+        "line": "Creating a NavX Gyro on port: MXP"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.748046875,
+        "seqNumber": -22884,
+        "line": "navX-Sensor Java library for FRC"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.88623046875,
+        "seqNumber": -22883,
+        "line": "Created NavX instance"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.89794921875,
+        "seqNumber": -22882,
+        "line": "Using fake cameras"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.8994140625,
+        "seqNumber": -22881,
+        "line": "Using fake LimeLight"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.904296875,
+        "seqNumber": -22880,
+        "line": "Using mock analog 41 IR sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.908203125,
+        "seqNumber": -22879,
+        "line": "Using mock Color sensor for the front"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.9091796875,
+        "seqNumber": -22878,
+        "line": "Using mock Color sensor for the back"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.96826171875,
+        "seqNumber": -22877,
+        "line": "navX-Sensor Connected."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.98583984375,
+        "seqNumber": -22876,
+        "line": "Using real Drive Train."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 7.98779296875,
+        "seqNumber": -22875,
+        "line": "Using real sparkMax Drive Train"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.01416015625,
+        "seqNumber": -22874,
+        "line": "RealDriveTrain kProportion = 0.025"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.1220703125,
+        "seqNumber": -22873,
+        "line": "Enabling SparkMaxController \"frontleft\" for port 1"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.15087890625,
+        "seqNumber": -22872,
+        "line": "Enabling SparkMaxController \"backleft\" for port 3"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.16796875,
+        "seqNumber": -22871,
+        "line": "Enabling SparkMaxController \"frontright\" for port 2"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.18798828125,
+        "seqNumber": -22870,
+        "line": "navX-Sensor Board Type 50 (navX2-MXP (Gen 2))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.18994140625,
+        "seqNumber": -22869,
+        "line": "Enabling SparkMaxController \"backright\" for port 4"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.1923828125,
+        "seqNumber": -22868,
+        "line": "navX-Sensor firmware version 4.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.19384765625,
+        "seqNumber": -22867,
+        "line": "navX-Sensor onboard startup calibration complete."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.19580078125,
+        "seqNumber": -22866,
+        "line": "navX-Sensor Yaw angle auto-reset to 0.0 due to startup calibration."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.23828125,
+        "seqNumber": -22865,
+        "line": "Using Mock LEDs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.24658203125,
+        "seqNumber": -22864,
+        "line": "using real Compressor."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.3603515625,
+        "seqNumber": -22863,
+        "line": "Using mock Cannon"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.3623046875,
+        "seqNumber": -22862,
+        "line": "using mock Romi Ball Mopper."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.36279296875,
+        "seqNumber": -22861,
+        "line": "using mock shooters"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.365234375,
+        "seqNumber": -22860,
+        "line": "using mock Intake"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.36572265625,
+        "seqNumber": -22859,
+        "line": "Using mock feeder"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.36962890625,
+        "seqNumber": -22858,
+        "line": "Creating drive controller"
+    },
+    {
+        "timestamp": 8.47509765625,
+        "seqNumber": -22857,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "Joystick POV 0 on port 0 not available, check if controller is plugged in",
+        "location": "edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1260)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.47607421875,
+        "seqNumber": -22856,
+        "line": "Warning at edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1260): Joystick POV 0 on port 0 not available, check if controller is plugged in"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.49951171875,
+        "seqNumber": -22855,
+        "line": "Creating subsystem controller"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.61962890625,
+        "seqNumber": -22854,
+        "line": "Generating path for DriveTrainRectangularPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.62255859375,
+        "seqNumber": -22853,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.623046875,
+        "seqNumber": -22852,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.62451171875,
+        "seqNumber": -22851,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.62548828125,
+        "seqNumber": -22850,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.6494140625,
+        "seqNumber": -22849,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.64990234375,
+        "seqNumber": -22848,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.6533203125,
+        "seqNumber": -22847,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.6533203125,
+        "seqNumber": -22846,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.65673828125,
+        "seqNumber": -22845,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.65771484375,
+        "seqNumber": -22844,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.66064453125,
+        "seqNumber": -22843,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.662109375,
+        "seqNumber": -22842,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.6669921875,
+        "seqNumber": -22841,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.66845703125,
+        "seqNumber": -22840,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.6728515625,
+        "seqNumber": -22839,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.67431640625,
+        "seqNumber": -22838,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.67919921875,
+        "seqNumber": -22837,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.68017578125,
+        "seqNumber": -22836,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.68408203125,
+        "seqNumber": -22835,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.685546875,
+        "seqNumber": -22834,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.68994140625,
+        "seqNumber": -22833,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.69091796875,
+        "seqNumber": -22832,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.712890625,
+        "seqNumber": -22831,
+        "line": "Generating path for DriveTrainDiagonalPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7177734375,
+        "seqNumber": -22830,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.71875,
+        "seqNumber": -22829,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.72265625,
+        "seqNumber": -22828,
+        "line": "Direction: forward\tdistance: 0.0\tangle: NaN"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.724609375,
+        "seqNumber": -22827,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7275390625,
+        "seqNumber": -22826,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.732421875,
+        "seqNumber": -22825,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 0.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.732421875,
+        "seqNumber": -22824,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.734375,
+        "seqNumber": -22823,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7392578125,
+        "seqNumber": -22822,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 90.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.740234375,
+        "seqNumber": -22821,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.74072265625,
+        "seqNumber": -22820,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7470703125,
+        "seqNumber": -22819,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 180.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.748046875,
+        "seqNumber": -22818,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7490234375,
+        "seqNumber": -22817,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7548828125,
+        "seqNumber": -22816,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 270.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.755859375,
+        "seqNumber": -22815,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7587890625,
+        "seqNumber": -22814,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.76220703125,
+        "seqNumber": -22813,
+        "line": "Direction: reverse\tdistance: -9.604165762834375\tangle: 211.37300514010846"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7626953125,
+        "seqNumber": -22812,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7646484375,
+        "seqNumber": -22811,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.77099609375,
+        "seqNumber": -22810,
+        "line": "Direction: forward\tdistance: 15.402921800749363\tangle: 230.00391995224035"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.771484375,
+        "seqNumber": -22809,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.77294921875,
+        "seqNumber": -22808,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.77880859375,
+        "seqNumber": -22807,
+        "line": "Direction: reverse\tdistance: -16.142478124501206\tangle: 290.29848182042133"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.77978515625,
+        "seqNumber": -22806,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7802734375,
+        "seqNumber": -22805,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7861328125,
+        "seqNumber": -22804,
+        "line": "Direction: forward\tdistance: 18.905261172488466\tangle: 316.22161037831773"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.78759765625,
+        "seqNumber": -22803,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.7880859375,
+        "seqNumber": -22802,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.79248046875,
+        "seqNumber": -22801,
+        "line": "Direction: reverse\tdistance: -7.924020444193717\tangle: 323.2602540776968"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.79296875,
+        "seqNumber": -22800,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.79345703125,
+        "seqNumber": -22799,
+        "line": ""
+    },
+    {
+        "timestamp": 8.85888671875,
+        "seqNumber": -22798,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 1,
+        "details": "Unhandled exception: edu.wpi.first.hal.util.AllocationException: Code: -1029\nPWM or DIO 8 previously allocated.\nLocation of the previous allocation:\n\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)\n\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)\n\tat frc.robot.subsystems.drivetrain.RealDriveTrain.<init>(RealDriveTrain.java:42)\n\tat frc.robot.subsystems.drivetrain.SparkMaxDriveTrain.<init>(SparkMaxDriveTrain.java:35)\n\tat frc.robot.subsystems.SubsystemsContainer.<init>(SubsystemsContainer.java:89)\n\tat frc.robot.Robot.robotInit(Robot.java:59)\n\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)\n\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)\n\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)\n\tat frc.robot.Main.main(Main.java:30)\n\nLocation of the current allocation:",
+        "location": "frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)",
+        "callStack": "\tat edu.wpi.first.hal.PWMJNI.initializePWMPort(Native Method)\n\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:66)\n\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:53)\n\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)\n\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)\n\tat frc.robot.commands.driveTrainCommands.TuneBrakeSystem.<init>(TuneBrakeSystem.java:34)\n\tat frc.robot.oi.SmartDashboard4905.<init>(SmartDashboard4905.java:92)\n\tat frc.robot.oi.OIContainer.<init>(OIContainer.java:38)\n\tat frc.robot.Robot.robotInit(Robot.java:60)\n\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)\n\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)\n\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)\n\tat frc.robot.Main.main(Main.java:30)\n",
+        "messageType": 0
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.859375,
+        "seqNumber": -22797,
+        "line": "Error at frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35): Unhandled exception: edu.wpi.first.hal.util.AllocationException: Code: -1029"
+    },
+    {
+        "timestamp": 8.85986328125,
+        "seqNumber": -22796,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "The robot program quit unexpectedly. This is usually due to a code error.\n  The above stacktrace can help determine where the error occurred.\n  See https://wpilib.org/stacktrace for more information.",
+        "location": "edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:358)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.8603515625,
+        "seqNumber": -22795,
+        "line": "PWM or DIO 8 previously allocated."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.8603515625,
+        "seqNumber": -22794,
+        "line": "Location of the previous allocation:"
+    },
+    {
+        "timestamp": 8.8603515625,
+        "seqNumber": -22793,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 1,
+        "details": "The startCompetition() method (or methods called by it) should have handled the exception above.",
+        "location": "edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365)",
+        "callStack": "",
+        "messageType": 0
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86083984375,
+        "seqNumber": -22792,
+        "line": "\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86083984375,
+        "seqNumber": -22791,
+        "line": "\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.861328125,
+        "seqNumber": -22790,
+        "line": "\tat frc.robot.subsystems.drivetrain.RealDriveTrain.<init>(RealDriveTrain.java:42)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86181640625,
+        "seqNumber": -22789,
+        "line": "\tat frc.robot.subsystems.drivetrain.SparkMaxDriveTrain.<init>(SparkMaxDriveTrain.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.8623046875,
+        "seqNumber": -22788,
+        "line": "\tat frc.robot.subsystems.SubsystemsContainer.<init>(SubsystemsContainer.java:89)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86279296875,
+        "seqNumber": -22787,
+        "line": "\tat frc.robot.Robot.robotInit(Robot.java:59)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86328125,
+        "seqNumber": -22786,
+        "line": "\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86328125,
+        "seqNumber": -22785,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86376953125,
+        "seqNumber": -22784,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.8642578125,
+        "seqNumber": -22783,
+        "line": "\tat frc.robot.Main.main(Main.java:30)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86474609375,
+        "seqNumber": -22782,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.865234375,
+        "seqNumber": -22781,
+        "line": "Location of the current allocation:"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.865234375,
+        "seqNumber": -22780,
+        "line": "\tat edu.wpi.first.hal.PWMJNI.initializePWMPort(Native Method)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86572265625,
+        "seqNumber": -22779,
+        "line": "\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:66)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.8662109375,
+        "seqNumber": -22778,
+        "line": "\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:53)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86669921875,
+        "seqNumber": -22777,
+        "line": "\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.8681640625,
+        "seqNumber": -22776,
+        "line": "\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86865234375,
+        "seqNumber": -22775,
+        "line": "\tat frc.robot.commands.driveTrainCommands.TuneBrakeSystem.<init>(TuneBrakeSystem.java:34)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86865234375,
+        "seqNumber": -22774,
+        "line": "\tat frc.robot.oi.SmartDashboard4905.<init>(SmartDashboard4905.java:92)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.86962890625,
+        "seqNumber": -22773,
+        "line": "\tat frc.robot.oi.OIContainer.<init>(OIContainer.java:38)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.8701171875,
+        "seqNumber": -22772,
+        "line": "\tat frc.robot.Robot.robotInit(Robot.java:60)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.87060546875,
+        "seqNumber": -22771,
+        "line": "\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.87060546875,
+        "seqNumber": -22770,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.87158203125,
+        "seqNumber": -22769,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.87158203125,
+        "seqNumber": -22768,
+        "line": "\tat frc.robot.Main.main(Main.java:30)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.8720703125,
+        "seqNumber": -22767,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.87255859375,
+        "seqNumber": -22766,
+        "line": "Warning at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:358): The robot program quit unexpectedly. This is usually due to a code error."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.873046875,
+        "seqNumber": -22765,
+        "line": "  The above stacktrace can help determine where the error occurred."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.87353515625,
+        "seqNumber": -22764,
+        "line": "  See https://wpilib.org/stacktrace for more information."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 8.87451171875,
+        "seqNumber": -22763,
+        "line": "Error at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365): The startCompetition() method (or methods called by it) should have handled the exception above."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.19677734375,
+        "seqNumber": -22762,
+        "line": "pure virtual method called"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 9.197265625,
+        "seqNumber": -22761,
+        "line": "terminate called without an active exception"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 11.61181640625,
+        "seqNumber": -22760,
+        "line": "Trace Base Directory: /home/lvuser/traceLogs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 11.61572265625,
+        "seqNumber": -22759,
+        "line": "Setting start time to: 1676338884835"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 11.61767578125,
+        "seqNumber": -22758,
+        "line": "Found trace numb file: /home/lvuser/traceLogs/.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 11.6240234375,
+        "seqNumber": -22757,
+        "line": "OS is Linux"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 11.62841796875,
+        "seqNumber": -22756,
+        "line": "Created trace file /home/lvuser/traceLogs.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 11.63134765625,
+        "seqNumber": -22755,
+        "line": "Redirected console output."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 12.3076171875,
+        "seqNumber": -22754,
+        "line": "********** Robot program starting **********"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 12.5595703125,
+        "seqNumber": -22753,
+        "line": "NT: could not open persistent file '/home/lvuser/networktables.json': No such file or directory"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 12.5625,
+        "seqNumber": -22752,
+        "line": "NT: Listening on NT3 port 1735, NT4 port 5810"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 12.62646484375,
+        "seqNumber": -22751,
+        "line": "NT: Got a NT3 connection from 10.49.5.173 port 62479"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 12.64013671875,
+        "seqNumber": -22750,
+        "line": "NT: CONNECTED NT3 client 'NT3@10.49.5.173:62479' (from 10.49.5.173:62479)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 12.90576171875,
+        "seqNumber": -22749,
+        "line": "SysTime(ms): 1676338886113  CorrectedTime(ms): 1278  RunTime(s)1.278  Cmd: robot init started "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.3466796875,
+        "seqNumber": -22748,
+        "line": "loaded config commandconstants.conf from /home/lvuser/deploy/robotConfigs/SAM/commandconstants.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.359375,
+        "seqNumber": -22747,
+        "line": "Config(SimpleConfigObject({\"BalanceRobot\":{\"Kd\":0,\"Ki\":0.001,\"Kp\":0.01,\"minOutputToMove\":0.075,\"tolerance\":1},\"GyroPIDCommands\":{\"TurningDTerm\":0,\"TurningITerm\":0,\"TurningPTerm\":0.006,\"minOutputToMove\":0.095,\"positionTolerance\":2,\"velocityTolerance\":10},\"MoveUsingEncoder\":{\"Kd\":0,\"Ki\":0,\"Kp\":0.01,\"minOutputToMove\":0.075,\"positionTolerance\":0.5,\"velocityTolerance\":3}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.36279296875,
+        "seqNumber": -22746,
+        "line": "loaded config controllers.conf from /home/lvuser/deploy/robotConfigs/SAM/controllers.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.36328125,
+        "seqNumber": -22745,
+        "line": "Config(SimpleConfigObject({\"driveController\":{},\"subsystemController\":{}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.36767578125,
+        "seqNumber": -22744,
+        "line": "loaded config sensors.conf from /home/lvuser/deploy/robotConfigs/SAM/sensors.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.3681640625,
+        "seqNumber": -22743,
+        "line": "Config(SimpleConfigObject({\"navx\":{\"port\":\"MXP\"}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4306640625,
+        "seqNumber": -22742,
+        "line": "loaded config drivetrain.conf from /home/lvuser/deploy/robotConfigs/SAM/drivetrain.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.439453125,
+        "seqNumber": -22741,
+        "line": "Config(SimpleConfigObject({\"backleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"backright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"frontleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"frontright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"gyrocorrect\":{\"kproportion\":0.025},\"leftbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":8},\"motorController\":\"sparkMax\",\"ports\":{\"backleft\":3,\"backright\":4,\"frontleft\":1,\"frontright\":2},\"rightSideInverted\":false,\"rightbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":9},\"teleop\":{\"fastmodefowardbackscale\":0.75,\"fastmoderotatescale\":0.75,\"kdelay\":25,\"kproportion\":0.025,\"midmodefowardbackscale\":0.5,\"midmoderotatescale\":0.5,\"slowmodefowardbackscale\":0.35,\"slowmoderotatescale\":0.35},\"ticksPerInch\":29.4}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4423828125,
+        "seqNumber": -22740,
+        "line": "loaded config climber.conf from /home/lvuser/deploy/robotConfigs/SAM/climber.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.44287109375,
+        "seqNumber": -22739,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4453125,
+        "seqNumber": -22738,
+        "line": "loaded config LED.conf from /home/lvuser/deploy/robotConfigs/SAM/LED.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.44580078125,
+        "seqNumber": -22737,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4482421875,
+        "seqNumber": -22736,
+        "line": "loaded config harvester.conf from /home/lvuser/deploy/robotConfigs/SAM/harvester.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.44873046875,
+        "seqNumber": -22735,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.451171875,
+        "seqNumber": -22734,
+        "line": "loaded config conveyor.conf from /home/lvuser/deploy/robotConfigs/SAM/conveyor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.45166015625,
+        "seqNumber": -22733,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.455078125,
+        "seqNumber": -22732,
+        "line": "loaded config compressor.conf from /home/lvuser/deploy/robotConfigs/SAM/compressor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4560546875,
+        "seqNumber": -22731,
+        "line": "Config(SimpleConfigObject({\"ModuleType\":\"REVPH\"}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4580078125,
+        "seqNumber": -22730,
+        "line": "loaded config cannon.conf from /home/lvuser/deploy/robotConfigs/SAM/cannon.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.45849609375,
+        "seqNumber": -22729,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.46044921875,
+        "seqNumber": -22728,
+        "line": "loaded config romiBallMopper.conf from /home/lvuser/deploy/robotConfigs/SAM/romiBallMopper.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4609375,
+        "seqNumber": -22727,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.462890625,
+        "seqNumber": -22726,
+        "line": "loaded config wings.conf from /home/lvuser/deploy/robotConfigs/SAM/wings.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.46337890625,
+        "seqNumber": -22725,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.46533203125,
+        "seqNumber": -22724,
+        "line": "loaded config shooter.conf from /home/lvuser/deploy/robotConfigs/SAM/shooter.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4658203125,
+        "seqNumber": -22723,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.46826171875,
+        "seqNumber": -22722,
+        "line": "loaded config intake.conf from /home/lvuser/deploy/robotConfigs/SAM/intake.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.46875,
+        "seqNumber": -22721,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.47021484375,
+        "seqNumber": -22720,
+        "line": "loaded config feeder.conf from /home/lvuser/deploy/robotConfigs/SAM/feeder.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.47119140625,
+        "seqNumber": -22719,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.4716796875,
+        "seqNumber": -22718,
+        "line": "Robot name = SAM"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.47314453125,
+        "seqNumber": -22717,
+        "line": "Using real NavX Gyro sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.47900390625,
+        "seqNumber": -22716,
+        "line": "Creating a NavX Gyro on port: MXP"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.53955078125,
+        "seqNumber": -22715,
+        "line": "navX-Sensor Java library for FRC"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.67138671875,
+        "seqNumber": -22714,
+        "line": "Created NavX instance"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.6865234375,
+        "seqNumber": -22713,
+        "line": "Using fake cameras"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.6884765625,
+        "seqNumber": -22712,
+        "line": "Using fake LimeLight"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.69189453125,
+        "seqNumber": -22711,
+        "line": "Using mock analog 41 IR sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.69384765625,
+        "seqNumber": -22710,
+        "line": "Using mock Color sensor for the front"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.69482421875,
+        "seqNumber": -22709,
+        "line": "Using mock Color sensor for the back"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.75927734375,
+        "seqNumber": -22708,
+        "line": "navX-Sensor Connected."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.7998046875,
+        "seqNumber": -22707,
+        "line": "Using real Drive Train."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.80224609375,
+        "seqNumber": -22706,
+        "line": "Using real sparkMax Drive Train"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.85302734375,
+        "seqNumber": -22705,
+        "line": "RealDriveTrain kProportion = 0.025"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.94775390625,
+        "seqNumber": -22704,
+        "line": "Enabling SparkMaxController \"frontleft\" for port 1"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.9609375,
+        "seqNumber": -22703,
+        "line": "navX-Sensor Board Type 50 (navX2-MXP (Gen 2))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.96337890625,
+        "seqNumber": -22702,
+        "line": "navX-Sensor firmware version 4.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.96337890625,
+        "seqNumber": -22701,
+        "line": "navX-Sensor onboard startup calibration complete."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.9638671875,
+        "seqNumber": -22700,
+        "line": "navX-Sensor Yaw angle auto-reset to 0.0 due to startup calibration."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 13.98779296875,
+        "seqNumber": -22699,
+        "line": "Enabling SparkMaxController \"backleft\" for port 3"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.00390625,
+        "seqNumber": -22698,
+        "line": "Enabling SparkMaxController \"frontright\" for port 2"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.02001953125,
+        "seqNumber": -22697,
+        "line": "Enabling SparkMaxController \"backright\" for port 4"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.064453125,
+        "seqNumber": -22696,
+        "line": "Using Mock LEDs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.072265625,
+        "seqNumber": -22695,
+        "line": "using real Compressor."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.19140625,
+        "seqNumber": -22694,
+        "line": "Using mock Cannon"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.19189453125,
+        "seqNumber": -22693,
+        "line": "using mock Romi Ball Mopper."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.1943359375,
+        "seqNumber": -22692,
+        "line": "using mock shooters"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.197265625,
+        "seqNumber": -22691,
+        "line": "using mock Intake"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.19873046875,
+        "seqNumber": -22690,
+        "line": "Using mock feeder"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.2021484375,
+        "seqNumber": -22689,
+        "line": "Creating drive controller"
+    },
+    {
+        "timestamp": 14.31005859375,
+        "seqNumber": -22688,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "Joystick POV 0 on port 0 not available, check if controller is plugged in",
+        "location": "edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1260)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.31103515625,
+        "seqNumber": -22687,
+        "line": "Warning at edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1260): Joystick POV 0 on port 0 not available, check if controller is plugged in"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.33837890625,
+        "seqNumber": -22686,
+        "line": "Creating subsystem controller"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.45947265625,
+        "seqNumber": -22685,
+        "line": "Generating path for DriveTrainRectangularPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.4619140625,
+        "seqNumber": -22684,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.462890625,
+        "seqNumber": -22683,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.46435546875,
+        "seqNumber": -22682,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.46533203125,
+        "seqNumber": -22681,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.48876953125,
+        "seqNumber": -22680,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.490234375,
+        "seqNumber": -22679,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.49267578125,
+        "seqNumber": -22678,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.49365234375,
+        "seqNumber": -22677,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.49609375,
+        "seqNumber": -22676,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.49755859375,
+        "seqNumber": -22675,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.50048828125,
+        "seqNumber": -22674,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5009765625,
+        "seqNumber": -22673,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.50634765625,
+        "seqNumber": -22672,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5078125,
+        "seqNumber": -22671,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5126953125,
+        "seqNumber": -22670,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.51416015625,
+        "seqNumber": -22669,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.517578125,
+        "seqNumber": -22668,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.51806640625,
+        "seqNumber": -22667,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5224609375,
+        "seqNumber": -22666,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.52294921875,
+        "seqNumber": -22665,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.52587890625,
+        "seqNumber": -22664,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5263671875,
+        "seqNumber": -22663,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.54736328125,
+        "seqNumber": -22662,
+        "line": "Generating path for DriveTrainDiagonalPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.55078125,
+        "seqNumber": -22661,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5517578125,
+        "seqNumber": -22660,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5546875,
+        "seqNumber": -22659,
+        "line": "Direction: forward\tdistance: 0.0\tangle: NaN"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.55615234375,
+        "seqNumber": -22658,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.55615234375,
+        "seqNumber": -22657,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.56103515625,
+        "seqNumber": -22656,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 0.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.56201171875,
+        "seqNumber": -22655,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5625,
+        "seqNumber": -22654,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.56591796875,
+        "seqNumber": -22653,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 90.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.56640625,
+        "seqNumber": -22652,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5673828125,
+        "seqNumber": -22651,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5703125,
+        "seqNumber": -22650,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 180.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.57080078125,
+        "seqNumber": -22649,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.57177734375,
+        "seqNumber": -22648,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.57470703125,
+        "seqNumber": -22647,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 270.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5751953125,
+        "seqNumber": -22646,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.576171875,
+        "seqNumber": -22645,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.57958984375,
+        "seqNumber": -22644,
+        "line": "Direction: reverse\tdistance: -9.604165762834375\tangle: 211.37300514010846"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.58056640625,
+        "seqNumber": -22643,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.58154296875,
+        "seqNumber": -22642,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.58740234375,
+        "seqNumber": -22641,
+        "line": "Direction: forward\tdistance: 15.402921800749363\tangle: 230.00391995224035"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.58837890625,
+        "seqNumber": -22640,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.58935546875,
+        "seqNumber": -22639,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5947265625,
+        "seqNumber": -22638,
+        "line": "Direction: reverse\tdistance: -16.142478124501206\tangle: 290.29848182042133"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.59619140625,
+        "seqNumber": -22637,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.5986328125,
+        "seqNumber": -22636,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.60400390625,
+        "seqNumber": -22635,
+        "line": "Direction: forward\tdistance: 18.905261172488466\tangle: 316.22161037831773"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.60693359375,
+        "seqNumber": -22634,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.60888671875,
+        "seqNumber": -22633,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.61572265625,
+        "seqNumber": -22632,
+        "line": "Direction: reverse\tdistance: -7.924020444193717\tangle: 323.2602540776968"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6171875,
+        "seqNumber": -22631,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6171875,
+        "seqNumber": -22630,
+        "line": ""
+    },
+    {
+        "timestamp": 14.673828125,
+        "seqNumber": -22629,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 1,
+        "details": "Unhandled exception: edu.wpi.first.hal.util.AllocationException: Code: -1029\nPWM or DIO 8 previously allocated.\nLocation of the previous allocation:\n\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)\n\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)\n\tat frc.robot.subsystems.drivetrain.RealDriveTrain.<init>(RealDriveTrain.java:42)\n\tat frc.robot.subsystems.drivetrain.SparkMaxDriveTrain.<init>(SparkMaxDriveTrain.java:35)\n\tat frc.robot.subsystems.SubsystemsContainer.<init>(SubsystemsContainer.java:89)\n\tat frc.robot.Robot.robotInit(Robot.java:59)\n\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)\n\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)\n\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)\n\tat frc.robot.Main.main(Main.java:30)\n\nLocation of the current allocation:",
+        "location": "frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)",
+        "callStack": "\tat edu.wpi.first.hal.PWMJNI.initializePWMPort(Native Method)\n\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:66)\n\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:53)\n\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)\n\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)\n\tat frc.robot.commands.driveTrainCommands.TuneBrakeSystem.<init>(TuneBrakeSystem.java:34)\n\tat frc.robot.oi.SmartDashboard4905.<init>(SmartDashboard4905.java:92)\n\tat frc.robot.oi.OIContainer.<init>(OIContainer.java:38)\n\tat frc.robot.Robot.robotInit(Robot.java:60)\n\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)\n\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)\n\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)\n\tat frc.robot.Main.main(Main.java:30)\n",
+        "messageType": 0
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6748046875,
+        "seqNumber": -22628,
+        "line": "Error at frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35): Unhandled exception: edu.wpi.first.hal.util.AllocationException: Code: -1029"
+    },
+    {
+        "timestamp": 14.6748046875,
+        "seqNumber": -22627,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "The robot program quit unexpectedly. This is usually due to a code error.\n  The above stacktrace can help determine where the error occurred.\n  See https://wpilib.org/stacktrace for more information.",
+        "location": "edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:358)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67529296875,
+        "seqNumber": -22626,
+        "line": "PWM or DIO 8 previously allocated."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67529296875,
+        "seqNumber": -22625,
+        "line": "Location of the previous allocation:"
+    },
+    {
+        "timestamp": 14.67529296875,
+        "seqNumber": -22624,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 1,
+        "details": "The startCompetition() method (or methods called by it) should have handled the exception above.",
+        "location": "edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365)",
+        "callStack": "",
+        "messageType": 0
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67578125,
+        "seqNumber": -22623,
+        "line": "\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67578125,
+        "seqNumber": -22622,
+        "line": "\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67626953125,
+        "seqNumber": -22621,
+        "line": "\tat frc.robot.subsystems.drivetrain.RealDriveTrain.<init>(RealDriveTrain.java:42)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67626953125,
+        "seqNumber": -22620,
+        "line": "\tat frc.robot.subsystems.drivetrain.SparkMaxDriveTrain.<init>(SparkMaxDriveTrain.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6767578125,
+        "seqNumber": -22619,
+        "line": "\tat frc.robot.subsystems.SubsystemsContainer.<init>(SubsystemsContainer.java:89)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67724609375,
+        "seqNumber": -22618,
+        "line": "\tat frc.robot.Robot.robotInit(Robot.java:59)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.677734375,
+        "seqNumber": -22617,
+        "line": "\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67822265625,
+        "seqNumber": -22616,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6787109375,
+        "seqNumber": -22615,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67919921875,
+        "seqNumber": -22614,
+        "line": "\tat frc.robot.Main.main(Main.java:30)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.67919921875,
+        "seqNumber": -22613,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6796875,
+        "seqNumber": -22612,
+        "line": "Location of the current allocation:"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68017578125,
+        "seqNumber": -22611,
+        "line": "\tat edu.wpi.first.hal.PWMJNI.initializePWMPort(Native Method)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68017578125,
+        "seqNumber": -22610,
+        "line": "\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:66)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6806640625,
+        "seqNumber": -22609,
+        "line": "\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:53)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.681640625,
+        "seqNumber": -22608,
+        "line": "\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.681640625,
+        "seqNumber": -22607,
+        "line": "\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68212890625,
+        "seqNumber": -22606,
+        "line": "\tat frc.robot.commands.driveTrainCommands.TuneBrakeSystem.<init>(TuneBrakeSystem.java:34)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68212890625,
+        "seqNumber": -22605,
+        "line": "\tat frc.robot.oi.SmartDashboard4905.<init>(SmartDashboard4905.java:92)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68310546875,
+        "seqNumber": -22604,
+        "line": "\tat frc.robot.oi.OIContainer.<init>(OIContainer.java:38)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68359375,
+        "seqNumber": -22603,
+        "line": "\tat frc.robot.Robot.robotInit(Robot.java:60)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6845703125,
+        "seqNumber": -22602,
+        "line": "\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6845703125,
+        "seqNumber": -22601,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68505859375,
+        "seqNumber": -22600,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.685546875,
+        "seqNumber": -22599,
+        "line": "\tat frc.robot.Main.main(Main.java:30)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.685546875,
+        "seqNumber": -22598,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68701171875,
+        "seqNumber": -22597,
+        "line": "Warning at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:358): The robot program quit unexpectedly. This is usually due to a code error."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.68701171875,
+        "seqNumber": -22596,
+        "line": "  The above stacktrace can help determine where the error occurred."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6875,
+        "seqNumber": -22595,
+        "line": "  See https://wpilib.org/stacktrace for more information."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 14.6884765625,
+        "seqNumber": -22594,
+        "line": "Error at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365): The startCompetition() method (or methods called by it) should have handled the exception above."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 15.0185546875,
+        "seqNumber": -22593,
+        "line": "pure virtual method called"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 15.01904296875,
+        "seqNumber": -22592,
+        "line": "terminate called without an active exception"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 17.4189453125,
+        "seqNumber": -22591,
+        "line": "Trace Base Directory: /home/lvuser/traceLogs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 17.42431640625,
+        "seqNumber": -22590,
+        "line": "Setting start time to: 1676338890643"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 17.4248046875,
+        "seqNumber": -22589,
+        "line": "Found trace numb file: /home/lvuser/traceLogs/.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 18.3486328125,
+        "seqNumber": -22588,
+        "line": "OS is Linux"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 18.353515625,
+        "seqNumber": -22587,
+        "line": "Created trace file /home/lvuser/traceLogs.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 18.35595703125,
+        "seqNumber": -22586,
+        "line": "Redirected console output."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.02880859375,
+        "seqNumber": -22585,
+        "line": "********** Robot program starting **********"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.138671875,
+        "seqNumber": -22584,
+        "line": "NT: could not open persistent file '/home/lvuser/networktables.json': No such file or directory"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.1416015625,
+        "seqNumber": -22583,
+        "line": "NT: Listening on NT3 port 1735, NT4 port 5810"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.1884765625,
+        "seqNumber": -22582,
+        "line": "NT: Got a NT3 connection from 10.49.5.173 port 62487"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.18896484375,
+        "seqNumber": -22581,
+        "line": "NT: CONNECTED NT3 client 'NT3@10.49.5.173:62487' (from 10.49.5.173:62487)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.46826171875,
+        "seqNumber": -22580,
+        "line": "SysTime(ms): 1676338892676  CorrectedTime(ms): 2033  RunTime(s)2.033  Cmd: robot init started "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.90234375,
+        "seqNumber": -22579,
+        "line": "loaded config commandconstants.conf from /home/lvuser/deploy/robotConfigs/SAM/commandconstants.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.912109375,
+        "seqNumber": -22578,
+        "line": "Config(SimpleConfigObject({\"BalanceRobot\":{\"Kd\":0,\"Ki\":0.001,\"Kp\":0.01,\"minOutputToMove\":0.075,\"tolerance\":1},\"GyroPIDCommands\":{\"TurningDTerm\":0,\"TurningITerm\":0,\"TurningPTerm\":0.006,\"minOutputToMove\":0.095,\"positionTolerance\":2,\"velocityTolerance\":10},\"MoveUsingEncoder\":{\"Kd\":0,\"Ki\":0,\"Kp\":0.01,\"minOutputToMove\":0.075,\"positionTolerance\":0.5,\"velocityTolerance\":3}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.916015625,
+        "seqNumber": -22577,
+        "line": "loaded config controllers.conf from /home/lvuser/deploy/robotConfigs/SAM/controllers.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.91650390625,
+        "seqNumber": -22576,
+        "line": "Config(SimpleConfigObject({\"driveController\":{},\"subsystemController\":{}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.92041015625,
+        "seqNumber": -22575,
+        "line": "loaded config sensors.conf from /home/lvuser/deploy/robotConfigs/SAM/sensors.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.9208984375,
+        "seqNumber": -22574,
+        "line": "Config(SimpleConfigObject({\"navx\":{\"port\":\"MXP\"}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.9794921875,
+        "seqNumber": -22573,
+        "line": "loaded config drivetrain.conf from /home/lvuser/deploy/robotConfigs/SAM/drivetrain.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.98876953125,
+        "seqNumber": -22572,
+        "line": "Config(SimpleConfigObject({\"backleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"backright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"frontleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"frontright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"gyrocorrect\":{\"kproportion\":0.025},\"leftbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":8},\"motorController\":\"sparkMax\",\"ports\":{\"backleft\":3,\"backright\":4,\"frontleft\":1,\"frontright\":2},\"rightSideInverted\":false,\"rightbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":9},\"teleop\":{\"fastmodefowardbackscale\":0.75,\"fastmoderotatescale\":0.75,\"kdelay\":25,\"kproportion\":0.025,\"midmodefowardbackscale\":0.5,\"midmoderotatescale\":0.5,\"slowmodefowardbackscale\":0.35,\"slowmoderotatescale\":0.35},\"ticksPerInch\":29.4}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.9912109375,
+        "seqNumber": -22571,
+        "line": "loaded config climber.conf from /home/lvuser/deploy/robotConfigs/SAM/climber.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.99169921875,
+        "seqNumber": -22570,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.99365234375,
+        "seqNumber": -22569,
+        "line": "loaded config LED.conf from /home/lvuser/deploy/robotConfigs/SAM/LED.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.99462890625,
+        "seqNumber": -22568,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.99658203125,
+        "seqNumber": -22567,
+        "line": "loaded config harvester.conf from /home/lvuser/deploy/robotConfigs/SAM/harvester.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.9970703125,
+        "seqNumber": -22566,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 19.99951171875,
+        "seqNumber": -22565,
+        "line": "loaded config conveyor.conf from /home/lvuser/deploy/robotConfigs/SAM/conveyor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.00048828125,
+        "seqNumber": -22564,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.00390625,
+        "seqNumber": -22563,
+        "line": "loaded config compressor.conf from /home/lvuser/deploy/robotConfigs/SAM/compressor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.0048828125,
+        "seqNumber": -22562,
+        "line": "Config(SimpleConfigObject({\"ModuleType\":\"REVPH\"}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.00634765625,
+        "seqNumber": -22561,
+        "line": "loaded config cannon.conf from /home/lvuser/deploy/robotConfigs/SAM/cannon.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.00732421875,
+        "seqNumber": -22560,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.009765625,
+        "seqNumber": -22559,
+        "line": "loaded config romiBallMopper.conf from /home/lvuser/deploy/robotConfigs/SAM/romiBallMopper.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.01025390625,
+        "seqNumber": -22558,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.01171875,
+        "seqNumber": -22557,
+        "line": "loaded config wings.conf from /home/lvuser/deploy/robotConfigs/SAM/wings.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.0126953125,
+        "seqNumber": -22556,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.01416015625,
+        "seqNumber": -22555,
+        "line": "loaded config shooter.conf from /home/lvuser/deploy/robotConfigs/SAM/shooter.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.01513671875,
+        "seqNumber": -22554,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.0166015625,
+        "seqNumber": -22553,
+        "line": "loaded config intake.conf from /home/lvuser/deploy/robotConfigs/SAM/intake.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.01708984375,
+        "seqNumber": -22552,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.01904296875,
+        "seqNumber": -22551,
+        "line": "loaded config feeder.conf from /home/lvuser/deploy/robotConfigs/SAM/feeder.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.02001953125,
+        "seqNumber": -22550,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.0205078125,
+        "seqNumber": -22549,
+        "line": "Robot name = SAM"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.02099609375,
+        "seqNumber": -22548,
+        "line": "Using real NavX Gyro sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.02685546875,
+        "seqNumber": -22547,
+        "line": "Creating a NavX Gyro on port: MXP"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.08447265625,
+        "seqNumber": -22546,
+        "line": "navX-Sensor Java library for FRC"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.2119140625,
+        "seqNumber": -22545,
+        "line": "Created NavX instance"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.22412109375,
+        "seqNumber": -22544,
+        "line": "Using fake cameras"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.22509765625,
+        "seqNumber": -22543,
+        "line": "Using fake LimeLight"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.2275390625,
+        "seqNumber": -22542,
+        "line": "Using mock analog 41 IR sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.23388671875,
+        "seqNumber": -22541,
+        "line": "Using mock Color sensor for the front"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.23486328125,
+        "seqNumber": -22540,
+        "line": "Using mock Color sensor for the back"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.3193359375,
+        "seqNumber": -22539,
+        "line": "Using real Drive Train."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.3203125,
+        "seqNumber": -22538,
+        "line": "Using real sparkMax Drive Train"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.34326171875,
+        "seqNumber": -22537,
+        "line": "RealDriveTrain kProportion = 0.025"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.4345703125,
+        "seqNumber": -22536,
+        "line": "Enabling SparkMaxController \"frontleft\" for port 1"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.45947265625,
+        "seqNumber": -22535,
+        "line": "Enabling SparkMaxController \"backleft\" for port 3"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.470703125,
+        "seqNumber": -22534,
+        "line": "navX-Sensor Connected."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.47119140625,
+        "seqNumber": -22533,
+        "line": "navX-Sensor onboard startup calibration complete."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.47119140625,
+        "seqNumber": -22532,
+        "line": "navX-Sensor Yaw angle auto-reset to 0.0 due to startup calibration."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.47998046875,
+        "seqNumber": -22531,
+        "line": "Enabling SparkMaxController \"frontright\" for port 2"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.4970703125,
+        "seqNumber": -22530,
+        "line": "Enabling SparkMaxController \"backright\" for port 4"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.544921875,
+        "seqNumber": -22529,
+        "line": "Using Mock LEDs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.5517578125,
+        "seqNumber": -22528,
+        "line": "using real Compressor."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.80712890625,
+        "seqNumber": -22527,
+        "line": "Using mock Cannon"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.80859375,
+        "seqNumber": -22526,
+        "line": "using mock Romi Ball Mopper."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.810546875,
+        "seqNumber": -22525,
+        "line": "using mock shooters"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.81298828125,
+        "seqNumber": -22524,
+        "line": "using mock Intake"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.81396484375,
+        "seqNumber": -22523,
+        "line": "Using mock feeder"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.81689453125,
+        "seqNumber": -22522,
+        "line": "Creating drive controller"
+    },
+    {
+        "timestamp": 20.92431640625,
+        "seqNumber": -22521,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "Joystick POV 0 on port 0 not available, check if controller is plugged in",
+        "location": "edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1260)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.9248046875,
+        "seqNumber": -22520,
+        "line": "Warning at edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1260): Joystick POV 0 on port 0 not available, check if controller is plugged in"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 20.94970703125,
+        "seqNumber": -22519,
+        "line": "Creating subsystem controller"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.0654296875,
+        "seqNumber": -22518,
+        "line": "Generating path for DriveTrainRectangularPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.06787109375,
+        "seqNumber": -22517,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.068359375,
+        "seqNumber": -22516,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.068359375,
+        "seqNumber": -22515,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.06884765625,
+        "seqNumber": -22514,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.08984375,
+        "seqNumber": -22513,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.09033203125,
+        "seqNumber": -22512,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.0927734375,
+        "seqNumber": -22511,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.09326171875,
+        "seqNumber": -22510,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.0966796875,
+        "seqNumber": -22509,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.09716796875,
+        "seqNumber": -22508,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.0986328125,
+        "seqNumber": -22507,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.09912109375,
+        "seqNumber": -22506,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.10400390625,
+        "seqNumber": -22505,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.10498046875,
+        "seqNumber": -22504,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.1142578125,
+        "seqNumber": -22503,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.11474609375,
+        "seqNumber": -22502,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.1201171875,
+        "seqNumber": -22501,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.1201171875,
+        "seqNumber": -22500,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.12548828125,
+        "seqNumber": -22499,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.12548828125,
+        "seqNumber": -22498,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.13037109375,
+        "seqNumber": -22497,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.130859375,
+        "seqNumber": -22496,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.15185546875,
+        "seqNumber": -22495,
+        "line": "Generating path for DriveTrainDiagonalPath"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.15673828125,
+        "seqNumber": -22494,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.1572265625,
+        "seqNumber": -22493,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.1611328125,
+        "seqNumber": -22492,
+        "line": "Direction: forward\tdistance: 0.0\tangle: NaN"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.16162109375,
+        "seqNumber": -22491,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.162109375,
+        "seqNumber": -22490,
+        "line": "Waypoint 2: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.169921875,
+        "seqNumber": -22489,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 0.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.17041015625,
+        "seqNumber": -22488,
+        "line": "Waypoint 1: (0.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.17041015625,
+        "seqNumber": -22487,
+        "line": "Waypoint 2: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.173828125,
+        "seqNumber": -22486,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 90.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.1748046875,
+        "seqNumber": -22485,
+        "line": "Waypoint 1: (8.0, 8.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.1748046875,
+        "seqNumber": -22484,
+        "line": "Waypoint 2: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.18310546875,
+        "seqNumber": -22483,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 180.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.18359375,
+        "seqNumber": -22482,
+        "line": "Waypoint 1: (8.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.18359375,
+        "seqNumber": -22481,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.189453125,
+        "seqNumber": -22480,
+        "line": "Direction: forward\tdistance: 8.0\tangle: 270.0"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.19140625,
+        "seqNumber": -22479,
+        "line": "Waypoint 1: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.1943359375,
+        "seqNumber": -22478,
+        "line": "Waypoint 2: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.19921875,
+        "seqNumber": -22477,
+        "line": "Direction: reverse\tdistance: -9.604165762834375\tangle: 211.37300514010846"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2001953125,
+        "seqNumber": -22476,
+        "line": "Waypoint 1: (5.0, 8.2)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.20068359375,
+        "seqNumber": -22475,
+        "line": "Waypoint 2: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.20703125,
+        "seqNumber": -22474,
+        "line": "Direction: forward\tdistance: 15.402921800749363\tangle: 230.00391995224035"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.20751953125,
+        "seqNumber": -22473,
+        "line": "Waypoint 1: (-6.8, -1.7)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.20849609375,
+        "seqNumber": -22472,
+        "line": "Waypoint 2: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.21142578125,
+        "seqNumber": -22471,
+        "line": "Direction: reverse\tdistance: -16.142478124501206\tangle: 290.29848182042133"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2119140625,
+        "seqNumber": -22470,
+        "line": "Waypoint 1: (8.34, -7.3)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.212890625,
+        "seqNumber": -22469,
+        "line": "Waypoint 2: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2158203125,
+        "seqNumber": -22468,
+        "line": "Direction: forward\tdistance: 18.905261172488466\tangle: 316.22161037831773"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.21630859375,
+        "seqNumber": -22467,
+        "line": "Waypoint 1: (-4.74, 6.35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.21630859375,
+        "seqNumber": -22466,
+        "line": "Waypoint 2: (0.0, 0.0)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.21923828125,
+        "seqNumber": -22465,
+        "line": "Direction: reverse\tdistance: -7.924020444193717\tangle: 323.2602540776968"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2197265625,
+        "seqNumber": -22464,
+        "line": "End of generated path"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.22021484375,
+        "seqNumber": -22463,
+        "line": ""
+    },
+    {
+        "timestamp": 21.29150390625,
+        "seqNumber": -22462,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 1,
+        "details": "Unhandled exception: edu.wpi.first.hal.util.AllocationException: Code: -1029\nPWM or DIO 8 previously allocated.\nLocation of the previous allocation:\n\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)\n\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)\n\tat frc.robot.subsystems.drivetrain.RealDriveTrain.<init>(RealDriveTrain.java:42)\n\tat frc.robot.subsystems.drivetrain.SparkMaxDriveTrain.<init>(SparkMaxDriveTrain.java:35)\n\tat frc.robot.subsystems.SubsystemsContainer.<init>(SubsystemsContainer.java:89)\n\tat frc.robot.Robot.robotInit(Robot.java:59)\n\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)\n\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)\n\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)\n\tat frc.robot.Main.main(Main.java:30)\n\nLocation of the current allocation:",
+        "location": "frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)",
+        "callStack": "\tat edu.wpi.first.hal.PWMJNI.initializePWMPort(Native Method)\n\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:66)\n\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:53)\n\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)\n\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)\n\tat frc.robot.commands.driveTrainCommands.TuneBrakeSystem.<init>(TuneBrakeSystem.java:34)\n\tat frc.robot.oi.SmartDashboard4905.<init>(SmartDashboard4905.java:92)\n\tat frc.robot.oi.OIContainer.<init>(OIContainer.java:38)\n\tat frc.robot.Robot.robotInit(Robot.java:60)\n\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)\n\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)\n\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)\n\tat frc.robot.Main.main(Main.java:30)\n",
+        "messageType": 0
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29248046875,
+        "seqNumber": -22461,
+        "line": "Error at frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35): Unhandled exception: edu.wpi.first.hal.util.AllocationException: Code: -1029"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29296875,
+        "seqNumber": -22460,
+        "line": "PWM or DIO 8 previously allocated."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29296875,
+        "seqNumber": -22459,
+        "line": "Location of the previous allocation:"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2939453125,
+        "seqNumber": -22458,
+        "line": "\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2939453125,
+        "seqNumber": -22457,
+        "line": "\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29443359375,
+        "seqNumber": -22456,
+        "line": "\tat frc.robot.subsystems.drivetrain.RealDriveTrain.<init>(RealDriveTrain.java:42)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29443359375,
+        "seqNumber": -22455,
+        "line": "\tat frc.robot.subsystems.drivetrain.SparkMaxDriveTrain.<init>(SparkMaxDriveTrain.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.294921875,
+        "seqNumber": -22454,
+        "line": "\tat frc.robot.subsystems.SubsystemsContainer.<init>(SubsystemsContainer.java:89)"
+    },
+    {
+        "timestamp": 21.29541015625,
+        "seqNumber": -22453,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 0,
+        "details": "The robot program quit unexpectedly. This is usually due to a code error.\n  The above stacktrace can help determine where the error occurred.\n  See https://wpilib.org/stacktrace for more information.",
+        "location": "edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:358)",
+        "callStack": "",
+        "messageType": 1
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29541015625,
+        "seqNumber": -22452,
+        "line": "\tat frc.robot.Robot.robotInit(Robot.java:59)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2958984375,
+        "seqNumber": -22451,
+        "line": "\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29638671875,
+        "seqNumber": -22450,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29638671875,
+        "seqNumber": -22449,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.296875,
+        "seqNumber": -22448,
+        "line": "\tat frc.robot.Main.main(Main.java:30)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.296875,
+        "seqNumber": -22447,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29736328125,
+        "seqNumber": -22446,
+        "line": "Location of the current allocation:"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2978515625,
+        "seqNumber": -22445,
+        "line": "\tat edu.wpi.first.hal.PWMJNI.initializePWMPort(Native Method)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29833984375,
+        "seqNumber": -22444,
+        "line": "\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:66)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.298828125,
+        "seqNumber": -22443,
+        "line": "\tat edu.wpi.first.wpilibj.PWM.<init>(PWM.java:53)"
+    },
+    {
+        "timestamp": 21.29931640625,
+        "seqNumber": -22442,
+        "numOccur": 1,
+        "errorCode": 1,
+        "flags": 1,
+        "details": "The startCompetition() method (or methods called by it) should have handled the exception above.",
+        "location": "edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365)",
+        "callStack": "",
+        "messageType": 0
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.29931640625,
+        "seqNumber": -22441,
+        "line": "\tat frc.robot.actuators.ServoMotorPositional.<init>(ServoMotorPositional.java:35)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2998046875,
+        "seqNumber": -22440,
+        "line": "\tat frc.robot.actuators.HitecHS322HDpositionalServoMotor.<init>(HitecHS322HDpositionalServoMotor.java:23)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.2998046875,
+        "seqNumber": -22439,
+        "line": "\tat frc.robot.commands.driveTrainCommands.TuneBrakeSystem.<init>(TuneBrakeSystem.java:34)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.30029296875,
+        "seqNumber": -22438,
+        "line": "\tat frc.robot.oi.SmartDashboard4905.<init>(SmartDashboard4905.java:92)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.30029296875,
+        "seqNumber": -22437,
+        "line": "\tat frc.robot.oi.OIContainer.<init>(OIContainer.java:38)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.30078125,
+        "seqNumber": -22436,
+        "line": "\tat frc.robot.Robot.robotInit(Robot.java:60)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.30126953125,
+        "seqNumber": -22435,
+        "line": "\tat edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:106)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.30126953125,
+        "seqNumber": -22434,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:343)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.3017578125,
+        "seqNumber": -22433,
+        "line": "\tat edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:433)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.3017578125,
+        "seqNumber": -22432,
+        "line": "\tat frc.robot.Main.main(Main.java:30)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.30224609375,
+        "seqNumber": -22431,
+        "line": ""
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.302734375,
+        "seqNumber": -22430,
+        "line": "Warning at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:358): The robot program quit unexpectedly. This is usually due to a code error."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.302734375,
+        "seqNumber": -22429,
+        "line": "  The above stacktrace can help determine where the error occurred."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.30322265625,
+        "seqNumber": -22428,
+        "line": "  See https://wpilib.org/stacktrace for more information."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.3037109375,
+        "seqNumber": -22427,
+        "line": "Error at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365): The startCompetition() method (or methods called by it) should have handled the exception above."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.63330078125,
+        "seqNumber": -22426,
+        "line": "pure virtual method called"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 21.6337890625,
+        "seqNumber": -22425,
+        "line": "terminate called without an active exception"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 24.033203125,
+        "seqNumber": -22424,
+        "line": "Trace Base Directory: /home/lvuser/traceLogs"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 24.037109375,
+        "seqNumber": -22423,
+        "line": "Setting start time to: 1676338897256"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 24.0380859375,
+        "seqNumber": -22422,
+        "line": "Found trace numb file: /home/lvuser/traceLogs/.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 24.8916015625,
+        "seqNumber": -22421,
+        "line": "OS is Linux"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 24.896484375,
+        "seqNumber": -22420,
+        "line": "Created trace file /home/lvuser/traceLogs.traceNumb"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 24.8994140625,
+        "seqNumber": -22419,
+        "line": "Redirected console output."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 25.57861328125,
+        "seqNumber": -22418,
+        "line": "********** Robot program starting **********"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 25.6875,
+        "seqNumber": -22417,
+        "line": "NT: could not open persistent file '/home/lvuser/networktables.json': No such file or directory"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 25.69140625,
+        "seqNumber": -22416,
+        "line": "NT: Listening on NT3 port 1735, NT4 port 5810"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 25.744140625,
+        "seqNumber": -22415,
+        "line": "NT: Got a NT3 connection from 10.49.5.173 port 62495"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 25.75048828125,
+        "seqNumber": -22414,
+        "line": "NT: CONNECTED NT3 client 'NT3@10.49.5.173:62495' (from 10.49.5.173:62495)"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.03515625,
+        "seqNumber": -22413,
+        "line": "SysTime(ms): 1676338899242  CorrectedTime(ms): 1986  RunTime(s)1.986  Cmd: robot init started "
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.47607421875,
+        "seqNumber": -22412,
+        "line": "loaded config commandconstants.conf from /home/lvuser/deploy/robotConfigs/SAM/commandconstants.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.4853515625,
+        "seqNumber": -22411,
+        "line": "Config(SimpleConfigObject({\"BalanceRobot\":{\"Kd\":0,\"Ki\":0.001,\"Kp\":0.01,\"minOutputToMove\":0.075,\"tolerance\":1},\"GyroPIDCommands\":{\"TurningDTerm\":0,\"TurningITerm\":0,\"TurningPTerm\":0.006,\"minOutputToMove\":0.095,\"positionTolerance\":2,\"velocityTolerance\":10},\"MoveUsingEncoder\":{\"Kd\":0,\"Ki\":0,\"Kp\":0.01,\"minOutputToMove\":0.075,\"positionTolerance\":0.5,\"velocityTolerance\":3}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.4892578125,
+        "seqNumber": -22410,
+        "line": "loaded config controllers.conf from /home/lvuser/deploy/robotConfigs/SAM/controllers.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.48974609375,
+        "seqNumber": -22409,
+        "line": "Config(SimpleConfigObject({\"driveController\":{},\"subsystemController\":{}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.49365234375,
+        "seqNumber": -22408,
+        "line": "loaded config sensors.conf from /home/lvuser/deploy/robotConfigs/SAM/sensors.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.49462890625,
+        "seqNumber": -22407,
+        "line": "Config(SimpleConfigObject({\"navx\":{\"port\":\"MXP\"}}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5537109375,
+        "seqNumber": -22406,
+        "line": "loaded config drivetrain.conf from /home/lvuser/deploy/robotConfigs/SAM/drivetrain.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5615234375,
+        "seqNumber": -22405,
+        "line": "Config(SimpleConfigObject({\"backleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"backright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"frontleft\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":true},\"frontright\":{\"brakeMode\":true,\"currentLimit\":60,\"encoderInverted\":false,\"encoderTicksPerRotation\":42,\"hasEncoder\":true,\"hasForwardLimitSwitch\":false,\"hasReverseLimitSwitch\":false,\"inverted\":false},\"gyrocorrect\":{\"kproportion\":0.025},\"leftbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":8},\"motorController\":\"sparkMax\",\"ports\":{\"backleft\":3,\"backright\":4,\"frontleft\":1,\"frontright\":2},\"rightSideInverted\":false,\"rightbrakeservomotor\":{\"centerPWMpusleWithMS\":0,\"deadbandMax\":0,\"deadbandMin\":0,\"maxPWMpulseWidthMS\":2.4,\"minPWMpulseWidthMS\":0.6,\"port\":9},\"teleop\":{\"fastmodefowardbackscale\":0.75,\"fastmoderotatescale\":0.75,\"kdelay\":25,\"kproportion\":0.025,\"midmodefowardbackscale\":0.5,\"midmoderotatescale\":0.5,\"slowmodefowardbackscale\":0.35,\"slowmoderotatescale\":0.35},\"ticksPerInch\":29.4}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.56396484375,
+        "seqNumber": -22404,
+        "line": "loaded config climber.conf from /home/lvuser/deploy/robotConfigs/SAM/climber.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.564453125,
+        "seqNumber": -22403,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.56689453125,
+        "seqNumber": -22402,
+        "line": "loaded config LED.conf from /home/lvuser/deploy/robotConfigs/SAM/LED.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5673828125,
+        "seqNumber": -22401,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5693359375,
+        "seqNumber": -22400,
+        "line": "loaded config harvester.conf from /home/lvuser/deploy/robotConfigs/SAM/harvester.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.56982421875,
+        "seqNumber": -22399,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.57177734375,
+        "seqNumber": -22398,
+        "line": "loaded config conveyor.conf from /home/lvuser/deploy/robotConfigs/SAM/conveyor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.57275390625,
+        "seqNumber": -22397,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.576171875,
+        "seqNumber": -22396,
+        "line": "loaded config compressor.conf from /home/lvuser/deploy/robotConfigs/SAM/compressor.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.57666015625,
+        "seqNumber": -22395,
+        "line": "Config(SimpleConfigObject({\"ModuleType\":\"REVPH\"}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.57861328125,
+        "seqNumber": -22394,
+        "line": "loaded config cannon.conf from /home/lvuser/deploy/robotConfigs/SAM/cannon.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5791015625,
+        "seqNumber": -22393,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5810546875,
+        "seqNumber": -22392,
+        "line": "loaded config romiBallMopper.conf from /home/lvuser/deploy/robotConfigs/SAM/romiBallMopper.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.58154296875,
+        "seqNumber": -22391,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5830078125,
+        "seqNumber": -22390,
+        "line": "loaded config wings.conf from /home/lvuser/deploy/robotConfigs/SAM/wings.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.583984375,
+        "seqNumber": -22389,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.58544921875,
+        "seqNumber": -22388,
+        "line": "loaded config shooter.conf from /home/lvuser/deploy/robotConfigs/SAM/shooter.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5859375,
+        "seqNumber": -22387,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.587890625,
+        "seqNumber": -22386,
+        "line": "loaded config intake.conf from /home/lvuser/deploy/robotConfigs/SAM/intake.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5888671875,
+        "seqNumber": -22385,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5908203125,
+        "seqNumber": -22384,
+        "line": "loaded config feeder.conf from /home/lvuser/deploy/robotConfigs/SAM/feeder.conf"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.59130859375,
+        "seqNumber": -22383,
+        "line": "Config(SimpleConfigObject({}))"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.591796875,
+        "seqNumber": -22382,
+        "line": "Robot name = SAM"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.5927734375,
+        "seqNumber": -22381,
+        "line": "Using real NavX Gyro sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.59814453125,
+        "seqNumber": -22380,
+        "line": "Creating a NavX Gyro on port: MXP"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.6533203125,
+        "seqNumber": -22379,
+        "line": "navX-Sensor Java library for FRC"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.7958984375,
+        "seqNumber": -22378,
+        "line": "Created NavX instance"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.8056640625,
+        "seqNumber": -22377,
+        "line": "Using fake cameras"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.806640625,
+        "seqNumber": -22376,
+        "line": "Using fake LimeLight"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.80908203125,
+        "seqNumber": -22375,
+        "line": "Using mock analog 41 IR sensor"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.81689453125,
+        "seqNumber": -22374,
+        "line": "Using mock Color sensor for the front"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.81787109375,
+        "seqNumber": -22373,
+        "line": "Using mock Color sensor for the back"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.88671875,
+        "seqNumber": -22372,
+        "line": "navX-Sensor Connected."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.91455078125,
+        "seqNumber": -22371,
+        "line": "Using real Drive Train."
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.91552734375,
+        "seqNumber": -22370,
+        "line": "Using real sparkMax Drive Train"
+    },
+    {
+        "messageType": 2,
+        "timestamp": 26.94384765625,
+        "seqNumber": -22369,
+        "line": "RealDriveTrain kProportion = 0.025"
+    }
+]

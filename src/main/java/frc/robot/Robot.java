@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase m_limelight;
+  private boolean m_parkingBrakeScheduled = false;
 
   private Robot() {
   }
@@ -137,7 +139,9 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDrivetrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
+    m_subsystemContainer.getDrivetrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
+    m_parkingBrakeScheduled = false;
     Trace.getInstance().logInfo("autonomousInit finished");
   }
 
@@ -152,6 +156,18 @@ public class Robot extends TimedRobot {
       Trace.getInstance().logInfo("autonomousPeriodic called");
       m_autoPeriodicLogged = true;
     }
+    if (m_subsystemContainer.getDrivetrain().hasParkingBrake()) {
+      double matchTime = DriverStation.getMatchTime();
+      if (matchTime <= 0.5) {
+        // Call enable parking brake
+        if (!m_parkingBrakeScheduled) {
+          CommandScheduler.getInstance()
+              .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
+          m_parkingBrakeScheduled = true;
+        }
+      }
+    }
+
   }
 
   private void setInitialZangleOffset() {
@@ -179,7 +195,9 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDrivetrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
+    m_subsystemContainer.getDrivetrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
+    m_parkingBrakeScheduled = false;
     Trace.getInstance().logInfo("teleopInit finished");
   }
 
@@ -193,6 +211,18 @@ public class Robot extends TimedRobot {
     if (!m_teleopPeriodicLogged) {
       Trace.getInstance().logInfo("teleopPeriodic called");
       m_teleopPeriodicLogged = true;
+    }
+    if (m_subsystemContainer.getDrivetrain().hasParkingBrake()) {
+      double matchTime = DriverStation.getMatchTime();
+      if (matchTime <= 0.5) {
+        // Call enable parking brake
+        if (!m_parkingBrakeScheduled) {
+          CommandScheduler.getInstance()
+              .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
+          m_parkingBrakeScheduled = true;
+        }
+      }
+
     }
   }
 

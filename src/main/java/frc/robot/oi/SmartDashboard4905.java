@@ -18,6 +18,7 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
+import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
@@ -101,6 +102,11 @@ public class SmartDashboard4905 {
 
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
+    }
+
+    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
+      SmartDashboard.putData("Toggle Brakes",
+          new ToggleBrakes(subsystemsContainer.getDrivetrain()));
     }
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       SmartDashboard.putData("DriveBackward",
