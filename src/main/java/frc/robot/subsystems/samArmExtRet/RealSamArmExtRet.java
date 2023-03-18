@@ -48,7 +48,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     }
   }
 
-  // 100 ticks = 1 inch
+  // 311 ticks = 1 inch
   @Override
   public double getPosition() {
     return (m_extensionMotor.getEncoderPositionTicks() - m_zeroOffset) / 311;
