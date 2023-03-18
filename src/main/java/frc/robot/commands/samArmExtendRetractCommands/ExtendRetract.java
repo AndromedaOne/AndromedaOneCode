@@ -26,6 +26,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
 
   public ExtendRetract(SamArmExtRetBase armExtRet, boolean useSmartDashboard) {
     this(armExtRet, true, true);
+    SmartDashboard.putNumber("Extend Arm Position Value", 0);
   }
 
   public ExtendRetract(SamArmExtRetBase armExtRet) {
@@ -57,21 +58,20 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
       super.initialize();
 
       if (m_useSmartDashboard) {
-        setSetpoint(() -> SmartDashboard.getNumber("Extend Arm Position Value", 0));
-      } else {
-        setSetpoint(ArmRotationExtensionSingleton.getInstance().getPosition());
+        ArmRotationExtensionSingleton.getInstance()
+            .setPosition(SmartDashboard.getNumber("Extend Arm Position Value", 0));
       }
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_setpoint.getAsDouble());
+      setSetpoint(ArmRotationExtensionSingleton.getInstance().getPosition());
 
       getController().setP(pidConstantsConfig.getDouble("ArmExtRet.Kp"));
       getController().setI(pidConstantsConfig.getDouble("ArmExtRet.Ki"));
       getController().setD(pidConstantsConfig.getDouble("ArmExtRet.Kd"));
       getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove"));
       getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
-      getController().setMaxOutput(0.75);
+      getController().setMaxOutput(1);
       Trace.getInstance().logCommandStart(this);
       Trace.getInstance().logCommandInfo(this,
-          "Extend Retract Arm to: " + m_setpoint.getAsDouble());
+          "Extend Retract Arm to: " + getController().getSetpoint());
     }
 
     // Called once the command ends or is interrupted.

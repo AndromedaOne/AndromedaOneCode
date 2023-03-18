@@ -19,11 +19,12 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
+public class RightAutoPlaceAndLeave extends SequentialCommandGroup4905 {
   /** Creates a new BlueRightAutoPlaceAndLeave. */
   public RightAutoPlaceAndLeave() {
     long waitTime = 250;
@@ -64,5 +65,15 @@ public class RightAutoPlaceAndLeave extends SequentialCommandGroup {
 
         new ParallelDeadlineGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()), new PauseRobot(driveTrain)));
+  }
+
+  @Override
+  public void additionalInitialize() {
+    Trace.getInstance().logCommandStart(this);
+  }
+
+  @Override
+  public void additionalEnd(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
   }
 }

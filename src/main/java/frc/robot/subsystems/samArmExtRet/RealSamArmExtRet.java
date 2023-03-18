@@ -31,6 +31,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("arm extension position", getPosition());
+    SmartDashboard.putNumber("arm extension ticks", getTicks());
     SmartDashboard.putString("arm ret limit switch", getRetractLimitSwitchState().toString());
     SmartDashboard.putBoolean("forwardSwitch", m_extensionMotor
         .getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isLimitSwitchEnabled());
@@ -38,13 +39,10 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void extendRetract(double speed) {
-    if ((speed < 0) && ((getPosition() <= m_minExtension)
-        || (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED))) {
+    if ((speed < 0) && (getPosition() <= m_minExtension)) {
       m_extensionMotor.set(0);
-      System.out.println("extend retract at mininum: speed: " + speed);
     } else if ((speed > 0) && (getPosition() >= m_maxExtension)) {
       m_extensionMotor.set(0);
-      System.out.println("extend retract at maxium: speed: " + speed);
     } else {
       m_extensionMotor.set(speed);
     }
@@ -53,12 +51,16 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   // 100 ticks = 1 inch
   @Override
   public double getPosition() {
-    return (m_extensionMotor.getEncoderPositionTicks() - m_zeroOffset) / 100;
+    return (m_extensionMotor.getEncoderPositionTicks() - m_zeroOffset) / 311;
+  }
+
+  public double getTicks() {
+    return m_extensionMotor.getEncoderPositionTicks();
   }
 
   @Override
   public void setZeroOffset() {
-    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks() + 25;
+    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks() + 75;
   }
 
   @Override

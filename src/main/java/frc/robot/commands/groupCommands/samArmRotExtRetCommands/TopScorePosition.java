@@ -18,9 +18,9 @@ public class TopScorePosition extends SequentialCommandGroup4905 {
   private final double m_cubeBackwardTopPosition = 32;
   private final double m_coneBackwardTopAngle = 232;
   private final double m_coneBackwardTopPosition = 36;
-  private final double m_cubeForwardTopAngle = 120;
+  private final double m_cubeForwardTopAngle = 124;
   private final double m_cubeForwardTopPosition = 39.6;
-  private final double m_coneForwardTopAngle = 134;
+  private final double m_coneForwardTopAngle = 130;
   private final double m_coneForwardTopPosition = 42;
   private boolean m_auto = false;
   private boolean m_cube = false;
