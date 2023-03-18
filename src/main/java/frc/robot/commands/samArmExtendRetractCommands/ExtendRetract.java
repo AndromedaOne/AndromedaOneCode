@@ -20,13 +20,17 @@ import frc.robot.telemetries.Trace;
 public class ExtendRetract extends SequentialCommandGroup4905 {
   /** Creates a new ExtRetSeq. */
   public ExtendRetract(SamArmExtRetBase armExtRet, boolean needToEnd, boolean useSmartDashboard) {
-    addCommands(new InitializeArmExtRet(armExtRet),
+    addCommands(new InitializeArmExtRet(armExtRet),adsf
         new ExtendRetractInternal(armExtRet, needToEnd, useSmartDashboard));
   }
 
   public ExtendRetract(SamArmExtRetBase armExtRet, boolean useSmartDashboard) {
     this(armExtRet, true, true);
     SmartDashboard.putNumber("Extend Arm Position Value", 0);
+    SmartDashboard.getNumber("Extend Arm P Value", 0);
+        kI = SmartDashboard.getNumber("Extend Arm I Value", 0);
+        kD = SmartDashboard.getNumber("Extend Arm D Value", 0);
+        minOutputToMove = SmartDashboard.getNumber("Extend Arm minOutputToMove Value", 0);
   }
 
   public ExtendRetract(SamArmExtRetBase armExtRet) {
@@ -56,17 +60,30 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     public void initialize() {
       Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
       super.initialize();
-
+      double kP = 0;
+      double kI = 0;
+      double kD = 0;
+      double minOutputToMove = 0;
+  
       if (m_useSmartDashboard) {
         ArmRotationExtensionSingleton.getInstance()
             .setPosition(SmartDashboard.getNumber("Extend Arm Position Value", 0));
-      }
+        kP = SmartDashboard.getNumber("Extend Arm P Value", 0);
+        kI = SmartDashboard.getNumber("Extend Arm I Value", 0);
+        kD = SmartDashboard.getNumber("Extend Arm D Value", 0);
+        minOutputToMove = SmartDashboard.getNumber("Extend Arm minOutputToMove Value", 0);
+      } else {
+        kP = pidConstantsConfig.getDouble("ArmExtRet.Kp");
+        kI = pidConstantsConfig.getDouble("ArmExtRet.Ki");
+        kD = pidConstantsConfig.getDouble("ArmExtRet.Kd");
+        minOutputToMove = pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove");
+      } 
       setSetpoint(ArmRotationExtensionSingleton.getInstance().getPosition());
 
-      getController().setP(pidConstantsConfig.getDouble("ArmExtRet.Kp"));
-      getController().setI(pidConstantsConfig.getDouble("ArmExtRet.Ki"));
-      getController().setD(pidConstantsConfig.getDouble("ArmExtRet.Kd"));
-      getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove"));
+      getController().setP(kI);
+      getController().setI(kI);
+      getController().setD(kD);
+      getController().setMinOutputToMove(minOutputToMove);
       getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
       getController().setMaxOutput(1);
       Trace.getInstance().logCommandStart(this);
