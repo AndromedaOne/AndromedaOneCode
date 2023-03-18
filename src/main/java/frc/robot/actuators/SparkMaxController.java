@@ -26,12 +26,10 @@ public class SparkMaxController extends CANSparkMax {
     m_hasForwardLimitSwitch = subsystemConfig.getBoolean(configString + ".hasForwardLimitSwitch");
     if (m_hasForwardLimitSwitch) {
       m_forwardLimitSwitch = this.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-      m_forwardLimitSwitch.enableLimitSwitch(false);
     }
     m_hasReverseLimitSwitch = subsystemConfig.getBoolean(configString + ".hasReverseLimitSwitch");
     if (m_hasReverseLimitSwitch) {
       m_reverseLimitSwitch = this.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-      m_reverseLimitSwitch.enableLimitSwitch(false);
     }
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;
