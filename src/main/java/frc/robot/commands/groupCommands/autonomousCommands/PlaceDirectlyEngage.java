@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
+import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
@@ -37,7 +38,8 @@ public class PlaceDirectlyEngage extends SequentialCommandGroup4905 {
         new SequentialCommandGroup4905(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveWithoutPID(driveTrain, -100, 0.75, 0), new BalanceRobot(driveTrain, 0.5, 0)));
+            new MoveWithoutPID(driveTrain, -100, 0.75, 0), new BalanceRobot(driveTrain, 0.5, 0),
+            new EnableParkingBrake(driveTrain)));
   }
 
   @Override

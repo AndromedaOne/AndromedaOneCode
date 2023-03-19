@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
+import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
@@ -44,7 +45,7 @@ public class PlaceEngageAutoDock extends SequentialCommandGroup4905 {
             subsystemsContainer.getArmExtRetBase()), moveCommand),
 
         new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 53, 0.75, 0),
-            new BalanceRobot(driveTrain, 0.5, 0)));
+            new BalanceRobot(driveTrain, 0.5, 0), new EnableParkingBrake(driveTrain)));
   }
 
   @Override

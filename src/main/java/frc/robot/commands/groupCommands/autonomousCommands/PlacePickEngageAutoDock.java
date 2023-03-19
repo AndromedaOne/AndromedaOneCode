@@ -11,6 +11,7 @@ import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.CloseGripper;
 import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
+import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
@@ -58,7 +59,7 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
             subsystemsContainer.getArmExtRetBase()),
 
         new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 0),
-            new BalanceRobot(driveTrain, 0.5, 0)));
+            new BalanceRobot(driveTrain, 0.5, 0), new EnableParkingBrake(driveTrain)));
 
   }
 }

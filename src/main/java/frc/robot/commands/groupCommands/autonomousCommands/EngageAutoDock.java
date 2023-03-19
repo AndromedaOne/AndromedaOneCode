@@ -6,6 +6,7 @@ package frc.robot.commands.groupCommands.autonomousCommands;
 
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
+import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -25,7 +26,7 @@ public class EngageAutoDock extends SequentialCommandGroup4905 {
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(moveCommand, new MoveWithoutPID(driveTrain, 55, 0.75, 0),
-        new BalanceRobot(driveTrain, 0.5, 0));
+        new BalanceRobot(driveTrain, 0.5, 0), new EnableParkingBrake(driveTrain));
 
   }
 
