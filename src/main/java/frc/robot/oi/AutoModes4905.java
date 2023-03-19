@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.autonomousCommands.EngageAutoDock;
 import frc.robot.commands.groupCommands.autonomousCommands.LeftAutoPlaceAndLeave;
+import frc.robot.commands.groupCommands.autonomousCommands.PlaceDirectlyEngage;
 import frc.robot.commands.groupCommands.autonomousCommands.PlaceEngageAutoDock;
 import frc.robot.commands.groupCommands.autonomousCommands.RightAutoPlaceAndLeave;
 import frc.robot.commands.groupCommands.autonomousCommands.SafetyAutoCS;
@@ -32,6 +33,10 @@ public class AutoModes4905 {
       m_autoChooser.addOption("4: Blue Right Score, Leave, Pick, Score",
           new RightAutoPlaceAndLeave());
       m_autoChooser.addOption("5: Blue CS Score, Leave, Engage", new PlaceEngageAutoDock());
+
+      // new not tested
+      // place leave straight to the charging station then balance
+
       // m_autoChooser.addOption("6: Blue CS Score, Leave, Pick, Engage",
       // new PlacePickEngageAutoDock());
       m_autoChooser.addOption("7: Red Left Score, Leave, Pick, Score",
@@ -44,6 +49,7 @@ public class AutoModes4905 {
       // new PlacePickEngageAutoDock());
       m_autoChooser.addOption("12: Safety (Week 0 Style): Score, Leave, Engage",
           new SafetyAutoCS());
+      m_autoChooser.addOption("13. CS Place And Straight Into Engage", new PlaceDirectlyEngage());
     }
     SmartDashboard.putData("autoModes", m_autoChooser);
   }
