@@ -41,10 +41,12 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
     m_backRight = new SparkMaxController(drivetrainConfig, "backright");
 
     // motors on the left side of the drive
-    m_leftmotors = new MotorControllerGroup(m_frontLeft, m_backLeft);
+    m_leftmotors = new MotorControllerGroup(m_frontLeft.getMotorController(),
+        m_backLeft.getMotorController());
 
     // motors on the right side of the drive.
-    m_rightmotors = new MotorControllerGroup(m_frontRight, m_backRight);
+    m_rightmotors = new MotorControllerGroup(m_frontRight.getMotorController(),
+        m_backRight.getMotorController());
 
     ticksPerInch = drivetrainConfig.getDouble("ticksPerInch");
   }
@@ -170,10 +172,10 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
 
   @Override
   protected void resetEncoders() {
-    m_backLeft.getEncoder().setPosition(0);
-    m_frontLeft.getEncoder().setPosition(0);
-    m_backRight.getEncoder().setPosition(0);
-    m_frontRight.getEncoder().setPosition(0);
+    m_backLeft.resetEncoder();
+    m_frontLeft.resetEncoder();
+    m_backRight.resetEncoder();
+    m_frontRight.resetEncoder();
   }
 
 }

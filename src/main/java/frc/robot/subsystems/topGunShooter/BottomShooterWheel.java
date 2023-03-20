@@ -22,14 +22,14 @@ public class BottomShooterWheel extends ShooterWheelBase {
 
   @Override
   public void setShooterWheelPower(double power) {
-    m_shooterMotor.set(power);
+    m_shooterMotor.setSpeed(power);
     SmartDashboard.putNumber("BottomShooterWheelPower", power);
 
   }
 
   @Override
   public double getShooterWheelPower() {
-    return m_shooterMotor.get();
+    return m_shooterMotor.getSpeed();
   }
 
   @Override

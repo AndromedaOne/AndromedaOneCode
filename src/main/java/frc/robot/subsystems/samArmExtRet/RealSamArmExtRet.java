@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.samArmExtRet;
 
-import com.revrobotics.SparkMaxLimitSwitch;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,19 +31,18 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   public void periodic() {
     SmartDashboard.putNumber("arm extension position", getPosition());
     SmartDashboard.putString("arm ret limit switch", getRetractLimitSwitchState().toString());
-    SmartDashboard.putBoolean("forwardSwitch", m_extensionMotor
-        .getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isLimitSwitchEnabled());
+    SmartDashboard.putBoolean("forwardSwitch", m_extensionMotor.isForwardLimitSwitchOn());
   }
 
   @Override
   public void extendRetract(double speed) {
     if ((speed < 0) && ((getPosition() <= m_minExtension)
         || (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED))) {
-      m_extensionMotor.set(0);
+      m_extensionMotor.setSpeed(0);
     } else if ((speed > 0) && (getPosition() >= m_maxExtension)) {
-      m_extensionMotor.set(0);
+      m_extensionMotor.setSpeed(0);
     } else {
-      m_extensionMotor.set(speed);
+      m_extensionMotor.setSpeed(speed);
     }
   }
 
@@ -68,9 +66,9 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   @Override
   public void retractArmInitialize() {
     if (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED) {
-      m_extensionMotor.set(0);
+      m_extensionMotor.setSpeed(0);
     } else {
-      m_extensionMotor.set(-0.25);
+      m_extensionMotor.setSpeed(-0.25);
     }
   }
 

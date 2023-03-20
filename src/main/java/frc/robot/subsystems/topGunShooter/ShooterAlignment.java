@@ -24,7 +24,7 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   }
 
   public void rotateShooter(double speed) {
-    m_angleMotor.set(speed);
+    m_angleMotor.setSpeed(speed);
   }
 
   public boolean atTopLimitSwitch() {
@@ -63,7 +63,7 @@ public class ShooterAlignment extends ShooterAlignmentBase {
 
   @Override
   public void stopShooterAlignment() {
-    m_angleMotor.set(0);
+    m_angleMotor.setSpeed(0);
   }
 
   @Override

@@ -43,15 +43,15 @@ public class RealSamArmRotate extends SamArmRotateBase {
   @Override
   public void rotate(double speed) {
     if (m_armAngleBrakeState == ArmAngleBrakeState.ENGAGEARMBRAKE) {
-      m_motor1.set(0);
+      m_motor1.setSpeed(0);
       return;
     }
     if ((speed < 0) && (getAngle() <= m_minAngle)) {
-      m_motor1.set(0);
+      m_motor1.setSpeed(0);
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
-      m_motor1.set(0);
+      m_motor1.setSpeed(0);
     } else {
-      m_motor1.set(speed * 0.5);
+      m_motor1.setSpeed(speed * 0.5);
     }
   }
 
@@ -59,7 +59,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
   public void engageArmBrake() {
     m_solenoidBrake.retractPiston();
     m_armAngleBrakeState = ArmAngleBrakeState.ENGAGEARMBRAKE;
-    m_motor1.set(0);
+    m_motor1.setSpeed(0);
   }
 
   @Override

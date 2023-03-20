@@ -22,17 +22,17 @@ public class RealFeeder extends FeederBase {
 
   @Override
   public void runFeeder(double speed) {
-    m_feederMotor.set(speed);
+    m_feederMotor.setSpeed(speed);
   }
 
   @Override
   public void stopFeeder() {
-    m_feederMotor.set(0);
+    m_feederMotor.setSpeed(0);
   }
 
   @Override
   public void runFeederInReverse(double speed) {
-    m_feederMotor.set(-speed);
+    m_feederMotor.setSpeed(-speed);
 
   }
 
