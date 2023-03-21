@@ -12,7 +12,6 @@ import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
-
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -38,8 +37,7 @@ public class PlaceDirectlyEngage extends SequentialCommandGroup4905 {
         new SequentialCommandGroup4905(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveWithoutPID(driveTrain, -100, 0.75, 0), 
-            new BalanceRobot(driveTrain, 0.5, 0)));
+            new MoveWithoutPID(driveTrain, -100, 0.75, 0), new BalanceRobot(driveTrain, 0.5, 0)));
   }
 
   @Override
