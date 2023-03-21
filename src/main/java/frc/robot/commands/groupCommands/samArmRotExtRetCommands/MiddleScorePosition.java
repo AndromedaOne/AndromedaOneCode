@@ -6,7 +6,6 @@ package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
 import frc.robot.Robot;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
-import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -21,18 +20,11 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   private final double m_coneBackwardMiddlePosition = 12;
   private final double m_cubeForwardMiddleAngle = 120;
   private final double m_cubeForwardMiddlePosition = 12;
-  private final double m_coneForwardMiddleAngle = 122;
+  private final double m_coneForwardMiddleAngle = 126;
   private final double m_coneForwardMiddlePosition = 24;
   private boolean m_auto = false;
   private boolean m_cube = false;
   private boolean m_backwards = false;
-
-  public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(new SequentialCommandGroup4905(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
-        new ExtendRetractInternal(armExtRet,
-            ArmRotationExtensionSingleton.getInstance().getPosition(), true)));
-  }
 
   public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet, boolean auto,
       boolean cube, boolean backwards) {
@@ -40,8 +32,13 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
     m_cube = cube;
     m_backwards = backwards;
     addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetract(armExtRet);
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+        new ExtendRetract(armExtRet));
+  }
+
+  public MiddleScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
+    // cube and backwards booleans are ignored when not in auto
+    this(armRotate, armExtRet, false, true, true);
   }
 
   // Called when the command is initially scheduled.
@@ -49,7 +46,6 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   public void additionalInitialize() {
     if (m_auto) {
       if (m_cube) {
-
         if (m_backwards) {
           ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeBackwardMiddleAngle);
           ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeBackwardMiddlePosition);
