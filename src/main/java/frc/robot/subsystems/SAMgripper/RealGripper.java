@@ -8,6 +8,7 @@ import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.subsystems.compressor.CompressorBase;
@@ -52,4 +53,8 @@ public class RealGripper extends GripperBase {
     return m_gripperState;
   }
 
+  @Override
+  public void periodic() {
+    SmartDashboard.putString("Real Gripper state", getState().name());
+  }
 }

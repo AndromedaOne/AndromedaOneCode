@@ -4,9 +4,12 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
-import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
+import frc.robot.commands.SAMgripperCommands.CloseGripper;
+import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
@@ -34,26 +37,28 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
     final double maxOutPut = 0.5;
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(
-        new SequentialCommandGroup4905(
+        new ParallelDeadlineGroup(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
-            new OpenCloseGripper(subsystemsContainer.getGripper()),
-            new PauseRobot(waitTime, driveTrain),
-            new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            moveCommand,
-            // Add turn command, roughly 45 degrees.
+            new OpenGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain)),
+
+        new PauseRobot(waitTime, driveTrain),
+
+        new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()), moveCommand),
+
+        new ParallelDeadlineGroup(new SequentialCommandGroup(
             new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, true),
-            new OpenCloseGripper(subsystemsContainer.getGripper()),
-            new PauseRobot(waitTime, driveTrain),
-            new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase())),
-        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, -45, 0.75, 0),
+            new CloseGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
+
+        new PauseRobot(waitTime, driveTrain),
+
+        new StowPosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()),
+
+        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 0),
             new BalanceRobot(driveTrain, 0.5, 0)));
-    // TBD: If we need to rotate before moving.
-    // new MoveToCenterOfChargingStation(driveTrain, 45, 0.75, 0),
-    // new BalanceRobot(driveTrain, 0.5, 0)));
 
   }
 }

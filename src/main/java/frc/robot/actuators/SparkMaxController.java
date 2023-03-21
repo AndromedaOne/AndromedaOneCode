@@ -38,13 +38,11 @@ public class SparkMaxController {
     if (m_hasForwardLimitSwitch) {
       m_forwardLimitSwitch = m_sparkMax
           .getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-      m_forwardLimitSwitch.enableLimitSwitch(true);
     }
     m_hasReverseLimitSwitch = subsystemConfig.getBoolean(configString + ".hasReverseLimitSwitch");
     if (m_hasReverseLimitSwitch) {
       m_reverseLimitSwitch = m_sparkMax
           .getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-      m_reverseLimitSwitch.enableLimitSwitch(true);
     }
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;

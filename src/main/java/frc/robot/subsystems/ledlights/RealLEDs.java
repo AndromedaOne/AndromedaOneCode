@@ -29,7 +29,7 @@ public class RealLEDs extends LEDs {
   @Override
   public void periodic() {
     if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
-      setRed(1);
+      setSethRed(1);
       setBlinking(0.05);
     } else if (Robot.getInstance().isDisabled()) {
       setRainbow();

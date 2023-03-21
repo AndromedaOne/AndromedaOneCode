@@ -37,6 +37,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("arm angle", getAngle());
+    SmartDashboard.putString("Arm Brake State", getState().toString());
   }
 
   // Positive speed rotates to the back, negative to the front.
