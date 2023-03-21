@@ -32,6 +32,8 @@ public class Config4905 {
   private Config m_sensorConfig;
   private Config m_commandConstantsConfig;
   private Config m_ledConfig;
+  private Config m_leftLedConfig;
+  private Config m_rightLedConfig;
   private Config m_harvesterConfig;
   private Config m_conveyorConfig;
   private Config m_compressorConfig;
@@ -140,6 +142,8 @@ public class Config4905 {
     m_drivetrainConfig = load("drivetrain.conf");
     m_climberConfig = load("climber.conf");
     m_ledConfig = load("LED.conf");
+    m_leftLedConfig = load("leftLED.conf");
+    m_rightLedConfig = load("rightLED.conf");
     m_harvesterConfig = load("harvester.conf");
     m_conveyorConfig = load("conveyor.conf");
     m_compressorConfig = load("compressor.conf");
@@ -174,8 +178,32 @@ public class Config4905 {
     return m_ledConfig;
   }
 
+  public Config getLeftLEDConfig() {
+    return m_leftLedConfig;
+  }
+
+  public Config getRightLEDConfig() {
+    return m_rightLedConfig;
+  }
+
   public boolean doesLEDExist() {
     if (m_config.hasPath("subsystems.LED")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean doesLeftLEDExist() {
+    if (m_config.hasPath("subsystems.leftLED")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean doesRightLEDExist() {
+    if (m_config.hasPath("subsystems.rightLED")) {
       return true;
     } else {
       return false;

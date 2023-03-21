@@ -7,12 +7,10 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.commands.SAMgripperCommands.DefaultGripperCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
-import frc.robot.commands.samArmExtendRetractCommands.InitializeArmExtRet;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -31,8 +29,7 @@ import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
 import frc.robot.subsystems.ledlights.LEDs;
-import frc.robot.subsystems.ledlights.MockLEDs;
-import frc.robot.subsystems.ledlights.TopGunLEDs;
+import frc.robot.subsystems.ledlights.RealLEDs;
 import frc.robot.subsystems.samArmExtRet.MockSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.RealSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -62,6 +59,8 @@ public class SubsystemsContainer {
   // Declare member variables.
   DriveTrain m_driveTrain;
   LEDs m_leds;
+  LEDs m_leftLeds;
+  LEDs m_rightLeds;
   CompressorBase m_compressor;
   CannonBase m_cannon;
   ShooterWheelBase m_topShooterWheel;
@@ -112,17 +111,17 @@ public class SubsystemsContainer {
     }
     m_driveTrain.init();
 
+    if (Config4905.getConfig4905().doesLeftLEDExist()) {
+      System.out.println("Using Real Left LEDs");
+      m_leftLeds = new RealLEDs(Config4905.getConfig4905().getLeftLEDConfig(), m_driveTrain);
+    }
+    if (Config4905.getConfig4905().doesRightLEDExist()) {
+      System.out.println("Using Real Right LEDs");
+      m_rightLeds = new RealLEDs(Config4905.getConfig4905().getRightLEDConfig(), m_driveTrain);
+    }
     if (Config4905.getConfig4905().doesLEDExist()) {
-      if (Config4905.getConfig4905().isShowBot()) {
-        System.out.println("Using TopGun LEDs");
-        m_leds = new TopGunLEDs();
-      } else {
-        System.out.println("Using TopGun LEDs");
-        m_leds = new TopGunLEDs();
-      }
-    } else {
-      System.out.println("Using Mock LEDs");
-      m_leds = new MockLEDs();
+      System.out.println("Using Real LEDs");
+      m_leds = new RealLEDs(Config4905.getConfig4905().getLEDConfig(), m_driveTrain);
     }
     if (Config4905.getConfig4905().doesCompressorExist()) {
       System.out.println("using real Compressor.");
@@ -234,10 +233,6 @@ public class SubsystemsContainer {
     return m_armRotate;
   }
 
-  public LEDs getLEDs() {
-    return m_leds;
-  }
-
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());
@@ -258,8 +253,7 @@ public class SubsystemsContainer {
       m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
     }
     if (Config4905.getConfig4905().doesSamArmExtRetExist()) {
-      m_armExtRet.setDefaultCommand(new SequentialCommandGroup(new InitializeArmExtRet(m_armExtRet),
-          new ExtendRetract(m_armExtRet, false)));
+      m_armExtRet.setDefaultCommand(new ExtendRetract(m_armExtRet, false, false));
     }
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
       m_armRotate.setDefaultCommand(new EnableArmBrake(m_armRotate));

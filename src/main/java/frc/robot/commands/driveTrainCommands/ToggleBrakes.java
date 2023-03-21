@@ -4,40 +4,37 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import java.time.*;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
 
-public class PauseRobot extends CommandBase {
-  private long m_pauseTimeInMS = 0;
-  private Instant m_startTime;
-  private DriveTrain m_driveTrain;
+public class ToggleBrakes extends CommandBase {
+  /** Creates a new ToggleBrakes. */
+  DriveTrain m_driveTrain;
 
-  /** Creates a new PauseRobot. */
-  public PauseRobot(long pauseTimeInMS, DriveTrain driveTrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveTrain);
-    m_pauseTimeInMS = pauseTimeInMS;
+  public ToggleBrakes(DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
-  }
-
-  public PauseRobot(DriveTrain driveTrain) {
-    this(Long.MAX_VALUE, driveTrain);
+    addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    m_startTime = Instant.now();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveTrain.stop();
+    if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESOFF) {
+      m_driveTrain.enableParkingBrakes();
+    } else if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
+      m_driveTrain.disableParkingBrakes();
+    } else {
+      // Not sure what value to set the brakes in this case.
+      throw (new RuntimeException("Unknown Parking Brake State"));
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -49,9 +46,6 @@ public class PauseRobot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Duration.between(m_startTime, Instant.now()).toMillis() > m_pauseTimeInMS) {
-      return true;
-    }
-    return false;
+    return true;
   }
 }

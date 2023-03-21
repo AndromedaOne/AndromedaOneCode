@@ -21,21 +21,45 @@ public class BottomScorePosition extends SequentialCommandGroup4905 {
   private final double m_bottomPosition = 0;
   private final double m_backwardBottomAngle = 270;
   private final double m_backwardBottomPosition = 0;
+  private boolean m_auto = false;
+
+  private boolean m_backwards = false;
+
+  public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet, boolean auto,
+      boolean cube, boolean backwards) {
+    addCommands(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+        new ExtendRetract(armExtRet));
+    m_auto = auto;
+    m_backwards = backwards;
+  }
 
   public BottomScorePosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
+    // cube and backwards booleans are ignored when not in auto
+    this(armRotate, armExtRet, false, true, true);
   }
 
   @Override
   public void additionalInitialize() {
-    if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardBottomAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardBottomPosition);
+    if (m_auto) {
+
+      if (m_backwards) {
+        ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardBottomAngle);
+        ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardBottomPosition);
+
+      } else {
+        ArmRotationExtensionSingleton.getInstance().setAngle(m_bottomAngle);
+        ArmRotationExtensionSingleton.getInstance().setPosition(m_bottomPosition);
+      }
+
     } else {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_bottomAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_bottomPosition);
+      if (Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton()) {
+        ArmRotationExtensionSingleton.getInstance().setAngle(m_backwardBottomAngle);
+        ArmRotationExtensionSingleton.getInstance().setPosition(m_backwardBottomPosition);
+      } else {
+        ArmRotationExtensionSingleton.getInstance().setAngle(m_bottomAngle);
+        ArmRotationExtensionSingleton.getInstance().setPosition(m_bottomPosition);
+      }
     }
     Trace.getInstance().logCommandStart(this);
   }

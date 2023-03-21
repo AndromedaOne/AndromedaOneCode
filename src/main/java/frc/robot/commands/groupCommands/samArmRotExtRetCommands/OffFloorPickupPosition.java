@@ -18,35 +18,70 @@ public class OffFloorPickupPosition extends SequentialCommandGroup4905 {
   private final double m_cubeBackwardLowPosition = 0;
   private final double m_coneBackwardLowAngle = 289;
   private final double m_coneBackwardLowPosition = 0;
-  private final double m_cubeForwardLowAngle = 69.9;
+  private final double m_cubeForwardLowAngle = 72;
   private final double m_cubeForwardLowPosition = 5;
-  private final double m_coneForwardLowAngle = 69.9;
+  private final double m_coneForwardLowAngle = 72;
   private final double m_coneForwardLowPosition = 5;
+  private boolean m_auto = false;
+  private boolean m_cube = false;
+  private boolean m_backwards = false;
+
+  public OffFloorPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet,
+      boolean auto, boolean cube, boolean backwards) {
+    m_auto = auto;
+    m_cube = cube;
+    m_backwards = backwards;
+    addCommands(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+        new ExtendRetract(armExtRet));
+  }
 
   public OffFloorPickupPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true));
-    new ExtendRetract(armExtRet, ArmRotationExtensionSingleton.getInstance().getPosition(), true);
+    // cube and backwards booleans are ignored when not in auto
+    this(armRotate, armExtRet, false, true, true);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    if ((Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton())
-        && (Robot.getInstance().getOIContainer().getSubsystemController().getConeButton())) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_coneBackwardLowAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_coneBackwardLowPosition);
-    } else if (Robot.getInstance().getOIContainer().getSubsystemController()
-        .getGrabBackwardButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeBackwardLowAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeBackwardLowPosition);
-    } else if (Robot.getInstance().getOIContainer().getSubsystemController().getConeButton()) {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_coneForwardLowAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_coneForwardLowPosition);
+    if (m_auto) {
+      if (m_cube) {
+
+        if (m_backwards) {
+          ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeBackwardLowAngle);
+          ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeBackwardLowPosition);
+        } else {
+          ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeForwardLowAngle);
+          ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeForwardLowPosition);
+        }
+      } else {
+        if (m_backwards) {
+          ArmRotationExtensionSingleton.getInstance().setAngle(m_coneBackwardLowAngle);
+          ArmRotationExtensionSingleton.getInstance().setPosition(m_coneBackwardLowPosition);
+        } else {
+          ArmRotationExtensionSingleton.getInstance().setAngle(m_coneForwardLowAngle);
+          ArmRotationExtensionSingleton.getInstance().setPosition(m_coneForwardLowPosition);
+        }
+      }
     } else {
-      ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeForwardLowAngle);
-      ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeForwardLowPosition);
+      if ((Robot.getInstance().getOIContainer().getSubsystemController().getGrabBackwardButton())
+          && (Robot.getInstance().getOIContainer().getSubsystemController().getConeButton())) {
+        ArmRotationExtensionSingleton.getInstance().setAngle(m_coneBackwardLowAngle);
+        ArmRotationExtensionSingleton.getInstance().setPosition(m_coneBackwardLowPosition);
+      } else if (Robot.getInstance().getOIContainer().getSubsystemController()
+          .getGrabBackwardButton()) {
+        ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeBackwardLowAngle);
+        ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeBackwardLowPosition);
+      } else if (Robot.getInstance().getOIContainer().getSubsystemController().getConeButton()) {
+        ArmRotationExtensionSingleton.getInstance().setAngle(m_coneForwardLowAngle);
+        ArmRotationExtensionSingleton.getInstance().setPosition(m_coneForwardLowPosition);
+      } else {
+        ArmRotationExtensionSingleton.getInstance().setAngle(m_cubeForwardLowAngle);
+        ArmRotationExtensionSingleton.getInstance().setPosition(m_cubeForwardLowPosition);
+      }
+
     }
+
     Trace.getInstance().logCommandStart(this);
   }
 

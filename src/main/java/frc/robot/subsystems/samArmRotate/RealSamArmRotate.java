@@ -37,9 +37,10 @@ public class RealSamArmRotate extends SamArmRotateBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("arm angle", getAngle());
+    SmartDashboard.putString("Arm Brake State", getState().toString());
   }
 
-  // Positive speed rotates to the front, negative to the back.
+  // Positive speed rotates to the back, negative to the front.
   @Override
   public void rotate(double speed) {
     if (m_armAngleBrakeState == ArmAngleBrakeState.ENGAGEARMBRAKE) {
@@ -51,7 +52,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
       m_motor1.set(0);
     } else {
-      m_motor1.set(-speed * 0.5);
+      m_motor1.set(speed * 0.5);
     }
   }
 

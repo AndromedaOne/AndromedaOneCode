@@ -4,40 +4,30 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import java.time.*;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
 
-public class PauseRobot extends CommandBase {
-  private long m_pauseTimeInMS = 0;
-  private Instant m_startTime;
-  private DriveTrain m_driveTrain;
+public class EnableParkingBrake extends CommandBase {
+  /** Creates a new EnableParkingBrake. */
+  DriveTrain m_driveTrain;
 
-  /** Creates a new PauseRobot. */
-  public PauseRobot(long pauseTimeInMS, DriveTrain driveTrain) {
+  public EnableParkingBrake(DriveTrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveTrain);
-    m_pauseTimeInMS = pauseTimeInMS;
     m_driveTrain = driveTrain;
-  }
-
-  public PauseRobot(DriveTrain driveTrain) {
-    this(Long.MAX_VALUE, driveTrain);
+    addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    m_startTime = Instant.now();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveTrain.stop();
+    m_driveTrain.enableParkingBrakes();
   }
 
   // Called once the command ends or is interrupted.
@@ -49,9 +39,6 @@ public class PauseRobot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Duration.between(m_startTime, Instant.now()).toMillis() > m_pauseTimeInMS) {
-      return true;
-    }
-    return false;
+    return true;
   }
 }

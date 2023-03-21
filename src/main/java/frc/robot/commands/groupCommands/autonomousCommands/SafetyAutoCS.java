@@ -15,6 +15,7 @@ import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
@@ -22,28 +23,30 @@ import frc.robot.telemetries.Trace;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PlaceEngageAutoDock extends SequentialCommandGroup4905 {
-  /** Creates a new PlaceEngageAutoDock. */
-  public PlaceEngageAutoDock() {
-    final double distanceToMove = -162;
+public class SafetyAutoCS extends SequentialCommandGroup4905 {
+  /** Creates a new SafetyAutoCS. */
+  public SafetyAutoCS() {
+    final double distanceToMove = 146;
     final double maxOutPut = 0.5;
-    long waitTime = 250;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
-    // Need to add place code
+    Gyro4905 m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
+    // This assumes robot faces south. We will place cube extending backwards, drive
+    // over the
+    // charging station leaving the community zone, and drive back onto the station
+    // to engage.
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
+    m_gyro.setInitialZangleOffset(0);
     addCommands(
         new ParallelDeadlineGroup(new SequentialCommandGroup4905(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase(), true, true, false),
+                subsystemsContainer.getArmExtRetBase(), true, true, true),
             new OpenGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
-
-        new PauseRobot(waitTime, driveTrain),
-
+        new PauseRobot(250, driveTrain),
         new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()), moveCommand),
 
-        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 53, 0.75, 0),
+        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, -45, 0.75, 0),
             new BalanceRobot(driveTrain, 0.5, 0)));
   }
 
