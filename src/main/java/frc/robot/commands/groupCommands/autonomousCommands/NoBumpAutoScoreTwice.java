@@ -24,9 +24,9 @@ import frc.robot.telemetries.Trace;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class LeftAutoPlaceAndLeave extends SequentialCommandGroup4905 {
+public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
   /** Creates a new AutoPlaceAndLeave. */
-  public LeftAutoPlaceAndLeave() {
+  public NoBumpAutoScoreTwice() {
     long waitTime = 250;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
