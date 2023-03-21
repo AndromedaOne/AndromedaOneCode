@@ -29,6 +29,11 @@ public class SparkMaxController {
     if (hasEncoder()) {
       m_sparkMaxEncoder = m_sparkMax.getEncoder();
     }
+    /*********
+     * NOTE: you CANNOT disable the hard limit capability on sparkmax controllers
+     * there is a bug in the API, no matter what "enableLimitSwitch" is set to, the
+     * motor will stop moving if the switch is activated.....
+     ******************/
     m_hasForwardLimitSwitch = subsystemConfig.getBoolean(configString + ".hasForwardLimitSwitch");
     if (m_hasForwardLimitSwitch) {
       m_forwardLimitSwitch = m_sparkMax
