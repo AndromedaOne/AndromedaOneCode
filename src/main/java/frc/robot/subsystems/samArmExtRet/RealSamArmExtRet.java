@@ -48,10 +48,10 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     }
   }
 
-  // 311 ticks = 1 inch
+  // 100 ticks = 1 inch
   @Override
   public double getPosition() {
-    return (m_extensionMotor.getEncoderPositionTicks() - m_zeroOffset) / 311;
+    return (m_extensionMotor.getEncoderPositionTicks() - m_zeroOffset) / 100;
   }
 
   public double getTicks() {
@@ -60,7 +60,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void setZeroOffset() {
-    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks() + 75;
+    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks() + 25;
   }
 
   @Override
@@ -74,7 +74,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     if (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED) {
       m_extensionMotor.set(0);
     } else {
-      m_extensionMotor.set(-0.25);
+      m_extensionMotor.set(-0.5);
     }
   }
 
