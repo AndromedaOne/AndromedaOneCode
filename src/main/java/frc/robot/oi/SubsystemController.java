@@ -119,4 +119,7 @@ public class SubsystemController extends ControllerBase {
     return false;
   }
 
+  public double getArmExtendRetractJoystickValue() {
+    return getRightStickForwardBackwardValue();
+  }
 }

@@ -6,9 +6,11 @@ package frc.robot.commands.samArmExtendRetractCommands;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.ArmRotationExtensionSingleton;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
@@ -37,6 +39,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     private SamArmExtRetBase m_armExtRet;
     private boolean m_needToEnd = false;
     private boolean m_useSmartDashboard = false;
+    private double m_extendRetractJoystickPvalue = 0.001;
 
     public ExtendRetractInternal(SamArmExtRetBase armExtRet, boolean needToEnd,
         boolean useSmartDashboard) {
@@ -72,6 +75,18 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandStart(this);
       Trace.getInstance().logCommandInfo(this,
           "Extend Retract Arm to: " + getController().getSetpoint());
+    }
+
+    @Override
+    public void execute() {
+      super.execute();
+      double joystickValue = Robot.getInstance().getOIContainer().getSubsystemController()
+          .getArmExtendRetractJoystickValue();
+      if (DriverStation.isTeleop() && (joystickValue != 0)) {
+        ArmRotationExtensionSingleton.getInstance()
+            .setPosition(ArmRotationExtensionSingleton.getInstance().getPosition().getAsDouble()
+                + (joystickValue * m_extendRetractJoystickPvalue));
+      }
     }
 
     // Called once the command ends or is interrupted.

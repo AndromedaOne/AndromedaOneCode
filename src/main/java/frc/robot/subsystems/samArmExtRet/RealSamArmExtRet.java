@@ -9,6 +9,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
 
 public class RealSamArmExtRet extends SamArmExtRetBase {
@@ -19,6 +20,9 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   private double m_minExtension = 0;
   private boolean m_isInitialized = false;
   private DigitalInput m_retractLimitSwitch = new DigitalInput(9);
+  private static final double m_armFrontMaxDistanceFromPivotPoint = 68;
+  private static final double m_armRearMaxDistanceFromPivotPoint = 62;
+  private static final double m_armLengthOffset = 36;
 
   /** Creates a new RealSamArmExtension. */
   public RealSamArmExtRet() {
@@ -41,7 +45,8 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   public void extendRetract(double speed) {
     if ((speed < 0) && (getPosition() <= m_minExtension)) {
       m_extensionMotor.set(0);
-    } else if ((speed > 0) && (getPosition() >= m_maxExtension)) {
+    } else if ((speed > 0) && (getPosition() >= m_maxExtension)
+        && ((getPosition() + m_armLengthOffset) > calcMaxExtendDistance())) {
       m_extensionMotor.set(0);
     } else {
       m_extensionMotor.set(speed);
@@ -87,4 +92,18 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   public void setInitialized() {
     m_isInitialized = true;
   }
+
+  private double calcMaxExtendDistance() {
+    double angle = Robot.getInstance().getSubsystemsContainer().getArmRotateBase().getAngle();
+    if (angle == 90) {
+      return Double.MAX_VALUE;
+    }
+    if (angle < 180) {
+      angle = (angle - 90);
+      return m_armFrontMaxDistanceFromPivotPoint / Math.cos(angle);
+    }
+    angle = Math.abs(angle - 270);
+    return m_armRearMaxDistanceFromPivotPoint / Math.cos(angle);
+  }
+
 }
