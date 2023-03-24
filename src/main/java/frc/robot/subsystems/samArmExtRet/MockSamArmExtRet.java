@@ -45,4 +45,9 @@ public class MockSamArmExtRet extends SamArmExtRetBase {
   @Override
   public void setInitialized() {
   }
+
+  @Override
+  public ExtensionBrakeStates getExtensionBrakeStates() {
+    return ExtensionBrakeStates.BRAKEOPEN;
+  }
 }
