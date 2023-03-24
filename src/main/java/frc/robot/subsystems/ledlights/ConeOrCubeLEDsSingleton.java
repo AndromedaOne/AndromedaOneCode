@@ -5,14 +5,29 @@
 package frc.robot.subsystems.ledlights;
 
 /** Add your docs here. */
-public class ConeOrCubeLEDsSingleton {
-  private static ConeOrCubeLEDsSingleton m_instance = new ConeOrCubeLEDsSingleton();
 
-  private ConeOrCubeLEDsSingleton() {
-  }
+public class ConeOrCubeLEDsSingleton {
+  private static boolean m_buttonheld;
+  private LEDStates m_LedStates;
+  private static ConeOrCubeLEDsSingleton m_instance = new ConeOrCubeLEDsSingleton();
 
   public static ConeOrCubeLEDsSingleton getInstance() {
     return m_instance;
   }
 
+  public boolean getButtonHeld() {
+    return m_buttonheld;
+  }
+
+  public void setButtonHeld(boolean buttonValue) {
+    m_buttonheld = buttonValue;
+  }
+
+  public LEDStates getLEDStates() {
+    return m_LedStates;
+  }
+
+  public void setLEDStates(LEDStates LEDValue) {
+    m_LedStates = LEDValue;
+  }
 }
