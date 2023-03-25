@@ -101,7 +101,6 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
-
     }
     m_subsystemContainer.getDrivetrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
