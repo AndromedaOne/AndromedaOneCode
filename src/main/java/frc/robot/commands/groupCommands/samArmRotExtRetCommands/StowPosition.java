@@ -5,7 +5,6 @@
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
-import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -19,10 +18,9 @@ public class StowPosition extends SequentialCommandGroup4905 {
   private final double m_stowPosition = 0;
 
   public StowPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(
-        new ParallelCommandGroup4905(
-            new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
-            new ExtendRetract(armExtRet)));
+    addCommands(new ParallelCommandGroup4905(
+        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
+        new ExtendRetract(armExtRet)));
   }
 
   @Override
