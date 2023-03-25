@@ -14,6 +14,8 @@ public class RealLEDs extends LEDs {
   private DigitalOutput m_green;
   private DigitalOutput m_blue;
   DriveTrain m_driveTrain;
+  private LEDStates m_LedStates;
+  private ConeOrCubeLEDsSingleton m_ConeOrCube;
 
   public RealLEDs(Config conf, DriveTrain driveTrain) {
     m_red = new DigitalOutput(conf.getInt("Red"));
@@ -25,6 +27,7 @@ public class RealLEDs extends LEDs {
     setPurple(1.0);
     setSolid();
     m_driveTrain = driveTrain;
+    m_ConeOrCube = new ConeOrCubeLEDsSingleton();
   }
 
   @Override
@@ -36,9 +39,14 @@ public class RealLEDs extends LEDs {
       setRainbow();
     } else if (Robot.getInstance().isTeleop()) {
       double matchTime = DriverStation.getMatchTime();
-      if (ConeLEDs.m_ledState == 1) {
-      } else if (ConeLEDs.m_ledState == 2) {
-
+      if (m_ConeOrCube.getButtonHeld() == true) {
+        if (m_ConeOrCube.getLEDStates() == LEDStates.CONE) {
+          setYellow(1);
+          setSolid();
+        } else if (m_ConeOrCube.getLEDStates() == LEDStates.CUBE) {
+          setPurple(1);
+          setSolid();
+        }
       } else if (matchTime <= 30 && matchTime > 0) {
         setYellow(1);
         setBlinking(1);

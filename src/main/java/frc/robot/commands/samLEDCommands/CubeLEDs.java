@@ -6,6 +6,7 @@ package frc.robot.commands.samLEDCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ledlights.ConeOrCubeLEDsSingleton;
+import frc.robot.subsystems.ledlights.LEDStates;
 import frc.robot.subsystems.ledlights.LEDs;
 
 public class CubeLEDs extends CommandBase {
@@ -22,9 +23,8 @@ public class CubeLEDs extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_cubeLEDs.setPurple(1);
-    m_cubeLEDs.setSolid();
-    m_ledState = 2;
+    m_ConeOrCubeLEDsSingleton.setButtonHeld(true);
+    m_ConeOrCubeLEDsSingleton.setLEDStates(LEDStates.CUBE);
 
   }
 

@@ -44,7 +44,7 @@ public class SubsystemController extends ControllerBase {
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
       setUpArmButtons();
     }
-    if (Config4905.getConfig4905().doesLEDExist()
+    if (Config4905.getConfig4905().doesRightLEDExist()
         || Config4905.getConfig4905().doesLeftLEDExist()) {
       setupLEDButtons();
     }
