@@ -5,6 +5,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Robot;
+import frc.robot.commands.samLEDCommands.ConeLEDs;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
@@ -13,6 +14,8 @@ public class RealLEDs extends LEDs {
   private DigitalOutput m_green;
   private DigitalOutput m_blue;
   DriveTrain m_driveTrain;
+  private LEDStates m_LedStates;
+  private static ConeOrCubeLEDsSingleton m_ConeOrCube;
 
   public RealLEDs(Config conf, DriveTrain driveTrain) {
     m_red = new DigitalOutput(conf.getInt("Red"));
@@ -24,6 +27,7 @@ public class RealLEDs extends LEDs {
     setPurple(1.0);
     setSolid();
     m_driveTrain = driveTrain;
+    m_ConeOrCube = new ConeOrCubeLEDsSingleton().getInstance();
   }
 
   @Override
@@ -35,9 +39,18 @@ public class RealLEDs extends LEDs {
       setRainbow();
     } else if (Robot.getInstance().isTeleop()) {
       double matchTime = DriverStation.getMatchTime();
-      if (matchTime <= 30 && matchTime > 0) {
+      if (m_ConeOrCube.getButtonHeld() == true) {
+        if (m_ConeOrCube.getLEDStates() == LEDStates.CONE) {
+          setYellow(1);
+          setBlinking(0.2);
+        } else if (m_ConeOrCube.getLEDStates() == LEDStates.CUBE) {
+          setPurple(1);
+          setBlinking(0.2);
+        }
+      } else if (matchTime <= 30 && matchTime > 0) {
         setYellow(1);
         setBlinking(1);
+        ConeLEDs.m_ledState = 0;
       } else {
         switch (m_driveTrain.getDriveTrainMode()) {
         case SLOW:
@@ -58,6 +71,7 @@ public class RealLEDs extends LEDs {
         default:
           setOrange(1);
           setSolid();
+          ConeLEDs.m_ledState = 0;
         }
       }
     } else if (Robot.getInstance().isAutonomous()) {
