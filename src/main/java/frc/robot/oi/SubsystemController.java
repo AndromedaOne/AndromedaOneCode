@@ -19,6 +19,8 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
+import frc.robot.commands.samLEDCommands.ConeLEDs;
+import frc.robot.commands.samLEDCommands.CubeLEDs;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -43,6 +45,10 @@ public class SubsystemController extends ControllerBase {
     }
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
       setUpArmButtons();
+    }
+    if (Config4905.getConfig4905().doesRightLEDExist()
+        || Config4905.getConfig4905().doesLeftLEDExist()) {
+      setupLEDButtons();
     }
   }
 
@@ -86,6 +92,11 @@ public class SubsystemController extends ControllerBase {
 
   private void setupGripperButtons() {
     getRightBumperButton().onTrue(new OpenCloseGripper(m_subsystemsContainer.getGripper()));
+  }
+
+  private void setupLEDButtons() {
+    getBackButton().whileTrue(new ConeLEDs());
+    getStartButton().whileTrue(new CubeLEDs());
   }
 
   public boolean getPauseFeederButtonPressed() {
