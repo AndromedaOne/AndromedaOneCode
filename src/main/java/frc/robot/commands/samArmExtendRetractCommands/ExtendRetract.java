@@ -34,6 +34,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     SmartDashboard.putNumber("Extend Arm P Value", 0);
     SmartDashboard.putNumber("Extend Arm I Value", 0);
     SmartDashboard.putNumber("Extend Arm D Value", 0);
+    SmartDashboard.putNumber("Extend Arm Feed Forward Value", 0);
     SmartDashboard.putNumber("Extend Arm minOutputToMove Value", 0);
   }
 
@@ -56,8 +57,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     private boolean m_needToEnd = false;
     private boolean m_useSmartDashboard = false;
     private double m_extendRetractJoystickPvalue = 0.001;
-    private FeedForward m_feedForward = new ExtRetFeedForward();
-    private InterpolatingMap m_kMap;
+    private ExtRetFeedForward m_feedForward = new ExtRetFeedForward();
 
     public ExtendRetractInternal(SamArmExtRetBase armExtRet, boolean needToEnd,
         boolean useSmartDashboard) {
@@ -70,10 +70,6 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
       m_armExtRet = armExtRet;
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
-
-      // m_kMap = new
-      // InterpolatingMap(Config4905.getConfig4905().getSamArmExtensionConfig(),
-      // "armExtKValues");
     }
 
     // Called when the command is initially scheduled.
@@ -93,11 +89,13 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
         kP = SmartDashboard.getNumber("Extend Arm P Value", 0);
         kI = SmartDashboard.getNumber("Extend Arm I Value", 0);
         kD = SmartDashboard.getNumber("Extend Arm D Value", 0);
+        m_feedForward.setKValue(SmartDashboard.getNumber("Extend Arm Feed Forward Value", 0));
         minOutputToMove = SmartDashboard.getNumber("Extend Arm minOutputToMove Value", 0);
       } else {
         kP = pidConstantsConfig.getDouble("ArmExtRet.Kp");
         kI = pidConstantsConfig.getDouble("ArmExtRet.Ki");
         kD = pidConstantsConfig.getDouble("ArmExtRet.Kd");
+        m_feedForward.setKValue(pidConstantsConfig.getDouble("ArmExtRet.feedForward"));
         minOutputToMove = pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove");
       }
       setSetpoint(ArmRotationExtensionSingleton.getInstance().getPosition());
@@ -192,11 +190,15 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
   }
 
   private class ExtRetFeedForward implements FeedForward {
+    private double m_kValue = 0;
+    public void setKValue(double value) {
+      m_kValue = value;
+    }
 
     @Override
     public double calculate() {
 
-      return 0;
+      return m_kValue;
     }
 
   }

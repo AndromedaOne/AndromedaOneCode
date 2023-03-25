@@ -101,7 +101,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Enable Arm Rotation Brake",
           new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
       SmartDashboard.putData("Extend Arms Tuner",
-          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), true, true));
+          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), true));
       SmartDashboard.putData("Arm Angle Tuner",
           new RotateArm(subsystemsContainer.getArmRotateBase(), () -> 0, false, true));
       SmartDashboard.putData("Engage Arm Ext Brake",

@@ -20,7 +20,6 @@ public class StowPosition extends SequentialCommandGroup4905 {
 
   public StowPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
-        new ParallelCommandGroup4905(new ExtendRetract(armExtRet), new EnableArmBrake(armRotate)),
         new ParallelCommandGroup4905(
             new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
             new ExtendRetract(armExtRet)));
