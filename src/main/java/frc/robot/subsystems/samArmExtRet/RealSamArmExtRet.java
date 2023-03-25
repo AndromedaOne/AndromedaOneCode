@@ -9,8 +9,8 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
-import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.Robot;
+import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.actuators.SparkMaxController;
 
 public class RealSamArmExtRet extends SamArmExtRetBase {
@@ -48,17 +48,21 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     SmartDashboard.putNumber("arm extension ticks", getTicks());
     SmartDashboard.putString("arm ret limit switch", getRetractLimitSwitchState().toString());
     SmartDashboard.putBoolean("forwardSwitch", m_retractLimitSwitch.get());
+    SmartDashboard.putString("Arm Extension brake state", getExtensionBrakeState().toString());
   }
 
   @Override
   public void extendRetract(double speed) {
+    if (m_extensionBrakeStates != ExtensionBrakeStates.BRAKEOPEN) {
+      return;
+    }
     if ((speed < 0) && (getPosition() <= m_minExtension)) {
-      setExtensionBrakeAndArmSpeed(0);
+      m_extensionMotor.set(0);
     } else if ((speed > 0) && (getPosition() >= m_maxExtension)
         && ((getPosition() + m_armLengthOffset) > calcMaxExtendDistance())) {
-      setExtensionBrakeAndArmSpeed(0);
+      m_extensionMotor.set(0);
     } else {
-      setExtensionBrakeAndArmSpeed(speed);
+      m_extensionMotor.set(speed);
     }
   }
 
@@ -85,28 +89,19 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void retractArmInitialize() {
+    if (m_extensionBrakeStates != ExtensionBrakeStates.BRAKEOPEN) {
+      return;
+    }
     if (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED) {
-      setExtensionBrakeAndArmSpeed(0);
+      m_extensionMotor.set(0);
     } else {
-      setExtensionBrakeAndArmSpeed(-0.25);
+      m_extensionMotor.set(-0.5);
     }
   }
 
   @Override
   public ExtensionBrakeStates getExtensionBrakeStates() {
     return m_extensionBrakeStates;
-  }
-
-  private void setExtensionBrakeAndArmSpeed(double speed) {
-    if ((speed > 0.1) || (speed < -0.1)) {
-      m_extensionBrakeServoMotor.set(m_extensionBrakeOpenValue);
-      m_extensionBrakeStates = ExtensionBrakeStates.BRAKEOPEN;
-      m_extensionMotor.set(speed);
-    } else {
-      m_extensionBrakeServoMotor.set(m_extensionBrakeClosedValue);
-      m_extensionBrakeStates = ExtensionBrakeStates.BRAKECLOSED;
-      m_extensionMotor.set(0);
-    }
   }
 
   @Override
@@ -129,7 +124,24 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
       return m_armFrontMaxDistanceFromPivotPoint / Math.cos(angle);
     }
     angle = Math.abs(angle - 270);
-    return m_armRearMaxDistanceFromPivotPoint / Math.cos(angle);
+    double calcultedMaxExtendDistance = m_armRearMaxDistanceFromPivotPoint / Math.cos(angle);
+    SmartDashboard.putNumber("Calculated Max Extend Distance", calcultedMaxExtendDistance);
+    return calcultedMaxExtendDistance;
+  }
+
+  @Override
+  public void engageArmBrake() {
+    m_extensionBrakeServoMotor.set(m_extensionBrakeClosedValue);
+  }
+
+  @Override
+  public void disengageArmBrake() {
+    m_extensionBrakeServoMotor.set(m_extensionBrakeOpenValue);
+  }
+
+  @Override
+  public ExtensionBrakeStates getExtensionBrakeState() {
+    return m_extensionBrakeStates;
   }
 
 }

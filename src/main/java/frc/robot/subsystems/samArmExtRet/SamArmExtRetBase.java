@@ -31,4 +31,10 @@ public abstract class SamArmExtRetBase extends SubsystemBase {
   public abstract boolean isInitialized();
 
   public abstract void setInitialized();
+
+  public abstract void engageArmBrake();
+
+  public abstract void disengageArmBrake();
+
+  public abstract ExtensionBrakeStates getExtensionBrakeState();
 }

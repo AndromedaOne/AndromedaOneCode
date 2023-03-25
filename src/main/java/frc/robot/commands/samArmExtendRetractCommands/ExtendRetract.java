@@ -35,6 +35,16 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     this(armExtRet, true, false);
   }
 
+  @Override
+  public void additionalInitialize() {
+    Trace.getInstance().logCommandStart(this);
+  }
+
+  @Override
+  public void additionalEnd(boolean interrupted) {
+    Trace.getInstance().logCommandStop(this);
+  }
+
   private class ExtendRetractInternal extends PIDCommand4905 {
     private SamArmExtRetBase m_armExtRet;
     private boolean m_needToEnd = false;
@@ -57,6 +67,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+      m_armExtRet.disengageArmBrake();
       Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
       super.initialize();
 
@@ -124,6 +135,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+      m_armExtRetBase.disengageArmBrake();
       Trace.getInstance().logCommandStart(this);
     }
 
