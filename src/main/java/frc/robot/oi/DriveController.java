@@ -51,11 +51,11 @@ public class DriveController extends ControllerBase {
     }
     if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       setUpCannonButtons();
-      }
+    }
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
     }
-    }
+  }
 
   public double getDriveTrainForwardBackwardStick() {
     return getLeftStickForwardBackwardValue();
@@ -105,8 +105,12 @@ public class DriveController extends ControllerBase {
   private void setUpParkingBrake() {
     getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDrivetrain()));
   }
+
   private void setUpCannonButtons() {
     getAbutton().onTrue(new PressurizeCannon());
     getBbutton().onTrue(new ShootCannon());
+  }
+
+  private void setupRomiButtons() {
   }
 }

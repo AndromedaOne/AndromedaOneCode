@@ -144,9 +144,9 @@ public class SubsystemsContainer {
       System.out.println("Using mock gripper");
       m_gripper = new MockGripper();
     }
-    if (Config4905.getConfig4905().doesCannonExist()) {
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       System.out.println("using real Cannon.");
-      m_cannon = new RealCannon(m_compressor);
+      m_showBotCannon = new RealCannon(m_compressor);
     } else {
       System.out.println("Using mock Cannon");
       m_showBotCannon = new MockCannon();
@@ -215,7 +215,7 @@ public class SubsystemsContainer {
   public CannonBase getShowBotCannon() {
     return m_showBotCannon;
   }
-  
+
   public CannonElevatorBase getShowBotCannonElevator() {
     return m_showBotCannonElevator;
   }

@@ -277,7 +277,7 @@ public class Config4905 {
     }
   }
 
-public boolean doesShowBotCannonExist() {
+  public boolean doesShowBotCannonExist() {
     if (m_config.hasPath("subsystems.showBotCannon")) {
       return true;
     } else {
