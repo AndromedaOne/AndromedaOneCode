@@ -42,10 +42,10 @@ public class RealLEDs extends LEDs {
       if (m_ConeOrCube.getButtonHeld() == true) {
         if (m_ConeOrCube.getLEDStates() == LEDStates.CONE) {
           setYellow(1);
-          setBlinking(0.5);
+          setBlinking(2);
         } else if (m_ConeOrCube.getLEDStates() == LEDStates.CUBE) {
           setPurple(1);
-          setBlinking(0.5);
+          setBlinking(2);
         }
       } else if (matchTime <= 30 && matchTime > 0) {
         setYellow(1);

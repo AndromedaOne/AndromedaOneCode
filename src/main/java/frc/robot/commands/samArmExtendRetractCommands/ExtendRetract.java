@@ -19,7 +19,6 @@ import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase.RetractLimitSwitchState;
 import frc.robot.telemetries.Trace;
-import frc.robot.utils.InterpolatingMap;
 
 public class ExtendRetract extends SequentialCommandGroup4905 {
   /** Creates a new ExtRetSeq. */
@@ -191,6 +190,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
 
   private class ExtRetFeedForward implements FeedForward {
     private double m_kValue = 0;
+
     public void setKValue(double value) {
       m_kValue = value;
     }
