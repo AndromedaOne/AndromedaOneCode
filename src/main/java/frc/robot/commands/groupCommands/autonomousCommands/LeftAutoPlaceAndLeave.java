@@ -44,7 +44,7 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup4905 {
                     subsystemsContainer.getArmExtRetBase()),
                 new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase(), true, true, true)),
-            new MoveUsingEncoder(driveTrain, -174, 1.0)),
+            new MoveUsingEncoder(driveTrain, -176, 0.75)),
 
         new ParallelDeadlineGroup(new CloseGripper(subsystemsContainer.getGripper()),
             new PauseRobot(driveTrain)),
@@ -54,7 +54,7 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup4905 {
         new ParallelCommandGroup(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, 162, 1.0)),
+            new MoveUsingEncoder(driveTrain, 168, 1.0)),
 
         new ParallelDeadlineGroup(new SequentialCommandGroup(
             new BottomScorePosition(subsystemsContainer.getArmRotateBase(),

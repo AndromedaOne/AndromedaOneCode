@@ -18,6 +18,7 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickup
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -79,6 +80,8 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getArmExtRetBase()));
     getLeftBumperButton().onTrue(new StowPosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
+    getRightStickButton()
+        .whileTrue(new ExtendRetract(m_subsystemsContainer.getArmExtRetBase(), false, false));
   }
 
   private void setupGripperButtons() {
@@ -119,4 +122,7 @@ public class SubsystemController extends ControllerBase {
     return false;
   }
 
+  public double getArmExtendRetractJoystickValue() {
+    return getRightStickForwardBackwardValue();
+  }
 }
