@@ -24,7 +24,7 @@ import frc.robot.utils.InterpolatingMap;
 public class ExtendRetract extends SequentialCommandGroup4905 {
   /** Creates a new ExtRetSeq. */
   public ExtendRetract(SamArmExtRetBase armExtRet, boolean needToEnd, boolean useSmartDashboard) {
-    addCommands(new InitializeArmExtRet(armExtRet),
+    addCommands(new ReleaseBrakeAndWait(armExtRet), new InitializeArmExtRet(armExtRet),
         new ExtendRetractInternal(armExtRet, needToEnd, useSmartDashboard));
   }
 
@@ -56,7 +56,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     private SamArmExtRetBase m_armExtRet;
     private boolean m_needToEnd = false;
     private boolean m_useSmartDashboard = false;
-    private double m_extendRetractJoystickPvalue = 0.001;
+    private double m_extendRetractJoystickPvalue = 0.1;
     private ExtRetFeedForward m_feedForward = new ExtRetFeedForward();
 
     public ExtendRetractInternal(SamArmExtRetBase armExtRet, boolean needToEnd,
@@ -201,5 +201,34 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
       return m_kValue;
     }
 
+  }
+
+  private class ReleaseBrakeAndWait extends CommandBase {
+    private SamArmExtRetBase m_armExtRet;
+    private int m_counter = 0;
+
+    public ReleaseBrakeAndWait(SamArmExtRetBase armExtRet) {
+      m_armExtRet = armExtRet;
+      addRequirements(armExtRet);
+    }
+
+    @Override
+    public void initialize() {
+      m_armExtRet.disengageArmBrake();
+      m_counter = 0;
+    }
+
+    @Override
+    public void execute() {
+      ++m_counter;
+    }
+
+    @Override
+    public boolean isFinished() {
+      if (m_counter > 10) {
+        return true;
+      }
+      return false;
+    }
   }
 }
