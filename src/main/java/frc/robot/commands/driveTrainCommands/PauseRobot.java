@@ -23,6 +23,10 @@ public class PauseRobot extends CommandBase {
     m_driveTrain = driveTrain;
   }
 
+  public PauseRobot(DriveTrain driveTrain) {
+    this(Long.MAX_VALUE, driveTrain);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

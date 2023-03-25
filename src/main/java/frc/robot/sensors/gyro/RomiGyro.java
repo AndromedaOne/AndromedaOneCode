@@ -94,17 +94,17 @@ public class RomiGyro extends Gyro4905 {
   }
 
   @Override
-  protected double getRawXAngle() {
+  public double getRawXAngle() {
     return m_gyro.getRawXAngle();
   }
 
   @Override
-  protected double getRawYAngle() {
+  public double getRawYAngle() {
     return m_gyro.getRawYAngle();
   }
 
   @Override
-  protected double getRawZAngle() {
+  public double getRawZAngle() {
     return m_gyro.getRawZAngle();
   }
 

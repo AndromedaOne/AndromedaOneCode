@@ -11,22 +11,47 @@ package frc.robot.pidcontroller;
  * Add your docs here.
  */
 public class PIDController4905SampleStop extends PIDController4905 {
-  int counter = 0;
-  final int numberOfSamplesOnTarget = 8;
+  private int m_counter = 0;
+  private static int s_defaultNumberOfSamplesOnTarget = 8;
+  private int m_numberOfSamplesOnTarget = 0;
+
+  public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
+      double minOutputToMove, FeedForward feedForward) {
+    super(controllerName, Kp, Ki, Kd, minOutputToMove, feedForward);
+  }
+
+  public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
+      double minOutputToMove, int numberOfSamplesOnTarget) {
+    super(controllerName, Kp, Ki, Kd, minOutputToMove);
+    m_counter = 0;
+    m_numberOfSamplesOnTarget = numberOfSamplesOnTarget;
+  }
 
   public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
       double minOutputToMove) {
-    super(controllerName, Kp, Ki, Kd, minOutputToMove);
-    counter = 0;
+    this(controllerName, Kp, Ki, Kd, minOutputToMove, s_defaultNumberOfSamplesOnTarget);
+  }
+
+  public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd) {
+    this(controllerName, Kp, Ki, Kd, 0, s_defaultNumberOfSamplesOnTarget);
+  }
+
+  public PIDController4905SampleStop(String controllerName) {
+    this(controllerName, 0, 0, 0, s_defaultNumberOfSamplesOnTarget);
   }
 
   public boolean atSetpoint() {
     if (Math.abs(getPositionError()) < getPositionTolerance()) {
-      counter++;
+      m_counter++;
     } else {
-      counter = 0;
+      m_counter = 0;
     }
-    return counter >= numberOfSamplesOnTarget;
+    return m_counter >= m_numberOfSamplesOnTarget;
   }
 
+  @Override
+  public void reset() {
+    m_counter = 0;
+    super.reset();
+  }
 }

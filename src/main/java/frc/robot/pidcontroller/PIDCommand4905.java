@@ -36,16 +36,20 @@ public class PIDCommand4905 extends CommandBase {
    * @param measurementSource the measurement of the process variable
    * @param setpointSource    the controller's setpoint
    * @param useOutput         the controller's output
+   * @param feedForward       feedforward that implements calculate
    * @param requirements      the subsystems required by this command
    */
   public PIDCommand4905(PIDController4905 controller, DoubleSupplier measurementSource,
-      DoubleSupplier setpointSource, DoubleConsumer useOutput, Subsystem... requirements) {
+      DoubleSupplier setpointSource, DoubleConsumer useOutput, FeedForward feedForward,
+      Subsystem... requirements) {
     requireNonNullParam(controller, "controller", "PIDCommand");
     requireNonNullParam(measurementSource, "measurementSource", "PIDCommand");
     requireNonNullParam(setpointSource, "setpointSource", "PIDCommand");
     requireNonNullParam(useOutput, "useOutput", "PIDCommand");
+    requireNonNullParam(feedForward, "feedforward", "PIDCommand");
 
     m_controller = controller;
+    m_controller.setFeedforward(feedForward);
     m_useOutput = useOutput;
     m_measurement = measurementSource;
     m_setpoint = setpointSource;
@@ -54,7 +58,7 @@ public class PIDCommand4905 extends CommandBase {
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
-   * PIDController.
+   * PIDController that does not use feedforwared
    *
    * @param controller        the controller that controls the output.
    * @param measurementSource the measurement of the process variable
@@ -63,8 +67,8 @@ public class PIDCommand4905 extends CommandBase {
    * @param requirements      the subsystems required by this command
    */
   public PIDCommand4905(PIDController4905 controller, DoubleSupplier measurementSource,
-      double setpoint, DoubleConsumer useOutput, Subsystem... requirements) {
-    this(controller, measurementSource, () -> setpoint, useOutput, requirements);
+      DoubleSupplier setpoint, DoubleConsumer useOutput, Subsystem... requirements) {
+    this(controller, measurementSource, setpoint, useOutput, () -> 0, requirements);
   }
 
   @Override
@@ -94,5 +98,9 @@ public class PIDCommand4905 extends CommandBase {
 
   public void setOutput(DoubleConsumer output) {
     m_useOutput = output;
+  }
+
+  public void setSetpoint(DoubleSupplier setpoint) {
+    m_setpoint = setpoint;
   }
 }
