@@ -11,6 +11,9 @@ public class ConeOrCubeLEDsSingleton {
   private LEDStates m_LedStates;
   private static ConeOrCubeLEDsSingleton m_instance = new ConeOrCubeLEDsSingleton();
 
+  public ConeOrCubeLEDsSingleton() {
+  }
+
   public static ConeOrCubeLEDsSingleton getInstance() {
     return m_instance;
   }

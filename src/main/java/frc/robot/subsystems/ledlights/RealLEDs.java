@@ -15,7 +15,7 @@ public class RealLEDs extends LEDs {
   private DigitalOutput m_blue;
   DriveTrain m_driveTrain;
   private LEDStates m_LedStates;
-  private ConeOrCubeLEDsSingleton m_ConeOrCube;
+  private static ConeOrCubeLEDsSingleton m_ConeOrCube;
 
   public RealLEDs(Config conf, DriveTrain driveTrain) {
     m_red = new DigitalOutput(conf.getInt("Red"));
@@ -27,7 +27,7 @@ public class RealLEDs extends LEDs {
     setPurple(1.0);
     setSolid();
     m_driveTrain = driveTrain;
-    m_ConeOrCube = new ConeOrCubeLEDsSingleton();
+    m_ConeOrCube = new ConeOrCubeLEDsSingleton().getInstance();
   }
 
   @Override

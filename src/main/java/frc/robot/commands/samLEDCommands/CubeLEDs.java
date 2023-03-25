@@ -7,10 +7,10 @@ package frc.robot.commands.samLEDCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ledlights.ConeOrCubeLEDsSingleton;
 import frc.robot.subsystems.ledlights.LEDStates;
-import frc.robot.subsystems.ledlights.LEDs;
+import frc.robot.subsystems.ledlights.RealLEDs;
 
 public class CubeLEDs extends CommandBase {
-  protected LEDs m_cubeLEDs;
+  protected RealLEDs m_cubeLEDs;
   protected ConeOrCubeLEDsSingleton m_ConeOrCubeLEDsSingleton;
   public static int m_ledState;
 
