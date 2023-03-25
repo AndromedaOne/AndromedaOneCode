@@ -16,6 +16,7 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosit
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -32,7 +33,7 @@ public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     addCommands(
         new ParallelDeadlineGroup(new SequentialCommandGroup4905(
-            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+            new TopScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
             new OpenGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
@@ -44,7 +45,7 @@ public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
                     subsystemsContainer.getArmExtRetBase()),
                 new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase(), true, true, true)),
-            new MoveUsingEncoder(driveTrain, -176, 0.75)),
+            new MoveUsingEncoder(driveTrain, -176, 1.0)),
 
         new ParallelDeadlineGroup(new CloseGripper(subsystemsContainer.getGripper()),
             new PauseRobot(driveTrain)),
@@ -54,10 +55,10 @@ public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
         new ParallelCommandGroup(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, 168, 1.0)),
+            new MoveUsingEncoder(driveTrain, 160, 1.0)),
 
         new ParallelDeadlineGroup(new SequentialCommandGroup(
-            new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
+            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
             new OpenGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
