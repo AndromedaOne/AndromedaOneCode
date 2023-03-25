@@ -61,8 +61,38 @@ public class MockDriveTrain extends DriveTrain {
   }
 
   @Override
+  public ParkingBrakeStates getParkingBrakeState() {
+    return ParkingBrakeStates.BRAKESON;
+  }
+
+  @Override
   public void resetOdometry(Pose2d pose) {
 
+  }
+
+  @Override
+  public void enableParkingBrakes() {
+
+  }
+
+  @Override
+  public void disableParkingBrakes() {
+
+  }
+
+  @Override
+  public double getLeftRateMetersPerSecond() {
+    return 0;
+  }
+
+  @Override
+  public double getRightRateMetersPerSecond() {
+    return 0;
+  }
+
+  @Override
+  public boolean hasParkingBrake() {
+    return false;
   }
 
 }

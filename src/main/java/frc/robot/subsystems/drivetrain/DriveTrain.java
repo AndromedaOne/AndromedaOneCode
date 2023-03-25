@@ -13,15 +13,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class DriveTrain extends SubsystemBase {
+  public enum DriveTrainMode {
+    FAST, MID, SLOW
+  }
+
+  private DriveTrainMode m_driveTrainMode = DriveTrainMode.FAST;
+
   /**
    * Creates a new DriveTrainBase.
    */
   public DriveTrain() {
-  }
-
-  public void updateSmartDashboardReadings() {
-    SmartDashboard.putNumber("RobotPositionInches", getRobotPositionInches());
-    SmartDashboard.putNumber("RobotVelocityInches", getRobotVelocityInches());
   }
 
   public abstract void init();
@@ -55,7 +56,34 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract void resetOdometry(Pose2d pose);
 
+  public abstract void enableParkingBrakes();
+
+  public abstract void disableParkingBrakes();
+
+  public abstract ParkingBrakeStates getParkingBrakeState();
+
+  public abstract boolean hasParkingBrake();
+
+  public abstract double getLeftRateMetersPerSecond();
+
+  public abstract double getRightRateMetersPerSecond();
+
   public void setCoast(boolean p) {
     System.out.println("coast set to " + p);
+  }
+
+  public void setDriveTrainMode(DriveTrainMode mode) {
+    m_driveTrainMode = mode;
+  }
+
+  public DriveTrainMode getDriveTrainMode() {
+    return m_driveTrainMode;
+  }
+
+  public void periodic() {
+    SmartDashboard.putNumber("robotPositionInches", getRobotPositionInches());
+    SmartDashboard.putNumber("Left Wheel Speed", getLeftRateMetersPerSecond());
+    SmartDashboard.putNumber("Right Wheel Speed", getRightRateMetersPerSecond());
+    SmartDashboard.putString("Parking Brake State", getParkingBrakeState().name());
   }
 }

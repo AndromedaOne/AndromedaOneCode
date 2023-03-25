@@ -32,6 +32,8 @@ public class Config4905 {
   private Config m_sensorConfig;
   private Config m_commandConstantsConfig;
   private Config m_ledConfig;
+  private Config m_leftLedConfig;
+  private Config m_rightLedConfig;
   private Config m_harvesterConfig;
   private Config m_conveyorConfig;
   private Config m_compressorConfig;
@@ -43,7 +45,9 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
-
+  private Config m_gripperConfig;
+  private Config m_samArmRotateConfig;
+  private Config m_samArmExtensionConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -54,6 +58,7 @@ public class Config4905 {
   private boolean m_isRomi = false;
   private boolean m_isShowBot = false;
   private boolean m_isTopGun = false;
+  private boolean m_isSAM = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -65,6 +70,8 @@ public class Config4905 {
         m_isShowBot = true;
       } else if (m_robotName.equals("TopGun")) {
         m_isTopGun = true;
+      } else if (m_robotName.equals("SAM")) {
+        m_isSAM = true;
       }
 
     } else {
@@ -136,6 +143,8 @@ public class Config4905 {
     m_drivetrainConfig = load("drivetrain.conf");
     m_climberConfig = load("climber.conf");
     m_ledConfig = load("LED.conf");
+    m_leftLedConfig = load("leftLED.conf");
+    m_rightLedConfig = load("rightLED.conf");
     m_harvesterConfig = load("harvester.conf");
     m_conveyorConfig = load("conveyor.conf");
     m_compressorConfig = load("compressor.conf");
@@ -146,6 +155,9 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
+    m_gripperConfig = load("gripper.conf");
+    m_samArmRotateConfig = load("armrotate.conf");
+    m_samArmExtensionConfig = load("armextension.conf");
   }
 
   public Config getControllersConfig() {
@@ -168,8 +180,32 @@ public class Config4905 {
     return m_ledConfig;
   }
 
+  public Config getLeftLEDConfig() {
+    return m_leftLedConfig;
+  }
+
+  public Config getRightLEDConfig() {
+    return m_rightLedConfig;
+  }
+
   public boolean doesLEDExist() {
     if (m_config.hasPath("subsystems.LED")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean doesLeftLEDExist() {
+    if (m_config.hasPath("subsystems.leftLED")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean doesRightLEDExist() {
+    if (m_config.hasPath("subsystems.rightLED")) {
       return true;
     } else {
       return false;
@@ -228,7 +264,20 @@ public class Config4905 {
     return m_compressorConfig;
   }
 
-  public boolean doesShowBotCannonExist() {
+  public Config getGripperConfig() {
+    return m_gripperConfig;
+  }
+
+  public boolean doesGripperExist() {
+    if (m_config.hasPath("subsystems.gripper")) {
+      return true;
+
+    } else {
+      return false;
+    }
+  }
+
+public boolean doesShowBotCannonExist() {
     if (m_config.hasPath("subsystems.showBotCannon")) {
       return true;
     } else {
@@ -307,6 +356,28 @@ public class Config4905 {
     return false;
   }
 
+  public boolean doesSamArmExtRetExist() {
+    if (m_config.hasPath("subsystems.samArmExtRet")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSamArmRotateConfig() {
+    return m_samArmRotateConfig;
+  }
+
+  public boolean doesSamArmRotateExist() {
+    if (m_config.hasPath("subsystems.samArmRotate")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSamArmExtensionConfig() {
+    return m_samArmExtensionConfig;
+  }
+
   public boolean isRomi() {
     return m_isRomi;
   }
@@ -317,6 +388,10 @@ public class Config4905 {
 
   public boolean isTopGun() {
     return m_isTopGun;
+  }
+
+  public boolean isSAM() {
+    return m_isSAM;
   }
 
   public String getRobotName() {
