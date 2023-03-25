@@ -31,6 +31,8 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.samArmExtendRetractCommands.DisengageExtendRetractBrake;
+import frc.robot.commands.samArmExtendRetractCommands.EnableExtendRetractBrake;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
@@ -99,9 +101,13 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Enable Arm Rotation Brake",
           new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
       SmartDashboard.putData("Extend Arms Tuner",
-          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), true, true));
+          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), true));
       SmartDashboard.putData("Arm Angle Tuner",
           new RotateArm(subsystemsContainer.getArmRotateBase(), () -> 0, false, true));
+      SmartDashboard.putData("Engage Arm Ext Brake",
+          new EnableExtendRetractBrake(subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Disengage Arm Ext Brake",
+          new DisengageExtendRetractBrake(subsystemsContainer.getArmExtRetBase()));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
