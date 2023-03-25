@@ -7,12 +7,10 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Config4905;
 import frc.robot.commands.SAMgripperCommands.DefaultGripperCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
-import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
-import frc.robot.commands.samArmExtendRetractCommands.InitializeArmExtRet;
+import frc.robot.commands.samArmExtendRetractCommands.EnableExtendRetractBrake;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -255,8 +253,7 @@ public class SubsystemsContainer {
       m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
     }
     if (Config4905.getConfig4905().doesSamArmExtRetExist()) {
-      m_armExtRet.setDefaultCommand(new SequentialCommandGroup(new InitializeArmExtRet(m_armExtRet),
-          new ExtendRetractInternal(m_armExtRet, false)));
+      m_armExtRet.setDefaultCommand(new EnableExtendRetractBrake(m_armExtRet));
     }
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
       m_armRotate.setDefaultCommand(new EnableArmBrake(m_armRotate));

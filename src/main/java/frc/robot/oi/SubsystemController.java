@@ -14,10 +14,12 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BottomScorePosit
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.commands.samLEDCommands.ConeLEDs;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samLEDCommands.CubeLEDs;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -72,19 +74,20 @@ public class SubsystemController extends ControllerBase {
   }
 
   private void setUpArmButtons() {
-    getXbutton().onTrue(new OffFloorPickupPosition(m_subsystemsContainer.getArmRotateBase(),
+    getAbutton().onTrue(new OffFloorPickupPosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
     getYbutton().onTrue(new MiddleScorePosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
     getBbutton().onTrue(new TopScorePosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
-    getAbutton().onTrue(new BottomScorePosition(m_subsystemsContainer.getArmRotateBase(),
+    getXbutton().onTrue(new BottomScorePosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
-    // getbutton().onTrue(new
-    // SubstationPickupPosition(m_subsystemsContainer.getArmRotateBase(),
-    // m_subsystemsContainer.getArmExtRetBase()));
+    getPOVnorth().onTrue(new SubstationPickupPosition(m_subsystemsContainer.getArmRotateBase(),
+        m_subsystemsContainer.getArmExtRetBase()));
     getLeftBumperButton().onTrue(new StowPosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
+    getRightStickButton()
+        .whileTrue(new ExtendRetract(m_subsystemsContainer.getArmExtRetBase(), false, false));
   }
 
   private void setupGripperButtons() {
@@ -130,4 +133,7 @@ public class SubsystemController extends ControllerBase {
     return false;
   }
 
+  public double getArmExtendRetractJoystickValue() {
+    return getRightStickForwardBackwardValue();
+  }
 }

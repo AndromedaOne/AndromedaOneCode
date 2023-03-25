@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
-import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
+import frc.robot.commands.SAMgripperCommands.CloseGripper;
+import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
@@ -39,19 +40,17 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
         new ParallelDeadlineGroup(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
-            new OpenCloseGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain)),
+            new OpenGripper(subsystemsContainer.getGripper()), new PauseRobot(driveTrain)),
 
         new PauseRobot(waitTime, driveTrain),
 
         new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()), moveCommand),
 
-        new ParallelDeadlineGroup(
-            new SequentialCommandGroup(
-                new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
-                    subsystemsContainer.getArmExtRetBase(), true, true, true),
-                new OpenCloseGripper(subsystemsContainer.getGripper())),
-            new PauseRobot(driveTrain)),
+        new ParallelDeadlineGroup(new SequentialCommandGroup(
+            new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase(), true, true, true),
+            new CloseGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
         new PauseRobot(waitTime, driveTrain),
 

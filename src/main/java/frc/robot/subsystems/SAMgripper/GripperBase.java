@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Add your docs here. */
 public abstract class GripperBase extends SubsystemBase {
   public GripperBase() {
-
   }
 
   public abstract void initialize();
@@ -19,10 +18,5 @@ public abstract class GripperBase extends SubsystemBase {
   public abstract void closeGripper();
 
   public abstract GripperState getState();
-
-  @Override
-  public void periodic() {
-// this method will be called once per scheduler run
-  }
 
 }

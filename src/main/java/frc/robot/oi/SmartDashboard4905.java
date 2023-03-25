@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.SAMgripperCommands.CloseGripper;
 import frc.robot.commands.SAMgripperCommands.OpenCloseGripper;
+import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
@@ -29,7 +31,9 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
-import frc.robot.commands.samArmExtendRetractCommands.ExtendRetractInternal;
+import frc.robot.commands.samArmExtendRetractCommands.DisengageExtendRetractBrake;
+import frc.robot.commands.samArmExtendRetractCommands.EnableExtendRetractBrake;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
@@ -42,7 +46,10 @@ import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
- * Add your docs here.
+ * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
+ * to run commands). DO NOT include putNumber or putString as these need to be
+ * in periodic methods to get called over and over. this class gets instantiated
+ * once when the robot is turned on...
  */
 public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
@@ -63,10 +70,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Shoot Cannon", new ShootCannon());
     }
     if (Config4905.getConfig4905().doesGripperExist()) {
-      SmartDashboard.putString("Real Gripper state =",
-          subsystemsContainer.getGripper().getState().name());
       SmartDashboard.putData("Toggle Gripper",
           new OpenCloseGripper(subsystemsContainer.getGripper()));
+      SmartDashboard.putData("Open Gripper", new OpenGripper(subsystemsContainer.getGripper()));
+      SmartDashboard.putData("Close Gripper", new CloseGripper(subsystemsContainer.getGripper()));
     }
 
     if (Config4905.getConfig4905().doesShooterExist()) {
@@ -93,11 +100,14 @@ public class SmartDashboard4905 {
           subsystemsContainer.getArmRotateBase(), subsystemsContainer.getArmExtRetBase()));
       SmartDashboard.putData("Enable Arm Rotation Brake",
           new EnableArmBrake(subsystemsContainer.getArmRotateBase()));
-      SmartDashboard.putNumber("Extend Arm Position Value", 0);
-      SmartDashboard.putData("Extend Arms", new ExtendRetractInternal(
-          subsystemsContainer.getArmExtRetBase(), () -> 5, true, true, false));
+      SmartDashboard.putData("Extend Arms Tuner",
+          new ExtendRetract(subsystemsContainer.getArmExtRetBase(), true, true));
       SmartDashboard.putData("Arm Angle Tuner",
           new RotateArm(subsystemsContainer.getArmRotateBase(), () -> 0, false, true));
+      SmartDashboard.putData("Engage Arm Ext Brake",
+          new EnableExtendRetractBrake(subsystemsContainer.getArmExtRetBase()));
+      SmartDashboard.putData("Disengage Arm Ext Brake",
+          new DisengageExtendRetractBrake(subsystemsContainer.getArmExtRetBase()));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
