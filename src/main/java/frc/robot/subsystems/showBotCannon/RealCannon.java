@@ -6,6 +6,7 @@ package frc.robot.subsystems.showBotCannon;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -20,6 +21,8 @@ public class RealCannon extends CannonBase {
   private DoubleSolenoid4905 m_solenoid3_4;
   private double m_maxsafetyRange;
   private Config m_config;
+  // contact switch true is out of range; false is in range
+  private DigitalInput m_cannonElevatorContactSwitch;
 
   public RealCannon(CompressorBase compressorBase) {
     m_config = Config4905.getConfig4905().getShowBotCannonConfig();
@@ -28,6 +31,7 @@ public class RealCannon extends CannonBase {
     m_solenoid2_5 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid2_5");
     m_solenoid3_4 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid3_4");
     m_maxsafetyRange = m_config.getInt("detectionrange");
+    m_cannonElevatorContactSwitch = new DigitalInput(m_config.getInt("contactswitch"));
   }
 
   @Override
@@ -66,6 +70,12 @@ public class RealCannon extends CannonBase {
   public void periodic() {
     SmartDashboard.putNumber("cannonSafetyUltrasonic",
         Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
+    SmartDashboard.putBoolean("cannonElevatorContactSwitch", m_cannonElevatorContactSwitch.get());
+  }
+
+  @Override
+  public boolean isCannonElevationInRange() {
+    return !m_cannonElevatorContactSwitch.get();
   }
 
   @Override

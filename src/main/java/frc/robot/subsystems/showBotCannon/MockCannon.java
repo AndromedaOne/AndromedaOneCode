@@ -27,4 +27,9 @@ public class MockCannon extends CannonBase {
   public void reset() {
 
   }
+
+  @Override
+  public boolean isCannonElevationInRange() {
+    return false;
+  }
 }

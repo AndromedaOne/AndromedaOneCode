@@ -19,6 +19,8 @@ public abstract class CannonBase extends SubsystemBase {
 
   public abstract boolean isPressurized();
 
+  public abstract boolean isCannonElevationInRange();
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
