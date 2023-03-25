@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.telemetries.Trace;
 
-public class EnableExtendRetractBrake extends CommandBase {
-  private SamArmExtRetBase m_armExtendRetBase;
+public class DisengageExtendRetractBrake extends CommandBase {
+  private SamArmExtRetBase m_armExtRetBase;
 
-  /** Creates a new EnableExtendRetractBrake. */
-  public EnableExtendRetractBrake(SamArmExtRetBase armExtRetBase) {
-    m_armExtendRetBase = armExtRetBase;
+  /** Creates a new DisengageExtendRetractBrake. */
+  public DisengageExtendRetractBrake(SamArmExtRetBase armExtRetBase) {
+    m_armExtRetBase = armExtRetBase;
     addRequirements(armExtRetBase);
   }
 
@@ -21,7 +21,7 @@ public class EnableExtendRetractBrake extends CommandBase {
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    m_armExtendRetBase.engageArmBrake();
+    m_armExtRetBase.disengageArmBrake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,6 +32,7 @@ public class EnableExtendRetractBrake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_armExtRetBase.engageArmBrake();
     Trace.getInstance().logCommandStop(this);
   }
 

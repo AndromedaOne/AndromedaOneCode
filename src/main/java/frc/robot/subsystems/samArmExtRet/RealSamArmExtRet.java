@@ -35,8 +35,8 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
     m_extensionBrakeServoMotor = new HitecHS322HDpositionalServoMotor(armextensionConfig,
         "extensionbrake");
-    m_extensionBrakeOpenValue = armextensionConfig.getDouble("extensionbrakeopen");
-    m_extensionBrakeClosedValue = armextensionConfig.getDouble("extensionbrakeclosed");
+    m_extensionBrakeOpenValue = armextensionConfig.getDouble("extensionbrake.extensionbrakeopen");
+    m_extensionBrakeClosedValue = armextensionConfig.getDouble("extensionbrake.extensionbrakeclosed");
     m_extensionMotor = new SparkMaxController(armextensionConfig, "extensionmotor");
     m_maxExtension = armextensionConfig.getDouble("maxExtension");
     m_minExtension = armextensionConfig.getDouble("minExtension");
@@ -78,7 +78,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   @Override
   public void setZeroOffset() {
-    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks() + 75;
+    m_zeroOffset = m_extensionMotor.getEncoderPositionTicks() + 25;
   }
 
   @Override
@@ -95,7 +95,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     if (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED) {
       m_extensionMotor.set(0);
     } else {
-      m_extensionMotor.set(-0.5);
+      m_extensionMotor.set(-0.25);
     }
   }
 
@@ -132,11 +132,13 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   @Override
   public void engageArmBrake() {
     m_extensionBrakeServoMotor.set(m_extensionBrakeClosedValue);
+    m_extensionBrakeStates = ExtensionBrakeStates.BRAKECLOSED;
   }
 
   @Override
   public void disengageArmBrake() {
     m_extensionBrakeServoMotor.set(m_extensionBrakeOpenValue);
+    m_extensionBrakeStates = ExtensionBrakeStates.BRAKEOPEN;
   }
 
   @Override

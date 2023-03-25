@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.ArmRotationExtensionSingleton;
+import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase.RetractLimitSwitchState;
 import frc.robot.telemetries.Trace;
+import frc.robot.utils.InterpolatingMap;
 
 public class ExtendRetract extends SequentialCommandGroup4905 {
   /** Creates a new ExtRetSeq. */
@@ -50,6 +52,8 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     private boolean m_needToEnd = false;
     private boolean m_useSmartDashboard = false;
     private double m_extendRetractJoystickPvalue = 0.001;
+    private FeedForward m_feedForward = new ExtRetFeedForward();
+    private InterpolatingMap m_kMap;
 
     public ExtendRetractInternal(SamArmExtRetBase armExtRet, boolean needToEnd,
         boolean useSmartDashboard) {
@@ -62,6 +66,10 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
       m_armExtRet = armExtRet;
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
+
+      // m_kMap = new
+      // InterpolatingMap(Config4905.getConfig4905().getSamArmExtensionConfig(),
+      // "armExtKValues");
     }
 
     // Called when the command is initially scheduled.
@@ -83,6 +91,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
       getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmExtRet.minOutputToMove"));
       getController().setTolerance(pidConstantsConfig.getDouble("ArmExtRet.tolerance"));
       getController().setMaxOutput(1);
+      getController().setFeedforward(m_feedForward);
       Trace.getInstance().logCommandStart(this);
       Trace.getInstance().logCommandInfo(this,
           "Extend Retract Arm to: " + getController().getSetpoint());
@@ -163,5 +172,15 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
       return (m_armExtRetBase.getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED)
           || m_armExtRetBase.isInitialized();
     }
+  }
+
+  private class ExtRetFeedForward implements FeedForward {
+
+    @Override
+    public double calculate() {
+
+      return 0;
+    }
+
   }
 }
