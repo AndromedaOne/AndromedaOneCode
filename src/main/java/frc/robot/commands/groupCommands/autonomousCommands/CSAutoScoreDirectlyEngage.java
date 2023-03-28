@@ -37,7 +37,8 @@ public class CSAutoScoreDirectlyEngage extends SequentialCommandGroup4905 {
         new SequentialCommandGroup4905(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveWithoutPID(driveTrain, -100, 0.75, 0), new BalanceRobot(driveTrain, 0.5, 0)));
+            new MoveWithoutPID(driveTrain, -100, 0.75, 180),
+            new BalanceRobot(driveTrain, 0.5, 180)));
   }
 
   @Override

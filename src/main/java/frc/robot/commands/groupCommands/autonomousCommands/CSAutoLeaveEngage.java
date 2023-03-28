@@ -24,8 +24,8 @@ public class CSAutoLeaveEngage extends SequentialCommandGroup4905 {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
-    addCommands(moveCommand, new MoveWithoutPID(driveTrain, 55, 0.75, 0),
-        new BalanceRobot(driveTrain, 0.5, 0));
+    addCommands(moveCommand, new MoveWithoutPID(driveTrain, 55, 0.75, 180),
+        new BalanceRobot(driveTrain, 0.5, 180));
 
   }
 

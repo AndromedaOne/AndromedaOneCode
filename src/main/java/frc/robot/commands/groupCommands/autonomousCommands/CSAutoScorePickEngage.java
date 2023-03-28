@@ -57,8 +57,8 @@ public class CSAutoScorePickEngage extends SequentialCommandGroup {
         new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()),
 
-        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 0),
-            new BalanceRobot(driveTrain, 0.5, 0)));
+        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 180),
+            new BalanceRobot(driveTrain, 0.5, 180)));
 
   }
 }
