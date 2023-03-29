@@ -119,7 +119,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
 
   private double calcMaxExtendDistance() {
     double angle = Robot.getInstance().getSubsystemsContainer().getArmRotateBase().getAngle();
-    if (angle == 90) {
+    if (angle == 180) {
       return Double.MAX_VALUE;
     }
     if (angle < 180) {
