@@ -25,9 +25,9 @@ import frc.robot.subsystems.drivetrain.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PlacePickEngageAutoDock extends SequentialCommandGroup {
+public class CSAutoScorePickEngage extends SequentialCommandGroup {
   /** Creates a new PlacePickEngageAutoDock. */
-  public PlacePickEngageAutoDock() {
+  public CSAutoScorePickEngage() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     long waitTime = 1000;
@@ -58,7 +58,7 @@ public class PlacePickEngageAutoDock extends SequentialCommandGroup {
         new StowPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()),
 
-        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 0),
+        new SequentialCommandGroup4905(new MoveWithoutPID(driveTrain, 45, 0.75, 180),
             new BalanceRobot(driveTrain, 0.5, 0), new EnableParkingBrake(driveTrain)));
 
   }

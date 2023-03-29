@@ -11,6 +11,7 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BalancingArmPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -21,9 +22,9 @@ import frc.robot.telemetries.Trace;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PlaceDirectlyEngage extends SequentialCommandGroup4905 {
+public class CSAutoScoreDirectlyEngage extends SequentialCommandGroup4905 {
   /** Creates a new PlaceDirectlyEngage. */
-  public PlaceDirectlyEngage() {
+  public CSAutoScoreDirectlyEngage() {
     long waitTime = 250;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
@@ -38,8 +39,12 @@ public class PlaceDirectlyEngage extends SequentialCommandGroup4905 {
         new SequentialCommandGroup4905(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
+            new BalancingArmPosition(subsystemsContainer.getArmRotateBase(),
+                subsystemsContainer.getArmExtRetBase()),
             new MoveWithoutPID(driveTrain, -100, 0.75, 0), new BalanceRobot(driveTrain, 0.5, 0),
             new EnableParkingBrake(driveTrain)));
+            new MoveWithoutPID(driveTrain, -90, 0.75, 180),
+            new BalanceRobot(driveTrain, 0.5, 180)));
   }
 
   @Override
