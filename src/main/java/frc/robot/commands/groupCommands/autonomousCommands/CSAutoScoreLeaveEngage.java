@@ -46,10 +46,10 @@ public class CSAutoScoreLeaveEngage extends SequentialCommandGroup4905 {
             subsystemsContainer.getArmExtRetBase()), moveCommand),
 
         new SequentialCommandGroup4905(
-            new BalanceRobot(driveTrain, 0.5, 0), new EnableParkingBrake(driveTrain)));
             new BalancingArmPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveWithoutPID(driveTrain, 53, 0.75, 180), new BalanceRobot(driveTrain, 0.5, 180)));
+            new MoveWithoutPID(driveTrain, 53, 0.75, 180), new BalanceRobot(driveTrain, 0.5, 180),
+            new EnableParkingBrake(driveTrain)));
   }
 
   @Override

@@ -41,10 +41,8 @@ public class CSAutoScoreDirectlyEngage extends SequentialCommandGroup4905 {
                 subsystemsContainer.getArmExtRetBase()),
             new BalancingArmPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveWithoutPID(driveTrain, -100, 0.75, 0), new BalanceRobot(driveTrain, 0.5, 0),
+            new MoveWithoutPID(driveTrain, -90, 0.75, 180), new BalanceRobot(driveTrain, 0.5, 180),
             new EnableParkingBrake(driveTrain)));
-            new MoveWithoutPID(driveTrain, -90, 0.75, 180),
-            new BalanceRobot(driveTrain, 0.5, 180)));
   }
 
   @Override
