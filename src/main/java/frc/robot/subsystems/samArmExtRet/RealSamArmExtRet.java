@@ -28,6 +28,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   private double m_extensionBrakeOpenValue = 0.0;
   private double m_extensionBrakeClosedValue = 0.0;
   private ExtensionBrakeStates m_extensionBrakeStates = ExtensionBrakeStates.UNKNOWN;
+  private double m_calcultedMaxExtendDistance = 0.0;
 
   /** Creates a new RealSamArmExtension. */
   public RealSamArmExtRet() {
@@ -50,6 +51,7 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     SmartDashboard.putString("arm ret limit switch", getRetractLimitSwitchState().toString());
     SmartDashboard.putBoolean("forwardSwitch", m_retractLimitSwitch.get());
     SmartDashboard.putString("Arm Extension brake state", getExtensionBrakeState().toString());
+    SmartDashboard.putNumber("Calculated Max Extend Distance", calcMaxExtendDistance());
   }
 
   @Override
@@ -57,10 +59,10 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     if (m_extensionBrakeStates != ExtensionBrakeStates.BRAKEOPEN) {
       return;
     }
+    double maxExtDist = calcMaxExtendDistance();
     if ((speed < 0) && (getPosition() <= m_minExtension)) {
       m_extensionMotor.set(0);
-    } else if ((speed > 0) && (getPosition() >= m_maxExtension)
-        && ((getPosition() + m_armLengthOffset) > calcMaxExtendDistance())) {
+    } else if ((speed > 0) && ((getPosition() >= m_maxExtension) || (getPosition() > maxExtDist))) {
       m_extensionMotor.set(0);
     } else {
       m_extensionMotor.set(speed);
@@ -122,12 +124,13 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     }
     if (angle < 180) {
       angle = (angle - 90);
-      return m_armFrontMaxDistanceFromPivotPoint / Math.cos(angle);
+      m_calcultedMaxExtendDistance = m_armFrontMaxDistanceFromPivotPoint / Math.cos(angle);
+    } else {
+      angle = Math.abs(angle - 270);
+      m_calcultedMaxExtendDistance = m_armRearMaxDistanceFromPivotPoint / Math.cos(angle);
     }
-    angle = Math.abs(angle - 270);
-    double calcultedMaxExtendDistance = m_armRearMaxDistanceFromPivotPoint / Math.cos(angle);
-    SmartDashboard.putNumber("Calculated Max Extend Distance", calcultedMaxExtendDistance);
-    return calcultedMaxExtendDistance;
+    m_calcultedMaxExtendDistance -= m_armLengthOffset;
+    return m_calcultedMaxExtendDistance;
   }
 
   @Override
