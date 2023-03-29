@@ -39,7 +39,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double m_leftBrakeDisengagedValue = 0.0;
   private double m_rightBrakeDisengagedValue = 0.0;
   private boolean m_hasParkingBrake = false;
-  private final double m_maxSpeedToEngageBrake = 0.55;
+  private final double m_maxSpeedToEngageBrake = 0.85;
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();

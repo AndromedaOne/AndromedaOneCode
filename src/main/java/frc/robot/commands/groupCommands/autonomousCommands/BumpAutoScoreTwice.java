@@ -24,9 +24,9 @@ import frc.robot.telemetries.Trace;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class LeftAutoPlaceAndLeave extends SequentialCommandGroup4905 {
-  /** Creates a new AutoPlaceAndLeave. */
-  public LeftAutoPlaceAndLeave() {
+public class BumpAutoScoreTwice extends SequentialCommandGroup4905 {
+  /** Creates a new BlueRightAutoPlaceAndLeave. */
+  public BumpAutoScoreTwice() {
     long waitTime = 250;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
@@ -39,12 +39,12 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup4905 {
         new PauseRobot(waitTime, driveTrain),
 
         new ParallelCommandGroup(
-            new SequentialCommandGroup4905(
+            new SequentialCommandGroup(
                 new StowPosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase()),
                 new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase(), true, true, true)),
-            new MoveUsingEncoder(driveTrain, -176, 0.75)),
+            new MoveUsingEncoder(driveTrain, -174, 0.5)),
 
         new ParallelDeadlineGroup(new CloseGripper(subsystemsContainer.getGripper()),
             new PauseRobot(driveTrain)),
@@ -54,7 +54,7 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup4905 {
         new ParallelCommandGroup(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, 168, 1.0)),
+            new MoveUsingEncoder(driveTrain, 164, 0.5)),
 
         new ParallelDeadlineGroup(new SequentialCommandGroup(
             new BottomScorePosition(subsystemsContainer.getArmRotateBase(),
@@ -63,9 +63,8 @@ public class LeftAutoPlaceAndLeave extends SequentialCommandGroup4905 {
 
         new PauseRobot(waitTime, driveTrain),
 
-        new ParallelDeadlineGroup(
-            new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()), new PauseRobot(driveTrain))));
+        new ParallelDeadlineGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
+            subsystemsContainer.getArmExtRetBase()), new PauseRobot(driveTrain)));
   }
 
   @Override
