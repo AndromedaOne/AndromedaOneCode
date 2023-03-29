@@ -53,6 +53,8 @@ public class MoveWithoutPID extends CommandBase {
   public void end(boolean interrupted) {
     Trace.getInstance().logCommandStop(this);
     m_driveTrain.stop();
+    Trace.getInstance().logCommandInfo(this,
+        "ending position: " + m_driveTrain.getRobotPositionInches());
   }
 
   // Returns true when the command should end.
