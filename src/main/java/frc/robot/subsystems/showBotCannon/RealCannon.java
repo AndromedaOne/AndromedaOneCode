@@ -6,11 +6,12 @@ package frc.robot.subsystems.showBotCannon;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.DoubleSolenoid4905;
+import frc.robot.sensors.encoder.EncoderBase;
+import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.subsystems.compressor.CompressorBase;
 
 /** Add your docs here. */
@@ -21,8 +22,8 @@ public class RealCannon extends CannonBase {
   private DoubleSolenoid4905 m_solenoid3_4;
   private double m_maxsafetyRange;
   private Config m_config;
-  // contact switch true is out of range; false is in range
-  private DigitalInput m_cannonElevatorContactSwitch;
+  private LimitSwitchSensor m_cannonElevatorContactSwitch;
+  private EncoderBase m_canonRotateEncoder;
 
   public RealCannon(CompressorBase compressorBase) {
     m_config = Config4905.getConfig4905().getShowBotCannonConfig();
@@ -31,7 +32,8 @@ public class RealCannon extends CannonBase {
     m_solenoid2_5 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid2_5");
     m_solenoid3_4 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid3_4");
     m_maxsafetyRange = m_config.getInt("detectionrange");
-    m_cannonElevatorContactSwitch = new DigitalInput(m_config.getInt("contactswitch"));
+    m_cannonElevatorContactSwitch = Robot.getInstance().getSensorsContainer().getCannonHomeSwitch();
+    m_canonRotateEncoder = Robot.getInstance().getSensorsContainer().getCannonElevatorEncoder();
   }
 
   @Override
@@ -54,7 +56,6 @@ public class RealCannon extends CannonBase {
       m_solenoid3_4.retractPiston();
 
     } else {
-
       System.out.println("Cannot shoot due to something being in the way. Distance being: " + Robot
           .getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
     }
@@ -63,19 +64,12 @@ public class RealCannon extends CannonBase {
 
   @Override
   public boolean isPressurized() {
-
     return false;
-  }
-
-  public void periodic() {
-    SmartDashboard.putNumber("cannonSafetyUltrasonic",
-        Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
-    SmartDashboard.putBoolean("cannonElevatorContactSwitch", m_cannonElevatorContactSwitch.get());
   }
 
   @Override
   public boolean isCannonElevationInRange() {
-    return !m_cannonElevatorContactSwitch.get();
+    return !m_cannonElevatorContactSwitch.isAtLimit();
   }
 
   @Override
@@ -84,5 +78,14 @@ public class RealCannon extends CannonBase {
     m_solenoid1_6.stopPiston();
     m_solenoid2_5.stopPiston();
     m_solenoid3_4.stopPiston();
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("cannonSafetyUltrasonic",
+        Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
+    SmartDashboard.putBoolean("cannonElevatorContactSwitch",
+        m_cannonElevatorContactSwitch.isAtLimit());
+    SmartDashboard.putNumber("canon rotate encoder ticks", m_canonRotateEncoder.getEncoderValue());
   }
 }

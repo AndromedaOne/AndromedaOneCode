@@ -33,6 +33,5 @@ public class RealLimitSwitchSensor extends LimitSwitchSensor {
   @Override
   public void updateSmartDashboardReadings() {
     SmartDashboard.putBoolean("Cannon home switch", isAtLimit());
-
   }
 }

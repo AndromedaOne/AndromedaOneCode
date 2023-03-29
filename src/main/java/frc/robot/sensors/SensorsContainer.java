@@ -108,8 +108,6 @@ public class SensorsContainer {
       SmartDashboard.putNumber("navx X angle", m_gyro.getXAngle());
       SmartDashboard.putNumber("navx Y angle", m_gyro.getYAngle());
     }
-    m_cannonElevatorEncoder.updateSmartDashboardReadings();
-    m_cannonHomeSwitch.updateSmartDashboardReadings();
   }
 
   public Gyro4905 getGyro() {
