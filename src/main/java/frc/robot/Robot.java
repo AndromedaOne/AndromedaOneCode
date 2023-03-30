@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDrivetrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
-    m_parkingBrakeScheduled = true;
+    m_parkingBrakeScheduled = false;
     Trace.getInstance().logInfo("autonomousInit finished");
   }
 
@@ -196,7 +196,7 @@ public class Robot extends TimedRobot {
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDrivetrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
-    m_parkingBrakeScheduled = true;
+    m_parkingBrakeScheduled = false;
     Trace.getInstance().logInfo("teleopInit finished");
   }
 
