@@ -21,9 +21,9 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   private double m_minExtension = 0;
   private boolean m_isInitialized = false;
   private DigitalInput m_retractLimitSwitch = new DigitalInput(9);
-  private static final double m_armFrontMaxDistanceFromPivotPoint = 68;
-  private static final double m_armRearMaxDistanceFromPivotPoint = 62;
-  private static final double m_armLengthOffset = 36;
+  private static final double m_armFrontMaxDistanceFromPivotPoint = 66;
+  private static final double m_armRearMaxDistanceFromPivotPoint = 59;
+  private static final double m_armLengthOffset = 37;
   private HitecHS322HDpositionalServoMotor m_extensionBrakeServoMotor;
   private double m_extensionBrakeOpenValue = 0.0;
   private double m_extensionBrakeClosedValue = 0.0;
@@ -122,12 +122,15 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     if (angle == 180) {
       return Double.MAX_VALUE;
     }
+    double cosAngle = 0;
     if (angle < 180) {
       angle = (angle - 90);
-      m_calcultedMaxExtendDistance = m_armFrontMaxDistanceFromPivotPoint / Math.cos(angle);
+      cosAngle = Math.cos(Math.toRadians(angle));
+      m_calcultedMaxExtendDistance = m_armFrontMaxDistanceFromPivotPoint / cosAngle;
     } else {
       angle = Math.abs(angle - 270);
-      m_calcultedMaxExtendDistance = m_armRearMaxDistanceFromPivotPoint / Math.cos(angle);
+      cosAngle = Math.cos(Math.toRadians(angle));
+      m_calcultedMaxExtendDistance = m_armRearMaxDistanceFromPivotPoint / cosAngle;
     }
     m_calcultedMaxExtendDistance -= m_armLengthOffset;
     return m_calcultedMaxExtendDistance;
