@@ -156,12 +156,6 @@ public class RamseteCommand4905 extends CommandBase {
       m_leftController.reset();
       m_rightController.reset();
     }
-    Trace.getInstance().registerTraceEntry(m_name + "DesiredTracking",
-        (pairs) -> pairs[0].getValue() + ", " + pairs[1].getValue(), (pairs) -> "x, y",
-        new TracePair<Double>("DesiredX", 0.0), new TracePair<Double>("DesiredY", 0.0));
-    Trace.getInstance().registerTraceEntry(m_name + "ActualTracking",
-        (pairs) -> pairs[0].getValue() + ", " + pairs[1].getValue(), (pairs) -> "x, y",
-        new TracePair<Double>("ActualX", 0.0), new TracePair<Double>("ActualY", 0.0));
   }
 
   @Override
@@ -173,8 +167,8 @@ public class RamseteCommand4905 extends CommandBase {
     ChassisSpeeds chassisSpeeds = m_follower.calculate(currentPos, desiredState);
 
     Trace.getInstance().addTrace(true, m_name + "ChassisSpeeds",
-        new TracePair<Double>("vxMetersPerSecond", chassisSpeeds.vxMetersPerSecond),
-        new TracePair<Double>("omegaRadiansPerSecond", chassisSpeeds.omegaRadiansPerSecond));
+        new TracePair("vxMetersPerSecond", chassisSpeeds.vxMetersPerSecond),
+        new TracePair("omegaRadiansPerSecond", chassisSpeeds.omegaRadiansPerSecond));
 
     var targetWheelSpeeds = m_kinematics.toWheelSpeeds(chassisSpeeds);
 
@@ -202,21 +196,20 @@ public class RamseteCommand4905 extends CommandBase {
     }
     m_output.accept(leftOutput, rightOutput);
     Trace.getInstance().addTrace(true, m_name,
-        new TracePair<Double>("CurrentX", currentPos.getTranslation().getX()),
-        new TracePair<Double>("CurrentY", currentPos.getTranslation().getY()),
-        new TracePair<Double>("CurrentRot", currentPos.getRotation().getDegrees() / 90.0),
-        new TracePair<Double>("DesiredX", desiredState.poseMeters.getTranslation().getX()),
-        new TracePair<Double>("DesiredY", desiredState.poseMeters.getTranslation().getY()),
-        new TracePair<Double>("DesiredRot",
-            desiredState.poseMeters.getRotation().getDegrees() / 90.0));
+        new TracePair("CurrentX", currentPos.getTranslation().getX()),
+        new TracePair("CurrentY", currentPos.getTranslation().getY()),
+        new TracePair("CurrentRot", currentPos.getRotation().getDegrees() / 90.0),
+        new TracePair("DesiredX", desiredState.poseMeters.getTranslation().getX()),
+        new TracePair("DesiredY", desiredState.poseMeters.getTranslation().getY()),
+        new TracePair("DesiredRot", desiredState.poseMeters.getRotation().getDegrees() / 90.0));
 
     Trace.getInstance().addTrace(true, m_name + "DesiredTracking",
-        new TracePair<Double>("DesiredX", desiredState.poseMeters.getTranslation().getX()),
-        new TracePair<Double>("DesiredY", desiredState.poseMeters.getTranslation().getY()));
+        new TracePair("DesiredX", desiredState.poseMeters.getTranslation().getX()),
+        new TracePair("DesiredY", desiredState.poseMeters.getTranslation().getY()));
 
     Trace.getInstance().addTrace(true, m_name + "ActualTracking",
-        new TracePair<Double>("ActualX", currentPos.getTranslation().getX()),
-        new TracePair<Double>("ActualY", currentPos.getTranslation().getY()));
+        new TracePair("ActualX", currentPos.getTranslation().getX()),
+        new TracePair("ActualY", currentPos.getTranslation().getY()));
 
     m_prevTime = curTime;
     m_prevSpeeds = targetWheelSpeeds;
