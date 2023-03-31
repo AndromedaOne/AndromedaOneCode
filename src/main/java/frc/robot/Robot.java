@@ -157,9 +157,10 @@ public class Robot extends TimedRobot {
     }
     if (m_subsystemContainer.getDrivetrain().hasParkingBrake()) {
       double matchTime = DriverStation.getMatchTime();
-      if (matchTime <= 0.5) {
+      if (matchTime <= 0.25) {
         // Call enable parking brake
         if (!m_parkingBrakeScheduled) {
+          Trace.getInstance().logInfo("End of auto period, engage parking brakes");
           CommandScheduler.getInstance()
               .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
           m_parkingBrakeScheduled = true;
@@ -213,9 +214,10 @@ public class Robot extends TimedRobot {
     }
     if (m_subsystemContainer.getDrivetrain().hasParkingBrake()) {
       double matchTime = DriverStation.getMatchTime();
-      if (matchTime <= 0.5) {
+      if (matchTime <= 0.25) {
         // Call enable parking brake
         if (!m_parkingBrakeScheduled) {
+          Trace.getInstance().logInfo("End of teleo period, engage parking brakes");
           CommandScheduler.getInstance()
               .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
           m_parkingBrakeScheduled = true;
