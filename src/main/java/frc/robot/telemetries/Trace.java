@@ -69,7 +69,7 @@ public class Trace {
   private long m_startTime = 0;
   private MultipleOutputStream m_out;
   private MultipleOutputStream m_err;
-  private static String m_matchStartFname = "matchStarted";
+  private static String m_matchStartFname = "match";
   private static boolean m_matchStarted = false;
   private static String m_commandTraceFname = "CommandTrace";
   private BufferedWriter m_commandTraceWriter;
@@ -107,7 +107,7 @@ public class Trace {
 
   private Trace() {
     if (!Files.exists(Paths.get(m_linuxHomeDir))) {
-      // if the base path does not exists (we're not on a roborio), just
+      // if the base path does not exist (we're not on a roborio), just
       // use system temp directory
       m_basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
     }
@@ -349,8 +349,10 @@ public class Trace {
     }
     BufferedWriter outputFile = null;
     try {
-      String fullFileName = new String(
-          m_pathOfTraceDir + "/" + m_matchStartFname + "." + matchNumber + ".txt");
+      // this will write out the match file with the directory number correspongin to
+      // the
+      // trace for this match.
+      String fullFileName = new String(m_basePathOfTraceDirs + "/" + m_matchStartFname + m_dirNumb);
       FileWriter fstream = new FileWriter(fullFileName, false);
       outputFile = new BufferedWriter(fstream);
       outputFile.write("Match #" + matchNumber + " Started @" + getDateStr());
