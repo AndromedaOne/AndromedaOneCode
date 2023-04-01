@@ -20,8 +20,8 @@ public class MiddleScorePosition extends SequentialCommandGroup4905 {
   private final double m_coneBackwardMiddlePosition = 12;
   private final double m_cubeForwardMiddleAngle = 120;
   private final double m_cubeForwardMiddlePosition = 12;
-  private final double m_coneForwardMiddleAngle = 126;
-  private final double m_coneForwardMiddlePosition = 24;
+  private final double m_coneForwardMiddleAngle = 128;
+  private final double m_coneForwardMiddlePosition = 21;
   private boolean m_auto = false;
   private boolean m_cube = false;
   private boolean m_backwards = false;
