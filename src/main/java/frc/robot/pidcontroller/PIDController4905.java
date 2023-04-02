@@ -41,8 +41,8 @@ public class PIDController4905 extends PIDControllerProposed {
     output = MathUtil.clamp(output, -m_maxOutput, m_maxOutput);
     Trace.getInstance().addTrace(true, m_controllerName, new TracePair("pError", super.getPError()),
         new TracePair("iError", super.getIError()), new TracePair("dError", super.getDError()),
-        new TracePair("FeedForward", feedForward), new TracePair("Output", output * 1000),
-        new TracePair("preCalculationOutput", preCalculationOutput * 1000),
+        new TracePair("FeedForward", feedForward), new TracePair("Output", output * 10),
+        new TracePair("preCalculationOutput", preCalculationOutput * 10),
         new TracePair("Measurement", measurement), new TracePair("Setpoint", super.getSetpoint()));
     return output;
   }
