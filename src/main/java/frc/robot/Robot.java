@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDrivetrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
-    m_parkingBrakeScheduled = true;
+    m_parkingBrakeScheduled = false;
     Trace.getInstance().logInfo("autonomousInit finished");
   }
 
@@ -159,10 +159,12 @@ public class Robot extends TimedRobot {
       double matchTime = DriverStation.getMatchTime();
       if (matchTime <= 0.5) {
         // Call enable parking brake
+        System.out.println("Parking Brake First Call");
         if (!m_parkingBrakeScheduled) {
           CommandScheduler.getInstance()
               .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
           m_parkingBrakeScheduled = true;
+          System.out.println("PArking Brake is enabled");
         }
       }
     }
@@ -196,7 +198,7 @@ public class Robot extends TimedRobot {
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDrivetrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
-    m_parkingBrakeScheduled = true;
+    m_parkingBrakeScheduled = false;
     Trace.getInstance().logInfo("teleopInit finished");
   }
 
