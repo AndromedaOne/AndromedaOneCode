@@ -10,8 +10,10 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.EndGamePosition;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.sensors.SensorsContainer;
@@ -49,6 +51,11 @@ public class DriveController extends ControllerBase {
     }
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
+    }
+    if (Config4905.getConfig4905().doesSamArmRotateExist()) {
+      getXbutton().onTrue(
+          new EndGamePosition(Robot.getInstance().getSubsystemsContainer().getArmRotateBase(),
+              Robot.getInstance().getSubsystemsContainer().getArmExtRetBase()));
     }
   }
 
