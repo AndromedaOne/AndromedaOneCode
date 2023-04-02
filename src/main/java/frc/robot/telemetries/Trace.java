@@ -350,9 +350,12 @@ public class Trace {
     BufferedWriter outputFile = null;
     try {
       // this will write out the match file with the directory number correspongin to
-      // the
-      // trace for this match.
-      String fullFileName = new String(m_basePathOfTraceDirs + "/" + m_matchStartFname + m_dirNumb);
+      // the trace for this match.
+      // this gets called the trace dir numb has been incremented for the next trace.
+      // so need to subtract one
+      int oldDirNumb = m_dirNumb - 1;
+      String fullFileName = new String(
+          m_basePathOfTraceDirs + "/" + m_matchStartFname + oldDirNumb);
       FileWriter fstream = new FileWriter(fullFileName, false);
       outputFile = new BufferedWriter(fstream);
       outputFile.write("Match #" + matchNumber + " Started @" + getDateStr());
