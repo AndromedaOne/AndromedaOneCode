@@ -9,15 +9,38 @@ import java.util.function.DoubleSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
 
-public class RotateArm extends PIDCommand4905 {
+public class RotateArm extends SequentialCommandGroup4905 {
+  public RotateArm()
+
+private class WaitForRetract extends CommandBase {
+  private SamArmRotateBase m_armRotate;
+
+  public WaitForRetract(SamArmRotateBase armRotate) {
+    m_armRotate = armRotate;
+    addRequirements(armRotate);
+  }
+
+  public void execute() {
+    m_armRotate.stop();
+  }
+
+  public boolean isFinished() {
+    return Robot.getInstance().getSubsystemsContainer().getArmExtRetBase().getPosition() < 30;
+  }
+}
+
+private class RotateArmInternal extends PIDCommand4905 {
   /** Creates a new RotateArm. */
 
   private SamArmRotateBase m_armRotate;
@@ -26,7 +49,7 @@ public class RotateArm extends PIDCommand4905 {
   private FeedForward m_feedForward = new RotateFeedForward();
   private InterpolatingMap m_kMap;
 
-  public RotateArm(SamArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
+  public RotateArmInternal(SamArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
       boolean useSmartDashboard) {
 
     super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
@@ -47,7 +70,7 @@ public class RotateArm extends PIDCommand4905 {
     }
   }
 
-  public RotateArm(SamArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
+  public RotateArmInternal(SamArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
     this(armRotate, angle, needToEnd, false);
   }
 
