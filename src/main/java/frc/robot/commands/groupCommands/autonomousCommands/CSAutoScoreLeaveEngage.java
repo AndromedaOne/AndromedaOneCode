@@ -26,7 +26,7 @@ import frc.robot.telemetries.Trace;
 public class CSAutoScoreLeaveEngage extends SequentialCommandGroup4905 {
   /** Creates a new PlaceEngageAutoDock. */
   public CSAutoScoreLeaveEngage() {
-    final double distanceToMove = -170;
+    final double distanceToMove = -190;
     final double maxOutPut = 0.75;
     long waitTime = 250;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
