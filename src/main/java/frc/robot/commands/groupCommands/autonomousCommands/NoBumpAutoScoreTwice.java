@@ -16,6 +16,7 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosit
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -38,13 +39,16 @@ public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
 
         new PauseRobot(waitTime, driveTrain),
 
+        new ParallelDeadlineGroup(new PauseRobot(500, driveTrain), 
+            new ExtendRetract(subsystemsContainer.getArmExtRetBase(), 20)),
+
         new ParallelCommandGroup(
             new SequentialCommandGroup4905(
                 new StowPosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase()),
                 new OffFloorPickupPosition(subsystemsContainer.getArmRotateBase(),
                     subsystemsContainer.getArmExtRetBase(), true, true, true)),
-            new MoveUsingEncoder(driveTrain, -177, 0.5)),
+            new MoveUsingEncoder(driveTrain, -178, 0.5)),
 
         new ParallelDeadlineGroup(new CloseGripper(subsystemsContainer.getGripper()),
             new PauseRobot(driveTrain)),
@@ -54,7 +58,7 @@ public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
         new ParallelCommandGroup(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, 178, 0.85)),
+            new MoveUsingEncoder(driveTrain, 180, 0.85)),
 
         new ParallelDeadlineGroup(new SequentialCommandGroup(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),

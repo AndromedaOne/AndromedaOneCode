@@ -22,13 +22,19 @@ import frc.robot.telemetries.Trace;
 
 public class ExtendRetract extends SequentialCommandGroup4905 {
   /** Creates a new ExtRetSeq. */
-  public ExtendRetract(SamArmExtRetBase armExtRet, boolean needToEnd, boolean useSmartDashboard) {
+  private double m_position = -1;
+
+  public ExtendRetract(SamArmExtRetBase armExtRet, boolean needToEnd, boolean useSmartDashboard, 
+  double position) {
+    if (position >= 0) {
+    m_position = position;
+    }
     addCommands(new ReleaseBrakeAndWait(armExtRet), new InitializeArmExtRet(armExtRet),
         new ExtendRetractInternal(armExtRet, needToEnd, useSmartDashboard));
   }
 
   public ExtendRetract(SamArmExtRetBase armExtRet, boolean useSmartDashboard) {
-    this(armExtRet, true, true);
+    this(armExtRet, true, true, -1);
     SmartDashboard.putNumber("Extend Arm Position Value", 0);
     SmartDashboard.putNumber("Extend Arm P Value", 0);
     SmartDashboard.putNumber("Extend Arm I Value", 0);
@@ -38,12 +44,19 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
   }
 
   public ExtendRetract(SamArmExtRetBase armExtRet) {
-    this(armExtRet, true, false);
+    this(armExtRet, true, false, -1);
+  }
+
+  public ExtendRetract(SamArmExtRetBase armExtRet, double position) {
+    this(armExtRet, true, false, position);
   }
 
   @Override
   public void additionalInitialize() {
     Trace.getInstance().logCommandStart(this);
+    if (m_position >= 0) {
+      ArmRotationExtensionSingleton.getInstance().setPosition(m_position);
+    }
   }
 
   @Override
