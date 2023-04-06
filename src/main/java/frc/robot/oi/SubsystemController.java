@@ -87,7 +87,7 @@ public class SubsystemController extends ControllerBase {
     getLeftBumperButton().onTrue(new StowPosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
     getRightStickButton()
-        .whileTrue(new ExtendRetract(m_subsystemsContainer.getArmExtRetBase(), false, false));
+        .whileTrue(new ExtendRetract(m_subsystemsContainer.getArmExtRetBase(), false, false, -1));
   }
 
   private void setupGripperButtons() {

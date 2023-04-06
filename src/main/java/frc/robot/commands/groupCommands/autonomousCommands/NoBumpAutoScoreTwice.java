@@ -16,6 +16,7 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosit
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
+import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -37,6 +38,9 @@ public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
             new OpenGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
         new PauseRobot(waitTime, driveTrain),
+
+        new ParallelDeadlineGroup(new PauseRobot(500, driveTrain), 
+            new ExtendRetract(subsystemsContainer.getArmExtRetBase(), 20)),
 
         new ParallelCommandGroup(
             new SequentialCommandGroup4905(
