@@ -52,7 +52,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
       m_motor1.set(0);
     } else {
-      m_motor1.set(speed * 0.5);
+      m_motor1.set(speed * 0.63);
     }
   }
 
