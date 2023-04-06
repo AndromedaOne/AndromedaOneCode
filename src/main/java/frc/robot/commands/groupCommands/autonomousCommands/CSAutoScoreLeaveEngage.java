@@ -14,7 +14,7 @@ import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BalancingArmPosition;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -35,7 +35,7 @@ public class CSAutoScoreLeaveEngage extends SequentialCommandGroup4905 {
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(
         new ParallelDeadlineGroup(new SequentialCommandGroup4905(
-            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+            new TopScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
             new OpenGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
