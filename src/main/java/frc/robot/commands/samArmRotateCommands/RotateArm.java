@@ -40,7 +40,11 @@ public class RotateArm extends SequentialCommandGroup4905 {
     }
 
     public void execute() {
-      m_armRotate.stop();
+      m_armRotate.engageArmBrake();
+    }
+
+    public void end(boolean interrupted) {
+      m_armRotate.disengageArmBrake();
     }
 
     public boolean isFinished() {

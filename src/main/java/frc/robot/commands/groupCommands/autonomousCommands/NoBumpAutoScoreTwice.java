@@ -54,7 +54,7 @@ public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
         new ParallelCommandGroup(
             new StowPosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase()),
-            new MoveUsingEncoder(driveTrain, 180, 0.85)),
+            new MoveUsingEncoder(driveTrain, 174, 0.60)),
 
         new ParallelDeadlineGroup(new SequentialCommandGroup(
             new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
