@@ -39,7 +39,7 @@ public class NoBumpAutoScoreTwice extends SequentialCommandGroup4905 {
 
         new PauseRobot(waitTime, driveTrain),
 
-        new ParallelDeadlineGroup(new PauseRobot(500, driveTrain), 
+        new ParallelDeadlineGroup(new PauseRobot(500, driveTrain),
             new ExtendRetract(subsystemsContainer.getArmExtRetBase(), 20)),
 
         new ParallelCommandGroup(

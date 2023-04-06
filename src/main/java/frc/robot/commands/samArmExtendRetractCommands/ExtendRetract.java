@@ -24,10 +24,10 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
   /** Creates a new ExtRetSeq. */
   private double m_position = -1;
 
-  public ExtendRetract(SamArmExtRetBase armExtRet, boolean needToEnd, boolean useSmartDashboard, 
-  double position) {
+  public ExtendRetract(SamArmExtRetBase armExtRet, boolean needToEnd, boolean useSmartDashboard,
+      double position) {
     if (position >= 0) {
-    m_position = position;
+      m_position = position;
     }
     addCommands(new ReleaseBrakeAndWait(armExtRet), new InitializeArmExtRet(armExtRet),
         new ExtendRetractInternal(armExtRet, needToEnd, useSmartDashboard));
