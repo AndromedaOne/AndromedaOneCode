@@ -9,6 +9,7 @@ import frc.robot.Robot;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
 
 public class DriveToCenterOfCS extends CommandBase {
   private DriveTrain m_driveTrain;
@@ -46,13 +47,17 @@ public class DriveToCenterOfCS extends CommandBase {
         m_driveTrain.moveUsingGyro(m_speed, 0, false, m_compassHeading);
       }
     } else {
-      if (m_gyro4905.getYAngle() <= 13.5) {
+      if (m_gyro4905.getYAngle() <= 13) {
         m_done = true;
         m_driveTrain.stop();
       } else {
         m_driveTrain.moveUsingGyro(m_speed, 0, false, m_compassHeading);
       }
     }
+    double tipped = m_tippedUp ? 1 : 0;
+    Trace.getInstance().addTrace(true, getClass().getSimpleName(),
+        new TracePair("Y angle", m_gyro4905.getYAngle()),
+        new TracePair("Tipped, 0:false 1:true", tipped));
   }
 
   // Called once the command ends or is interrupted.
