@@ -23,7 +23,7 @@ public class RealCannon extends CannonBase {
   private Config m_config;
 
   public RealCannon(CompressorBase compressorBase) {
-    m_config = Config4905.getConfig4905().getCannonConfig();
+    m_config = Config4905.getConfig4905().getShowBotCannonConfig();
     m_solenoid0_7 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid0_7");
     m_solenoid1_6 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid1_6");
     m_solenoid2_5 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid2_5");

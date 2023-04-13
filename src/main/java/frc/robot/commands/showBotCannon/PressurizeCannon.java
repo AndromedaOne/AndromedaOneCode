@@ -13,7 +13,7 @@ public class PressurizeCannon extends CommandBase {
   private CannonBase m_cannon;
 
   public PressurizeCannon() {
-    m_cannon = Robot.getInstance().getSubsystemsContainer().getCannon();
+    m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
     addRequirements(m_cannon);
   }
 
