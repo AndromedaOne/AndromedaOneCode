@@ -38,6 +38,7 @@ public class Config4905 {
   private Config m_conveyorConfig;
   private Config m_compressorConfig;
   private Config m_showBotCannonConfig;
+  private Config m_showBotCannonElevatorConfig;
   private Config m_showBotAudioConfig;
   private Config m_romiBallMopperConfig;
   private Config m_wingsConfig;
@@ -149,6 +150,7 @@ public class Config4905 {
     m_conveyorConfig = load("conveyor.conf");
     m_compressorConfig = load("compressor.conf");
     m_showBotCannonConfig = load("showBotCannon.conf");
+    m_showBotCannonElevatorConfig = load("showBotCannonElevator.conf");
     m_showBotAudioConfig = load("showBotAudio.conf");
     m_romiBallMopperConfig = load("romiBallMopper.conf");
     m_wingsConfig = load("wings.conf");
@@ -289,12 +291,23 @@ public class Config4905 {
     return m_showBotCannonConfig;
   }
 
-  public boolean doesShowBotAudioExist() {
-    if (m_config.hasPath("subsystems.showBotAudio")) {
+  public boolean doesShowBotCannonElevatorExist() {
+    if (m_config.hasPath("subsystems.showbotCannonElevator")) {
       return true;
     } else {
       return false;
     }
+  }
+
+  public Config getShowBotCannonElevatorConfig() {
+    return m_showBotCannonElevatorConfig;
+  }
+
+  public boolean doesShowBotAudioExist() {
+    if (m_config.hasPath("subsystems.showBotAudio")) {
+      return true;
+    }
+    return false;
   }
 
   public Config getShowBotAudioConfig() {

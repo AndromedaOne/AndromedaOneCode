@@ -52,10 +52,6 @@ public class SubsystemController extends ControllerBase {
     }
   }
 
-  public double getElevatorAdjustElevationStick() {
-    return (getLeftStickForwardBackwardValue());
-  }
-
   private void setUpIntakeButtons() {
     getLeftBumperButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
