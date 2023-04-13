@@ -18,6 +18,8 @@ public class ShootCannon extends CommandBase {
   /** Creates a new ShootCannon. */
   private CannonBase m_cannon;
   private ShowBotAudioBase m_audio;
+  private int m_delayCount = 0;
+  private boolean m_cannonShot = false;
 
   public ShootCannon() {
     m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
@@ -29,27 +31,32 @@ public class ShootCannon extends CommandBase {
   @Override
   public void initialize() {
     m_audio.playShootCannonAudio();
+    m_delayCount = 0;
+    m_cannonShot = false;
     Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // we'll delay for a couple of seconds to wait for audio to start playing
+    if ((m_delayCount > 50) && !m_audio.isAudioPlaying()) {
+      m_cannon.shoot();
+      m_cannonShot = true;
+      Trace.getInstance().logCommandInfo(this, "Cannon has been fired!!");
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_cannon.shoot();
-    Trace.getInstance().logCommandStart(this);
+    m_audio.stopAudio();
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_audio.isAudioPlaying()) {
-      return false;
-    }
-    return true;
+    return m_cannonShot;
   }
 }
