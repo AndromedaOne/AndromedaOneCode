@@ -18,6 +18,8 @@ public class RealShowBotAudio extends ShowBotAudioBase {
   private final String m_showBotPiIsConnected = "ShowBotPiIsConnected";
   private final String m_roborioAckPiConnected = "RoborioAckPiConnected";
 
+  private final String m_shootCanonAudioFile = "KaBoom.wav";
+
   private boolean m_audioisConnected = false;
 
   public RealShowBotAudio() {
@@ -63,5 +65,10 @@ public class RealShowBotAudio extends ShowBotAudioBase {
         Trace.getInstance().logInfo("Audio is connected");
       }
     }
+  }
+
+  @Override
+  public void playShootCannonAudio() {
+    playAudio(m_shootCanonAudioFile);
   }
 }

@@ -20,4 +20,8 @@ public class MockShowBotAudio extends ShowBotAudioBase {
     return false;
   }
 
+  @Override
+  public void playShootCannonAudio() {
+  }
+
 }

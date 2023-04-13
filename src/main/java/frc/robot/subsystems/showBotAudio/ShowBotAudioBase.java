@@ -11,6 +11,8 @@ public abstract class ShowBotAudioBase extends SubsystemBase {
   public ShowBotAudioBase() {
   }
 
+  public abstract void playShootCannonAudio();
+
   public abstract void playAudio(String file);
 
   public abstract void stopAudio();

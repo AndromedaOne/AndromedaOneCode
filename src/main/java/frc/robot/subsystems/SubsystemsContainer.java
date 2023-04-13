@@ -232,6 +232,10 @@ public class SubsystemsContainer {
     return m_showBotCannonElevator;
   }
 
+  public ShowBotAudioBase getShowBotAudio() {
+    return m_showBotAudio;
+  }
+
   public ShooterWheelBase getTopShooterWheel() {
     return m_topShooterWheel;
   }

@@ -108,7 +108,11 @@ public class DriveController extends ControllerBase {
 
   private void setUpCannonButtons() {
     getAbutton().onTrue(new PressurizeCannon());
-    getBbutton().onTrue(new ShootCannon());
+    // the driver must hold down the shoot button while the count down is played. if
+    // the driver
+    // releases the button before the count down finishes, the cannon will not
+    // shoot.
+    getBbutton().whileTrue(new ShootCannon());
   }
 
   private void setupRomiButtons() {
