@@ -11,15 +11,12 @@ import frc.robot.telemetries.Trace;
 public class RealShowBotAudio extends ShowBotAudioBase {
   // smartdashboard keys
   private final String m_audioFileToPlayKey = "showBotAudioFileToPlay";
-  private final String m_currentAudioFilePlayingKey = "showBotAudioFileCurrentlyPlaying";
   private final String m_audioIsPlayingKey = "showBotAudioIsPlaying";
   private final String m_showBotPiAudioPlayerConnectedKey = "showBotPiAudioConnected";
-  private final String m_errorStatusKey = "showBotPiAudioErrorStatus";
   private final String m_stopAudioKey = "showBotStopPiAudio";
 
   private final String m_showBotPiIsConnected = "ShowBotPiIsConnected";
   private final String m_roborioAckPiConnected = "RoborioAckPiConnected";
-  private final String m_noError = "";
 
   private boolean m_audioisConnected = false;
 
@@ -44,7 +41,7 @@ public class RealShowBotAudio extends ShowBotAudioBase {
           .logInfo("ShowBotAudio: Warning: audio is not conntected. " + "Cannot stop audio");
       return;
     }
-    SmartDashboard.putBoolean(m_stopAudioKey, isAudioPlaying());
+    SmartDashboard.putBoolean(m_stopAudioKey, true);
   }
 
   @Override
@@ -53,11 +50,17 @@ public class RealShowBotAudio extends ShowBotAudioBase {
       Trace.getInstance().logInfo("ShowBotAudio: Warning: audio is not conntected. ");
       return false;
     }
-    return SmartDashboard.getBoolean(m_audioFileToPlayKey, isAudioPlaying());
+    return SmartDashboard.getBoolean(m_audioIsPlayingKey, false);
   }
 
   @Override
   public void periodic() {
-
+    if (!m_audioisConnected) {
+      if (SmartDashboard.getString(m_showBotPiAudioPlayerConnectedKey, "")
+          .equals(m_showBotPiIsConnected)) {
+        SmartDashboard.putString(m_showBotPiAudioPlayerConnectedKey, m_roborioAckPiConnected);
+        m_audioisConnected = true;
+      }
+    }
   }
 }
