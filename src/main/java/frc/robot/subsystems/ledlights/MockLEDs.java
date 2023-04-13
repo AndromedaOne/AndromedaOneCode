@@ -1,5 +1,7 @@
 package frc.robot.subsystems.ledlights;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 public class MockLEDs extends LEDs {
 
   @Override
@@ -60,15 +62,7 @@ public class MockLEDs extends LEDs {
   }
 
   @Override
-  protected void updateRedDutyCycle(double brightness) {
-  }
-
-  @Override
-  protected void updateBlueDutyCycle(double brightness) {
-  }
-
-  @Override
-  protected void updateGreenDutyCycle(double brightness) {
+  protected void updateRGBcolor(Color color) {
   }
 
   // override the LED base class periodic as there is nothing to do here...

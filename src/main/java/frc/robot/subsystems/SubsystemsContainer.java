@@ -28,8 +28,8 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
+import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
-import frc.robot.subsystems.ledlights.RealLEDs;
 import frc.robot.subsystems.samArmExtRet.MockSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.RealSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -113,15 +113,15 @@ public class SubsystemsContainer {
 
     if (Config4905.getConfig4905().doesLeftLEDExist()) {
       System.out.println("Using Real Left LEDs");
-      m_leftLeds = new RealLEDs(Config4905.getConfig4905().getLeftLEDConfig(), m_driveTrain);
+      m_leftLeds = new BillsLEDs(Config4905.getConfig4905().getLeftLEDConfig(), m_driveTrain);
     }
     if (Config4905.getConfig4905().doesRightLEDExist()) {
       System.out.println("Using Real Right LEDs");
-      m_rightLeds = new RealLEDs(Config4905.getConfig4905().getRightLEDConfig(), m_driveTrain);
+      m_rightLeds = new BillsLEDs(Config4905.getConfig4905().getRightLEDConfig(), m_driveTrain);
     }
     if (Config4905.getConfig4905().doesLEDExist()) {
       System.out.println("Using Real LEDs");
-      m_leds = new RealLEDs(Config4905.getConfig4905().getLEDConfig(), m_driveTrain);
+      m_leds = new BillsLEDs(Config4905.getConfig4905().getLEDConfig(), m_driveTrain);
     }
     if (Config4905.getConfig4905().doesCompressorExist()) {
       System.out.println("using real Compressor.");
