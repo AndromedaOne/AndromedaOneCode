@@ -34,6 +34,7 @@ public class Config4905 {
   private Config m_ledConfig;
   private Config m_leftLedConfig;
   private Config m_rightLedConfig;
+  private Config m_ws2812LEDsConfig;
   private Config m_harvesterConfig;
   private Config m_conveyorConfig;
   private Config m_compressorConfig;
@@ -145,6 +146,7 @@ public class Config4905 {
     m_ledConfig = load("LED.conf");
     m_leftLedConfig = load("leftLED.conf");
     m_rightLedConfig = load("rightLED.conf");
+    m_ws2812LEDsConfig = load("ws2812LEDs.conf");
     m_harvesterConfig = load("harvester.conf");
     m_conveyorConfig = load("conveyor.conf");
     m_compressorConfig = load("compressor.conf");
@@ -188,6 +190,10 @@ public class Config4905 {
     return m_rightLedConfig;
   }
 
+  public Config getWS2812LEDsConfig() {
+    return m_ws2812LEDsConfig;
+  }
+
   public boolean doesLEDExist() {
     if (m_config.hasPath("subsystems.LED")) {
       return true;
@@ -210,6 +216,13 @@ public class Config4905 {
     } else {
       return false;
     }
+  }
+
+  public boolean doesWS2812LEDsExist() {
+    if (m_config.hasPath("subsystems.WS2812LEDs")) {
+      return true;
+    }
+    return false;
   }
 
   public boolean doesHarvesterExist() {
