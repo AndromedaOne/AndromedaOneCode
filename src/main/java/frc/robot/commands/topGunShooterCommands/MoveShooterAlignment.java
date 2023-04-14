@@ -21,8 +21,8 @@ public class MoveShooterAlignment extends PIDCommand4905 {
   /** Creates a new InitializeShooterAlignment. */
   public MoveShooterAlignment(ShooterAlignmentBase shooterAlignment, DoubleSupplier setpoint,
       boolean tunePID, double pValue, double minOutputToMove, double tolerance) {
-    super(new PIDController4905SampleStop("shooterAlignment", 0, 0, 0, 0),
-        shooterAlignment::getAngle, setpoint, output -> {
+    super(new PIDController4905SampleStop("shooterAlignment"), shooterAlignment::getAngle, setpoint,
+        output -> {
           shooterAlignment.rotateShooter(output);
         });
     addRequirements(shooterAlignment);

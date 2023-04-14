@@ -7,51 +7,50 @@
 
 package frc.robot.pidcontroller;
 
-/**
- * Add your docs here.
+/** @formatter:off
+ * creates a PID controller that determines when the controller is on target by
+ * taking a number of consecutive samples. when the number of consecutive
+ * samples that are onTarget (within the tolerance of the setPoint) is equal to
+ * or greater than the number of consecutive samples that are on target for
+ * isFinished to be true, the controller will return onTarget is true. the default
+ * number of consecutive samples on target is set in the static final member. to
+ * override this, simply use
+ * {@link #setNumberOfConsecutiveSamplesOnTargetForIsFinishedTrue(int) setNumbConsecSamples}
+ * @formatter:on
  */
 public class PIDController4905SampleStop extends PIDController4905 {
-  private int m_counter = 0;
-  private static int s_defaultNumberOfSamplesOnTarget = 8;
-  private int m_numberOfSamplesOnTarget = 0;
+  private int m_currentNumberOfConsecutiveSamplesOnTarget = 0;
+  private static final int s_defaultNumberOfConsecutiveSamplesOnTargetForIsFinishedTrue = 8;
+  private int m_numberOfConsecutiveSamplesOnTargetForIsFinishedTrue = s_defaultNumberOfConsecutiveSamplesOnTargetForIsFinishedTrue;
 
   public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
-      double minOutputToMove, FeedForward feedForward) {
+      double minOutputToMove, int numberOfConsecutiveSamplesOnTargetForIsFinishedTrue,
+      FeedForward feedForward) {
     super(controllerName, Kp, Ki, Kd, minOutputToMove, feedForward);
-  }
-
-  public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
-      double minOutputToMove, int numberOfSamplesOnTarget) {
-    super(controllerName, Kp, Ki, Kd, minOutputToMove);
-    m_counter = 0;
-    m_numberOfSamplesOnTarget = numberOfSamplesOnTarget;
-  }
-
-  public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd,
-      double minOutputToMove) {
-    this(controllerName, Kp, Ki, Kd, minOutputToMove, s_defaultNumberOfSamplesOnTarget);
-  }
-
-  public PIDController4905SampleStop(String controllerName, double Kp, double Ki, double Kd) {
-    this(controllerName, Kp, Ki, Kd, 0, s_defaultNumberOfSamplesOnTarget);
+    m_numberOfConsecutiveSamplesOnTargetForIsFinishedTrue = numberOfConsecutiveSamplesOnTargetForIsFinishedTrue;
   }
 
   public PIDController4905SampleStop(String controllerName) {
-    this(controllerName, 0, 0, 0, s_defaultNumberOfSamplesOnTarget);
+    this(controllerName, 0, 0, 0, 0, s_defaultNumberOfConsecutiveSamplesOnTargetForIsFinishedTrue,
+        () -> 0);
   }
 
   public boolean atSetpoint() {
     if (Math.abs(getPositionError()) < getPositionTolerance()) {
-      m_counter++;
+      m_currentNumberOfConsecutiveSamplesOnTarget++;
     } else {
-      m_counter = 0;
+      m_currentNumberOfConsecutiveSamplesOnTarget = 0;
     }
-    return m_counter >= m_numberOfSamplesOnTarget;
+    return m_currentNumberOfConsecutiveSamplesOnTarget >= m_numberOfConsecutiveSamplesOnTargetForIsFinishedTrue;
   }
 
   @Override
   public void reset() {
-    m_counter = 0;
+    m_currentNumberOfConsecutiveSamplesOnTarget = 0;
     super.reset();
+  }
+
+  public void setNumberOfConsecutiveSamplesOnTargetForIsFinishedTrue(int value) {
+    m_numberOfConsecutiveSamplesOnTargetForIsFinishedTrue = value;
   }
 }
