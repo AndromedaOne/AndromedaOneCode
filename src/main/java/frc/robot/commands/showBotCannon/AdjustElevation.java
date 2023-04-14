@@ -18,7 +18,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
   private LimitSwitchSensor m_cannonHomeSwitch;
   private static boolean m_initialized = false;
   private static double m_encoderOffset = 0;
-  private static final double m_maxElevation = 20;
+  private static final double m_maxElevation = 380;
 
   public AdjustElevation(CannonElevatorBase cannonElevator) {
     m_cannonElevator = cannonElevator;
@@ -52,7 +52,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandStart(this);
       if (!m_initialized && !m_cannonHomeSwitch.isAtLimit()) {
         throw new RuntimeException(
-            "CannonElevator cannot be initialized. The home switch is not triggered.");
+            "CannonElevator cannot be initialized. The home switch is not triggered. Please rotate the cannon so the switch is engaged.");
       }
     }
 
@@ -63,6 +63,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
           m_cannonElevator.changeElevation(-0.25);
         } else {
           m_initialized = true;
+          m_encoderOffset = m_cannonElevatorEncoder.getEncoderValue() + 50;
         }
       }
     }
@@ -74,7 +75,6 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
 
     @Override
     public void end(boolean interrupted) {
-      m_encoderOffset = m_cannonElevatorEncoder.getEncoderValue() - 10;
       Trace.getInstance().logCommandStop(this);
     }
   }
