@@ -23,11 +23,13 @@ public class MockCannon extends CannonBase {
     return false;
   }
 
-  public void changeElevation(double speed) {
+  @Override
+  public void reset() {
 
   }
 
-  public void holdElevation() {
-
+  @Override
+  public boolean isCannonElevationInRange() {
+    return false;
   }
 }

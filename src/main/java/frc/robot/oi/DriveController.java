@@ -14,6 +14,8 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.showBotCannon.PressurizeCannon;
+import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -47,6 +49,9 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
     }
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
+      setUpCannonButtons();
+    }
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
     }
@@ -76,6 +81,14 @@ public class DriveController extends ControllerBase {
     return getRightBumperReleased();
   }
 
+  public double getShowBotElevatorUpTriggerValue() {
+    return getLeftTriggerValue();
+  }
+
+  public double getShowBotElevatorDownTriggerValue() {
+    return getRightTriggerValue();
+  }
+
   private void setUpShooterButtons() {
     getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
@@ -91,6 +104,11 @@ public class DriveController extends ControllerBase {
 
   private void setUpParkingBrake() {
     getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDrivetrain()));
+  }
+
+  private void setUpCannonButtons() {
+    getAbutton().onTrue(new PressurizeCannon());
+    getBbutton().onTrue(new ShootCannon());
   }
 
   private void setupRomiButtons() {

@@ -13,6 +13,7 @@ import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.samArmExtendRetractCommands.EnableExtendRetractBrake;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.showBotCannon.AdjustElevation;
+import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
@@ -39,6 +40,9 @@ import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.subsystems.showBotCannon.MockCannon;
 import frc.robot.subsystems.showBotCannon.RealCannon;
+import frc.robot.subsystems.showBotCannonElevator.CannonElevatorBase;
+import frc.robot.subsystems.showBotCannonElevator.MockCannonElevator;
+import frc.robot.subsystems.showBotCannonElevator.RealCannonElevator;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunFeeder.MockFeeder;
 import frc.robot.subsystems.topGunFeeder.RealFeeder;
@@ -62,7 +66,8 @@ public class SubsystemsContainer {
   LEDs m_leftLeds;
   LEDs m_rightLeds;
   CompressorBase m_compressor;
-  CannonBase m_cannon;
+  CannonBase m_showBotCannon;
+  CannonElevatorBase m_showBotCannonElevator;
   ShooterWheelBase m_topShooterWheel;
   ShooterWheelBase m_bottomShooterWheel;
   IntakeBase m_intake;
@@ -139,13 +144,19 @@ public class SubsystemsContainer {
       System.out.println("Using mock gripper");
       m_gripper = new MockGripper();
     }
-    if (Config4905.getConfig4905().doesCannonExist()) {
-      // Gripper must be constructed after compressor
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       System.out.println("using real Cannon.");
-      m_cannon = new RealCannon(m_compressor);
+      m_showBotCannon = new RealCannon(m_compressor);
     } else {
       System.out.println("Using mock Cannon");
-      m_cannon = new MockCannon();
+      m_showBotCannon = new MockCannon();
+    }
+    if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
+      System.out.println("using real Cannon elevator.");
+      m_showBotCannonElevator = new RealCannonElevator();
+    } else {
+      System.out.println("Using mock Cannon elevator");
+      m_showBotCannonElevator = new MockCannonElevator();
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       System.out.println("using real shooters");
@@ -201,8 +212,12 @@ public class SubsystemsContainer {
     return m_gripper;
   }
 
-  public CannonBase getCannon() {
-    return m_cannon;
+  public CannonBase getShowBotCannon() {
+    return m_showBotCannon;
+  }
+
+  public CannonElevatorBase getShowBotCannonElevator() {
+    return m_showBotCannonElevator;
   }
 
   public ShooterWheelBase getTopShooterWheel() {
@@ -237,9 +252,6 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());
     }
-    if (Config4905.getConfig4905().isShowBot()) {
-      m_cannon.setDefaultCommand(new AdjustElevation(m_cannon));
-    }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
     }
@@ -251,6 +263,12 @@ public class SubsystemsContainer {
       m_bottomShooterWheel
           .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
       m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
+    }
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
+      m_showBotCannon.setDefaultCommand(new ResetCannon());
+    }
+    if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
+      m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
     if (Config4905.getConfig4905().doesSamArmExtRetExist()) {
       m_armExtRet.setDefaultCommand(new EnableExtendRetractBrake(m_armExtRet));

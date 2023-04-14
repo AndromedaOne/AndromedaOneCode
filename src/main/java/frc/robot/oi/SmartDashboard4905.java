@@ -65,7 +65,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Disable Limelight LEDs",
           new ToggleLimelightLED(false, sensorsContainer));
     }
-    if (Config4905.getConfig4905().doesCannonExist()) {
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
       SmartDashboard.putData("Shoot Cannon", new ShootCannon());
     }

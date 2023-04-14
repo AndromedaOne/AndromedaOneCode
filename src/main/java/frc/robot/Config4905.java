@@ -37,7 +37,8 @@ public class Config4905 {
   private Config m_harvesterConfig;
   private Config m_conveyorConfig;
   private Config m_compressorConfig;
-  private Config m_cannonConfig;
+  private Config m_showBotCannonConfig;
+  private Config m_showBotCannonElevatorConfig;
   private Config m_romiBallMopperConfig;
   private Config m_wingsConfig;
   private Config m_shooterConfig;
@@ -147,7 +148,8 @@ public class Config4905 {
     m_harvesterConfig = load("harvester.conf");
     m_conveyorConfig = load("conveyor.conf");
     m_compressorConfig = load("compressor.conf");
-    m_cannonConfig = load("cannon.conf");
+    m_showBotCannonConfig = load("showBotCannon.conf");
+    m_showBotCannonElevatorConfig = load("showBotCannonElevator.conf");
     m_romiBallMopperConfig = load("romiBallMopper.conf");
     m_wingsConfig = load("wings.conf");
     m_shooterConfig = load("shooter.conf");
@@ -275,16 +277,27 @@ public class Config4905 {
     }
   }
 
-  public boolean doesCannonExist() {
-    if (m_config.hasPath("subsystems.cannon")) {
+  public boolean doesShowBotCannonExist() {
+    if (m_config.hasPath("subsystems.showBotCannon")) {
       return true;
     } else {
       return false;
     }
   }
 
-  public Config getCannonConfig() {
-    return m_cannonConfig;
+  public Config getShowBotCannonConfig() {
+    return m_showBotCannonConfig;
+  }
+
+  public boolean doesShowBotCannonElevatorExist() {
+    if (m_config.hasPath("subsystems.showbotCannonElevator")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getShowBotCannonElevatorConfig() {
+    return m_showBotCannonElevatorConfig;
   }
 
   public Config getRomiBallMopperConfig() {

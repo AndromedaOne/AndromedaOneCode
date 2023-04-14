@@ -9,11 +9,11 @@ import frc.robot.Robot;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.telemetries.Trace;
 
-public class ShootCannon extends CommandBase {
-  /** Creates a new ShootCannon. */
+public class ResetCannon extends CommandBase {
   private CannonBase m_cannon;
 
-  public ShootCannon() {
+  /** Creates a new ResetCannon. */
+  public ResetCannon() {
     m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
     addRequirements(m_cannon);
   }
@@ -21,24 +21,24 @@ public class ShootCannon extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_cannon.shoot();
     Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_cannon.reset();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStart(this);
+    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
