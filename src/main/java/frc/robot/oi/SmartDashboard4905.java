@@ -36,6 +36,8 @@ import frc.robot.commands.samArmExtendRetractCommands.EnableExtendRetractBrake;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
+import frc.robot.commands.showBotAudio.PlayAudio;
+import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
@@ -139,6 +141,11 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Engage Auto Dock", new CSAutoLeaveEngage());
     }
 
+    if (Config4905.getConfig4905().doesShowBotAudioExist()) {
+      SmartDashboard.putData("play audio",
+          new PlayAudio(subsystemsContainer.getShowBotAudio(), "CrazyTrain.wav"));
+      SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
+    }
   }
 
   public Command getSelectedAutoChooserCommand() {

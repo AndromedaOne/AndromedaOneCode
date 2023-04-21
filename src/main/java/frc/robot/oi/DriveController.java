@@ -14,6 +14,7 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.sensors.SensorsContainer;
@@ -54,6 +55,9 @@ public class DriveController extends ControllerBase {
     }
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
+    }
+    if (Config4905.getConfig4905().doesShowBotAudioExist()) {
+      setupShowBotAudioButtons();
     }
   }
 
@@ -113,6 +117,12 @@ public class DriveController extends ControllerBase {
     // releases the button before the count down finishes, the cannon will not
     // shoot.
     getBbutton().whileTrue(new ShootCannon());
+  }
+
+  private void setupShowBotAudioButtons() {
+    getBackButton().onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), "meepMeep.wav"));
+    getStartButton()
+        .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), "truckHorn.wav"));
   }
 
   private void setupRomiButtons() {

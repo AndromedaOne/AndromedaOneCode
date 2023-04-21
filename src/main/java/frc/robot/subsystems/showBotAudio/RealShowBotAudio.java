@@ -63,6 +63,13 @@ public class RealShowBotAudio extends ShowBotAudioBase {
         SmartDashboard.putString(m_showBotPiAudioPlayerConnectedKey, m_roborioAckPiConnected);
         m_audioisConnected = true;
         Trace.getInstance().logInfo("Audio is connected");
+      } else if (SmartDashboard.getString(m_showBotPiAudioPlayerConnectedKey, "")
+          .equals(m_roborioAckPiConnected)) {
+        Trace.getInstance().logInfo("Audio was already connected");
+        m_audioisConnected = true;
+      }
+      if (m_audioisConnected) {
+        playAudio("startup.wav");
       }
     }
   }
