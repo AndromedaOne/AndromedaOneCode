@@ -18,11 +18,6 @@ public class BalancingArmPosition extends SequentialCommandGroup4905 {
 
   private final double m_balancingAngle = 120;
   private final double m_balancingPosition = 0;
-  private final double m_backwardBalancingAngle = 220;
-  private final double m_backwardBalancingPosition = 0;
-  private boolean m_auto = false;
-
-  private boolean m_backwards = false;
 
   public BalancingArmPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
     addCommands(
