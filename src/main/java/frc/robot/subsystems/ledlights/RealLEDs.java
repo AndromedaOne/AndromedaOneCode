@@ -9,7 +9,7 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 public abstract class RealLEDs extends LEDs {
 
   DriveTrain m_driveTrain;
-  private ConeOrCubeLEDsSingleton m_ConeOrCube = ConeOrCubeLEDsSingleton.getInstance();
+  private LEDRobotInformation m_ledRobotInfo = LEDRobotInformation.getInstance();
 
   public RealLEDs(DriveTrain driveTrain) {
     setPurple(1.0);
@@ -20,18 +20,21 @@ public abstract class RealLEDs extends LEDs {
   @Override
   public void periodic() {
     super.periodic();
-    if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
+    if (m_ledRobotInfo.getCannonIsPressurized()) {
+      setRed(1);
+      setBlinking(0.25);
+    } else if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
       setSethRed(1);
       setBlinking(0.05);
     } else if (Robot.getInstance().isDisabled()) {
       setRainbow();
     } else if (Robot.getInstance().isTeleop()) {
       double matchTime = DriverStation.getMatchTime();
-      if (m_ConeOrCube.getButtonHeld() == true) {
-        if (m_ConeOrCube.getLEDStates() == LEDStates.CONE) {
+      if (m_ledRobotInfo.getButtonHeld() == true) {
+        if (m_ledRobotInfo.getLEDStates() == LEDStates.CONE) {
           setYellow(1);
           setBlinking(0.2);
-        } else if (m_ConeOrCube.getLEDStates() == LEDStates.CUBE) {
+        } else if (m_ledRobotInfo.getLEDStates() == LEDStates.CUBE) {
           setPurple(1);
           setBlinking(0.2);
         }

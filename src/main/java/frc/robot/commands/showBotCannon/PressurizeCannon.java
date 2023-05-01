@@ -6,6 +6,7 @@ package frc.robot.commands.showBotCannon;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.ledlights.LEDRobotInformation;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.telemetries.Trace;
 
@@ -23,6 +24,7 @@ public class PressurizeCannon extends CommandBase {
   @Override
   public void initialize() {
     m_cannon.pressurize();
+    LEDRobotInformation.getInstance().setCannonIsPressurized(true);
     Trace.getInstance().logCommandStart(this);
     m_counter = 0;
   }
@@ -42,7 +44,7 @@ public class PressurizeCannon extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_counter > 10){
+    if (m_counter > 150) {
       return true;
     }
     return false;

@@ -6,6 +6,7 @@ package frc.robot.commands.showBotCannon;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.ledlights.LEDRobotInformation;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.telemetries.Trace;
@@ -40,9 +41,11 @@ public class ShootCannon extends CommandBase {
   @Override
   public void execute() {
     // we'll delay for a couple of seconds to wait for audio to start playing
-    if ((m_delayCount > 50) && !m_audio.isAudioPlaying()) {
+    ++m_delayCount;
+    if ((m_delayCount > 150) && !m_audio.isAudioPlaying()) {
       m_cannon.shoot();
       m_cannonShot = true;
+      LEDRobotInformation.getInstance().setCannonIsPressurized(false);
       Trace.getInstance().logCommandInfo(this, "Cannon has been fired!!");
     }
   }
