@@ -69,7 +69,7 @@ public class RealShowBotAudio extends ShowBotAudioBase {
         m_audioisConnected = true;
       }
       if (m_audioisConnected) {
-        playAudio("CrazyTrain.wav");
+        playAudio("startup.wav");
       }
     }
   }
