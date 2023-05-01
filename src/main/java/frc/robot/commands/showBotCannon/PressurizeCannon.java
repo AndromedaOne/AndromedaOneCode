@@ -12,6 +12,7 @@ import frc.robot.telemetries.Trace;
 public class PressurizeCannon extends CommandBase {
   /** Creates a new PressurizeCannon. */
   private CannonBase m_cannon;
+  private int m_counter = 0;
 
   public PressurizeCannon() {
     m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
@@ -23,11 +24,13 @@ public class PressurizeCannon extends CommandBase {
   public void initialize() {
     m_cannon.pressurize();
     Trace.getInstance().logCommandStart(this);
+    m_counter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_counter++;
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +42,9 @@ public class PressurizeCannon extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if (m_counter > 10){
+      return true;
+    }
+    return false;
   }
 }

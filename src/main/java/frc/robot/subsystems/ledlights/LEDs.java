@@ -63,9 +63,7 @@ public abstract class LEDs extends SubsystemBase {
     default:
       color = new Color(1.0, .8, .8); // Pink
     }
-    updateRedDutyCycle(validateBrightness(color.red));
-    updateGreenDutyCycle(validateBrightness(color.green));
-    updateBlueDutyCycle(validateBrightness(color.blue));
+    updateRGBcolor(color);
   }
 
   /**
@@ -83,14 +81,10 @@ public abstract class LEDs extends SubsystemBase {
   // on with the same color
   protected void toggleLEDs() {
     if (m_ledsOn) {
-      updateRedDutyCycle(0);
-      updateGreenDutyCycle(0);
-      updateBlueDutyCycle(0);
+      updateRGBcolor(new Color(0, 0, 0));
       m_ledsOn = false;
     } else {
-      updateRedDutyCycle(m_redValue);
-      updateGreenDutyCycle(m_greenValue);
-      updateBlueDutyCycle(m_blueValue);
+      updateRGBcolor(new Color(m_redValue, m_greenValue, m_blueValue));
       m_ledsOn = true;
     }
   }
@@ -229,9 +223,5 @@ public abstract class LEDs extends SubsystemBase {
     return new Color(r / 256.0, g / 256.0, b / 256.0);
   }
 
-  protected abstract void updateRedDutyCycle(double brightness);
-
-  protected abstract void updateBlueDutyCycle(double brightness);
-
-  protected abstract void updateGreenDutyCycle(double brightness);
+  protected abstract void updateRGBcolor(Color color);
 }

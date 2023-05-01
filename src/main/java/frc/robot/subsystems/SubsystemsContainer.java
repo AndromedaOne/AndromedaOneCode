@@ -29,8 +29,9 @@ import frc.robot.subsystems.drivetrain.MockDriveTrain;
 import frc.robot.subsystems.drivetrain.RomiDriveTrain;
 import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
 import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
+import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
-import frc.robot.subsystems.ledlights.RealLEDs;
+import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.subsystems.samArmExtRet.MockSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.RealSamArmExtRet;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
@@ -69,6 +70,7 @@ public class SubsystemsContainer {
   LEDs m_leds;
   LEDs m_leftLeds;
   LEDs m_rightLeds;
+  LEDs m_ws2812LEDs;
   CompressorBase m_compressor;
   CannonBase m_showBotCannon;
   CannonElevatorBase m_showBotCannonElevator;
@@ -123,15 +125,19 @@ public class SubsystemsContainer {
 
     if (Config4905.getConfig4905().doesLeftLEDExist()) {
       Trace.getInstance().logInfo("Using Real Left LEDs");
-      m_leftLeds = new RealLEDs(Config4905.getConfig4905().getLeftLEDConfig(), m_driveTrain);
+      m_leftLeds = new BillsLEDs(Config4905.getConfig4905().getLeftLEDConfig(), m_driveTrain);
     }
     if (Config4905.getConfig4905().doesRightLEDExist()) {
       Trace.getInstance().logInfo("Using Real Right LEDs");
-      m_rightLeds = new RealLEDs(Config4905.getConfig4905().getRightLEDConfig(), m_driveTrain);
+      m_rightLeds = new BillsLEDs(Config4905.getConfig4905().getRightLEDConfig(), m_driveTrain);
     }
     if (Config4905.getConfig4905().doesLEDExist()) {
       Trace.getInstance().logInfo("Using Real LEDs");
-      m_leds = new RealLEDs(Config4905.getConfig4905().getLEDConfig(), m_driveTrain);
+      m_leds = new BillsLEDs(Config4905.getConfig4905().getLEDConfig(), m_driveTrain);
+    }
+    if (Config4905.getConfig4905().doesWS2812LEDsExist()) {
+      Trace.getInstance().logInfo("Using WS2812 LEDs");
+      m_ws2812LEDs = new WS2812LEDs(Config4905.getConfig4905().getWS2812LEDsConfig(), m_driveTrain);
     }
     if (Config4905.getConfig4905().doesCompressorExist()) {
       Trace.getInstance().logInfo("using real Compressor.");
