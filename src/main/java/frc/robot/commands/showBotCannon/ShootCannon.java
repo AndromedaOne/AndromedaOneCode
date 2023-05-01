@@ -40,6 +40,9 @@ public class ShootCannon extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (!m_cannon.isPressurized()) {
+      return;
+    }
     // we'll delay for a couple of seconds to wait for audio to start playing
     ++m_delayCount;
     if ((m_delayCount > 150) && !m_audio.isAudioPlaying()) {
@@ -60,6 +63,6 @@ public class ShootCannon extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_cannonShot;
+    return m_cannonShot || !m_cannon.isPressurized();
   }
 }

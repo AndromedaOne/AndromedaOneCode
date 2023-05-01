@@ -24,6 +24,7 @@ public class RealCannon extends CannonBase {
   private Config m_config;
   private LimitSwitchSensor m_cannonElevatorContactSwitch;
   private EncoderBase m_canonRotateEncoder;
+  private boolean m_cannonIsPressurized = false;
 
   public RealCannon(CompressorBase compressorBase) {
     m_config = Config4905.getConfig4905().getShowBotCannonConfig();
@@ -42,6 +43,7 @@ public class RealCannon extends CannonBase {
     m_solenoid1_6.extendPiston();
     m_solenoid2_5.extendPiston();
     m_solenoid3_4.extendPiston();
+    m_cannonIsPressurized = true;
   }
 
   @Override
@@ -54,6 +56,7 @@ public class RealCannon extends CannonBase {
       m_solenoid1_6.retractPiston();
       m_solenoid2_5.retractPiston();
       m_solenoid3_4.retractPiston();
+      m_cannonIsPressurized = false;
 
     } else {
       System.out.println("Cannot shoot due to something being in the way. Distance being: " + Robot
@@ -64,7 +67,7 @@ public class RealCannon extends CannonBase {
 
   @Override
   public boolean isPressurized() {
-    return false;
+    return m_cannonIsPressurized;
   }
 
   @Override
