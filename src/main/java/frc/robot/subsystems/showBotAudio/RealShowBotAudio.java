@@ -7,19 +7,15 @@ package frc.robot.subsystems.showBotAudio;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.telemetries.Trace;
 
-/** Add your docs here. */
+// suppress unused warnings to allow for strings mapped to audio files
 public class RealShowBotAudio extends ShowBotAudioBase {
   // smartdashboard keys
   private final String m_audioFileToPlayKey = "showBotAudioFileToPlay";
   private final String m_audioIsPlayingKey = "showBotAudioIsPlaying";
   private final String m_showBotPiAudioPlayerConnectedKey = "showBotPiAudioConnected";
   private final String m_stopAudioKey = "showBotStopPiAudio";
-
   private final String m_showBotPiIsConnected = "ShowBotPiIsConnected";
   private final String m_roborioAckPiConnected = "RoborioAckPiConnected";
-
-  private final String m_shootCanonAudioFile = "KaBoom.wav";
-
   private boolean m_audioisConnected = false;
 
   public RealShowBotAudio() {
@@ -27,13 +23,13 @@ public class RealShowBotAudio extends ShowBotAudioBase {
   }
 
   @Override
-  public void playAudio(String file) {
+  public void playAudio(AudioFiles file) {
     if (!m_audioisConnected) {
-      Trace.getInstance().logInfo(
-          "ShowBotAudio: Warning: audio is not conntected. " + "Cannot play file: " + file);
+      Trace.getInstance().logInfo("ShowBotAudio: Warning: audio is not conntected. "
+          + "Cannot play file: " + file.getFileName());
       return;
     }
-    SmartDashboard.putString(m_audioFileToPlayKey, file);
+    SmartDashboard.putString(m_audioFileToPlayKey, file.getFileName());
   }
 
   @Override
@@ -69,13 +65,13 @@ public class RealShowBotAudio extends ShowBotAudioBase {
         m_audioisConnected = true;
       }
       if (m_audioisConnected) {
-        playAudio("startup.wav");
+        playAudio(AudioFiles.SolarAnthem);
       }
     }
   }
 
   @Override
   public void playShootCannonAudio() {
-    playAudio(m_shootCanonAudioFile);
+    playAudio(AudioFiles.Kaboom);
   }
 }

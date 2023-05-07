@@ -8,7 +8,7 @@ package frc.robot.subsystems.showBotAudio;
 public class MockShowBotAudio extends ShowBotAudioBase {
 
   @Override
-  public void playAudio(String file) {
+  public void playAudio(AudioFiles audioFile) {
   }
 
   @Override

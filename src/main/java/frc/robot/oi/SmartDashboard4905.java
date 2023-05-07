@@ -46,6 +46,7 @@ import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.showBotAudio.AudioFiles;
 
 /**
  * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
@@ -143,7 +144,7 @@ public class SmartDashboard4905 {
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
       SmartDashboard.putData("play audio",
-          new PlayAudio(subsystemsContainer.getShowBotAudio(), "CrazyTrain.wav"));
+          new PlayAudio(subsystemsContainer.getShowBotAudio(), AudioFiles.CrazyTrain));
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
     }
   }

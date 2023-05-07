@@ -19,6 +19,7 @@ import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.showBotAudio.AudioFiles;
 
 /**
  * All driveController buttons get mapped here with descriptive names so they
@@ -120,9 +121,10 @@ public class DriveController extends ControllerBase {
   }
 
   private void setupShowBotAudioButtons() {
-    getBackButton().onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), "meepMeep.wav"));
+    getBackButton()
+        .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), AudioFiles.MeepMeep));
     getStartButton()
-        .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), "truckHorn.wav"));
+        .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), AudioFiles.TruckHorn));
   }
 
   private void setupRomiButtons() {
