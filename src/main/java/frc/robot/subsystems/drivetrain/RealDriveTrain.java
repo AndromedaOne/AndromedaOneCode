@@ -60,6 +60,9 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_hasParkingBrake = false;
       m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
     }
+    if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
+      setDriveTrainMode(DriveTrainMode.SLOW);
+    }
   }
 
   public void init() {
