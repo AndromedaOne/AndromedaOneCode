@@ -17,6 +17,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
   private EncoderBase m_cannonElevatorEncoder;
   private LimitSwitchSensor m_cannonHomeSwitch;
   private static boolean m_initialized = false;
+  private static boolean m_finishedInitialize = false;
   private static double m_encoderOffset = 0;
   private static final double m_maxElevation = 380;
 
@@ -65,12 +66,20 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
           m_initialized = true;
           m_encoderOffset = m_cannonElevatorEncoder.getEncoderValue() + 50;
         }
+      } else {
+        if (!m_finishedInitialize) {
+          if (!m_cannonHomeSwitch.isAtLimit()) {
+            m_cannonElevator.changeElevation(0.25);
+          } else {
+            m_finishedInitialize = true;
+          }
+        }
       }
     }
 
     @Override
     public boolean isFinished() {
-      return m_initialized;
+      return m_initialized && m_finishedInitialize;
     }
 
     @Override
