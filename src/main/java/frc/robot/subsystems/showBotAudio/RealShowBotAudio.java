@@ -65,7 +65,7 @@ public class RealShowBotAudio extends ShowBotAudioBase {
         m_audioisConnected = true;
       }
       if (m_audioisConnected) {
-        playAudio(AudioFiles.ManhattanProject);
+        playAudio(AudioFiles.Paranoimia);
       }
     }
   }
