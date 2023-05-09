@@ -11,7 +11,9 @@ public enum AudioFiles {
   DroidPrepareToFire("droidPrepareToFire.wav"), DroidProblem("droidProblem.wav"),
   HellsBells("HellsBells.wav"), Kaboom("KaBoom.wav"), ManhattanProject("ManhattanProject.wav"),
   MeepMeep("meepMeep.wav"), Paranoimia("Paranoimia.wav"), SolarAnthem("SolarAnthem.wav"),
-  TheBigMoney("TheBigMoney.wav"), TruckHorn("truckHorn.wav");
+  TheBigMoney("TheBigMoney.wav"), TruckHorn("truckHorn.wav"),
+  CannonIsPressurized("CannonIsPressurized.wav"),
+  CannonIsNotPressurized("CannonIsNotPressurized.wav");
 
   private final String m_fileName;
 

@@ -7,6 +7,7 @@ package frc.robot.commands.showBotCannon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.ledlights.LEDRobotInformation;
+import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.telemetries.Trace;
@@ -31,6 +32,10 @@ public class ShootCannon extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (!m_cannon.isPressurized()) {
+      m_audio.playAudio(AudioFiles.CannonIsNotPressurized);
+      return;
+    }
     m_audio.playShootCannonAudio();
     m_delayCount = 0;
     m_cannonShot = false;
@@ -56,7 +61,6 @@ public class ShootCannon extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_audio.stopAudio();
     Trace.getInstance().logCommandStop(this);
   }
 

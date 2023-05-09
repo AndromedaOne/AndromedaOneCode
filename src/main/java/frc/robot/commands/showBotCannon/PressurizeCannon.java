@@ -7,6 +7,7 @@ package frc.robot.commands.showBotCannon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.ledlights.LEDRobotInformation;
+import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.telemetries.Trace;
 
@@ -27,6 +28,8 @@ public class PressurizeCannon extends CommandBase {
     LEDRobotInformation.getInstance().setCannonIsPressurized(true);
     Trace.getInstance().logCommandStart(this);
     m_counter = 0;
+    Robot.getInstance().getSubsystemsContainer().getShowBotAudio()
+        .playAudio(AudioFiles.CannonIsPressurized);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
