@@ -19,7 +19,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
   private static boolean m_initialized = false;
   private static boolean m_finishedInitialize = false;
   private static double m_encoderOffset = 0;
-  private static final double m_maxElevation = 380;
+  private static final double m_maxElevation = 370;
 
   public AdjustElevation(CannonElevatorBase cannonElevator) {
     m_cannonElevator = cannonElevator;
@@ -110,6 +110,12 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
           .getShowBotElevatorUpTriggerValue();
       double downSpeed = Robot.getInstance().getOIContainer().getDriveController()
           .getShowBotElevatorDownTriggerValue();
+      if (!m_cannonHomeSwitch.isAtLimit()) {
+        if ((upSpeed > 0) || (downSpeed > 0)) {
+          System.out.println("Warning: Elevation out of range. Cannot change elevation.");
+          return;
+        }
+      }
       double speed = 0;
       if ((upSpeed > 0) && (getElevation() <= m_maxElevation)) {
         speed = upSpeed;
