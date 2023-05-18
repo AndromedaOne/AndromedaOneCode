@@ -5,7 +5,7 @@
 package frc.robot.sensors.encoder;
 
 /** Add your docs here. */
-public class MockEncoder extends EncoderBase {
+public class MockEncoder implements EncoderBase {
 
   @Override
   public void resetEncoder() {
@@ -15,10 +15,6 @@ public class MockEncoder extends EncoderBase {
   @Override
   public double getEncoderValue() {
     return 0;
-  }
-
-  @Override
-  public void updateSmartDashboardReadings() {
   }
 
 }

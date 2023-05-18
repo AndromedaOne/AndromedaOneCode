@@ -6,9 +6,10 @@ package frc.robot.sensors.analog41IRSensor;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.sensors.RealSensorBase;
 
 /** Add your docs here. */
-public class RealAnalog41IRSensor extends Analog41IRSensor {
+public class RealAnalog41IRSensor extends RealSensorBase implements Analog41IRSensor {
   private AnalogInput m_irSensor;
 
   public RealAnalog41IRSensor(int port) {
@@ -35,7 +36,7 @@ public class RealAnalog41IRSensor extends Analog41IRSensor {
   }
 
   @Override
-  public void updateSmartDashboardReadings() {
+  protected void updateSmartDashboard() {
     SmartDashboard.putNumber("analog41IRsensor", getDistance());
   }
 

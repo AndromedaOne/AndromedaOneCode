@@ -1,25 +1,26 @@
 package frc.robot.sensors.analogsensor;
 
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.sensors.RealSensorBase;
 
-public class RealAnalogSensor extends AnalogSensor {
-  private AnalogInput angleSensor;
-  private boolean useWrapAround = false;
-  private Config conf;
+public class RealAnalogSensor extends RealSensorBase implements AnalogSensor {
+  private AnalogInput m_angleSensor;
+  private boolean m_useWrapAround = false;
+  private String m_name;
 
   public RealAnalogSensor(int port, String configString) {
-    angleSensor = new AnalogInput(port);
-    this.conf = Config4905.getConfig4905().getSensorConfig();
-    this.useWrapAround = this.conf.getBoolean("sensors." + configString + "useWrapAround");
+    m_angleSensor = new AnalogInput(port);
+    m_useWrapAround = Config4905.getConfig4905().getSensorConfig()
+        .getBoolean("sensors." + configString + "useWrapAround");
+    m_name = configString;
   }
 
   @Override
   public double getAngle() {
-    double sensorValue = angleSensor.getVoltage();
-    if (sensorValue < 0.94 && useWrapAround) {
+    double sensorValue = m_angleSensor.getVoltage();
+    if (sensorValue < 0.94 && m_useWrapAround) {
       sensorValue = (sensorValue - 0.316) + 2.85;
     }
     return sensorValue;
@@ -27,5 +28,10 @@ public class RealAnalogSensor extends AnalogSensor {
 
   @Override
   public void reset() {
+  }
+
+  @Override
+  protected void updateSmartDashboard() {
+    SmartDashboard.putNumber(m_name, getAngle());
   }
 }

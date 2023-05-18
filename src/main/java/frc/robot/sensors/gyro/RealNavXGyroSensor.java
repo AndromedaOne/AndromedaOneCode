@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Config4905;
 
-public class RealNavXGyroSensor extends Gyro4905 {
+public class RealNavXGyroSensor extends RealGyroBase {
   // use singleton for the gyro member
   static private AHRS m_gyro = null;
 

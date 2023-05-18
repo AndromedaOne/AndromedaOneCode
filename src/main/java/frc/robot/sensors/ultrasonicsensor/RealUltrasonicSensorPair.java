@@ -5,14 +5,13 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.sensors.RealSensorBase;
 
-public class RealUltrasonicSensorPair extends UltrasonicSensor {
-  private Ultrasonic leftUltrasonic;
-  private Ultrasonic rightUltrasonic;
-  private double outlierDetectionThreshold = 10;
-
-  protected String subsystemName;
-  protected String sensorName;
+public class RealUltrasonicSensorPair extends RealSensorBase implements UltrasonicSensor {
+  private Ultrasonic m_leftUltrasonic;
+  private Ultrasonic m_rightUltrasonic;
+  private double m_outlierDetectionThreshold = 10;
+  private String m_sensorName;
 
   /**
    * Creates an ultrasonic pair which takes in two ultrasonics and assumes one is
@@ -32,19 +31,20 @@ public class RealUltrasonicSensorPair extends UltrasonicSensor {
     int leftEcho = conf.getInt("sensors." + confString + ".leftEcho");
     int rightPing = conf.getInt("sensors." + confString + ".rightPing");
     int rightEcho = conf.getInt("sensors." + confString + ".rightEcho");
-    leftUltrasonic = new Ultrasonic(leftPing, leftEcho);
-    leftUltrasonic.setEnabled(true);
-    rightUltrasonic = new Ultrasonic(rightPing, rightEcho);
-    rightUltrasonic.setEnabled(true);
+    m_leftUltrasonic = new Ultrasonic(leftPing, leftEcho);
+    m_leftUltrasonic.setEnabled(true);
+    m_rightUltrasonic = new Ultrasonic(rightPing, rightEcho);
+    m_rightUltrasonic.setEnabled(true);
     Ultrasonic.setAutomaticMode(true);
+    m_sensorName = confString;
   }
 
   public double getLeftUltrasonicDistanceInches() {
-    return leftUltrasonic.getRangeInches();
+    return m_leftUltrasonic.getRangeInches();
   }
 
   public double getRightUltrasonicDistanceInches() {
-    return rightUltrasonic.getRangeInches();
+    return m_rightUltrasonic.getRangeInches();
   }
 
   /**
@@ -54,20 +54,22 @@ public class RealUltrasonicSensorPair extends UltrasonicSensor {
    */
   @Override
   public double getDistanceInches() {
-    double leftUltrasonicDist = leftUltrasonic.getRangeInches();
-    double rightUltrasonicDist = rightUltrasonic.getRangeInches();
-    SmartDashboard.putNumber("Left Ultrasonic", leftUltrasonicDist);
-    SmartDashboard.putNumber("Right Ultrasonic", rightUltrasonicDist);
+    double leftUltrasonicDist = m_leftUltrasonic.getRangeInches();
+    double rightUltrasonicDist = m_rightUltrasonic.getRangeInches();
+
     // This defaults to average the two ultrasonics to get a distance
     double distance = (leftUltrasonicDist + rightUltrasonicDist) / 2;
-    if (Math.abs(leftUltrasonicDist - rightUltrasonicDist) > outlierDetectionThreshold) {
+    if (Math.abs(leftUltrasonicDist - rightUltrasonicDist) > m_outlierDetectionThreshold) {
       distance = Math.min(leftUltrasonicDist, rightUltrasonicDist);
     }
-    SmartDashboard.putNumber("Ultrasonic", distance);
     return distance;
   }
 
-  public double getMinDistanceInches() {
-    return Math.min(leftUltrasonic.getRangeInches(), rightUltrasonic.getRangeInches());
+  @Override
+  protected void updateSmartDashboard() {
+    SmartDashboard.putNumber(m_sensorName + ": Left Ultrasonic", getLeftUltrasonicDistanceInches());
+    SmartDashboard.putNumber(m_sensorName + ": Right Ultrasonic",
+        getRightUltrasonicDistanceInches());
+    SmartDashboard.putNumber(m_sensorName + "Ultrasonic", getDistanceInches());
   }
 }

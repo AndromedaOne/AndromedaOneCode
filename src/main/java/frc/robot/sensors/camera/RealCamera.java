@@ -5,8 +5,9 @@ import com.typesafe.config.Config;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import frc.robot.Config4905;
+import frc.robot.sensors.RealSensorBase;
 
-public class RealCamera extends Camera {
+public class RealCamera extends RealSensorBase implements Camera {
   public RealCamera(int cameraNum, int port) {
     Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
     UsbCamera camera = CameraServer.startAutomaticCapture("Camera " + cameraNum, port);
@@ -15,5 +16,9 @@ public class RealCamera extends Camera {
     int fps = sensorConfig.getInt("sensors.cameras.camera" + cameraNum + ".fps");
     camera.setResolution(width, height);
     camera.setFPS(fps);
+  }
+
+  @Override
+  protected void updateSmartDashboard() {
   }
 }

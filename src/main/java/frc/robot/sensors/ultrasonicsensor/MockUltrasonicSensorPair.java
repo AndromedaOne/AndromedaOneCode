@@ -1,6 +1,6 @@
 package frc.robot.sensors.ultrasonicsensor;
 
-public class MockUltrasonicSensorPair extends UltrasonicSensor {
+public class MockUltrasonicSensorPair implements UltrasonicSensor {
   public MockUltrasonicSensorPair() {
   }
 

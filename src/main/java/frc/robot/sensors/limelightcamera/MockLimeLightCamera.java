@@ -1,6 +1,6 @@
 package frc.robot.sensors.limelightcamera;
 
-public class MockLimeLightCamera extends LimeLightCameraBase {
+public class MockLimeLightCamera implements LimeLightCameraBase {
 
   @Override
   public double horizontalDegreesToTarget() {
@@ -28,11 +28,6 @@ public class MockLimeLightCamera extends LimeLightCameraBase {
 
   @Override
   public void setPipeline(int pipelineNumber) {
-
-  }
-
-  @Override
-  public void updateSmartDashboardReadings() {
 
   }
 

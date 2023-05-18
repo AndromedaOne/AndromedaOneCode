@@ -1,120 +1,43 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.sensors.gyro;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.utils.AngleConversionUtils;
+/** Add your docs here. */
+public interface Gyro4905 {
 
-public abstract class Gyro4905 implements Gyro {
+  public double getZAngle();
 
-  private double m_initialZAngleReading = 0.0;
-  private double m_initialXAngleReading = 0.0;
-  private double m_initialYAngleReading = 0.0;
-  private boolean m_isZangleOffsetinitialized = false;
+  public double getXAngle();
 
-  protected void setInitialZAngleReading(double value) {
-    m_initialZAngleReading = value;
-  }
+  public double getYAngle();
 
-  public void setInitialZangleOffset(double offset) {
-    if (!m_isZangleOffsetinitialized) {
-      System.out.print("orig init Z Angle: " + m_initialZAngleReading);
-      m_initialZAngleReading = m_initialZAngleReading + offset;
-      m_isZangleOffsetinitialized = true;
-      System.out.println(" updated init Z: " + m_initialZAngleReading);
-    }
-  }
+  public double getCompassHeading();
 
-  public double getInitialZAngleReading() {
-    return m_initialZAngleReading;
-  }
+  public void calibrate();
 
-  protected void setInitialXAngleReading(double value) {
-    m_initialXAngleReading = value;
-  }
+  public void reset();
 
-  protected void setInitialYAngleReading(double value) {
-    m_initialYAngleReading = value;
-  }
+  public double getAngle();
 
-  public abstract double getRawZAngle();
+  public double getRate();
 
-  public abstract double getRawXAngle();
+  public void close() throws Exception;
 
-  public abstract double getRawYAngle();
+  public double getRawZAngle();
 
-  public double getZAngle() {
-    return getRawZAngle() - m_initialZAngleReading;
-  }
+  public double getRawXAngle();
 
-  public double getXAngle() {
-    return (getRawXAngle() - m_initialXAngleReading);
-  }
+  public double getRawYAngle();
 
-  public double getYAngle() {
-    return (getRawYAngle() - m_initialYAngleReading);
-  }
+  public void setInitialZangleOffset(double offset);
 
-  /**
-   * Returns the current compass heading of the robot Between 0 - 360
-   */
-  public double getCompassHeading() {
-    return AngleConversionUtils.ConvertAngleToCompassHeading(getZAngle());
-  }
+  public DoubleSupplier getYangleDoubleSupplier();
 
-  private class GetCompassHeadingDoubleSupplier implements DoubleSupplier {
+  public DoubleSupplier getZangleDoubleSupplier();
 
-    @Override
-    public double getAsDouble() {
-      return getCompassHeading();
-    }
-  }
-
-  public DoubleSupplier getCompassHeadingDoubleSupplier() {
-    return new GetCompassHeadingDoubleSupplier();
-  }
-
-  private class GetXangleDoubleSupplier implements DoubleSupplier {
-
-    @Override
-    public double getAsDouble() {
-      return getXAngle();
-    }
-  }
-
-  public DoubleSupplier getXangleDoubleSupplier() {
-    return new GetXangleDoubleSupplier();
-  }
-
-  private class GetYangleDoubleSupplier implements DoubleSupplier {
-
-    @Override
-    public double getAsDouble() {
-      return getYAngle();
-    }
-  }
-
-  public DoubleSupplier getYangleDoubleSupplier() {
-    return new GetYangleDoubleSupplier();
-  }
-
-  private class GetZangleDoubleSupplier implements DoubleSupplier {
-
-    @Override
-    public double getAsDouble() {
-      return getZAngle();
-    }
-  }
-
-  public DoubleSupplier getZangleDoubleSupplier() {
-    return new GetZangleDoubleSupplier();
-  }
-
-  public void updateSmartDashboardReadings() {
-    SmartDashboard.putNumber("Z Angle", getZAngle());
-    SmartDashboard.putNumber("Robot Compass Angle", getCompassHeading());
-    SmartDashboard.putNumber("CurrentGyroOffset", m_initialZAngleReading);
-    SmartDashboard.putNumber("Raw Z Value", getRawZAngle());
-  }
+  public DoubleSupplier getCompassHeadingDoubleSupplier();
 }

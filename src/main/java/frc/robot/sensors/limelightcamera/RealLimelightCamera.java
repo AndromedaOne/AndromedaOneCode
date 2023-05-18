@@ -6,8 +6,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.sensors.RealSensorBase;
 
-public class RealLimelightCamera extends LimeLightCameraBase {
+public class RealLimelightCamera extends RealSensorBase implements LimeLightCameraBase {
   protected Config m_config = Config4905.getConfig4905().getSensorConfig();
   protected NetworkTable m_limelightTable;
   protected double m_cameraHeight = m_config.getDouble("limelight.cameraHeight");
@@ -51,13 +52,6 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   }
 
   @Override
-  public void updateSmartDashboardReadings() {
-    SmartDashboard.putNumber("LimeAngleToTurn", horizontalDegreesToTarget());
-    SmartDashboard.putNumber("Vertical Radians To Target", verticalRadiansToTarget());
-    SmartDashboard.putNumber("Distance To Target", distanceToPowerPort());
-  }
-
-  @Override
   public boolean targetLock() {
     return m_limelightTable.getEntry("tv").getDouble(0.0) != 0.0;
   }
@@ -73,5 +67,12 @@ public class RealLimelightCamera extends LimeLightCameraBase {
   @Override
   public boolean doesLimeLightExist() {
     return true;
+  }
+
+  @Override
+  protected void updateSmartDashboard() {
+    SmartDashboard.putNumber("LimeAngleToTurn", horizontalDegreesToTarget());
+    SmartDashboard.putNumber("Vertical Radians To Target", verticalRadiansToTarget());
+    SmartDashboard.putNumber("Distance To Target", distanceToPowerPort());
   }
 }
