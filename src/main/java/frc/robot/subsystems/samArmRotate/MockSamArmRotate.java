@@ -4,16 +4,10 @@
 
 package frc.robot.subsystems.samArmRotate;
 
-public class MockSamArmRotate extends SamArmRotateBase {
-  /** Creates a new MockSamArmRotate. */
-  public MockSamArmRotate() {
-  }
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
+public class MockSamArmRotate implements SamArmRotateBase {
   @Override
   public void rotate(double speed) {
   }
@@ -35,5 +29,18 @@ public class MockSamArmRotate extends SamArmRotateBase {
 
   public ArmAngleBrakeState getState() {
     return ArmAngleBrakeState.ENGAGEARMBRAKE;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+  }
+
+  @Override
+  public void stop() {
   }
 }

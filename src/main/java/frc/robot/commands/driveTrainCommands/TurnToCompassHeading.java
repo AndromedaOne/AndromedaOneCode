@@ -40,7 +40,8 @@ public class TurnToCompassHeading extends PIDCommand4905 {
           Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
         });
     this.m_compassHeading = compassHeading;
-    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+    addRequirements(
+        Robot.getInstance().getSubsystemsContainer().getDrivetrain().getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
     m_setpoint = () -> m_compassHeading;

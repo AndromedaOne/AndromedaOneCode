@@ -14,7 +14,7 @@ public class EnableExtendRetractBrake extends CommandBase {
   /** Creates a new EnableExtendRetractBrake. */
   public EnableExtendRetractBrake(SamArmExtRetBase armExtRetBase) {
     m_armExtendRetBase = armExtRetBase;
-    addRequirements(armExtRetBase);
+    addRequirements(armExtRetBase.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

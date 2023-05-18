@@ -8,12 +8,14 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.actuators.SparkMaxController;
 
-public class RealSamArmExtRet extends SamArmExtRetBase {
+public class RealSamArmExtRet extends SubsystemBase implements SamArmExtRetBase {
 
   private final SparkMaxController m_extensionMotor;
   private double m_zeroOffset = 0;
@@ -151,6 +153,16 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   @Override
   public ExtensionBrakeStates getExtensionBrakeState() {
     return m_extensionBrakeStates;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 
 }

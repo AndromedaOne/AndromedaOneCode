@@ -9,21 +9,10 @@ package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
+import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 
-public abstract class DriveTrain extends SubsystemBase {
-  public enum DriveTrainMode {
-    FAST, MID, SLOW
-  }
-
-  private DriveTrainMode m_driveTrainMode = DriveTrainMode.FAST;
-
-  /**
-   * Creates a new DriveTrainBase.
-   */
-  public DriveTrain() {
-  }
+public interface DriveTrain extends SubsystemInterface {
 
   public abstract void init();
 
@@ -40,9 +29,7 @@ public abstract class DriveTrain extends SubsystemBase {
   public abstract void moveUsingGyro(double forwardBackward, double rotation,
       boolean useSquaredInputs, double heading);
 
-  public void stop() {
-    move(0, 0, false);
-  }
+  public void stop();
 
   public abstract double getRobotPositionInches();
 
@@ -68,23 +55,10 @@ public abstract class DriveTrain extends SubsystemBase {
 
   public abstract double getRightRateMetersPerSecond();
 
-  public void setCoast(boolean p) {
-    System.out.println("coast set to " + p);
-  }
+  public void setCoast(boolean value);
 
-  public void setDriveTrainMode(DriveTrainMode mode) {
-    m_driveTrainMode = mode;
-  }
+  public void setDriveTrainMode(DriveTrainModeEnum mode);
 
-  public DriveTrainMode getDriveTrainMode() {
-    return m_driveTrainMode;
-  }
+  public DriveTrainModeEnum getDriveTrainMode();
 
-  public void periodic() {
-    SmartDashboard.putNumber("robotPositionInches", getRobotPositionInches());
-    SmartDashboard.putNumber("Left Wheel Speed", getLeftRateMetersPerSecond());
-    SmartDashboard.putNumber("Right Wheel Speed", getRightRateMetersPerSecond());
-    SmartDashboard.putString("Parking Brake State", getParkingBrakeState().name());
-
-  }
 }

@@ -28,7 +28,7 @@ public class DriveBackwardTimed extends CommandBase {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     m_driveTrain = driveTrain;
-    addRequirements(driveTrain);
+    addRequirements(driveTrain.getSubsystemBase());
   }
 
   @Override

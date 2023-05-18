@@ -4,14 +4,12 @@
 
 package frc.robot.subsystems.samArmExtRet;
 
-public class MockSamArmExtRet extends SamArmExtRetBase {
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class MockSamArmExtRet implements SamArmExtRetBase {
   /** Creates a new MockSamArmExtension. */
   public MockSamArmExtRet() {
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 
   @Override
@@ -62,5 +60,15 @@ public class MockSamArmExtRet extends SamArmExtRetBase {
   @Override
   public ExtensionBrakeStates getExtensionBrakeState() {
     return ExtensionBrakeStates.UNKNOWN;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    throw new UnsupportedOperationException("Unimplemented method 'setDefaultCommand'");
   }
 }

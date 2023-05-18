@@ -26,7 +26,7 @@ public class BalanceRobot extends PIDCommand4905 {
         Robot.getInstance().getSensorsContainer().getGyro().getYangleDoubleSupplier(), () -> 0,
         output -> {
           driveTrain.moveUsingGyro(-output, 0, false, compassHeading);
-        }, driveTrain);
+        }, driveTrain.getSubsystemBase());
     m_driveTrain = driveTrain;
     m_gyro4905 = Robot.getInstance().getSensorsContainer().getGyro();
     getController().setP(m_constantConfig.getDouble("BalanceRobot.Kp"));

@@ -49,7 +49,7 @@ public class MoveUsingEncoder extends PIDCommand4905 {
     m_maxOutput = maxOutput;
     m_useCurrentHeading = useCurrentHeading;
     // Configure additional PID options by calling `getController` here.
-    addRequirements(drivetrain);
+    addRequirements(drivetrain.getSubsystemBase());
   }
 
   // Use this constructor to move the robot in the heading passed in

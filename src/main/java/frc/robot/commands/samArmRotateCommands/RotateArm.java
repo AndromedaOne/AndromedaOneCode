@@ -30,7 +30,7 @@ public class RotateArm extends PIDCommand4905 {
 
     super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
       armRotate.rotate(output);
-    }, armRotate);
+    }, armRotate.getSubsystemBase());
     m_armRotate = armRotate;
     m_needToEnd = needToEnd;
     m_useSmartDashboard = useSmartDashboard;

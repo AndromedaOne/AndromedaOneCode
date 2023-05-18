@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.telemetries.Trace;
 
 public class SparkMaxDriveTrain extends RealDriveTrain {
   // public static SparkMaxController
@@ -119,9 +120,9 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   }
 
   @Override
-  public void setCoast(boolean p) {
-    System.out.println("coast set to " + p);
-    if (p) {
+  public void setCoast(boolean value) {
+    Trace.getInstance().logInfo("coast set to " + value);
+    if (value) {
       m_frontLeft.setIdleMode(IdleMode.kCoast);
       m_frontRight.setIdleMode(IdleMode.kCoast);
       m_backLeft.setIdleMode(IdleMode.kCoast);

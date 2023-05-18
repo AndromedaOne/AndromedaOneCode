@@ -15,7 +15,7 @@ public class ToggleBrakes extends CommandBase {
 
   public ToggleBrakes(DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
-    addRequirements(driveTrain);
+    addRequirements(driveTrain.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

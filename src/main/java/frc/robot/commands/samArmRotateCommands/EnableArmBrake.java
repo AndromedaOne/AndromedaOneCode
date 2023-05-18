@@ -14,7 +14,7 @@ public class EnableArmBrake extends CommandBase {
 
   public EnableArmBrake(SamArmRotateBase armRotateBase) {
     m_armRotateBase = armRotateBase;
-    addRequirements(m_armRotateBase);
+    addRequirements(m_armRotateBase.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.
