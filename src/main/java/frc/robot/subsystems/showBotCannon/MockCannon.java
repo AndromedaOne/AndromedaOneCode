@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems.showBotCannon;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 /** Add your docs here. */
-public class MockCannon extends CannonBase {
+public class MockCannon implements CannonBase {
 
   @Override
   public void pressurize() {
@@ -31,5 +34,14 @@ public class MockCannon extends CannonBase {
   @Override
   public boolean isCannonElevationInRange() {
     return false;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
   }
 }

@@ -13,7 +13,7 @@ public class DefaultGripperCommand extends CommandBase {
 
   public DefaultGripperCommand(GripperBase defaultGripper) {
     m_defaultGripper = defaultGripper;
-    addRequirements(m_defaultGripper);
+    addRequirements(m_defaultGripper.getSubsystemBase());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

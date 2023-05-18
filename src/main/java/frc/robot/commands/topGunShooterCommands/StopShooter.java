@@ -15,7 +15,7 @@ public class StopShooter extends CommandBase {
   public StopShooter(ShooterWheelBase topShooterWheel, ShooterWheelBase bottomShooterWheel) {
     m_topShooterWheel = topShooterWheel;
     m_bottomShooterWheel = bottomShooterWheel;
-    addRequirements(topShooterWheel, bottomShooterWheel);
+    addRequirements(topShooterWheel.getSubsystemBase(), bottomShooterWheel.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

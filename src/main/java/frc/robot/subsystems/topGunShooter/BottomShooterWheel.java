@@ -7,11 +7,13 @@ package frc.robot.subsystems.topGunShooter;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
-public class BottomShooterWheel extends ShooterWheelBase {
+public class BottomShooterWheel extends SubsystemBase implements ShooterWheelBase {
 
   private Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
   private SparkMaxController m_shooterMotor;
@@ -42,5 +44,15 @@ public class BottomShooterWheel extends ShooterWheelBase {
   @Override
   public String getShooterName() {
     return "bottomShooterWheel";
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 }

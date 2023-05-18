@@ -26,7 +26,7 @@ public class ShootCannon extends CommandBase {
   public ShootCannon() {
     m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
     m_audio = Robot.getInstance().getSubsystemsContainer().getShowBotAudio();
-    addRequirements(m_cannon, m_audio);
+    addRequirements(m_cannon.getSubsystemBase(), m_audio.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

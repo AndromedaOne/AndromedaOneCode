@@ -15,7 +15,7 @@ public class InitializeShooterAlignment extends CommandBase {
   /** Creates a new InitializeShooterAlignment. */
   public InitializeShooterAlignment(ShooterAlignmentBase shooterAlignment) {
     m_shooterAlignment = shooterAlignment;
-    addRequirements(shooterAlignment);
+    addRequirements(shooterAlignment.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

@@ -7,6 +7,8 @@ package frc.robot.subsystems.showBotCannon;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.DoubleSolenoid4905;
@@ -15,7 +17,7 @@ import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.subsystems.compressor.CompressorBase;
 
 /** Add your docs here. */
-public class RealCannon extends CannonBase {
+public class RealCannon extends SubsystemBase implements CannonBase {
   private DoubleSolenoid4905 m_solenoid0_7;
   private DoubleSolenoid4905 m_solenoid1_6;
   private DoubleSolenoid4905 m_solenoid2_5;
@@ -90,5 +92,15 @@ public class RealCannon extends CannonBase {
     SmartDashboard.putBoolean("cannonElevatorContactSwitch",
         m_cannonElevatorContactSwitch.isAtLimit());
     SmartDashboard.putNumber("canon rotate encoder ticks", m_canonRotateEncoder.getEncoderValue());
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 }

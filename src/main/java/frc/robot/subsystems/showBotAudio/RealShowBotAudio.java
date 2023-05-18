@@ -5,10 +5,12 @@
 package frc.robot.subsystems.showBotAudio;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.telemetries.Trace;
 
 // suppress unused warnings to allow for strings mapped to audio files
-public class RealShowBotAudio extends ShowBotAudioBase {
+public class RealShowBotAudio extends SubsystemBase implements ShowBotAudioBase {
   // smartdashboard keys
   private final String m_audioFileToPlayKey = "showBotAudioFileToPlay";
   private final String m_audioIsPlayingKey = "showBotAudioIsPlaying";
@@ -73,5 +75,15 @@ public class RealShowBotAudio extends ShowBotAudioBase {
   @Override
   public void playShootCannonAudio() {
     playAudio(AudioFiles.Kaboom);
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 }

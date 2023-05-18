@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems.topGunIntake;
 
-public class MockIntake extends IntakeBase {
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class MockIntake implements IntakeBase {
   private double m_previousSpeed = 0;
 
   public void runIntakeWheels(double speed) {
@@ -29,11 +32,12 @@ public class MockIntake extends IntakeBase {
     System.out.println("retract intake");
   }
 
-  /** Creates a new MockIntake. */
-  /*
-   * public MockIntake() { }
-   * 
-   * @Override public void periodic() { // This method will be called once per
-   * scheduler run }
-   */
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+  }
 }

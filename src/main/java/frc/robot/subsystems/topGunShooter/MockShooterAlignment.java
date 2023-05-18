@@ -4,14 +4,12 @@
 
 package frc.robot.subsystems.topGunShooter;
 
-public class MockShooterAlignment extends ShooterAlignmentBase {
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class MockShooterAlignment implements ShooterAlignmentBase {
   /** Creates a new MockShooterAlignment. */
   public MockShooterAlignment() {
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 
   @Override
@@ -61,5 +59,32 @@ public class MockShooterAlignment extends ShooterAlignmentBase {
   @Override
   public void stowShooterArms() {
 
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+  }
+
+  @Override
+  public boolean getInitialized() {
+    return false;
+  }
+
+  @Override
+  public void setInitialized() {
+  }
+
+  @Override
+  public void setOffset(double offset) {
+  }
+
+  @Override
+  public double getOffset() {
+    return 0;
   }
 }

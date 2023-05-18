@@ -9,10 +9,12 @@ package frc.robot.subsystems.topGunFeeder;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
-public class RealFeeder extends FeederBase {
+public class RealFeeder extends SubsystemBase implements FeederBase {
   private Config m_feederConfig = Config4905.getConfig4905().getFeederConfig();
   private SparkMaxController m_feederMotor;
 
@@ -34,6 +36,16 @@ public class RealFeeder extends FeederBase {
   public void runFeederInReverse(double speed) {
     m_feederMotor.setSpeed(-speed);
 
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 
 }

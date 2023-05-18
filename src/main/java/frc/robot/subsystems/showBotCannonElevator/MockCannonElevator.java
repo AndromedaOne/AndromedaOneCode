@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems.showBotCannonElevator;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 /** Add your docs here. */
-public class MockCannonElevator extends CannonElevatorBase {
+public class MockCannonElevator implements CannonElevatorBase {
 
   @Override
   public void changeElevation(double speed) {
@@ -13,6 +16,15 @@ public class MockCannonElevator extends CannonElevatorBase {
 
   @Override
   public void holdElevation() {
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
   }
 
 }

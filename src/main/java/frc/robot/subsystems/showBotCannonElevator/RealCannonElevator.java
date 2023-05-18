@@ -6,10 +6,12 @@ package frc.robot.subsystems.showBotCannonElevator;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.VictorSPXController;
 
-public class RealCannonElevator extends CannonElevatorBase {
+public class RealCannonElevator extends SubsystemBase implements CannonElevatorBase {
   private VictorSPXController m_elevationMotor;
   private Config m_config;
 
@@ -26,6 +28,16 @@ public class RealCannonElevator extends CannonElevatorBase {
   @Override
   public void holdElevation() {
     m_elevationMotor.set(0);
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 
 }

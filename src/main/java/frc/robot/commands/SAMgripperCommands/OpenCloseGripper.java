@@ -17,7 +17,7 @@ public class OpenCloseGripper extends CommandBase {
   public OpenCloseGripper(GripperBase gripper) {
     // Use addRequirements() here to declare subsystem dependencies
     m_gripper = gripper;
-    addRequirements(m_gripper);
+    addRequirements(m_gripper.getSubsystemBase());
 
   }
 

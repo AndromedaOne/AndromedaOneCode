@@ -13,7 +13,7 @@ public class StopFeeder extends CommandBase {
   /** Creates a new StopFeeder. */
   public StopFeeder(FeederBase feeder) {
     m_feeder = feeder;
-    addRequirements(m_feeder);
+    addRequirements(m_feeder.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

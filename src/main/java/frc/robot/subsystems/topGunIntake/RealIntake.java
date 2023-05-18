@@ -7,10 +7,12 @@ package frc.robot.subsystems.topGunIntake;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.TalonSRXController;
 
-public class RealIntake extends IntakeBase {
+public class RealIntake extends SubsystemBase implements IntakeBase {
   private TalonSRXController m_wheelsController;
   private TalonSRXController m_deployRetractControllerDriverSide;
   private TalonSRXController m_deployRetractControllerPassengerSide;
@@ -59,5 +61,15 @@ public class RealIntake extends IntakeBase {
         m_deployRetractControllerPassengerSide.isFwdLimitSwitchClosed() == 1);
     SmartDashboard.putBoolean("IntakePassengerSideLimitSwitchRevClosed",
         m_deployRetractControllerPassengerSide.isRevLimitSwitchClosed() == 1);
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 }

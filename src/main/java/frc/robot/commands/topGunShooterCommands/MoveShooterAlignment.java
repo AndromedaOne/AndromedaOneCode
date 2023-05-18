@@ -25,7 +25,7 @@ public class MoveShooterAlignment extends PIDCommand4905 {
         output -> {
           shooterAlignment.rotateShooter(output);
         });
-    addRequirements(shooterAlignment);
+    addRequirements(shooterAlignment.getSubsystemBase());
     m_shooterAlignment = shooterAlignment;
     if (tunePID) {
       getController().setP(pValue);

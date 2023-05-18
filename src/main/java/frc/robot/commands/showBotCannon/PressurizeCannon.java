@@ -18,7 +18,7 @@ public class PressurizeCannon extends CommandBase {
 
   public PressurizeCannon() {
     m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
-    addRequirements(m_cannon);
+    addRequirements(m_cannon.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

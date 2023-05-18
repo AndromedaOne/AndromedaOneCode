@@ -4,13 +4,9 @@
 
 package frc.robot.subsystems.showBotCannon;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class CannonBase extends SubsystemBase {
-  /** Creates a new CannonBase. */
-  public CannonBase() {
-  }
-
+public interface CannonBase extends SubsystemInterface {
   public abstract void pressurize();
 
   public abstract void shoot();
@@ -20,10 +16,4 @@ public abstract class CannonBase extends SubsystemBase {
   public abstract boolean isPressurized();
 
   public abstract boolean isCannonElevationInRange();
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
 }

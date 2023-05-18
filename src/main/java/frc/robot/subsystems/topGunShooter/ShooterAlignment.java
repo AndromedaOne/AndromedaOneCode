@@ -7,15 +7,19 @@ package frc.robot.subsystems.topGunShooter;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.actuators.ServoMotorPositional;
 import frc.robot.actuators.SparkMaxController;
 
-public class ShooterAlignment extends ShooterAlignmentBase {
+public class ShooterAlignment extends SubsystemBase implements ShooterAlignmentBase {
   SparkMaxController m_angleMotor;
   ServoMotorPositional m_hooksServoMotor;
   Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
+  private double m_offset = 0;
+  private boolean m_initialized = false;
 
   /** Creates a new ShooterAlignment. */
   public ShooterAlignment() {
@@ -74,5 +78,35 @@ public class ShooterAlignment extends ShooterAlignmentBase {
   @Override
   public void stowShooterArms() {
     m_hooksServoMotor.set(0);
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
+  }
+
+  @Override
+  public boolean getInitialized() {
+    return m_initialized;
+  }
+
+  @Override
+  public void setInitialized() {
+    m_initialized = true;
+  }
+
+  @Override
+  public void setOffset(double offset) {
+    m_offset = offset;
+  }
+
+  @Override
+  public double getOffset() {
+    return m_offset;
   }
 }

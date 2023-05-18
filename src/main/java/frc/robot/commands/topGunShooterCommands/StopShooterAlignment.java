@@ -12,7 +12,7 @@ public class StopShooterAlignment extends CommandBase {
 
   public StopShooterAlignment(ShooterAlignmentBase shooterAlignment) {
     m_shooterAlignment = shooterAlignment;
-    addRequirements(shooterAlignment);
+    addRequirements(shooterAlignment.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.
