@@ -12,4 +12,6 @@ public abstract class LimitSwitchSensor {
     private static final long serialVersionUID = 1L;
 
   }
+
+  public abstract void updateSmartDashboardReadings();
 }

@@ -14,8 +14,12 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.showBotAudio.PlayAudio;
+import frc.robot.commands.showBotCannon.PressurizeCannon;
+import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.showBotAudio.AudioFiles;
 
 /**
  * All driveController buttons get mapped here with descriptive names so they
@@ -47,8 +51,14 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShooterExist()) {
       setUpShooterButtons();
     }
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
+      setUpCannonButtons();
+    }
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
+    }
+    if (Config4905.getConfig4905().doesShowBotAudioExist()) {
+      setupShowBotAudioButtons();
     }
   }
 
@@ -76,6 +86,14 @@ public class DriveController extends ControllerBase {
     return getRightBumperReleased();
   }
 
+  public double getShowBotElevatorUpTriggerValue() {
+    return getLeftTriggerValue();
+  }
+
+  public double getShowBotElevatorDownTriggerValue() {
+    return getRightTriggerValue();
+  }
+
   private void setUpShooterButtons() {
     getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
@@ -91,6 +109,22 @@ public class DriveController extends ControllerBase {
 
   private void setUpParkingBrake() {
     getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDrivetrain()));
+  }
+
+  private void setUpCannonButtons() {
+    getAbutton().onTrue(new PressurizeCannon());
+    // the driver must hold down the shoot button while the count down is played. if
+    // the driver
+    // releases the button before the count down finishes, the cannon will not
+    // shoot.
+    getBbutton().whileTrue(new ShootCannon());
+  }
+
+  private void setupShowBotAudioButtons() {
+    getBackButton()
+        .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), AudioFiles.MeepMeep));
+    getStartButton()
+        .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), AudioFiles.TruckHorn));
   }
 
   private void setupRomiButtons() {
