@@ -26,7 +26,7 @@ public class ShootThreePointer extends SequentialCommandGroup4905 {
   public void additionalInitialize() {
     Trace.getInstance().logCommandStart(this);
     // Values need to be changed for three pointer
-    m_shooterSetpoint = 3675.0;
+    m_shooterSetpoint = 4500.0;
     m_shooterAngle = 42;
     m_feederSetpoint = 1.0;
   }

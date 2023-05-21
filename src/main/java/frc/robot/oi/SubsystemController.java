@@ -99,14 +99,6 @@ public class SubsystemController extends ControllerBase {
     getStartButton().whileTrue(new CubeLEDs());
   }
 
-  public boolean getPauseFeederButtonPressed() {
-    if (getLeftTriggerValue() > 0.3) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   public boolean getGripperButtonPressed() {
     if (getRightBumperPressed() == true) {
       return true;

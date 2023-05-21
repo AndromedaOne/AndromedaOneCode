@@ -37,10 +37,7 @@ public class RunFeeder extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Robot.getInstance().getOIContainer().getSubsystemController()
-        .getPauseFeederButtonPressed()) {
-      m_feeder.runFeeder(0);
-    } else if (m_runInReverse) {
+    if (m_runInReverse) {
       m_feeder.runFeeder(-m_speed.getAsDouble());
     } else if (m_readyToShoot.getAsBoolean()) {
       m_feeder.runFeeder(m_speed.getAsDouble());
