@@ -6,15 +6,16 @@ package frc.robot.subsystems.ledlights;
 
 /** Add your docs here. */
 
-public class ConeOrCubeLEDsSingleton {
+public class LEDRobotInformation {
   private static boolean m_buttonheld;
   private LEDStates m_LedStates;
-  private static ConeOrCubeLEDsSingleton m_instance = new ConeOrCubeLEDsSingleton();
+  private static LEDRobotInformation m_instance = new LEDRobotInformation();
+  private static boolean m_cannonIsPressurized = false;
 
-  private ConeOrCubeLEDsSingleton() {
+  private LEDRobotInformation() {
   }
 
-  public static ConeOrCubeLEDsSingleton getInstance() {
+  public static LEDRobotInformation getInstance() {
     return m_instance;
   }
 
@@ -32,5 +33,13 @@ public class ConeOrCubeLEDsSingleton {
 
   public void setLEDStates(LEDStates LEDValue) {
     m_LedStates = LEDValue;
+  }
+
+  public void setCannonIsPressurized(boolean value) {
+    m_cannonIsPressurized = value;
+  }
+
+  public boolean getCannonIsPressurized() {
+    return m_cannonIsPressurized;
   }
 }

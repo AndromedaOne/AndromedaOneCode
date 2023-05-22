@@ -9,6 +9,7 @@ package frc.robot.commands.driveTrainCommands;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -49,6 +50,9 @@ public class TeleOpCommand extends CommandBase {
     addRequirements(m_driveTrain);
     kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
     kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
+    if (Config4905.getConfig4905().isShowBot()) {
+      m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
+    }
   }
 
   // Called when the command is initially scheduled.
@@ -97,7 +101,7 @@ public class TeleOpCommand extends CommandBase {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
       m_driveTrain.setDriveTrainMode(DriveTrainMode.FAST);
     }
-    Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
+    SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
         new TracePair("savedAngle", m_savedRobotAngle),
         new TracePair("rotateStick", rotateStickValue));
     // do not use moveWithGyro here as we're providing the drive straight correction

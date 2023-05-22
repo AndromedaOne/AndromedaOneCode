@@ -6,4 +6,9 @@ public class MockLimitSwitchSensor extends LimitSwitchSensor {
   public boolean isAtLimit() {
     return false;
   }
+
+  @Override
+  public void updateSmartDashboardReadings() {
+
+  }
 }

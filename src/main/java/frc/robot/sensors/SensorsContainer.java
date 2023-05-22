@@ -12,6 +12,9 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
+import frc.robot.sensors.encoder.EncoderBase;
+import frc.robot.sensors.encoder.MockEncoder;
+import frc.robot.sensors.encoder.RealEncoder;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
@@ -19,6 +22,9 @@ import frc.robot.sensors.gyro.RomiGyro;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
 import frc.robot.sensors.limelightcamera.RealLimelightCamera;
+import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
+import frc.robot.sensors.limitswitchsensor.MockLimitSwitchSensor;
+import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
@@ -33,6 +39,8 @@ public class SensorsContainer {
   private LimeLightCameraBase m_limelightCameraBase;
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
+  private EncoderBase m_cannonElevatorEncoder;
+  private LimitSwitchSensor m_cannonHomeSwitch;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -79,6 +87,20 @@ public class SensorsContainer {
     } else {
       m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
     }
+    if (m_sensorConfig.hasPath("sensors.cannonElevationEncoder")) {
+      System.out.println("Using real cannon elevator encoder");
+      m_cannonElevatorEncoder = new RealEncoder("cannonElevationEncoder");
+    } else {
+      System.out.println("Using mock cannon elevator encoder");
+      m_cannonElevatorEncoder = new MockEncoder();
+    }
+    if (m_sensorConfig.hasPath("sensors.cannonHomeSwitch")) {
+      System.out.println("Using real cannon home switch");
+      m_cannonHomeSwitch = new RealLimitSwitchSensor("cannonHomeSwitch");
+    } else {
+      System.out.println("Using mock cannon home switch");
+      m_cannonHomeSwitch = new MockLimitSwitchSensor();
+    }
   }
 
   public void periodic() {
@@ -110,5 +132,13 @@ public class SensorsContainer {
 
   public UltrasonicSensor getCannonSafetyUltrasonic() {
     return m_cannonSafetyUltrasonic;
+  }
+
+  public EncoderBase getCannonElevatorEncoder() {
+    return m_cannonElevatorEncoder;
+  }
+
+  public LimitSwitchSensor getCannonHomeSwitch() {
+    return m_cannonHomeSwitch;
   }
 }
