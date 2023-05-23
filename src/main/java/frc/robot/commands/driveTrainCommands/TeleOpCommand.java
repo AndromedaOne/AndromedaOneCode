@@ -50,7 +50,7 @@ public class TeleOpCommand extends CommandBase {
     addRequirements(m_driveTrain);
     kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
     kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
-    if (Config4905.getConfig4905().isShowBot()) {
+    if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
       m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
     }
   }
@@ -102,10 +102,9 @@ public class TeleOpCommand extends CommandBase {
       m_driveTrain.setDriveTrainMode(DriveTrainMode.FAST);
     }
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
-    Trace.getInstance().addTrace(true, "TeleopDrive",
-        new TracePair<Double>("Gyro", m_gyro.getZAngle()),
-        new TracePair<>("savedAngle", m_savedRobotAngle),
-        new TracePair<>("rotateStick", rotateStickValue));
+    Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
+        new TracePair("savedAngle", m_savedRobotAngle),
+        new TracePair("rotateStick", rotateStickValue));
     // do not use moveWithGyro here as we're providing the drive straight correction
     m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, true);
   }
