@@ -60,6 +60,9 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_hasParkingBrake = false;
       m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
     }
+    if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
+      setDriveTrainMode(DriveTrainMode.SLOW);
+    }
   }
 
   public void init() {
@@ -95,11 +98,10 @@ public abstract class RealDriveTrain extends DriveTrain {
           .calculateMinimalCompassHeadingDifference(gyro.getCompassHeading(), compassHeading);
       rotation = -robotDeltaAngle * kProportion;
       Trace.getInstance().addTrace(true, "MoveUsingGyro",
-          new TracePair<Double>("CompassHeading", compassHeading),
-          new TracePair<>("GyroCompassHeading", gyro.getCompassHeading()),
-          new TracePair<>("robotDeltaAngle", robotDeltaAngle),
-          new TracePair<>("rotation", rotation),
-          new TracePair<>("ForwardBackward", forwardBackward));
+          new TracePair("CompassHeading", compassHeading),
+          new TracePair("GyroCompassHeading", gyro.getCompassHeading()),
+          new TracePair("robotDeltaAngle", robotDeltaAngle), new TracePair("rotation", rotation),
+          new TracePair("ForwardBackward", forwardBackward));
     }
     move(forwardBackward, rotation, useSquaredInputs);
   }

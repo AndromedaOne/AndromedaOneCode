@@ -17,6 +17,7 @@ import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.telemetries.Trace;
 
 /**
@@ -99,6 +100,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    Trace.getInstance().logInfo("disabledInit called");
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
@@ -140,7 +142,7 @@ public class Robot extends TimedRobot {
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDrivetrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
-    m_parkingBrakeScheduled = true;
+    m_parkingBrakeScheduled = false;
     Trace.getInstance().logInfo("autonomousInit finished");
   }
 
@@ -159,10 +161,12 @@ public class Robot extends TimedRobot {
       double matchTime = DriverStation.getMatchTime();
       if (matchTime <= 0.5) {
         // Call enable parking brake
+        System.out.println("Parking Brake First Call");
         if (!m_parkingBrakeScheduled) {
           CommandScheduler.getInstance()
               .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
           m_parkingBrakeScheduled = true;
+          System.out.println("PArking Brake is enabled");
         }
       }
     }
@@ -184,9 +188,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
     setInitialZangleOffset();
-
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
@@ -196,7 +198,8 @@ public class Robot extends TimedRobot {
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDrivetrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
-    m_parkingBrakeScheduled = true;
+    m_parkingBrakeScheduled = false;
+    m_subsystemContainer.getShowBotAudio().playAudio(AudioFiles.DiveAlert);
     Trace.getInstance().logInfo("teleopInit finished");
   }
 

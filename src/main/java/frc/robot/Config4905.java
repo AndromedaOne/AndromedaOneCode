@@ -34,10 +34,13 @@ public class Config4905 {
   private Config m_ledConfig;
   private Config m_leftLedConfig;
   private Config m_rightLedConfig;
+  private Config m_ws2812LEDsConfig;
   private Config m_harvesterConfig;
   private Config m_conveyorConfig;
   private Config m_compressorConfig;
-  private Config m_cannonConfig;
+  private Config m_showBotCannonConfig;
+  private Config m_showBotCannonElevatorConfig;
+  private Config m_showBotAudioConfig;
   private Config m_romiBallMopperConfig;
   private Config m_wingsConfig;
   private Config m_shooterConfig;
@@ -144,10 +147,13 @@ public class Config4905 {
     m_ledConfig = load("LED.conf");
     m_leftLedConfig = load("leftLED.conf");
     m_rightLedConfig = load("rightLED.conf");
+    m_ws2812LEDsConfig = load("ws2812LEDs.conf");
     m_harvesterConfig = load("harvester.conf");
     m_conveyorConfig = load("conveyor.conf");
     m_compressorConfig = load("compressor.conf");
-    m_cannonConfig = load("cannon.conf");
+    m_showBotCannonConfig = load("showBotCannon.conf");
+    m_showBotCannonElevatorConfig = load("showBotCannonElevator.conf");
+    m_showBotAudioConfig = load("showBotAudio.conf");
     m_romiBallMopperConfig = load("romiBallMopper.conf");
     m_wingsConfig = load("wings.conf");
     m_shooterConfig = load("shooter.conf");
@@ -186,6 +192,10 @@ public class Config4905 {
     return m_rightLedConfig;
   }
 
+  public Config getWS2812LEDsConfig() {
+    return m_ws2812LEDsConfig;
+  }
+
   public boolean doesLEDExist() {
     if (m_config.hasPath("subsystems.LED")) {
       return true;
@@ -208,6 +218,13 @@ public class Config4905 {
     } else {
       return false;
     }
+  }
+
+  public boolean doesWS2812LEDsExist() {
+    if (m_config.hasPath("subsystems.WS2812LEDs")) {
+      return true;
+    }
+    return false;
   }
 
   public boolean doesHarvesterExist() {
@@ -275,16 +292,39 @@ public class Config4905 {
     }
   }
 
-  public boolean doesCannonExist() {
-    if (m_config.hasPath("subsystems.cannon")) {
+  public boolean doesShowBotCannonExist() {
+    if (m_config.hasPath("subsystems.showBotCannon")) {
       return true;
     } else {
       return false;
     }
   }
 
-  public Config getCannonConfig() {
-    return m_cannonConfig;
+  public Config getShowBotCannonConfig() {
+    return m_showBotCannonConfig;
+  }
+
+  public boolean doesShowBotCannonElevatorExist() {
+    if (m_config.hasPath("subsystems.showbotCannonElevator")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getShowBotCannonElevatorConfig() {
+    return m_showBotCannonElevatorConfig;
+  }
+
+  public boolean doesShowBotAudioExist() {
+    if (m_config.hasPath("subsystems.showBotAudio")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getShowBotAudioConfig() {
+    return m_showBotAudioConfig;
   }
 
   public Config getRomiBallMopperConfig() {

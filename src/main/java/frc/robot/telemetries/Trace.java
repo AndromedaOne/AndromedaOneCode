@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.function.Function;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
@@ -66,54 +65,23 @@ public class Trace {
   private String m_pathOfTraceDir;
   private static String m_consoleOutput = "ConsoleOutput";
   private static Trace m_instance;
-  private Map<String, TraceMapEntry> m_traces;
+  private Map<String, TraceEntry> m_traces;
   private long m_startTime = 0;
   private MultipleOutputStream m_out;
   private MultipleOutputStream m_err;
-  private static String m_matchStartFname = "matchStarted";
+  private static String m_matchStartFname = "match";
   private static boolean m_matchStarted = false;
   private static String m_commandTraceFname = "CommandTrace";
   private BufferedWriter m_commandTraceWriter;
   private static int m_dirNumb = 0;
 
-  public static <T> Function<TracePair<T>[], String> defaultFormatter(long startTime) {
-    return (values -> {
-      long correctedTime = System.currentTimeMillis() - startTime;
-      String line = new String(String.valueOf(correctedTime));
-      for (TracePair<T> entry : values) {
-        line += ",\t" + entry.getValue();
-      }
-      return line;
-    });
-  }
-
-  public static <T> Function<TracePair<T>[], String> defaultHeaderFormatter() {
-    return (values -> {
-      String line = new String("Time");
-      for (TracePair<T> pair : values) {
-        line += "," + pair.getColumnName();
-      }
-      return line;
-    });
-  }
-
-  private interface TraceMapEntry {
-    public TraceEntry<?> getTraceEntry();
-  }
-
-  private class TraceEntry<T> implements TraceMapEntry {
+  private class TraceEntry {
     private BufferedWriter m_file;
     private int m_numbOfValues;
-    private Function<TracePair<T>[], String> formatter;
-    private Function<TracePair<T>[], String> headerFormatter;
 
-    public TraceEntry(BufferedWriter file, int numbOfValues,
-        Function<TracePair<T>[], String> formatter,
-        Function<TracePair<T>[], String> headerFormatter) {
+    public TraceEntry(BufferedWriter file, int numbOfValues) {
       m_file = file;
       m_numbOfValues = numbOfValues;
-      this.formatter = formatter;
-      this.headerFormatter = headerFormatter;
     }
 
     public BufferedWriter getFile() {
@@ -124,18 +92,7 @@ public class Trace {
       return (m_numbOfValues);
     }
 
-    @SafeVarargs
-    public final String format(TracePair<T>... tracePair) {
-      return formatter.apply(tracePair);
-    }
-
-    @SafeVarargs
-    public final String formatHeader(TracePair<T>... header) {
-      return headerFormatter.apply(header);
-    }
-
-    @Override
-    public TraceEntry<T> getTraceEntry() {
+    public TraceEntry getTraceEntry() {
       return this;
     }
 
@@ -150,12 +107,12 @@ public class Trace {
 
   private Trace() {
     if (!Files.exists(Paths.get(m_linuxHomeDir))) {
-      // if the base path does not exists (we're not on a roborio), just
+      // if the base path does not exist (we're not on a roborio), just
       // use system temp directory
       m_basePathOfTraceDirs = System.getProperty("java.io.tmpdir") + "/traceLogs";
     }
     System.out.println("Trace Base Directory: " + m_basePathOfTraceDirs);
-    m_traces = new TreeMap<String, TraceMapEntry>();
+    m_traces = new TreeMap<String, TraceEntry>();
     m_startTime = System.currentTimeMillis();
     System.out.println("Setting start time to: " + m_startTime);
     createNewTraceDir();
@@ -262,46 +219,39 @@ public class Trace {
   }
 
   @SafeVarargs
-  public final <T> void addTrace(boolean enable, String fileName, TracePair<T>... header) {
+  public final <T> void addTrace(boolean enable, String fileName, TracePair... header) {
     if (!enable) {
       return;
     }
     if (m_pathOfTraceDir == null) {
       return;
     }
-    TraceEntry<T> traceEntry = registerTraceEntry(fileName, header);
+    TraceEntry traceEntry = registerTraceEntry(fileName, header);
     addEntry(traceEntry, header);
   }
 
   @SafeVarargs
-  public final synchronized <T> TraceEntry<T> registerTraceEntry(String fileName,
-      TracePair<T>... header) {
-    return registerTraceEntry(fileName, defaultFormatter(m_startTime), defaultHeaderFormatter(),
-        header);
-  }
-
-  @SuppressWarnings("unchecked")
-  @SafeVarargs
-  public final synchronized <T> TraceEntry<T> registerTraceEntry(String fileName,
-      Function<TracePair<T>[], String> formatter, Function<TracePair<T>[], String> headerFormatter,
-      TracePair<T>... header) {
-    TraceEntry<T> traceEntry = null;
+  public final synchronized TraceEntry registerTraceEntry(String fileName, TracePair... header) {
+    TraceEntry traceEntry = null;
     try {
       if (!m_traces.containsKey(fileName)) {
         BufferedWriter outputFile = null;
         String fullFileName = new String(m_pathOfTraceDir + "/" + fileName + ".csv");
         FileWriter fstream = new FileWriter(fullFileName, false);
         outputFile = new BufferedWriter(fstream);
-        traceEntry = new TraceEntry<T>(outputFile, header.length, formatter, headerFormatter);
+        traceEntry = new TraceEntry(outputFile, header.length);
         m_traces.put(fileName, traceEntry);
-        String line = traceEntry.formatHeader(header);
+        String line = new String("Time");
+        for (TracePair pair : header) {
+          line += "," + pair.getColumnName();
+        }
         outputFile.write(line);
         outputFile.newLine();
         System.out.println("Opened trace file " + m_pathOfTraceDir + "/" + fileName);
       } else {
         // unfortunately there is no dynamic cast in java. have to just cast it and
         // hope... this is the reason for suppressing "unchecked"
-        traceEntry = (TraceEntry<T>) m_traces.get(fileName).getTraceEntry();
+        traceEntry = m_traces.get(fileName).getTraceEntry();
       }
     } catch (IOException e) {
       System.err
@@ -312,7 +262,7 @@ public class Trace {
   }
 
   @SafeVarargs
-  private final <T> void addEntry(TraceEntry<T> traceEntry, TracePair<T>... values) {
+  private final <T> void addEntry(TraceEntry traceEntry, TracePair... values) {
     try {
       if (!Robot.getInstance().isEnabled()) {
         return;
@@ -329,7 +279,11 @@ public class Trace {
         err += String.valueOf(traceEntry.getNumbOfValues());
         throw (new Exception(err));
       }
-      String line = traceEntry.format(values);
+      long correctedTime = System.currentTimeMillis() - m_startTime;
+      String line = new String(String.valueOf(correctedTime));
+      for (TracePair entry : values) {
+        line += "," + entry.getValue();
+      }
       traceEntry.getFile().write(line);
       traceEntry.getFile().newLine();
     } catch (IOException e) {
@@ -350,7 +304,6 @@ public class Trace {
       m_traces.forEach((k, v) -> {
         try {
           v.getTraceEntry().getFile().flush();
-          // System.out.println("Flushing file " + k);
         } catch (IOException e) {
           System.err.println("ERROR: failed to flush trace file" + k);
           e.printStackTrace();
@@ -396,8 +349,13 @@ public class Trace {
     }
     BufferedWriter outputFile = null;
     try {
+      // this will write out the match file with the directory number correspongin to
+      // the trace for this match.
+      // this gets called the trace dir numb has been incremented for the next trace.
+      // so need to subtract one
+      int oldDirNumb = m_dirNumb - 1;
       String fullFileName = new String(
-          m_pathOfTraceDir + "/" + m_matchStartFname + "." + matchNumber + ".txt");
+          m_basePathOfTraceDirs + "/" + m_matchStartFname + oldDirNumb);
       FileWriter fstream = new FileWriter(fullFileName, false);
       outputFile = new BufferedWriter(fstream);
       outputFile.write("Match #" + matchNumber + " Started @" + getDateStr());

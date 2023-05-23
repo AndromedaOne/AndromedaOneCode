@@ -52,10 +52,6 @@ public class SubsystemController extends ControllerBase {
     }
   }
 
-  public double getElevatorAdjustElevationStick() {
-    return (getLeftStickForwardBackwardValue());
-  }
-
   private void setUpIntakeButtons() {
     getLeftBumperButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
@@ -87,7 +83,7 @@ public class SubsystemController extends ControllerBase {
     getLeftBumperButton().onTrue(new StowPosition(m_subsystemsContainer.getArmRotateBase(),
         m_subsystemsContainer.getArmExtRetBase()));
     getRightStickButton()
-        .whileTrue(new ExtendRetract(m_subsystemsContainer.getArmExtRetBase(), false, false));
+        .whileTrue(new ExtendRetract(m_subsystemsContainer.getArmExtRetBase(), false, false, -1));
   }
 
   private void setupGripperButtons() {
@@ -97,14 +93,6 @@ public class SubsystemController extends ControllerBase {
   private void setupLEDButtons() {
     getBackButton().whileTrue(new ConeLEDs());
     getStartButton().whileTrue(new CubeLEDs());
-  }
-
-  public boolean getPauseFeederButtonPressed() {
-    if (getLeftTriggerValue() > 0.3) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   public boolean getGripperButtonPressed() {

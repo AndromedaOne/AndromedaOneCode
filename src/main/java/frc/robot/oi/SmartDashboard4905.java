@@ -36,6 +36,8 @@ import frc.robot.commands.samArmExtendRetractCommands.EnableExtendRetractBrake;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
 import frc.robot.commands.samArmRotateCommands.RotateArm;
+import frc.robot.commands.showBotAudio.PlayAudio;
+import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
@@ -44,6 +46,7 @@ import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.showBotAudio.AudioFiles;
 
 /**
  * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
@@ -65,7 +68,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Disable Limelight LEDs",
           new ToggleLimelightLED(false, sensorsContainer));
     }
-    if (Config4905.getConfig4905().doesCannonExist()) {
+    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
       SmartDashboard.putData("Shoot Cannon", new ShootCannon());
     }
@@ -139,6 +142,11 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Engage Auto Dock", new CSAutoLeaveEngage());
     }
 
+    if (Config4905.getConfig4905().doesShowBotAudioExist()) {
+      SmartDashboard.putData("play audio",
+          new PlayAudio(subsystemsContainer.getShowBotAudio(), AudioFiles.CrazyTrain));
+      SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
+    }
   }
 
   public Command getSelectedAutoChooserCommand() {

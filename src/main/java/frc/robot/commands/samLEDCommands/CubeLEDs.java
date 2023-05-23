@@ -5,18 +5,18 @@
 package frc.robot.commands.samLEDCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ledlights.ConeOrCubeLEDsSingleton;
+import frc.robot.subsystems.ledlights.LEDRobotInformation;
 import frc.robot.subsystems.ledlights.LEDStates;
 import frc.robot.subsystems.ledlights.RealLEDs;
 
 public class CubeLEDs extends CommandBase {
   protected RealLEDs m_cubeLEDs;
-  protected ConeOrCubeLEDsSingleton m_ConeOrCubeLEDsSingleton;
+  protected LEDRobotInformation m_ConeOrCubeLEDsSingleton;
   public static int m_ledState;
 
   /** Creates a new ConeLEDs. */
   public CubeLEDs() {
-    m_ConeOrCubeLEDsSingleton = ConeOrCubeLEDsSingleton.getInstance();
+    m_ConeOrCubeLEDsSingleton = LEDRobotInformation.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
