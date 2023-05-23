@@ -102,8 +102,7 @@ public class TeleOpCommand extends CommandBase {
       m_driveTrain.setDriveTrainMode(DriveTrainMode.FAST);
     }
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
-    Trace.getInstance().addTrace(true, "TeleopDrive",
-        new TracePair("Gyro", m_gyro.getZAngle()),
+    Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
         new TracePair("savedAngle", m_savedRobotAngle),
         new TracePair("rotateStick", rotateStickValue));
     // do not use moveWithGyro here as we're providing the drive straight correction
