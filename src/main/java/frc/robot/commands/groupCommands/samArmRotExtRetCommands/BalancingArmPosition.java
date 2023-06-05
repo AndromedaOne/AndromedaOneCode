@@ -5,7 +5,6 @@
 package frc.robot.commands.groupCommands.samArmRotExtRetCommands;
 
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
-import frc.robot.commands.samArmRotateCommands.RotateArm;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
 import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
@@ -16,18 +15,14 @@ import frc.robot.telemetries.Trace;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class BalancingArmPosition extends SequentialCommandGroup4905 {
 
-  private final double m_balancingAngle = 120;
   private final double m_balancingPosition = 0;
 
   public BalancingArmPosition(SamArmRotateBase armRotate, SamArmExtRetBase armExtRet) {
-    addCommands(
-        new RotateArm(armRotate, ArmRotationExtensionSingleton.getInstance().getAngle(), true),
-        new ExtendRetract(armExtRet));
+    addCommands(new ExtendRetract(armExtRet));
   }
 
   @Override
   public void additionalInitialize() {
-    ArmRotationExtensionSingleton.getInstance().setAngle(m_balancingAngle);
     ArmRotationExtensionSingleton.getInstance().setPosition(m_balancingPosition);
     Trace.getInstance().logCommandStart(this);
   }

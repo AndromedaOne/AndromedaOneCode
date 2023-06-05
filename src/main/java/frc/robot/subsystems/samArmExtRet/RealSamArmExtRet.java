@@ -49,7 +49,6 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     SmartDashboard.putNumber("arm extension position", getPosition());
     SmartDashboard.putNumber("arm extension ticks", getTicks());
     SmartDashboard.putString("arm ret limit switch", getRetractLimitSwitchState().toString());
-    SmartDashboard.putBoolean("forwardSwitch", m_extensionMotor.isForwardLimitSwitchOn());
     SmartDashboard.putString("Arm Extension brake state", getExtensionBrakeState().toString());
     SmartDashboard.putNumber("Calculated Max Extend Distance", calcMaxExtendDistance());
   }

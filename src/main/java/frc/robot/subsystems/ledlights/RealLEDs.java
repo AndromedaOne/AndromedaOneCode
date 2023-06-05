@@ -35,7 +35,7 @@ public abstract class RealLEDs extends LEDs {
           setYellow(1);
           setBlinking(0.2);
         } else if (m_ledRobotInfo.getLEDStates() == LEDStates.CUBE) {
-          setPurple(1);
+          setRed(1);
           setBlinking(0.2);
         }
       } else if (matchTime <= 30 && matchTime > 0) {

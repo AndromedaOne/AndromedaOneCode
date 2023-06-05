@@ -6,8 +6,9 @@ package frc.robot.subsystems.showBotAudio;
 
 // audio files on the PI
 public enum AudioFiles {
-  AirRaidSiren("airRaidSiren.wav"), CannonShot("cannonShot.wav"), CrazyTrain("CrazyTrain.wav"),
-  DeadMansParty("DeadMansParty.wav"), DiveAlert("diveAlert.wav"),
+  AirRaidSiren("airRaidSiren.wav"), AlsoSprachZarathustra("AlsoSprachZarathustra.wav"),
+  CannonShot("cannonShot.wav"), CrazyTrain("CrazyTrain.wav"), DeadMansParty("DeadMansParty.wav"),
+  DiveAlert("diveAlert.wav"), DreamTheater("DreamTheater.wav"),
   DroidPrepareToFire("droidPrepareToFire.wav"), DroidProblem("droidProblem.wav"),
   HellsBells("HellsBells.wav"), Kaboom("KaBoom.wav"), ManhattanProject("ManhattanProject.wav"),
   MeepMeep("meepMeep.wav"), Paranoimia("Paranoimia.wav"), SolarAnthem("SolarAnthem.wav"),
