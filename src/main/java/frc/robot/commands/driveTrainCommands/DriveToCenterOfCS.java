@@ -28,7 +28,7 @@ public class DriveToCenterOfCS extends CommandBase {
     m_speed = Math.abs(speed);
     m_speed = m_driveForward ? m_speed : -m_speed;
     m_compassHeading = compassHeading;
-    addRequirements(driveTrain);
+    addRequirements(driveTrain.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

@@ -36,7 +36,7 @@ public class RotateArm extends SequentialCommandGroup4905 {
 
     public WaitForRetract(SamArmRotateBase armRotate) {
       m_armRotate = armRotate;
-      addRequirements(armRotate);
+      addRequirements(armRotate.getSubsystemBase());
     }
 
     public void execute() {
@@ -64,7 +64,7 @@ public class RotateArm extends SequentialCommandGroup4905 {
 
       super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
         armRotate.rotate(output);
-    }, armRotate.getSubsystemBase());
+      }, armRotate.getSubsystemBase());
       m_armRotate = armRotate;
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
