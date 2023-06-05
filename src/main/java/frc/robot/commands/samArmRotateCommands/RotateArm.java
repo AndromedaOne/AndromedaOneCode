@@ -81,10 +81,6 @@ public class RotateArm extends SequentialCommandGroup4905 {
       }
     }
 
-    public RotateArmInternal(SamArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
-      this(armRotate, angle, needToEnd, false);
-    }
-
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
