@@ -67,7 +67,7 @@ public class RealShowBotAudio extends SubsystemBase implements ShowBotAudioBase 
         m_audioisConnected = true;
       }
       if (m_audioisConnected) {
-        playAudio(AudioFiles.DeadMansParty);
+        playAudio(AudioFiles.AlsoSprachZarathustra);
       }
     }
   }

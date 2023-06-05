@@ -15,8 +15,8 @@ public class TracingPIDController extends PIDController {
   @Override
   public double calculate(double measurement) {
     double output = super.calculate(measurement);
-    Trace.getInstance().addTrace(true, m_name, new TracePair<Double>("Measurement", measurement),
-        new TracePair<Double>("Setpoint", super.getSetpoint()));
+    Trace.getInstance().addTrace(true, m_name, new TracePair("Measurement", measurement),
+        new TracePair("Setpoint", super.getSetpoint()));
     return output;
   }
 }

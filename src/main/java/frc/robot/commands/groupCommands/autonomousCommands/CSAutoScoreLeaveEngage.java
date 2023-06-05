@@ -9,13 +9,12 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SAMgripperCommands.OpenGripper;
 import frc.robot.commands.driveTrainCommands.BalanceRobot;
+import frc.robot.commands.driveTrainCommands.DriveToCenterOfCS;
 import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
-import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BalancingArmPosition;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.MiddleScorePosition;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
+import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -27,8 +26,8 @@ import frc.robot.telemetries.Trace;
 public class CSAutoScoreLeaveEngage extends SequentialCommandGroup4905 {
   /** Creates a new PlaceEngageAutoDock. */
   public CSAutoScoreLeaveEngage() {
-    final double distanceToMove = -162;
-    final double maxOutPut = 0.5;
+    final double distanceToMove = -190;
+    final double maxOutPut = 0.65;
     long waitTime = 250;
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
@@ -36,20 +35,17 @@ public class CSAutoScoreLeaveEngage extends SequentialCommandGroup4905 {
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
     addCommands(
         new ParallelDeadlineGroup(new SequentialCommandGroup4905(
-            new MiddleScorePosition(subsystemsContainer.getArmRotateBase(),
+            new TopScorePosition(subsystemsContainer.getArmRotateBase(),
                 subsystemsContainer.getArmExtRetBase(), true, true, false),
             new OpenGripper(subsystemsContainer.getGripper())), new PauseRobot(driveTrain)),
 
         new PauseRobot(waitTime, driveTrain),
 
-        new ParallelCommandGroup(new StowPosition(subsystemsContainer.getArmRotateBase(),
+        new ParallelCommandGroup(new BalancingArmPosition(subsystemsContainer.getArmRotateBase(),
             subsystemsContainer.getArmExtRetBase()), moveCommand),
 
-        new SequentialCommandGroup4905(
-            new BalancingArmPosition(subsystemsContainer.getArmRotateBase(),
-                subsystemsContainer.getArmExtRetBase()),
-            new MoveWithoutPID(driveTrain, 53, 0.75, 180), new BalanceRobot(driveTrain, 0.5, 180),
-            new EnableParkingBrake(driveTrain)));
+        new SequentialCommandGroup4905(new DriveToCenterOfCS(driveTrain, true, 0.5, 180),
+            new BalanceRobot(driveTrain, 0.5, 180), new EnableParkingBrake(driveTrain)));
   }
 
   @Override

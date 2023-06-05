@@ -54,7 +54,7 @@ public class RealSamArmRotate extends SubsystemBase implements SamArmRotateBase 
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
       m_motor1.setSpeed(0);
     } else {
-      m_motor1.setSpeed(speed * 0.5);
+      m_motor1.setSpeed(speed * 0.63);
     }
   }
 

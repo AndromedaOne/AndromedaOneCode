@@ -9,7 +9,6 @@ import frc.robot.commands.driveTrainCommands.BalanceRobot;
 import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.MoveWithoutPID;
-import frc.robot.commands.groupCommands.samArmRotExtRetCommands.BalancingArmPosition;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -26,11 +25,8 @@ public class CSAutoLeaveEngage extends SequentialCommandGroup4905 {
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrain driveTrain = subsystemsContainer.getDrivetrain();
     MoveUsingEncoder moveCommand = new MoveUsingEncoder(driveTrain, distanceToMove, maxOutPut);
-    addCommands(moveCommand,
-        new BalancingArmPosition(subsystemsContainer.getArmRotateBase(),
-            subsystemsContainer.getArmExtRetBase()),
-        new MoveWithoutPID(driveTrain, 55, 0.75, 180), new BalanceRobot(driveTrain, 0.5, 180),
-        new EnableParkingBrake(driveTrain));
+    addCommands(moveCommand, new MoveWithoutPID(driveTrain, 55, 0.75, 180),
+        new BalanceRobot(driveTrain, 0.5, 180), new EnableParkingBrake(driveTrain));
 
   }
 
