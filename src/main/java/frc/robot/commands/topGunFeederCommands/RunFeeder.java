@@ -41,8 +41,8 @@ public class RunFeeder extends CommandBase {
       m_feeder.runFeeder(-m_speed.getAsDouble());
     } else if (m_readyToShoot.getAsBoolean()) {
       m_feeder.runFeeder(m_speed.getAsDouble());
-    } else if (Robot.getInstance().getOIContainer().getSubsystemController()
-        .getEjectCargoButton()) {
+    } else if (Robot.getInstance().getOIContainer().getDriveController()
+        .getTopGunEjectCargoButton()) {
       m_feeder.runFeeder(m_speed.getAsDouble());
 
     } else {
