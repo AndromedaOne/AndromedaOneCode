@@ -4,18 +4,13 @@
 
 package frc.robot.subsystems.samArmRotate;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class SamArmRotateBase extends SubsystemBase {
-  /** Creates a new SamArmRotateBase. */
-  public SamArmRotateBase() {
-  }
+public interface SamArmRotateBase extends SubsystemInterface {
 
   public abstract void rotate(double speed);
 
-  public void stop() {
-    rotate(0);
-  }
+  public void stop();
 
   public abstract double getAngle();
 

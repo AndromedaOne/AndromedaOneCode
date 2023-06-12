@@ -90,8 +90,6 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    m_sensorsContainer.getGyro().updateSmartDashboardReadings();
-    m_sensorsContainer.getLimeLight().updateSmartDashboardReadings();
     m_sensorsContainer.periodic();
   }
 

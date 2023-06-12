@@ -9,10 +9,12 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SensorUtil;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 
 /** Add your docs here. */
-public class RealCompressor extends CompressorBase {
+public class RealCompressor extends SubsystemBase implements CompressorBase {
   private Compressor m_compressor;
   private int m_portInt = 0;
   private PneumaticsModuleType m_compressorModuleType;
@@ -51,5 +53,15 @@ public class RealCompressor extends CompressorBase {
   @Override
   public PneumaticsModuleType getCompressorModuleType() {
     return m_compressorModuleType;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 }

@@ -9,12 +9,14 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.subsystems.compressor.CompressorBase;
 
-public class RealSamArmRotate extends SamArmRotateBase {
+public class RealSamArmRotate extends SubsystemBase implements SamArmRotateBase {
 
   private final SparkMaxController m_motor1;
   private SparkMaxAbsoluteEncoder m_armAngleEncoder;
@@ -44,15 +46,15 @@ public class RealSamArmRotate extends SamArmRotateBase {
   @Override
   public void rotate(double speed) {
     if (m_armAngleBrakeState == ArmAngleBrakeState.ENGAGEARMBRAKE) {
-      m_motor1.set(0);
+      m_motor1.setSpeed(0);
       return;
     }
     if ((speed < 0) && (getAngle() <= m_minAngle)) {
-      m_motor1.set(0);
+      m_motor1.setSpeed(0);
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
-      m_motor1.set(0);
+      m_motor1.setSpeed(0);
     } else {
-      m_motor1.set(speed * 0.63);
+      m_motor1.setSpeed(speed * 0.63);
     }
   }
 
@@ -60,7 +62,7 @@ public class RealSamArmRotate extends SamArmRotateBase {
   public void engageArmBrake() {
     m_solenoidBrake.retractPiston();
     m_armAngleBrakeState = ArmAngleBrakeState.ENGAGEARMBRAKE;
-    m_motor1.set(0);
+    m_motor1.setSpeed(0);
   }
 
   @Override
@@ -81,6 +83,21 @@ public class RealSamArmRotate extends SamArmRotateBase {
 
   public ArmAngleBrakeState getState() {
     return m_armAngleBrakeState;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void stop() {
+    rotate(0);
   }
 
 }

@@ -18,7 +18,7 @@ public class PauseRobot extends CommandBase {
   /** Creates a new PauseRobot. */
   public PauseRobot(long pauseTimeInMS, DriveTrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveTrain);
+    addRequirements(driveTrain.getSubsystemBase());
     m_pauseTimeInMS = pauseTimeInMS;
     m_driveTrain = driveTrain;
   }

@@ -14,15 +14,18 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 
-public abstract class RealDriveTrain extends DriveTrain {
+public abstract class RealDriveTrain extends SubsystemBase implements DriveTrain {
   // Gyro variables
   private Gyro4905 gyro;
   private double kProportion = 0.0;
@@ -40,6 +43,7 @@ public abstract class RealDriveTrain extends DriveTrain {
   private double m_rightBrakeDisengagedValue = 0.0;
   private boolean m_hasParkingBrake = false;
   private final double m_maxSpeedToEngageBrake = 0.85;
+  private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
 
   public RealDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -61,7 +65,7 @@ public abstract class RealDriveTrain extends DriveTrain {
       m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
     }
     if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
-      setDriveTrainMode(DriveTrainMode.SLOW);
+      setDriveTrainMode(DriveTrainModeEnum.SLOW);
     }
   }
 
@@ -200,4 +204,37 @@ public abstract class RealDriveTrain extends DriveTrain {
   protected abstract double getLeftSideMeters();
 
   protected abstract double getRightsSideMeters();
+
+  @Override
+  public void stop() {
+    move(0, 0, false);
+  }
+
+  @Override
+  public void setDriveTrainMode(DriveTrainModeEnum mode) {
+    m_driveTrainMode.setDriveTrainMode(mode);
+  }
+
+  @Override
+  public DriveTrainModeEnum getDriveTrainMode() {
+    return m_driveTrainMode.getDriveTrainMode();
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return (this);
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("robotPositionInches", getRobotPositionInches());
+    SmartDashboard.putNumber("Left Wheel Speed", getLeftRateMetersPerSecond());
+    SmartDashboard.putNumber("Right Wheel Speed", getRightRateMetersPerSecond());
+    SmartDashboard.putString("Parking Brake State", getParkingBrakeState().name());
+  }
 }

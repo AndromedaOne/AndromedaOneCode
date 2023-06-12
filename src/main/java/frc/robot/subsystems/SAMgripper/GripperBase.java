@@ -4,19 +4,17 @@
 
 package frc.robot.subsystems.SAMgripper;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
 /** Add your docs here. */
-public abstract class GripperBase extends SubsystemBase {
-  public GripperBase() {
-  }
+public interface GripperBase extends SubsystemInterface {
 
-  public abstract void initialize();
+  public void initialize();
 
-  public abstract void openGripper();
+  public void openGripper();
 
-  public abstract void closeGripper();
+  public void closeGripper();
 
-  public abstract GripperState getState();
+  public GripperState getState();
 
 }

@@ -78,7 +78,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
           output -> {
             armExtRet.extendRetract(output);
           });
-      addRequirements(armExtRet);
+      addRequirements(armExtRet.getSubsystemBase());
       m_armExtRet = armExtRet;
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
@@ -165,7 +165,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
     /** Creates a new InitializeArmExtRet. */
     public InitializeArmExtRet(SamArmExtRetBase samArmExtRet) {
       m_armExtRetBase = samArmExtRet;
-      addRequirements(m_armExtRetBase);
+      addRequirements(m_armExtRetBase.getSubsystemBase());
     }
 
     // Called when the command is initially scheduled.
@@ -222,7 +222,7 @@ public class ExtendRetract extends SequentialCommandGroup4905 {
 
     public ReleaseBrakeAndWait(SamArmExtRetBase armExtRet) {
       m_armExtRet = armExtRet;
-      addRequirements(armExtRet);
+      addRequirements(armExtRet.getSubsystemBase());
     }
 
     @Override

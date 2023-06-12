@@ -1,6 +1,6 @@
 package frc.robot.sensors.infrareddistancesensor;
 
-public class MockInfraredDistanceSensor extends InfraredDistanceSensor {
+public class MockInfraredDistanceSensor implements InfraredDistanceSensor {
   double infraredDistance;
 
   public double getInfraredDistance() {

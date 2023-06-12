@@ -37,7 +37,7 @@ public class TwoDDriveTrainPathGenerator extends TwoDPathGenerator {
 
   @Override
   protected Subsystem getSubsystem() {
-    return m_driveTrain;
+    return m_driveTrain.getSubsystemBase();
   }
 
   @Override

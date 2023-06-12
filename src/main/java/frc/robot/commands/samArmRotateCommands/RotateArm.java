@@ -36,7 +36,7 @@ public class RotateArm extends SequentialCommandGroup4905 {
 
     public WaitForRetract(SamArmRotateBase armRotate) {
       m_armRotate = armRotate;
-      addRequirements(armRotate);
+      addRequirements(armRotate.getSubsystemBase());
     }
 
     public void execute() {
@@ -53,7 +53,6 @@ public class RotateArm extends SequentialCommandGroup4905 {
   }
 
   private class RotateArmInternal extends PIDCommand4905 {
-
     private SamArmRotateBase m_armRotate;
     private boolean m_needToEnd = false;
     private boolean m_useSmartDashboard = false;
@@ -65,7 +64,7 @@ public class RotateArm extends SequentialCommandGroup4905 {
 
       super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
         armRotate.rotate(output);
-      }, armRotate);
+      }, armRotate.getSubsystemBase());
       m_armRotate = armRotate;
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
@@ -80,10 +79,6 @@ public class RotateArm extends SequentialCommandGroup4905 {
         SmartDashboard.putNumber("Rotate Arm Feed Forward", 0);
         SmartDashboard.putNumber("Rotate Arm Angle", 180);
       }
-    }
-
-    public RotateArmInternal(SamArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
-      this(armRotate, angle, needToEnd, false);
     }
 
     // Called when the command is initially scheduled.

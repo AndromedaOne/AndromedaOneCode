@@ -4,55 +4,34 @@
 
 package frc.robot.subsystems.topGunShooter;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class ShooterAlignmentBase extends SubsystemBase {
-  private double m_offset = 0;
+public interface ShooterAlignmentBase extends SubsystemInterface {
+  public void rotateShooter(double speed);
 
-  private boolean m_initialized = false;
+  public boolean atTopLimitSwitch();
 
-  /** Creates a new ShooterAlignmentBase. */
-  public ShooterAlignmentBase() {
-  }
+  public boolean atBottomLimitSwitch();
 
-  public abstract void rotateShooter(double speed);
+  public double getAngle();
 
-  public abstract boolean atTopLimitSwitch();
+  public String getShooterName();
 
-  public abstract boolean atBottomLimitSwitch();
+  public void stopShooterAlignment();
 
-  public abstract double getAngle();
+  public void setCoastMode();
 
-  public abstract String getShooterName();
+  public void setBrakeMode();
 
-  public abstract void stopShooterAlignment();
+  public boolean getInitialized();
 
-  public abstract void setCoastMode();
+  public void setInitialized();
 
-  public abstract void setBrakeMode();
+  public void setOffset(double offset);
 
-  public boolean getInitialized() {
-    return m_initialized;
-  }
+  public double getOffset();
 
-  public void setInitialized() {
-    m_initialized = true;
-  }
+  public void extendShooterArms();
 
-  public void setOffset(double offset) {
-    m_offset = offset;
-  }
-
-  public double getOffset() {
-    return m_offset;
-  }
-
-  public abstract void extendShooterArms();
-
-  public abstract void stowShooterArms();
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+  public void stowShooterArms();
 }

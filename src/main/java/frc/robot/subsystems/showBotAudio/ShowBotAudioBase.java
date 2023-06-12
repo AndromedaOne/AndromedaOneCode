@@ -4,13 +4,9 @@
 
 package frc.robot.subsystems.showBotAudio;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class ShowBotAudioBase extends SubsystemBase {
-  /** Creates a new ShowBotAudioBase. */
-  public ShowBotAudioBase() {
-  }
-
+public interface ShowBotAudioBase extends SubsystemInterface {
   public abstract void playShootCannonAudio();
 
   public abstract void playAudio(AudioFiles audioFile);

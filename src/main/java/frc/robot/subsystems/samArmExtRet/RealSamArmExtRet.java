@@ -8,12 +8,14 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.actuators.SparkMaxController;
 
-public class RealSamArmExtRet extends SamArmExtRetBase {
+public class RealSamArmExtRet extends SubsystemBase implements SamArmExtRetBase {
 
   private final SparkMaxController m_extensionMotor;
   private double m_zeroOffset = 0;
@@ -49,7 +51,6 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     SmartDashboard.putNumber("arm extension position", getPosition());
     SmartDashboard.putNumber("arm extension ticks", getTicks());
     SmartDashboard.putString("arm ret limit switch", getRetractLimitSwitchState().toString());
-    SmartDashboard.putBoolean("forwardSwitch", m_retractLimitSwitch.get());
     SmartDashboard.putString("Arm Extension brake state", getExtensionBrakeState().toString());
     SmartDashboard.putNumber("Calculated Max Extend Distance", calcMaxExtendDistance());
   }
@@ -61,11 +62,11 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
     }
     double maxExtDist = calcMaxExtendDistance();
     if ((speed < 0) && (getPosition() <= m_minExtension)) {
-      m_extensionMotor.set(0);
+      m_extensionMotor.setSpeed(0);
     } else if ((speed > 0) && ((getPosition() >= m_maxExtension) || (getPosition() > maxExtDist))) {
-      m_extensionMotor.set(0);
+      m_extensionMotor.setSpeed(0);
     } else {
-      m_extensionMotor.set(speed);
+      m_extensionMotor.setSpeed(speed);
     }
   }
 
@@ -96,9 +97,9 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
       return;
     }
     if (getRetractLimitSwitchState() == RetractLimitSwitchState.CLOSED) {
-      m_extensionMotor.set(0);
+      m_extensionMotor.setSpeed(0);
     } else {
-      m_extensionMotor.set(-0.25);
+      m_extensionMotor.setSpeed(-0.25);
     }
   }
 
@@ -151,6 +152,16 @@ public class RealSamArmExtRet extends SamArmExtRetBase {
   @Override
   public ExtensionBrakeStates getExtensionBrakeState() {
     return m_extensionBrakeStates;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 
 }

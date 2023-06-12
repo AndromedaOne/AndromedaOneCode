@@ -1,11 +1,16 @@
 package frc.robot.actuators;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.typesafe.config.Config;
 
-public class SparkMaxController extends CANSparkMax {
+public class SparkMaxController {
+  private CANSparkMax m_sparkMax;
   private boolean m_hasEncoder = false;
   private boolean m_hasForwardLimitSwitch = false;
   private boolean m_hasReverseLimitSwitch = false;
@@ -16,20 +21,28 @@ public class SparkMaxController extends CANSparkMax {
   private SparkMaxLimitSwitch m_reverseLimitSwitch;
 
   public SparkMaxController(Config subsystemConfig, String configString) {
-    super(subsystemConfig.getInt("ports." + configString), MotorType.kBrushless);
+    m_sparkMax = new CANSparkMax(subsystemConfig.getInt("ports." + configString),
+        CANSparkMaxLowLevel.MotorType.kBrushless);
     System.out.println("Enabling SparkMaxController \"" + configString + "\" for port "
         + subsystemConfig.getInt("ports." + configString));
     m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
     if (hasEncoder()) {
-      m_sparkMaxEncoder = this.getEncoder();
+      m_sparkMaxEncoder = m_sparkMax.getEncoder();
     }
+    /*********
+     * NOTE: you CANNOT disable the hard limit capability on sparkmax controllers
+     * there is a bug in the API, no matter what "enableLimitSwitch" is set to, the
+     * motor will stop moving if the switch is activated.....
+     ******************/
     m_hasForwardLimitSwitch = subsystemConfig.getBoolean(configString + ".hasForwardLimitSwitch");
     if (m_hasForwardLimitSwitch) {
-      m_forwardLimitSwitch = this.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+      m_forwardLimitSwitch = m_sparkMax
+          .getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     }
     m_hasReverseLimitSwitch = subsystemConfig.getBoolean(configString + ".hasReverseLimitSwitch");
     if (m_hasReverseLimitSwitch) {
-      m_reverseLimitSwitch = this.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+      m_reverseLimitSwitch = m_sparkMax
+          .getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     }
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;
@@ -37,13 +50,13 @@ public class SparkMaxController extends CANSparkMax {
   }
 
   private void configure(Config subsystemConfig, String configString) {
-    this.restoreFactoryDefaults();
-    this.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
-    this.setSmartCurrentLimit(subsystemConfig.getInt(configString + ".currentLimit"));
+    m_sparkMax.restoreFactoryDefaults();
+    m_sparkMax.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
+    m_sparkMax.setSmartCurrentLimit(subsystemConfig.getInt(configString + ".currentLimit"));
     if (subsystemConfig.getBoolean(configString + ".brakeMode")) {
-      this.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      m_sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
     } else {
-      this.setIdleMode(CANSparkMax.IdleMode.kCoast);
+      m_sparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
     if (subsystemConfig.hasPath(configString + ".encoderTicksPerRotation")) {
       double encoderTicksPerRotation = subsystemConfig
@@ -51,6 +64,10 @@ public class SparkMaxController extends CANSparkMax {
       m_sparkMaxEncoder.setPositionConversionFactor(encoderTicksPerRotation);
       m_sparkMaxEncoder.setVelocityConversionFactor(encoderTicksPerRotation);
     }
+  }
+
+  public CANSparkMax getMotorController() {
+    return m_sparkMax;
   }
 
   public double getEncoderPositionTicks() {
@@ -88,12 +105,32 @@ public class SparkMaxController extends CANSparkMax {
   }
 
   public void setCoastMode() {
-    this.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    m_sparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
     System.out.println("SparxMax set to coast");
   }
 
   public void setBrakeMode() {
-    this.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    m_sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
     System.out.println("SparxMax set to brake");
+  }
+
+  public void setIdleMode(IdleMode mode) {
+    m_sparkMax.setIdleMode(mode);
+  }
+
+  public void resetEncoder() {
+    m_sparkMax.getEncoder().setPosition(0);
+  }
+
+  public void setSpeed(double speed) {
+    m_sparkMax.set(speed);
+  }
+
+  public SparkMaxAbsoluteEncoder getAbsoluteEncoder(Type type) {
+    return m_sparkMax.getAbsoluteEncoder(type);
+  }
+
+  public double getSpeed() {
+    return m_sparkMax.get();
   }
 }

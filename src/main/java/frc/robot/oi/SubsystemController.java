@@ -16,8 +16,6 @@ import frc.robot.commands.groupCommands.samArmRotExtRetCommands.OffFloorPickupPo
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.StowPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.SubstationPickupPosition;
 import frc.robot.commands.groupCommands.samArmRotExtRetCommands.TopScorePosition;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.commands.samArmExtendRetractCommands.ExtendRetract;
 import frc.robot.commands.samLEDCommands.ConeLEDs;
 import frc.robot.commands.samLEDCommands.CubeLEDs;
@@ -33,16 +31,12 @@ public class SubsystemController extends ControllerBase {
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
     m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
-    if (Config4905.getConfig4905().doesIntakeExist()) {
-      setUpIntakeButtons();
-    }
+
     if (Config4905.getConfig4905().doesGripperExist()) {
       System.out.println("Gripper is being run");
       setupGripperButtons();
     }
-    if (Config4905.getConfig4905().doesShooterExist()) {
-      setupShooterButtons();
-    }
+
     if (Config4905.getConfig4905().doesSamArmRotateExist()) {
       setUpArmButtons();
     }
@@ -50,23 +44,6 @@ public class SubsystemController extends ControllerBase {
         || Config4905.getConfig4905().doesLeftLEDExist()) {
       setupLEDButtons();
     }
-  }
-
-  private void setUpIntakeButtons() {
-    getLeftBumperButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), false));
-    getBackButton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), true));
-  }
-
-  private void setupShooterButtons() {
-
-    // Y = fender, X = launchpad, A = wall, B = tarmac, POV East = terminal
-    getXbutton().whileTrue(new ShootThreePointer(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
   }
 
   private void setUpArmButtons() {
@@ -101,10 +78,6 @@ public class SubsystemController extends ControllerBase {
     } else {
       return false;
     }
-  }
-
-  public boolean getEjectCargoButton() {
-    return getBackButton().getAsBoolean();
   }
 
   public boolean getGrabBackwardButton() {

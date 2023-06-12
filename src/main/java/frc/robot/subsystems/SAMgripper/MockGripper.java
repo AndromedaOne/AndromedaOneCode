@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems.SAMgripper;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 /** Add your docs here. */
-public class MockGripper extends GripperBase {
+public class MockGripper implements GripperBase {
   @Override
   public void initialize() {
 
@@ -23,5 +26,14 @@ public class MockGripper extends GripperBase {
 
   public GripperState getState() {
     return GripperState.CLOSEGRIPPER;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
   }
 }

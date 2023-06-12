@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -48,8 +50,14 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().isRomi()) {
       setupRomiButtons();
     }
-    if (Config4905.getConfig4905().doesShooterExist()) {
-      setUpShooterButtons();
+    if (Config4905.getConfig4905().isTopGun()) {
+      if (Config4905.getConfig4905().doesShooterExist()) {
+        setUpShooterButtons();
+      }
+      if (Config4905.getConfig4905().doesIntakeExist()) {
+        setUpIntakeButtons();
+      }
+
     }
     if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       setUpCannonButtons();
@@ -98,11 +106,27 @@ public class DriveController extends ControllerBase {
     getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake()));
+    getXbutton().whileTrue(new ShootThreePointer(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment()));
+  }
+
+  private void setUpIntakeButtons() {
+    // A button = pick up cargo
+    getAbutton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), false));
+    // B button = eject cargo
+    getBbutton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), true));
+  }
+
+  public boolean getTopGunEjectCargoButton() {
+    return getBbutton().getAsBoolean();
   }
 
   protected void limeLightButtons() {
-    m_turnOnLimelight = getBackButton();
-    m_turnOnLimelight.onTrue(new ToggleLimelightLED(true, m_sensorsContainer));
     m_turnOffLimelight = getStartButton();
     m_turnOffLimelight.onTrue(new ToggleLimelightLED(false, m_sensorsContainer));
   }

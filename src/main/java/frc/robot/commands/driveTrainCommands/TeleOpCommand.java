@@ -16,7 +16,7 @@ import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.*;
-import frc.robot.subsystems.drivetrain.DriveTrain.DriveTrainMode;
+import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
@@ -47,7 +47,7 @@ public class TeleOpCommand extends CommandBase {
    * Takes inputs from the two joysticks on the drive controller.
    */
   public TeleOpCommand() {
-    addRequirements(m_driveTrain);
+    addRequirements(m_driveTrain.getSubsystemBase());
     kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
     kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
     if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
@@ -90,16 +90,16 @@ public class TeleOpCommand extends CommandBase {
         || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
-      m_driveTrain.setDriveTrainMode(DriveTrainMode.SLOW);
+      m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.SLOW);
     } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
-      m_driveTrain.setDriveTrainMode(DriveTrainMode.MID);
+      m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.MID);
     } else {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
-      m_driveTrain.setDriveTrainMode(DriveTrainMode.FAST);
+      m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.FAST);
     }
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
     Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),

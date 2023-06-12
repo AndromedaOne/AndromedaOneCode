@@ -190,4 +190,8 @@ public class RomiDriveTrain extends RealDriveTrain {
 
   }
 
+  @Override
+  public void setCoast(boolean value) {
+  }
+
 }

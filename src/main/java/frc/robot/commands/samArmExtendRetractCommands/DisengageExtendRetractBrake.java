@@ -14,7 +14,7 @@ public class DisengageExtendRetractBrake extends CommandBase {
   /** Creates a new DisengageExtendRetractBrake. */
   public DisengageExtendRetractBrake(SamArmExtRetBase armExtRetBase) {
     m_armExtRetBase = armExtRetBase;
-    addRequirements(armExtRetBase);
+    addRequirements(armExtRetBase.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

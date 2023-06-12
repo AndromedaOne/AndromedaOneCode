@@ -25,7 +25,7 @@ public class RunFeeder extends CommandBase {
     m_speed = speed;
     m_runInReverse = runInReverse;
     m_readyToShoot = readyToShoot;
-    addRequirements(m_feeder);
+    addRequirements(m_feeder.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.
@@ -41,8 +41,8 @@ public class RunFeeder extends CommandBase {
       m_feeder.runFeeder(-m_speed.getAsDouble());
     } else if (m_readyToShoot.getAsBoolean()) {
       m_feeder.runFeeder(m_speed.getAsDouble());
-    } else if (Robot.getInstance().getOIContainer().getSubsystemController()
-        .getEjectCargoButton()) {
+    } else if (Robot.getInstance().getOIContainer().getDriveController()
+        .getTopGunEjectCargoButton()) {
       m_feeder.runFeeder(m_speed.getAsDouble());
 
     } else {

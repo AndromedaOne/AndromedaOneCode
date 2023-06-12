@@ -5,21 +5,14 @@
 package frc.robot.subsystems.compressor;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class CompressorBase extends SubsystemBase {
+public interface CompressorBase extends SubsystemInterface {
 
-  public CompressorBase() {
-  }
+  public void start();
 
-  public abstract void start();
+  public int getPortNumber();
 
-  public abstract int getPortNumber();
+  public PneumaticsModuleType getCompressorModuleType();
 
-  public abstract PneumaticsModuleType getCompressorModuleType();
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }

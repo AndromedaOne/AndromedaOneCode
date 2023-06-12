@@ -1,6 +1,8 @@
 package frc.robot.sensors.gyro;
 
-public class MockGyro extends Gyro4905 {
+import java.util.function.DoubleSupplier;
+
+public class MockGyro implements Gyro4905 {
 
   @Override
   public double getZAngle() {
@@ -23,10 +25,6 @@ public class MockGyro extends Gyro4905 {
   }
 
   @Override
-  public void updateSmartDashboardReadings() {
-  }
-
-  @Override
   public void calibrate() {
   }
 
@@ -46,7 +44,6 @@ public class MockGyro extends Gyro4905 {
 
   @Override
   public void close() throws Exception {
-
   }
 
   @Override
@@ -62,6 +59,25 @@ public class MockGyro extends Gyro4905 {
   @Override
   public double getRawYAngle() {
     return 0;
+  }
+
+  @Override
+  public void setInitialZangleOffset(double offset) {
+  }
+
+  @Override
+  public DoubleSupplier getYangleDoubleSupplier() {
+    return (() -> 0);
+  }
+
+  @Override
+  public DoubleSupplier getZangleDoubleSupplier() {
+    return (() -> 0);
+  }
+
+  @Override
+  public DoubleSupplier getCompassHeadingDoubleSupplier() {
+    return (() -> 0);
   }
 
 }

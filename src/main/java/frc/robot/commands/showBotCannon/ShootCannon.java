@@ -26,7 +26,7 @@ public class ShootCannon extends CommandBase {
   public ShootCannon() {
     m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
     m_audio = Robot.getInstance().getSubsystemsContainer().getShowBotAudio();
-    addRequirements(m_cannon, m_audio);
+    addRequirements(m_cannon.getSubsystemBase(), m_audio.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.
@@ -51,10 +51,13 @@ public class ShootCannon extends CommandBase {
     // we'll delay for a couple of seconds to wait for audio to start playing
     ++m_delayCount;
     if ((m_delayCount > 150) && !m_audio.isAudioPlaying()) {
-      m_cannon.shoot();
-      m_cannonShot = true;
-      LEDRobotInformation.getInstance().setCannonIsPressurized(false);
-      Trace.getInstance().logCommandInfo(this, "Cannon has been fired!!");
+      if (m_cannon.shoot()) {
+        m_cannonShot = true;
+        LEDRobotInformation.getInstance().setCannonIsPressurized(false);
+        Trace.getInstance().logCommandInfo(this, "Cannon has been fired!!");
+      } else {
+        Trace.getInstance().logCommandInfo(this, "Something is blocking the cannon");
+      }
     }
   }
 

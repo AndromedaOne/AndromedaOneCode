@@ -139,4 +139,8 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
         "Need to fill in the method ot reset encoders in talonsrx drivetrain");
   }
 
+  @Override
+  public void setCoast(boolean value) {
+  }
+
 }

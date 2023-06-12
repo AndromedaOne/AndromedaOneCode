@@ -15,7 +15,7 @@ public class ResetCannon extends CommandBase {
   /** Creates a new ResetCannon. */
   public ResetCannon() {
     m_cannon = Robot.getInstance().getSubsystemsContainer().getShowBotCannon();
-    addRequirements(m_cannon);
+    addRequirements(m_cannon.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

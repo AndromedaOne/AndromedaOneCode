@@ -9,12 +9,14 @@ import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.subsystems.compressor.CompressorBase;
 
 /** Add your docs here. */
-public class RealGripper extends GripperBase {
+public class RealGripper extends SubsystemBase implements GripperBase {
   private Config m_config;
   // private DoubleSolenoid4905 m_gripperSolenoid;
   private DoubleSolenoid4905 m_solenoid0_1;
@@ -56,5 +58,15 @@ public class RealGripper extends GripperBase {
   @Override
   public void periodic() {
     SmartDashboard.putString("Real Gripper state", getState().name());
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
+    super.setDefaultCommand(command);
   }
 }

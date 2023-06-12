@@ -12,7 +12,7 @@ public class RetractAndStopIntake extends CommandBase {
   private IntakeBase m_intakeBase;
 
   public RetractAndStopIntake(IntakeBase intakeBase) {
-    addRequirements(intakeBase);
+    addRequirements(intakeBase.getSubsystemBase());
     m_intakeBase = intakeBase;
   }
 

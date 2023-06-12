@@ -41,7 +41,8 @@ public class TurnDeltaAngle extends PIDCommand4905 {
           Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
         });
     m_setpoint = this::getSetpoint;
-    addRequirements(Robot.getInstance().getSubsystemsContainer().getDrivetrain());
+    addRequirements(
+        Robot.getInstance().getSubsystemsContainer().getDrivetrain().getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
     m_deltaTurnAngle = deltaTurnAngle;
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();

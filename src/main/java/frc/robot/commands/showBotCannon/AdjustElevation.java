@@ -45,7 +45,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
   private class InitializeElevation extends CommandBase {
 
     public InitializeElevation() {
-      addRequirements(m_cannonElevator);
+      addRequirements(m_cannonElevator.getSubsystemBase());
     }
 
     @Override
@@ -94,7 +94,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
 
     public AdjustElevationInternal(CannonElevatorBase cannonElevator) {
       m_cannonElevator = cannonElevator;
-      addRequirements(m_cannonElevator);
+      addRequirements(m_cannonElevator.getSubsystemBase());
     }
 
     // Called when the command is initially scheduled.

@@ -10,7 +10,7 @@ import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /** Add your docs here. */
-public class RomiGyro extends Gyro4905 {
+public class RomiGyro extends RealGyroBase {
   private class RomiGyroInst {
     private SimDouble m_simRateX = null;
     private SimDouble m_simRateY = null;

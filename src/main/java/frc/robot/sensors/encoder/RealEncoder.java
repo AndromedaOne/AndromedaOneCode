@@ -7,11 +7,13 @@ package frc.robot.sensors.encoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.sensors.RealSensorBase;
 
 /** Add your docs here. */
-public class RealEncoder extends EncoderBase {
+public class RealEncoder extends RealSensorBase implements EncoderBase {
 
   private Encoder m_encoder;
+  private String m_name;
 
   public RealEncoder(String configString) {
     m_encoder = new Encoder(
@@ -19,6 +21,7 @@ public class RealEncoder extends EncoderBase {
             .getInt("sensors." + configString + ".aChannel"),
         Config4905.getConfig4905().getSensorConfig()
             .getInt("sensors." + configString + ".bChannel"));
+    m_name = configString;
   }
 
   public void resetEncoder() {
@@ -30,7 +33,7 @@ public class RealEncoder extends EncoderBase {
   }
 
   @Override
-  public void updateSmartDashboardReadings() {
-    SmartDashboard.putNumber("Cannon Elevator Encoder", getEncoderValue());
+  protected void updateSmartDashboard() {
+    SmartDashboard.putNumber(m_name, getEncoderValue());
   }
 }

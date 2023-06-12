@@ -12,7 +12,7 @@ public class CloseGripper extends CommandBase {
   GripperBase m_gripperBase;
 
   public CloseGripper(GripperBase gripperBase) {
-    addRequirements(gripperBase);
+    addRequirements(gripperBase.getSubsystemBase());
     m_gripperBase = gripperBase;
   }
 

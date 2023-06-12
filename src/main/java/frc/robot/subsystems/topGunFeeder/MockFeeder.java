@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems.topGunFeeder;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 /** Add your docs here. */
-public class MockFeeder extends FeederBase {
+public class MockFeeder implements FeederBase {
 
   @Override
   public void runFeeder(double speed) {
@@ -20,6 +23,15 @@ public class MockFeeder extends FeederBase {
   @Override
   public void runFeederInReverse(double speed) {
 
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
   }
 
 }

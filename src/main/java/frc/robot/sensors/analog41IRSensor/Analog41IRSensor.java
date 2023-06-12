@@ -5,12 +5,10 @@
 package frc.robot.sensors.analog41IRSensor;
 
 /** Add your docs here. */
-public abstract class Analog41IRSensor {
+public interface Analog41IRSensor {
 
-  public abstract double getDistance();
+  public double getDistance();
 
-  public abstract boolean isReal();
-
-  public abstract void updateSmartDashboardReadings();
+  public boolean isReal();
 
 }

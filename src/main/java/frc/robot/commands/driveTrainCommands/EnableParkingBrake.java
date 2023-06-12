@@ -15,7 +15,7 @@ public class EnableParkingBrake extends CommandBase {
   public EnableParkingBrake(DriveTrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
-    addRequirements(driveTrain);
+    addRequirements(driveTrain.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.

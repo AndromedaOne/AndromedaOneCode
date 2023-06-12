@@ -4,13 +4,9 @@
 
 package frc.robot.subsystems.topGunShooter;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class ShooterWheelBase extends SubsystemBase {
-  /** Creates a new ShooterBase. */
-  public ShooterWheelBase() {
-  }
-
+public interface ShooterWheelBase extends SubsystemInterface {
   public abstract void setShooterWheelPower(double power);
 
   public abstract double getShooterWheelPower();
@@ -18,9 +14,4 @@ public abstract class ShooterWheelBase extends SubsystemBase {
   public abstract double getShooterWheelRpm();
 
   public abstract String getShooterName();
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }

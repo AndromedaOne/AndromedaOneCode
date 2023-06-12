@@ -5,7 +5,7 @@
 package frc.robot.sensors.analog41IRSensor;
 
 /** Add your docs here. */
-public class MockAnalog41IRSensor extends Analog41IRSensor {
+public class MockAnalog41IRSensor implements Analog41IRSensor {
 
   @Override
   public double getDistance() {
@@ -17,7 +17,4 @@ public class MockAnalog41IRSensor extends Analog41IRSensor {
     return false;
   }
 
-  @Override
-  public void updateSmartDashboardReadings() {
-  }
 }

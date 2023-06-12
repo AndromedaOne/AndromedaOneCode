@@ -4,19 +4,11 @@
 
 package frc.robot.subsystems.showBotCannonElevator;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class CannonElevatorBase extends SubsystemBase {
-  /** Creates a new ShowBotCannonElevatorBase. */
-  public CannonElevatorBase() {
-  }
-
+public interface CannonElevatorBase extends SubsystemInterface {
   public abstract void changeElevation(double speed);
 
   public abstract void holdElevation();
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }

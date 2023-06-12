@@ -5,11 +5,10 @@
 package frc.robot.sensors.encoder;
 
 /** Add your docs here. */
-public abstract class EncoderBase {
+public interface EncoderBase {
 
-  public abstract void resetEncoder();
+  public void resetEncoder();
 
-  public abstract double getEncoderValue();
+  public double getEncoderValue();
 
-  public abstract void updateSmartDashboardReadings();
 }

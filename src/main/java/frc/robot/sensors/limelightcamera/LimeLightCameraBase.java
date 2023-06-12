@@ -1,23 +1,21 @@
 package frc.robot.sensors.limelightcamera;
 
-public abstract class LimeLightCameraBase {
-  public abstract double horizontalDegreesToTarget();
+public interface LimeLightCameraBase {
+  public double horizontalDegreesToTarget();
 
-  public abstract double verticalRadiansToTarget();
+  public double verticalRadiansToTarget();
 
-  public abstract double distanceToTarget(double targetHeight);
+  public double distanceToTarget(double targetHeight);
 
-  public abstract double distanceToPowerPort();
+  public double distanceToPowerPort();
 
-  public abstract void setPipeline(int pipelineNumber);
+  public void setPipeline(int pipelineNumber);
 
-  public abstract void updateSmartDashboardReadings();
+  public boolean targetLock();
 
-  public abstract boolean targetLock();
+  public void enableLED();
 
-  public abstract void enableLED();
+  public void disableLED();
 
-  public abstract void disableLED();
-
-  public abstract boolean doesLimeLightExist();
+  public boolean doesLimeLightExist();
 }

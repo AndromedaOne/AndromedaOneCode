@@ -1,8 +1,8 @@
 package frc.robot.sensors.analogsensor;
 
-public abstract class AnalogSensor {
+public interface AnalogSensor {
 
-  public abstract double getAngle();
+  public double getAngle();
 
-  public abstract void reset();
+  public void reset();
 }

@@ -21,7 +21,7 @@ public class DeployAndRunIntake extends CommandBase {
 
   public DeployAndRunIntake(IntakeBase intakeBase, boolean runInReverse) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeBase);
+    addRequirements(intakeBase.getSubsystemBase());
     m_intakeBase = intakeBase;
     m_intakeSpeed = m_intakeConfig.getDouble("intakeSpeed");
     m_runInReverse = runInReverse;

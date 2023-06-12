@@ -10,17 +10,15 @@ package frc.robot.subsystems.drivetrain;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 
-public class MockDriveTrain extends DriveTrain {
+public class MockDriveTrain implements DriveTrain {
   /**
    * Creates a new MockDriveTrain.
    */
   public MockDriveTrain() {
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 
   @Override
@@ -93,6 +91,32 @@ public class MockDriveTrain extends DriveTrain {
   @Override
   public boolean hasParkingBrake() {
     return false;
+  }
+
+  @Override
+  public void stop() {
+  }
+
+  @Override
+  public void setCoast(boolean value) {
+  }
+
+  @Override
+  public void setDriveTrainMode(DriveTrainModeEnum mode) {
+  }
+
+  @Override
+  public DriveTrainModeEnum getDriveTrainMode() {
+    return DriveTrainModeEnum.SLOW;
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+  }
+
+  @Override
+  public void setDefaultCommand(CommandBase command) {
   }
 
 }

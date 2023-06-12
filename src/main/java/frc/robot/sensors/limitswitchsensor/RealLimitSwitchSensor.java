@@ -5,10 +5,12 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.sensors.RealSensorBase;
 
-public class RealLimitSwitchSensor extends LimitSwitchSensor {
-  private DigitalInput limitSwitch;
-  private boolean reversedPolarity;
+public class RealLimitSwitchSensor extends RealSensorBase implements LimitSwitchSensor {
+  private DigitalInput m_limitSwitch;
+  private boolean m_reversedPolarity;
+  private String m_name;
 
   /**
    * Sets the limit switch to a new DigitalInput with the port specified and
@@ -18,20 +20,21 @@ public class RealLimitSwitchSensor extends LimitSwitchSensor {
    */
   public RealLimitSwitchSensor(String confString) {
     Config conf = Config4905.getConfig4905().getSensorConfig();
-    limitSwitch = new DigitalInput(conf.getInt("sensors." + confString + ".port"));
-    reversedPolarity = conf.getBoolean("sensors." + confString + ".reversedPolarity");
+    m_limitSwitch = new DigitalInput(conf.getInt("sensors." + confString + ".port"));
+    m_reversedPolarity = conf.getBoolean("sensors." + confString + ".reversedPolarity");
+    m_name = confString;
   }
 
   @Override
   public boolean isAtLimit() {
-    if (reversedPolarity) {
-      return !limitSwitch.get();
+    if (m_reversedPolarity) {
+      return !m_limitSwitch.get();
     }
-    return limitSwitch.get();
+    return m_limitSwitch.get();
   }
 
   @Override
-  public void updateSmartDashboardReadings() {
-    SmartDashboard.putBoolean("Cannon home switch", isAtLimit());
+  protected void updateSmartDashboard() {
+    SmartDashboard.putBoolean(m_name, isAtLimit());
   }
 }

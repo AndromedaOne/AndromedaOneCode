@@ -21,7 +21,7 @@ public class MoveWithoutPID extends CommandBase {
   /** Creates a new MoveToCenterOfChargingStation. */
   public MoveWithoutPID(DriveTrain driveTrain, double distance, double speed,
       double compassHeading) {
-    addRequirements(driveTrain);
+    addRequirements(driveTrain.getSubsystemBase());
     m_driveTrain = driveTrain;
     m_distance = distance;
     m_speed = speed;

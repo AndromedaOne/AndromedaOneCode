@@ -12,7 +12,7 @@ public class OpenGripper extends CommandBase {
 
   /** Creates a new OpenGripper. */
   public OpenGripper(GripperBase gripperBase) {
-    addRequirements(gripperBase);
+    addRequirements(gripperBase.getSubsystemBase());
     m_gripperBase = gripperBase;
   }
 

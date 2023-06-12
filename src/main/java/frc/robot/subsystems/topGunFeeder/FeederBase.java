@@ -4,21 +4,12 @@
 
 package frc.robot.subsystems.topGunFeeder;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class FeederBase extends SubsystemBase {
-  /** Creates a new FeederBase. */
-  public FeederBase() {
-  }
-
+public interface FeederBase extends SubsystemInterface {
   public abstract void runFeeder(double speed);
 
   public abstract void stopFeeder();
 
   public abstract void runFeederInReverse(double speed);
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }

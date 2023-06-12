@@ -4,37 +4,34 @@
 
 package frc.robot.subsystems.samArmExtRet;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemInterface;
 
-public abstract class SamArmExtRetBase extends SubsystemBase {
-  /** Creates a new SamArmExtensionBase. */
-  public SamArmExtRetBase() {
-  }
+public interface SamArmExtRetBase extends SubsystemInterface {
 
   public enum RetractLimitSwitchState {
     CLOSED, OPEN;
   }
 
   // Arms extending is positive, arms retracting is negative.
-  public abstract void extendRetract(double speed);
+  public void extendRetract(double speed);
 
-  public abstract double getPosition();
+  public double getPosition();
 
-  public abstract void setZeroOffset();
+  public void setZeroOffset();
 
-  public abstract RetractLimitSwitchState getRetractLimitSwitchState();
+  public RetractLimitSwitchState getRetractLimitSwitchState();
 
-  public abstract void retractArmInitialize();
+  public void retractArmInitialize();
 
-  public abstract ExtensionBrakeStates getExtensionBrakeStates();
+  public ExtensionBrakeStates getExtensionBrakeStates();
 
-  public abstract boolean isInitialized();
+  public boolean isInitialized();
 
-  public abstract void setInitialized();
+  public void setInitialized();
 
-  public abstract void engageArmBrake();
+  public void engageArmBrake();
 
-  public abstract void disengageArmBrake();
+  public void disengageArmBrake();
 
-  public abstract ExtensionBrakeStates getExtensionBrakeState();
+  public ExtensionBrakeStates getExtensionBrakeState();
 }
