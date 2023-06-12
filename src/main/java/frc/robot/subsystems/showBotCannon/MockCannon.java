@@ -16,8 +16,8 @@ public class MockCannon implements CannonBase {
   }
 
   @Override
-  public void shoot() {
-
+  public boolean shoot() {
+    return false;
   }
 
   @Override

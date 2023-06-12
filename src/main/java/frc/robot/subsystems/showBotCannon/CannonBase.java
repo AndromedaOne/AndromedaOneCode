@@ -9,7 +9,7 @@ import frc.robot.subsystems.SubsystemInterface;
 public interface CannonBase extends SubsystemInterface {
   public abstract void pressurize();
 
-  public abstract void shoot();
+  public abstract boolean shoot();
 
   public abstract void reset();
 
