@@ -17,6 +17,8 @@ import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePo
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.showBotAudio.PlayAudio;
+import frc.robot.commands.showBotAudio.PlayNextAudioFile;
+import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.sensors.SensorsContainer;
@@ -149,6 +151,8 @@ public class DriveController extends ControllerBase {
         .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), AudioFiles.MeepMeep));
     getStartButton()
         .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), AudioFiles.TruckHorn));
+    getXbutton().onTrue(new PlayNextAudioFile(m_subsystemsContainer.getShowBotAudio()));
+    getYbutton().onTrue(new StopAudio(m_subsystemsContainer.getShowBotAudio()));
   }
 
   private void setupRomiButtons() {

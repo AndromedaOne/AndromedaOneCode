@@ -4,23 +4,39 @@
 
 package frc.robot.commands.showBotAudio;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
 import frc.robot.telemetries.Trace;
 
-public class StopAudio extends CommandBase {
+public class PlayNextAudioFile extends CommandBase {
   ShowBotAudioBase m_audio;
+  static List<AudioFiles> m_audioFiles = Arrays.asList(AudioFiles.AlsoSprachZarathustra,
+      AudioFiles.CrazyTrain, AudioFiles.DeadMansParty, AudioFiles.DreamTheater,
+      AudioFiles.DroidProblem, AudioFiles.HellsBells, AudioFiles.ManhattanProject,
+      AudioFiles.Paranoimia, AudioFiles.SolarAnthem, AudioFiles.TheBigMoney);
+  static ListIterator<AudioFiles> m_audioToPlay = m_audioFiles.listIterator();
 
-  /** Creates a new StopAudio. */
-  public StopAudio(ShowBotAudioBase audio) {
+  /** Creates a new PlayNextAudioFile. */
+  public PlayNextAudioFile(ShowBotAudioBase audio) {
     m_audio = audio;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Trace.getInstance().logCommandStart(this);
-    m_audio.stopAudio();
+    if (m_audioToPlay.hasNext()) {
+      m_audio.playAudio(m_audioToPlay.next());
+    } else {
+      m_audioToPlay = m_audioFiles.listIterator();
+      m_audio.playAudio(m_audioFiles.get(0));
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
