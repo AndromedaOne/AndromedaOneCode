@@ -13,7 +13,8 @@ import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootThreePointer;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLongShot;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootShortShot;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -30,7 +31,6 @@ import frc.robot.subsystems.showBotAudio.AudioFiles;
  * are easier to find.
  */
 public class DriveController extends ControllerBase {
-  private JoystickButton m_turnOnLimelight;
   private JoystickButton m_turnOffLimelight;
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
@@ -108,7 +108,10 @@ public class DriveController extends ControllerBase {
     getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake()));
-    getXbutton().whileTrue(new ShootThreePointer(m_subsystemsContainer.getFeeder(),
+    getXbutton().whileTrue(new ShootLongShot(m_subsystemsContainer.getFeeder(),
+        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
+        m_subsystemsContainer.getShooterAlignment()));
+    getYbutton().whileTrue(new ShootShortShot(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
         m_subsystemsContainer.getShooterAlignment()));
   }

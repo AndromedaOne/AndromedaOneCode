@@ -10,12 +10,12 @@ import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
-public class ShootThreePointer extends SequentialCommandGroup4905 {
+public class ShootLongShot extends SequentialCommandGroup4905 {
   double m_shooterSetpoint;
   double m_shooterAngle;
   double m_feederSetpoint;
 
-  public ShootThreePointer(FeederBase feeder, ShooterWheelBase topShooterWheel,
+  public ShootLongShot(FeederBase feeder, ShooterWheelBase topShooterWheel,
       ShooterWheelBase bottomShooterWheel, ShooterAlignmentBase shooterAlignment) {
 
     addCommands(new ShootCargo(feeder, topShooterWheel, bottomShooterWheel, shooterAlignment,
