@@ -31,7 +31,6 @@ import frc.robot.subsystems.showBotAudio.AudioFiles;
  * are easier to find.
  */
 public class DriveController extends ControllerBase {
-  private JoystickButton m_turnOnLimelight;
   private JoystickButton m_turnOffLimelight;
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
