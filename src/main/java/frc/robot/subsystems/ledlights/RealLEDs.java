@@ -2,7 +2,6 @@ package frc.robot.subsystems.ledlights;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Robot;
-import frc.robot.commands.samLEDCommands.ConeLEDs;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
@@ -41,7 +40,6 @@ public abstract class RealLEDs extends LEDs {
       } else if (matchTime <= 30 && matchTime > 0) {
         setYellow(1);
         setBlinking(1);
-        ConeLEDs.m_ledState = 0;
       } else {
         switch (m_driveTrain.getDriveTrainMode()) {
         case SLOW:
@@ -62,7 +60,6 @@ public abstract class RealLEDs extends LEDs {
         default:
           setOrange(1);
           setSolid();
-          ConeLEDs.m_ledState = 0;
         }
       }
     } else if (Robot.getInstance().isAutonomous()) {
