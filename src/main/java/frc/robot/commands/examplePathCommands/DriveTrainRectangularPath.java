@@ -10,7 +10,7 @@ import frc.robot.pathgeneration.pathgenerators.DriveTrainRectangularPathGenerato
 import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
-import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 
 public class DriveTrainRectangularPath extends SequentialCommandGroup {
 
@@ -33,7 +33,7 @@ public class DriveTrainRectangularPath extends SequentialCommandGroup {
   }
 
   /** Creates a new RomiExamplePath. */
-  public DriveTrainRectangularPath(DriveTrain driveTrain) {
+  public DriveTrainRectangularPath(TankDriveTrain driveTrain) {
     PathGeneratorBase path = new DriveTrainRectangularPathGenerator(getClass().getSimpleName(),
         new ExampleWayPoints(), driveTrain, 0.5);
     addCommands(path.getPath(), new TurnToCompassHeading(0));

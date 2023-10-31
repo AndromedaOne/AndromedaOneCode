@@ -13,14 +13,14 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
-import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class MoveUsingEncoder extends PIDCommand4905 {
-  private DriveTrain m_driveTrain;
+  private TankDriveTrain m_driveTrain;
   private double m_distance = 0;
   private double m_maxOutput = 0;
   private double m_target;
@@ -29,8 +29,8 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   /**
    * Creates a new MoveUsingEncoder.
    */
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading, double maxOutput,
-      boolean useCurrentHeading) {
+  public MoveUsingEncoder(TankDriveTrain drivetrain, double distance, double heading,
+      double maxOutput, boolean useCurrentHeading) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("MoveUsingEncoder"),
@@ -53,13 +53,13 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   }
 
   // Use this constructor to move the robot in the heading passed in
-  public MoveUsingEncoder(DriveTrain drivetrain, double distance, double heading,
+  public MoveUsingEncoder(TankDriveTrain drivetrain, double distance, double heading,
       double maxOutput) {
     this(drivetrain, distance, heading, maxOutput, false);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
-  public MoveUsingEncoder(DriveTrain driveTrain, double distance, double maxOutput) {
+  public MoveUsingEncoder(TankDriveTrain driveTrain, double distance, double maxOutput) {
     this(driveTrain, distance, 0, maxOutput, true);
   }
 

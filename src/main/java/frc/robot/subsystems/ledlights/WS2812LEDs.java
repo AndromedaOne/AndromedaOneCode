@@ -9,14 +9,14 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 
 /** Add your docs here. */
 public class WS2812LEDs extends RealLEDs {
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
 
-  public WS2812LEDs(Config ws2812Config, DriveTrain driveTrain) {
+  public WS2812LEDs(Config ws2812Config, TankDriveTrain driveTrain) {
     super(driveTrain);
     m_led = new AddressableLED(ws2812Config.getInt("PWMport"));
     m_ledBuffer = new AddressableLEDBuffer(ws2812Config.getInt("numbLEDs"));

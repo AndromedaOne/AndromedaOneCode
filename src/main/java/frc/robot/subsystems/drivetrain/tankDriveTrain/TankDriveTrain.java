@@ -5,14 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.drivetrain;
+package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.subsystems.SubsystemInterface;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
+import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
-public interface DriveTrain extends SubsystemInterface {
+public interface TankDriveTrain extends SubsystemInterface {
 
   public abstract void init();
 

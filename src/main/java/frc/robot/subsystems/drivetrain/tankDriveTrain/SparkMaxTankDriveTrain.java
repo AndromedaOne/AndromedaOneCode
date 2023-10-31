@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.drivetrain;
+package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.typesafe.config.Config;
@@ -16,7 +16,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.telemetries.Trace;
 
-public class SparkMaxDriveTrain extends RealDriveTrain {
+public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   // public static SparkMaxController
 
   private final SparkMaxController m_frontLeft;
@@ -33,7 +33,7 @@ public class SparkMaxDriveTrain extends RealDriveTrain {
   private double ticksPerInch;
   public static final double metersPerInch = 0.0254;
 
-  public SparkMaxDriveTrain() {
+  public SparkMaxTankDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
 
     m_frontLeft = new SparkMaxController(drivetrainConfig, "frontleft");

@@ -2,15 +2,15 @@ package frc.robot.subsystems.ledlights;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Robot;
-import frc.robot.subsystems.drivetrain.DriveTrain;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 
 public abstract class RealLEDs extends LEDs {
 
-  DriveTrain m_driveTrain;
+  TankDriveTrain m_driveTrain;
   private LEDRobotInformation m_ledRobotInfo = LEDRobotInformation.getInstance();
 
-  public RealLEDs(DriveTrain driveTrain) {
+  public RealLEDs(TankDriveTrain driveTrain) {
     setPurple(1.0);
     setSolid();
     m_driveTrain = driveTrain;

@@ -7,23 +7,23 @@ package frc.robot.commands.driveTrainCommands;
 import java.time.*;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.telemetries.Trace;
 
 public class PauseRobot extends CommandBase {
   private long m_pauseTimeInMS = 0;
   private Instant m_startTime;
-  private DriveTrain m_driveTrain;
+  private TankDriveTrain m_driveTrain;
 
   /** Creates a new PauseRobot. */
-  public PauseRobot(long pauseTimeInMS, DriveTrain driveTrain) {
+  public PauseRobot(long pauseTimeInMS, TankDriveTrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain.getSubsystemBase());
     m_pauseTimeInMS = pauseTimeInMS;
     m_driveTrain = driveTrain;
   }
 
-  public PauseRobot(DriveTrain driveTrain) {
+  public PauseRobot(TankDriveTrain driveTrain) {
     this(Long.MAX_VALUE, driveTrain);
   }
 

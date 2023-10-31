@@ -3,11 +3,11 @@ package frc.robot.commands.romiCommands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drivetrain.DriveTrain;
-import frc.robot.subsystems.drivetrain.RomiDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 
 public class CheckRomiVelocityConversionFactor extends CommandBase {
-  private RomiDriveTrain m_driveTrain;
+  private RomiTankDriveTrain m_driveTrain;
   private boolean m_initialPositionSet;
   private double m_initialPosition;
   private Timer m_timer;
@@ -17,8 +17,8 @@ public class CheckRomiVelocityConversionFactor extends CommandBase {
   private double rateAccum;
   private double initialTime;
 
-  public CheckRomiVelocityConversionFactor(DriveTrain driveTrain) {
-    m_driveTrain = (RomiDriveTrain) driveTrain;
+  public CheckRomiVelocityConversionFactor(TankDriveTrain driveTrain) {
+    m_driveTrain = (RomiTankDriveTrain) driveTrain;
     m_initialPositionSet = false;
     m_initialPosition = 0;
     m_timer = new Timer();

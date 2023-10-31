@@ -5,21 +5,21 @@
 package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.telemetries.Trace;
 
 /*Move robot without using a PID loop. Use this to move the robot over uneven ground.
  * The robot will roll past the distance due to momentum.
  */
 public class MoveWithoutPID extends CommandBase {
-  private DriveTrain m_driveTrain;
+  private TankDriveTrain m_driveTrain;
   private double m_distance = 0;
   private double m_speed = 0;
   private double m_compassHeading = 0;
   private boolean m_driveForward = false;
 
   /** Creates a new MoveToCenterOfChargingStation. */
-  public MoveWithoutPID(DriveTrain driveTrain, double distance, double speed,
+  public MoveWithoutPID(TankDriveTrain driveTrain, double distance, double speed,
       double compassHeading) {
     addRequirements(driveTrain.getSubsystemBase());
     m_driveTrain = driveTrain;
