@@ -5,27 +5,27 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
-import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 
 public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator {
 
-  private DriveTrain m_driveTrain;
+  private TankDriveTrain m_driveTrain;
   private double m_maxMoveOutput;
 
   public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints,
-      DriveTrain driveTrain, Waypoint initialWaypoint, double maxMoveOutput) {
+      TankDriveTrain driveTrain, Waypoint initialWaypoint, double maxMoveOutput) {
     super(pathName, waypoints, initialWaypoint);
     m_driveTrain = driveTrain;
     m_maxMoveOutput = maxMoveOutput;
   }
 
   public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints,
-      DriveTrain driveTrain) {
+      TankDriveTrain driveTrain) {
     this(pathName, waypoints, driveTrain, new Waypoint(0, 0), 1.0);
   }
 
   public DriveTrainRectangularPathGenerator(String pathName, WaypointsBase waypoints,
-      DriveTrain driveTrain, double maxMoveOutput) {
+      TankDriveTrain driveTrain, double maxMoveOutput) {
     this(pathName, waypoints, driveTrain, new Waypoint(0, 0), maxMoveOutput);
   }
 

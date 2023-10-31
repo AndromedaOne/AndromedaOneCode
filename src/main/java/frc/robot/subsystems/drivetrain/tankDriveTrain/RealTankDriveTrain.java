@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.drivetrain;
+package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 import com.typesafe.config.Config;
 
@@ -20,12 +20,14 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.subsystems.drivetrain.DriveTrainMode;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
+import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 
-public abstract class RealDriveTrain extends SubsystemBase implements DriveTrain {
+public abstract class RealTankDriveTrain extends SubsystemBase implements TankDriveTrain {
   // Gyro variables
   private Gyro4905 gyro;
   private double kProportion = 0.0;
@@ -45,7 +47,7 @@ public abstract class RealDriveTrain extends SubsystemBase implements DriveTrain
   private final double m_maxSpeedToEngageBrake = 0.85;
   private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
 
-  public RealDriveTrain() {
+  public RealTankDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     gyro = Robot.getInstance().getSensorsContainer().getGyro();
     kProportion = drivetrainConfig.getDouble("gyrocorrect.kproportion");

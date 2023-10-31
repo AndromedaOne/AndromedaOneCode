@@ -9,7 +9,7 @@ import frc.robot.pathgeneration.pathgenerators.DriveTrainRectangularPathGenerato
 import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
-import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 
 public class AllianceAnticsSimple extends SequentialCommandGroup {
   private class Waypoints extends WaypointsBase {
@@ -25,7 +25,7 @@ public class AllianceAnticsSimple extends SequentialCommandGroup {
   }
 
   /** Creates a new AllianceAnticsSimple. */
-  public AllianceAnticsSimple(DriveTrain driveTrain) {
+  public AllianceAnticsSimple(TankDriveTrain driveTrain) {
     PathGeneratorBase path = new DriveTrainRectangularPathGenerator(getClass().getSimpleName(),
         new Waypoints(), driveTrain, 0.5);
     addCommands(path.getPath());

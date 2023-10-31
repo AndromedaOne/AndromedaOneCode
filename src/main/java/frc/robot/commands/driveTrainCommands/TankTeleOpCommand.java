@@ -17,18 +17,20 @@ import frc.robot.oi.DriveController;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.*;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
 /**
  * Allows you to drive the robot using the drive controller.
  */
-public class TeleOpCommand extends CommandBase {
+public class TankTeleOpCommand extends CommandBase {
 
   // Make the controllers a little easier to get to.
   private DriveController m_driveController = Robot.getInstance().getOIContainer()
       .getDriveController();
-  private DriveTrain m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDrivetrain();
+  private TankDriveTrain m_driveTrain = Robot.getInstance().getSubsystemsContainer()
+      .getDrivetrain();
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
   private Gyro4905 m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
   private int m_currentDelay = 0;
@@ -46,7 +48,7 @@ public class TeleOpCommand extends CommandBase {
   /**
    * Takes inputs from the two joysticks on the drive controller.
    */
-  public TeleOpCommand() {
+  public TankTeleOpCommand() {
     addRequirements(m_driveTrain.getSubsystemBase());
     kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
     kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");

@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.driveTrainCommands.TankTeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -18,11 +18,11 @@ import frc.robot.commands.topGunShooterCommands.StopShooter;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
-import frc.robot.subsystems.drivetrain.DriveTrain;
-import frc.robot.subsystems.drivetrain.MockDriveTrain;
-import frc.robot.subsystems.drivetrain.RomiDriveTrain;
-import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
-import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.MockTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TalonSRXTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
@@ -54,7 +54,7 @@ import frc.robot.telemetries.Trace;
 public class SubsystemsContainer {
 
   // Declare member variables.
-  DriveTrain m_driveTrain;
+  TankDriveTrain m_driveTrain;
   LEDs m_leds;
   LEDs m_leftLeds;
   LEDs m_rightLeds;
@@ -87,15 +87,15 @@ public class SubsystemsContainer {
       if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("sparkMax")) {
         Trace.getInstance().logInfo("Using real sparkMax Drive Train");
-        m_driveTrain = new SparkMaxDriveTrain();
+        m_driveTrain = new SparkMaxTankDriveTrain();
       } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("talonSRX")) {
         Trace.getInstance().logInfo("Using real talonSRX Drive Train");
-        m_driveTrain = new TalonSRXDriveTrain();
+        m_driveTrain = new TalonSRXTankDriveTrain();
       } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("romiDrive")) {
         Trace.getInstance().logInfo("Using Romi drive train");
-        m_driveTrain = new RomiDriveTrain();
+        m_driveTrain = new RomiTankDriveTrain();
       } else {
         String drivetrainType = Config4905.getConfig4905().getDrivetrainConfig()
             .getString("motorController");
@@ -104,7 +104,7 @@ public class SubsystemsContainer {
       }
     } else {
       Trace.getInstance().logInfo("Using mock Drive Train.");
-      m_driveTrain = new MockDriveTrain();
+      m_driveTrain = new MockTankDriveTrain();
     }
     m_driveTrain.init();
 
@@ -180,7 +180,7 @@ public class SubsystemsContainer {
     }
   }
 
-  public DriveTrain getDrivetrain() {
+  public TankDriveTrain getDrivetrain() {
     return m_driveTrain;
   }
 
@@ -222,7 +222,7 @@ public class SubsystemsContainer {
 
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
-      m_driveTrain.setDefaultCommand(new TeleOpCommand());
+      m_driveTrain.setDefaultCommand(new TankTeleOpCommand());
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));

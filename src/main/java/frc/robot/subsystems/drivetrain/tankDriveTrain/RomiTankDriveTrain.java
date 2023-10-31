@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.drivetrain;
+package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 // import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
 
-public class RomiDriveTrain extends RealDriveTrain {
+public class RomiTankDriveTrain extends RealTankDriveTrain {
   private static final double METERSPERINCH = 0.0254;
   private final SparkController m_leftMotor;
   private final SparkController m_rightMotor;
@@ -35,7 +35,7 @@ public class RomiDriveTrain extends RealDriveTrain {
   private double m_maxLeftVelocity = 0;
   private double m_maxRightVelocity = 0;
 
-  public RomiDriveTrain() {
+  public RomiTankDriveTrain() {
     super();
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
     m_leftMotor = new SparkController(drivetrainConfig, "left");

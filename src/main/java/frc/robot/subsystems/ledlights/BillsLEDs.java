@@ -8,7 +8,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 
 /** Add your docs here. */
 public class BillsLEDs extends RealLEDs {
@@ -16,7 +16,7 @@ public class BillsLEDs extends RealLEDs {
   private DigitalOutput m_green;
   private DigitalOutput m_blue;
 
-  public BillsLEDs(Config conf, DriveTrain driveTrain) {
+  public BillsLEDs(Config conf, TankDriveTrain driveTrain) {
     super(driveTrain);
     m_red = new DigitalOutput(conf.getInt("Red"));
     m_red.enablePWM(0);
