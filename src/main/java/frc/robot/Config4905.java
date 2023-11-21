@@ -390,10 +390,10 @@ public class Config4905 {
     return m_isTopGun;
   }
 
-  }
-
   public boolean m_isSwerveBot() {
     return m_isswervebot;
+  }
+
   public String getRobotName() {
     return m_robotName;
   }
