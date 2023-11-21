@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.drivetrain;
+package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 import com.typesafe.config.Config;
 
@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.TalonSRXController;
 
-public class TalonSRXDriveTrain extends RealDriveTrain {
+public class TalonSRXTankDriveTrain extends RealTankDriveTrain {
   private final TalonSRXController m_frontLeft;
   private final TalonSRXController m_backLeft;
   private final TalonSRXController m_frontRight;
@@ -27,7 +27,7 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
 
   private double ticksPerInch;
 
-  public TalonSRXDriveTrain() {
+  public TalonSRXTankDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
 
     m_frontLeft = new TalonSRXController(drivetrainConfig, "frontleft");
@@ -121,7 +121,7 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   protected double getLeftSideMeters() {
     double averageTicks = (m_backLeft.getEncoderPositionTicks()
         + m_frontLeft.getEncoderPositionTicks());
-    double averageMeters = averageTicks * ticksPerInch * SparkMaxDriveTrain.metersPerInch;
+    double averageMeters = averageTicks * ticksPerInch * SparkMaxTankDriveTrain.metersPerInch;
     return averageMeters;
   }
 
@@ -129,7 +129,7 @@ public class TalonSRXDriveTrain extends RealDriveTrain {
   protected double getRightsSideMeters() {
     double averageTicks = (m_frontLeft.getEncoderPositionTicks()
         + m_frontRight.getEncoderPositionTicks());
-    double averageMeters = averageTicks * ticksPerInch * SparkMaxDriveTrain.metersPerInch;
+    double averageMeters = averageTicks * ticksPerInch * SparkMaxTankDriveTrain.metersPerInch;
     return averageMeters;
   }
 

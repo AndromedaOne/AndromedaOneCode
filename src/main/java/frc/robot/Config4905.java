@@ -48,9 +48,6 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
-  private Config m_gripperConfig;
-  private Config m_samArmRotateConfig;
-  private Config m_samArmExtensionConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -61,7 +58,6 @@ public class Config4905 {
   private boolean m_isRomi = false;
   private boolean m_isShowBot = false;
   private boolean m_isTopGun = false;
-  private boolean m_isSAM = false;
   private boolean m_isswervebot = false;
 
   private Config4905() {
@@ -74,12 +70,9 @@ public class Config4905 {
         m_isShowBot = true;
       } else if (m_robotName.equals("TopGun")) {
         m_isTopGun = true;
-      } else if (m_robotName.equals("SAM")) {
-        m_isSAM = true;
       } else if (m_robotName.equals("SwerveBot")) {
         m_isswervebot = true;
       }
-
     } else {
       // try to figure out which Romi we're on by looking at the SSID's we're
       // connected to
@@ -164,9 +157,6 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
-    m_gripperConfig = load("gripper.conf");
-    m_samArmRotateConfig = load("armrotate.conf");
-    m_samArmExtensionConfig = load("armextension.conf");
   }
 
   public Config getControllersConfig() {
@@ -297,19 +287,6 @@ public class Config4905 {
     return m_compressorConfig;
   }
 
-  public Config getGripperConfig() {
-    return m_gripperConfig;
-  }
-
-  public boolean doesGripperExist() {
-    if (m_config.hasPath("subsystems.gripper")) {
-      return true;
-
-    } else {
-      return false;
-    }
-  }
-
   public boolean doesShowBotCannonExist() {
     if (m_config.hasPath("subsystems.showBotCannon")) {
       return true;
@@ -401,28 +378,6 @@ public class Config4905 {
     return false;
   }
 
-  public boolean doesSamArmExtRetExist() {
-    if (m_config.hasPath("subsystems.samArmExtRet")) {
-      return true;
-    }
-    return false;
-  }
-
-  public Config getSamArmRotateConfig() {
-    return m_samArmRotateConfig;
-  }
-
-  public boolean doesSamArmRotateExist() {
-    if (m_config.hasPath("subsystems.samArmRotate")) {
-      return true;
-    }
-    return false;
-  }
-
-  public Config getSamArmExtensionConfig() {
-    return m_samArmExtensionConfig;
-  }
-
   public boolean isRomi() {
     return m_isRomi;
   }
@@ -435,14 +390,10 @@ public class Config4905 {
     return m_isTopGun;
   }
 
-  public boolean isSAM() {
-    return m_isSAM;
   }
 
   public boolean m_isSwerveBot() {
     return m_isswervebot;
-  }
-
   public String getRobotName() {
     return m_robotName;
   }

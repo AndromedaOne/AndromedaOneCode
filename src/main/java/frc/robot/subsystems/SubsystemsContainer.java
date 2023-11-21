@@ -8,36 +8,24 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.commands.SAMgripperCommands.DefaultGripperCommand;
-import frc.robot.commands.driveTrainCommands.TeleOpCommand;
-import frc.robot.commands.samArmExtendRetractCommands.EnableExtendRetractBrake;
-import frc.robot.commands.samArmRotateCommands.EnableArmBrake;
+import frc.robot.commands.driveTrainCommands.TankTeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
-import frc.robot.subsystems.SAMgripper.GripperBase;
-import frc.robot.subsystems.SAMgripper.MockGripper;
-import frc.robot.subsystems.SAMgripper.RealGripper;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
-import frc.robot.subsystems.drivetrain.DriveTrain;
-import frc.robot.subsystems.drivetrain.MockDriveTrain;
-import frc.robot.subsystems.drivetrain.RomiDriveTrain;
-import frc.robot.subsystems.drivetrain.SparkMaxDriveTrain;
-import frc.robot.subsystems.drivetrain.TalonSRXDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.MockTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TalonSRXTankDriveTrain;
+import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
-import frc.robot.subsystems.samArmExtRet.MockSamArmExtRet;
-import frc.robot.subsystems.samArmExtRet.RealSamArmExtRet;
-import frc.robot.subsystems.samArmExtRet.SamArmExtRetBase;
-import frc.robot.subsystems.samArmRotate.MockSamArmRotate;
-import frc.robot.subsystems.samArmRotate.RealSamArmRotate;
-import frc.robot.subsystems.samArmRotate.SamArmRotateBase;
 import frc.robot.subsystems.showBotAudio.MockShowBotAudio;
 import frc.robot.subsystems.showBotAudio.RealShowBotAudio;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
@@ -66,7 +54,7 @@ import frc.robot.telemetries.Trace;
 public class SubsystemsContainer {
 
   // Declare member variables.
-  DriveTrain m_driveTrain;
+  TankDriveTrain m_driveTrain;
   LEDs m_leds;
   LEDs m_leftLeds;
   LEDs m_rightLeds;
@@ -80,9 +68,6 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
-  GripperBase m_gripper;
-  SamArmExtRetBase m_armExtRet;
-  SamArmRotateBase m_armRotate;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -102,15 +87,15 @@ public class SubsystemsContainer {
       if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("sparkMax")) {
         Trace.getInstance().logInfo("Using real sparkMax Drive Train");
-        m_driveTrain = new SparkMaxDriveTrain();
+        m_driveTrain = new SparkMaxTankDriveTrain();
       } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("talonSRX")) {
         Trace.getInstance().logInfo("Using real talonSRX Drive Train");
-        m_driveTrain = new TalonSRXDriveTrain();
+        m_driveTrain = new TalonSRXTankDriveTrain();
       } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("romiDrive")) {
         Trace.getInstance().logInfo("Using Romi drive train");
-        m_driveTrain = new RomiDriveTrain();
+        m_driveTrain = new RomiTankDriveTrain();
       } else {
         String drivetrainType = Config4905.getConfig4905().getDrivetrainConfig()
             .getString("motorController");
@@ -119,7 +104,7 @@ public class SubsystemsContainer {
       }
     } else {
       Trace.getInstance().logInfo("Using mock Drive Train.");
-      m_driveTrain = new MockDriveTrain();
+      m_driveTrain = new MockTankDriveTrain();
     }
     m_driveTrain.init();
 
@@ -146,14 +131,6 @@ public class SubsystemsContainer {
     } else {
       Trace.getInstance().logInfo("Using mock Compressor");
       m_compressor = new MockCompressor();
-    }
-    if (Config4905.getConfig4905().doesGripperExist()) {
-      // Gripper must be constructed after compressor
-      Trace.getInstance().logInfo("using real gripper.");
-      m_gripper = new RealGripper(m_compressor);
-    } else {
-      Trace.getInstance().logInfo("Using mock gripper");
-      m_gripper = new MockGripper();
     }
     if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       Trace.getInstance().logInfo("using real showBotCannon.");
@@ -201,33 +178,14 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
     }
-    if (Config4905.getConfig4905().doesSamArmExtRetExist()) {
-      Trace.getInstance().logInfo("using real arm extend retract");
-      m_armExtRet = new RealSamArmExtRet();
-    } else {
-      Trace.getInstance().logInfo("using mock arm extend retract");
-      m_armExtRet = new MockSamArmExtRet();
-    }
-    if (Config4905.getConfig4905().doesSamArmRotateExist()) {
-      Trace.getInstance().logInfo("using real arm rotate");
-      m_armRotate = new RealSamArmRotate(m_compressor);
-    } else {
-      Trace.getInstance().logInfo("using mock arm rotate");
-      m_armRotate = new MockSamArmRotate();
-    }
-
   }
 
-  public DriveTrain getDrivetrain() {
+  public TankDriveTrain getDrivetrain() {
     return m_driveTrain;
   }
 
   public CompressorBase getCompressor() {
     return m_compressor;
-  }
-
-  public GripperBase getGripper() {
-    return m_gripper;
   }
 
   public CannonBase getShowBotCannon() {
@@ -262,17 +220,9 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
-  public SamArmExtRetBase getArmExtRetBase() {
-    return m_armExtRet;
-  }
-
-  public SamArmRotateBase getArmRotateBase() {
-    return m_armRotate;
-  }
-
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
-      m_driveTrain.setDefaultCommand(new TeleOpCommand());
+      m_driveTrain.setDefaultCommand(new TankTeleOpCommand());
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
@@ -292,16 +242,5 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
-    if (Config4905.getConfig4905().doesSamArmExtRetExist()) {
-      m_armExtRet.setDefaultCommand(new EnableExtendRetractBrake(m_armExtRet));
-    }
-    if (Config4905.getConfig4905().doesSamArmRotateExist()) {
-      m_armRotate.setDefaultCommand(new EnableArmBrake(m_armRotate));
-    }
-
-    if (Config4905.getConfig4905().doesGripperExist()) {
-      m_gripper.setDefaultCommand(new DefaultGripperCommand(m_gripper));
-    }
-
   }
 }
