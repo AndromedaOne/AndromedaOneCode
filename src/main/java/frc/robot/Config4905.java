@@ -29,6 +29,7 @@ public class Config4905 {
   private Config m_config;
   private Config m_controllers;
   private Config m_drivetrainConfig;
+  private Config m_swervedrivetrainConfig;
   private Config m_sensorConfig;
   private Config m_commandConstantsConfig;
   private Config m_ledConfig;
@@ -61,6 +62,7 @@ public class Config4905 {
   private boolean m_isShowBot = false;
   private boolean m_isTopGun = false;
   private boolean m_isSAM = false;
+  private boolean m_isswervebot = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -74,6 +76,8 @@ public class Config4905 {
         m_isTopGun = true;
       } else if (m_robotName.equals("SAM")) {
         m_isSAM = true;
+      } else if (m_robotName.equals("SwerveBot")) {
+        m_isswervebot = true;
       }
 
     } else {
@@ -143,6 +147,7 @@ public class Config4905 {
     m_controllers = load("controllers.conf");
     m_sensorConfig = load("sensors.conf");
     m_drivetrainConfig = load("drivetrain.conf");
+    m_swervedrivetrainConfig = load("swervedrivetrain.conf");
     m_climberConfig = load("climber.conf");
     m_ledConfig = load("LED.conf");
     m_leftLedConfig = load("leftLED.conf");
@@ -174,6 +179,19 @@ public class Config4905 {
 
   public boolean doesDrivetrainExist() {
     if (m_config.hasPath("subsystems.driveTrain")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Config getSwerveDrivetrainConfig() {
+    return m_swervedrivetrainConfig;
+
+  }
+
+  public boolean doesSwerveDrivetrainExist() {
+    if (m_config.hasPath("subsystems.swerveDriveTrain")) {
       return true;
     } else {
       return false;
@@ -419,6 +437,10 @@ public class Config4905 {
 
   public boolean isSAM() {
     return m_isSAM;
+  }
+
+  public boolean m_isSwerveBot() {
+    return m_isswervebot;
   }
 
   public String getRobotName() {

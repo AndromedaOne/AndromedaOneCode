@@ -2,6 +2,7 @@ package frc.robot.actuators;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -51,16 +52,15 @@ public class SwerveModule {
     driveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
     driveEncoder = driveMotor.getEncoder();
     driveController = driveMotor.getPIDController();
-    /* configDriveMotor(); */
+    configDriveMotor();
 
     lastAngle = getState().angle;
   }
 
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
     desiredState = OnboardModuleState.optimize(desiredState, getState().angle);
-    /*
-     * setAngle(desiredState); setSpeed(desiredState, isOpenLoop);
-     */
+    setAngle(desiredState);
+    setSpeed(desiredState, isOpenLoop);
   }
 
   private void resetToAbsolute() {
@@ -90,8 +90,40 @@ public class SwerveModule {
     resetToAbsolute();
   }
 
-  private void ConfigDriveMotor() {
+  private void configDriveMotor() {
+    driveMotor.restoreFactoryDefaults();
+    CANSparkMaxUtil.setCANSparkMaxBusUsage(driveMotor, Usage.kAll);
+    driveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
+    driveMotor.setInverted(Constants.Swerve.driveInvert);
+    driveMotor.setIdleMode(Constants.Swerve.driveNeutralMode);
+    driveEncoder.setVelocityConversionFactor(Constants.Swerve.driveConversionVelocityFactor);
+    driveEncoder.setPositionConversionFactor(Constants.Swerve.driveConversionPositionFactor);
+    driveController.setP(Constants.Swerve.angleKP);
+    driveController.setI(Constants.Swerve.angleKI);
+    driveController.setD(Constants.Swerve.angleKD);
+    driveController.setFF(Constants.Swerve.angleKFF);
+    driveMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
+    driveMotor.burnFlash();
+    driveEncoder.setPosition(0.0);
 
+  }
+
+  private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
+    if (isOpenLoop) {
+      double percentOutput = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
+      driveMotor.set(percentOutput);
+    } else {
+      driveController.setReference(desiredState.speedMetersPerSecond, ControlType.kVelocity, 0,
+          feedForward.calculate(desiredState.speedMetersPerSecond));
+    }
+  }
+
+  private void setAngle(SwerveModuleState desiredState) {
+    Rotation2d angle = (Math
+        .abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) ? lastAngle
+            : desiredState.angle;
+    angleController.setReference(angle.getDegrees(), ControlType.kPosition);
+    lastAngle = angle;
   }
 
   public Rotation2d getAngle() {
