@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
+import frc.robot.commands.driveTrainCommands.SwerveTeleOpCommand;
 import frc.robot.commands.driveTrainCommands.TankTeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
@@ -18,6 +19,7 @@ import frc.robot.commands.topGunShooterCommands.StopShooter;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
+import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.MockTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
@@ -55,6 +57,7 @@ public class SubsystemsContainer {
 
   // Declare member variables.
   TankDriveTrain m_driveTrain;
+  SwerveDriveTrain m_swerveDriveTrain;
   LEDs m_leds;
   LEDs m_leftLeds;
   LEDs m_rightLeds;
@@ -102,6 +105,14 @@ public class SubsystemsContainer {
         throw (new RuntimeException(
             "ERROR: Unknown drivetrain type: " + drivetrainType + " in drivetrain.conf"));
       }
+    } else if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
+      Trace.getInstance().logInfo("Using swerve drive train.");
+      if (Config4905.getConfig4905().getSwerveDrivetrainConfig().getString("motorController")
+          .equals("Swerve")) {
+        Trace.getInstance().logInfo("Using swerve drive train.");
+        m_swerveDriveTrain = new SwerveDriveTrain();
+      }
+
     } else {
       Trace.getInstance().logInfo("Using mock Drive Train.");
       m_driveTrain = new MockTankDriveTrain();
@@ -184,6 +195,10 @@ public class SubsystemsContainer {
     return m_driveTrain;
   }
 
+  public SwerveDriveTrain getSwerveDriveTrain() {
+    return m_swerveDriveTrain;
+  }
+
   public CompressorBase getCompressor() {
     return m_compressor;
   }
@@ -223,6 +238,10 @@ public class SubsystemsContainer {
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TankTeleOpCommand());
+    } else {
+      if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
+        m_driveTrain.setDefaultCommand(new SwerveTeleOpCommand(() -> true));
+      }
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));

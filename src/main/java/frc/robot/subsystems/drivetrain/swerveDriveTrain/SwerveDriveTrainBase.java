@@ -16,7 +16,7 @@ import frc.robot.subsystems.SubsystemInterface;
 
 public interface SwerveDriveTrainBase extends SubsystemInterface {
 
-  public abstract void drive(Translation2d translation, Double rotation, boolean fieldRelative,
+  public abstract void drive(Translation2d translation, double rotation, boolean fieldRelative,
       boolean isOpenLoop);
 
   public abstract void setModuleStates(SwerveModuleState[] desiredStates);
@@ -49,11 +49,11 @@ public interface SwerveDriveTrainBase extends SubsystemInterface {
 
   public abstract SwerveDriveOdometry getSwerveOdometry();
 
-  public abstract void getSwerveOdometry(SwerveDriveOdometry swerveOdometry);
+  public abstract void setSwerveOdometry(SwerveDriveOdometry swerveOdometry);
 
   public abstract SwerveModule[] getmSwerveMods();
 
-  public abstract void getmSwerveMods(SwerveModule[] mSwerveMods);
+  public abstract void setmSwerveMods(SwerveModule[] mSwerveMods);
 
   public abstract Field2d getField();
 

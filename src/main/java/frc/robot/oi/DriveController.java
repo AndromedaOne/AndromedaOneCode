@@ -160,4 +160,20 @@ public class DriveController extends ControllerBase {
 
   private void setupRomiButtons() {
   }
+
+  public double getSwerveDriveTrainTranslationAxis() {
+    // XboxController.Axis.kLeftY.value;
+    return getLeftStickForwardBackwardValue();
+  }
+
+  public double getSwerveDriveTrainStrafeAxis() {
+    // XboxController.Axis.kLeftX.value;
+    return getLeftStickLeftRightValue();
+  }
+
+  public double getSwerveDriveTrainRotationAxis() {
+    // XboxController.Axis.kRightX.value;
+    return getRightStickLeftRightValue();
+  }
+
 }
