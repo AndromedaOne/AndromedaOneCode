@@ -105,6 +105,8 @@ public class SubsystemsContainer {
         throw (new RuntimeException(
             "ERROR: Unknown drivetrain type: " + drivetrainType + " in drivetrain.conf"));
       }
+      m_driveTrain.init();
+
     } else if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       Trace.getInstance().logInfo("Using swerve drive train.");
       if (Config4905.getConfig4905().getSwerveDrivetrainConfig().getString("motorController")
@@ -112,12 +114,13 @@ public class SubsystemsContainer {
         Trace.getInstance().logInfo("Using swerve drive train.");
         m_swerveDriveTrain = new SwerveDriveTrain();
       }
+      m_swerveDriveTrain.init();
 
     } else {
       Trace.getInstance().logInfo("Using mock Drive Train.");
       m_driveTrain = new MockTankDriveTrain();
+      m_driveTrain.init();
     }
-    m_driveTrain.init();
 
     if (Config4905.getConfig4905().doesLeftLEDExist()) {
       Trace.getInstance().logInfo("Using Real Left LEDs");
