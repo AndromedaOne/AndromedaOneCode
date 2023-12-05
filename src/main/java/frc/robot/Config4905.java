@@ -70,7 +70,7 @@ public class Config4905 {
         m_isShowBot = true;
       } else if (m_robotName.equals("TopGun")) {
         m_isTopGun = true;
-      } else if (m_robotName.equals("SwerveBot")) {
+      } else if (m_robotName.equals("SwerveBot")) { // Name pending
         m_isswervebot = true;
       }
     } else {

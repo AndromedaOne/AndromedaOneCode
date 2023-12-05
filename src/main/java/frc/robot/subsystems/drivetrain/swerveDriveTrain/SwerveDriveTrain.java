@@ -39,7 +39,6 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     field = new Field2d();
     SmartDashboard.putData("Field", field);
   }
-  /* All of the following code is only here so the program will build */
 
   public void drive(Translation2d translation, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
