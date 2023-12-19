@@ -16,7 +16,6 @@ public class AutoModes4905 {
     m_autoChooser = autoChooser;
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
-    m_autoChooser.addOption("1: Taxi", new TaxiAuto());
     SmartDashboard.putData("autoModes", m_autoChooser);
   }
 }

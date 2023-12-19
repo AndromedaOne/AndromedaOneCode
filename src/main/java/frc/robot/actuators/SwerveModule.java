@@ -30,7 +30,6 @@ public class SwerveModule {
 
   private RelativeEncoder driveEncoder;
   private RelativeEncoder intergratedAngleEncoder;
-  private CANCoder angleEncoder;
 
   private final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(
       Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
@@ -38,9 +37,6 @@ public class SwerveModule {
   public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {
     this.moduleNumber = moduleNumber;
     angleOffset = moduleConstants.angleOffset;
-
-    angleEncoder = new CANCoder(moduleConstants.canCoderID);
-    configAngleEncoder();
 
     /* Angle Motor Config */
     angleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
@@ -64,14 +60,8 @@ public class SwerveModule {
   }
 
   private void resetToAbsolute() {
-    double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
+    double absolutePosition = intergratedAngleEncoder.getPosition() - angleOffset.getDegrees();
     intergratedAngleEncoder.setPosition(absolutePosition);
-  }
-
-  private void configAngleEncoder() {
-    angleEncoder.configFactoryDefault();
-    CANCoderUtil.setCANCoderBusUsage(angleEncoder, CCUsage.kMinimal);
-    angleEncoder.configAllSettings(null);
   }
 
   private void configAngleMotor() {
@@ -128,10 +118,6 @@ public class SwerveModule {
 
   public Rotation2d getAngle() {
     return Rotation2d.fromDegrees(intergratedAngleEncoder.getPosition());
-  }
-
-  public Rotation2d getCanCoder() {
-    return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
   }
 
   public SwerveModuleState getState() {

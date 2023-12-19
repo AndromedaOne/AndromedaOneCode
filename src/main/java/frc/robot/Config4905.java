@@ -181,7 +181,7 @@ public class Config4905 {
   }
 
   public boolean doesSwerveDrivetrainExist() {
-    if (m_config.hasPath("subsystems.swerveDriveTrain")) {
+    if (m_config.hasPath("subsystems.swervedrivetrain")) {
       return true;
     } else {
       return false;
