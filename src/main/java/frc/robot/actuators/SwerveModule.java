@@ -1,11 +1,14 @@
 package frc.robot.actuators;
 
 import com.ctre.phoenix.sensors.CANCoder;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,7 +32,7 @@ public class SwerveModule {
   private SparkMaxPIDController driveController;
 
   private RelativeEncoder driveEncoder;
-  private RelativeEncoder intergratedAngleEncoder;
+  private AbsoluteEncoder intergratedAngleEncoder;
 
   private final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(
       Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
@@ -40,7 +43,7 @@ public class SwerveModule {
 
     /* Angle Motor Config */
     angleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
-    intergratedAngleEncoder = angleMotor.getEncoder();
+    intergratedAngleEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
     angleController = angleMotor.getPIDController();
     configAngleMotor();
 
