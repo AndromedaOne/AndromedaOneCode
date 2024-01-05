@@ -11,55 +11,17 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.subsystems.SubsystemInterface;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
-public interface TankDriveTrain extends SubsystemInterface {
-
-  public abstract void init();
-
-  public abstract void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput);
-
-  /**
-   * This moves the robot and corrects for any rotation using the gyro
-   * 
-   * @param heading Setting a heading will allow you to set what angle the robot
-   *                will correct to. This is useful in auto after the robot turns
-   *                you can tell it to correct to the heading it should have turn
-   *                to.
-   */
-  public abstract void moveUsingGyro(double forwardBackward, double rotation,
-      boolean useSquaredInputs, double heading);
-
-  public void stop();
-
-  public abstract double getRobotPositionInches();
-
-  public abstract double getRobotVelocityInches();
-
-  public abstract Pose2d getPose();
+public interface TankDriveTrain extends DriveTrainBase {
 
   public abstract DifferentialDriveWheelSpeeds getWheelSpeeds();
 
   public abstract void tankDriveVolts(double leftVolts, double rightVolts);
 
-  public abstract void resetOdometry(Pose2d pose);
-
-  public abstract void enableParkingBrakes();
-
-  public abstract void disableParkingBrakes();
-
-  public abstract ParkingBrakeStates getParkingBrakeState();
-
-  public abstract boolean hasParkingBrake();
-
   public abstract double getLeftRateMetersPerSecond();
 
   public abstract double getRightRateMetersPerSecond();
-
-  public void setCoast(boolean value);
-
-  public void setDriveTrainMode(DriveTrainModeEnum mode);
-
-  public DriveTrainModeEnum getDriveTrainMode();
 
 }

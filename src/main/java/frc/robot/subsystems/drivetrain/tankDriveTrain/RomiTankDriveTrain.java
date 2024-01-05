@@ -11,6 +11,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -192,6 +193,19 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
 
   @Override
   public void setCoast(boolean value) {
+  }
+
+  @Override
+  public void move(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative, boolean isOpenLoop,
+      double heading) {
+    // TODO Auto-generated method stub
+    
   }
 
 }

@@ -13,39 +13,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.subsystems.SubsystemInterface;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
-public interface SwerveDriveTrainBase extends SubsystemInterface {
-
-  public abstract void drive(Translation2d translation, double rotation, boolean fieldRelative,
-      boolean isOpenLoop);
+public interface SwerveDriveTrainBase extends DriveTrainBase {
 
   public abstract void setModuleStates(SwerveModuleState[] desiredStates);
-
-  public abstract Pose2d getPose();
-
-  public abstract void resetOdometry(Pose2d pose);
 
   public abstract SwerveModuleState[] getStates();
 
   public abstract SwerveModulePosition[] getPositions();
-
-  public abstract void zeroGyro();
-
-  public abstract Rotation2d getYaw();
-
-  // @Override
-  public abstract void periodic();
-
-  // @Override
-  public abstract SubsystemBase getSubsystemBase();
-
-  // @Override
-  public abstract void setDefaultCommand(CommandBase command);
-
-  // @Override
-  public abstract void init();
-
-  public abstract Pigeon2 getGyro();
 
   public abstract SwerveDriveOdometry getSwerveOdometry();
 
