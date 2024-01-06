@@ -1,7 +1,6 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -10,16 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.actuators.SwerveModule;
-import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
-public class MockSwerveDriveTrain extends SwerveDriveTrainBase {
-
-  @Override
-  public void drive(Translation2d translation, double rotation, boolean fieldRelative,
-      boolean isOpenLoop) {
-  }
+public class MockSwerveDriveTrain implements SwerveDriveTrainBase {
 
   @Override
   public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -42,15 +36,6 @@ public class MockSwerveDriveTrain extends SwerveDriveTrainBase {
   @Override
   public SwerveModulePosition[] getPositions() {
     return null;
-  }
-
-  @Override
-  public Rotation2d getYaw() {
-    return null;
-  }
-
-  @Override
-  public void periodic() {
   }
 
   @Override

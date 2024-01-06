@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.lib.config.Constants;
-import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
 public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainBase {
@@ -163,16 +163,18 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   }
 
   @Override
-  public void move(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+  public void move(Translation2d translation, double rotation, boolean fieldRelative,
+      boolean isOpenLoop) {
   }
 
   @Override
-  public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs, double heading) {
-  }
-
-  @Override
-  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative, boolean isOpenLoop,
+  public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs,
       double heading) {
+  }
+
+  @Override
+  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
+      boolean isOpenLoop, double heading) {
   }
 
   @Override
