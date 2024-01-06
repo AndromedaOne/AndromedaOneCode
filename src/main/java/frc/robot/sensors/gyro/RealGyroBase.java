@@ -46,7 +46,7 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro, Gyro4
   public abstract double getRawYAngle();
 
   public double getZAngle() {
-    return getRawZAngle() - m_initialZAngleReading;
+    return (getRawZAngle() - m_initialZAngleReading);
   }
 
   public double getXAngle() {

@@ -1,7 +1,5 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
-import com.ctre.phoenix.sensors.Pigeon2;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,9 +11,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
+import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
-public class MockSwerveDriveTrain extends SwerveDriveTrain {
+public class MockSwerveDriveTrain extends SwerveDriveTrainBase {
 
   @Override
   public void drive(Translation2d translation, double rotation, boolean fieldRelative,
@@ -46,10 +45,6 @@ public class MockSwerveDriveTrain extends SwerveDriveTrain {
   }
 
   @Override
-  public void zeroGyro() {
-  }
-
-  @Override
   public Rotation2d getYaw() {
     return null;
   }
@@ -72,7 +67,7 @@ public class MockSwerveDriveTrain extends SwerveDriveTrain {
   }
 
   @Override
-  public Pigeon2 getGyro() {
+  public Gyro4905 getGyro() {
     return null;
   }
 

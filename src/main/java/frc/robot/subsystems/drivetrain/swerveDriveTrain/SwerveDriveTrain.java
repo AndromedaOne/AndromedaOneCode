@@ -1,7 +1,5 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
-import com.ctre.phoenix.sensors.Pigeon2;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -14,22 +12,22 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.lib.config.Constants;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
+import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
 public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainBase {
 
-  private final Pigeon2 gyro;
+  private Gyro4905 gyro;
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
   private Field2d field;
 
   public SwerveDriveTrain() {
-    gyro = new Pigeon2(Constants.Swerve.pigeonID);
-    gyro.configFactoryDefault();
-    zeroGyro();
+    gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
     mSwerveMods = new SwerveModule[] { new SwerveModule(0, Constants.Swerve.Mod0.constants),
         new SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -37,10 +35,11 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
         new SwerveModule(3, Constants.Swerve.Mod3.constants) };
 
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
-    for(int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = mSwerveMods[i].getPosition();
     }
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), swerveModulePositions);
+    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(),
+        swerveModulePositions);
 
     field = new Field2d();
     SmartDashboard.putData("Field", field);
@@ -94,13 +93,9 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     return positions;
   }
 
-  public void zeroGyro() {
-    gyro.setYaw(0);
-  }
-
   public Rotation2d getYaw() {
-    return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw())
-        : Rotation2d.fromDegrees(gyro.getYaw());
+    return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getRawZAngle())
+        : Rotation2d.fromDegrees(gyro.getRawZAngle());
   }
 
   @Override
@@ -113,7 +108,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
     for (SwerveModule mod : mSwerveMods) {
       // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder",
-      //     mod.getCanCoder().getDegrees());
+      // mod.getCanCoder().getDegrees());
       SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated",
           mod.getState().angle.getDegrees());
       SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity",
@@ -135,7 +130,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   public void init() {
   }
 
-  public Pigeon2 getGyro() {
+  public Gyro4905 getGyro() {
     return gyro;
   }
 
