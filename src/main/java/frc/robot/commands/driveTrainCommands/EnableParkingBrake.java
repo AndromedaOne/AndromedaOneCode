@@ -5,14 +5,14 @@
 package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 public class EnableParkingBrake extends CommandBase {
   /** Creates a new EnableParkingBrake. */
-  TankDriveTrain m_driveTrain;
+  DriveTrainBase m_driveTrain;
 
-  public EnableParkingBrake(TankDriveTrain driveTrain) {
+  public EnableParkingBrake(DriveTrainBase driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
     addRequirements(driveTrain.getSubsystemBase());

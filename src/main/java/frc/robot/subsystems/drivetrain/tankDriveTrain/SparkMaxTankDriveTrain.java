@@ -10,6 +10,7 @@ package frc.robot.subsystems.drivetrain.tankDriveTrain;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
@@ -177,6 +178,16 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     m_frontLeft.resetEncoder();
     m_backRight.resetEncoder();
     m_frontRight.resetEncoder();
+  }
+
+  @Override
+  public void move(Translation2d translation, double rotation, boolean fieldRelative,
+      boolean isOpenLoop) {
+  }
+
+  @Override
+  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
+      boolean isOpenLoop, double heading) {
   }
 
 }

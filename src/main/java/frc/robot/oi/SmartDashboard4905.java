@@ -71,18 +71,18 @@ public class SmartDashboard4905 {
 
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
       SmartDashboard.putData("Toggle Brakes",
-          new ToggleBrakes(subsystemsContainer.getDrivetrain()));
+          new ToggleBrakes(subsystemsContainer.getDriveTrain()));
     }
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
       SmartDashboard.putData("DriveBackward",
-          new DriveBackwardTimed(1, subsystemsContainer.getDrivetrain()));
+          new DriveBackwardTimed(1, subsystemsContainer.getDriveTrain()));
       SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
       SmartDashboard.putData("MoveUsingEncoderTester",
-          new MoveUsingEncoderTester(subsystemsContainer.getDrivetrain()));
+          new MoveUsingEncoderTester(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("DriveTrainRectangularPathExample",
-          new DriveTrainRectangularPath(subsystemsContainer.getDrivetrain()));
+          new DriveTrainRectangularPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
-          new DriveTrainDiagonalPath(subsystemsContainer.getDrivetrain()));
+          new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
@@ -98,6 +98,6 @@ public class SmartDashboard4905 {
 
   private void romiCommands(SubsystemsContainer subsystemsContainer) {
     SmartDashboard.putData("AllianceAnticsSimple",
-        new AllianceAnticsSimple(subsystemsContainer.getDrivetrain()));
+        new AllianceAnticsSimple(subsystemsContainer.getDriveTrain()));
   }
 }

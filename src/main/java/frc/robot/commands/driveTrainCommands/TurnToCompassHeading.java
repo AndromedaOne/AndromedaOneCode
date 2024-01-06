@@ -37,11 +37,11 @@ public class TurnToCompassHeading extends PIDCommand4905 {
         () -> compassHeading,
         // This uses the output
         output -> {
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
+          Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, output, false);
         });
     this.m_compassHeading = compassHeading;
     addRequirements(
-        Robot.getInstance().getSubsystemsContainer().getDrivetrain().getSubsystemBase());
+        Robot.getInstance().getSubsystemsContainer().getDriveTrain().getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
     m_setpoint = () -> m_compassHeading;
@@ -68,7 +68,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
 
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
+    Robot.getInstance().getSubsystemsContainer().getDriveTrain().stop();
     Trace.getInstance().logCommandStop(this);
     Trace.getInstance().logCommandInfo(this, "Final heading: "
         + Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading());

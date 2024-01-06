@@ -11,13 +11,15 @@ import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 
 /** Add your docs here. */
 public interface DriveTrainBase extends SubsystemInterface {
-  
+
   public abstract void init();
 
   public abstract void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput);
+
   public abstract void move(Translation2d translation, double rotation, boolean fieldRelative,
       boolean isOpenLoop);
-/**
+
+  /**
    * This moves the robot and corrects for any rotation using the gyro
    * 
    * @param heading Setting a heading will allow you to set what angle the robot
@@ -58,6 +60,8 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract void resetOdometry(Pose2d pose);
 
   public void setCoast(boolean value);
+
   public void setDriveTrainMode(DriveTrainModeEnum mode);
+
   public DriveTrainModeEnum getDriveTrainMode();
 }

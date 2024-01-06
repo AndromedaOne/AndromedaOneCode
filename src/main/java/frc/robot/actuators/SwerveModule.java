@@ -1,6 +1,5 @@
 package frc.robot.actuators;
 
-import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -14,8 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.lib.config.Constants;
 import frc.robot.lib.config.SwerveModuleConstants;
 import frc.robot.lib.math.OnboardModuleState;
-import frc.robot.utils.CANCoderUtil;
-import frc.robot.utils.CANCoderUtil.CCUsage;
 import frc.robot.utils.CANSparkMaxUtil;
 import frc.robot.utils.CANSparkMaxUtil.Usage;
 

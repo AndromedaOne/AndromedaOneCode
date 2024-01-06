@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 public class MoveUsingEncoderTester extends CommandBase {
-  private TankDriveTrain m_driveTrain;
+  private DriveTrainBase m_driveTrain;
 
-  public MoveUsingEncoderTester(TankDriveTrain drivetrain) {
+  public MoveUsingEncoderTester(DriveTrainBase drivetrain) {
     m_driveTrain = drivetrain;
   }
 

@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.lib.config.Constants;
 import frc.robot.oi.DriveController;
-import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 public class SwerveTeleOpCommand extends CommandBase {
-  private SwerveDriveTrain s_Swerve;
+  private DriveTrainBase m_swerveDrive;
   private DoubleSupplier translationSup;
   private DoubleSupplier strafeSup;
   private DoubleSupplier rotationSup;
@@ -27,10 +27,9 @@ public class SwerveTeleOpCommand extends CommandBase {
 
   public SwerveTeleOpCommand(BooleanSupplier robotCentricSup) {
 
-    SwerveDriveTrain s_Swerve = Robot.getInstance().getSubsystemsContainer().getSwerveDriveTrain();
+    m_swerveDrive = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
 
-    this.s_Swerve = s_Swerve;
-    addRequirements(s_Swerve);
+    addRequirements(m_swerveDrive.getSubsystemBase());
 
     /* Drive Controls */
     DriveController m_driveController = Robot.getInstance().getOIContainer().getDriveController();
@@ -62,7 +61,8 @@ public class SwerveTeleOpCommand extends CommandBase {
         MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Swerve.stickDeadband));
 
     /* Drive */
-    s_Swerve.drive(new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
+    m_swerveDrive.move(
+        new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
         rotationVal * Constants.Swerve.maxAngularVelocity, !robotCentricSup.getAsBoolean(), true);
   }
 }

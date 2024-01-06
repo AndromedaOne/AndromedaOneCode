@@ -9,6 +9,7 @@ package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -118,6 +119,16 @@ public class MockTankDriveTrain implements TankDriveTrain {
 
   @Override
   public void setDefaultCommand(CommandBase command) {
+  }
+
+  @Override
+  public void move(Translation2d translation, double rotation, boolean fieldRelative,
+      boolean isOpenLoop) {
+  }
+
+  @Override
+  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
+      boolean isOpenLoop, double heading) {
   }
 
 }

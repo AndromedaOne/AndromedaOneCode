@@ -19,12 +19,12 @@ import frc.robot.commands.topGunShooterCommands.StopShooter;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.MockTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.TalonSRXTankDriveTrain;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
@@ -56,8 +56,7 @@ import frc.robot.telemetries.Trace;
 public class SubsystemsContainer {
 
   // Declare member variables.
-  TankDriveTrain m_driveTrain;
-  SwerveDriveTrain m_swerveDriveTrain;
+  DriveTrainBase m_driveTrain;
   LEDs m_leds;
   LEDs m_leftLeds;
   LEDs m_rightLeds;
@@ -112,9 +111,9 @@ public class SubsystemsContainer {
       if (Config4905.getConfig4905().getSwerveDrivetrainConfig().getString("motorController")
           .equals("Swerve")) {
         Trace.getInstance().logInfo("Using swerve drive train.");
-        m_swerveDriveTrain = new SwerveDriveTrain();
+        m_driveTrain = new SwerveDriveTrain();
       }
-      m_swerveDriveTrain.init();
+      m_driveTrain.init();
 
     } else {
       Trace.getInstance().logInfo("Using mock Drive Train.");
@@ -194,12 +193,8 @@ public class SubsystemsContainer {
     }
   }
 
-  public TankDriveTrain getDrivetrain() {
+  public DriveTrainBase getDriveTrain() {
     return m_driveTrain;
-  }
-
-  public SwerveDriveTrain getSwerveDriveTrain() {
-    return m_swerveDriveTrain;
   }
 
   public CompressorBase getCompressor() {

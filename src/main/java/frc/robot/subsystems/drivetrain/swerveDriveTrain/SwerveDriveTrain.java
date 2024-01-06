@@ -165,86 +165,63 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   @Override
   public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public void move(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs, double heading) {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative, boolean isOpenLoop,
       double heading) {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public void stop() {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public void enableParkingBrakes() {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public void disableParkingBrakes() {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public ParkingBrakeStates getParkingBrakeState() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public boolean hasParkingBrake() {
-    // TODO Auto-generated method stub
     return false;
   }
 
   @Override
   public double getRobotPositionInches() {
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public double getRobotVelocityInches() {
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public void setCoast(boolean value) {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public void setDriveTrainMode(DriveTrainModeEnum mode) {
-    // TODO Auto-generated method stub
-    
   }
 
   @Override
   public DriveTrainModeEnum getDriveTrainMode() {
-    // TODO Auto-generated method stub
     return null;
   }
 

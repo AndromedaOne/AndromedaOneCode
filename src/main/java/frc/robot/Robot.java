@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
-    m_subsystemContainer.getDrivetrain().setCoast(true);
+    m_subsystemContainer.getDriveTrain().setCoast(true);
     LiveWindow.disableAllTelemetry();
     Trace.getInstance().logInfo("robot init finished");
   }
@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
-    m_subsystemContainer.getDrivetrain().setCoast(true);
+    m_subsystemContainer.getDriveTrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
     m_limelight.disableLED();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
@@ -134,10 +134,10 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
     m_limelight.enableLED();
-    m_subsystemContainer.getDrivetrain().setCoast(false);
+    m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
-    m_subsystemContainer.getDrivetrain().disableParkingBrakes();
+    m_subsystemContainer.getDriveTrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
     m_parkingBrakeScheduled = false;
     Trace.getInstance().logInfo("autonomousInit finished");
@@ -154,14 +154,14 @@ public class Robot extends TimedRobot {
       Trace.getInstance().logInfo("autonomousPeriodic called");
       m_autoPeriodicLogged = true;
     }
-    if (m_subsystemContainer.getDrivetrain().hasParkingBrake()) {
+    if (m_subsystemContainer.getDriveTrain().hasParkingBrake()) {
       double matchTime = DriverStation.getMatchTime();
       if (matchTime <= 0.5) {
         // Call enable parking brake
         System.out.println("Parking Brake First Call");
         if (!m_parkingBrakeScheduled) {
           CommandScheduler.getInstance()
-              .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
+              .schedule(new EnableParkingBrake(m_subsystemContainer.getDriveTrain()));
           m_parkingBrakeScheduled = true;
           System.out.println("PArking Brake is enabled");
         }
@@ -190,10 +190,10 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
     m_limelight.disableLED();
-    m_subsystemContainer.getDrivetrain().setCoast(false);
+    m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
-    m_subsystemContainer.getDrivetrain().disableParkingBrakes();
+    m_subsystemContainer.getDriveTrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
     m_parkingBrakeScheduled = false;
     m_subsystemContainer.getShowBotAudio().playAudio(AudioFiles.DiveAlert);
@@ -211,13 +211,13 @@ public class Robot extends TimedRobot {
       Trace.getInstance().logInfo("teleopPeriodic called");
       m_teleopPeriodicLogged = true;
     }
-    if (m_subsystemContainer.getDrivetrain().hasParkingBrake()) {
+    if (m_subsystemContainer.getDriveTrain().hasParkingBrake()) {
       double matchTime = DriverStation.getMatchTime();
       if (matchTime <= 0.5) {
         // Call enable parking brake
         if (!m_parkingBrakeScheduled) {
           CommandScheduler.getInstance()
-              .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
+              .schedule(new EnableParkingBrake(m_subsystemContainer.getDriveTrain()));
           m_parkingBrakeScheduled = true;
         }
       }
@@ -229,7 +229,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    m_subsystemContainer.getDrivetrain().setCoast(false);
+    m_subsystemContainer.getDriveTrain().setCoast(false);
   }
 
   /**

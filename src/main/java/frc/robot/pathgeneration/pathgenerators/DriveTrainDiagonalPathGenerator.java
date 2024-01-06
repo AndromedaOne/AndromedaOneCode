@@ -7,16 +7,16 @@ import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
 
-  private TankDriveTrain m_driveTrain;
+  private DriveTrainBase m_driveTrain;
   private double m_maxOutput = 1.0;
   private boolean m_pauseAfterTurn = false;
 
   public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints,
-      TankDriveTrain driveTrain, Waypoint initialWaypoint, double maxOutputs, boolean useReverse,
+      DriveTrainBase driveTrain, Waypoint initialWaypoint, double maxOutputs, boolean useReverse,
       boolean pauseAfterTurn) {
     super(pathName, waypoints, initialWaypoint, useReverse);
     m_maxOutput = maxOutputs;
@@ -26,7 +26,7 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
 
   // the first waypoint in the waypoints is the initial waypoint
   public DriveTrainDiagonalPathGenerator(String pathName, WaypointsBase waypoints,
-      TankDriveTrain driveTrain, double maxOutputs, boolean useReverse, boolean pauseAfterTurn) {
+      DriveTrainBase driveTrain, double maxOutputs, boolean useReverse, boolean pauseAfterTurn) {
     this(pathName, waypoints, driveTrain, new Waypoint(0, 0), maxOutputs, useReverse,
         pauseAfterTurn);
   }

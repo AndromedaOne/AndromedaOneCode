@@ -5,15 +5,15 @@
 package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.telemetries.Trace;
 
 public class ToggleBrakes extends CommandBase {
   /** Creates a new ToggleBrakes. */
-  TankDriveTrain m_driveTrain;
+  DriveTrainBase m_driveTrain;
 
-  public ToggleBrakes(TankDriveTrain driveTrain) {
+  public ToggleBrakes(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     addRequirements(driveTrain.getSubsystemBase());
   }

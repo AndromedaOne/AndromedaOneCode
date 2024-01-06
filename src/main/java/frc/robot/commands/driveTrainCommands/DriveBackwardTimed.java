@@ -9,7 +9,7 @@ package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 /**
  * Add your docs here.
@@ -20,9 +20,9 @@ public class DriveBackwardTimed extends CommandBase {
    */
   private double m_timeout;
   private Timer m_timer;
-  private TankDriveTrain m_driveTrain;
+  private DriveTrainBase m_driveTrain;
 
-  public DriveBackwardTimed(double timeout, TankDriveTrain driveTrain) {
+  public DriveBackwardTimed(double timeout, DriveTrainBase driveTrain) {
     m_timeout = timeout;
     m_timer = new Timer();
     // Use requires() here to declare subsystem dependencies

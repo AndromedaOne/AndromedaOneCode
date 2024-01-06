@@ -137,7 +137,7 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpParkingBrake() {
-    getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDrivetrain()));
+    getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDriveTrain()));
   }
 
   private void setUpCannonButtons() {

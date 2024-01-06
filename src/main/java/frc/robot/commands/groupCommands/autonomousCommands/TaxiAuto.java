@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -20,7 +20,7 @@ public class TaxiAuto extends SequentialCommandGroup {
   public TaxiAuto() {
     // To get out of communnity zone
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
-    TankDriveTrain driveTrain = subsystemsContainer.getDrivetrain();
+    DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
     // We ran the speed at 0.5 to accomodate charging station and cable.
     addCommands(new ParallelDeadlineGroup(
         new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -166, 0.5))));

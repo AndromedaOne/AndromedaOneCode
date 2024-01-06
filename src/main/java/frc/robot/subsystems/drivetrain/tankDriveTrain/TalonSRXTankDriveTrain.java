@@ -9,6 +9,7 @@ package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Config4905;
 import frc.robot.actuators.TalonSRXController;
@@ -141,6 +142,16 @@ public class TalonSRXTankDriveTrain extends RealTankDriveTrain {
 
   @Override
   public void setCoast(boolean value) {
+  }
+
+  @Override
+  public void move(Translation2d translation, double rotation, boolean fieldRelative,
+      boolean isOpenLoop) {
+  }
+
+  @Override
+  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
+      boolean isOpenLoop, double heading) {
   }
 
 }
