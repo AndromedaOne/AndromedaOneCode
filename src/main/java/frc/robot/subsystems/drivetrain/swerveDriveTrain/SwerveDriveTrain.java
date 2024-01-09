@@ -45,7 +45,8 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     SmartDashboard.putData("Field", field);
   }
 
-  public void drive(Translation2d translation, double rotation, boolean fieldRelative,
+  @Override
+  public void move(Translation2d translation, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
     SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics
         .toSwerveModuleStates(fieldRelative
@@ -160,11 +161,6 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   @Override
   public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
-  }
-
-  @Override
-  public void move(Translation2d translation, double rotation, boolean fieldRelative,
-      boolean isOpenLoop) {
   }
 
   @Override
