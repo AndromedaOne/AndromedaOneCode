@@ -35,10 +35,11 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
         new SwerveModule(3, Constants.Swerve.Mod3.constants) };
 
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
-    for(int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = mSwerveMods[i].getPosition();
     }
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), swerveModulePositions);
+    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(),
+        swerveModulePositions);
 
     field = new Field2d();
     SmartDashboard.putData("Field", field);
@@ -111,7 +112,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
     for (SwerveModule mod : mSwerveMods) {
       // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder",
-      //     mod.getCanCoder().getDegrees());
+      // mod.getCanCoder().getDegrees());
       SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated",
           mod.getState().angle.getDegrees());
       SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity",

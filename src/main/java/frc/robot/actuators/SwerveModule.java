@@ -1,14 +1,12 @@
 package frc.robot.actuators;
 
-import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.SparkMaxAbsoluteEncoder;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,8 +15,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.lib.config.Constants;
 import frc.robot.lib.config.SwerveModuleConstants;
 import frc.robot.lib.math.OnboardModuleState;
-import frc.robot.utils.CANCoderUtil;
-import frc.robot.utils.CANCoderUtil.CCUsage;
 import frc.robot.utils.CANSparkMaxUtil;
 import frc.robot.utils.CANSparkMaxUtil.Usage;
 
@@ -62,11 +58,6 @@ public class SwerveModule {
     setSpeed(desiredState, isOpenLoop);
   }
 
-  private void resetToAbsolute() {
-    double absolutePosition = intergratedAngleEncoder.getPosition() - angleOffset.getDegrees();
-    intergratedAngleEncoder.setPosition(absolutePosition);
-  }
-
   private void configAngleMotor() {
     angleMotor.restoreFactoryDefaults();
     CANSparkMaxUtil.setCANSparkMaxBusUsage(angleMotor, Usage.kPositionOnly);
@@ -80,7 +71,6 @@ public class SwerveModule {
     angleController.setFF(Constants.Swerve.angleKFF);
     angleMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
     angleMotor.burnFlash();
-    resetToAbsolute();
   }
 
   private void configDriveMotor() {
