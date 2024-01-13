@@ -171,8 +171,7 @@ public class Robot extends TimedRobot {
   }
 
   private void setInitialZangleOffset() {
-    // For the Charged Up game 2023, the robot starts facing north.
-    m_sensorsContainer.getGyro().setInitialZangleOffset(180);
+    m_sensorsContainer.getGyro().setInitialZangleOffset(0);
   }
 
   @Override

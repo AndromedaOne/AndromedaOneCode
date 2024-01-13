@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
@@ -47,6 +48,9 @@ public class SwerveTeleOpCommand extends CommandBase {
     double rotationAxis = m_driveController.getSwerveDriveTrainRotationAxis();
     double rotationLim = rotationlimiter.calculate(rotationAxis);
 
+    SmartDashboard.putNumber("Drive controller forward backward", translationLim);
+    SmartDashboard.putNumber("Drive controller strafe", strafeLim);
+    SmartDashboard.putNumber("Drive controller rotation", rotationLim);
     m_swerveDrive.move(
         new Translation2d(translationLim, strafeLim).times(SwerveDriveConstarts.Swerve.maxSpeed),
         rotationLim * SwerveDriveConstarts.Swerve.maxAngularVelocity,

@@ -3,6 +3,7 @@ package frc.robot.actuators;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
@@ -117,7 +118,11 @@ public class SwerveModule {
   }
 
   public Rotation2d getAngle() {
-    return Rotation2d.fromDegrees(intergratedAngleEncoder.getPosition());
+    return Rotation2d.fromDegrees(getRawAngle());
+  }
+
+  public double getRawAngle() {
+    return intergratedAngleEncoder.getPosition();
   }
 
   public SwerveModuleState getState() {
@@ -126,6 +131,15 @@ public class SwerveModule {
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(driveEncoder.getVelocity(), getAngle());
+  }
+
+  public void setCoast(boolean value) {
+    IdleMode mode = CANSparkMax.IdleMode.kBrake;
+    if (value) {
+      mode = CANSparkMax.IdleMode.kCoast;
+    }
+    m_angleMotor.setIdleMode(mode);
+    m_driveMotor.setIdleMode(mode);
   }
 
 }

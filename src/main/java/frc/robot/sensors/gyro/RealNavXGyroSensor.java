@@ -46,7 +46,7 @@ public class RealNavXGyroSensor extends RealGyroBase {
         } else if (navXPort.equals("SPI")) {
           m_gyro = new AHRS(SPI.Port.kOnboardCS0);
         } else {
-          System.err.println("ERROR: Unkown NavX Port: " + navXPort);
+          System.err.println("ERROR: Unknown NavX Port: " + navXPort);
           return;
         }
         System.out.println("Created NavX instance");

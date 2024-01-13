@@ -198,15 +198,11 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   @Override
   public void move(Translation2d translation, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
       boolean isOpenLoop, double heading) {
-    // TODO Auto-generated method stub
-
   }
 
 }

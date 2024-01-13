@@ -95,8 +95,8 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   public Rotation2d getYaw() {
     return (SwerveDriveConstarts.Swerve.invertGyro)
-        ? Rotation2d.fromDegrees(360 - gyro.getRawZAngle())
-        : Rotation2d.fromDegrees(gyro.getRawZAngle());
+        ? Rotation2d.fromDegrees(360 - gyro.getCompassHeading())
+        : Rotation2d.fromDegrees(gyro.getCompassHeading());
   }
 
   @Override
@@ -108,6 +108,8 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " AngleMotor actual degrees",
           mod.getAngle().getDegrees());
+      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " AngleMotor raw degrees",
+          mod.getRawAngle());
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " AngleMotor desired degrees",
           mod.getState().angle.getDegrees());
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " DriveMotor desired speed",
@@ -201,6 +203,9 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   @Override
   public void setCoast(boolean value) {
+    for (SwerveModule mod : mSwerveMods) {
+      mod.setCoast(value);
+    }
   }
 
   @Override

@@ -19,13 +19,13 @@ public class SwerveDriveConstarts {
 
   public static final class Swerve {
 
-    public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
+    public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
     // trackWidth: Center to Center distance of left and right modules in meters.
-    public static final double trackWidth = Units.inchesToMeters(21.73);
+    public static final double trackWidth = Units.inchesToMeters(24);
     // wheelBase: Center to Center distance of front and rear module wheels in
     // meters.
-    public static final double wheelBase = Units.inchesToMeters(21.73);
+    public static final double wheelBase = Units.inchesToMeters(24);
     // wheelDiameter: Diameter of the wheel (including tread) in meters.
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
     // wheelCircumference: Cirumference of the wheel (including tread) in meters.
@@ -43,7 +43,8 @@ public class SwerveDriveConstarts {
     // driveGearRatio: Total gear ratio for the drive motor.
     public static final double driveGearRatio = (6.75 / 1.0);
     // angleGearRatio: Total gear ratio for the angle motor.
-    public static final double angleGearRatio = (12.8 / 1.0);
+    // The encoder is being driven directly by the wheel, so the ratio is 1.
+    public static final double angleGearRatio = (1.0);
 
     /* Swerve Voltage Compensation */
     public static final double voltageComp = 12.0;
@@ -53,7 +54,7 @@ public class SwerveDriveConstarts {
     public static final int driveContinuousCurrentLimit = 80;
 
     /* Angle Motor PID Values */
-    public static final double angleKP = 0.01;
+    public static final double angleKP = 0.001;
     public static final double angleKI = 0.0;
     public static final double angleKD = 0.0;
     public static final double angleKFF = 0.0;
@@ -84,8 +85,8 @@ public class SwerveDriveConstarts {
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;
 
     /* Motor Inverts */
-    public static final boolean driveInvert = false;
-    public static final boolean angleInvert = false;
+    public static final boolean driveInvert = true;
+    public static final boolean angleInvert = true;
 
     /* Angle Encoder Invert, must be set such that it is CCW+ */
     public static final boolean canCoderInvert = false;
