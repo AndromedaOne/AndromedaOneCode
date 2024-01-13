@@ -6,9 +6,9 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.lib.config.Constants;
 import frc.robot.oi.DriveController;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveConstarts;
 import frc.robot.telemetries.Trace;
 
 public class SwerveTeleOpCommand extends CommandBase {
@@ -48,8 +48,9 @@ public class SwerveTeleOpCommand extends CommandBase {
     double rotationLim = rotationlimiter.calculate(rotationAxis);
 
     m_swerveDrive.move(
-        new Translation2d(translationLim, strafeLim).times(Constants.Swerve.maxSpeed),
-        rotationLim * Constants.Swerve.maxAngularVelocity, !m_robotCentricSup.getAsBoolean(), true);
+        new Translation2d(translationLim, strafeLim).times(SwerveDriveConstarts.Swerve.maxSpeed),
+        rotationLim * SwerveDriveConstarts.Swerve.maxAngularVelocity,
+        !m_robotCentricSup.getAsBoolean(), true);
   }
 
   @Override

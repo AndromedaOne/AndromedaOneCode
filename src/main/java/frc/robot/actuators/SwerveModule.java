@@ -12,44 +12,42 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.lib.config.Constants;
-import frc.robot.lib.config.SwerveModuleConstants;
 import frc.robot.lib.math.OnboardModuleState;
+import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveConstarts;
 import frc.robot.utils.CANSparkMaxUtil;
 import frc.robot.utils.CANSparkMaxUtil.Usage;
 
 public class SwerveModule {
-  public int moduleNumber;
-  private Rotation2d lastAngle;
-  private Rotation2d angleOffset;
-  private CANSparkMax angleMotor;
-  private CANSparkMax driveMotor;
-  private SparkMaxPIDController angleController;
-  private SparkMaxPIDController driveController;
+  private int m_moduleNumber;
+  private Rotation2d m_lastAngle;
+  private CANSparkMax m_angleMotor;
+  private CANSparkMax m_driveMotor;
+  private SparkMaxPIDController m_angleController;
+  private SparkMaxPIDController m_driveController;
 
   private RelativeEncoder driveEncoder;
   private AbsoluteEncoder intergratedAngleEncoder;
 
   private final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(
-      Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
+      SwerveDriveConstarts.Swerve.driveKS, SwerveDriveConstarts.Swerve.driveKV,
+      SwerveDriveConstarts.Swerve.driveKA);
 
   public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {
-    this.moduleNumber = moduleNumber;
-    angleOffset = moduleConstants.angleOffset;
+    m_moduleNumber = moduleNumber;
 
     /* Angle Motor Config */
-    angleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
-    intergratedAngleEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    angleController = angleMotor.getPIDController();
+    m_angleMotor = new CANSparkMax(moduleConstants.getAngleMotorID(), MotorType.kBrushless);
+    intergratedAngleEncoder = m_angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    m_angleController = m_angleMotor.getPIDController();
     configAngleMotor();
 
     /* drive motor config */
-    driveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
-    driveEncoder = driveMotor.getEncoder();
-    driveController = driveMotor.getPIDController();
+    m_driveMotor = new CANSparkMax(moduleConstants.getDriveMotorID(), MotorType.kBrushless);
+    driveEncoder = m_driveMotor.getEncoder();
+    m_driveController = m_driveMotor.getPIDController();
     configDriveMotor();
 
-    lastAngle = getState().angle;
+    m_lastAngle = getState().angle;
   }
 
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
@@ -59,54 +57,63 @@ public class SwerveModule {
   }
 
   private void configAngleMotor() {
-    angleMotor.restoreFactoryDefaults();
-    CANSparkMaxUtil.setCANSparkMaxBusUsage(angleMotor, Usage.kPositionOnly);
-    angleMotor.setSmartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit);
-    angleMotor.setInverted(Constants.Swerve.angleInvert);
-    angleMotor.setIdleMode(Constants.Swerve.angleNeutralMode);
-    intergratedAngleEncoder.setPositionConversionFactor(Constants.Swerve.angleConversionFactor);
-    angleController.setP(Constants.Swerve.angleKP);
-    angleController.setI(Constants.Swerve.angleKI);
-    angleController.setD(Constants.Swerve.angleKD);
-    angleController.setFF(Constants.Swerve.angleKFF);
-    angleMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
-    angleMotor.burnFlash();
+    m_angleMotor.restoreFactoryDefaults();
+    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_angleMotor, Usage.kPositionOnly);
+    m_angleMotor.setSmartCurrentLimit(SwerveDriveConstarts.Swerve.angleContinuousCurrentLimit);
+    m_angleMotor.setInverted(SwerveDriveConstarts.Swerve.angleInvert);
+    m_angleMotor.setIdleMode(SwerveDriveConstarts.Swerve.angleNeutralMode);
+    intergratedAngleEncoder
+        .setPositionConversionFactor(SwerveDriveConstarts.Swerve.angleConversionFactor);
+    m_angleController.setP(SwerveDriveConstarts.Swerve.angleKP);
+    m_angleController.setI(SwerveDriveConstarts.Swerve.angleKI);
+    m_angleController.setD(SwerveDriveConstarts.Swerve.angleKD);
+    m_angleController.setFF(SwerveDriveConstarts.Swerve.angleKFF);
+    m_angleMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
+    m_angleMotor.burnFlash();
   }
 
   private void configDriveMotor() {
-    driveMotor.restoreFactoryDefaults();
-    CANSparkMaxUtil.setCANSparkMaxBusUsage(driveMotor, Usage.kAll);
-    driveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
-    driveMotor.setInverted(Constants.Swerve.driveInvert);
-    driveMotor.setIdleMode(Constants.Swerve.driveNeutralMode);
-    driveEncoder.setVelocityConversionFactor(Constants.Swerve.driveConversionVelocityFactor);
-    driveEncoder.setPositionConversionFactor(Constants.Swerve.driveConversionPositionFactor);
-    driveController.setP(Constants.Swerve.angleKP);
-    driveController.setI(Constants.Swerve.angleKI);
-    driveController.setD(Constants.Swerve.angleKD);
-    driveController.setFF(Constants.Swerve.angleKFF);
-    driveMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
-    driveMotor.burnFlash();
+    m_driveMotor.restoreFactoryDefaults();
+    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_driveMotor, Usage.kAll);
+    m_driveMotor.setSmartCurrentLimit(SwerveDriveConstarts.Swerve.driveContinuousCurrentLimit);
+    m_driveMotor.setInverted(SwerveDriveConstarts.Swerve.driveInvert);
+    m_driveMotor.setIdleMode(SwerveDriveConstarts.Swerve.driveNeutralMode);
+    driveEncoder
+        .setVelocityConversionFactor(SwerveDriveConstarts.Swerve.driveConversionVelocityFactor);
+    driveEncoder
+        .setPositionConversionFactor(SwerveDriveConstarts.Swerve.driveConversionPositionFactor);
+    m_driveController.setP(SwerveDriveConstarts.Swerve.angleKP);
+    m_driveController.setI(SwerveDriveConstarts.Swerve.angleKI);
+    m_driveController.setD(SwerveDriveConstarts.Swerve.angleKD);
+    m_driveController.setFF(SwerveDriveConstarts.Swerve.angleKFF);
+    m_driveMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
+    m_driveMotor.burnFlash();
     driveEncoder.setPosition(0.0);
 
   }
 
   private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
     if (isOpenLoop) {
-      double percentOutput = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
-      driveMotor.set(percentOutput);
+      double percentOutput = desiredState.speedMetersPerSecond
+          / SwerveDriveConstarts.Swerve.maxSpeed;
+      m_driveMotor.set(percentOutput);
     } else {
-      driveController.setReference(desiredState.speedMetersPerSecond, ControlType.kVelocity, 0,
+      m_driveController.setReference(desiredState.speedMetersPerSecond, ControlType.kVelocity, 0,
           feedForward.calculate(desiredState.speedMetersPerSecond));
     }
   }
 
   private void setAngle(SwerveModuleState desiredState) {
     Rotation2d angle = (Math
-        .abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) ? lastAngle
+        .abs(desiredState.speedMetersPerSecond) <= (SwerveDriveConstarts.Swerve.maxSpeed * 0.01))
+            ? m_lastAngle
             : desiredState.angle;
-    angleController.setReference(angle.getDegrees(), ControlType.kPosition);
-    lastAngle = angle;
+    m_angleController.setReference(angle.getDegrees(), ControlType.kPosition);
+    m_lastAngle = angle;
+  }
+
+  public int getModuleNumber() {
+    return m_moduleNumber;
   }
 
   public Rotation2d getAngle() {

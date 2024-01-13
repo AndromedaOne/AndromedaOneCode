@@ -1,4 +1,4 @@
-package frc.robot.lib.config;
+package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
@@ -7,33 +7,43 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import frc.robot.actuators.SwerveModuleConstants;
 
-public class Constants {
+/**
+ * to facilitate a faster implementation, we're going to use a constants class
+ * for SwerveDrive eventually this will be refactored to use our Config4905
+ * framework
+ * 
+ */
+public class SwerveDriveConstarts {
 
   public static final class Swerve {
 
-    public static final double stickDeadband = 0.1;
-
-    public static final int pigeonID = 6;
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
-    /* Drivetrain Constants */
+    // trackWidth: Center to Center distance of left and right modules in meters.
     public static final double trackWidth = Units.inchesToMeters(21.73);
+    // wheelBase: Center to Center distance of front and rear module wheels in
+    // meters.
     public static final double wheelBase = Units.inchesToMeters(21.73);
+    // wheelDiameter: Diameter of the wheel (including tread) in meters.
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
+    // wheelCircumference: Cirumference of the wheel (including tread) in meters.
     public static final double wheelCircumference = wheelDiameter * Math.PI;
-
-    public static final double openLoopRamp = 0.25;
-    public static final double closedLoopRamp = 0.0;
-
-    public static final double driveGearRatio = (6.75 / 1.0); // 6.75:1
-    public static final double angleGearRatio = (12.8 / 1.0); // 12.8:1
 
     public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
         new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
         new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+
+    public static final double openLoopRamp = 0.25;
+    public static final double closedLoopRamp = 0.0;
+
+    // driveGearRatio: Total gear ratio for the drive motor.
+    public static final double driveGearRatio = (6.75 / 1.0);
+    // angleGearRatio: Total gear ratio for the angle motor.
+    public static final double angleGearRatio = (12.8 / 1.0);
 
     /* Swerve Voltage Compensation */
     public static final double voltageComp = 12.0;
@@ -77,7 +87,7 @@ public class Constants {
     public static final boolean driveInvert = false;
     public static final boolean angleInvert = false;
 
-    /* Angle Encoder Invert */
+    /* Angle Encoder Invert, must be set such that it is CCW+ */
     public static final boolean canCoderInvert = false;
 
     /* Module Specific Constants */
