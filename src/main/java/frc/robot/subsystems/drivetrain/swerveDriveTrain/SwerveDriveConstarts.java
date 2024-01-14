@@ -54,7 +54,7 @@ public class SwerveDriveConstarts {
     public static final int driveContinuousCurrentLimit = 80;
 
     /* Angle Motor PID Values */
-    public static final double angleKP = 0.001;
+    public static final double angleKP = 0.0001;
     public static final double angleKI = 0.0;
     public static final double angleKD = 0.0;
     public static final double angleKFF = 0.0;

@@ -56,17 +56,25 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   @Override
   public void move(Translation2d translation, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
+    chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(),
+    rotation, getYaw());
     SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
         .toSwerveModuleStates(fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(),
-                rotation, getYaw())
+            ? chassisSpeeds
             : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
+    System.out.println("Before des: " + swerveModuleStates[0].toString());
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
         SwerveDriveConstarts.Swerve.maxSpeed);
-
+    System.out.println("After Des: " + swerveModuleStates[0].toString());
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
     }
+    SmartDashboard.putNumber("translation Y", translation.getY());
+    SmartDashboard.putNumber("rotation", rotation);
+    SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("ChassisSpeeds Y", chassisSpeeds.vyMetersPerSecond);
+    SmartDashboard.putNumber("ChassisSpeeds O", chassisSpeeds.omegaRadiansPerSecond);
   }
 
   public Pose2d getPose() {
@@ -114,6 +122,10 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
           mod.getState().angle.getDegrees());
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " DriveMotor desired speed",
           mod.getState().speedMetersPerSecond);
+      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Drive Motor input speed", 
+        mod.getDriveMotorCurrentSpeed());
+      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Angle motor input speed", 
+        mod.getAngleMotorCurrentSpeed());
     }
   }
 

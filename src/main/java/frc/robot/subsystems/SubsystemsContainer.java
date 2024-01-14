@@ -238,7 +238,7 @@ public class SubsystemsContainer {
       m_driveTrain.setDefaultCommand(new TankTeleOpCommand());
     } else {
       if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
-        m_driveTrain.setDefaultCommand(new SwerveTeleOpCommand(() -> true));
+        m_driveTrain.setDefaultCommand(new SwerveTeleOpCommand(() -> false));
       }
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {

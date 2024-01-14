@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.lib.math.OnboardModuleState;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveConstarts;
 import frc.robot.utils.CANSparkMaxUtil;
@@ -65,14 +66,19 @@ public class SwerveModule {
     m_angleMotor.setIdleMode(SwerveDriveConstarts.Swerve.angleNeutralMode);
     absoluteAngleEncoder
         .setPositionConversionFactor(SwerveDriveConstarts.Swerve.angleConversionFactor);
-    // since we're using an abolute encoder for motor angle, need to set that as the input
+    // since we're using an abolute encoder for motor angle, need to set that as the
+    // input
     // to the onboard PID controller
     m_angleController.setFeedbackDevice(absoluteAngleEncoder);
     m_angleController.setP(SwerveDriveConstarts.Swerve.angleKP);
     m_angleController.setI(SwerveDriveConstarts.Swerve.angleKI);
     m_angleController.setD(SwerveDriveConstarts.Swerve.angleKD);
     m_angleController.setFF(SwerveDriveConstarts.Swerve.angleKFF);
+    m_angleController.setPositionPIDWrappingEnabled(true);
+    m_angleController.setPositionPIDWrappingMinInput(0);
+    m_angleController.setPositionPIDWrappingMaxInput(359.999999);
     m_angleMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
+    //m_angleController.setSmartMotionAllowedClosedLoopError(0, 0);
     m_angleMotor.burnFlash();
   }
 
@@ -114,6 +120,7 @@ public class SwerveModule {
             : desiredState.angle;
     m_angleController.setReference(angle.getDegrees(), ControlType.kPosition);
     m_lastAngle = angle;
+    SmartDashboard.putNumber("mod " + m_moduleNumber + " setAngle", angle.getDegrees());
   }
 
   public int getModuleNumber() {
@@ -125,7 +132,7 @@ public class SwerveModule {
   }
 
   public double getRawAngle() {
-    return intergratedAngleEncoder.getPosition();
+    return absoluteAngleEncoder.getPosition();
   }
 
   public SwerveModuleState getState() {
@@ -143,7 +150,7 @@ public class SwerveModule {
   public double getAngleMotorCurrentSpeed() {
     return m_angleMotor.get();
   }
-  
+
   public void setCoast(boolean value) {
     IdleMode mode = CANSparkMax.IdleMode.kBrake;
     if (value) {
