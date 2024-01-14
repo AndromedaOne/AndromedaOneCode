@@ -26,7 +26,7 @@ public class SwerveModule {
   private SparkMaxPIDController m_driveController;
 
   private RelativeEncoder driveEncoder;
-  private AbsoluteEncoder intergratedAngleEncoder;
+  private AbsoluteEncoder absoluteAngleEncoder;
 
   private final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(
       SwerveDriveConstarts.Swerve.driveKS, SwerveDriveConstarts.Swerve.driveKV,
@@ -37,7 +37,7 @@ public class SwerveModule {
 
     /* Angle Motor Config */
     m_angleMotor = new CANSparkMax(moduleConstants.getAngleMotorID(), MotorType.kBrushless);
-    intergratedAngleEncoder = m_angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    absoluteAngleEncoder = m_angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
     m_angleController = m_angleMotor.getPIDController();
     configAngleMotor();
 
@@ -62,8 +62,11 @@ public class SwerveModule {
     m_angleMotor.setSmartCurrentLimit(SwerveDriveConstarts.Swerve.angleContinuousCurrentLimit);
     m_angleMotor.setInverted(SwerveDriveConstarts.Swerve.angleInvert);
     m_angleMotor.setIdleMode(SwerveDriveConstarts.Swerve.angleNeutralMode);
-    intergratedAngleEncoder
+    absoluteAngleEncoder
         .setPositionConversionFactor(SwerveDriveConstarts.Swerve.angleConversionFactor);
+    // since we're using an abolute encoder for motor angle, need to set that as the input
+    // to the onboard PID controller
+    m_angleController.setFeedbackDevice(absoluteAngleEncoder);
     m_angleController.setP(SwerveDriveConstarts.Swerve.angleKP);
     m_angleController.setI(SwerveDriveConstarts.Swerve.angleKI);
     m_angleController.setD(SwerveDriveConstarts.Swerve.angleKD);
@@ -117,7 +120,7 @@ public class SwerveModule {
   }
 
   public Rotation2d getAngle() {
-    return Rotation2d.fromDegrees(intergratedAngleEncoder.getPosition());
+    return Rotation2d.fromDegrees(absoluteAngleEncoder.getPosition());
   }
 
   public SwerveModuleState getState() {
@@ -126,6 +129,14 @@ public class SwerveModule {
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(driveEncoder.getVelocity(), getAngle());
+  }
+
+  public double getDriveMotorCurrentSpeed() {
+    return m_driveMotor.get();
+  }
+
+  public double getAngleMotorCurrentSpeed() {
+    return m_angleMotor.get();
   }
 
 }
