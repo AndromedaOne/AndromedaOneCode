@@ -1,12 +1,11 @@
 package frc.robot.actuators;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAbsoluteEncoder;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
-import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkLimitSwitch;
 import com.typesafe.config.Config;
 
 public class SparkMaxController {
@@ -17,12 +16,12 @@ public class SparkMaxController {
   private RelativeEncoder m_sparkMaxEncoder;
   private String m_configString;
   private Config m_subsystemConfig;
-  private SparkMaxLimitSwitch m_forwardLimitSwitch;
-  private SparkMaxLimitSwitch m_reverseLimitSwitch;
+  private SparkLimitSwitch m_forwardLimitSwitch;
+  private SparkLimitSwitch m_reverseLimitSwitch;
 
   public SparkMaxController(Config subsystemConfig, String configString) {
     m_sparkMax = new CANSparkMax(subsystemConfig.getInt("ports." + configString),
-        CANSparkMaxLowLevel.MotorType.kBrushless);
+        MotorType.kBrushless);
     System.out.println("Enabling SparkMaxController \"" + configString + "\" for port "
         + subsystemConfig.getInt("ports." + configString));
     m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
@@ -36,13 +35,11 @@ public class SparkMaxController {
      ******************/
     m_hasForwardLimitSwitch = subsystemConfig.getBoolean(configString + ".hasForwardLimitSwitch");
     if (m_hasForwardLimitSwitch) {
-      m_forwardLimitSwitch = m_sparkMax
-          .getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+      m_forwardLimitSwitch = m_sparkMax.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     }
     m_hasReverseLimitSwitch = subsystemConfig.getBoolean(configString + ".hasReverseLimitSwitch");
     if (m_hasReverseLimitSwitch) {
-      m_reverseLimitSwitch = m_sparkMax
-          .getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+      m_reverseLimitSwitch = m_sparkMax.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     }
     m_configString = configString;
     m_subsystemConfig = subsystemConfig;
@@ -126,7 +123,7 @@ public class SparkMaxController {
     m_sparkMax.set(speed);
   }
 
-  public SparkMaxAbsoluteEncoder getAbsoluteEncoder(Type type) {
+  public SparkAbsoluteEncoder getAbsoluteEncoder(SparkAbsoluteEncoder.Type type) {
     return m_sparkMax.getAbsoluteEncoder(type);
   }
 

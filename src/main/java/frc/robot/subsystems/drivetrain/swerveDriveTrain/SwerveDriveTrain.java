@@ -58,15 +58,12 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
       boolean isOpenLoop) {
     ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(),
-    rotation, getYaw());
+        rotation, getYaw());
     SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
-        .toSwerveModuleStates(fieldRelative
-            ? chassisSpeeds
+        .toSwerveModuleStates(fieldRelative ? chassisSpeeds
             : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
-    System.out.println("Before des: " + swerveModuleStates[0].toString());
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
         SwerveDriveConstarts.Swerve.maxSpeed);
-    System.out.println("After Des: " + swerveModuleStates[0].toString());
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
     }
@@ -122,10 +119,8 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
           mod.getState().angle.getDegrees());
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " DriveMotor desired speed",
           mod.getState().speedMetersPerSecond);
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Drive Motor input speed", 
-        mod.getDriveMotorCurrentSpeed());
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Angle motor input speed", 
-        mod.getAngleMotorCurrentSpeed());
+      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Drive Motor input speed",
+          mod.getDriveMotorCurrentSpeed());
     }
   }
 

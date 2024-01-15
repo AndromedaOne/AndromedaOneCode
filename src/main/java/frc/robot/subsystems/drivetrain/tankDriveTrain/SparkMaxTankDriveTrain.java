@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Translation2d;

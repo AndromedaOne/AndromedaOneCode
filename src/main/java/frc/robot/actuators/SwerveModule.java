@@ -1,13 +1,13 @@
 package frc.robot.actuators;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,8 +24,8 @@ public class SwerveModule {
   private Rotation2d m_lastAngle;
   private CANSparkMax m_angleMotor;
   private CANSparkMax m_driveMotor;
-  private SparkMaxPIDController m_angleController;
-  private SparkMaxPIDController m_driveController;
+  private SparkPIDController m_angleController;
+  private SparkPIDController m_driveController;
 
   private RelativeEncoder driveEncoder;
   private AbsoluteEncoder absoluteAngleEncoder;
@@ -38,13 +38,16 @@ public class SwerveModule {
     m_moduleNumber = moduleNumber;
 
     /* Angle Motor Config */
-    m_angleMotor = new CANSparkMax(moduleConstants.getAngleMotorID(), MotorType.kBrushless);
-    absoluteAngleEncoder = m_angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+
+    m_angleMotor = new CANSparkMax(moduleConstants.getAngleMotorID(),
+        CANSparkLowLevel.MotorType.kBrushless);
+    absoluteAngleEncoder = m_angleMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     m_angleController = m_angleMotor.getPIDController();
     configAngleMotor();
 
     /* drive motor config */
-    m_driveMotor = new CANSparkMax(moduleConstants.getDriveMotorID(), MotorType.kBrushless);
+    m_driveMotor = new CANSparkMax(moduleConstants.getDriveMotorID(),
+        CANSparkLowLevel.MotorType.kBrushless);
     driveEncoder = m_driveMotor.getEncoder();
     m_driveController = m_driveMotor.getPIDController();
     configDriveMotor();
@@ -60,7 +63,7 @@ public class SwerveModule {
 
   private void configAngleMotor() {
     m_angleMotor.restoreFactoryDefaults();
-    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_angleMotor, Usage.kPositionOnly);
+    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_angleMotor, Usage.kAll);
     m_angleMotor.setSmartCurrentLimit(SwerveDriveConstarts.Swerve.angleContinuousCurrentLimit);
     m_angleMotor.setInverted(SwerveDriveConstarts.Swerve.angleInvert);
     m_angleMotor.setIdleMode(SwerveDriveConstarts.Swerve.angleNeutralMode);
@@ -78,7 +81,7 @@ public class SwerveModule {
     m_angleController.setPositionPIDWrappingMinInput(0);
     m_angleController.setPositionPIDWrappingMaxInput(359.999999);
     m_angleMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
-    //m_angleController.setSmartMotionAllowedClosedLoopError(0, 0);
+    // m_angleController.setSmartMotionAllowedClosedLoopError(0, 0);
     m_angleMotor.burnFlash();
   }
 
@@ -145,10 +148,6 @@ public class SwerveModule {
 
   public double getDriveMotorCurrentSpeed() {
     return m_driveMotor.get();
-  }
-
-  public double getAngleMotorCurrentSpeed() {
-    return m_angleMotor.get();
   }
 
   public void setCoast(boolean value) {
