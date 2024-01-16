@@ -24,7 +24,6 @@ import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.MockTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TalonSRXTankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
@@ -90,10 +89,6 @@ public class SubsystemsContainer {
           .equals("sparkMax")) {
         Trace.getInstance().logInfo("Using real sparkMax Drive Train");
         m_driveTrain = new SparkMaxTankDriveTrain();
-      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
-          .equals("talonSRX")) {
-        Trace.getInstance().logInfo("Using real talonSRX Drive Train");
-        m_driveTrain = new TalonSRXTankDriveTrain();
       } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("romiDrive")) {
         Trace.getInstance().logInfo("Using Romi drive train");

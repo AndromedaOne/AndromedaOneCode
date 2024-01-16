@@ -8,13 +8,13 @@
 package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 /**
  * Add your docs here.
  */
-public class DriveBackwardTimed extends CommandBase {
+public class DriveBackwardTimed extends Command {
   /**
    * Add your docs here.
    */

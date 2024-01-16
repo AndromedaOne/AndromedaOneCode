@@ -2,12 +2,11 @@ package frc.robot.sensors.gyro;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.RealSensorBase;
 import frc.robot.utils.AngleConversionUtils;
 
-public abstract class RealGyroBase extends RealSensorBase implements Gyro, Gyro4905 {
+public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
 
   private double m_initialZAngleReading = 0.0;
   private double m_initialXAngleReading = 0.0;

@@ -4,12 +4,12 @@
 
 package frc.robot.commands.showBotAudio;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
 import frc.robot.telemetries.Trace;
 
-public class PlayAudio extends CommandBase {
+public class PlayAudio extends Command {
   ShowBotAudioBase m_audio;
   AudioFiles m_audioFile;
 

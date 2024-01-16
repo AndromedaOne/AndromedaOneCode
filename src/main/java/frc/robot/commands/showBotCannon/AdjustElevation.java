@@ -4,7 +4,7 @@
 
 package frc.robot.commands.showBotCannon;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.encoder.EncoderBase;
@@ -42,7 +42,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
     return m_cannonElevatorEncoder.getEncoderValue() - m_encoderOffset;
   }
 
-  private class InitializeElevation extends CommandBase {
+  private class InitializeElevation extends Command {
 
     public InitializeElevation() {
       addRequirements(m_cannonElevator.getSubsystemBase());
@@ -88,7 +88,7 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
     }
   }
 
-  private class AdjustElevationInternal extends CommandBase {
+  private class AdjustElevationInternal extends Command {
     /** Creates a new AdjustElevation. */
     private CannonElevatorBase m_cannonElevator;
 

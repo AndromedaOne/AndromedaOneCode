@@ -2,16 +2,15 @@ package pathgeneratortests;
 
 import java.util.List;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class DummyPathChecker {
   public static final double TOLERANCE = 0.1;
 
-  private static void checkDummyCommandsAreEqual(List<CommandBase> commands1,
-      List<CommandBase> commands2) {
+  private static void checkDummyCommandsAreEqual(List<Command> commands1, List<Command> commands2) {
     int index = 0;
-    for (CommandBase solutionCommand : commands1) {
-      CommandBase generatedCommand = commands2.get(index);
+    for (Command solutionCommand : commands1) {
+      Command generatedCommand = commands2.get(index);
       if (solutionCommand instanceof DummyMoveCommand
           && generatedCommand instanceof DummyMoveCommand) {
         DummyMoveCommand c1 = (DummyMoveCommand) solutionCommand;
@@ -33,8 +32,7 @@ public class DummyPathChecker {
     assert commands1.size() == commands2.size();
   }
 
-  public static void CompareDummyCommands(List<CommandBase> solution,
-      List<CommandBase> generatedOutput) {
+  public static void CompareDummyCommands(List<Command> solution, List<Command> generatedOutput) {
     try {
       checkDummyCommandsAreEqual(solution, generatedOutput);
     } catch (AssertionError e) {
@@ -44,15 +42,15 @@ public class DummyPathChecker {
     }
   }
 
-  private static void printFailureInformation(List<CommandBase> solution,
-      List<CommandBase> generatedOutput) {
+  private static void printFailureInformation(List<Command> solution,
+      List<Command> generatedOutput) {
     System.out.println("---------------------------------------");
     System.out.println("Expected: ");
-    for (CommandBase c : solution) {
+    for (Command c : solution) {
       System.out.println(c.toString());
     }
     System.out.println("\nReceived: ");
-    for (CommandBase c : generatedOutput) {
+    for (Command c : generatedOutput) {
       System.out.println(c.toString());
     }
   }

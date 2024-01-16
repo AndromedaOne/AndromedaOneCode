@@ -8,12 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
 import frc.robot.telemetries.Trace;
 
-public class PlayNextAudioFile extends CommandBase {
+public class PlayNextAudioFile extends Command {
   ShowBotAudioBase m_audio;
   static List<AudioFiles> m_audioFiles = Arrays.asList(AudioFiles.AlsoSprachZarathustra,
       AudioFiles.CrazyTrain, AudioFiles.DeadMansParty, AudioFiles.DreamTheater,

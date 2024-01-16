@@ -1,8 +1,8 @@
 package pathgeneratortests;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class DummyTurnCommand extends CommandBase {
+public class DummyTurnCommand extends Command {
   private double m_angle;
 
   public DummyTurnCommand(double angle) {

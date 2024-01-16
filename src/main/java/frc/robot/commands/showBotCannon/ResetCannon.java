@@ -4,12 +4,12 @@
 
 package frc.robot.commands.showBotCannon;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.telemetries.Trace;
 
-public class ResetCannon extends CommandBase {
+public class ResetCannon extends Command {
   private CannonBase m_cannon;
 
   /** Creates a new ResetCannon. */

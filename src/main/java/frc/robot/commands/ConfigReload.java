@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 
-public class ConfigReload extends CommandBase {
+public class ConfigReload extends Command {
   public ConfigReload() {
 
   }

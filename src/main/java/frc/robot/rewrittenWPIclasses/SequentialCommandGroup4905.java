@@ -21,8 +21,7 @@ import edu.wpi.first.wpilibj2.command.*;
  * <p>
  * This class is provided by the NewCommands VendorDep
  */
-@SuppressWarnings("removal")
-public class SequentialCommandGroup4905 extends CommandGroupBase {
+public class SequentialCommandGroup4905 extends Command {
   private final List<Command> m_commands = new ArrayList<>();
   private int m_currentCommandIndex = -1;
   private boolean m_runWhenDisabled = true;
@@ -38,7 +37,6 @@ public class SequentialCommandGroup4905 extends CommandGroupBase {
     addCommands(commands);
   }
 
-  @Override
   public final void addCommands(Command... commands) {
     if (m_currentCommandIndex != -1) {
       throw new IllegalStateException(

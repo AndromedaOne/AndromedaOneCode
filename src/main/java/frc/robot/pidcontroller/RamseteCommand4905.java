@@ -23,7 +23,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
@@ -44,7 +44,7 @@ import frc.robot.telemetries.TracePair;
  * returning only the raw wheel speeds from the RAMSETE controller.
  */
 @SuppressWarnings("PMD.TooManyFields")
-public class RamseteCommand4905 extends CommandBase {
+public class RamseteCommand4905 extends Command {
   private final Timer m_timer = new Timer();
   private final boolean m_usePID;
   private final Trajectory m_trajectory;

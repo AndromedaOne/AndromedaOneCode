@@ -17,13 +17,13 @@ public class ServoMotorContinuous {
 
   public ServoMotorContinuous(Config motorConfig, boolean useDefaultDeadband) {
     m_servoMotor = new PWM(motorConfig.getInt("port"));
-    m_servoMotor.setBounds(motorConfig.getDouble("maxPWMpulseWidthMS"),
-        useDefaultDeadband ? m_servoMotor.getRawBounds().deadbandMax
-            : motorConfig.getDouble("deadbandMax"),
-        motorConfig.getDouble("centerPWMpusleWithMS"),
-        useDefaultDeadband ? m_servoMotor.getRawBounds().deadbandMax
-            : motorConfig.getDouble("deadbandMin"),
-        motorConfig.getDouble("minPWMpulseWidthMS"));
+    m_servoMotor.setBoundsMicroseconds(motorConfig.getInt("maxPWMpulseWidthMS") * 1000,
+        useDefaultDeadband ? m_servoMotor.getBoundsMicroseconds().deadbandMax * 1000
+            : motorConfig.getInt("deadbandMax") * 1000,
+        motorConfig.getInt("centerPWMpusleWithMS") * 1000,
+        useDefaultDeadband ? m_servoMotor.getBoundsMicroseconds().deadbandMax * 1000
+            : motorConfig.getInt("deadbandMin") * 1000,
+        motorConfig.getInt("minPWMpulseWidthMS") * 1000);
     if (motorConfig.hasPath("invertDirection")) {
       m_invertDirection = true;
     }

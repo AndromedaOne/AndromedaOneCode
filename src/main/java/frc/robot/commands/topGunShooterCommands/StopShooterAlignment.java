@@ -4,10 +4,10 @@
 
 package frc.robot.commands.topGunShooterCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 
-public class StopShooterAlignment extends CommandBase {
+public class StopShooterAlignment extends Command {
   private ShooterAlignmentBase m_shooterAlignment;
 
   public StopShooterAlignment(ShooterAlignmentBase shooterAlignment) {

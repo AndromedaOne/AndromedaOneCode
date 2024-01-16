@@ -6,10 +6,10 @@ package frc.robot.commands;
 
 import java.time.Instant;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.telemetries.Trace;
 
-public class Timer extends CommandBase {
+public class Timer extends Command {
   private long m_duration = 0;
   private Instant m_endTime;
 

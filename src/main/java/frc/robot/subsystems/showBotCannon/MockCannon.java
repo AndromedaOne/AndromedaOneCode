@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.showBotCannon;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
@@ -42,6 +42,6 @@ public class MockCannon implements CannonBase {
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
   }
 }

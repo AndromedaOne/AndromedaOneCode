@@ -4,11 +4,11 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
-public class EnableParkingBrake extends CommandBase {
+public class EnableParkingBrake extends Command {
   /** Creates a new EnableParkingBrake. */
   DriveTrainBase m_driveTrain;
 

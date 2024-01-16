@@ -4,10 +4,10 @@
 
 package frc.robot.commands.topGunShooterCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
 
-public class StopShooter extends CommandBase {
+public class StopShooter extends Command {
   private ShooterWheelBase m_topShooterWheel;
   private ShooterWheelBase m_bottomShooterWheel;
 

@@ -1,6 +1,6 @@
 package frc.robot.pathgeneration.pathgenerators;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
@@ -76,12 +76,12 @@ public abstract class DiagonalPathGenerator extends PathGeneratorBase {
         + "\tangle: " + compassAngle);
   }
 
-  protected abstract CommandBase createTurnCommand(double angle);
+  protected abstract Command createTurnCommand(double angle);
 
-  protected abstract CommandBase createMoveCommand(double distance, double angle);
+  protected abstract Command createMoveCommand(double distance, double angle);
 
   @Override
-  protected CommandBase getGeneratedPath() {
+  protected Command getGeneratedPath() {
     return m_path;
   }
 

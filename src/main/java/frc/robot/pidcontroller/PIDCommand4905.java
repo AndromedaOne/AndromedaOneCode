@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * <p>
  * This class is provided by the NewCommands VendorDep
  */
-public class PIDCommand4905 extends CommandBase {
+public class PIDCommand4905 extends Command {
   protected final PIDController4905 m_controller;
   protected DoubleSupplier m_measurement;
   protected DoubleSupplier m_setpoint;

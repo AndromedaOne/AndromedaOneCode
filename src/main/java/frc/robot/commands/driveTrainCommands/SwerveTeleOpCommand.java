@@ -5,14 +5,14 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveConstarts;
 import frc.robot.telemetries.Trace;
 
-public class SwerveTeleOpCommand extends CommandBase {
+public class SwerveTeleOpCommand extends Command {
   private DriveTrainBase m_swerveDrive;
   DriveController m_driveController;
   private BooleanSupplier m_robotCentricSup;

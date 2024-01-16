@@ -36,9 +36,10 @@ public class ServoMotorPositional {
     HAL.report(tResourceType.kResourceType_Servo, m_servoMotor.getChannel() + 1);
   }
 
-  public void setBounds(double maxPWM, double deadbandMax, double centerPWM, double deadbandMin,
-      double minPWM) {
-    m_servoMotor.setBounds(maxPWM, deadbandMax, centerPWM, deadbandMin, minPWM);
+  public void setBoundsMicroseconds(int m_maxServoPWM, int deadbandMax, int centerPWM,
+      int deadbandMin, int m_minServoPWM) {
+    m_servoMotor.setBoundsMicroseconds(m_maxServoPWM, deadbandMax, centerPWM, deadbandMin,
+        m_minServoPWM);
   }
 
   public void setPeriodMultiplier(PeriodMultiplier mult) {

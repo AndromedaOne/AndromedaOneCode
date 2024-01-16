@@ -4,11 +4,11 @@
 
 package frc.robot.commands.showBotAudio;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
 import frc.robot.telemetries.Trace;
 
-public class StopAudio extends CommandBase {
+public class StopAudio extends Command {
   ShowBotAudioBase m_audio;
 
   /** Creates a new StopAudio. */

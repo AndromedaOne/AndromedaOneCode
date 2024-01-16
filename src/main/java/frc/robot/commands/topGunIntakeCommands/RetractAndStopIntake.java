@@ -4,10 +4,10 @@
 
 package frc.robot.commands.topGunIntakeCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.topGunIntake.IntakeBase;
 
-public class RetractAndStopIntake extends CommandBase {
+public class RetractAndStopIntake extends Command {
   /** Creates a new RetractAndStopIntake. */
   private IntakeBase m_intakeBase;
 

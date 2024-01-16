@@ -22,8 +22,7 @@ import edu.wpi.first.wpilibj2.command.*;
  * <p>
  * This class is provided by the NewCommands VendorDep
  */
-@SuppressWarnings("removal")
-public class ParallelCommandGroup4905 extends CommandGroupBase {
+public class ParallelCommandGroup4905 extends Command {
   // maps commands in this composition to whether they are still running
   private final Map<Command, Boolean> m_commands = new HashMap<>();
   private boolean m_runWhenDisabled = true;
@@ -38,10 +37,10 @@ public class ParallelCommandGroup4905 extends CommandGroupBase {
    * @param commands the commands to include in this composition.
    */
   public ParallelCommandGroup4905(Command... commands) {
+
     addCommands(commands);
   }
 
-  @Override
   public final void addCommands(Command... commands) {
     if (m_commands.containsValue(true)) {
       throw new IllegalStateException(

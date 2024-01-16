@@ -1,4 +1,5 @@
-# Created by https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
+# This gitignore has been specially created by the WPILib team.
+# If you remove items from this file, intellisense might break.
 
 ### C++ ###
 # Prerequisites
@@ -157,14 +158,24 @@ gradle-app.setting
 .settings/
 bin/
 imgui.ini
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+
+# Fleet
+.fleet
 
 # Simulation GUI and other tools window save file
 *-window.json
 
+# Simulation data log directory
+logs/
+
 # Igmore KDiff3 files
 *.orig
 
-# End of https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
-
-/simgui.json
-/simgui-ds.json
+# Folder that has CTRE Phoenix Sim device config storage
+ctre_sim/

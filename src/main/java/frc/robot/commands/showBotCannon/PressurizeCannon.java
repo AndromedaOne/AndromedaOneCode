@@ -4,14 +4,14 @@
 
 package frc.robot.commands.showBotCannon;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.ledlights.LEDRobotInformation;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotCannon.CannonBase;
 import frc.robot.telemetries.Trace;
 
-public class PressurizeCannon extends CommandBase {
+public class PressurizeCannon extends Command {
   /** Creates a new PressurizeCannon. */
   private CannonBase m_cannon;
   private int m_counter = 0;

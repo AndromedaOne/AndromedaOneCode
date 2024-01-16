@@ -6,11 +6,11 @@ package frc.robot.commands.driveTrainCommands;
 
 import java.time.*;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
-public class PauseRobot extends CommandBase {
+public class PauseRobot extends Command {
   private long m_pauseTimeInMS = 0;
   private Instant m_startTime;
   private DriveTrainBase m_driveTrain;

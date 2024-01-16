@@ -1,6 +1,6 @@
 package frc.robot.pathgeneration.pathgenerators;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
 
@@ -13,7 +13,7 @@ public abstract class PathGeneratorBase {
     m_waypoints = waypoints;
   }
 
-  public CommandBase getPath() {
+  public Command getPath() {
     iterateThroughWaypointsToGeneratePath();
     System.out.println("End of generated path\n");
     return getGeneratedPath();
@@ -27,6 +27,6 @@ public abstract class PathGeneratorBase {
 
   protected abstract void generatePathForNextWaypoint(Waypoint waypoint);
 
-  protected abstract CommandBase getGeneratedPath();
+  protected abstract Command getGeneratedPath();
 
 }

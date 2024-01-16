@@ -8,7 +8,7 @@
 package frc.robot.commands.topGunShooterCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.commands.topGunFeederCommands.RunFeeder;
@@ -16,7 +16,7 @@ import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
 import frc.robot.telemetries.Trace;
 
-public class TuneShooterFeedForward extends CommandBase {
+public class TuneShooterFeedForward extends Command {
   /**
    * Creates a new TuneShooterFeedForward.
    */

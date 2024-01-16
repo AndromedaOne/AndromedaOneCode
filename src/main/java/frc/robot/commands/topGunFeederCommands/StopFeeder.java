@@ -4,10 +4,10 @@
 
 package frc.robot.commands.topGunFeederCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 
-public class StopFeeder extends CommandBase {
+public class StopFeeder extends Command {
   private FeederBase m_feeder;
 
   /** Creates a new StopFeeder. */

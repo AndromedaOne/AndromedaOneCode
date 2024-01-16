@@ -7,10 +7,10 @@
 
 package frc.robot.commands.groupCommands.topGunAutonomousCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.telemetries.Trace;
 
-public class DoNothingAuto extends CommandBase {
+public class DoNothingAuto extends Command {
   /**
    * Creates a new DoNothingAuto.
    */

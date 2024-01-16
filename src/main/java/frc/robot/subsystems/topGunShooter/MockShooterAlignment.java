@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.topGunShooter;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MockShooterAlignment implements ShooterAlignmentBase {
@@ -67,7 +67,7 @@ public class MockShooterAlignment implements ShooterAlignmentBase {
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
   }
 
   @Override

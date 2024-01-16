@@ -7,7 +7,7 @@ package frc.robot.subsystems.topGunShooter;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
@@ -52,7 +52,7 @@ public class BottomShooterWheel extends SubsystemBase implements ShooterWheelBas
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
   }
 }

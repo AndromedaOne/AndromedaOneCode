@@ -6,7 +6,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
@@ -39,7 +39,7 @@ public class MockSwerveDriveTrain implements SwerveDriveTrainBase {
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
   }
 
   @Override

@@ -11,12 +11,12 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.telemetries.Trace;
 
+@SuppressWarnings("removal")
 public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   // public static SparkMaxController
 
@@ -26,10 +26,10 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   private final SparkMaxController m_backRight;
 
   // motors on the Left side of the drive
-  private final MotorControllerGroup m_leftmotors;
+  private final edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup m_leftmotors;
 
   // motors on the right side of the drive
-  private final MotorControllerGroup m_rightmotors;
+  private final edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup m_rightmotors;
 
   private double ticksPerInch;
   public static final double metersPerInch = 0.0254;
@@ -43,12 +43,12 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     m_backRight = new SparkMaxController(drivetrainConfig, "backright");
 
     // motors on the left side of the drive
-    m_leftmotors = new MotorControllerGroup(m_frontLeft.getMotorController(),
-        m_backLeft.getMotorController());
+    m_leftmotors = new edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup(
+        m_frontLeft.getMotorController(), m_backLeft.getMotorController());
 
     // motors on the right side of the drive.
-    m_rightmotors = new MotorControllerGroup(m_frontRight.getMotorController(),
-        m_backRight.getMotorController());
+    m_rightmotors = new edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup(
+        m_frontRight.getMotorController(), m_backRight.getMotorController());
 
     ticksPerInch = drivetrainConfig.getDouble("ticksPerInch");
   }
@@ -110,13 +110,12 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     return encoderVelocityAvg;
   }
 
-  @Override
-  protected MotorControllerGroup getLeftSpeedControllerGroup() {
+  protected edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup getLeftSpeedControllerGroup() {
     return m_leftmotors;
   }
 
   @Override
-  protected MotorControllerGroup getRightSpeedControllerGroup() {
+  protected edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup getRightSpeedControllerGroup() {
     return m_rightmotors;
   }
 

@@ -4,11 +4,11 @@
 
 package frc.robot.commands.topGunShooterCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 import frc.robot.telemetries.Trace;
 
-public class InitializeShooterAlignment extends CommandBase {
+public class InitializeShooterAlignment extends Command {
   private ShooterAlignmentBase m_shooterAlignment;
   private boolean m_rotateUp = true;
 

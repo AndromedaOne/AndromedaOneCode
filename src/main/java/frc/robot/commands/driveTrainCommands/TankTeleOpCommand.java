@@ -10,7 +10,7 @@ package frc.robot.commands.driveTrainCommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
@@ -23,7 +23,7 @@ import frc.robot.telemetries.TracePair;
 /**
  * Allows you to drive the robot using the drive controller.
  */
-public class TankTeleOpCommand extends CommandBase {
+public class TankTeleOpCommand extends Command {
 
   // Make the controllers a little easier to get to.
   private DriveController m_driveController = Robot.getInstance().getOIContainer()

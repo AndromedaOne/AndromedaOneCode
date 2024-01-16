@@ -1,6 +1,6 @@
 package frc.robot.pathgeneration.pathgenerators;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
@@ -35,7 +35,7 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
    * @param angle is a compassheading x such that 0<= x < 360 degrees
    */
   @Override
-  protected CommandBase createTurnCommand(double angle) {
+  protected Command createTurnCommand(double angle) {
     if (m_pauseAfterTurn) {
       return (new SequentialCommandGroup(new TurnToCompassHeading(angle),
           new PauseRobot(10, m_driveTrain)));
@@ -49,7 +49,7 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
    * @param distance is a distance in inches
    */
   @Override
-  protected CommandBase createMoveCommand(double distance, double angle) {
+  protected Command createMoveCommand(double distance, double angle) {
     return new MoveUsingEncoder(m_driveTrain, distance, angle, m_maxOutput);
   }
 
