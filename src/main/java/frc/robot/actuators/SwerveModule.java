@@ -56,7 +56,7 @@ public class SwerveModule {
   }
 
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-    desiredState = OnboardModuleState.optimize(desiredState, getState().angle);
+    desiredState = SwerveModuleState.optimize(desiredState, Rotation2d.fromDegrees(absoluteAngleEncoder.getPosition()));
     setAngle(desiredState);
     setSpeed(desiredState, isOpenLoop);
   }
@@ -79,9 +79,8 @@ public class SwerveModule {
     m_angleController.setFF(SwerveDriveConstarts.Swerve.angleKFF);
     m_angleController.setPositionPIDWrappingEnabled(true);
     m_angleController.setPositionPIDWrappingMinInput(0);
-    m_angleController.setPositionPIDWrappingMaxInput(359.999999);
+    m_angleController.setPositionPIDWrappingMaxInput(360);
     m_angleMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
-    // m_angleController.setSmartMotionAllowedClosedLoopError(0, 0);
     m_angleMotor.burnFlash();
   }
 

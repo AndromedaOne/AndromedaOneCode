@@ -56,12 +56,12 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   @Override
   public void move(Translation2d translation, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
-    ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
-    chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(),
+    ChassisSpeeds fieldRelativechassisSpeeds = new ChassisSpeeds();
+    fieldRelativechassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(),
         rotation, getYaw());
+    ChassisSpeeds robotRelativeChassisSpeed = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
     SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
-        .toSwerveModuleStates(fieldRelative ? chassisSpeeds
-            : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
+        .toSwerveModuleStates(robotRelativeChassisSpeed);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
         SwerveDriveConstarts.Swerve.maxSpeed);
     for (SwerveModule mod : mSwerveMods) {
@@ -69,9 +69,9 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     }
     SmartDashboard.putNumber("translation Y", translation.getY());
     SmartDashboard.putNumber("rotation", rotation);
-    SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
-    SmartDashboard.putNumber("ChassisSpeeds Y", chassisSpeeds.vyMetersPerSecond);
-    SmartDashboard.putNumber("ChassisSpeeds O", chassisSpeeds.omegaRadiansPerSecond);
+    SmartDashboard.putNumber("ChassisSpeeds X", robotRelativeChassisSpeed.vxMetersPerSecond);
+    SmartDashboard.putNumber("ChassisSpeeds Y", robotRelativeChassisSpeed.vyMetersPerSecond);
+    SmartDashboard.putNumber("ChassisSpeeds O", robotRelativeChassisSpeed.omegaRadiansPerSecond);
   }
 
   public Pose2d getPose() {
