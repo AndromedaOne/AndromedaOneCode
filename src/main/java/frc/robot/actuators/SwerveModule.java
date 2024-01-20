@@ -14,14 +14,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.lib.math.OnboardModuleState;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveConstarts;
 import frc.robot.utils.CANSparkMaxUtil;
 import frc.robot.utils.CANSparkMaxUtil.Usage;
 
 public class SwerveModule {
   private int m_moduleNumber;
-  private Rotation2d m_lastAngle;
   private CANSparkMax m_angleMotor;
   private CANSparkMax m_driveMotor;
   private SparkPIDController m_angleController;
@@ -51,12 +49,9 @@ public class SwerveModule {
     driveEncoder = m_driveMotor.getEncoder();
     m_driveController = m_driveMotor.getPIDController();
     configDriveMotor();
-
-    m_lastAngle = getState().angle;
   }
 
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-    desiredState = SwerveModuleState.optimize(desiredState, Rotation2d.fromDegrees(absoluteAngleEncoder.getPosition()));
     setAngle(desiredState);
     setSpeed(desiredState, isOpenLoop);
   }
@@ -116,13 +111,9 @@ public class SwerveModule {
   }
 
   private void setAngle(SwerveModuleState desiredState) {
-    Rotation2d angle = (Math
-        .abs(desiredState.speedMetersPerSecond) <= (SwerveDriveConstarts.Swerve.maxSpeed * 0.01))
-            ? m_lastAngle
-            : desiredState.angle;
-    m_angleController.setReference(angle.getDegrees(), ControlType.kPosition);
-    m_lastAngle = angle;
-    SmartDashboard.putNumber("mod " + m_moduleNumber + " setAngle", angle.getDegrees());
+    double angle = desiredState.angle.getDegrees();
+    m_angleController.setReference(angle, ControlType.kPosition);
+    SmartDashboard.putNumber("mod " + m_moduleNumber + " setAngle", angle);
   }
 
   public int getModuleNumber() {

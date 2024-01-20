@@ -48,30 +48,28 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     }
     swerveOdometry = new SwerveDriveOdometry(SwerveDriveConstarts.Swerve.swerveKinematics, getYaw(),
         swerveModulePositions);
-
-    field = new Field2d();
-    SmartDashboard.putData("Field", field);
   }
 
   @Override
   public void move(Translation2d translation, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
-    ChassisSpeeds fieldRelativechassisSpeeds = new ChassisSpeeds();
-    fieldRelativechassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(),
-        rotation, getYaw());
-    ChassisSpeeds robotRelativeChassisSpeed = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+
+    ChassisSpeeds chassisSpeeds = fieldRelative
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
+            getYaw())
+        : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+
     SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
-        .toSwerveModuleStates(robotRelativeChassisSpeed);
+        .toSwerveModuleStates(chassisSpeeds);
+
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
         SwerveDriveConstarts.Swerve.maxSpeed);
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
     }
-    SmartDashboard.putNumber("translation Y", translation.getY());
-    SmartDashboard.putNumber("rotation", rotation);
-    SmartDashboard.putNumber("ChassisSpeeds X", robotRelativeChassisSpeed.vxMetersPerSecond);
-    SmartDashboard.putNumber("ChassisSpeeds Y", robotRelativeChassisSpeed.vyMetersPerSecond);
-    SmartDashboard.putNumber("ChassisSpeeds O", robotRelativeChassisSpeed.omegaRadiansPerSecond);
+    SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("ChassisSpeeds Y", chassisSpeeds.vyMetersPerSecond);
+    SmartDashboard.putNumber("ChassisSpeeds O", chassisSpeeds.omegaRadiansPerSecond);
   }
 
   public Pose2d getPose() {
