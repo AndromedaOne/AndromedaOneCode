@@ -8,6 +8,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,6 +34,12 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
   private Field2d field;
+
+  // this is used to publish the swervestates to NetworkTables so that they can be
+  // used
+  // in AdvantageScope to show the state of the swerve drive
+  StructArrayPublisher<SwerveModuleState> m_publisher = NetworkTableInstance.getDefault()
+      .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
 
   public SwerveDriveTrain() {
     gyro = Robot.getInstance().getSensorsContainer().getGyro();
@@ -105,8 +113,11 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   @Override
   public void periodic() {
 
-    swerveOdometry.update(getYaw(), this.getPositions());
-    field.setRobotPose(getPose());
+    // swerveOdometry.update(getYaw(), this.getPositions());
+    // field.setRobotPose(getPose());
+
+    // publish the states to NetworkTables for AdvantageScope
+    m_publisher.set(getStates());
 
     for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " AngleMotor actual degrees",
