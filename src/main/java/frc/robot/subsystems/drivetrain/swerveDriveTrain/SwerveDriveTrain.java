@@ -18,8 +18,8 @@ import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
-import frc.robot.telemetries.Trace;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
+import frc.robot.telemetries.Trace;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -75,7 +75,9 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
         SwerveDriveConstarts.Swerve.maxSpeed);
     for (SwerveModule mod : mSwerveMods) {
-      mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
+      if (true) {
+        mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
+      }
     }
     SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
     SmartDashboard.putNumber("ChassisSpeeds Y", chassisSpeeds.vyMetersPerSecond);

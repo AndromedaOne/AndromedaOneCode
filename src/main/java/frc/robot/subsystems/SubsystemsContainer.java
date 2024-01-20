@@ -103,11 +103,7 @@ public class SubsystemsContainer {
 
     } else if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       Trace.getInstance().logInfo("Using swerve drive train.");
-      if (Config4905.getConfig4905().getSwerveDrivetrainConfig().getString("motorController")
-          .equals("Swerve")) {
-        Trace.getInstance().logInfo("Using swerve drive train.");
-        m_driveTrain = new SwerveDriveTrain();
-      }
+      m_driveTrain = new SwerveDriveTrain();
       m_driveTrain.init();
 
     } else {

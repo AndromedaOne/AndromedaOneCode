@@ -52,7 +52,7 @@ public class SwerveDriveConstarts {
     public static final int driveContinuousCurrentLimit = 80;
 
     /* Angle Motor PID Values */
-    public static final double angleKP = 0.001;
+    public static final double angleKP = 0.05;
     public static final double angleKI = 0.0;
     public static final double angleKD = 0.0;
     public static final double angleKFF = 0.0;
@@ -83,8 +83,8 @@ public class SwerveDriveConstarts {
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;
 
     /* Motor Inverts */
-    public static final boolean driveInvert = true;
-    public static final boolean angleInvert = true;
+    public static final boolean driveInvert = false;
+    public static final boolean angleInvert = false;
 
     /* Module Specific Constants */
     /* Front Left Module - Module 0 */

@@ -25,6 +25,7 @@ public class SwerveModule {
   private CANSparkMax m_driveMotor;
   private SparkPIDController m_angleController;
   private SparkPIDController m_driveController;
+  private double m_lastAngle = 0;
 
   private RelativeEncoder driveEncoder;
   private AbsoluteEncoder absoluteAngleEncoder;
@@ -49,6 +50,8 @@ public class SwerveModule {
   }
 
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+    // SwerveModuleState.optimize(desiredState,
+    // Rotation2d.fromDegrees(absoluteAngleEncoder.getPosition()));
     setAngle(desiredState);
     setSpeed(desiredState, isOpenLoop);
   }
@@ -57,9 +60,9 @@ public class SwerveModule {
     m_angleMotor.restoreFactoryDefaults();
     absoluteAngleEncoder = m_angleMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     m_angleController = m_angleMotor.getPIDController();
-    //CANSparkMaxUtil.setCANSparkMaxBusUsage(m_angleMotor, Usage.kAll);
+    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_angleMotor, Usage.kPositionOnly);
     m_angleMotor.setSmartCurrentLimit(SwerveDriveConstarts.Swerve.angleContinuousCurrentLimit);
-    m_angleMotor.setInverted(SwerveDriveConstarts.Swerve.angleInvert);
+    // m_angleMotor.setInverted(SwerveDriveConstarts.Swerve.angleInvert);
     m_angleMotor.setIdleMode(SwerveDriveConstarts.Swerve.angleNeutralMode);
     absoluteAngleEncoder
         .setPositionConversionFactor(SwerveDriveConstarts.Swerve.angleConversionFactor);
@@ -76,14 +79,14 @@ public class SwerveModule {
     m_angleController.setPositionPIDWrappingMaxInput(360);
     m_angleMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
     m_angleController.setOutputRange(-1.0, 1.0);
-    //m_angleMotor.burnFlash();
+    // m_angleMotor.burnFlash();
   }
 
   private void configDriveMotor() {
     m_driveMotor.restoreFactoryDefaults();
     driveEncoder = m_driveMotor.getEncoder();
     m_driveController = m_driveMotor.getPIDController();
-    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_driveMotor, Usage.kAll);
+    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_driveMotor, Usage.kVelocityOnly);
     m_driveMotor.setSmartCurrentLimit(SwerveDriveConstarts.Swerve.driveContinuousCurrentLimit);
     m_driveMotor.setInverted(SwerveDriveConstarts.Swerve.driveInvert);
     m_driveMotor.setIdleMode(SwerveDriveConstarts.Swerve.driveNeutralMode);
@@ -91,12 +94,12 @@ public class SwerveModule {
         .setVelocityConversionFactor(SwerveDriveConstarts.Swerve.driveConversionVelocityFactor);
     driveEncoder
         .setPositionConversionFactor(SwerveDriveConstarts.Swerve.driveConversionPositionFactor);
-    m_driveController.setP(SwerveDriveConstarts.Swerve.angleKP);
-    m_driveController.setI(SwerveDriveConstarts.Swerve.angleKI);
-    m_driveController.setD(SwerveDriveConstarts.Swerve.angleKD);
-    m_driveController.setFF(SwerveDriveConstarts.Swerve.angleKFF);
+    m_driveController.setP(SwerveDriveConstarts.Swerve.driveKP);
+    m_driveController.setI(SwerveDriveConstarts.Swerve.driveKI);
+    m_driveController.setD(SwerveDriveConstarts.Swerve.driveKD);
+    m_driveController.setFF(SwerveDriveConstarts.Swerve.driveKFF);
     m_driveMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
-    m_driveMotor.burnFlash();
+    // m_driveMotor.burnFlash();
     driveEncoder.setPosition(0.0);
 
   }
@@ -113,12 +116,23 @@ public class SwerveModule {
   }
 
   private void setAngle(SwerveModuleState desiredState) {
-    double angle = desiredState.angle.getDegrees();
-    if(angle < 0) {
+    double angle = (Math
+        .abs(desiredState.speedMetersPerSecond) <= (SwerveDriveConstarts.Swerve.maxSpeed * 0.01))
+            ? m_lastAngle
+            : desiredState.angle.getDegrees();
+    m_lastAngle = angle;
+    // need to invert the angle because inverting the motor through the motor
+    // controller causes
+    // issues with the onboard pidcontroller
+    // angle -= 180;
+    if (angle < 0) {
       angle += 360;
     }
+
     m_angleController.setReference(angle, ControlType.kPosition);
     SmartDashboard.putNumber("mod " + m_moduleNumber + " setAngle", angle);
+    SmartDashboard.putNumber("Mod " + m_moduleNumber + " desiredstate angle",
+        desiredState.angle.getDegrees());
   }
 
   public int getModuleNumber() {
@@ -126,11 +140,16 @@ public class SwerveModule {
   }
 
   public Rotation2d getAngle() {
-    return Rotation2d.fromDegrees(absoluteAngleEncoder.getPosition());
+    return Rotation2d.fromDegrees(getRawAngle());
   }
 
   public double getRawAngle() {
-    return absoluteAngleEncoder.getPosition();
+    double angle = absoluteAngleEncoder.getPosition();
+    angle -= 180;
+    if (angle < 0) {
+      angle += 360;
+    }
+    return angle;
   }
 
   public SwerveModuleState getState() {
