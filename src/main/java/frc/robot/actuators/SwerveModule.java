@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveConstarts;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.CANSparkMaxUtil;
 import frc.robot.utils.CANSparkMaxUtil.Usage;
 
@@ -36,18 +37,14 @@ public class SwerveModule {
     m_moduleNumber = moduleNumber;
 
     /* Angle Motor Config */
-
+    Trace.getInstance().logInfo("Construct Mod: " + m_moduleNumber);
     m_angleMotor = new CANSparkMax(moduleConstants.getAngleMotorID(),
         CANSparkLowLevel.MotorType.kBrushless);
-    absoluteAngleEncoder = m_angleMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-    m_angleController = m_angleMotor.getPIDController();
     configAngleMotor();
 
     /* drive motor config */
     m_driveMotor = new CANSparkMax(moduleConstants.getDriveMotorID(),
         CANSparkLowLevel.MotorType.kBrushless);
-    driveEncoder = m_driveMotor.getEncoder();
-    m_driveController = m_driveMotor.getPIDController();
     configDriveMotor();
   }
 
@@ -58,7 +55,9 @@ public class SwerveModule {
 
   private void configAngleMotor() {
     m_angleMotor.restoreFactoryDefaults();
-    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_angleMotor, Usage.kAll);
+    absoluteAngleEncoder = m_angleMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    m_angleController = m_angleMotor.getPIDController();
+    //CANSparkMaxUtil.setCANSparkMaxBusUsage(m_angleMotor, Usage.kAll);
     m_angleMotor.setSmartCurrentLimit(SwerveDriveConstarts.Swerve.angleContinuousCurrentLimit);
     m_angleMotor.setInverted(SwerveDriveConstarts.Swerve.angleInvert);
     m_angleMotor.setIdleMode(SwerveDriveConstarts.Swerve.angleNeutralMode);
@@ -76,11 +75,14 @@ public class SwerveModule {
     m_angleController.setPositionPIDWrappingMinInput(0);
     m_angleController.setPositionPIDWrappingMaxInput(360);
     m_angleMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
-    m_angleMotor.burnFlash();
+    m_angleController.setOutputRange(-1.0, 1.0);
+    //m_angleMotor.burnFlash();
   }
 
   private void configDriveMotor() {
     m_driveMotor.restoreFactoryDefaults();
+    driveEncoder = m_driveMotor.getEncoder();
+    m_driveController = m_driveMotor.getPIDController();
     CANSparkMaxUtil.setCANSparkMaxBusUsage(m_driveMotor, Usage.kAll);
     m_driveMotor.setSmartCurrentLimit(SwerveDriveConstarts.Swerve.driveContinuousCurrentLimit);
     m_driveMotor.setInverted(SwerveDriveConstarts.Swerve.driveInvert);
@@ -112,6 +114,9 @@ public class SwerveModule {
 
   private void setAngle(SwerveModuleState desiredState) {
     double angle = desiredState.angle.getDegrees();
+    if(angle < 0) {
+      angle += 360;
+    }
     m_angleController.setReference(angle, ControlType.kPosition);
     SmartDashboard.putNumber("mod " + m_moduleNumber + " setAngle", angle);
   }

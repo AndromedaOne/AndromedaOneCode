@@ -18,6 +18,7 @@ import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
+import frc.robot.telemetries.Trace;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
 /**
@@ -42,6 +43,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
       .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
 
   public SwerveDriveTrain() {
+    Trace.getInstance().logInfo("Construct SwerveDrive");
     gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
     mSwerveMods = new SwerveModule[] {
