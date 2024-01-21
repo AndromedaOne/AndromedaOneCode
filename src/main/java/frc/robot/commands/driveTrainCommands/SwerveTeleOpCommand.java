@@ -43,9 +43,9 @@ public class SwerveTeleOpCommand extends Command {
   public void execute() {
     double translationAxis = m_driveController.getSwerveDriveTrainTranslationAxis();
     double translationLim = translationLimiter.calculate(translationAxis) * .5;
-    double strafeAxis = -m_driveController.getSwerveDriveTrainStrafeAxis();
+    double strafeAxis = m_driveController.getSwerveDriveTrainStrafeAxis();
     double strafeLim = strafeLimiter.calculate(strafeAxis) * .5;
-    double rotationAxis = -m_driveController.getSwerveDriveTrainRotationAxis();
+    double rotationAxis = m_driveController.getSwerveDriveTrainRotationAxis();
     double rotationLim = rotationlimiter.calculate(rotationAxis) * .5;
 
     SmartDashboard.putNumber("Drive controller forward backward", translationLim);

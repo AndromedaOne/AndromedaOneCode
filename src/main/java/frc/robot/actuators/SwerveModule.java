@@ -77,8 +77,11 @@ public class SwerveModule {
     m_angleController.setPositionPIDWrappingEnabled(true);
     m_angleController.setPositionPIDWrappingMinInput(0);
     m_angleController.setPositionPIDWrappingMaxInput(360);
-    m_angleMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
     m_angleController.setOutputRange(-1.0, 1.0);
+
+    m_angleMotor.enableVoltageCompensation(SwerveDriveConstarts.Swerve.voltageComp);
+    m_angleMotor.setInverted(SwerveDriveConstarts.Swerve.angleInvert);
+    absoluteAngleEncoder.setInverted(true);
     // m_angleMotor.burnFlash();
   }
 
@@ -145,7 +148,7 @@ public class SwerveModule {
 
   public double getRawAngle() {
     double angle = absoluteAngleEncoder.getPosition();
-    angle -= 180;
+    // angle -= 180;
     if (angle < 0) {
       angle += 360;
     }
