@@ -72,12 +72,12 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
         .toSwerveModuleStates(chassisSpeeds);
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
-        SwerveDriveConstarts.Swerve.maxSpeed);
+    //SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
+      //  SwerveDriveConstarts.Swerve.maxSpeed);
     for (SwerveModule mod : mSwerveMods) {
-      if (true) {
-        mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
-      }
+      mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
+      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + "SetDesiredState angle",
+          mod.getState().angle.getDegrees());
     }
     SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
     SmartDashboard.putNumber("ChassisSpeeds Y", chassisSpeeds.vyMetersPerSecond);
@@ -123,18 +123,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
 
-    for (SwerveModule mod : mSwerveMods) {
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " AngleMotor actual degrees",
-          mod.getAngle().getDegrees());
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " AngleMotor raw degrees",
-          mod.getRawAngle());
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " AngleMotor desired degrees",
-          mod.getState().angle.getDegrees());
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " DriveMotor desired speed",
-          mod.getState().speedMetersPerSecond);
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Drive Motor input speed",
-          mod.getDriveMotorCurrentSpeed());
-    }
+    
   }
 
   // @Override
