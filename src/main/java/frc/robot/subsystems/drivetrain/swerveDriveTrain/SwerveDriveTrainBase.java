@@ -17,9 +17,9 @@ public interface SwerveDriveTrainBase extends DriveTrainBase {
 
   public abstract void setSwerveOdometry(SwerveDriveOdometry swerveOdometry);
 
-  public abstract SwerveModule[] getmSwerveMods();
+  public abstract SwerveModule[] getSwerveMods();
 
-  public abstract void setmSwerveMods(SwerveModule[] mSwerveMods);
+  public abstract void setSwerveMods(SwerveModule[] swerveMods);
 
   public abstract Field2d getField();
 

@@ -14,12 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
-import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
+import frc.robot.subsystems.drivetrain.ParkingBrakeStates; 
 import frc.robot.telemetries.Trace;
+import com.typesafe.config.Config;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -31,10 +33,11 @@ import frc.robot.telemetries.Trace;
  */
 public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainBase {
 
-  private Gyro4905 gyro;
-  private SwerveDriveOdometry swerveOdometry;
-  private SwerveModule[] mSwerveMods;
-  private Field2d field;
+  private Gyro4905 m_gyro;
+  private SwerveDriveOdometry m_swerveOdometry;
+  private SwerveModule[] m_SwerveMods;
+  private Field2d m_field;
+  private Config m_config;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -43,10 +46,10 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
       .getStructArrayTopic("/MyStates", SwerveModuleState.struct).publish();
 
   public SwerveDriveTrain() {
-    Trace.getInstance().logInfo("Construct SwerveDrive");
-    gyro = Robot.getInstance().getSensorsContainer().getGyro();
+    m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig().getConfig("SwerveDriveConstants");
+    m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
-    mSwerveMods = new SwerveModule[] {
+    m_SwerveMods = new SwerveModule[] {
         new SwerveModule(0, SwerveDriveConstarts.Swerve.Mod0.constants),
         new SwerveModule(1, SwerveDriveConstarts.Swerve.Mod1.constants),
         new SwerveModule(2, SwerveDriveConstarts.Swerve.Mod2.constants),
@@ -54,9 +57,9 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     for (int i = 0; i < 4; ++i) {
-      swerveModulePositions[i] = mSwerveMods[i].getPosition();
+      swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    swerveOdometry = new SwerveDriveOdometry(SwerveDriveConstarts.Swerve.swerveKinematics, getYaw(),
+    m_swerveOdometry = new SwerveDriveOdometry(SwerveDriveConstarts.Swerve.swerveKinematics, getYaw(),
         swerveModulePositions);
   }
 
@@ -73,8 +76,8 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
         .toSwerveModuleStates(chassisSpeeds);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
-        SwerveDriveConstarts.Swerve.maxSpeed);
-    for (SwerveModule mod : mSwerveMods) {
+        m_config.getDouble("maxSpeed"));
+    for (SwerveModule mod : m_SwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
     }
     SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
@@ -83,16 +86,16 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   }
 
   public Pose2d getPose() {
-    return swerveOdometry.getPoseMeters();
+    return m_swerveOdometry.getPoseMeters();
   }
 
   public void resetOdometry(Pose2d pose) {
-    swerveOdometry.resetPosition(getYaw(), this.getPositions(), pose);
+    m_swerveOdometry.resetPosition(getYaw(), this.getPositions(), pose);
   }
 
   public SwerveModuleState[] getStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : m_SwerveMods) {
       states[mod.getModuleNumber()] = mod.getState();
     }
     return states;
@@ -100,16 +103,16 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : m_SwerveMods) {
       positions[mod.getModuleNumber()] = mod.getPosition();
     }
     return positions;
   }
 
   public Rotation2d getYaw() {
-    return (SwerveDriveConstarts.Swerve.invertGyro)
-        ? Rotation2d.fromDegrees(360 - gyro.getCompassHeading())
-        : Rotation2d.fromDegrees(gyro.getCompassHeading());
+    return (m_config.getBoolean("invertGyro")
+        ? Rotation2d.fromDegrees(360 - m_gyro.getCompassHeading())
+        : Rotation2d.fromDegrees(m_gyro.getCompassHeading()));
   }
 
   @Override
@@ -120,7 +123,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : m_SwerveMods) {
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Actual angle", mod.getRawAngle());
     }
 
@@ -141,27 +144,27 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   }
 
   public SwerveDriveOdometry getSwerveOdometry() {
-    return swerveOdometry;
+    return m_swerveOdometry;
   }
 
   public void setSwerveOdometry(SwerveDriveOdometry swerveOdometry) {
-    this.swerveOdometry = swerveOdometry;
+    this.m_swerveOdometry = swerveOdometry;
   }
 
-  public SwerveModule[] getmSwerveMods() {
-    return mSwerveMods;
+  public SwerveModule[] getSwerveMods() {
+    return m_SwerveMods;
   }
 
-  public void setmSwerveMods(SwerveModule[] mSwerveMods) {
-    this.mSwerveMods = mSwerveMods;
+  public void setSwerveMods(SwerveModule[] swerveMods) {
+    this.m_SwerveMods = swerveMods;
   }
 
   public Field2d getField() {
-    return field;
+    return m_field;
   }
 
   public void setField(Field2d field) {
-    this.field = field;
+    this.m_field = field;
   }
 
   @Override
@@ -212,7 +215,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   @Override
   public void setCoast(boolean value) {
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : m_SwerveMods) {
       mod.setCoast(value);
     }
   }
