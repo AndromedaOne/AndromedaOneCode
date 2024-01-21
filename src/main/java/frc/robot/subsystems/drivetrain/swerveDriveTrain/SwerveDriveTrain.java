@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -39,7 +40,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   // used
   // in AdvantageScope to show the state of the swerve drive
   StructArrayPublisher<SwerveModuleState> m_publisher = NetworkTableInstance.getDefault()
-      .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
+      .getStructArrayTopic("/MyStates", SwerveModuleState.struct).publish();
 
   public SwerveDriveTrain() {
     Trace.getInstance().logInfo("Construct SwerveDrive");
@@ -71,12 +72,10 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
         .toSwerveModuleStates(chassisSpeeds);
 
-    // SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
-    // SwerveDriveConstarts.Swerve.maxSpeed);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
+        SwerveDriveConstarts.Swerve.maxSpeed);
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + "SetDesiredState angle",
-          mod.getState().angle.getDegrees());
     }
     SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
     SmartDashboard.putNumber("ChassisSpeeds Y", chassisSpeeds.vyMetersPerSecond);
@@ -121,6 +120,9 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
+    for (SwerveModule mod : mSwerveMods) {
+      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Actual angle", mod.getRawAngle());
+    }
 
   }
 

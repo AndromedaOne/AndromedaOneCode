@@ -50,10 +50,10 @@ public class SwerveModule {
   }
 
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-    // SwerveModuleState.optimize(desiredState,
-    // Rotation2d.fromDegrees(absoluteAngleEncoder.getPosition()));
-    setAngle(desiredState);
-    setSpeed(desiredState, isOpenLoop);
+    SwerveModuleState optState = SwerveModuleState.optimize(desiredState,
+        Rotation2d.fromDegrees(getRawAngle()));
+    setAngle(optState);
+    setSpeed(optState, isOpenLoop);
   }
 
   private void configAngleMotor() {

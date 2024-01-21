@@ -83,7 +83,7 @@ public class SwerveDriveConstarts {
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;
 
     /* Motor Inverts */
-    public static final boolean driveInvert = true;
+    public static final boolean driveInvert = false;
     public static final boolean angleInvert = true;
 
     /* Module Specific Constants */
