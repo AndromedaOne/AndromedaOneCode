@@ -9,4 +9,5 @@ public interface BillFeederBase extends SubsystemInterface {
   public abstract void stopBillFeeder();
 
   public abstract void runBillFeederInReverse(double speed);
+
 }

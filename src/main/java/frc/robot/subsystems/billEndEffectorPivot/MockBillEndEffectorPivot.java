@@ -6,17 +6,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class MockBillEndEffectorPivot implements BillEndEffectorPivotBase {
   @Override
   public void initialize() {
-
   }
 
   @Override
   public void moveHighEndEffector() {
-
   }
 
   @Override
   public void moveLowEndEffector() {
-
   }
 
   public BillEndEffectorState getState() {

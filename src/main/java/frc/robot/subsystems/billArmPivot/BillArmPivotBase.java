@@ -15,4 +15,5 @@ public interface BillArmPivotBase extends SubsystemInterface {
   public abstract void disengageArmBrake();
 
   public abstract BillArmBrakeState getState();
+
 }

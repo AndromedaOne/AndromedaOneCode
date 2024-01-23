@@ -15,12 +15,10 @@ public class MockBillArmPivot implements BillArmPivotBase {
 
   @Override
   public void engageArmBrake() {
-
   }
 
   @Override
   public void disengageArmBrake() {
-
   }
 
   public BillArmBrakeState getState() {
