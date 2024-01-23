@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -19,9 +21,7 @@ import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
-import frc.robot.subsystems.drivetrain.ParkingBrakeStates; 
-import frc.robot.telemetries.Trace;
-import com.typesafe.config.Config;
+import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -46,7 +46,8 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
       .getStructArrayTopic("/MyStates", SwerveModuleState.struct).publish();
 
   public SwerveDriveTrain() {
-    m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig().getConfig("SwerveDriveConstants");
+    m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
+        .getConfig("SwerveDriveConstants");
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
     m_SwerveMods = new SwerveModule[] {
@@ -59,8 +60,8 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    m_swerveOdometry = new SwerveDriveOdometry(SwerveDriveConstarts.Swerve.swerveKinematics, getYaw(),
-        swerveModulePositions);
+    m_swerveOdometry = new SwerveDriveOdometry(SwerveDriveConstarts.Swerve.swerveKinematics,
+        getYaw(), swerveModulePositions);
   }
 
   @Override
@@ -75,8 +76,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
     SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
         .toSwerveModuleStates(chassisSpeeds);
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
-        m_config.getDouble("maxSpeed"));
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
     for (SwerveModule mod : m_SwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
     }

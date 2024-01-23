@@ -56,12 +56,12 @@ public class MockSwerveDriveTrain implements SwerveDriveTrainBase {
   }
 
   @Override
-  public SwerveModule[] getmSwerveMods() {
+  public SwerveModule[] getSwerveMods() {
     return null;
   }
 
   @Override
-  public void setmSwerveMods(SwerveModule[] mSwerveMods) {
+  public void setSwerveMods(SwerveModule[] mSwerveMods) {
   };
 
   @Override

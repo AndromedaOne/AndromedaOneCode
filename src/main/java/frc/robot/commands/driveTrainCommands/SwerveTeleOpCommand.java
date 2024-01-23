@@ -16,6 +16,7 @@ public class SwerveTeleOpCommand extends Command {
   private DriveTrainBase m_swerveDrive;
   DriveController m_driveController;
   private BooleanSupplier m_robotCentricSup;
+  private double m_kp = 0.25;
 
   private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
   private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
@@ -41,11 +42,11 @@ public class SwerveTeleOpCommand extends Command {
 
   @Override
   public void execute() {
-    double translationAxis = m_driveController.getSwerveDriveTrainTranslationAxis();
+    double translationAxis = m_driveController.getSwerveDriveTrainTranslationAxis()*m_kp;
     double translationLim = translationLimiter.calculate(translationAxis);
-    double strafeAxis = m_driveController.getSwerveDriveTrainStrafeAxis();
+    double strafeAxis = m_driveController.getSwerveDriveTrainStrafeAxis()*m_kp;
     double strafeLim = strafeLimiter.calculate(strafeAxis);
-    double rotationAxis = m_driveController.getSwerveDriveTrainRotationAxis();
+    double rotationAxis = m_driveController.getSwerveDriveTrainRotationAxis()*m_kp;
     double rotationLim = rotationlimiter.calculate(rotationAxis);
 
     SmartDashboard.putNumber("Drive controller forward backward", translationLim);
