@@ -15,8 +15,8 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RedDriveStation3SpeakerWithAmp extends SequentialCommandGroup {
-  public RedDriveStation3SpeakerWithAmp() {
+public class CentralSpeaker3Scores extends SequentialCommandGroup {
+  public CentralSpeaker3Scores(boolean blueAlliance) {
     // Positioned by the Amp
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
