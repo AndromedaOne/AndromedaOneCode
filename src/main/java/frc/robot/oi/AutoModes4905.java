@@ -14,7 +14,6 @@ import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3Scores
 import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2Speaker;
 import frc.robot.commands.groupCommands.autonomousCommands.DriveStation3SpeakerWithAmp;
 import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
-import frc.robot.commands.groupCommands.autonomousCommands.TaxiAuto;
 import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -37,7 +36,7 @@ public class AutoModes4905 {
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
     if (Config4905.getConfig4905().m_isSwerveBot()) {
-      m_autoChooser.addOption("1: Taxi", new TaxiAuto());
+      m_autoChooser.addOption("1: Emergency Backup", new EmergencyBackup());
       m_autoChooser.addOption("2: Score Amp, Pick Up Note, Score Amp", new AmpScore(blueAlliance));
       m_autoChooser.addOption(
           "3: Central Speaker Start, Score Speaker, Pick Up Note, Score Speaker",
@@ -49,7 +48,6 @@ public class AutoModes4905 {
           new DriveStation2Speaker(blueAlliance));
       m_autoChooser.addOption("6: Drive Station Start, Score Speaker, Pick up Note, Score Speaker",
           new DriveStation3SpeakerWithAmp(blueAlliance));
-      m_autoChooser.addOption("12: EmergencyBackup", new EmergencyBackup());
     }
 
     SmartDashboard.putData("autoModes", m_autoChooser);

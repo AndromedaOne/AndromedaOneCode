@@ -21,11 +21,12 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup {
     // 1. Positioned by the Central Speaker.
     // 2. Shoot and score the preloaded note into the speaker.
     // 3. drive forward.
-    // 4. pick up the note directly behind the robot start location.
+    // 4. pick up the note B1 for blue or R1 for red behind the robot start
+    // location.
     // 5. Drive Backward enough to shoot the note into the speaker.
     // 6. Shoot and score the note into the speaker.
     // 7. Drive forward turn left to go around stage to get to centerline.
-    // 8. Pick up note on centerline that is directly behind starting point
+    // 8. Pick up note C3
     // 9. Start driving backward so the robot can score the note in Teleop.
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();

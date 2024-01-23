@@ -21,12 +21,12 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup {
     // 1. Positioned by drive station 3 and angeled towards the speaker in order to
     // score
     // 2. Shoot and score the preloaded note into the speaker
-    // 3. Turn right and drive forward and pick up the note directly behind starting
-    // point
+    // 3. Turn right and drive forward and pick up the note B1
+    // (Turn left and dr)
     // 4. Turn left and drive towards the amp
     // 5. Score the note into the amp
     // 6. Turn right and drive towards the centerline
-    // 7. Pick up the note directly behind starting location
+    // 7. Pick up the note C1
     // 8. Start driving back to score the note in Teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();

@@ -21,9 +21,9 @@ public class AmpScore extends SequentialCommandGroup {
     // 2 for blue move left to the Amp
     // (for red move right)
     // 3 Score preloaded Note in the amp with Head(endifector)
-    // 4 for blue strafe foward and Right to nearest Note and rotate 90 degrees to
+    // 4 for blue strafe foward and Right to Note B1 and rotate 90 degrees to
     // left from front
-    // (for Red strafe foward and left to Nearest Note and rotate 90 degrees to
+    // (for Red strafe foward and left to Note R1 and rotate 90 degrees to
     // right from front)
     // 5 pick up Note
     // 6 For blue strafe back and to the left then turn 90 degrees to the right from

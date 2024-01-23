@@ -18,6 +18,14 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 public class CentralSpeaker3Scores extends SequentialCommandGroup {
   public CentralSpeaker3Scores(boolean blueAlliance) {
     // Positioned by the Amp
+    // Score preloaded note in speaker
+    // drive foward toward Note B2/R2
+    // pick up Note B2/R2
+    // Score on speaker from point X (X=TBD)
+    // drive foward and around the stage to B3/R3
+    // pick up B3/R3
+    // drive back towards the speaker
+    // score 3rd Note on speaker from point Y (Y=TBD)
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
     //
