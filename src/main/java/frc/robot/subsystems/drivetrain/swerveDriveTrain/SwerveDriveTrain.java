@@ -37,8 +37,8 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   private SwerveDriveOdometry m_swerveOdometry;
   private SwerveModule[] m_SwerveMods;
   private Field2d m_field;
-  private Config m_config;
-
+  private Config m_config; 
+  public static SwerveDriveKinematics m_swerveKinematics;
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
   // in AdvantageScope to show the state of the swerve drive
@@ -47,7 +47,15 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   public SwerveDriveTrain() {
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
-        .getConfig("SwerveDriveConstants");
+    .getConfig("SwerveDriveConstants");
+    int wheelBase = m_config.getInt("wheelBase");
+    int trackWidth = m_config.getInt("trackWidth");
+    m_swerveKinematics = new SwerveDriveKinematics(
+        new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+        new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+        new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+        new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+   
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
     m_SwerveMods = new SwerveModule[] {
