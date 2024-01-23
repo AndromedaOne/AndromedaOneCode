@@ -49,6 +49,7 @@ public class Config4905 {
   private Config m_intakeConfig;
   private Config m_feederConfig;
   private Config m_armPivotConfig;
+  private Config m_endEffectorConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -162,6 +163,7 @@ public class Config4905 {
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
     m_armPivotConfig = load("billarmpivot.conf");
+    m_endEffectorConfig = load("endeffectorpivot.conf");
   }
 
   public Config getControllersConfig() {
@@ -374,6 +376,17 @@ public class Config4905 {
 
   public Config getArmPivotConfig() {
     return m_armPivotConfig;
+  }
+
+  public Config getEndEffectorPivotConfig() {
+    return m_endEffectorConfig;
+  }
+
+  public boolean doesEndEffectorExist() {
+    if (m_config.hasPath("subsystems.billEndEffectorPivot")) {
+      return true;
+    }
+    return false;
   }
 
   public Config getIntakeConfig() {
