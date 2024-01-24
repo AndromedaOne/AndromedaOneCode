@@ -1,18 +1,13 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.actuators.SwerveModule;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
-public class MockSwerveDriveTrain implements SwerveDriveTrainBase {
+public class MockSwerveDriveTrain implements DriveTrainBase {
 
   @Override
   public Pose2d getPose() {
@@ -21,16 +16,6 @@ public class MockSwerveDriveTrain implements SwerveDriveTrainBase {
 
   @Override
   public void resetOdometry(Pose2d pose) {
-  }
-
-  @Override
-  public SwerveModuleState[] getStates() {
-    return null;
-  }
-
-  @Override
-  public SwerveModulePosition[] getPositions() {
-    return null;
   }
 
   @Override
@@ -47,38 +32,11 @@ public class MockSwerveDriveTrain implements SwerveDriveTrainBase {
   }
 
   @Override
-  public SwerveDriveOdometry getSwerveOdometry() {
-    return null;
-  }
-
-  @Override
-  public void setSwerveOdometry(SwerveDriveOdometry swerveOdometry) {
-  }
-
-  @Override
-  public SwerveModule[] getSwerveMods() {
-    return null;
-  }
-
-  @Override
-  public void setSwerveMods(SwerveModule[] mSwerveMods) {
-  };
-
-  @Override
-  public Field2d getField() {
-    return null;
-  };
-
-  @Override
-  public void setField(Field2d field) {
-  }
-
-  @Override
   public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
   }
 
   @Override
-  public void move(Translation2d translation, double rotation, boolean fieldRelative,
+  public void move(double forwardBackSpeed, double strafe, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
   }
 
@@ -88,8 +46,8 @@ public class MockSwerveDriveTrain implements SwerveDriveTrainBase {
   }
 
   @Override
-  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
-      boolean isOpenLoop, double heading) {
+  public void moveUsingGyro(double forwardBackward, double strafe, double rotation,
+      boolean fieldRelative, boolean isOpenLoop, double heading) {
 
   }
 

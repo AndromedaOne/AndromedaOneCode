@@ -20,6 +20,7 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
@@ -31,13 +32,13 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
  * https://github.com/Team364/BaseFalconSwerve#setting-constants
  * 
  */
-public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainBase {
+public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   private Gyro4905 m_gyro;
   private SwerveDriveOdometry m_swerveOdometry;
   private SwerveModule[] m_SwerveMods;
   private Field2d m_field;
-  private Config m_config; 
+  private Config m_config;
   public static SwerveDriveKinematics m_swerveKinematics;
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -47,7 +48,7 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   public SwerveDriveTrain() {
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
-    .getConfig("SwerveDriveConstants");
+        .getConfig("SwerveDriveConstants");
     int wheelBase = m_config.getInt("wheelBase");
     int trackWidth = m_config.getInt("trackWidth");
     m_swerveKinematics = new SwerveDriveKinematics(
@@ -55,34 +56,28 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
         new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
-   
+
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
-    m_SwerveMods = new SwerveModule[] {
-        new SwerveModule(0, SwerveDriveConstarts.Swerve.Mod0.constants),
-        new SwerveModule(1, SwerveDriveConstarts.Swerve.Mod1.constants),
-        new SwerveModule(2, SwerveDriveConstarts.Swerve.Mod2.constants),
-        new SwerveModule(3, SwerveDriveConstarts.Swerve.Mod3.constants) };
+    m_SwerveMods = new SwerveModule[] { new SwerveModule(0), new SwerveModule(1),
+        new SwerveModule(2), new SwerveModule(3) };
 
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    m_swerveOdometry = new SwerveDriveOdometry(SwerveDriveConstarts.Swerve.swerveKinematics,
-        getYaw(), swerveModulePositions);
+    m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics, getYaw(), swerveModulePositions);
   }
 
   @Override
-  public void move(Translation2d translation, double rotation, boolean fieldRelative,
+  public void move(double forwardBackward, double strafe, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
 
     ChassisSpeeds chassisSpeeds = fieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-            getYaw())
-        : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(forwardBackward, strafe, rotation, getYaw())
+        : new ChassisSpeeds(forwardBackward, strafe, rotation);
 
-    SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
-        .toSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(chassisSpeeds);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
     for (SwerveModule mod : m_SwerveMods) {
@@ -125,10 +120,6 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   @Override
   public void periodic() {
-
-    // swerveOdometry.update(getYaw(), this.getPositions());
-    // field.setRobotPose(getPose());
-
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
     for (SwerveModule mod : m_SwerveMods) {
@@ -177,48 +168,62 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   @Override
   public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
+    throw new RuntimeException("ERROR: " + getClass().getSimpleName() + " does not implement move");
   }
 
   @Override
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs,
       double heading) {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement moveUsingGyro");
   }
 
   @Override
-  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
-      boolean isOpenLoop, double heading) {
+  public void moveUsingGyro(double forwardBackward, double strafe, double rotation,
+      boolean fieldRelative, boolean isOpenLoop, double heading) {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement moveUsingGyro");
   }
 
   @Override
   public void stop() {
+    throw new RuntimeException("ERROR: " + getClass().getSimpleName() + " does not implement stop");
   }
 
   @Override
   public void enableParkingBrakes() {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement enableParkingBrakes");
   }
 
   @Override
   public void disableParkingBrakes() {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement disableParkingBrakes");
   }
 
   @Override
   public ParkingBrakeStates getParkingBrakeState() {
-    return null;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement getParkingBrakeState");
   }
 
   @Override
   public boolean hasParkingBrake() {
-    return false;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement hasParkingBrake");
   }
 
   @Override
   public double getRobotPositionInches() {
-    return 0;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement getRobotPositionInches");
   }
 
   @Override
   public double getRobotVelocityInches() {
-    return 0;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement getRobotVelocityInches");
   }
 
   @Override
@@ -230,11 +235,14 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   @Override
   public void setDriveTrainMode(DriveTrainModeEnum mode) {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement setDriveTrainMode");
   }
 
   @Override
   public DriveTrainModeEnum getDriveTrainMode() {
-    return null;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement getDriveTrainMode");
   }
 
 }

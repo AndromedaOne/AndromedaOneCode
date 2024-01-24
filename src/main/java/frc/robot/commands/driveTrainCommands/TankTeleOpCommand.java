@@ -33,9 +33,9 @@ public class TankTeleOpCommand extends Command {
   private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
   private Gyro4905 m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
   private int m_currentDelay = 0;
-  private int kDelay = 0;
+  private int m_kDelay = 0;
   private double m_savedRobotAngle = 0.0;
-  private double kProportion = 0.0;
+  private double m_kProportion = 0.0;
 
   private enum SlowMidFastModeStates {
     FASTMODEBUTTONRELEASED, FASTMODEBUTTONPRESSED, MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED,
@@ -49,8 +49,8 @@ public class TankTeleOpCommand extends Command {
    */
   public TankTeleOpCommand() {
     addRequirements(m_driveTrain.getSubsystemBase());
-    kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
-    kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
+    m_kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
+    m_kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
     if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
       m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
     }
@@ -74,9 +74,9 @@ public class TankTeleOpCommand extends Command {
     // cause
     // the robot to oscillate, so wait some kDelay before starting to correct if
     // driving straight
-    if ((rotateStickValue == 0.0) && (m_currentDelay > kDelay)
+    if ((rotateStickValue == 0.0) && (m_currentDelay > m_kDelay)
         && (forwardBackwardStickValue != 0.0)) {
-      rotateStickValue = -(m_savedRobotAngle - m_gyro.getZAngle()) * kProportion;
+      rotateStickValue = -(m_savedRobotAngle - m_gyro.getZAngle()) * m_kProportion;
     } else if (rotateStickValue != 0.0) {
       m_savedRobotAngle = m_gyro.getZAngle();
       m_currentDelay = 0;

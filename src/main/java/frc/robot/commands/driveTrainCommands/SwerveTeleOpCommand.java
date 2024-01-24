@@ -3,13 +3,11 @@ package frc.robot.commands.driveTrainCommands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
-import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveConstarts;
 import frc.robot.telemetries.Trace;
 
 public class SwerveTeleOpCommand extends Command {
@@ -52,10 +50,8 @@ public class SwerveTeleOpCommand extends Command {
     SmartDashboard.putNumber("Drive controller forward backward", translationLim);
     SmartDashboard.putNumber("Drive controller strafe", strafeLim);
     SmartDashboard.putNumber("Drive controller rotation", rotationLim);
-    m_swerveDrive.move(
-        new Translation2d(translationLim, strafeLim).times(SwerveDriveConstarts.Swerve.maxSpeed),
-        rotationLim * SwerveDriveConstarts.Swerve.maxAngularVelocity,
-        !m_robotCentricSup.getAsBoolean(), true);
+    m_swerveDrive.move(translationLim, strafeLim, rotationLim, !m_robotCentricSup.getAsBoolean(),
+        true);
   }
 
   @Override

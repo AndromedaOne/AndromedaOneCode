@@ -16,7 +16,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
-import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveConstarts;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.CANSparkMaxUtil;
 import frc.robot.utils.CANSparkMaxUtil.Usage;
@@ -33,15 +32,14 @@ public class SwerveModule {
   private RelativeEncoder driveEncoder;
   private AbsoluteEncoder absoluteAngleEncoder;
 
-  private final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(
-      SwerveDriveConstarts.Swerve.driveKS, SwerveDriveConstarts.Swerve.driveKV,
-      SwerveDriveConstarts.Swerve.driveKA);
+  private SimpleMotorFeedforward m_feedForward;
 
-  public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {
+  public SwerveModule(int moduleNumber) {
     m_moduleNumber = moduleNumber;
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getConfig("SwerveDriveConstants");
-
+    m_feedForward = new SimpleMotorFeedforward(m_config.getDouble("driveKS"),
+        m_config.getDouble("driveKV"), m_config.getDouble("driveKA"));
     /* Angle Motor Config */
     Trace.getInstance().logInfo("Construct Mod: " + m_moduleNumber);
     m_angleMotor = new CANSparkMax(m_config.getInt("Mod" + m_moduleNumber + ".angleMotorID"),
@@ -116,7 +114,7 @@ public class SwerveModule {
       m_driveMotor.set(percentOutput);
     } else {
       m_driveController.setReference(desiredState.speedMetersPerSecond, ControlType.kVelocity, 0,
-          feedForward.calculate(desiredState.speedMetersPerSecond));
+          m_feedForward.calculate(desiredState.speedMetersPerSecond));
     }
   }
 
