@@ -11,7 +11,6 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
@@ -196,13 +195,15 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   }
 
   @Override
-  public void move(Translation2d translation, double rotation, boolean fieldRelative,
+  public void move(double forwardBackSpeedn, double strafe, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
   }
 
   @Override
-  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
-      boolean isOpenLoop, double heading) {
+  public void moveUsingGyro(double forwardBackward, double strafe, double rotation,
+      boolean fieldRelative, boolean isOpenLoop, double heading) {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement moveUsingGyro for swerve");
   }
 
 }
