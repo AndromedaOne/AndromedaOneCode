@@ -23,6 +23,7 @@ import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
+import frc.robot.telemetries.Trace;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -39,6 +40,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private SwerveModule[] m_SwerveMods;
   private Field2d m_field;
   private Config m_config;
+  private ParkingBrakeStates m_ParkingBrakeState = ParkingBrakeStates.BRAKESOFF;
   public static SwerveDriveKinematics m_swerveKinematics;
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -81,7 +83,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
     for (SwerveModule mod : m_SwerveMods) {
-      mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
+      mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop, false);
     }
     SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
     SmartDashboard.putNumber("ChassisSpeeds Y", chassisSpeeds.vyMetersPerSecond);
@@ -192,27 +194,26 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public void enableParkingBrakes() {
-    // throw new RuntimeException(
-    // "ERROR: " + getClass().getSimpleName() + " does not implement
-    // enableParkingBrakes");
+    m_ParkingBrakeState = ParkingBrakeStates.BRAKESON;
+    setX();
+    Trace.getInstance().logInfo("Parking Brakes Enabled");
   }
 
   @Override
   public void disableParkingBrakes() {
-    // throw new RuntimeException(
-    // "ERROR: " + getClass().getSimpleName() + " does not implement
-    // disableParkingBrakes");
+    m_ParkingBrakeState = ParkingBrakeStates.BRAKESOFF;
+    setToZero();
+    Trace.getInstance().logInfo("Parking Brakes Disabled");
   }
 
   @Override
   public ParkingBrakeStates getParkingBrakeState() {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement getParkingBrakeState");
+    return m_ParkingBrakeState;
   }
 
   @Override
   public boolean hasParkingBrake() {
-    return false;
+    return true;
   }
 
   @Override
@@ -244,6 +245,22 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   public DriveTrainModeEnum getDriveTrainMode() {
     throw new RuntimeException(
         "ERROR: " + getClass().getSimpleName() + " does not implement getDriveTrainMode");
+  }
+
+  private void setX() {
+    for (SwerveModule mod : m_SwerveMods) {
+      int angle = -45;
+      if ((mod.getModuleNumber() == 0) || (mod.getModuleNumber() == 3)) {
+        angle = 45;
+      }
+      mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), false, true);
+    }
+  }
+
+  private void setToZero() {
+    for (SwerveModule mod : m_SwerveMods) {
+      mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), false, true);
+    }
   }
 
 }

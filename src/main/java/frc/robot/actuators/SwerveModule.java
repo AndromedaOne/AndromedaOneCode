@@ -52,10 +52,11 @@ public class SwerveModule {
     configDriveMotor();
   }
 
-  public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+  public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop,
+      boolean overRide) {
     SwerveModuleState optState = SwerveModuleState.optimize(desiredState,
         Rotation2d.fromDegrees(getRawAngle()));
-    setAngle(optState);
+    setAngle(optState, overRide);
     setSpeed(optState, isOpenLoop);
   }
 
@@ -118,12 +119,14 @@ public class SwerveModule {
     }
   }
 
-  private void setAngle(SwerveModuleState desiredState) {
-    double angle = (Math
-        .abs(desiredState.speedMetersPerSecond) <= (m_config.getDouble("maxSpeed") * 0.01))
-            ? m_lastAngle
-            : desiredState.angle.getDegrees();
+  private void setAngle(SwerveModuleState desiredState, boolean overRide) {
+    double angle = desiredState.angle.getDegrees();
+    if (!overRide
+        && Math.abs(desiredState.speedMetersPerSecond) <= (m_config.getDouble("maxSpeed") * 0.01)) {
+      angle = m_lastAngle;
+    }
     m_lastAngle = angle;
+
     // need to invert the angle because inverting the motor through the motor
     // controller causes
     // issues with the onboard pidcontroller
