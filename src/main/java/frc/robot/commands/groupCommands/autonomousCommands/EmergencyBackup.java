@@ -17,7 +17,10 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class EmergencyBackup extends SequentialCommandGroup {
   public EmergencyBackup() {
+    // Both
     // Positioned by the Amp
+    // Move foward out of the starting zone and park
+    // wait for teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
     //

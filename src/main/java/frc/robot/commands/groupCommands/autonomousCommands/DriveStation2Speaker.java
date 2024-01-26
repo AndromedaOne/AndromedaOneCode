@@ -17,7 +17,19 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveStation2Speaker extends SequentialCommandGroup {
   public DriveStation2Speaker(boolean blueAlliance) {
-    // Positioned by the Amp
+    // Both
+    // Angled towards speaker by driver station 2
+    // Score preloaded note in speaker
+    // Red instructions
+    // Drive foward towards R3 note
+    // Turn Right and pick up the R3 note
+    // Turn left to angle towards the speaker and score the note
+    // Drive left and then forward to centerline without crossing
+    // Blue instructions
+    // Drive forward towards B3 note
+    // Turn left and pick up B3 note
+    // Turn Right to angle towards the speaker and score the note
+    // Drive right and then forward to centerline without crossing
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
     //

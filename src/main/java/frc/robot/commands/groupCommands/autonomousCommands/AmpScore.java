@@ -17,20 +17,20 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AmpScore extends SequentialCommandGroup {
   public AmpScore(boolean blueAlliance) {
-    // 1 Robot is started straight
-    // 2 for blue move left to the Amp
+    // Robot is started straight
+    // for blue move left to the Amp
     // (for red move right)
-    // 3 Score preloaded Note in the amp with Head(endifector)
-    // 4 for blue strafe foward and Right to Note B1 and rotate 90 degrees to
+    // Score preloaded Note in the amp with Head(endifector)
+    // for blue strafe foward and Right to Note B1 and rotate 90 degrees to
     // left from front
     // (for Red strafe foward and left to Note R1 and rotate 90 degrees to
     // right from front)
-    // 5 pick up Note
-    // 6 For blue strafe back and to the left then turn 90 degrees to the right from
+    // pick up Note R1/B1
+    // For blue strafe back and to the left then turn 90 degrees to the right from
     // front
     // (for Red strafe back and to the right then turn 90 degrees to the left from
     // front)
-    // 7 score picked up Note in Amp
+    // score picked up Note in Amp
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
     //
