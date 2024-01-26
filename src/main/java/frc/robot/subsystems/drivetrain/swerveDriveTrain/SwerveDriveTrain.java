@@ -192,14 +192,16 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public void enableParkingBrakes() {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement enableParkingBrakes");
+    // throw new RuntimeException(
+    // "ERROR: " + getClass().getSimpleName() + " does not implement
+    // enableParkingBrakes");
   }
 
   @Override
   public void disableParkingBrakes() {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement disableParkingBrakes");
+    // throw new RuntimeException(
+    // "ERROR: " + getClass().getSimpleName() + " does not implement
+    // disableParkingBrakes");
   }
 
   @Override
@@ -210,8 +212,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public boolean hasParkingBrake() {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement hasParkingBrake");
+    return false;
   }
 
   @Override
