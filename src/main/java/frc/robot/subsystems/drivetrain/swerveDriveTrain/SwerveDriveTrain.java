@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -14,12 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
-import frc.robot.telemetries.Trace;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -29,13 +32,14 @@ import frc.robot.telemetries.Trace;
  * https://github.com/Team364/BaseFalconSwerve#setting-constants
  * 
  */
-public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainBase {
+public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
-  private Gyro4905 gyro;
-  private SwerveDriveOdometry swerveOdometry;
-  private SwerveModule[] mSwerveMods;
-  private Field2d field;
-
+  private Gyro4905 m_gyro;
+  private SwerveDriveOdometry m_swerveOdometry;
+  private SwerveModule[] m_SwerveMods;
+  private Field2d m_field;
+  private Config m_config;
+  public static SwerveDriveKinematics m_swerveKinematics;
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
   // in AdvantageScope to show the state of the swerve drive
@@ -43,38 +47,40 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
       .getStructArrayTopic("/MyStates", SwerveModuleState.struct).publish();
 
   public SwerveDriveTrain() {
-    Trace.getInstance().logInfo("Construct SwerveDrive");
-    gyro = Robot.getInstance().getSensorsContainer().getGyro();
+    m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
+        .getConfig("SwerveDriveConstants");
+    int wheelBase = m_config.getInt("wheelBase");
+    int trackWidth = m_config.getInt("trackWidth");
+    m_swerveKinematics = new SwerveDriveKinematics(
+        new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+        new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+        new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+        new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
-    mSwerveMods = new SwerveModule[] {
-        new SwerveModule(0, SwerveDriveConstarts.Swerve.Mod0.constants),
-        new SwerveModule(1, SwerveDriveConstarts.Swerve.Mod1.constants),
-        new SwerveModule(2, SwerveDriveConstarts.Swerve.Mod2.constants),
-        new SwerveModule(3, SwerveDriveConstarts.Swerve.Mod3.constants) };
+    m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
+
+    m_SwerveMods = new SwerveModule[] { new SwerveModule(0), new SwerveModule(1),
+        new SwerveModule(2), new SwerveModule(3) };
 
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     for (int i = 0; i < 4; ++i) {
-      swerveModulePositions[i] = mSwerveMods[i].getPosition();
+      swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    swerveOdometry = new SwerveDriveOdometry(SwerveDriveConstarts.Swerve.swerveKinematics, getYaw(),
-        swerveModulePositions);
+    m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics, getYaw(), swerveModulePositions);
   }
 
   @Override
-  public void move(Translation2d translation, double rotation, boolean fieldRelative,
+  public void move(double forwardBackward, double strafe, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
 
     ChassisSpeeds chassisSpeeds = fieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-            getYaw())
-        : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(forwardBackward, strafe, rotation, getYaw())
+        : new ChassisSpeeds(forwardBackward, strafe, rotation);
 
-    SwerveModuleState[] swerveModuleStates = SwerveDriveConstarts.Swerve.swerveKinematics
-        .toSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(chassisSpeeds);
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
-        SwerveDriveConstarts.Swerve.maxSpeed);
-    for (SwerveModule mod : mSwerveMods) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
+    for (SwerveModule mod : m_SwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop);
     }
     SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
@@ -83,16 +89,16 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   }
 
   public Pose2d getPose() {
-    return swerveOdometry.getPoseMeters();
+    return m_swerveOdometry.getPoseMeters();
   }
 
   public void resetOdometry(Pose2d pose) {
-    swerveOdometry.resetPosition(getYaw(), this.getPositions(), pose);
+    m_swerveOdometry.resetPosition(getYaw(), this.getPositions(), pose);
   }
 
   public SwerveModuleState[] getStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : m_SwerveMods) {
       states[mod.getModuleNumber()] = mod.getState();
     }
     return states;
@@ -100,27 +106,23 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : m_SwerveMods) {
       positions[mod.getModuleNumber()] = mod.getPosition();
     }
     return positions;
   }
 
   public Rotation2d getYaw() {
-    return (SwerveDriveConstarts.Swerve.invertGyro)
-        ? Rotation2d.fromDegrees(360 - gyro.getCompassHeading())
-        : Rotation2d.fromDegrees(gyro.getCompassHeading());
+    return (m_config.getBoolean("invertGyro")
+        ? Rotation2d.fromDegrees(360 - m_gyro.getCompassHeading())
+        : Rotation2d.fromDegrees(m_gyro.getCompassHeading()));
   }
 
   @Override
   public void periodic() {
-
-    // swerveOdometry.update(getYaw(), this.getPositions());
-    // field.setRobotPose(getPose());
-
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : m_SwerveMods) {
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Actual angle", mod.getRawAngle());
     }
 
@@ -141,58 +143,71 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
   }
 
   public SwerveDriveOdometry getSwerveOdometry() {
-    return swerveOdometry;
+    return m_swerveOdometry;
   }
 
   public void setSwerveOdometry(SwerveDriveOdometry swerveOdometry) {
-    this.swerveOdometry = swerveOdometry;
+    this.m_swerveOdometry = swerveOdometry;
   }
 
-  public SwerveModule[] getmSwerveMods() {
-    return mSwerveMods;
+  public SwerveModule[] getSwerveMods() {
+    return m_SwerveMods;
   }
 
-  public void setmSwerveMods(SwerveModule[] mSwerveMods) {
-    this.mSwerveMods = mSwerveMods;
+  public void setSwerveMods(SwerveModule[] swerveMods) {
+    this.m_SwerveMods = swerveMods;
   }
 
   public Field2d getField() {
-    return field;
+    return m_field;
   }
 
   public void setField(Field2d field) {
-    this.field = field;
+    this.m_field = field;
   }
 
   @Override
   public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
+    throw new RuntimeException("ERROR: " + getClass().getSimpleName() + " does not implement move");
   }
 
   @Override
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs,
       double heading) {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement moveUsingGyro");
   }
 
   @Override
-  public void moveUsingGyro(Translation2d translations, double rotation, boolean fieldRelative,
-      boolean isOpenLoop, double heading) {
+  public void moveUsingGyro(double forwardBackward, double strafe, double rotation,
+      boolean fieldRelative, boolean isOpenLoop, double heading) {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement moveUsingGyro");
   }
 
   @Override
   public void stop() {
+    throw new RuntimeException("ERROR: " + getClass().getSimpleName() + " does not implement stop");
   }
 
   @Override
   public void enableParkingBrakes() {
+    // throw new RuntimeException(
+    // "ERROR: " + getClass().getSimpleName() + " does not implement
+    // enableParkingBrakes");
   }
 
   @Override
   public void disableParkingBrakes() {
+    // throw new RuntimeException(
+    // "ERROR: " + getClass().getSimpleName() + " does not implement
+    // disableParkingBrakes");
   }
 
   @Override
   public ParkingBrakeStates getParkingBrakeState() {
-    return null;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement getParkingBrakeState");
   }
 
   @Override
@@ -202,28 +217,33 @@ public class SwerveDriveTrain extends SubsystemBase implements SwerveDriveTrainB
 
   @Override
   public double getRobotPositionInches() {
-    return 0;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement getRobotPositionInches");
   }
 
   @Override
   public double getRobotVelocityInches() {
-    return 0;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement getRobotVelocityInches");
   }
 
   @Override
   public void setCoast(boolean value) {
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : m_SwerveMods) {
       mod.setCoast(value);
     }
   }
 
   @Override
   public void setDriveTrainMode(DriveTrainModeEnum mode) {
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement setDriveTrainMode");
   }
 
   @Override
   public DriveTrainModeEnum getDriveTrainMode() {
-    return null;
+    throw new RuntimeException(
+        "ERROR: " + getClass().getSimpleName() + " does not implement getDriveTrainMode");
   }
 
 }
