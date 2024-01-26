@@ -18,16 +18,26 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 public class CentralSpeaker2Scores extends SequentialCommandGroup {
   public CentralSpeaker2Scores(boolean blueAlliance) {
     // List of what this auto mode should do:
-    // 1. Positioned by the Central Speaker.
+    // Both
+    // 1. Positioned at Central Speaker.
     // 2. Shoot and score the preloaded note into the speaker.
     // 3. drive forward.
-    // 4. pick up the note B1 for blue or R1 for red behind the robot start
-    // location.
-    // 5. Drive Backward enough to shoot the note into the speaker.
+    // Red instructions
+    // 4. drive forward and pick up the R2 Note
+    // Blue instructions
+    // 4. drive forward and pick up the B2 Note
+    // 5. Drive Backwards if necessary to shoot the note into the speaker.
     // 6. Shoot and score the note into the speaker.
-    // 7. Drive forward turn left to go around stage to get to centerline.
-    // 8. Pick up note C3
-    // 9. Start driving backward so the robot can score the note in Teleop.
+    // Red instructions
+    // 7. Drive forward and then diagonally right and then diagonally left to
+    // go around stage to get to C2 Note
+    // Blue instructions
+    // 7. Drive forward and then diagonally left and then diagonally right to
+    // go around stage to get to C2 Note
+    // Both
+    // 8. Pick up note C2
+    // 9. Start driving backward towards speaker so the robot can score the note in
+    // Teleop.
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
     //

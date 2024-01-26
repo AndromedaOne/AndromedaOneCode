@@ -17,7 +17,7 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CentralSpeaker3Scores extends SequentialCommandGroup {
   public CentralSpeaker3Scores(boolean blueAlliance) {
-    // Positioned by the Amp
+    // Positioned by the central speaker
     // Score preloaded note in speaker
     // drive foward toward Note B2/R2
     // pick up Note B2/R2
