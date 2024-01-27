@@ -16,6 +16,9 @@ import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
+import frc.robot.subsystems.billClimber.BillClimberBase;
+import frc.robot.subsystems.billClimber.MockBillClimber;
+import frc.robot.subsystems.billClimber.RealBillClimber;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billEndEffectorPosition.MockBillEndEffectorPosition;
 import frc.robot.subsystems.billEndEffectorPosition.RealBillEndEffectorPosition;
@@ -81,6 +84,7 @@ public class SubsystemsContainer {
   BillShooterBase m_billShooter;
   BillFeederBase m_billFeeder;
   BillEndEffectorPositionBase m_endEffector;
+  BillClimberBase m_billClimber;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -215,6 +219,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock Billthoven end effector");
       m_endEffector = new MockBillEndEffectorPosition();
     }
+    if (Config4905.getConfig4905().doesBillClimberExist()) {
+      Trace.getInstance().logInfo("using real Billthoven climber");
+      m_billClimber = new RealBillClimber();
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven climber");
+      m_billClimber = new MockBillClimber();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -267,6 +278,10 @@ public class SubsystemsContainer {
 
   public BillEndEffectorPositionBase getBillEffectorPosition() {
     return m_endEffector;
+  }
+
+  public BillClimberBase getBillClimber() {
+    return m_billClimber;
   }
 
   public void setDefaultCommands() {

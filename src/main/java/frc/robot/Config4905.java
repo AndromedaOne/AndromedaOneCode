@@ -52,6 +52,7 @@ public class Config4905 {
   private Config m_endEffectorConfig;
   private Config m_billShooterConfig;
   private Config m_billFeederConfig;
+  private Config m_billClimberConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -168,6 +169,7 @@ public class Config4905 {
     m_endEffectorConfig = load("endeffectorposition.conf");
     m_billShooterConfig = load("billshooter.conf");
     m_billFeederConfig = load("billfeeder.conf");
+    m_billClimberConfig = load("billclimber.conf");
   }
 
   public Config getControllersConfig() {
@@ -421,6 +423,17 @@ public class Config4905 {
 
   public boolean doesIntakeExist() {
     if (m_config.hasPath("subsystems.intake")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getBillClimberConfig() {
+    return m_billClimberConfig;
+  }
+
+  public boolean doesBillClimberExist() {
+    if (m_config.hasPath("subsystems.billClimber")) {
       return true;
     }
     return false;
