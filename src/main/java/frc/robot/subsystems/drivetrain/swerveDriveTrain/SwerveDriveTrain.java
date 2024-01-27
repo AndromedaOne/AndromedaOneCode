@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,6 +22,7 @@ import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.subsystems.drivetrain.DriveTrainMode;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
@@ -44,6 +46,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Config m_config;
   private ParkingBrakeStates m_ParkingBrakeState = ParkingBrakeStates.BRAKESOFF;
   public static SwerveDriveKinematics m_swerveKinematics;
+  private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
+  private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
+  private SlewRateLimiter rotationlimiter = new SlewRateLimiter(3.0);
+  private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
   // in AdvantageScope to show the state of the swerve drive
@@ -76,6 +82,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public void move(double forwardBackward, double strafe, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
+    double translationLim = translationLimiter.calculate(forwardBackward);
+    double strafeLim = strafeLimiter.calculate(strafe);
+    double rotationLim = rotationlimiter.calculate(rotation);
+
+    SmartDashboard.putNumber("Drive controller forward backward", translationLim);
+    SmartDashboard.putNumber("Drive controller strafe", strafeLim);
+    SmartDashboard.putNumber("Drive controller rotation", rotationLim);
     Translation2d translation2d = new Translation2d(forwardBackward, strafe)
         .times(m_config.getDouble("maxSpeed"));
     ChassisSpeeds chassisSpeeds = fieldRelative
@@ -178,17 +191,17 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
-    move(fowardBackSpeed, 0, rotateAmount, false,
-      true);
+    move(fowardBackSpeed, 0, rotateAmount, false, true);
   }
 
   @Override
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs,
       double compassHeading) {
-        if (rotation == 0.0) {
+    if (rotation == 0.0) {
       double robotDeltaAngle = AngleConversionUtils
           .calculateMinimalCompassHeadingDifference(m_gyro.getCompassHeading(), compassHeading);
-      rotation = robotDeltaAngle *  Config4905.getConfig4905().getCommandConstantsConfig().getDouble("moveUsingGyroP");
+      rotation = robotDeltaAngle
+          * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("moveUsingGyroP");
       Trace.getInstance().addTrace(true, "MoveUsingGyro",
           new TracePair("CompassHeading", compassHeading),
           new TracePair("GyroCompassHeading", m_gyro.getCompassHeading()),
@@ -256,14 +269,12 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public void setDriveTrainMode(DriveTrainModeEnum mode) {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement setDriveTrainMode");
+    m_driveTrainMode.setDriveTrainMode(mode);
   }
 
   @Override
   public DriveTrainModeEnum getDriveTrainMode() {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement getDriveTrainMode");
+    return m_driveTrainMode.getDriveTrainMode();
   }
 
   private void setX() {
@@ -281,5 +292,4 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), false, true);
     }
   }
-
 }
