@@ -37,9 +37,6 @@ public interface DriveTrainBase extends SubsystemInterface {
    *                you can tell it to correct to the heading it should have turn
    *                to.
    */
-  public abstract void moveUsingGyro(double forwardBackward, double strafe, double rotation,
-      boolean fieldRelative, boolean isOpenLoop, double heading);
-
   public void stop();
 
   public abstract void enableParkingBrakes();

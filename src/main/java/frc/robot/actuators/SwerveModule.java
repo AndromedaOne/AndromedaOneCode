@@ -96,8 +96,9 @@ public class SwerveModule {
     m_driveMotor.setInverted(m_config.getBoolean("driveInvert"));
     double positionConversionFactor = m_config.getDouble("wheelDiameter") * Math.PI
         / m_config.getDouble("driveGearRatio");
-    driveEncoder.setPositionConversionFactor(positionConversionFactor);
-    driveEncoder.setVelocityConversionFactor(positionConversionFactor / 60.0);
+    // These conversion factors are in meters.
+    driveEncoder.setPositionConversionFactor(positionConversionFactor / 39.3701);
+    driveEncoder.setVelocityConversionFactor(positionConversionFactor * 39.3701 / 60.0);
 
     m_driveController.setP(m_config.getDouble("driveKP"));
     m_driveController.setI(m_config.getDouble("driveKI"));
@@ -159,11 +160,11 @@ public class SwerveModule {
   }
 
   public SwerveModuleState getState() {
-    return new SwerveModuleState(driveEncoder.getVelocity(), getAngle());
+    return new SwerveModuleState(driveEncoder.getPosition(), getAngle());
   }
 
   public SwerveModulePosition getPosition() {
-    return new SwerveModulePosition(driveEncoder.getVelocity(), getAngle());
+    return new SwerveModulePosition(driveEncoder.getPosition(), getAngle());
   }
 
   public double getDriveMotorCurrentSpeed() {

@@ -199,11 +199,4 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
       boolean isOpenLoop) {
   }
 
-  @Override
-  public void moveUsingGyro(double forwardBackward, double strafe, double rotation,
-      boolean fieldRelative, boolean isOpenLoop, double heading) {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement moveUsingGyro for swerve");
-  }
-
 }

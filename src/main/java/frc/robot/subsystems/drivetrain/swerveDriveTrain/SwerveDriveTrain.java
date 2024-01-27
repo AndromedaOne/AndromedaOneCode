@@ -74,10 +74,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public void move(double forwardBackward, double strafe, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
-
+    Translation2d translation2d = new Translation2d(forwardBackward, strafe)
+        .times(m_config.getDouble("maxSpeed"));
     ChassisSpeeds chassisSpeeds = fieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(forwardBackward, strafe, rotation, getYaw())
-        : new ChassisSpeeds(forwardBackward, strafe, rotation);
+
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(translation2d.getX(), translation2d.getY(),
+            rotation, getYaw())
+        : new ChassisSpeeds(translation2d.getX(), translation2d.getY(), rotation);
 
     SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(chassisSpeeds);
 
@@ -126,8 +129,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     m_publisher.set(getStates());
     for (SwerveModule mod : m_SwerveMods) {
       SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Actual angle", mod.getRawAngle());
+      SmartDashboard.putNumber("distance mod " + mod.getModuleNumber(),
+          mod.getPosition().distanceMeters);
+      SmartDashboard.putNumber("angle mod" + mod.getModuleNumber(), mod.getAngle().getDegrees());
     }
-
+    SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
   }
 
   // @Override
@@ -176,20 +182,12 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs,
       double heading) {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement moveUsingGyro");
-  }
-
-  @Override
-  public void moveUsingGyro(double forwardBackward, double strafe, double rotation,
-      boolean fieldRelative, boolean isOpenLoop, double heading) {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement moveUsingGyro");
+    move(forwardBackward, 0, rotation, false, true);
   }
 
   @Override
   public void stop() {
-    throw new RuntimeException("ERROR: " + getClass().getSimpleName() + " does not implement stop");
+    move(0, 0, 0, true, true);
   }
 
   @Override
@@ -218,8 +216,16 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public double getRobotPositionInches() {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement getRobotPositionInches");
+    double distance = 0;
+    for (SwerveModule mod : m_SwerveMods) {
+      double modDistance = mod.getPosition().distanceMeters;
+      if ((mod.getAngle().getDegrees() < 185) && (mod.getAngle().getDegrees() > 175)) {
+        modDistance = -modDistance;
+      }
+      distance = distance + modDistance;
+    }
+    distance /= 4;
+    return distance * 39.3701;
   }
 
   @Override

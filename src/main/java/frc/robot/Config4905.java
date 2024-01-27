@@ -167,12 +167,16 @@ public class Config4905 {
     return m_drivetrainConfig;
   }
 
-  public boolean doesDrivetrainExist() {
+  public boolean doesTankDrivetrainExist() {
     if (m_config.hasPath("subsystems.driveTrain")) {
       return true;
     } else {
       return false;
     }
+  }
+
+  public boolean doesDrivetrainExist() {
+    return doesTankDrivetrainExist() || doesSwerveDrivetrainExist();
   }
 
   public Config getSwerveDrivetrainConfig() {

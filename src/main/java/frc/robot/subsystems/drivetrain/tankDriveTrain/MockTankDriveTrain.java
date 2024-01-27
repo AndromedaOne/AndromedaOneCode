@@ -125,9 +125,4 @@ public class MockTankDriveTrain implements TankDriveTrain {
       boolean isOpenLoop) {
   }
 
-  @Override
-  public void moveUsingGyro(double forwardBackward, double strafe, double rotation,
-      boolean fieldRelative, boolean isOpenLoop, double heading) {
-  }
-
 }

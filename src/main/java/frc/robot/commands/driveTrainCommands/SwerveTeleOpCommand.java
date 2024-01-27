@@ -14,7 +14,7 @@ public class SwerveTeleOpCommand extends Command {
   private DriveTrainBase m_swerveDrive;
   DriveController m_driveController;
   private BooleanSupplier m_robotCentricSup;
-  private double m_kp = 0.25;
+  private double m_kp = 1;
 
   private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
   private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);

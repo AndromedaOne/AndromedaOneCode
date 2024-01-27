@@ -83,7 +83,7 @@ public class SubsystemsContainer {
      * The settings will be printed to the console.
      *
      */
-    if (Config4905.getConfig4905().doesDrivetrainExist()) {
+    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
       Trace.getInstance().logInfo("Using real Drive Train.");
       if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("sparkMax")) {
@@ -225,7 +225,7 @@ public class SubsystemsContainer {
   }
 
   public void setDefaultCommands() {
-    if (Config4905.getConfig4905().doesDrivetrainExist()) {
+    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TankTeleOpCommand());
     } else {
       if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {

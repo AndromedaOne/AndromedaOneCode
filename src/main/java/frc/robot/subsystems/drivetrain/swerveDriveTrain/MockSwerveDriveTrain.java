@@ -46,12 +46,6 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   }
 
   @Override
-  public void moveUsingGyro(double forwardBackward, double strafe, double rotation,
-      boolean fieldRelative, boolean isOpenLoop, double heading) {
-
-  }
-
-  @Override
   public void stop() {
   }
 
