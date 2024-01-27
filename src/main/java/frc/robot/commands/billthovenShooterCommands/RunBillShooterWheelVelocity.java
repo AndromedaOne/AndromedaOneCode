@@ -1,0 +1,133 @@
+package frc.robot.commands.billthovenShooterCommands;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
+import com.typesafe.config.Config;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.pidcontroller.FeedForward;
+import frc.robot.pidcontroller.PIDCommand4905;
+import frc.robot.pidcontroller.PIDController4905SampleStop;
+import frc.robot.subsystems.billShooter.BillShooterBase;
+import frc.robot.telemetries.Trace;
+import frc.robot.utils.InterpolatingMap;
+
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class RunBillShooterWheelVelocity extends PIDCommand4905 {
+  /** Creates a new RunOneShooterWheelVelocity. */
+  private BillShooterBase m_shooterWheel;
+  private DoubleSupplier m_setpoint;
+  private boolean m_tuneValues;
+  private double m_feedForwardValue;
+  private double m_pValue;
+  private double m_target = 0;
+  private static Config m_shooterConfig;
+  private FeedForward m_feedForward = new ShooterFeedForward();
+  private InterpolatingMap m_kMap;
+  private InterpolatingMap m_pMap;
+  private BooleanSupplier m_finishedCondition;
+
+  private class ShooterFeedForward implements FeedForward {
+    @Override
+    public double calculate() {
+      double kv = 0;
+      if (m_tuneValues) {
+        kv = m_feedForwardValue;
+      } else {
+        kv = m_kMap.getInterpolatedValue(m_target);
+      }
+      return kv * m_shooterWheel.getShooterWheelRpm();
+    }
+  }
+
+  public RunBillShooterWheelVelocity(BillShooterBase shooterWheel, DoubleSupplier setpoint,
+      boolean tuneValues, double feedForwardValue, double pValue, Config shooterConfig,
+      BooleanSupplier finishedCondition) {
+    super(
+        // The controller that the command will use
+        new PIDController4905SampleStop(shooterWheel.toString()),
+        // This should return the measurement
+        // () -> 0,
+        shooterWheel::getShooterWheelRpm,
+        // This should return the setpoint (can also be a constant)
+        // () -> 0,
+        setpoint,
+        // This uses the output
+        output -> {
+          // Use the output here
+          shooterWheel.setShooterWheelPower(output);
+        });
+    addRequirements(shooterWheel.getSubsystemBase());
+    // Configure additional PID options by calling `getController` here.
+    m_shooterConfig = shooterConfig;
+    getController().setTolerance(m_shooterConfig.getDouble(shooterWheel.toString() + ".tolerance"));
+    getController().setFeedforward(m_feedForward);
+    m_shooterWheel = shooterWheel;
+    m_setpoint = setpoint;
+    if (tuneValues) {
+      m_feedForwardValue = feedForwardValue;
+      m_pValue = pValue;
+    }
+    m_tuneValues = tuneValues;
+    m_kMap = new InterpolatingMap(shooterConfig,
+        shooterWheel.toString() + ".shooterTargetRPMAndKValues");
+    m_pMap = new InterpolatingMap(shooterConfig,
+        shooterWheel.toString() + ".shooterTargetRPMandPValues");
+    m_finishedCondition = finishedCondition;
+  }
+
+  public RunBillShooterWheelVelocity(BillShooterBase shooterWheel, DoubleSupplier setpoint,
+      Config shooterConfig, BooleanSupplier finishedCondition) {
+    this(shooterWheel, setpoint, false, 0, 0, shooterConfig, finishedCondition);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public void initialize() {
+    Trace.getInstance().logCommandStart(this);
+    super.initialize();
+    m_target = m_setpoint.getAsDouble();
+    double pValue = 0;
+    if (m_tuneValues) {
+      pValue = m_pValue;
+    } else {
+      pValue = m_pMap.getInterpolatedValue(m_target);
+    }
+    getController().setP(pValue);
+    getController()
+        .setI(m_shooterConfig.getDouble(m_shooterWheel.toString() + ".runshooterwheelvelocity.i"));
+    getController()
+        .setD(m_shooterConfig.getDouble(m_shooterWheel.toString() + ".runshooterwheelvelocity.d"));
+    System.out.println(m_shooterWheel.toString() + "Setpoint: " + m_target + "\n"
+        + m_shooterWheel.toString() + " P = " + pValue);
+  }
+
+  @Override
+  public void execute() {
+    super.execute();
+    SmartDashboard.putNumber(m_shooterWheel.toString() + " Wheel Velocity Setpoint", m_target);
+    // Every .tostring in this command was a .getshootername before
+  }
+
+  @Override
+  public boolean isFinished() {
+    return m_finishedCondition.getAsBoolean();
+  }
+
+  @Override
+  public void end(boolean interrupt) {
+    m_shooterWheel.setShooterWheelPower(0);
+    Trace.getInstance().logCommandStop(this);
+  }
+
+  public double getSetpoint() {
+    return m_target;
+  }
+
+  public boolean atSetpoint() {
+    return getController().atSetpoint();
+  }
+}
