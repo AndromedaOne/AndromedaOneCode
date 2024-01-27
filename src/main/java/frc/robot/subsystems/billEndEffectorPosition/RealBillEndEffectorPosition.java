@@ -1,4 +1,4 @@
-package frc.robot.subsystems.billEndEffectorPivot;
+package frc.robot.subsystems.billEndEffectorPosition;
 
 import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
 
@@ -11,14 +11,15 @@ import frc.robot.Config4905;
 import frc.robot.actuators.DoubleSolenoid4905;
 import frc.robot.subsystems.compressor.CompressorBase;
 
-public class RealBillEndEffectorPivot extends SubsystemBase implements BillEndEffectorPivotBase {
+public class RealBillEndEffectorPosition extends SubsystemBase
+    implements BillEndEffectorPositionBase {
   private Config m_config;
   private DoubleSolenoid4905 m_solenoid0_1;
   private BillEndEffectorState m_endEffectorState = BillEndEffectorState.LOWSHOOTING;
 
-  public RealBillEndEffectorPivot(CompressorBase compressorBase) {
+  public RealBillEndEffectorPosition(CompressorBase compressorBase) {
     requireNonNullParam(compressorBase, "compressorBase", "RealEndEffector Constructor");
-    m_config = Config4905.getConfig4905().getEndEffectorPivotConfig();
+    m_config = Config4905.getConfig4905().getEndEffectorPositionConfig();
     m_solenoid0_1 = new DoubleSolenoid4905(compressorBase, m_config, "solenoid0_1");
   }
 

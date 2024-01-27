@@ -1,9 +1,9 @@
-package frc.robot.subsystems.billEndEffectorPivot;
+package frc.robot.subsystems.billEndEffectorPosition;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class MockBillEndEffectorPivot implements BillEndEffectorPivotBase {
+public class MockBillEndEffectorPosition implements BillEndEffectorPositionBase {
   @Override
   public void initialize() {
   }

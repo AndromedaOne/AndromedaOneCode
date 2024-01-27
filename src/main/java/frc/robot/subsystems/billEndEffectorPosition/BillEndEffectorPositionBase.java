@@ -1,8 +1,8 @@
-package frc.robot.subsystems.billEndEffectorPivot;
+package frc.robot.subsystems.billEndEffectorPosition;
 
 import frc.robot.subsystems.SubsystemInterface;
 
-public interface BillEndEffectorPivotBase extends SubsystemInterface {
+public interface BillEndEffectorPositionBase extends SubsystemInterface {
 
   public void initialize();
 

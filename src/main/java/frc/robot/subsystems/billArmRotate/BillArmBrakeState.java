@@ -1,4 +1,4 @@
-package frc.robot.subsystems.billArmPivot;
+package frc.robot.subsystems.billArmRotate;
 
 public enum BillArmBrakeState {
   ENGAGEARMBRAKE, DISENGAGEARMBRAKE

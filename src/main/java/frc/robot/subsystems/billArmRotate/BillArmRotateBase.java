@@ -1,8 +1,8 @@
-package frc.robot.subsystems.billArmPivot;
+package frc.robot.subsystems.billArmRotate;
 
 import frc.robot.subsystems.SubsystemInterface;
 
-public interface BillArmPivotBase extends SubsystemInterface {
+public interface BillArmRotateBase extends SubsystemInterface {
 
   public abstract void rotate(double speed);
 

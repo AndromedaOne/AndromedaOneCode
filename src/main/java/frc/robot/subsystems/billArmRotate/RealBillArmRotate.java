@@ -1,4 +1,4 @@
-package frc.robot.subsystems.billArmPivot;
+package frc.robot.subsystems.billArmRotate;
 
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
@@ -13,7 +13,7 @@ import frc.robot.actuators.SparkMaxController;
 import frc.robot.subsystems.compressor.CompressorBase;
 
 //This was just copied over from RealSamArmRotate so it will need editing
-public class RealBillArmPivot extends SubsystemBase implements BillArmPivotBase {
+public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBase {
   private final SparkMaxController m_motor1;
   private SparkAbsoluteEncoder m_armAngleEncoder;
   private double m_minAngle = 0;
@@ -21,8 +21,8 @@ public class RealBillArmPivot extends SubsystemBase implements BillArmPivotBase 
   private BillArmBrakeState m_armAngleBrakeState = BillArmBrakeState.ENGAGEARMBRAKE;
   private DoubleSolenoid4905 m_solenoidBrake;
 
-  public RealBillArmPivot(CompressorBase compressorBase) {
-    Config armrotateConfig = Config4905.getConfig4905().getArmPivotConfig();
+  public RealBillArmRotate(CompressorBase compressorBase) {
+    Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
     m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
     m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);

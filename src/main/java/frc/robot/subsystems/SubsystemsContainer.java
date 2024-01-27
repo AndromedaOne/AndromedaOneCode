@@ -16,6 +16,15 @@ import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
+import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
+import frc.robot.subsystems.billEndEffectorPosition.MockBillEndEffectorPosition;
+import frc.robot.subsystems.billEndEffectorPosition.RealBillEndEffectorPosition;
+import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.billFeeder.MockBillFeeder;
+import frc.robot.subsystems.billFeeder.RealBillFeeder;
+import frc.robot.subsystems.billShooter.BillShooterBase;
+import frc.robot.subsystems.billShooter.MockBillShooter;
+import frc.robot.subsystems.billShooter.RealBillShooter;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -69,6 +78,9 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
+  BillShooterBase m_billShooter;
+  BillFeederBase m_billFeeder;
+  BillEndEffectorPositionBase m_endEffector;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -182,6 +194,27 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
     }
+    if (Config4905.getConfig4905().doesBillFeederExist()) {
+      Trace.getInstance().logInfo("using real Billthoven feeder");
+      m_billFeeder = new RealBillFeeder();
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven feeder");
+      m_billFeeder = new MockBillFeeder();
+    }
+    if (Config4905.getConfig4905().doesBillShooterExist()) {
+      Trace.getInstance().logInfo("using real Billthoven shooter");
+      m_billShooter = new RealBillShooter();
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven shooter");
+      m_billShooter = new MockBillShooter();
+    }
+    if (Config4905.getConfig4905().doesEndEffectorExist()) {
+      Trace.getInstance().logInfo("using real Billthoven end effector");
+      m_endEffector = new RealBillEndEffectorPosition(m_compressor);
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven end effector");
+      m_endEffector = new MockBillEndEffectorPosition();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -222,6 +255,18 @@ public class SubsystemsContainer {
 
   public FeederBase getFeeder() {
     return m_feeder;
+  }
+
+  public BillShooterBase getBillShooter() {
+    return m_billShooter;
+  }
+
+  public BillFeederBase getBillFeeder() {
+    return m_billFeeder;
+  }
+
+  public BillEndEffectorPositionBase getBillEffectorPosition() {
+    return m_endEffector;
   }
 
   public void setDefaultCommands() {

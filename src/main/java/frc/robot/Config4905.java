@@ -48,8 +48,10 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
-  private Config m_armPivotConfig;
+  private Config m_armRotateConfig;
   private Config m_endEffectorConfig;
+  private Config m_billShooterConfig;
+  private Config m_billFeederConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -162,8 +164,10 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
-    m_armPivotConfig = load("billarmpivot.conf");
-    m_endEffectorConfig = load("endeffectorpivot.conf");
+    m_armRotateConfig = load("billarmrotate.conf");
+    m_endEffectorConfig = load("endeffectorposition.conf");
+    m_billShooterConfig = load("billshooter.conf");
+    m_billFeederConfig = load("billfeeder.conf");
   }
 
   public Config getControllersConfig() {
@@ -351,6 +355,28 @@ public class Config4905 {
     return m_shooterConfig;
   }
 
+  public boolean doesBillShooterExist() {
+    if (m_config.hasPath("subsystems.billshooter")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getBillShooterConfig() {
+    return m_billShooterConfig;
+  }
+
+  public boolean doesBillFeederExist() {
+    if (m_config.hasPath("subsystems.billfeeder")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getBillFeederConfig() {
+    return m_billFeederConfig;
+  }
+
   public boolean doesFeederExist() {
     if (m_config.hasPath("subsystems.feeder")) {
       return true;
@@ -374,16 +400,16 @@ public class Config4905 {
     return m_wingsConfig;
   }
 
-  public Config getArmPivotConfig() {
-    return m_armPivotConfig;
+  public Config getArmRotateConfig() {
+    return m_armRotateConfig;
   }
 
-  public Config getEndEffectorPivotConfig() {
+  public Config getEndEffectorPositionConfig() {
     return m_endEffectorConfig;
   }
 
   public boolean doesEndEffectorExist() {
-    if (m_config.hasPath("subsystems.billEndEffectorPivot")) {
+    if (m_config.hasPath("subsystems.billEndEffectorPosition")) {
       return true;
     }
     return false;

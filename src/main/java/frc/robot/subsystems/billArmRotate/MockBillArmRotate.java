@@ -1,9 +1,9 @@
-package frc.robot.subsystems.billArmPivot;
+package frc.robot.subsystems.billArmRotate;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class MockBillArmPivot implements BillArmPivotBase {
+public class MockBillArmRotate implements BillArmRotateBase {
   @Override
   public void rotate(double speed) {
   }
