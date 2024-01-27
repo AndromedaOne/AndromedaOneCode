@@ -24,6 +24,8 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
+import frc.robot.telemetries.TracePair;
+import frc.robot.utils.AngleConversionUtils;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -176,12 +178,23 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
-    throw new RuntimeException("ERROR: " + getClass().getSimpleName() + " does not implement move");
+    move(fowardBackSpeed, 0, rotateAmount, false,
+      true);
   }
 
   @Override
   public void moveUsingGyro(double forwardBackward, double rotation, boolean useSquaredInputs,
-      double heading) {
+      double compassHeading) {
+        if (rotation == 0.0) {
+      double robotDeltaAngle = AngleConversionUtils
+          .calculateMinimalCompassHeadingDifference(m_gyro.getCompassHeading(), compassHeading);
+      rotation = robotDeltaAngle *  Config4905.getConfig4905().getCommandConstantsConfig().getDouble("moveUsingGyroP");
+      Trace.getInstance().addTrace(true, "MoveUsingGyro",
+          new TracePair("CompassHeading", compassHeading),
+          new TracePair("GyroCompassHeading", m_gyro.getCompassHeading()),
+          new TracePair("robotDeltaAngle", robotDeltaAngle), new TracePair("rotation", rotation),
+          new TracePair("ForwardBackward", forwardBackward));
+    }
     move(forwardBackward, 0, rotation, false, true);
   }
 
