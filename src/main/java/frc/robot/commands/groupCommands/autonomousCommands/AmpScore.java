@@ -4,11 +4,14 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
@@ -16,7 +19,7 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AmpScore extends SequentialCommandGroup {
-  public AmpScore(boolean blueAlliance) {
+  public AmpScore(Config autonomousConfig) {
     // Robot is started straight
     // for blue move left to the Amp
     // (for red move right)
@@ -33,8 +36,37 @@ public class AmpScore extends SequentialCommandGroup {
     // score picked up Note in Amp
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
+    double waypoint1 = autonomousConfig.getDouble("AmpScore.Waypoint1");
+    double angle1 = autonomousConfig.getDouble("AmpScore.Angle1");
+    double waypoint2 = autonomousConfig.getDouble("AmpScore.Waypoint2");
+    double waypoint3 = autonomousConfig.getDouble("AmpScore.Waypoint3");
+    double angle2 = autonomousConfig.getDouble("AmpScore.Angle2");
+    double waypoint4 = autonomousConfig.getDouble("AmpScore.Waypoint4");
+    double waypoint5 = autonomousConfig.getDouble("AmpScore.Waypoint5");
+    double angle3 = autonomousConfig.getDouble("AmpScore.Angle3");
+    double waypoint6 = autonomousConfig.getDouble("AmpScore.Waypoint6");
+    double waypoint7 = autonomousConfig.getDouble("AmpScore.Waypoint7");
+    double angle4 = autonomousConfig.getDouble("AmpScore.Angle4");
+    double waypoint8 = autonomousConfig.getDouble("AmpScore.Waypoint8");
     //
-    addCommands(new ParallelDeadlineGroup(
-        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -166, 0.5))));
+    addCommands(new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)),
+        new SequentialCommandGroup4905(new TurnToCompassHeading(angle1)),
+        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint2, 1.0)),
+        // need amp score command
+        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint3, 1.0)),
+        new SequentialCommandGroup4905(new TurnToCompassHeading(angle2)),
+        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint4, 1.0)// , need intake
+                                                                                 // command
+        ), new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint5, 1.0)),
+        new SequentialCommandGroup4905(new TurnToCompassHeading(angle3)),
+        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint6, 1.0)),
+        // need amp score command
+        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint7, 1.0)),
+        new SequentialCommandGroup4905(new TurnToCompassHeading(angle4)),
+        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint8, 1.0)// , need intake
+                                                                                 // command
+        )
+
+    );
   }
 }

@@ -4,6 +4,8 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -16,7 +18,7 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup {
-  public DriveStation3SpeakerWithAmp(boolean blueAlliance) {
+  public DriveStation3SpeakerWithAmp(Config autonomousConfig) {
     // List of what this auto mode should do.
     // Both
     // 1. Positioned by drive station 3 and angeled towards the speaker in order to
@@ -36,6 +38,15 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup {
     // 8. Start driving back to score the note in Teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
+    double waypoint1 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint1");
+    double angle1 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Angle1");
+    double waypoint2 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint2");
+    double waypoint3 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint3");
+    double angle2 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Angle2");
+    double waypoint4 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint4");
+    double waypoint5 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoin5");
+    double angle3 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Angle3");
+    double waypoint6 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint6");
     //
     addCommands(new ParallelDeadlineGroup(
         new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -166, 0.5))));

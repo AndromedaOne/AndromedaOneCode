@@ -2,6 +2,8 @@ package frc.robot.oi;
 
 import java.util.Optional;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -24,30 +26,34 @@ public class AutoModes4905 {
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer, SendableChooser<Command> autoChooser) {
     Optional<Alliance> currentAlliance = DriverStation.getAlliance();
-    boolean blueAlliance = true;
+    Config autonomousConfig;
     if (currentAlliance.isPresent()) {
       if (currentAlliance.get() == Alliance.Red) {
-        blueAlliance = false;
+        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
+      } else {
+        autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
       }
+    } else {
+      autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     }
-
     m_autoChooser = autoChooser;
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
     if (Config4905.getConfig4905().m_isSwerveBot()) {
-      m_autoChooser.addOption("1: Emergency Backup", new EmergencyBackup());
-      m_autoChooser.addOption("2: Score Amp, Pick Up Note, Score Amp", new AmpScore(blueAlliance));
+      m_autoChooser.addOption("1: Emergency Backup", new EmergencyBackup(autonomousConfig));
+      m_autoChooser.addOption("2: Score Amp, Pick Up Note, Score Amp",
+          new AmpScore(autonomousConfig));
       m_autoChooser.addOption(
           "3: Central Speaker Start, Score Speaker, Pick Up Note, Score Speaker",
-          new CentralSpeaker2Scores(blueAlliance));
+          new CentralSpeaker2Scores(autonomousConfig));
       m_autoChooser.addOption(
           "4: Cental Speaker Start, Score Speaker, Pick Up Note, Score Speaker, Pick Up Note, Score Speaker",
-          new CentralSpeaker3Scores(blueAlliance));
+          new CentralSpeaker3Scores(autonomousConfig));
       m_autoChooser.addOption("5: Drive Station Start, Score Speaker, Pick up Note",
-          new DriveStation2Speaker(blueAlliance));
+          new DriveStation2Speaker(autonomousConfig));
       m_autoChooser.addOption("6: Drive Station Start, Score Speaker, Pick up Note, Score Speaker",
-          new DriveStation3SpeakerWithAmp(blueAlliance));
+          new DriveStation3SpeakerWithAmp(autonomousConfig));
     }
 
     SmartDashboard.putData("autoModes", m_autoChooser);
