@@ -172,6 +172,7 @@ public class SwerveModule {
   }
 
   public void setCoast(boolean value) {
+    Trace.getInstance().logInfo("setCoast: " + value);
     IdleMode mode = CANSparkMax.IdleMode.kBrake;
     if (value) {
       mode = CANSparkMax.IdleMode.kCoast;

@@ -191,7 +191,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
-    move(fowardBackSpeed, 0, rotateAmount, false, true);
+    move(fowardBackSpeed, 0, -rotateAmount, false, true);
   }
 
   @Override
