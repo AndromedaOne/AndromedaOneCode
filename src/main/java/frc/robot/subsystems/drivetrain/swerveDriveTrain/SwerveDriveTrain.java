@@ -87,10 +87,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       strafe = 0;
       rotation = 0;
     }
-    double exponent = 3;
-    forwardBackward = Math.pow(forwardBackward, exponent);
-    strafe = Math.pow(strafe, exponent);
-    rotation = Math.pow(rotation, exponent);
     double translationLim = translationLimiter.calculate(forwardBackward);
     double strafeLim = strafeLimiter.calculate(strafe);
     double rotationLim = rotationlimiter.calculate(rotation);

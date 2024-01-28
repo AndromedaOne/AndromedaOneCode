@@ -116,12 +116,16 @@ public class TeleOpCommand extends Command {
     Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
         new TracePair("savedAngle", m_savedRobotAngle),
         new TracePair("rotateStick", rotateStickValue));
+    double exponent = 3;
+    forwardBackwardStickValue = Math.pow(forwardBackwardStickValue, exponent);
+    strafeStickValue = Math.pow(strafeStickValue, exponent);
+    rotateStickValue = Math.pow(rotateStickValue, exponent);
     // do not use moveWithGyro here as we're providing the drive straight correction
     if (m_isStrafe) {
       m_driveTrain.move(forwardBackwardStickValue, strafeStickValue, rotateStickValue,
           !m_robotCentricSup.getAsBoolean(), true);
     } else {
-      m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, true);
+      m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, false);
     }
 
   }
