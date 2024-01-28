@@ -82,6 +82,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public void move(double forwardBackward, double strafe, double rotation, boolean fieldRelative,
       boolean isOpenLoop) {
+    if (m_ParkingBrakeState == ParkingBrakeStates.BRAKESON) {
+      forwardBackward = 0;
+      strafe = 0;
+      rotation = 0;
+    }
     double translationLim = translationLimiter.calculate(forwardBackward);
     double strafeLim = strafeLimiter.calculate(strafe);
     double rotationLim = rotationlimiter.calculate(rotation);
