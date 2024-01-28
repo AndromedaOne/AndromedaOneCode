@@ -15,7 +15,7 @@ import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
-public class SwerveTeleOpCommand extends Command {
+public class TeleOpCommand extends Command {
 
   private DriveController m_driveController = Robot.getInstance().getOIContainer()
       .getDriveController();
@@ -37,12 +37,9 @@ public class SwerveTeleOpCommand extends Command {
   private SlowMidFastModeStates m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONRELEASED;
 
   private BooleanSupplier m_robotCentricSup;
-  private double m_kp = 1;
 
-// private DriveTrain m_driveTrain =
-// Robot.getInstance().getSubsystemContainer().getDriveTrain();
-
-  public SwerveTeleOpCommand(BooleanSupplier robotCentricSup) {
+// use this constructor for SwerveDrive
+  public TeleOpCommand(BooleanSupplier robotCentricSup) {
     if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
       m_isStrafe = false;
       m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
@@ -56,6 +53,11 @@ public class SwerveTeleOpCommand extends Command {
       m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
     }
     m_robotCentricSup = robotCentricSup;
+  }
+
+  // use this constructor for TankDrive
+  public TeleOpCommand() {
+    this(() -> true);
   }
 
   @Override
@@ -96,15 +98,18 @@ public class SwerveTeleOpCommand extends Command {
         || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.SLOW);
     } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.MID);
     } else {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.FAST);
     }
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());

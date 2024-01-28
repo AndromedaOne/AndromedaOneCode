@@ -8,8 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.commands.driveTrainCommands.SwerveTeleOpCommand;
-import frc.robot.commands.driveTrainCommands.TankTeleOpCommand;
+import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -226,10 +225,10 @@ public class SubsystemsContainer {
 
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
-      m_driveTrain.setDefaultCommand(new TankTeleOpCommand());
+      m_driveTrain.setDefaultCommand(new TeleOpCommand());
     } else {
       if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
-        m_driveTrain.setDefaultCommand(new SwerveTeleOpCommand(() -> false));
+        m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
       }
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
