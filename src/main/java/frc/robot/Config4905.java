@@ -48,6 +48,8 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
+  private Config m_RedAutonomousConfig;
+  private Config m_BlueAutonomousConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -157,6 +159,8 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
+    m_RedAutonomousConfig = load("RedAutonomous.conf");
+    m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
 
   public Config getControllersConfig() {
@@ -373,6 +377,14 @@ public class Config4905 {
 
   public Config getIntakeConfig() {
     return m_intakeConfig;
+  }
+
+  public Config getRedAutonomousConfig() {
+    return m_RedAutonomousConfig;
+  }
+
+  public Config getBlueAutonomousConfig() {
+    return m_BlueAutonomousConfig;
   }
 
   public boolean doesIntakeExist() {
