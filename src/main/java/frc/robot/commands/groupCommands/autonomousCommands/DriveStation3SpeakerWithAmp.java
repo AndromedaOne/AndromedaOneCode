@@ -38,15 +38,15 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup {
     // 8. Start driving back to score the note in Teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
-    double waypoint1 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint1");
+    double waypoint1 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.WayPoint1");
     double angle1 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Angle1");
-    double waypoint2 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint2");
-    double waypoint3 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint3");
+    double waypoint2 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.WayPoint2");
+    double waypoint3 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.WayPoint3");
     double angle2 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Angle2");
-    double waypoint4 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint4");
-    double waypoint5 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoin5");
+    double waypoint4 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.WayPoint4");
+    double waypoint5 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.WayPoint5");
     double angle3 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Angle3");
-    double waypoint6 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Waypoint6");
+    double waypoint6 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.WayPoint6");
     //
     addCommands(new ParallelDeadlineGroup(
         new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -166, 0.5))));

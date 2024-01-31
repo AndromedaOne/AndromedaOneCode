@@ -31,12 +31,12 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup {
     // score 3rd Note on speaker from point Y (Y=TBD)
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
-    double waypoint1 = autonomousConfig.getDouble("CentralSpeaker3Scores.Waypoint1");
-    double waypoint2 = autonomousConfig.getDouble("CentralSpeaker3Scores.Waypoint2");
+    double waypoint1 = autonomousConfig.getDouble("CentralSpeaker3Scores.WayPoint1");
+    double waypoint2 = autonomousConfig.getDouble("CentralSpeaker3Scores.WayPoint2");
     double angle1 = autonomousConfig.getDouble("CentralSpeaker3Scores.Angle1");
-    double waypoint3 = autonomousConfig.getDouble("CentralSpeaker3Scores.Waypoint3");
+    double waypoint3 = autonomousConfig.getDouble("CentralSpeaker3Scores.WayPoint3");
     double angle2 = autonomousConfig.getDouble("CentralSpeaker3Scores.Angle2");
-    double waypoint4 = autonomousConfig.getDouble("CentralSpeaker3Scores.Waypoint4");
+    double waypoint4 = autonomousConfig.getDouble("CentralSpeaker3Scores.WayPoint4");
     double angle3 = autonomousConfig.getDouble("CentralSpeaker3Scores.Angle3");
     //
     addCommands(

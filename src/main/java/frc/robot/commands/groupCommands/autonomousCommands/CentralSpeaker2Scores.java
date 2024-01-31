@@ -45,9 +45,9 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup {
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
     double waypoint1 = autonomousConfig.getDouble("CentralSpeaker2Scores.WayPoint1");
     double angle1 = autonomousConfig.getDouble("CentralSpeaker2Scores.Angle1");
-    double waypoint2 = autonomousConfig.getDouble("CentralSpeaker2Scores.Waypoint2");
+    double waypoint2 = autonomousConfig.getDouble("CentralSpeaker2Scores.WayPoint2");
     double angle2 = autonomousConfig.getDouble("CentralSpeaker2Scores.Angle2");
-    double waypoint3 = autonomousConfig.getDouble("CentralSpeaker2Scores.Waypoint3");
+    double waypoint3 = autonomousConfig.getDouble("CentralSpeaker2Scores.WayPoint3");
     //
     addCommands(
         // need shoot command

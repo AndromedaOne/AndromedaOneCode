@@ -36,18 +36,18 @@ public class AmpScore extends SequentialCommandGroup {
     // score picked up Note in Amp
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
-    double waypoint1 = autonomousConfig.getDouble("AmpScore.Waypoint1");
+    double waypoint1 = autonomousConfig.getDouble("AmpScore.WayPoint1");
     double angle1 = autonomousConfig.getDouble("AmpScore.Angle1");
-    double waypoint2 = autonomousConfig.getDouble("AmpScore.Waypoint2");
-    double waypoint3 = autonomousConfig.getDouble("AmpScore.Waypoint3");
+    double waypoint2 = autonomousConfig.getDouble("AmpScore.WayPoint2");
+    double waypoint3 = autonomousConfig.getDouble("AmpScore.WayPoint3");
     double angle2 = autonomousConfig.getDouble("AmpScore.Angle2");
-    double waypoint4 = autonomousConfig.getDouble("AmpScore.Waypoint4");
-    double waypoint5 = autonomousConfig.getDouble("AmpScore.Waypoint5");
+    double waypoint4 = autonomousConfig.getDouble("AmpScore.WayPoint4");
+    double waypoint5 = autonomousConfig.getDouble("AmpScore.WayPoint5");
     double angle3 = autonomousConfig.getDouble("AmpScore.Angle3");
-    double waypoint6 = autonomousConfig.getDouble("AmpScore.Waypoint6");
-    double waypoint7 = autonomousConfig.getDouble("AmpScore.Waypoint7");
+    double waypoint6 = autonomousConfig.getDouble("AmpScore.WayPoint6");
+    double waypoint7 = autonomousConfig.getDouble("AmpScore.WayPoint7");
     double angle4 = autonomousConfig.getDouble("AmpScore.Angle4");
-    double waypoint8 = autonomousConfig.getDouble("AmpScore.Waypoint8");
+    double waypoint8 = autonomousConfig.getDouble("AmpScore.WayPoint8");
     //
     addCommands(new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)),
         new SequentialCommandGroup4905(new TurnToCompassHeading(angle1)),

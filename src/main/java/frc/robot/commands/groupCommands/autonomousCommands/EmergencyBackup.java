@@ -25,7 +25,7 @@ public class EmergencyBackup extends SequentialCommandGroup {
     // wait for teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
-    double waypoint = autonomousConfig.getDouble("EmergencyBackup.Waypoint1");
+    double waypoint = autonomousConfig.getDouble("EmergencyBackup.WayPoint1");
     //
     addCommands(new ParallelDeadlineGroup(
         new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint, 1.0))));
