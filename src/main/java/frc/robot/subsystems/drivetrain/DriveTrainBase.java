@@ -5,7 +5,6 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.SubsystemInterface;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 
@@ -16,8 +15,8 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput);
 
-  public abstract void move(Translation2d translation, double rotation, boolean fieldRelative,
-      boolean isOpenLoop);
+  public abstract void move(double forwardBackward, double strafe, double rotation,
+      boolean fieldRelative, boolean isOpenLoop);
 
   /**
    * This moves the robot and corrects for any rotation using the gyro
@@ -38,9 +37,6 @@ public interface DriveTrainBase extends SubsystemInterface {
    *                you can tell it to correct to the heading it should have turn
    *                to.
    */
-  public abstract void moveUsingGyro(Translation2d translations, double rotation,
-      boolean fieldRelative, boolean isOpenLoop, double heading);
-
   public void stop();
 
   public abstract void enableParkingBrakes();

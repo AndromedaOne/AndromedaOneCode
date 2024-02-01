@@ -50,6 +50,8 @@ public class Config4905 {
   private Config m_feederConfig;
   private Config m_armRotateConfig;
   private Config m_endEffectorConfig;
+  private Config m_RedAutonomousConfig;
+  private Config m_BlueAutonomousConfig;
   private Config m_billShooterConfig;
   private Config m_billFeederConfig;
   private Config m_billClimberConfig;
@@ -167,6 +169,8 @@ public class Config4905 {
     m_feederConfig = load("feeder.conf");
     m_armRotateConfig = load("billarmrotate.conf");
     m_endEffectorConfig = load("endeffectorposition.conf");
+    m_RedAutonomousConfig = load("RedAutonomous.conf");
+    m_BlueAutonomousConfig = load("BlueAutonomous.conf");
     m_billShooterConfig = load("billshooter.conf");
     m_billFeederConfig = load("billfeeder.conf");
     m_billClimberConfig = load("billclimber.conf");
@@ -180,12 +184,16 @@ public class Config4905 {
     return m_drivetrainConfig;
   }
 
-  public boolean doesDrivetrainExist() {
+  public boolean doesTankDrivetrainExist() {
     if (m_config.hasPath("subsystems.driveTrain")) {
       return true;
     } else {
       return false;
     }
+  }
+
+  public boolean doesDrivetrainExist() {
+    return doesTankDrivetrainExist() || doesSwerveDrivetrainExist();
   }
 
   public Config getSwerveDrivetrainConfig() {
@@ -419,6 +427,14 @@ public class Config4905 {
 
   public Config getIntakeConfig() {
     return m_intakeConfig;
+  }
+
+  public Config getRedAutonomousConfig() {
+    return m_RedAutonomousConfig;
+  }
+
+  public Config getBlueAutonomousConfig() {
+    return m_BlueAutonomousConfig;
   }
 
   public boolean doesIntakeExist() {

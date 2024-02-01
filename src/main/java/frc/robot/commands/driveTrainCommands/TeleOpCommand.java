@@ -1,11 +1,6 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.driveTrainCommands;
+
+import java.util.function.BooleanSupplier;
 
 import com.typesafe.config.Config;
 
@@ -20,22 +15,19 @@ import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
-/**
- * Allows you to drive the robot using the drive controller.
- */
-public class TankTeleOpCommand extends Command {
+public class TeleOpCommand extends Command {
 
-  // Make the controllers a little easier to get to.
   private DriveController m_driveController = Robot.getInstance().getOIContainer()
       .getDriveController();
   private DriveTrainBase m_driveTrain = Robot.getInstance().getSubsystemsContainer()
       .getDriveTrain();
-  private Config m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+  private Config m_drivetrainConfig = Config4905.getConfig4905().getSwerveDrivetrainConfig();
   private Gyro4905 m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
   private int m_currentDelay = 0;
-  private int kDelay = 0;
+  private int m_kDelay = 0;
   private double m_savedRobotAngle = 0.0;
-  private double kProportion = 0.0;
+  private double m_kProportion = 0.0;
+  private boolean m_isStrafe = true;
 
   private enum SlowMidFastModeStates {
     FASTMODEBUTTONRELEASED, FASTMODEBUTTONPRESSED, MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED,
@@ -44,29 +36,44 @@ public class TankTeleOpCommand extends Command {
 
   private SlowMidFastModeStates m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONRELEASED;
 
-  /**
-   * Takes inputs from the two joysticks on the drive controller.
-   */
-  public TankTeleOpCommand() {
+  private BooleanSupplier m_robotCentricSup;
+
+// use this constructor for SwerveDrive
+  public TeleOpCommand(BooleanSupplier robotCentricSup) {
+    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
+      m_isStrafe = false;
+      m_drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
+    }
+
     addRequirements(m_driveTrain.getSubsystemBase());
-    kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
-    kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
+
+    m_kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
+    m_kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
     if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
       m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
     }
+    m_robotCentricSup = robotCentricSup;
   }
 
-  // Called when the command is initially scheduled.
+  // use this constructor for TankDrive
+  public TeleOpCommand() {
+    this(() -> true);
+  }
+
   @Override
   public void initialize() {
+    Trace.getInstance().logCommandStart(this);
     m_currentDelay = 0;
     m_savedRobotAngle = m_gyro.getZAngle();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double forwardBackwardStickValue = m_driveController.getDriveTrainForwardBackwardStick();
+    double strafeStickValue = 0;
+    if (m_isStrafe) {
+      strafeStickValue = m_driveController.getSwerveDriveTrainStrafeAxis();
+    }
     double rotateStickValue = m_driveController.getDriveTrainRotateStick();
     calculateSlowMidFastMode();
     // if the robot is not rotating, want to gyro correct to drive straight. but
@@ -74,9 +81,9 @@ public class TankTeleOpCommand extends Command {
     // cause
     // the robot to oscillate, so wait some kDelay before starting to correct if
     // driving straight
-    if ((rotateStickValue == 0.0) && (m_currentDelay > kDelay)
+    if ((rotateStickValue == 0.0) && (m_currentDelay > m_kDelay)
         && (forwardBackwardStickValue != 0.0)) {
-      rotateStickValue = -(m_savedRobotAngle - m_gyro.getZAngle()) * kProportion;
+      rotateStickValue = -(m_savedRobotAngle - m_gyro.getZAngle()) * m_kProportion;
     } else if (rotateStickValue != 0.0) {
       m_savedRobotAngle = m_gyro.getZAngle();
       m_currentDelay = 0;
@@ -91,34 +98,46 @@ public class TankTeleOpCommand extends Command {
         || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.SLOW);
     } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.MID);
     } else {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.FAST);
     }
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
     Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
         new TracePair("savedAngle", m_savedRobotAngle),
         new TracePair("rotateStick", rotateStickValue));
+    double exponent = 3;
+    forwardBackwardStickValue = Math.pow(forwardBackwardStickValue, exponent);
+    strafeStickValue = Math.pow(strafeStickValue, exponent);
+    rotateStickValue = Math.pow(rotateStickValue, exponent);
     // do not use moveWithGyro here as we're providing the drive straight correction
-    m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, true);
+    if (m_isStrafe) {
+      m_driveTrain.move(forwardBackwardStickValue, strafeStickValue, rotateStickValue,
+          !m_robotCentricSup.getAsBoolean(), true);
+    } else {
+      m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, false);
+    }
+
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  @Override
+  public void end(boolean interupted) {
+    Trace.getInstance().logCommandStop(this);
   }
 
   private void calculateSlowMidFastMode() {
@@ -172,5 +191,4 @@ public class TankTeleOpCommand extends Command {
       System.out.println("WARNING: unknown state detected: " + m_slowMidFastMode.toString());
     }
   }
-
 }

@@ -8,8 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.commands.driveTrainCommands.SwerveTeleOpCommand;
-import frc.robot.commands.driveTrainCommands.TankTeleOpCommand;
+import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -99,7 +98,7 @@ public class SubsystemsContainer {
      * The settings will be printed to the console.
      *
      */
-    if (Config4905.getConfig4905().doesDrivetrainExist()) {
+    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
       Trace.getInstance().logInfo("Using real Drive Train.");
       if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("sparkMax")) {
@@ -285,11 +284,11 @@ public class SubsystemsContainer {
   }
 
   public void setDefaultCommands() {
-    if (Config4905.getConfig4905().doesDrivetrainExist()) {
-      m_driveTrain.setDefaultCommand(new TankTeleOpCommand());
+    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
+      m_driveTrain.setDefaultCommand(new TeleOpCommand());
     } else {
       if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
-        m_driveTrain.setDefaultCommand(new SwerveTeleOpCommand(() -> false));
+        m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
       }
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {

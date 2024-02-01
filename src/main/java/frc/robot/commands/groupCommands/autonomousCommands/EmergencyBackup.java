@@ -4,6 +4,8 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -15,14 +17,17 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TaxiAuto extends SequentialCommandGroup {
-  /** Creates a new TaxiAuto. */
-  public TaxiAuto() {
-    // To get out of communnity zone
+public class EmergencyBackup extends SequentialCommandGroup {
+  public EmergencyBackup(Config autonomousConfig) {
+    // Both
+    // Positioned by the Amp
+    // Move foward out of the starting zone and park
+    // wait for teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
-    // We ran the speed at 0.5 to accomodate charging station and cable.
+    double waypoint = autonomousConfig.getDouble("EmergencyBackup.WayPoint1");
+    //
     addCommands(new ParallelDeadlineGroup(
-        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -166, 0.5))));
+        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint, 1.0))));
   }
 }

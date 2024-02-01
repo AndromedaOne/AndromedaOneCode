@@ -64,9 +64,11 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       setUpCannonButtons();
     }
-    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
+    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")
+        || Config4905.getConfig4905().getSwerveDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
     }
+
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
       setupShowBotAudioButtons();
     }
