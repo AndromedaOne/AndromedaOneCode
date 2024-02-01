@@ -7,6 +7,12 @@
 
 package frc.robot.oi;
 
+import java.util.Optional;
+
+import com.typesafe.config.Config;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,6 +24,12 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
+import frc.robot.commands.groupCommands.autonomousCommands.AmpScore;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker2Scores;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3Scores;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2Speaker;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation3SpeakerWithAmp;
+import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -42,6 +54,17 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
+    Optional<Alliance> currentAlliance = DriverStation.getAlliance();
+    Config autonomousConfig;
+    if (currentAlliance.isPresent()) {
+      if (currentAlliance.get() == Alliance.Red) {
+        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
+      } else {
+        autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
+      }
+    } else {
+      autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
+    }
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
@@ -83,6 +106,13 @@ public class SmartDashboard4905 {
           new DriveTrainRectangularPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
+      SmartDashboard.putData("EmergencyBackup", new EmergencyBackup(autonomousConfig));
+      SmartDashboard.putData("AmpScore", new AmpScore(autonomousConfig));
+      SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores(autonomousConfig));
+      SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores(autonomousConfig));
+      SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker(autonomousConfig));
+      SmartDashboard.putData("DriveStation3SpeakerWithAmp",
+          new DriveStation3SpeakerWithAmp(autonomousConfig));
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {

@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
-import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
@@ -43,13 +42,13 @@ public class DriveStation2Speaker extends SequentialCommandGroup {
     //
     addCommands(
         // need shoot command
-        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)),
-        new SequentialCommandGroup4905(new TurnToCompassHeading(angle1)),
+        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)),
+        new SequentialCommandGroup(new TurnToCompassHeading(angle1)),
         new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint2, 1.0)// ,need intake
                                                                                  // command
-        ), new SequentialCommandGroup4905(new TurnToCompassHeading(angle2)),
+        ), new SequentialCommandGroup(new TurnToCompassHeading(angle2)),
         // need shoot command
-        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint3, 1.0))
+        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint3, 1.0))
 
     );
   }

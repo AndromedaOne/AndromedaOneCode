@@ -7,10 +7,10 @@ package frc.robot.commands.groupCommands.autonomousCommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
@@ -48,7 +48,18 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup {
     double angle3 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.Angle3");
     double waypoint6 = autonomousConfig.getDouble("DriveStation3SpeakerWithAmp.WayPoint6");
     //
-    addCommands(new ParallelDeadlineGroup(
-        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, -166, 0.5))));
+    addCommands(new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)),
+        new SequentialCommandGroup(new TurnToCompassHeading(angle1)),
+        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint2, 1.0)// Need Intake
+                                                                                 // Command
+        ), new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint3, 1.0)),
+        new SequentialCommandGroup(new TurnToCompassHeading(angle2)),
+        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint4, 1.0)),
+        // add shoot command
+        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint5, 1.0)),
+        new SequentialCommandGroup(new TurnToCompassHeading(angle3)),
+        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint6, 1.0)// ,Need Intake
+                                                                                 // Command
+        ));
   }
 }

@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
-import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -48,21 +48,25 @@ public class AmpScore extends SequentialCommandGroup {
     double waypoint7 = autonomousConfig.getDouble("AmpScore.WayPoint7");
     double angle4 = autonomousConfig.getDouble("AmpScore.Angle4");
     double waypoint8 = autonomousConfig.getDouble("AmpScore.WayPoint8");
+
+    Trace.getInstance().logCommandInfo(this, "waypoint1: " + waypoint1);
+    Trace.getInstance().logCommandInfo(this, "waypoint2: " + waypoint2);
+    Trace.getInstance().logCommandInfo(this, "waypoint3: " + waypoint3);
     //
-    addCommands(new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)),
-        new SequentialCommandGroup4905(new TurnToCompassHeading(angle1)),
-        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint2, 1.0)),
+    addCommands(new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)),
+        new SequentialCommandGroup(new TurnToCompassHeading(angle1)),
+        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint2, 1.0)),
         // need amp score command
-        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint3, 1.0)),
-        new SequentialCommandGroup4905(new TurnToCompassHeading(angle2)),
+        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint3, 1.0)),
+        new SequentialCommandGroup(new TurnToCompassHeading(angle2)),
         new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint4, 1.0)// , need intake
                                                                                  // command
-        ), new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint5, 1.0)),
-        new SequentialCommandGroup4905(new TurnToCompassHeading(angle3)),
-        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint6, 1.0)),
+        ), new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint5, 1.0)),
+        new SequentialCommandGroup(new TurnToCompassHeading(angle3)),
+        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint6, 1.0)),
         // need amp score command
-        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint7, 1.0)),
-        new SequentialCommandGroup4905(new TurnToCompassHeading(angle4)),
+        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint7, 1.0)),
+        new SequentialCommandGroup(new TurnToCompassHeading(angle4)),
         new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint8, 1.0)// , need intake
                                                                                  // command
         )
