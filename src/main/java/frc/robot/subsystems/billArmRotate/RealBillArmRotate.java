@@ -34,7 +34,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   @Override
   public void periodic() {
     SmartDashboard.putNumber("arm angle", getAngle());
-    SmartDashboard.putString("Arm Brake State", getState().toString());
+    SmartDashboard.putString("Arm Brake State", getBrakeState().toString());
   }
 
   @Override
@@ -68,14 +68,15 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   // 90 Degrees is pointing forward, 270 is pointing backwards
   @Override
   public double getAngle() {
-    double fixedEncoderValue = (1.56 - m_armAngleEncoder.getPosition());
+    double encoderOffset = 1.56; // Needs to be changed
+    double fixedEncoderValue = (encoderOffset - m_armAngleEncoder.getPosition());
     if (fixedEncoderValue >= 1) {
       fixedEncoderValue = fixedEncoderValue - 1;
     }
     return fixedEncoderValue * 360;
   }
 
-  public BillArmBrakeState getState() {
+  public BillArmBrakeState getBrakeState() {
     return m_armAngleBrakeState;
   }
 

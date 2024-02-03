@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.telemetries.Trace;
 
@@ -36,13 +37,10 @@ public class RunBillFeeder extends Command {
       m_feeder.runBillFeeder(-m_speed.getAsDouble());
     } else if (m_readyToShoot.getAsBoolean()) {
       m_feeder.runBillFeeder(m_speed.getAsDouble());
-    } /*
-       * else if (Robot.getInstance().getOIContainer().getDriveController()
-       * .getTopGunEjectCargoButton()) {
-       * m_feeder.runBillFeeder(m_speed.getAsDouble());
-       * 
-       * }
-       */ else {
+    } else if (Robot.getInstance().getOIContainer().getSubsystemController()
+        .getBillFeederButton()) {
+      m_feeder.runBillFeeder(m_speed.getAsDouble());
+    } else {
       m_feeder.runBillFeeder(0);
     }
   }

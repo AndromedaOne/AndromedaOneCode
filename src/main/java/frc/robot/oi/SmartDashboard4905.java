@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotationSingleton;
+import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
+import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
@@ -64,6 +68,19 @@ public class SmartDashboard4905 {
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
       SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
           subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
+    }
+    if (Config4905.getConfig4905().doesBillShooterExist()) {
+      SmartDashboard.putData("Tune Bill Shooter Feed Forward", new TuneBillShooterFeedForward(
+          subsystemsContainer.getBillShooter(), subsystemsContainer.getBillFeeder()));
+      SmartDashboard.putNumber("Set Bill Shooter RPM", 100); // Arbitrary value
+      SmartDashboard.putData("Run Bill Shooter RPM",
+          new RunBillShooterRPM(subsystemsContainer.getBillShooter()));
+    }
+    if (Config4905.getConfig4905().doesArmRotateExist()) {
+      SmartDashboard.putData("Set Bill Arm Rotate 180",
+          new ArmRotate(subsystemsContainer.getBillArmRotate(),
+              ArmRotationSingleton.getInstance().getAngle(), false, true));
+      // Will need to be changed at some point
     }
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);

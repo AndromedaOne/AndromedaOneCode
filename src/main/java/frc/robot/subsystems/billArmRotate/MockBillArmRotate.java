@@ -21,7 +21,7 @@ public class MockBillArmRotate implements BillArmRotateBase {
   public void disengageArmBrake() {
   }
 
-  public BillArmBrakeState getState() {
+  public BillArmBrakeState getBrakeState() {
     return BillArmBrakeState.ENGAGEARMBRAKE;
   }
 

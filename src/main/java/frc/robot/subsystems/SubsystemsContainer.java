@@ -15,6 +15,9 @@ import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
+import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.billArmRotate.MockBillArmRotate;
+import frc.robot.subsystems.billArmRotate.RealBillArmRotate;
 import frc.robot.subsystems.billClimber.BillClimberBase;
 import frc.robot.subsystems.billClimber.MockBillClimber;
 import frc.robot.subsystems.billClimber.RealBillClimber;
@@ -83,6 +86,7 @@ public class SubsystemsContainer {
   BillShooterBase m_billShooter;
   BillFeederBase m_billFeeder;
   BillEndEffectorPositionBase m_endEffector;
+  BillArmRotateBase m_armRotate;
   BillClimberBase m_billClimber;
 
   /**
@@ -218,6 +222,12 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock Billthoven end effector");
       m_endEffector = new MockBillEndEffectorPosition();
     }
+    if (Config4905.getConfig4905().doesArmRotateExist()) {
+      Trace.getInstance().logInfo("using real Billthoven arm rotate");
+      m_armRotate = new RealBillArmRotate(m_compressor);
+    } else {
+      m_armRotate = new MockBillArmRotate();
+    }
     if (Config4905.getConfig4905().doesBillClimberExist()) {
       Trace.getInstance().logInfo("using real Billthoven climber");
       m_billClimber = new RealBillClimber();
@@ -273,6 +283,10 @@ public class SubsystemsContainer {
 
   public BillFeederBase getBillFeeder() {
     return m_billFeeder;
+  }
+
+  public BillArmRotateBase getBillArmRotate() {
+    return m_armRotate;
   }
 
   public BillEndEffectorPositionBase getBillEffectorPosition() {

@@ -414,6 +414,13 @@ public class Config4905 {
     return m_armRotateConfig;
   }
 
+  public boolean doesArmRotateExist() {
+    if (m_config.hasPath("subsystems.billArmRotate")) {
+      return true;
+    }
+    return false;
+  }
+
   public Config getEndEffectorPositionConfig() {
     return m_endEffectorConfig;
   }

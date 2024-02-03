@@ -24,4 +24,8 @@ public class SubsystemController extends ControllerBase {
         || Config4905.getConfig4905().doesLeftLEDExist()) {
     }
   }
+
+  public boolean getBillFeederButton() {
+    return getBbutton().getAsBoolean(); // Button used might be changed
+  }
 }
