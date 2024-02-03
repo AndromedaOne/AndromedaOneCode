@@ -83,7 +83,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
       super.initialize();
       setDistance(m_distance);
-
+      Trace.getInstance().logCommandInfo(this, "Distance: " + m_distance);
       getController().setP(pidConstantsConfig.getDouble("MoveUsingEncoder.Kp"));
       getController().setI(pidConstantsConfig.getDouble("MoveUsingEncoder.Ki"));
       getController().setD(pidConstantsConfig.getDouble("MoveUsingEncoder.Kd"));
@@ -105,7 +105,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
         });
       }
       Trace.getInstance().logCommandInfo(this, "Moving with encoder to position: " + getSetpoint());
-
+      Trace.getInstance().logCommandInfo(this,
+        "Starting encoder position: " + m_driveTrain.getRobotPositionInches());
     }
 
     public double getSetpoint() {
