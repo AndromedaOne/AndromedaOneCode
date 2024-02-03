@@ -40,7 +40,7 @@ public class AutoModes4905 {
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
-    if (Config4905.getConfig4905().m_isSwerveBot()) {
+    if (Config4905.getConfig4905().isSwerveBot()) {
       m_autoChooser.addOption("1: Emergency Backup", new EmergencyBackup(autonomousConfig));
       m_autoChooser.addOption("2: Score Amp, Pick Up Note, Score Amp",
           new AmpScore(autonomousConfig));
