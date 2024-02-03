@@ -233,6 +233,10 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
   }
 
   @Override
+  public void setToZero() {
+  }
+
+  @Override
   public void periodic() {
     SmartDashboard.putNumber("robotPositionInches", getRobotPositionInches());
     SmartDashboard.putNumber("Left Wheel Speed", getLeftRateMetersPerSecond());

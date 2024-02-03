@@ -292,7 +292,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
-  private void setToZero() {
+  public void setToZero() {
     for (SwerveModule mod : m_SwerveMods) {
       mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), false, true);
     }

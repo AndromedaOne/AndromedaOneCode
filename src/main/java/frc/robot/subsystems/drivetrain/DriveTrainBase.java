@@ -55,9 +55,11 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract void resetOdometry(Pose2d pose);
 
-  public void setCoast(boolean value);
+  public abstract void setCoast(boolean value);
 
-  public void setDriveTrainMode(DriveTrainModeEnum mode);
+  public abstract void setDriveTrainMode(DriveTrainModeEnum mode);
 
-  public DriveTrainModeEnum getDriveTrainMode();
+  public abstract DriveTrainModeEnum getDriveTrainMode();
+
+  public abstract void setToZero();
 }
