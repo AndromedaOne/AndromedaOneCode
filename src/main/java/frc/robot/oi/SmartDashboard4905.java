@@ -60,10 +60,10 @@ public class SmartDashboard4905 {
       if (currentAlliance.get() == Alliance.Red) {
         autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
       } else {
-        autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
+        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
       }
     } else {
-      autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
+      autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     }
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putNumber("Auto Delay", 0);

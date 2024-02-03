@@ -28,10 +28,10 @@ public class AutoModes4905 {
     Optional<Alliance> currentAlliance = DriverStation.getAlliance();
     Config autonomousConfig;
     if (currentAlliance.isPresent()) {
-      if (currentAlliance.get() == Alliance.Red) {
-        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
-      } else {
+      if (currentAlliance.get() == Alliance.Blue) {
         autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
+      } else {
+        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
       }
     } else {
       autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();

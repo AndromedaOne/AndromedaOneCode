@@ -50,6 +50,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
 
     Trace.getInstance().logCommandInfo(this, "waypoint1: " + waypoint1);
     Trace.getInstance().logCommandInfo(this, "waypoint2: " + waypoint2);
+    Trace.getInstance().logCommandInfo(this, "angle1: " + angle1);
     Trace.getInstance().logCommandInfo(this, "waypoint3: " + waypoint3);
     //
     // addCommands(new SequentialCommandGroup(new MoveUsingEncoder(driveTrain,
@@ -77,7 +78,23 @@ public class AmpScore extends SequentialCommandGroup4905 {
     // );
 
     addCommands(new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint1, 1.0),
-        new TurnToCompassHeading(angle1)));
+        new TurnToCompassHeading(angle1), new MoveUsingEncoder(driveTrain, waypoint2, 1.0)// ,
+    // need amp score command
+    // new MoveUsingEncoder(driveTrain, waypoint3, 1.0), new
+    // TurnToCompassHeading(angle2),
+    // new ParallelCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint4,
+    // 1.0)// ,
+    // need intake command
+    // ), new MoveUsingEncoder(driveTrain, waypoint5, 1.0), new
+    // TurnToCompassHeading(angle3),
+    // new MoveUsingEncoder(driveTrain, waypoint6, 1.0),
+    // need amp score command
+    // new MoveUsingEncoder(driveTrain, waypoint7, 1.0), new
+    // TurnToCompassHeading(angle4),
+    // new ParallelCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint8,
+    // 1.0)// ,
+    // need intake
 
+    ));
   }
 }
