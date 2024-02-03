@@ -141,7 +141,7 @@ public abstract class LEDs extends SubsystemBase {
   public void setYellow(double brightness) {
     clearColor();
     m_redValue = brightness;
-    m_greenValue = brightness / 1.5;
+    m_greenValue = brightness / 2;
   }
 
   /**

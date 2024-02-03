@@ -23,7 +23,7 @@ public abstract class RealLEDs extends LEDs {
       setRed(1);
       setBlinking(0.25);
     } else if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
-      setSethRed(1);
+      setYellow(1);
       setBlinking(0.05);
     } else if (Robot.getInstance().isDisabled()) {
       setRainbow();
@@ -48,12 +48,12 @@ public abstract class RealLEDs extends LEDs {
           break;
 
         case MID:
-          setPurple(1);
+          setGreen(1);
           setSolid();
           break;
 
         case FAST:
-          setGreen(1);
+          setRed(1);
           setSolid();
           break;
 
