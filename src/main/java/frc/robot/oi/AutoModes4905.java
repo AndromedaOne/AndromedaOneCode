@@ -34,7 +34,7 @@ public class AutoModes4905 {
         autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
       }
     } else {
-      autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
+      autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     }
     m_autoChooser = autoChooser;
 

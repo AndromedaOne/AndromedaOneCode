@@ -6,18 +6,18 @@ package frc.robot.commands.groupCommands.autonomousCommands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CentralSpeaker3Scores extends SequentialCommandGroup {
+public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
   public CentralSpeaker3Scores(Config autonomousConfig) {
     // Positioned by the central speaker
     // Score preloaded note in speaker
@@ -38,21 +38,21 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup {
     double waypoint4 = autonomousConfig.getDouble("CentralSpeaker3Scores.WayPoint4");
     double angle3 = autonomousConfig.getDouble("CentralSpeaker3Scores.Angle3");
     //
-    addCommands(
+    addCommands(new SequentialCommandGroup4905(
         // need shooter command
-        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)// , need intake
-                                                                                 // command
+        new ParallelCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)// , need
+                                                                                     // intake
+        // command
         ),
         // need shooter command
-        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint2, 1.0)),
-        new SequentialCommandGroup(new TurnToCompassHeading(angle1)),
-        new SequentialCommandGroup(new MoveUsingEncoder(driveTrain, waypoint3, 1.0)),
-        new SequentialCommandGroup(new TurnToCompassHeading(angle2)),
-        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint4, 1.0)// , need intake
-                                                                                 // command
-        ), new SequentialCommandGroup(new TurnToCompassHeading(angle3))
+        new MoveUsingEncoder(driveTrain, waypoint2, 1.0), new TurnToCompassHeading(angle1),
+        new MoveUsingEncoder(driveTrain, waypoint3, 1.0), new TurnToCompassHeading(angle2),
+        new ParallelCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint4, 1.0)// , need
+                                                                                     // intake
+        // command
+        ), new TurnToCompassHeading(angle3)
     // need shooter command
 
-    );
+    ));
   }
 }
