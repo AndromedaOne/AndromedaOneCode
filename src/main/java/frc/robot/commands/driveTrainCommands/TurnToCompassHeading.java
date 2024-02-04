@@ -8,6 +8,8 @@
 
 package frc.robot.commands.driveTrainCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -45,6 +47,10 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
     m_setpoint = () -> m_compassHeading;
+  }
+
+  public TurnToCompassHeading(DoubleSupplier compassHeading) {
+    this(compassHeading.getAsDouble());
   }
 
   public void initialize() {

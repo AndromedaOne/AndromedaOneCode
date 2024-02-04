@@ -7,6 +7,8 @@
 
 package frc.robot.commands.driveTrainCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -56,6 +58,11 @@ public class MoveUsingEncoder extends PIDCommand4905 {
   public MoveUsingEncoder(DriveTrainBase drivetrain, double distance, double heading,
       double maxOutput) {
     this(drivetrain, distance, heading, maxOutput, false);
+  }
+
+  // This is to allow Double Supplier as a distance
+  public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double maxOutput) {
+    this(drivetrain, distance.getAsDouble(), 0, maxOutput, false);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
