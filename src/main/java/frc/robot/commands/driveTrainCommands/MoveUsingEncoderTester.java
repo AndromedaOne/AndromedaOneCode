@@ -18,7 +18,7 @@ public class MoveUsingEncoderTester extends Command {
   public void initialize() {
     double distance = SmartDashboard.getNumber("MoveUsingEncoderTester Distance To Move", 24);
     CommandScheduler.getInstance()
-        .schedule(new SequentialCommandGroup(new MoveUsingEncoder(m_driveTrain, distance, 1.0)));
+        .schedule(new SequentialCommandGroup(new MoveUsingEncoder(m_driveTrain, distance, 0.2)));
     Trace.getInstance().logCommandStart(this);
     Trace.getInstance().logCommandInfo(this, "Moving distance: " + distance);
   }

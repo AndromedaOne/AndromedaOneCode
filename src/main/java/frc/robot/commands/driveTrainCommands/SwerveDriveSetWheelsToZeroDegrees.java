@@ -36,13 +36,14 @@ public class SwerveDriveSetWheelsToZeroDegrees extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_driveTrainBase.stop();
     Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_count >= 150) {
+    if (m_count >= 60) {
       return true;
     }
     return false;

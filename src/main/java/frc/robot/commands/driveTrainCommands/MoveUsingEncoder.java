@@ -13,14 +13,14 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
-import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905; 
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 public class MoveUsingEncoder extends SequentialCommandGroup4905 {
   public MoveUsingEncoder(DriveTrainBase drivetrain, double distance, double heading,
       double maxOutput, boolean useCurrentHeading) {
-    addCommands(new SwerveDriveSetWheelsToZeroDegrees(drivetrain),
+    addCommands(new SwerveDriveSetWheelsToZeroDegrees(drivetrain), 
         new MoveUsingEncoderInternal(drivetrain, distance, heading, maxOutput, useCurrentHeading));
   }
 
@@ -69,6 +69,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
             // Use the output here
             drivetrain.moveUsingGyro(output, 0, false, heading);
           });
+          Trace.getInstance().logCommandInfo(this, "constructed");
       m_distance = distance;
       m_setpoint = this::getSetpoint;
       m_driveTrain = drivetrain;
@@ -105,8 +106,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
         });
       }
       Trace.getInstance().logCommandInfo(this, "Moving with encoder to position: " + getSetpoint());
-      Trace.getInstance().logCommandInfo(this,
-        "Starting encoder position: " + m_driveTrain.getRobotPositionInches());
+      Trace.getInstance().logCommandInfo(this,"Starting encoder position: " + m_driveTrain.getRobotPositionInches());
     }
 
     public double getSetpoint() {
