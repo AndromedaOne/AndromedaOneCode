@@ -1,11 +1,7 @@
 package frc.robot.oi;
 
-import java.util.Optional;
-
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,23 +15,15 @@ import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
 import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.utils.AllianceConfig;
 
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
 
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer, SendableChooser<Command> autoChooser) {
-    Optional<Alliance> currentAlliance = DriverStation.getAlliance();
-    Config autonomousConfig;
-    if (currentAlliance.isPresent()) {
-      if (currentAlliance.get() == Alliance.Blue) {
-        autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
-      } else {
-        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
-      }
-    } else {
-      autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
-    }
+    Config autonomousConfig = AllianceConfig.getCurrentAlliance();
+
     m_autoChooser = autoChooser;
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());

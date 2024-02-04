@@ -7,12 +7,7 @@
 
 package frc.robot;
 
-import java.util.Optional;
-
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -125,19 +120,7 @@ public class Robot extends TimedRobot {
     setInitialZangleOffset();
 
     m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
-    if (DriverStation.isFMSAttached()) {
-      Optional<Alliance> currentAlliance = DriverStation.getAlliance();
-      Config autonomousConfig;
-      if (currentAlliance.isPresent()) {
-        if (currentAlliance.get() == Alliance.Red) {
-          autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
-        } else {
-          autonomousConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
-        }
-      } else {
-        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
-      }
-    }
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);

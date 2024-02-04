@@ -7,12 +7,8 @@
 
 package frc.robot.oi;
 
-import java.util.Optional;
-
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +38,7 @@ import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
+import frc.robot.utils.AllianceConfig;
 
 /**
  * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
@@ -54,17 +51,7 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
-    Optional<Alliance> currentAlliance = DriverStation.getAlliance();
-    Config autonomousConfig;
-    if (currentAlliance.isPresent()) {
-      if (currentAlliance.get() == Alliance.Red) {
-        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
-      } else {
-        autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
-      }
-    } else {
-      autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
-    }
+    Config autonomousConfig = AllianceConfig.getCurrentAlliance();
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
