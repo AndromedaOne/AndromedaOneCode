@@ -38,7 +38,6 @@ public class MoveWithoutPID extends Command {
   @Override
   public void initialize() {
     m_distance += m_driveTrain.getRobotPositionInches();
-    Trace.getInstance().logCommandStart(this);
     Trace.getInstance().logCommandInfo(this, "target distance: " + m_distance);
   }
 
@@ -51,7 +50,6 @@ public class MoveWithoutPID extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     m_driveTrain.stop();
     Trace.getInstance().logCommandInfo(this,
         "ending position: " + m_driveTrain.getRobotPositionInches());

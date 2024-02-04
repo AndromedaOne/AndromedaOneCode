@@ -64,6 +64,10 @@ public class Robot extends TimedRobot {
     m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(true);
     LiveWindow.disableAllTelemetry();
+    CommandScheduler.getInstance()
+        .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));
+    CommandScheduler.getInstance()
+        .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
     Trace.getInstance().logInfo("robot init finished");
   }
 

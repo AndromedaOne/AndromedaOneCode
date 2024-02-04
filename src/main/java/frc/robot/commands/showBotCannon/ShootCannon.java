@@ -39,7 +39,6 @@ public class ShootCannon extends Command {
     m_audio.playShootCannonAudio();
     m_delayCount = 0;
     m_cannonShot = false;
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -64,7 +63,6 @@ public class ShootCannon extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

@@ -79,14 +79,12 @@ public class ArmRotate extends SequentialCommandGroup4905 {
 
       Trace.getInstance().logCommandInfo(this, "Rotate Arms to: " + m_setpoint.getAsDouble());
       m_armRotate.disengageArmBrake();
-      Trace.getInstance().logCommandStart(this);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
       super.end(interrupted);
-      Trace.getInstance().logCommandStop(this);
       Trace.getInstance().logCommandInfo(this, "Ending Angle: " + m_armRotate.getAngle());
       m_armRotate.engageArmBrake();
     }

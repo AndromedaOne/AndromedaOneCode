@@ -62,7 +62,6 @@ public class TeleOpCommand extends Command {
 
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     m_currentDelay = 0;
     m_savedRobotAngle = m_gyro.getZAngle();
   }
@@ -137,7 +136,6 @@ public class TeleOpCommand extends Command {
 
   @Override
   public void end(boolean interupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   private void calculateSlowMidFastMode() {

@@ -14,7 +14,6 @@ import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunIntake.IntakeBase;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
-import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -34,15 +33,5 @@ public class UnstickCargo extends SequentialCommandGroup4905 {
         new RunFeeder(feeder, () -> m_feederSetpoint, true, () -> false),
         new DeployAndRunIntake(intakeBase, true),
         new MoveShooterAlignment(shooterAlignment, () -> m_shooterAngle)));
-  }
-
-  @Override
-  public void additionalInitialize() {
-    Trace.getInstance().logCommandStart(this);
-  }
-
-  @Override
-  public void additionalEnd(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 }

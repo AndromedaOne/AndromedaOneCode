@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorState;
-import frc.robot.telemetries.Trace;
 
 public class SwitchEndEffectorPosition extends Command {
   /** Creates a new beautiful OpenCloseGripper. */
@@ -20,7 +19,6 @@ public class SwitchEndEffectorPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     // below was in execute
     if (m_endEffectorPositionBase.getState() == BillEndEffectorState.HIGHSHOOTING) {
       m_endEffectorPositionBase.moveLowEndEffector();
@@ -48,7 +46,6 @@ public class SwitchEndEffectorPosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
 
   }
 
