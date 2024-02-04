@@ -94,8 +94,8 @@ public class AmpScore extends SequentialCommandGroup4905 {
 
     // );
 
-    addCommands(new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, m_waypoint1, 1.0),
-        new TurnToCompassHeading(m_angle1), new MoveUsingEncoder(driveTrain, m_waypoint2, 1.0)// ,
+    addCommands(new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, m_waypoint1, 0.5),
+        new TurnToCompassHeading(m_angle1), new MoveUsingEncoder(driveTrain, m_waypoint2, 0.5)// ,
     // need amp score command
     // new MoveUsingEncoder(driveTrain, waypoint3, 1.0), new
     // TurnToCompassHeading(angle2),
