@@ -247,11 +247,12 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public double getRobotPositionInches() {
-      double modDistance = m_SwerveMods[0].getPosition().distanceMeters;
-      if ((m_SwerveMods[0].getAngle().getDegrees() < 270) && (m_SwerveMods[0].getAngle().getDegrees() > 90)) {
-        modDistance = -modDistance;
-      }
-    
+    double modDistance = m_SwerveMods[0].getPosition().distanceMeters;
+    if ((m_SwerveMods[0].getAngle().getDegrees() < 270)
+        && (m_SwerveMods[0].getAngle().getDegrees() > 90)) {
+      modDistance = -modDistance;
+    }
+
     return modDistance * 39.3701;
   }
 
