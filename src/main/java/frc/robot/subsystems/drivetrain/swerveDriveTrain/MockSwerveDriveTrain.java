@@ -88,6 +88,10 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   @Override
   public DriveTrainModeEnum getDriveTrainMode() {
     return null;
+  }
+
+  @Override
+  public void setToZero() {
   };
 
 }

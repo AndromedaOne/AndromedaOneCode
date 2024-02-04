@@ -125,4 +125,8 @@ public class MockTankDriveTrain implements TankDriveTrain {
       boolean isOpenLoop) {
   }
 
+  @Override
+  public void setToZero() {
+  }
+
 }
