@@ -51,7 +51,7 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
-    Config autonomousConfig = AllianceConfig.getCurrentAlliance();
+    Config autonomousConfig = AllianceConfig.getCurrentAllianceConfig();
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
@@ -94,7 +94,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("EmergencyBackup", new EmergencyBackup(autonomousConfig));
-      SmartDashboard.putData("AmpScore", new AmpScore(autonomousConfig));
+      SmartDashboard.putData("AmpScore", new AmpScore());
       SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores(autonomousConfig));
       SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores(autonomousConfig));
       SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker(autonomousConfig));

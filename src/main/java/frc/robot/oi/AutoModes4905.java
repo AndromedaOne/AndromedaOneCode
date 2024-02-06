@@ -22,7 +22,7 @@ public class AutoModes4905 {
 
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer, SendableChooser<Command> autoChooser) {
-    Config autonomousConfig = AllianceConfig.getCurrentAlliance();
+    Config autonomousConfig = AllianceConfig.getCurrentAllianceConfig();
 
     m_autoChooser = autoChooser;
 
@@ -30,8 +30,7 @@ public class AutoModes4905 {
 
     if (Config4905.getConfig4905().isSwerveBot()) {
       m_autoChooser.addOption("1: Emergency Backup", new EmergencyBackup(autonomousConfig));
-      m_autoChooser.addOption("2: Score Amp, Pick Up Note, Score Amp",
-          new AmpScore(autonomousConfig));
+      m_autoChooser.addOption("2: Score Amp, Pick Up Note, Score Amp", new AmpScore());
       m_autoChooser.addOption(
           "3: Central Speaker Start, Score Speaker, Pick Up Note, Score Speaker",
           new CentralSpeaker2Scores(autonomousConfig));

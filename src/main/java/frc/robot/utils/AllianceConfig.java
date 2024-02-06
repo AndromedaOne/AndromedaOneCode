@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Config4905;
 
 public class AllianceConfig {
-  public static Config getCurrentAlliance() {
+  public static Config getCurrentAllianceConfig() {
     Config autonomousConfig;
     if (DriverStation.isFMSAttached()) {
       Optional<Alliance> currentAlliance = DriverStation.getAlliance();
@@ -26,5 +26,18 @@ public class AllianceConfig {
       autonomousConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     }
     return autonomousConfig;
+  }
+
+  public static Alliance getCurrentAlliance() {
+    Alliance alliance = Alliance.Red;
+    if (DriverStation.isFMSAttached()) {
+      Optional<Alliance> currentAlliance = DriverStation.getAlliance();
+      if (currentAlliance.isPresent()) {
+        if (currentAlliance.get() == Alliance.Blue) {
+          alliance = Alliance.Blue;
+        }
+      }
+    }
+    return alliance;
   }
 }

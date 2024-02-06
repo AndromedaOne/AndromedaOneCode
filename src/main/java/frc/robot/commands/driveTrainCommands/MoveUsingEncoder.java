@@ -7,8 +7,6 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import java.util.function.DoubleSupplier;
-
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -20,7 +18,7 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 public class MoveUsingEncoder extends SequentialCommandGroup4905 {
-  public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double heading,
+  public MoveUsingEncoder(DriveTrainBase drivetrain, double distance, double heading,
       double maxOutput, boolean useCurrentHeading) {
     addCommands(new SwerveDriveSetWheelsToZeroDegrees(drivetrain),
         new MoveUsingEncoderInternal(drivetrain, distance, heading, maxOutput, useCurrentHeading));
@@ -29,17 +27,12 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
   // Use this constructor to move the robot in the heading passed in
   public MoveUsingEncoder(DriveTrainBase drivetrain, double distance, double heading,
       double maxOutput) {
-    this(drivetrain, () -> distance, heading, maxOutput, false);
+    this(drivetrain, distance, heading, maxOutput, false);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
   public MoveUsingEncoder(DriveTrainBase driveTrain, double distance, double maxOutput) {
-    this(driveTrain, () -> distance, 0, maxOutput, true);
-  }
-
-    // This is to allow Double Supplier as a distance
-  public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double maxOutput) {
-    this(drivetrain, distance, 0, maxOutput, false);
+    this(driveTrain, distance, 0, maxOutput, true);
   }
 
   @Override
@@ -54,7 +47,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
 
   private class MoveUsingEncoderInternal extends PIDCommand4905 {
     private DriveTrainBase m_driveTrain;
-    private DoubleSupplier m_distance =() -> 0;
+    private double m_distance = 0;
     private double m_maxOutput = 0;
     private double m_target;
     private boolean m_useCurrentHeading = false;
@@ -62,7 +55,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     /**
      * Creates a new MoveUsingEncoder.
      */
-    public MoveUsingEncoderInternal(DriveTrainBase drivetrain, DoubleSupplier distance, double heading,
+    public MoveUsingEncoderInternal(DriveTrainBase drivetrain, double distance, double heading,
         double maxOutput, boolean useCurrentHeading) {
       super(
           // The controller that the command will use
@@ -86,12 +79,11 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       addRequirements(drivetrain.getSubsystemBase());
     }
 
-
     public void initialize() {
       Trace.getInstance().logCommandStart(this);
       Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
       super.initialize();
-      setDistance(m_distance.getAsDouble());
+      setDistance(m_distance);
       Trace.getInstance().logCommandInfo(this, "Distance: " + m_distance);
       getController().setP(pidConstantsConfig.getDouble("MoveUsingEncoder.Kp"));
       getController().setI(pidConstantsConfig.getDouble("MoveUsingEncoder.Ki"));
@@ -123,8 +115,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     }
 
     public void setDistance(double distance) {
-      m_distance = () -> distance;
-      m_target = m_driveTrain.getRobotPositionInches() + m_distance.getAsDouble();
+      m_distance = distance;
+      m_target = m_driveTrain.getRobotPositionInches() + m_distance;
     }
 
     // Returns true when the command should end.
