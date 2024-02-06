@@ -9,6 +9,7 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -16,16 +17,40 @@ import frc.robot.subsystems.SubsystemsContainer;
  * they are easier to find.
  */
 public class SubsystemController extends ControllerBase {
+  private SubsystemsContainer m_subsystemsContainer;
 
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
+    m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
 
     if (Config4905.getConfig4905().doesRightLEDExist()
         || Config4905.getConfig4905().doesLeftLEDExist()) {
     }
+    if (Config4905.getConfig4905().isBillthoven()) {
+      setUpBillEndEffectorButtons();
+    }
   }
 
-  public boolean getBillFeederButton() {
-    return getBbutton().getAsBoolean(); // Button used might be changed
+  public boolean getBillFeederButtonBoolean() {
+    return getRightTriggerPressedBoolean();
+  }
+
+  public boolean getBillFeederEjectNoteButton() {
+    return getRightBumperButton().getAsBoolean();
+  }
+
+  public boolean getBillFeederIntakeNoteButton() {
+    return getLeftTriggerPressedBoolean();
+  }
+
+  private void setUpBillEndEffectorButtons() {
+    double m_speed;
+    boolean m_readyToShoot;
+    m_speed = 1;
+    m_readyToShoot = false;
+    getRightBumperButton().whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
+        () -> m_speed, true, () -> m_readyToShoot));
+    getLeftTriggerPressed().whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
+        () -> m_speed, false, () -> m_readyToShoot));
   }
 }

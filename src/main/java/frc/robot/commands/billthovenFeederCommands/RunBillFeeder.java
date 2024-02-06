@@ -38,7 +38,7 @@ public class RunBillFeeder extends Command {
     } else if (m_readyToShoot.getAsBoolean()) {
       m_feeder.runBillFeeder(m_speed.getAsDouble());
     } else if (Robot.getInstance().getOIContainer().getSubsystemController()
-        .getBillFeederButton()) {
+        .getBillFeederButtonBoolean()) {
       m_feeder.runBillFeeder(m_speed.getAsDouble());
     } else {
       m_feeder.runBillFeeder(0);
