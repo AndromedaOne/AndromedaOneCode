@@ -2,9 +2,9 @@ package frc.robot.sensors.pwfTofDistanceSensor;
 
 import frc.robot.sensors.RealSensorBase;
 
-public class RealpwfTofDistanceSensor extends RealSensorBase implements pwfTofDistanceSensor{
-  
-  public void pwfTofDistanceSensor(){
+public class RealpwfTofDistanceSensor extends RealSensorBase implements pwfTofDistanceSensor {
+
+  public void pwfTofDistanceSensor() {
 
   }
 
