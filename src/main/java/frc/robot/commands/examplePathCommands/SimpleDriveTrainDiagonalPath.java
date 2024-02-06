@@ -7,7 +7,6 @@ package frc.robot.commands.examplePathCommands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.pathgeneration.pathgenerators.DriveTrainDiagonalPathGenerator;
-import frc.robot.pathgeneration.pathgenerators.DriveTrainRectangularPathGenerator;
 import frc.robot.pathgeneration.pathgenerators.PathGeneratorBase;
 import frc.robot.pathgeneration.waypoints.Waypoint;
 import frc.robot.pathgeneration.waypoints.WaypointsBase;
@@ -22,11 +21,11 @@ public class SimpleDriveTrainDiagonalPath extends SequentialCommandGroup {
       addWayPoint(new Waypoint(0, 0));
       addWayPoint(new Waypoint(0, 56));
       addWayPoint(new Waypoint(17.75, 56));
-      addWayPoint(new Waypoint (-12.25, 56));
-      addWayPoint(new Waypoint(15,-50));
+      addWayPoint(new Waypoint(-12.25, 56));
+      addWayPoint(new Waypoint(15, -50));
       addWayPoint(new Waypoint(-12, -1));
       addWayPoint(new Waypoint(17.25, 56));
-      addWayPoint(new Waypoint (0,0));
+      addWayPoint(new Waypoint(0, 0));
     }
   }
 
