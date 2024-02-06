@@ -141,4 +141,9 @@ public class RealNavXGyroSensor extends RealGyroBase {
 
   }
 
+  @Override
+  public boolean getIsCalibrated() {
+    return calibrated;
+  }
+
 }

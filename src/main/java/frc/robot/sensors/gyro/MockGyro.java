@@ -80,4 +80,9 @@ public class MockGyro implements Gyro4905 {
     return (() -> 0);
   }
 
+  @Override
+  public boolean getIsCalibrated() {
+    return true;
+  }
+
 }
