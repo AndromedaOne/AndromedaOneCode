@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
+    tof = new TimeOfFlight(13);
     m_subsystemContainer.getDriveTrain().setCoast(true);
     LiveWindow.disableAllTelemetry();
     CommandScheduler.getInstance()

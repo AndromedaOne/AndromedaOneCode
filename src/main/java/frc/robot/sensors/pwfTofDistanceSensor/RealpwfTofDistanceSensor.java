@@ -10,7 +10,6 @@ public class RealpwfTofDistanceSensor extends RealSensorBase implements pwfTofDi
 
   @Override
   protected void updateSmartDashboard() {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'updateSmartDashboard'");
   }
 }
