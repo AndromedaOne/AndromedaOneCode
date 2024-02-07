@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -99,10 +100,12 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.periodic();
 
     // Get the distance from the Time-of-Flight sensor
-    double tofdistance = tof.getRange();
+    tof.setRangingMode(RangingMode.Long, 100);
+    tof.setRangeOfInterest(0, 0, 16, 16);
+    double tofdistance_mm = tof.getRange();
 
     // Display the distance on the SmartDashboard
-    SmartDashboard.putNumber("tofDistance", tofdistance);
+    SmartDashboard.putNumber("tof Distance mm", tofdistance_mm);
 
   }
 
