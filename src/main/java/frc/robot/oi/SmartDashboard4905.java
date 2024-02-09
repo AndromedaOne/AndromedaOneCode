@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
@@ -46,6 +47,8 @@ public class SmartDashboard4905 {
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
+    SmartDashboard.putData("Calibrate Gyro",
+        new CalibrateGyro(sensorsContainer.getGyro(), subsystemsContainer.getDriveTrain()));
     SmartDashboard.putData("Simple Diagonal Path Gen",
         new SimpleDriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
