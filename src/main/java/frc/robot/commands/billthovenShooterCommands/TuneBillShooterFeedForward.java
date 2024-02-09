@@ -7,7 +7,6 @@ import frc.robot.Config4905;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
-import frc.robot.telemetries.Trace;
 
 public class TuneBillShooterFeedForward extends Command {
   /**
@@ -30,7 +29,6 @@ public class TuneBillShooterFeedForward extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     System.out.println("TuneBillShooterInitialize");
     double feedForward = SmartDashboard.getNumber("Shooter Feed Forward Value", 0.00025);
     double PValue = SmartDashboard.getNumber("Shooter p Value", 0.0001);
@@ -50,7 +48,6 @@ public class TuneBillShooterFeedForward extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

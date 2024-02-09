@@ -58,10 +58,9 @@ public class TurnDeltaAngle extends PIDCommand4905 {
     super.initialize();
     double setpoint = m_gyro.getZAngle() + m_deltaTurnAngle;
     double angle = m_gyro.getZAngle();
-    System.out.println(" - Starting Angle: " + angle + " - ");
-    System.out.println(" - Setpoint: " + setpoint + " - ");
+    Trace.getInstance().logCommandInfo(this, "Starting Angle:" + angle);
+    Trace.getInstance().logCommandInfo(this, "Setpoint: " + setpoint);
     m_setpoint = () -> setpoint;
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Returns true when the command should end.
@@ -76,7 +75,6 @@ public class TurnDeltaAngle extends PIDCommand4905 {
 
   public void end(boolean interrupted) {
     super.end(interrupted);
-    System.out.println(" - Finish Angled: " + m_gyro.getZAngle() + " - ");
-    Trace.getInstance().logCommandStop(this);
+    Trace.getInstance().logCommandInfo(this, "Finish Angle" + m_gyro.getZAngle());
   }
 }

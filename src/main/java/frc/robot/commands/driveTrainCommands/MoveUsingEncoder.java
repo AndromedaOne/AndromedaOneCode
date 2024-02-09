@@ -35,16 +35,6 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     this(driveTrain, distance, 0, maxOutput, true);
   }
 
-  @Override
-  public void additionalInitialize() {
-    Trace.getInstance().logCommandStart(this);
-  }
-
-  @Override
-  public void additionalEnd(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
-  }
-
   private class MoveUsingEncoderInternal extends PIDCommand4905 {
     private DriveTrainBase m_driveTrain;
     private double m_distance = 0;
@@ -80,7 +70,6 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     }
 
     public void initialize() {
-      Trace.getInstance().logCommandStart(this);
       Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
       super.initialize();
       setDistance(m_distance);
@@ -128,9 +117,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     public void end(boolean interrupted) {
       super.end(interrupted);
       m_driveTrain.stop();
-      Trace.getInstance().logCommandStop(this);
       Trace.getInstance().logCommandInfo(this,
-          "Endong position: " + m_driveTrain.getRobotPositionInches());
+          "Ending position: " + m_driveTrain.getRobotPositionInches());
     }
   }
 }
