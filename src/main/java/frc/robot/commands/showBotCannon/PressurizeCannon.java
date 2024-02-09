@@ -9,7 +9,6 @@ import frc.robot.Robot;
 import frc.robot.subsystems.ledlights.LEDRobotInformation;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotCannon.CannonBase;
-import frc.robot.telemetries.Trace;
 
 public class PressurizeCannon extends Command {
   /** Creates a new PressurizeCannon. */
@@ -26,7 +25,6 @@ public class PressurizeCannon extends Command {
   public void initialize() {
     m_cannon.pressurize();
     LEDRobotInformation.getInstance().setCannonIsPressurized(true);
-    Trace.getInstance().logCommandStart(this);
     m_counter = 0;
     Robot.getInstance().getSubsystemsContainer().getShowBotAudio()
         .playAudio(AudioFiles.CannonIsPressurized);
@@ -41,7 +39,6 @@ public class PressurizeCannon extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

@@ -7,7 +7,6 @@ package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
-import frc.robot.telemetries.Trace;
 
 public class SwerveDriveSetWheelsToZeroDegrees extends Command {
   DriveTrainBase m_driveTrainBase;
@@ -23,7 +22,6 @@ public class SwerveDriveSetWheelsToZeroDegrees extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     m_driveTrainBase.setToZero();
   }
 
@@ -37,7 +35,6 @@ public class SwerveDriveSetWheelsToZeroDegrees extends Command {
   @Override
   public void end(boolean interrupted) {
     m_driveTrainBase.stop();
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

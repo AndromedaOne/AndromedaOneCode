@@ -14,7 +14,6 @@ import frc.robot.Config4905;
 import frc.robot.commands.topGunFeederCommands.RunFeeder;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
-import frc.robot.telemetries.Trace;
 
 public class TuneShooterFeedForward extends Command {
   /**
@@ -43,7 +42,6 @@ public class TuneShooterFeedForward extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     System.out.println("TuneShooterInitialize");
     double topFeedForward = SmartDashboard.getNumber("Top Shooter Feed Forward Value", 0.00025);
     double topPValue = SmartDashboard.getNumber("Top Shooter p Value", 0.0001);
@@ -70,7 +68,6 @@ public class TuneShooterFeedForward extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

@@ -2,7 +2,6 @@ package frc.robot.commands.billthovenArmRotateCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
-import frc.robot.telemetries.Trace;
 
 public class EnableArmBrake extends Command {
   /** Creates a new ToggleArmBrake. */
@@ -16,7 +15,6 @@ public class EnableArmBrake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +29,6 @@ public class EnableArmBrake extends Command {
   @Override
   public void end(boolean interrupted) {
     m_armRotateBase.disengageArmBrake();
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

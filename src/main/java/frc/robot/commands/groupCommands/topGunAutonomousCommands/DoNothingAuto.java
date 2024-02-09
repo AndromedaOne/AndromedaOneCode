@@ -8,7 +8,6 @@
 package frc.robot.commands.groupCommands.topGunAutonomousCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.telemetries.Trace;
 
 public class DoNothingAuto extends Command {
   /**
@@ -21,13 +20,11 @@ public class DoNothingAuto extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     super.initialize();
   }
 
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     super.end(interrupted);
   }
 

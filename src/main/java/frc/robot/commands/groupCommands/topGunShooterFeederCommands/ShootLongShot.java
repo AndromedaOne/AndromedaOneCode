@@ -8,7 +8,6 @@ import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
-import frc.robot.telemetries.Trace;
 
 public class ShootLongShot extends SequentialCommandGroup4905 {
   double m_shooterSetpoint;
@@ -24,16 +23,9 @@ public class ShootLongShot extends SequentialCommandGroup4905 {
 
   @Override
   public void additionalInitialize() {
-    Trace.getInstance().logCommandStart(this);
     // Values need to be changed for three pointer
     m_shooterSetpoint = 4500.0;
     m_shooterAngle = 42;
     m_feederSetpoint = 1.0;
   }
-
-  @Override
-  public void additionalEnd(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
-  }
-
 }
