@@ -1,7 +1,5 @@
 package frc.robot.oi;
 
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,32 +13,30 @@ import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
 import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.utils.AllianceConfig;
 
 public class AutoModes4905 {
   static SendableChooser<Command> m_autoChooser;
 
   public static void initializeAutoChooser(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer, SendableChooser<Command> autoChooser) {
-    Config autonomousConfig = AllianceConfig.getCurrentAllianceConfig();
 
     m_autoChooser = autoChooser;
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
     if (Config4905.getConfig4905().isSwerveBot()) {
-      m_autoChooser.addOption("1: Emergency Backup", new EmergencyBackup(autonomousConfig));
+      m_autoChooser.addOption("1: Emergency Backup", new EmergencyBackup());
       m_autoChooser.addOption("2: Score Amp, Pick Up Note, Score Amp", new AmpScore());
       m_autoChooser.addOption(
           "3: Central Speaker Start, Score Speaker, Pick Up Note, Score Speaker",
-          new CentralSpeaker2Scores(autonomousConfig));
+          new CentralSpeaker2Scores());
       m_autoChooser.addOption(
           "4: Cental Speaker Start, Score Speaker, Pick Up Note, Score Speaker, Pick Up Note, Score Speaker",
-          new CentralSpeaker3Scores(autonomousConfig));
+          new CentralSpeaker3Scores());
       m_autoChooser.addOption("5: Drive Station Start, Score Speaker, Pick up Note",
-          new DriveStation2Speaker(autonomousConfig));
+          new DriveStation2Speaker());
       m_autoChooser.addOption("6: Drive Station Start, Score Speaker, Pick up Note, Score Speaker",
-          new DriveStation3SpeakerWithAmp(autonomousConfig));
+          new DriveStation3SpeakerWithAmp());
     }
 
     SmartDashboard.putData("autoModes", m_autoChooser);

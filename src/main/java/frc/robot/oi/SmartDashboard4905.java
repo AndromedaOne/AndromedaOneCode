@@ -7,8 +7,6 @@
 
 package frc.robot.oi;
 
-import com.typesafe.config.Config;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,7 +36,6 @@ import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
-import frc.robot.utils.AllianceConfig;
 
 /**
  * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
@@ -51,7 +48,6 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
-    Config autonomousConfig = AllianceConfig.getCurrentAllianceConfig();
     AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
@@ -93,13 +89,12 @@ public class SmartDashboard4905 {
           new DriveTrainRectangularPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
-      SmartDashboard.putData("EmergencyBackup", new EmergencyBackup(autonomousConfig));
+      SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
       SmartDashboard.putData("AmpScore", new AmpScore());
-      SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores(autonomousConfig));
-      SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores(autonomousConfig));
-      SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker(autonomousConfig));
-      SmartDashboard.putData("DriveStation3SpeakerWithAmp",
-          new DriveStation3SpeakerWithAmp(autonomousConfig));
+      SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores());
+      SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores());
+      SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker());
+      SmartDashboard.putData("DriveStation3SpeakerWithAmp", new DriveStation3SpeakerWithAmp());
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
