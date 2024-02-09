@@ -32,14 +32,17 @@ public class SubsystemController extends ControllerBase {
   }
 
   public boolean getBillFeederButtonBoolean() {
-    return getRightTriggerPressedBoolean();
+    // Runs the feeder without moving the arm
+    return getRightStickButton().getAsBoolean();
   }
 
   public boolean getBillFeederEjectNoteButton() {
+    // Runs the feeder backwards
     return getRightBumperButton().getAsBoolean();
   }
 
   public boolean getBillFeederIntakeNoteButton() {
+    // Will move the arm down and run the feeder
     return getLeftTriggerPressedBoolean();
   }
 
@@ -50,7 +53,7 @@ public class SubsystemController extends ControllerBase {
     m_readyToShoot = false;
     getRightBumperButton().whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
         () -> m_speed, true, () -> m_readyToShoot));
-    getLeftTriggerPressed().whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
+    getRightStickButton().whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
         () -> m_speed, false, () -> m_readyToShoot));
   }
 }
