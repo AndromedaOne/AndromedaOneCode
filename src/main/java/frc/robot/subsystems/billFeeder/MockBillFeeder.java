@@ -17,13 +17,17 @@ public class MockBillFeeder implements BillFeederBase {
   }
 
   @Override
+  public boolean getNoteDetectorState() {
+    return false;
+  }
+
+  @Override
   public SubsystemBase getSubsystemBase() {
     throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
   }
 
   @Override
   public void setDefaultCommand(Command command) {
-    throw new UnsupportedOperationException("Unimplemented method 'setDefaultCommand'");
   }
 
 }

@@ -10,4 +10,6 @@ public interface BillFeederBase extends SubsystemInterface {
 
   public abstract void runBillFeederInReverse(double speed);
 
+  public abstract boolean getNoteDetectorState();
+
 }
