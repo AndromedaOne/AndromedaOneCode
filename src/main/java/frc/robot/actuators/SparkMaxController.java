@@ -3,6 +3,7 @@ package frc.robot.actuators;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkLimitSwitch;
@@ -129,5 +130,10 @@ public class SparkMaxController {
 
   public double getSpeed() {
     return m_sparkMax.get();
+  }
+
+  public REVLibError setInverted(boolean inverted) {
+    m_sparkMax.setInverted(inverted);
+    return REVLibError.kOk;
   }
 }
