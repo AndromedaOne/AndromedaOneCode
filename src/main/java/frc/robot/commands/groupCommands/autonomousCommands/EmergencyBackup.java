@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.utils.AllianceConfig;
 
@@ -27,6 +30,8 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
   EmergencyBackupConfig emergencyBackupConfigRed = new EmergencyBackupConfig();
   EmergencyBackupConfig emergencyBackupConfigBlue = new EmergencyBackupConfig();
   DriveTrainBase m_driveTrain;
+  BillEndEffectorPositionBase m_endEffector;
+  BillArmRotateBase m_armRotate;
 
   public EmergencyBackup() {
     // Both
@@ -35,6 +40,8 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
     // wait for teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     m_driveTrain = subsystemsContainer.getDriveTrain();
+    m_endEffector = subsystemsContainer.getBillEffectorPosition();
+    m_armRotate = subsystemsContainer.getBillArmRotate();
     Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     emergencyBackupConfigRed.m_waypoint1 = redConfig.getDouble("EmergencyBackup.WayPoint1");
 
@@ -51,7 +58,8 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
     } else {
       config = emergencyBackupConfigRed;
     }
-    CommandScheduler.getInstance().schedule(new SequentialCommandGroup4905(
-        new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5)));
+    CommandScheduler.getInstance().schedule(
+        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5)));
+    // new DrivePositionCommand(m_endEffector, m_armRotate)));
   }
 }
