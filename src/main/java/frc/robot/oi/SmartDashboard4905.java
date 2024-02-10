@@ -14,6 +14,8 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrake;
+import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
@@ -79,6 +81,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Set Bill Arm Rotate 180",
           new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 180, false, true));
       // Will need to be changed at some point
+      SmartDashboard.putData("Enable Arm Motor Brake Mode",
+          new EnableMotorBrake(subsystemsContainer.getBillArmRotate()));
+      SmartDashboard.putData("Disable Arm Motor Brake Mode",
+          new DisableMotorBrake(subsystemsContainer.getBillArmRotate()));
     }
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);

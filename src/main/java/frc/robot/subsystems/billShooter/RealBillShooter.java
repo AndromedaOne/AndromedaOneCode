@@ -10,7 +10,7 @@ import frc.robot.actuators.SparkMaxController;
 
 public class RealBillShooter extends SubsystemBase implements BillShooterBase {
 
-  private Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
+  private Config m_shooterConfig = Config4905.getConfig4905().getBillShooterConfig();
   private SparkMaxController m_shooterMotor;
 
   public RealBillShooter() {

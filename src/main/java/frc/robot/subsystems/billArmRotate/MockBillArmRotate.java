@@ -37,4 +37,12 @@ public class MockBillArmRotate implements BillArmRotateBase {
   @Override
   public void stop() {
   }
+
+  @Override
+  public void disableMotorBrake() {
+  }
+
+  @Override
+  public void enableMotorBrake() {
+  }
 }

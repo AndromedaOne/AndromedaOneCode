@@ -24,16 +24,16 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   public RealBillArmRotate(CompressorBase compressorBase) {
     Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
-    m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
+    // m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig,
+    // "solenoidbrake");
     m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");
-
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("arm angle", getAngle());
+    SmartDashboard.putNumber("Measured Arm Angle", getAngle());
     SmartDashboard.putString("Arm Brake State", getBrakeState().toString());
   }
 
@@ -93,6 +93,16 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   @Override
   public void stop() {
     rotate(0);
+  }
+
+  @Override
+  public void disableMotorBrake() {
+    m_motor1.setCoastMode();
+  }
+
+  @Override
+  public void enableMotorBrake() {
+    m_motor1.setBrakeMode();
   }
 
 }

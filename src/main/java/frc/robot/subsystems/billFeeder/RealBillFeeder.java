@@ -11,7 +11,7 @@ import frc.robot.actuators.SparkMaxController;
 
 public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
 
-  private Config m_feederConfig = Config4905.getConfig4905().getFeederConfig();
+  private Config m_feederConfig = Config4905.getConfig4905().getBillFeederConfig();
   private SparkMaxController m_feederMotor;
   private DigitalInput m_noteDetector;
 
@@ -22,7 +22,7 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Note detection", m_noteDetector.get());
+    SmartDashboard.putBoolean("Note detection", getNoteDetectorState());
   }
 
   @Override
@@ -42,7 +42,7 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
 
   @Override
   public boolean getNoteDetectorState() {
-    return m_noteDetector.get();
+    return !m_noteDetector.get();
   }
 
   @Override
