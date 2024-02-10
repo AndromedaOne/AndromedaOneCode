@@ -20,6 +20,12 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
+import frc.robot.commands.groupCommands.autonomousCommands.AmpScore;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker2Scores;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3Scores;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2Speaker;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation3SpeakerWithAmp;
+import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -89,6 +95,12 @@ public class SmartDashboard4905 {
           new DriveTrainRectangularPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
+      SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
+      SmartDashboard.putData("AmpScore", new AmpScore());
+      SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores());
+      SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores());
+      SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker());
+      SmartDashboard.putData("DriveStation3SpeakerWithAmp", new DriveStation3SpeakerWithAmp());
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
