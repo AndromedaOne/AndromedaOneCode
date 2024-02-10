@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.subsystems.billShooter.BillShooterBase;
-import frc.robot.telemetries.Trace;
 
 //This was entirely taken from topGun so there are definitely problems
 public class RunBillShooterRPM extends ParallelCommandGroup4905 {
@@ -46,7 +45,6 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    Trace.getInstance().logCommandStart(this);
     if (m_useSmartDashboardRPM) {
       m_setpoint = () -> SmartDashboard.getNumber("Set Shooter RPM", 1000);
       m_finished = false;
@@ -59,7 +57,6 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
   public void additionalEnd(boolean interrupted) {
     m_shooterWheel.setShooterWheelPower(0);
     m_finished = true;
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

@@ -33,14 +33,12 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
       m_duration = SmartDashboard.getNumber("Auto Delay", 0);
       m_timer.reset();
       m_timer.start();
-      Trace.getInstance().logCommandStart(this);
       Trace.getInstance().logCommandInfo(this, "Auto Delay; " + m_duration);
     }
 
     @Override
     public void end(boolean interrupted) {
       m_timer.stop();
-      Trace.getInstance().logCommandStop(this);
     }
 
     @Override

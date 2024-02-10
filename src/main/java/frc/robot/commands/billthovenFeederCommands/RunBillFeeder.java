@@ -6,7 +6,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
-import frc.robot.telemetries.Trace;
 
 public class RunBillFeeder extends Command {
   private BillFeederBase m_feeder;
@@ -27,7 +26,6 @@ public class RunBillFeeder extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,7 +46,6 @@ public class RunBillFeeder extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     m_feeder.stopBillFeeder();
   }
 

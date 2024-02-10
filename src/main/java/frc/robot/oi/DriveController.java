@@ -10,6 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
+import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
@@ -46,6 +47,8 @@ public class DriveController extends ControllerBase {
       getPOVsouth().onTrue(new TurnToCompassHeading(180));
       getPOVwest().onTrue(new TurnToCompassHeading(270));
     }
+    getStartButton().onTrue(
+        new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
     if (sensorsContainer.hasLimeLight()) {
       limeLightButtons();
     }

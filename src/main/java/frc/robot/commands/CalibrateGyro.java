@@ -2,31 +2,32 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.showBotAudio;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.showBotAudio.AudioFiles;
-import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
+import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
-public class PlayAudio extends Command {
-  ShowBotAudioBase m_audio;
-  AudioFiles m_audioFile;
+public class CalibrateGyro extends Command {
+  private Gyro4905 m_gyro4905;
+  private DriveTrainBase m_driveTrainBase;
 
-  /** Creates a new PlayAudio. */
-  public PlayAudio(ShowBotAudioBase audio, AudioFiles audioFile) {
-    m_audio = audio;
-    m_audioFile = audioFile;
+  public CalibrateGyro(Gyro4905 gyro4905, DriveTrainBase driveTrainBase) {
+    addRequirements(driveTrainBase.getSubsystemBase());
+    m_gyro4905 = gyro4905;
+    m_driveTrainBase = driveTrainBase;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_audio.playAudio(m_audioFile);
+    m_gyro4905.calibrate();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_driveTrainBase.stop();
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +38,7 @@ public class PlayAudio extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_gyro4905.getIsCalibrated();
   }
+
 }

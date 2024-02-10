@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
-import frc.robot.telemetries.Trace;
 
 public class RunShooterRPM extends ParallelCommandGroup4905 {
 
@@ -55,7 +54,6 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    Trace.getInstance().logCommandStart(this);
     if (m_useSmartDashboardRPM) {
       m_setpoint = () -> SmartDashboard.getNumber("Set Shooter RPM", 1000);
       m_finished = false;
@@ -69,7 +67,6 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
     m_topShooterWheel.setShooterWheelPower(0);
     m_bottomShooterWheel.setShooterWheelPower(0);
     m_finished = true;
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

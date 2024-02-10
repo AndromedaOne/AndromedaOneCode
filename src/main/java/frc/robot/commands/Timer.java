@@ -24,7 +24,6 @@ public class Timer extends Command {
     m_endTime = Instant.now().plusMillis(m_duration);
     Trace.getInstance().logCommandInfo(this,
         "Current Time: " + Instant.now().toEpochMilli() + " End Time: " + m_endTime.toEpochMilli());
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +34,6 @@ public class Timer extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
