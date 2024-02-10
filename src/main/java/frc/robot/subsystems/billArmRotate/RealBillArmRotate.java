@@ -65,11 +65,9 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
     m_armAngleBrakeState = BillArmBrakeState.DISENGAGEARMBRAKE;
   }
 
-  // 90 Degrees is pointing forward, 270 is pointing backwards
   @Override
   public double getAngle() {
-    double encoderOffset = 1.56; // Needs to be changed
-    double fixedEncoderValue = (encoderOffset - m_armAngleEncoder.getPosition());
+    double fixedEncoderValue = (m_armAngleEncoder.getPosition());
     if (fixedEncoderValue >= 1) {
       fixedEncoderValue = fixedEncoderValue - 1;
     }
