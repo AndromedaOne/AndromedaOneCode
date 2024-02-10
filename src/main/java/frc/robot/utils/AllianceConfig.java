@@ -7,6 +7,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Config4905;
+import frc.robot.telemetries.Trace;
 
 public class AllianceConfig {
   public static Config getCurrentAllianceConfig() {
@@ -31,12 +32,27 @@ public class AllianceConfig {
   public static Alliance getCurrentAlliance() {
     Alliance alliance = Alliance.Red;
     if (DriverStation.isFMSAttached()) {
+      Trace.getInstance().logInfo("FMS Attached");
       Optional<Alliance> currentAlliance = DriverStation.getAlliance();
       if (currentAlliance.isPresent()) {
+        Trace.getInstance().logInfo("Alliance is present");
         if (currentAlliance.get() == Alliance.Blue) {
+          Trace.getInstance().logInfo("Blue Alliance");
           alliance = Alliance.Blue;
         }
       }
+    } else {
+      Trace.getInstance().logInfo("FMS Not Attached");
+
+      Optional<Alliance> currentAlliance = DriverStation.getAlliance();
+      if (currentAlliance.isPresent()) {
+        Trace.getInstance().logInfo("Alliance is present");
+        if (currentAlliance.get() == Alliance.Blue) {
+          Trace.getInstance().logInfo("Blue Alliance");
+          alliance = Alliance.Blue;
+        }
+      }
+
     }
     return alliance;
   }

@@ -54,32 +54,26 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
         .getDouble("CentralSpeaker3Scores.WayPoint1");
     centralSpeaker3ScoresConfigRed.m_waypoint2 = redConfig
         .getDouble("CentralSpeaker3Scores.WayPoint2");
-    centralSpeaker3ScoresConfigRed.m_angle1 = redConfig
-        .getDouble("CentralSpeaker3Scores.Angle1");
+    centralSpeaker3ScoresConfigRed.m_angle1 = redConfig.getDouble("CentralSpeaker3Scores.Angle1");
     centralSpeaker3ScoresConfigRed.m_waypoint3 = redConfig
         .getDouble("CentralSpeaker3Scores.WayPoint3");
-    centralSpeaker3ScoresConfigRed.m_angle2 = redConfig
-        .getDouble("CentralSpeaker3Scores.Angle2");
+    centralSpeaker3ScoresConfigRed.m_angle2 = redConfig.getDouble("CentralSpeaker3Scores.Angle2");
     centralSpeaker3ScoresConfigRed.m_waypoint4 = redConfig
         .getDouble("CentralSpeaker3Scores.WayPoint4");
-    centralSpeaker3ScoresConfigRed.m_angle3 = redConfig
-        .getDouble("CentralSpeaker3Scores.Angle3");
+    centralSpeaker3ScoresConfigRed.m_angle3 = redConfig.getDouble("CentralSpeaker3Scores.Angle3");
 
     Config blueConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     centralSpeaker3ScoresConfigBlue.m_waypoint1 = blueConfig
         .getDouble("CentralSpeaker3Scores.WayPoint1");
     centralSpeaker3ScoresConfigBlue.m_waypoint2 = blueConfig
         .getDouble("CentralSpeaker3Scores.WayPoint2");
-    centralSpeaker3ScoresConfigBlue.m_angle1 = blueConfig
-        .getDouble("CentralSpeaker3Scores.Angle1");
+    centralSpeaker3ScoresConfigBlue.m_angle1 = blueConfig.getDouble("CentralSpeaker3Scores.Angle1");
     centralSpeaker3ScoresConfigBlue.m_waypoint3 = blueConfig
         .getDouble("CentralSpeaker3Scores.WayPoint3");
-    centralSpeaker3ScoresConfigBlue.m_angle2 = blueConfig
-        .getDouble("CentralSpeaker3Scores.Angle2");
+    centralSpeaker3ScoresConfigBlue.m_angle2 = blueConfig.getDouble("CentralSpeaker3Scores.Angle2");
     centralSpeaker3ScoresConfigBlue.m_waypoint4 = blueConfig
         .getDouble("CentralSpeaker3Scores.WayPoint4");
-    centralSpeaker3ScoresConfigBlue.m_angle3 = blueConfig
-        .getDouble("CentralSpeaker3Scores.Angle3");
+    centralSpeaker3ScoresConfigBlue.m_angle3 = blueConfig.getDouble("CentralSpeaker3Scores.Angle3");
 
   }
 
