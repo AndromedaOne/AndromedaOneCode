@@ -24,8 +24,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   public RealBillArmRotate(CompressorBase compressorBase) {
     Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
-    // m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig,
-    // "solenoidbrake");
+    m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
     m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");
@@ -48,7 +47,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
       m_motor1.setSpeed(0);
     } else {
-      m_motor1.setSpeed(speed * 0.63);
+      m_motor1.setSpeed(speed * 0.33);
     }
   }
 
@@ -67,11 +66,17 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
 
   @Override
   public double getAngle() {
+    double angle;
+    double preAngle;
+    double offset = 10;
     double fixedEncoderValue = (m_armAngleEncoder.getPosition());
-    if (fixedEncoderValue >= 1) {
-      fixedEncoderValue = fixedEncoderValue - 1;
+    // A 360 - angle is used to invert the encoder
+    preAngle = (360 - (fixedEncoderValue * 360)) + offset;
+    angle = preAngle;
+    if (preAngle >= 360) {
+      angle = preAngle - 360;
     }
-    return fixedEncoderValue * 360;
+    return angle;
   }
 
   public BillArmBrakeState getBrakeState() {

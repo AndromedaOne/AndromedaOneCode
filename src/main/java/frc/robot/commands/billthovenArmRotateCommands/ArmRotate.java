@@ -43,19 +43,19 @@ public class ArmRotate extends SequentialCommandGroup4905 {
 
       m_kMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(), "armKValues");
 
-      if (useSmartDashboard) {
+      if (m_useSmartDashboard) {
         SmartDashboard.putNumber("Rotate Arm P-value", 0);
         SmartDashboard.putNumber("Rotate Arm I-value", 0);
         SmartDashboard.putNumber("Rotate Arm D-value", 0);
         SmartDashboard.putNumber("Rotate Arm Feed Forward", 0);
-        SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 180);
+        SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 50);
       }
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
+      Config pidConstantsConfig = Config4905.getConfig4905().getArmRotateConfig();
       super.initialize();
 
       if (m_useSmartDashboard) {
@@ -72,7 +72,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       if (m_useSmartDashboard) {
         getController()
             .setFeedforward(() -> SmartDashboard.getNumber("Rotate Arm Feed Forward", 0));
-        setSetpoint(() -> SmartDashboard.getNumber("Rotate PID Arm Angle Setpoint", 0));
+        setSetpoint(() -> SmartDashboard.getNumber("Rotate PID Arm Angle Setpoint", 50));
       } else {
         getController().setFeedforward(m_feedForward);
       }
