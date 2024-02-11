@@ -28,12 +28,12 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
 // A positive value means intake
   @Override
   public void runBillFeederIntake() {
-    m_feederMotor.setSpeed(0.6);
+    m_feederMotor.setSpeed(0.8);
   }
 
   @Override
   public void runBillFeederEject() {
-    m_feederMotor.setSpeed(-0.6);
+    m_feederMotor.setSpeed(-0.8);
   }
 
   @Override
@@ -44,6 +44,11 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
   @Override
   public void runBillFeederTrapShooting() {
     m_feederMotor.setSpeed(-0.6);
+  }
+
+  @Override
+  public void runBillFeederSlowEject() {
+    m_feederMotor.setSpeed(-0.2);
   }
 
   @Override
@@ -65,6 +70,16 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
   @Override
   public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void setBrakeMode() {
+    m_feederMotor.setBrakeMode();
+  }
+
+  @Override
+  public void setCoastMode() {
+    m_feederMotor.setCoastMode();
   }
 
 }

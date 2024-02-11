@@ -38,4 +38,19 @@ public class MockBillFeeder implements BillFeederBase {
   public void runBillFeederTrapShooting() {
   }
 
+  @Override
+  public void runBillFeederSlowEject() {
+
+  }
+
+  @Override
+  public void setBrakeMode() {
+
+  }
+
+  @Override
+  public void setCoastMode() {
+
+  }
+
 }

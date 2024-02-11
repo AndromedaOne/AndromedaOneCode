@@ -9,6 +9,7 @@ public class RunBillFeeder extends Command {
   private BillFeederBase m_feeder;
   private BooleanSupplier m_readyToShoot;
   private FeederStates m_feederState = FeederStates.EJECT;
+  private boolean m_noteInPlace = false;
 
   /** use this if you are shooting. */
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState,
@@ -27,6 +28,7 @@ public class RunBillFeeder extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_noteInPlace = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,10 +36,13 @@ public class RunBillFeeder extends Command {
   public void execute() {
     switch (m_feederState) {
     case INTAKE:
-      if (m_feeder.getNoteDetectorState()) {
-        m_feeder.stopBillFeeder();
-      } else {
+      if (!m_feeder.getNoteDetectorState() && !m_noteInPlace) {
         m_feeder.runBillFeederIntake();
+      } else if (m_feeder.getNoteDetectorState()) {
+        m_feeder.runBillFeederSlowEject();
+        m_noteInPlace = true;
+      } else {
+        m_feeder.stopBillFeeder();
       }
       return;
     case EJECT:
@@ -67,7 +72,8 @@ public class RunBillFeeder extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((m_feederState == FeederStates.INTAKE) && (m_feeder.getNoteDetectorState())) {
+    if ((m_feederState == FeederStates.INTAKE) && (m_noteInPlace)
+        && (!m_feeder.getNoteDetectorState())) {
       return true;
     }
     return false;
