@@ -1,5 +1,7 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc.robot.commands.Timer;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.DisengageEndEffectorPosition;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
@@ -26,8 +28,9 @@ public class BillAmpScore extends SequentialCommandGroup4905 {
     addCommands(
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armSetpoint, true),
             new DisengageEndEffectorPosition(endEffector)),
-        new ParallelCommandGroup4905(runShooterCommand, new RunBillFeeder(feeder,
-            () -> m_feederSpeed, m_feederReverseState, runShooterCommand.atSetpoint())));
+        new ParallelDeadlineGroup(new Timer(10000),
+            new ParallelCommandGroup4905(runShooterCommand, new RunBillFeeder(feeder,
+                () -> m_feederSpeed, m_feederReverseState, runShooterCommand.atSetpoint()))));
 
   }
 

@@ -93,10 +93,8 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
       pValue = m_pMap.getInterpolatedValue(m_target);
     }
     getController().setP(pValue);
-    getController()
-        .setI(m_shooterConfig.getDouble(m_shooterWheel.toString() + ".runshooterwheelvelocity.i"));
-    getController()
-        .setD(m_shooterConfig.getDouble(m_shooterWheel.toString() + ".runshooterwheelvelocity.d"));
+    getController().setI(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.i"));
+    getController().setD(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.d"));
     System.out.println(m_shooterWheel.toString() + "Setpoint: " + m_target + "\n"
         + m_shooterWheel.toString() + " P = " + pValue);
   }

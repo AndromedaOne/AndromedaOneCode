@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -59,7 +60,7 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
       config = emergencyBackupConfigRed;
     }
     CommandScheduler.getInstance().schedule(
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5)));
-    // new DrivePositionCommand(m_endEffector, m_armRotate)));
+        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5)),
+        new DrivePositionCommand(m_endEffector, m_armRotate));
   }
 }
