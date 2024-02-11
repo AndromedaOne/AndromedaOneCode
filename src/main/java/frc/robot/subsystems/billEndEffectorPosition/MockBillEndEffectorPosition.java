@@ -2,6 +2,7 @@ package frc.robot.subsystems.billEndEffectorPosition;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 
 public class MockBillEndEffectorPosition implements BillEndEffectorPositionBase {
   @Override
@@ -22,7 +23,7 @@ public class MockBillEndEffectorPosition implements BillEndEffectorPositionBase 
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+    return new MockSubsystem();
   }
 
   @Override
