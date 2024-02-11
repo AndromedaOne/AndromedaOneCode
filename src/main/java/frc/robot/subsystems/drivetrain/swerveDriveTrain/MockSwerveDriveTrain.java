@@ -3,6 +3,7 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
@@ -20,7 +21,7 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    return null;
+    return new MockSubsystem();
   }
 
   @Override
