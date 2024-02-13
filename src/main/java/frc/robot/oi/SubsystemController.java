@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -53,6 +55,26 @@ public class SubsystemController extends ControllerBase {
     return getStartButton();
   }
 
+  public JoystickButton getBillSpeakerCloseScoreButton() {
+    // Scores the note into the speaker from close range
+    return getXbutton();
+  }
+
+  public JoystickButton getBillSpeakerMidScoreButton() {
+    // Scores the note into the speaker from Mid Range
+    return getBbutton();
+  }
+
+  public JoystickButton getBillSpeakerFarScoreButton() {
+    // Scores the note into the speaker from far range
+    return getYbutton();
+  }
+
+  public JoystickButton getBillAmpScoreButton() {
+    // Scores the note into the amp
+    return getAbutton();
+  }
+
   private void setUpBillEndEffectorButtons() {
     getBillFeederEjectNoteButton()
         .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.EJECT));
@@ -60,5 +82,21 @@ public class SubsystemController extends ControllerBase {
         .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.INTAKE));
     getBillFeederTrapShotButton().whileTrue(
         new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.TRAPSHOOTING));
+    getBillFeederIntakeNoteButton().whileTrue(new IntakeNote(
+        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
+        m_subsystemsContainer.getBillFeeder()));
+    getBillSpeakerCloseScoreButton().whileTrue(new BillSpeakerScore(
+        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
+        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
+        BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
+    getBillSpeakerMidScoreButton()
+        .whileTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
+            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
+    getBillSpeakerFarScoreButton()
+        .whileTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
+            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
+
   }
 }
