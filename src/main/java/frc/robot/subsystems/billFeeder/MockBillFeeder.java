@@ -6,7 +6,7 @@ import frc.robot.subsystems.MockSubsystem;
 
 public class MockBillFeeder implements BillFeederBase {
   @Override
-  public void runBillFeeder(double speed) {
+  public void runBillFeederIntake() {
   }
 
   @Override
@@ -14,7 +14,7 @@ public class MockBillFeeder implements BillFeederBase {
   }
 
   @Override
-  public void runBillFeederInReverse(double speed) {
+  public void runBillFeederEject() {
   }
 
   @Override
@@ -29,6 +29,29 @@ public class MockBillFeeder implements BillFeederBase {
 
   @Override
   public void setDefaultCommand(Command command) {
+  }
+
+  @Override
+  public void runBillFeederShooting() {
+  }
+
+  @Override
+  public void runBillFeederTrapShooting() {
+  }
+
+  @Override
+  public void runBillFeederSlowEject() {
+
+  }
+
+  @Override
+  public void setBrakeMode() {
+
+  }
+
+  @Override
+  public void setCoastMode() {
+
   }
 
 }

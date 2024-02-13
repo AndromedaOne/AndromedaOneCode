@@ -25,9 +25,30 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
     SmartDashboard.putBoolean("Note detection", getNoteDetectorState());
   }
 
+// A positive value means intake
   @Override
-  public void runBillFeeder(double speed) {
-    m_feederMotor.setSpeed(speed);
+  public void runBillFeederIntake() {
+    m_feederMotor.setSpeed(0.8);
+  }
+
+  @Override
+  public void runBillFeederEject() {
+    m_feederMotor.setSpeed(-0.8);
+  }
+
+  @Override
+  public void runBillFeederShooting() {
+    m_feederMotor.setSpeed(0.6);
+  }
+
+  @Override
+  public void runBillFeederTrapShooting() {
+    m_feederMotor.setSpeed(-0.6);
+  }
+
+  @Override
+  public void runBillFeederSlowEject() {
+    m_feederMotor.setSpeed(-0.2);
   }
 
   @Override
@@ -35,11 +56,7 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
     m_feederMotor.setSpeed(0);
   }
 
-  @Override
-  public void runBillFeederInReverse(double speed) {
-    m_feederMotor.setSpeed(-speed);
-  }
-
+  // True means there is a note in the endeffector
   @Override
   public boolean getNoteDetectorState() {
     return !m_noteDetector.get();
@@ -53,6 +70,16 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
   @Override
   public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void setBrakeMode() {
+    m_feederMotor.setBrakeMode();
+  }
+
+  @Override
+  public void setCoastMode() {
+    m_feederMotor.setCoastMode();
   }
 
 }
