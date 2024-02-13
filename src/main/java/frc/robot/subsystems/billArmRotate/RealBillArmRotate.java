@@ -1,7 +1,5 @@
 package frc.robot.subsystems.billArmRotate;
 
-import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,7 +13,6 @@ import frc.robot.subsystems.compressor.CompressorBase;
 //This was just copied over from RealSamArmRotate so it will need editing
 public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBase {
   private final SparkMaxController m_motor1;
-  private SparkAbsoluteEncoder m_armAngleEncoder;
   private double m_minAngle = 0;
   private double m_maxAngle = 0;
   private BillArmBrakeState m_armAngleBrakeState = BillArmBrakeState.ENGAGEARMBRAKE;
@@ -25,7 +22,6 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
     Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
     m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
-    m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");
   }
@@ -69,7 +65,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
     double angle;
     double preAngle;
     double offset = 10;
-    double fixedEncoderValue = (m_armAngleEncoder.getPosition());
+    double fixedEncoderValue = m_motor1.getAbsoluteEncoderPosition();
     // A 360 - angle is used to invert the encoder
     preAngle = (360 - (fixedEncoderValue * 360)) + offset;
     angle = preAngle;

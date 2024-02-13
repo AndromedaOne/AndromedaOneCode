@@ -31,7 +31,7 @@ public class RealBillShooter extends SubsystemBase implements BillShooterBase {
 
   @Override
   public double getShooterWheelRpm() {
-    double speed = m_shooterMotor.getEncoderVelocityTicks();
+    double speed = m_shooterMotor.getBuiltInEncoderVelocityTicks();
     SmartDashboard.putNumber("ShooterSpeed", speed);
     return speed;
   }

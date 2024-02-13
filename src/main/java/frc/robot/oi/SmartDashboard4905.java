@@ -16,7 +16,9 @@ import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrake;
+import frc.robot.commands.billthovenArmRotateCommands.DisablePneumaticArmBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
+import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrake;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
@@ -97,6 +99,10 @@ public class SmartDashboard4905 {
           new EnableMotorBrake(subsystemsContainer.getBillArmRotate()));
       SmartDashboard.putData("Disable Arm Motor Brake Mode",
           new DisableMotorBrake(subsystemsContainer.getBillArmRotate()));
+      SmartDashboard.putData("Enable Arm Brake",
+          new EnablePneumaticArmBrake(subsystemsContainer.getBillArmRotate()));
+      SmartDashboard.putData("Disable Arm Brake",
+          new DisablePneumaticArmBrake(subsystemsContainer.getBillArmRotate()));
     }
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
