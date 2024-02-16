@@ -28,7 +28,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     private BillArmRotateBase m_armRotate;
     private boolean m_needToEnd = false;
     private boolean m_useSmartDashboard = false;
-    private FeedForward m_feedForward = new RotateFeedForward();
+    private RotateFeedForward m_feedForward = new RotateFeedForward();
     private InterpolatingMap m_kMap;
 
     public RotateArmInternal(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
@@ -48,7 +48,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
         SmartDashboard.putNumber("Rotate Arm I-value", 0);
         SmartDashboard.putNumber("Rotate Arm D-value", 0);
         SmartDashboard.putNumber("Rotate Arm Feed Forward", 0);
-        SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 50);
+        SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 300);
       }
     }
 
@@ -57,7 +57,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     public void initialize() {
       Config pidConstantsConfig = Config4905.getConfig4905().getArmRotateConfig();
       super.initialize();
-
+      getController().setMaxOutput(0.5);
       if (m_useSmartDashboard) {
         getController().setP(SmartDashboard.getNumber("Rotate Arm P-value", 0));
         getController().setI(SmartDashboard.getNumber("Robot Arm I-value", 0));
@@ -69,15 +69,13 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       }
       getController().setMinOutputToMove(pidConstantsConfig.getDouble("ArmRotate.minOutputToMove"));
       getController().setTolerance(pidConstantsConfig.getDouble("ArmRotate.tolerance"));
+      getController().setFeedforward(m_feedForward);
       if (m_useSmartDashboard) {
-        getController()
-            .setFeedforward(() -> SmartDashboard.getNumber("Rotate Arm Feed Forward", 0));
-        setSetpoint(() -> SmartDashboard.getNumber("Rotate PID Arm Angle Setpoint", 50));
-      } else {
-        getController().setFeedforward(m_feedForward);
+        m_feedForward.setConstant(SmartDashboard.getNumber("Rotate Arm Feed Forward", 0));
+        setSetpoint(() -> SmartDashboard.getNumber("Rotate PID Arm Angle Setpoint", 300));
       }
 
-      Trace.getInstance().logCommandInfo(this, "Rotate Arms to: " + m_setpoint.getAsDouble());
+      Trace.getInstance().logCommandInfo(this, "Rotate Arm to: " + m_setpoint.getAsDouble());
       m_armRotate.disengageArmBrake();
     }
 
@@ -103,10 +101,19 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     }
 
     private class RotateFeedForward implements FeedForward {
+      private double m_constant = 0;
+
+      public RotateFeedForward() {
+
+      }
 
       @Override
       public double calculate() {
-        return m_kMap.getInterpolatedValue(m_armRotate.getAngle());
+        return m_armRotate.getAngle() * m_constant;
+      }
+
+      public void setConstant(double constant) {
+        m_constant = constant;
       }
 
     }

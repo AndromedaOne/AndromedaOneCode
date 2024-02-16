@@ -38,6 +38,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
       m_motor1.setSpeed(0);
       return;
     }
+    // Positive value for speed makes the angle go up and the arm down
     if ((speed < 0) && (getAngle() <= m_minAngle)) {
       m_motor1.setSpeed(0);
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
@@ -64,10 +65,10 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   public double getAngle() {
     double angle;
     double preAngle;
-    double offset = 10;
+    double offset = 350;
     double fixedEncoderValue = m_motor1.getAbsoluteEncoderPosition();
     // A 360 - angle is used to invert the encoder
-    preAngle = (360 - (fixedEncoderValue * 360)) + offset;
+    preAngle = (fixedEncoderValue * 360) + offset;
     angle = preAngle;
     if (preAngle >= 360) {
       angle = preAngle - 360;
