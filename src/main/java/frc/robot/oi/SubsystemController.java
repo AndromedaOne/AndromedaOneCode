@@ -40,6 +40,11 @@ public class SubsystemController extends ControllerBase {
     return getRightStickButton();
   }
 
+  public double getBillClimberStick() {
+    // Moves the climber up and down
+    return getLeftStickForwardBackwardValue();
+  }
+
   public JoystickButton getBillFeederEjectNoteButton() {
     // Runs the feeder backwards
     return getRightBumperButton();

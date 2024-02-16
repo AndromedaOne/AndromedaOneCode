@@ -12,21 +12,36 @@ import frc.robot.actuators.SparkMaxController;
 public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   public SparkMaxController m_winch;
   private double m_initialEncoderWinch = 0;
+  private double m_maxHeight = 0;
+  private double m_contractHeight = 0;
+  private BillClimberBrakeState brakeState = BillClimberBrakeState.ENGAGECLIMBERBRAKE;
 
   public RealBillClimber() {
     Config climberConfig = Config4905.getConfig4905().getBillClimberConfig();
     m_winch = new SparkMaxController(climberConfig, "winch");
     m_initialEncoderWinch = m_winch.getEncoderPositionTicks();
+    m_maxHeight = climberConfig.getDouble("maxExtendHeight");
+    m_contractHeight = climberConfig.getDouble("contractHeight");
   }
 
   public void periodic() {
     SmartDashboard.putNumber("ClimberHeight", getWinchAdjustedEncoderValue());
+    SmartDashboard.putNumber("Raw Climber Height", m_winch.getEncoderPositionTicks());
   }
 
   @Override
   public void driveWinch(double speed) {
-    m_winch.setSpeed(speed);
-
+    if (brakeState == BillClimberBrakeState.ENGAGECLIMBERBRAKE) {
+      m_winch.setSpeed(0);
+      return;
+    }
+    if ((speed < 0) && (getWinchAdjustedEncoderValue() <= m_contractHeight)) {
+      m_winch.setSpeed(0);
+    } else if ((speed > 0) && (getWinchAdjustedEncoderValue() >= m_maxHeight)) {
+      m_winch.setSpeed(0);
+    } else {
+      m_winch.setSpeed(speed);
+    }
   }
 
   @Override
@@ -36,7 +51,7 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
 
   @Override
   public void unwindWinch() {
-    m_winch.setSpeed(-1);
+    driveWinch(-1);
 
   }
 
@@ -48,8 +63,10 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   @Override
   public void setWinchBrakeMode(boolean brakeOn) {
     if (brakeOn) {
+      brakeState = BillClimberBrakeState.ENGAGECLIMBERBRAKE;
       m_winch.setIdleMode(IdleMode.kBrake);
     } else {
+      brakeState = BillClimberBrakeState.DISENGAGECLIMBERBRAKE;
       m_winch.setIdleMode(IdleMode.kCoast);
     }
   }
