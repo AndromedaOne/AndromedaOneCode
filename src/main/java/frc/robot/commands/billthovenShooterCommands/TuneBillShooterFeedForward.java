@@ -15,7 +15,6 @@ public class TuneBillShooterFeedForward extends Command {
    */
   private BillShooterBase m_shooterWheel;
   private BillFeederBase m_feeder;
-  private double m_feederSetpoint = 1.0;
 
   public TuneBillShooterFeedForward(BillShooterBase shooterWheel, BillFeederBase feeder) {
     // Use addRequirements() here to declare subsystem dependencies.

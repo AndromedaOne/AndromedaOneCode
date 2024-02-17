@@ -28,7 +28,6 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     double m_armSetpointInit = 0.0;
     double m_shooterSpeedInit = 4000;
     Command endEffectorPosition;
-    boolean m_feederReverseState = false;
     if (distance == SpeakerScoreDistanceEnum.MID) {
       m_armSetpointInit = 0.0;
       m_shooterSpeedInit = 4000;
@@ -41,7 +40,6 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       endEffectorPosition = new EngageEndEffectorPosition(endEffector);
     }
     final double m_armSetpoint = m_armSetpointInit;
-    final double m_feederSpeed = 1000;
     final double m_shooterSpeed = m_shooterSpeedInit;
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
 

@@ -20,9 +20,7 @@ public class BillAmpScore extends SequentialCommandGroup4905 {
       BillFeederBase feeder, BillShooterBase shooter) {
     // need to determine final values
     final double m_armSetpoint = 0.0;
-    final double m_feederSpeed = 1000;
     final double m_shooterSpeed = 4000;
-    final boolean m_feederReverseState = false;
 
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
 
