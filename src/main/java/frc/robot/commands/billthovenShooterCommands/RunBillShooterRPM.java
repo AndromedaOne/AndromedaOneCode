@@ -33,6 +33,7 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
       m_finishedCondition = new FinishedConditionSupplier();
     }
     addCommands(m_shooterCommand);
+    SmartDashboard.putNumber("Set Shooter RPM", 1000);
   }
 
   public RunBillShooterRPM(BillShooterBase shooterWheel, DoubleSupplier setpoint) {
@@ -50,7 +51,7 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
       m_setpoint = () -> SmartDashboard.getNumber("Set Shooter RPM", 1000);
       m_finished = false;
     }
-    System.out.println("Setpoint Set To" + m_setpoint);
+    System.out.println("Setpoint Set To" + m_setpoint.getAsDouble());
     Trace.getInstance().logCommandInfo(this, "Addiitonal stuff ");
   }
 

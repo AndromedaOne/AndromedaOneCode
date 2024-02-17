@@ -11,6 +11,7 @@ import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.utils.InterpolatingMap;
+import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -37,7 +38,10 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
         kv = m_feedForwardValue;
       } else {
         kv = m_kMap.getInterpolatedValue(m_target);
+        SmartDashboard.putString("ShooterCalc Use Interp", " " + kv);
       }
+      SmartDashboard.putNumber("Shooter Feed Forward ", kv);
+      SmartDashboard.putNumber("ShooterCalc m_target", m_target);
       return kv;
     }
   }
@@ -85,7 +89,7 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    m_target = m_setpoint.getAsDouble();
+    Trace.getInstance().logCommandStart(this);
     double pValue = 0;
     if (m_tuneValues) {
       pValue = m_pValue;
@@ -95,12 +99,12 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
     getController().setP(pValue);
     getController().setI(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.i"));
     getController().setD(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.d"));
-    System.out.println(m_shooterWheel.toString() + "Setpoint: " + m_target + "\n"
-        + m_shooterWheel.toString() + " P = " + pValue);
+    System.out.println("Shooter Setpoint: " + m_target + "  P = " + pValue);
   }
 
   @Override
   public void execute() {
+    m_target = m_setpoint.getAsDouble();
     super.execute();
     SmartDashboard.putNumber(m_shooterWheel.toString() + " Wheel Velocity Setpoint", m_target);
     // Every .tostring in this command was a .getshootername before
