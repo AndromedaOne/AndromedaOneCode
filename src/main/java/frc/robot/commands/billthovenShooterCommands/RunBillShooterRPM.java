@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.subsystems.billShooter.BillShooterBase;
+import frc.robot.telemetries.Trace;
 
 //This was entirely taken from topGun so there are definitely problems
 public class RunBillShooterRPM extends ParallelCommandGroup4905 {
@@ -50,6 +51,7 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
       m_finished = false;
     }
     System.out.println("Setpoint Set To" + m_setpoint);
+    Trace.getInstance().logCommandInfo(this, "Addiitonal stuff ");
   }
 
   // Called once the command ends or is interrupted.

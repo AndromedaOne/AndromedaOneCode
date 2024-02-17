@@ -78,8 +78,9 @@ public class SubsystemController extends ControllerBase {
   private void setUpBillEndEffectorButtons() {
     getBillFeederEjectNoteButton()
         .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.EJECT));
-    //getBillFeederButton()
-        //.whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.INTAKE));
+    // getBillFeederButton()
+    // .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
+    // FeederStates.INTAKE));
     getBillFeederTrapShotButton().whileTrue(
         new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.TRAPSHOOTING));
     getBillFeederIntakeNoteButton().whileTrue(new IntakeNote(

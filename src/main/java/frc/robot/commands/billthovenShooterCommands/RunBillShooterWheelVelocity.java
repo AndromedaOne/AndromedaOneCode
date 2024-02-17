@@ -38,7 +38,7 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
       } else {
         kv = m_kMap.getInterpolatedValue(m_target);
       }
-      return kv * m_shooterWheel.getShooterWheelRpm();
+      return kv;
     }
   }
 
@@ -90,7 +90,7 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
     if (m_tuneValues) {
       pValue = m_pValue;
     } else {
-      pValue = m_pMap.getInterpolatedValue(m_target);
+      pValue = m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.p");
     }
     getController().setP(pValue);
     getController().setI(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.i"));
