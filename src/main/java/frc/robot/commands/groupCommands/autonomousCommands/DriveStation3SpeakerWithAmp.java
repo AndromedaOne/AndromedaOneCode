@@ -13,9 +13,16 @@ import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillAmpScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
+import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.utils.AllianceConfig;
 
@@ -38,6 +45,10 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
   DriveStation3SpeakerWithAmpConfig driveStation3SpeakerWithAmpConfigRed = new DriveStation3SpeakerWithAmpConfig();
   DriveStation3SpeakerWithAmpConfig driveStation3SpeakerWithAmpConfigBlue = new DriveStation3SpeakerWithAmpConfig();
   DriveTrainBase m_driveTrain;
+  BillEndEffectorPositionBase m_endEffector;
+  BillArmRotateBase m_armRotate;
+  BillFeederBase m_feeder;
+  BillShooterBase m_shooter;
 
   public DriveStation3SpeakerWithAmp() {
     // List of what this auto mode should do.
@@ -59,6 +70,10 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     // 8. Start driving back to score the note in Teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     m_driveTrain = subsystemsContainer.getDriveTrain();
+    m_endEffector = subsystemsContainer.getBillEffectorPosition();
+    m_armRotate = subsystemsContainer.getBillArmRotate();
+    m_feeder = subsystemsContainer.getBillFeeder();
+    m_shooter = subsystemsContainer.getBillShooter();
     Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     driveStation3SpeakerWithAmpConfigRed.m_waypoint1 = redConfig
         .getDouble("DriveStation3SpeakerWithAmp.WayPoint1");
@@ -109,22 +124,20 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     } else {
       config = driveStation3SpeakerWithAmpConfigRed;
     }
-    CommandScheduler.getInstance()
-        .schedule(new SequentialCommandGroup4905(
-            new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5),
-            new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
-            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 0.5)// Need
-                                                                                                    // Intake
-            // Command
-            ), new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5),
-            new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
-            new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 0.5),
-            // add shoot command
-            new MoveUsingEncoder(m_driveTrain, config.m_waypoint5, 0.5),
-            new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
-            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint6, 0.5)// ,Need
-                                                                                                    // Intake
-            // Command
-            )));
+    CommandScheduler.getInstance().schedule(new SequentialCommandGroup4905(
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+        new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5),
+        new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
+        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 0.5),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+        new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5),
+        new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
+        new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 0.5),
+        new BillAmpScore(m_armRotate, m_endEffector, m_feeder, m_shooter),
+        new MoveUsingEncoder(m_driveTrain, config.m_waypoint5, 0.5),
+        new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
+        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint6, 0.5),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder))));
   }
 }

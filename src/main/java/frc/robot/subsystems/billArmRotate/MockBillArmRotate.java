@@ -2,6 +2,7 @@ package frc.robot.subsystems.billArmRotate;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 
 public class MockBillArmRotate implements BillArmRotateBase {
   @Override
@@ -27,7 +28,7 @@ public class MockBillArmRotate implements BillArmRotateBase {
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+    return new MockSubsystem();
   }
 
   @Override

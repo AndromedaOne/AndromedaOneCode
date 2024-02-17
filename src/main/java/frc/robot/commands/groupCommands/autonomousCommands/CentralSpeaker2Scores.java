@@ -13,9 +13,15 @@ import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
+import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.utils.AllianceConfig;
 
@@ -34,6 +40,10 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
   CentralSpeaker2ScoresConfig CentralSpeaker2ScoresConfigRed = new CentralSpeaker2ScoresConfig();
   CentralSpeaker2ScoresConfig CentralSpeaker2ScoresConfigBlue = new CentralSpeaker2ScoresConfig();
   DriveTrainBase m_driveTrain;
+  BillEndEffectorPositionBase m_endEffector;
+  BillArmRotateBase m_armRotate;
+  BillFeederBase m_feeder;
+  BillShooterBase m_shooter;
 
   public CentralSpeaker2Scores() {
     // List of what this auto mode should do:
@@ -59,6 +69,10 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
     // Teleop.
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     m_driveTrain = subsystemsContainer.getDriveTrain();
+    m_endEffector = subsystemsContainer.getBillEffectorPosition();
+    m_armRotate = subsystemsContainer.getBillArmRotate();
+    m_feeder = subsystemsContainer.getBillFeeder();
+    m_shooter = subsystemsContainer.getBillShooter();
     Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     CentralSpeaker2ScoresConfigRed.m_waypoint1 = redConfig
         .getDouble("CentralSpeaker2Scores.WayPoint1");
@@ -90,20 +104,19 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
       config = CentralSpeaker2ScoresConfigRed;
     }
     CommandScheduler.getInstance().schedule(new SequentialCommandGroup4905(
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5)// ,
-                                                                                                // need
-                                                                                                // intake
-                                                                                                // command
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder)
+
         ),
-        // need shoot command
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
         new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 0.5),
         new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5)// ,
-                                                                                                // need
-                                                                                                // intake
-                                                                                                // command
-        )));
+        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder))));
 
   }
 }
