@@ -66,7 +66,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
         getController().setI(SmartDashboard.getNumber("Robot Arm I-value", 0));
         getController().setD(SmartDashboard.getNumber("Robot Arm D-value", 0));
       } else {
-        getController().setP(pidConstantsConfig.getDouble("ArmRotate.Kp"));
+        getController().setP(m_pMap.getInterpolatedValue(m_armRotate.getAngle()));
         getController().setI(pidConstantsConfig.getDouble("ArmRotate.Ki"));
         getController().setD(pidConstantsConfig.getDouble("ArmRotate.Kd"));
       }
@@ -80,6 +80,15 @@ public class ArmRotate extends SequentialCommandGroup4905 {
 
       Trace.getInstance().logCommandInfo(this, "Rotate Arm to: " + m_setpoint.getAsDouble());
       m_armRotate.disengageArmBrake();
+    }
+
+    @Override
+    public void execute() {
+      if (!m_useSmartDashboard) {
+        getController().setP(m_pMap.getInterpolatedValue(m_armRotate.getAngle()));
+        m_feedForward.setConstant(m_kMap.getInterpolatedValue(m_armRotate.getAngle()));
+      }
+      super.execute();
     }
 
     // Called once the command ends or is interrupted.
