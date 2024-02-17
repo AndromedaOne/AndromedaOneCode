@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.oi.OIContainer;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 
 public class RunBillFeeder extends Command {
@@ -21,7 +22,7 @@ public class RunBillFeeder extends Command {
     m_feederState = feederState;
     addRequirements(m_feeder.getSubsystemBase());
   }
-
+  
 // use this constructor if not shooting
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState) {
     this(feeder, feederState, () -> false);
