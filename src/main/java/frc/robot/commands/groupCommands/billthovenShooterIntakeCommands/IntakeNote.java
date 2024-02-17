@@ -1,7 +1,6 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc.robot.commands.Timer;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.DisengageEndEffectorPosition;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.EngageEndEffectorPosition;
@@ -24,7 +23,7 @@ public class IntakeNote extends SequentialCommandGroup4905 {
     addCommands(
         new ParallelDeadlineGroup(new RunBillFeeder(feeder, FeederStates.INTAKE),
             new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
-                new DisengageEndEffectorPosition(endEffector)),
+            new DisengageEndEffectorPosition(endEffector)),
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armDriveSetpoint, true),
             new EngageEndEffectorPosition(endEffector)));
   }
