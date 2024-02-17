@@ -13,4 +13,6 @@ public interface BillClimberBase extends SubsystemInterface {
   public abstract double getWinchAdjustedEncoderValue();
 
   public abstract void setWinchBrakeMode(boolean brakeOn);
+
+  public abstract boolean isFinished();
 }

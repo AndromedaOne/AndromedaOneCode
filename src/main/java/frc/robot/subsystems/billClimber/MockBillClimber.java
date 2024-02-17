@@ -40,4 +40,9 @@ public class MockBillClimber implements BillClimberBase {
   public void setDefaultCommand(Command command) {
   }
 
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+
 }

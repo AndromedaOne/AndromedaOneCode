@@ -8,19 +8,21 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.telemetries.Trace;
 
 public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   public SparkMaxController m_winch;
   private double m_initialEncoderWinch = 0;
-  private double m_maxHeight = 0;
+  private double m_maxExtendHeight = 0;
   private double m_contractHeight = 0;
+  private boolean m_finished = false;
   private BillClimberBrakeState brakeState = BillClimberBrakeState.ENGAGECLIMBERBRAKE;
 
   public RealBillClimber() {
     Config climberConfig = Config4905.getConfig4905().getBillClimberConfig();
     m_winch = new SparkMaxController(climberConfig, "winch");
     m_initialEncoderWinch = m_winch.getEncoderPositionTicks();
-    m_maxHeight = climberConfig.getDouble("maxExtendHeight");
+    m_maxExtendHeight = climberConfig.getDouble("maxExtendHeight");
     m_contractHeight = climberConfig.getDouble("contractHeight");
   }
 
@@ -32,13 +34,28 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   @Override
   public void driveWinch(double speed) {
     if (brakeState == BillClimberBrakeState.ENGAGECLIMBERBRAKE) {
+      Trace.getInstance().logInfo("Drive winch with the break engaged");
       m_winch.setSpeed(0);
+      m_finished = true;
       return;
     }
-    if ((speed < 0) && (getWinchAdjustedEncoderValue() <= m_contractHeight)) {
+    // when the speed is greater than 0 the robot is climbing towards the contracted
+    // position
+    Trace.getInstance()
+        .logInfo("Climber execute values " + speed + " " + getWinchAdjustedEncoderValue());
+    if ((speed > 0) && (getWinchAdjustedEncoderValue() <= m_contractHeight)) {
+      Trace.getInstance()
+          .logInfo("Climb limits have been reached " + speed + " " + m_contractHeight);
       m_winch.setSpeed(0);
-    } else if ((speed > 0) && (getWinchAdjustedEncoderValue() >= m_maxHeight)) {
+      m_finished = true;
+    }
+    // when the speed is less than 0 then the is robot lowering to the default
+    // position
+    else if ((speed < 0) && (getWinchAdjustedEncoderValue() >= m_maxExtendHeight)) {
+      Trace.getInstance()
+          .logInfo("Climb limits have been reached " + speed + " " + m_maxExtendHeight);
       m_winch.setSpeed(0);
+      m_finished = true;
     } else {
       m_winch.setSpeed(speed);
     }
@@ -47,6 +64,7 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   @Override
   public void stopWinch() {
     m_winch.setSpeed(0);
+    m_finished = true;
   }
 
   @Override
@@ -81,4 +99,8 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
     super.setDefaultCommand(command);
   }
 
+  @Override
+  public boolean isFinished() {
+    return m_finished;
+  }
 }

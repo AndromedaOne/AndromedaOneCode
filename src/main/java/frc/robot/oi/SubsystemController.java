@@ -35,7 +35,7 @@ public class SubsystemController extends ControllerBase {
     }
   }
 
-  public JoystickButton getBillFeederButton() {
+  public JoystickButton getBillFeederIntakeNoteButton() {
     // Runs the feeder without moving the arm
     return getRightStickButton();
   }
@@ -48,11 +48,6 @@ public class SubsystemController extends ControllerBase {
   public JoystickButton getBillFeederEjectNoteButton() {
     // Runs the feeder backwards
     return getRightBumperButton();
-  }
-
-  public JoystickButton getBillFeederIntakeNoteButton() {
-    // Will move the arm down and run the feeder
-    return getLeftTriggerPressed();
   }
 
   public JoystickButton getBillFeederTrapShotButton() {
@@ -83,8 +78,9 @@ public class SubsystemController extends ControllerBase {
   private void setUpBillEndEffectorButtons() {
     getBillFeederEjectNoteButton()
         .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.EJECT));
-    getBillFeederButton()
-        .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.INTAKE));
+    // getBillFeederButton()
+    // .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
+    // FeederStates.INTAKE));
     getBillFeederTrapShotButton().whileTrue(
         new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.TRAPSHOOTING));
     getBillFeederIntakeNoteButton().whileTrue(new IntakeNote(
