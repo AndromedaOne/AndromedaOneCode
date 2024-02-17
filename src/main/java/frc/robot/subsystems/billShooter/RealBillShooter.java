@@ -17,6 +17,7 @@ public class RealBillShooter extends SubsystemBase implements BillShooterBase {
     m_shooterMotor = new SparkMaxController(m_shooterConfig, "shooterMotor");
   }
 
+// positive speed shoots the note
   @Override
   public void setShooterWheelPower(double power) {
     m_shooterMotor.setSpeed(power);

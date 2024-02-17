@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
@@ -37,7 +38,7 @@ public class TuneBillShooterFeedForward extends Command {
     CommandScheduler.getInstance().schedule(
         new RunBillShooterWheelVelocity(m_shooterWheel, () -> shootRPM, true, feedForward, PValue,
             Config4905.getConfig4905().getBillShooterConfig(), () -> false),
-        new RunBillFeeder(m_feeder, () -> m_feederSetpoint, false, () -> true));
+        new RunBillFeeder(m_feeder, FeederStates.SHOOTING, () -> true));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
