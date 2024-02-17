@@ -26,7 +26,7 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
 
   public void periodic() {
     SmartDashboard.putNumber("ClimberHeight", getWinchAdjustedEncoderValue());
-    SmartDashboard.putNumber("Raw Climber Height", m_winch.getEncoderPositionTicks());
+    SmartDashboard.putNumber("Raw Climber Height", m_winch.getBuiltInEncoderPositionTicks());
   }
 
   @Override

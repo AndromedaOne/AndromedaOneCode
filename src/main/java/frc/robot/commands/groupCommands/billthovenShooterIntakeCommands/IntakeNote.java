@@ -18,14 +18,15 @@ public class IntakeNote extends SequentialCommandGroup4905 {
   public IntakeNote(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder) {
 
-    final double m_armIntakeSetpoint = 300.0; // we dont know - 300 test only
-    final double m_armDriveSetpoint = 265.0; // we dont know - 265 test only
+    final double m_armIntakeSetpoint = 350.0; // we dont know - 300 test only
+    final double m_armDriveSetpoint = 300.0; // we dont know - 265 test only
 
-    addCommands(new ParallelDeadlineGroup(new Timer(15000),
-        new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
-            new DisengageEndEffectorPosition(endEffector),
-            new RunBillFeeder(feeder, FeederStates.INTAKE)),
+    addCommands(
+        new ParallelDeadlineGroup(new Timer(15000),
+            new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
+                new DisengageEndEffectorPosition(endEffector),
+                new RunBillFeeder(feeder, FeederStates.INTAKE))),
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armDriveSetpoint, true),
-            new EngageEndEffectorPosition(endEffector))));
+            new EngageEndEffectorPosition(endEffector)));
   }
 }
