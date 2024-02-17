@@ -83,6 +83,7 @@ public class SwerveModule {
 
     m_angleMotor.enableVoltageCompensation(m_config.getDouble("voltageComp"));
     m_angleMotor.setInverted(m_config.getBoolean("angleInvert"));
+    m_angleMotor.setClosedLoopRampRate(m_config.getDouble("anglekRampRate"));
     absoluteAngleEncoder.setInverted(m_config.getBoolean("absoluteAngleEncoderInvert"));
     m_angleMotor.burnFlash();
   }
@@ -104,6 +105,7 @@ public class SwerveModule {
     m_driveController.setI(m_config.getDouble("driveKI"));
     m_driveController.setD(m_config.getDouble("driveKD"));
     m_driveController.setFF(m_config.getDouble("driveKFF"));
+    m_driveMotor.setOpenLoopRampRate(m_config.getDouble("drivekRampRate"));
     m_driveMotor.enableVoltageCompensation(m_config.getDouble("voltageComp"));
     m_driveMotor.burnFlash();
     driveEncoder.setPosition(0.0);

@@ -8,7 +8,9 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -31,29 +33,32 @@ public class SubsystemController extends ControllerBase {
     }
   }
 
-  public boolean getBillFeederButtonBoolean() {
+  public JoystickButton getBillFeederButton() {
     // Runs the feeder without moving the arm
-    return getRightStickButton().getAsBoolean();
+    return getRightStickButton();
   }
 
-  public boolean getBillFeederEjectNoteButton() {
+  public JoystickButton getBillFeederEjectNoteButton() {
     // Runs the feeder backwards
-    return getRightBumperButton().getAsBoolean();
+    return getRightBumperButton();
   }
 
-  public boolean getBillFeederIntakeNoteButton() {
+  public JoystickButton getBillFeederIntakeNoteButton() {
     // Will move the arm down and run the feeder
-    return getLeftTriggerPressedBoolean();
+    return getLeftTriggerPressed();
+  }
+
+  public JoystickButton getBillFeederTrapShotButton() {
+    // Shoots the note into the trap
+    return getStartButton();
   }
 
   private void setUpBillEndEffectorButtons() {
-    double m_speed;
-    boolean m_readyToShoot;
-    m_speed = 1;
-    m_readyToShoot = false;
-    getRightBumperButton().whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
-        () -> m_speed, true, () -> m_readyToShoot));
-    getRightStickButton().whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
-        () -> m_speed, false, () -> m_readyToShoot));
+    getBillFeederEjectNoteButton()
+        .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.EJECT));
+    getBillFeederButton()
+        .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.INTAKE));
+    getBillFeederTrapShotButton().whileTrue(
+        new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.TRAPSHOOTING));
   }
 }
