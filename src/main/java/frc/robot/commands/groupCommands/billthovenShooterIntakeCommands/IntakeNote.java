@@ -5,6 +5,7 @@ import frc.robot.commands.Timer;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.DisengageEndEffectorPosition;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.EngageEndEffectorPosition;
+import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -22,12 +23,11 @@ public class IntakeNote extends SequentialCommandGroup4905 {
     final double m_feederSpeed = 1000.0; // we dont know
     final boolean m_feederReverseState = false;
 
-    addCommands(
-        new ParallelDeadlineGroup(new Timer(15000),
-            new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
-                new DisengageEndEffectorPosition(endEffector),
-                new RunBillFeeder(feeder, () -> m_feederSpeed, m_feederReverseState, () -> false))),
+    addCommands(new ParallelDeadlineGroup(new Timer(15000),
+        new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
+            new DisengageEndEffectorPosition(endEffector),
+            new RunBillFeeder(feeder, FeederStates.INTAKE)),
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armDriveSetpoint, true),
-            new EngageEndEffectorPosition(endEffector)));
+            new EngageEndEffectorPosition(endEffector))));
   }
 }
