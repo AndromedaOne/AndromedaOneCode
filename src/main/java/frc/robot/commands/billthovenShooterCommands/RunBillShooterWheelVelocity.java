@@ -10,8 +10,8 @@ import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.billShooter.BillShooterBase;
-import frc.robot.utils.InterpolatingMap;
 import frc.robot.telemetries.Trace;
+import frc.robot.utils.InterpolatingMap;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -107,7 +107,6 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
     m_target = m_setpoint.getAsDouble();
     super.execute();
     SmartDashboard.putNumber(m_shooterWheel.toString() + " Wheel Velocity Setpoint", m_target);
-    // Every .tostring in this command was a .getshootername before
   }
 
   @Override
@@ -118,10 +117,6 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
   @Override
   public void end(boolean interrupt) {
     m_shooterWheel.setShooterWheelPower(0);
-  }
-
-  public double getSetpoint() {
-    return m_target;
   }
 
   public boolean atSetpoint() {

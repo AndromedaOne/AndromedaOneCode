@@ -31,42 +31,42 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     // need to determine final values
     // these are going to be our close distance defalt
     double m_armSetpointInit = 0.0;
-    double m_shooterSpeedInit = 4000;
+    double m_shooterSpeedInit = 1000;
     Command endEffectorPosition;
     if (distance == SpeakerScoreDistanceEnum.MID) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 0.0;
-        m_shooterSpeedInit = 4000;
+        m_shooterSpeedInit = 1000;
         endEffectorPosition = new EngageEndEffectorPosition(endEffector);
       } else {
         m_armSetpointInit = 0.0;
-        m_shooterSpeedInit = 4000;
+        m_shooterSpeedInit = 1000;
         endEffectorPosition = new EngageEndEffectorPosition(endEffector);
       }
     } else if (distance == SpeakerScoreDistanceEnum.FAR) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 0.0;
-        m_shooterSpeedInit = 4000;
+        m_shooterSpeedInit = 1000;
         endEffectorPosition = new DisengageEndEffectorPosition(endEffector);
       } else {
         m_armSetpointInit = 0.0;
-        m_shooterSpeedInit = 4000;
+        m_shooterSpeedInit = 1000;
         endEffectorPosition = new DisengageEndEffectorPosition(endEffector);
       }
     } else {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 0.0;
-        m_shooterSpeedInit = 4000;
+        m_shooterSpeedInit = 1000;
         endEffectorPosition = new EngageEndEffectorPosition(endEffector);
       } else {
         m_armSetpointInit = 0.0;
-        m_shooterSpeedInit = 4000;
+        m_shooterSpeedInit = 1000;
         endEffectorPosition = new EngageEndEffectorPosition(endEffector);
       }
     }
     final double m_armSetpoint = m_armSetpointInit;
     final double m_shooterSpeed = m_shooterSpeedInit;
-    RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
+    RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, m_shooterSpeed);
 
     addCommands(
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armSetpoint, true),
