@@ -30,6 +30,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     private boolean m_useSmartDashboard = false;
     private RotateFeedForward m_feedForward = new RotateFeedForward();
     private InterpolatingMap m_kMap;
+    private InterpolatingMap m_pMap;
 
     public RotateArmInternal(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
         boolean useSmartDashboard) {
@@ -42,6 +43,8 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       m_useSmartDashboard = useSmartDashboard;
 
       m_kMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(), "armKValues");
+
+      m_pMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(), "armPValues");
 
       if (m_useSmartDashboard) {
         SmartDashboard.putNumber("Rotate Arm P-value", 0);

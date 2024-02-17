@@ -17,8 +17,8 @@ public class IntakeNote extends SequentialCommandGroup4905 {
   public IntakeNote(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder) {
 
-    final double m_armIntakeSetpoint = 0.0; // we dont know
-    final double m_armDriveSetpoint = 0.0; // we dont know
+    final double m_armIntakeSetpoint = 300.0; // we dont know - 300 test only
+    final double m_armDriveSetpoint = 265.0; // we dont know - 265 test only
     final double m_feederSpeed = 1000.0; // we dont know
     final boolean m_feederReverseState = false;
 
