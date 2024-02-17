@@ -20,8 +20,6 @@ public class IntakeNote extends SequentialCommandGroup4905 {
 
     final double m_armIntakeSetpoint = 300.0; // we dont know - 300 test only
     final double m_armDriveSetpoint = 265.0; // we dont know - 265 test only
-    final double m_feederSpeed = 1000.0; // we dont know
-    final boolean m_feederReverseState = false;
 
     addCommands(new ParallelDeadlineGroup(new Timer(15000),
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),

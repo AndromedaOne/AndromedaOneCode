@@ -21,27 +21,50 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     CLOSE, MID, FAR
   }
 
+  public enum SpeakerScoreArmPositionEnum {
+    LOW, HIGH
+  }
+
   public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
-      BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance) {
+      BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance,
+      SpeakerScoreArmPositionEnum armPosition) {
     // need to determine final values
     // these are going to be our close distance defalt
     double m_armSetpointInit = 0.0;
     double m_shooterSpeedInit = 4000;
     Command endEffectorPosition;
-    boolean m_feederReverseState = false;
     if (distance == SpeakerScoreDistanceEnum.MID) {
-      m_armSetpointInit = 0.0;
-      m_shooterSpeedInit = 4000;
-      endEffectorPosition = new EngageEndEffectorPosition(endEffector);
+      if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
+        m_armSetpointInit = 0.0;
+        m_shooterSpeedInit = 4000;
+        endEffectorPosition = new EngageEndEffectorPosition(endEffector);
+      } else {
+        m_armSetpointInit = 0.0;
+        m_shooterSpeedInit = 4000;
+        endEffectorPosition = new EngageEndEffectorPosition(endEffector);
+      }
     } else if (distance == SpeakerScoreDistanceEnum.FAR) {
-      m_armSetpointInit = 0.0;
-      m_shooterSpeedInit = 4000;
-      endEffectorPosition = new DisengageEndEffectorPosition(endEffector);
+      if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
+        m_armSetpointInit = 0.0;
+        m_shooterSpeedInit = 4000;
+        endEffectorPosition = new DisengageEndEffectorPosition(endEffector);
+      } else {
+        m_armSetpointInit = 0.0;
+        m_shooterSpeedInit = 4000;
+        endEffectorPosition = new DisengageEndEffectorPosition(endEffector);
+      }
     } else {
-      endEffectorPosition = new EngageEndEffectorPosition(endEffector);
+      if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
+        m_armSetpointInit = 0.0;
+        m_shooterSpeedInit = 4000;
+        endEffectorPosition = new EngageEndEffectorPosition(endEffector);
+      } else {
+        m_armSetpointInit = 0.0;
+        m_shooterSpeedInit = 4000;
+        endEffectorPosition = new EngageEndEffectorPosition(endEffector);
+      }
     }
     final double m_armSetpoint = m_armSetpointInit;
-    final double m_feederSpeed = 1000;
     final double m_shooterSpeed = m_shooterSpeedInit;
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
 
@@ -49,8 +72,13 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armSetpoint, true),
             endEffectorPosition),
         new ParallelDeadlineGroup(new Timer(10000), new ParallelCommandGroup4905(runShooterCommand,
-            new RunBillFeeder(feeder, FeederStates.SHOOTING))));
+            new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.atSetpoint()))));
 
+  }
+
+  public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
+      BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance) {
+    this(armRotate, endEffector, feeder, shooter, distance, SpeakerScoreArmPositionEnum.LOW);
   }
 
 }
