@@ -6,20 +6,46 @@ package frc.robot.commands.groupCommands.autonomousCommands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
+import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
+import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.utils.AllianceConfig;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveStation2Speaker extends SequentialCommandGroup {
-  public DriveStation2Speaker(Config autonomousConfig) {
+public class DriveStation2Speaker extends SequentialCommandGroup4905 {
+  private class DriveStation2SpeakerConfig {
+    double m_waypoint1;
+    double m_angle1;
+    double m_waypoint2;
+    double m_angle2;
+    double m_waypoint3;
+  }
+
+  DriveStation2SpeakerConfig driveStation2SpeakerConfigRed = new DriveStation2SpeakerConfig();
+  DriveStation2SpeakerConfig driveStation2SpeakerConfigBlue = new DriveStation2SpeakerConfig();
+  DriveTrainBase m_driveTrain;
+  BillEndEffectorPositionBase m_endEffector;
+  BillArmRotateBase m_armRotate;
+  BillFeederBase m_feeder;
+  BillShooterBase m_shooter;
+
+  public DriveStation2Speaker() {
     // Both
     // Angled towards speaker by driver station 2
     // Score preloaded note in speaker
@@ -34,23 +60,51 @@ public class DriveStation2Speaker extends SequentialCommandGroup {
     // Turn Right to angle towards the speaker and score the note
     // Drive right and then forward to centerline without crossing
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
-    DriveTrainBase driveTrain = subsystemsContainer.getDriveTrain();
-    double waypoint1 = autonomousConfig.getDouble("CentralSpeaker2Scores.WayPoint1");
-    double angle1 = autonomousConfig.getDouble("CentralSpeaker2Scores.Angle1");
-    double waypoint2 = autonomousConfig.getDouble("CentralSpeaker2Scores.WayPoint2");
-    double angle2 = autonomousConfig.getDouble("CentralSpeaker2Scores.Angle2");
-    double waypoint3 = autonomousConfig.getDouble("CentralSpeaker2Scores.WayPoint3");
-    //
-    addCommands(
-        // need shoot command
-        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint1, 1.0)),
-        new SequentialCommandGroup4905(new TurnToCompassHeading(angle1)),
-        new ParallelCommandGroup(new MoveUsingEncoder(driveTrain, waypoint2, 1.0)// ,need intake
-                                                                                 // command
-        ), new SequentialCommandGroup4905(new TurnToCompassHeading(angle2)),
-        // need shoot command
-        new SequentialCommandGroup4905(new MoveUsingEncoder(driveTrain, waypoint3, 1.0))
+    m_driveTrain = subsystemsContainer.getDriveTrain();
+    m_endEffector = subsystemsContainer.getBillEffectorPosition();
+    m_armRotate = subsystemsContainer.getBillArmRotate();
+    m_feeder = subsystemsContainer.getBillFeeder();
+    m_shooter = subsystemsContainer.getBillShooter();
+    Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
+    driveStation2SpeakerConfigRed.m_waypoint1 = redConfig
+        .getDouble("DriveStation2Speaker.WayPoint1");
+    driveStation2SpeakerConfigRed.m_angle1 = redConfig.getDouble("DriveStation2Speaker.Angle1");
+    driveStation2SpeakerConfigRed.m_waypoint2 = redConfig
+        .getDouble("DriveStation2Speaker.WayPoint2");
+    driveStation2SpeakerConfigRed.m_angle2 = redConfig.getDouble("DriveStation2Speaker.Angle2");
+    driveStation2SpeakerConfigRed.m_waypoint3 = redConfig
+        .getDouble("DriveStation2Speaker.WayPoint3");
 
-    );
+    Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
+    driveStation2SpeakerConfigBlue.m_waypoint1 = blueConfig
+        .getDouble("DriveStation2Speaker.WayPoint1");
+    driveStation2SpeakerConfigBlue.m_angle1 = blueConfig.getDouble("DriveStation2Speaker.Angle1");
+    driveStation2SpeakerConfigBlue.m_waypoint2 = blueConfig
+        .getDouble("DriveStation2Speaker.WayPoint2");
+    driveStation2SpeakerConfigBlue.m_angle2 = blueConfig.getDouble("DriveStation2Speaker.Angle2");
+    driveStation2SpeakerConfigBlue.m_waypoint3 = blueConfig
+        .getDouble("DriveStation2Speaker.WayPoint3");
+
+  }
+
+  public void additionalInitialize() {
+    DriveStation2SpeakerConfig config;
+    Alliance alliance = AllianceConfig.getCurrentAlliance();
+    if (alliance == Alliance.Blue) {
+      config = driveStation2SpeakerConfigBlue;
+    } else {
+      config = driveStation2SpeakerConfigRed;
+    }
+    CommandScheduler.getInstance().schedule(new SequentialCommandGroup4905(
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+        new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5),
+        new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
+        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 0.5),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+        new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
+        new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5)));
   }
 }

@@ -10,13 +10,14 @@ import frc.robot.actuators.SparkMaxController;
 
 public class RealBillShooter extends SubsystemBase implements BillShooterBase {
 
-  private Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
+  private Config m_shooterConfig = Config4905.getConfig4905().getBillShooterConfig();
   private SparkMaxController m_shooterMotor;
 
   public RealBillShooter() {
     m_shooterMotor = new SparkMaxController(m_shooterConfig, "shooterMotor");
   }
 
+// positive speed shoots the note
   @Override
   public void setShooterWheelPower(double power) {
     m_shooterMotor.setSpeed(power);

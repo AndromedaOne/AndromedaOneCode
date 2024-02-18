@@ -62,7 +62,7 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
     addRequirements(shooterWheel.getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
     m_shooterConfig = shooterConfig;
-    getController().setTolerance(m_shooterConfig.getDouble(shooterWheel.toString() + ".tolerance"));
+    getController().setTolerance(m_shooterConfig.getDouble("shooterMotor.tolerance"));
     getController().setFeedforward(m_feedForward);
     m_shooterWheel = shooterWheel;
     m_setpoint = setpoint;
@@ -71,10 +71,8 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
       m_pValue = pValue;
     }
     m_tuneValues = tuneValues;
-    m_kMap = new InterpolatingMap(shooterConfig,
-        shooterWheel.toString() + ".shooterTargetRPMAndKValues");
-    m_pMap = new InterpolatingMap(shooterConfig,
-        shooterWheel.toString() + ".shooterTargetRPMandPValues");
+    m_kMap = new InterpolatingMap(shooterConfig, "shooterMotor.shooterTargetRPMAndKValues");
+    m_pMap = new InterpolatingMap(shooterConfig, "shooterMotor.shooterTargetRPMandPValues");
     m_finishedCondition = finishedCondition;
   }
 
@@ -95,10 +93,8 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
       pValue = m_pMap.getInterpolatedValue(m_target);
     }
     getController().setP(pValue);
-    getController()
-        .setI(m_shooterConfig.getDouble(m_shooterWheel.toString() + ".runshooterwheelvelocity.i"));
-    getController()
-        .setD(m_shooterConfig.getDouble(m_shooterWheel.toString() + ".runshooterwheelvelocity.d"));
+    getController().setI(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.i"));
+    getController().setD(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.d"));
     System.out.println(m_shooterWheel.toString() + "Setpoint: " + m_target + "\n"
         + m_shooterWheel.toString() + " P = " + pValue);
   }

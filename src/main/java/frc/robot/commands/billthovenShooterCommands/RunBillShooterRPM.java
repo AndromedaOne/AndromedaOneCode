@@ -26,7 +26,7 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
     m_finishedCondition = finishedCondition;
 
     m_shooterCommand = new RunBillShooterWheelVelocity(m_shooterWheel, m_setpoint,
-        Config4905.getConfig4905().getShooterConfig(), m_finishedCondition);
+        Config4905.getConfig4905().getBillShooterConfig(), m_finishedCondition);
 
     if (useSmartDashboardRPM) {
       m_finishedCondition = new FinishedConditionSupplier();

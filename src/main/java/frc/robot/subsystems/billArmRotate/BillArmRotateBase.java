@@ -14,6 +14,10 @@ public interface BillArmRotateBase extends SubsystemInterface {
 
   public abstract void disengageArmBrake();
 
-  public abstract BillArmBrakeState getState();
+  public abstract BillArmBrakeState getBrakeState();
+
+  public abstract void enableMotorBrake();
+
+  public abstract void disableMotorBrake();
 
 }

@@ -366,7 +366,7 @@ public class Config4905 {
   }
 
   public boolean doesBillShooterExist() {
-    if (m_config.hasPath("subsystems.billshooter")) {
+    if (m_config.hasPath("subsystems.billShooter")) {
       return true;
     }
     return false;
@@ -377,7 +377,7 @@ public class Config4905 {
   }
 
   public boolean doesBillFeederExist() {
-    if (m_config.hasPath("subsystems.billfeeder")) {
+    if (m_config.hasPath("subsystems.billFeeder")) {
       return true;
     }
     return false;
@@ -412,6 +412,13 @@ public class Config4905 {
 
   public Config getArmRotateConfig() {
     return m_armRotateConfig;
+  }
+
+  public boolean doesArmRotateExist() {
+    if (m_config.hasPath("subsystems.billArmRotate")) {
+      return true;
+    }
+    return false;
   }
 
   public Config getEndEffectorPositionConfig() {

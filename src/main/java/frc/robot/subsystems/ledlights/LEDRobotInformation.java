@@ -8,7 +8,6 @@ package frc.robot.subsystems.ledlights;
 
 public class LEDRobotInformation {
   private static boolean m_buttonheld;
-  private LEDStates m_LedStates;
   private static LEDRobotInformation m_instance = new LEDRobotInformation();
   private static boolean m_cannonIsPressurized = false;
 
@@ -25,14 +24,6 @@ public class LEDRobotInformation {
 
   public void setButtonHeld(boolean buttonValue) {
     m_buttonheld = buttonValue;
-  }
-
-  public LEDStates getLEDStates() {
-    return m_LedStates;
-  }
-
-  public void setLEDStates(LEDStates LEDValue) {
-    m_LedStates = LEDValue;
   }
 
   public void setCannonIsPressurized(boolean value) {

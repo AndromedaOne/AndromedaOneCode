@@ -24,17 +24,17 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   public RealBillArmRotate(CompressorBase compressorBase) {
     Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
-    m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
+    // m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig,
+    // "solenoidbrake");
     m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");
-
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("arm angle", getAngle());
-    SmartDashboard.putString("Arm Brake State", getState().toString());
+    SmartDashboard.putNumber("Measured Arm Angle", getAngle());
+    SmartDashboard.putString("Arm Brake State", getBrakeState().toString());
   }
 
   @Override
@@ -65,17 +65,16 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
     m_armAngleBrakeState = BillArmBrakeState.DISENGAGEARMBRAKE;
   }
 
-  // 90 Degrees is pointing forward, 270 is pointing backwards
   @Override
   public double getAngle() {
-    double fixedEncoderValue = (1.56 - m_armAngleEncoder.getPosition());
+    double fixedEncoderValue = (m_armAngleEncoder.getPosition());
     if (fixedEncoderValue >= 1) {
       fixedEncoderValue = fixedEncoderValue - 1;
     }
     return fixedEncoderValue * 360;
   }
 
-  public BillArmBrakeState getState() {
+  public BillArmBrakeState getBrakeState() {
     return m_armAngleBrakeState;
   }
 
@@ -92,6 +91,16 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   @Override
   public void stop() {
     rotate(0);
+  }
+
+  @Override
+  public void disableMotorBrake() {
+    m_motor1.setCoastMode();
+  }
+
+  @Override
+  public void enableMotorBrake() {
+    m_motor1.setBrakeMode();
   }
 
 }

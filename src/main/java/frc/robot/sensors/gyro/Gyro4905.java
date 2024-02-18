@@ -104,4 +104,6 @@ public interface Gyro4905 extends AutoCloseable {
   public DoubleSupplier getZangleDoubleSupplier();
 
   public DoubleSupplier getCompassHeadingDoubleSupplier();
+
+  public boolean getIsCalibrated();
 }

@@ -247,16 +247,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public double getRobotPositionInches() {
-    double distance = 0;
-    for (SwerveModule mod : m_SwerveMods) {
-      double modDistance = mod.getPosition().distanceMeters;
-      if ((mod.getAngle().getDegrees() < 185) && (mod.getAngle().getDegrees() > 175)) {
-        modDistance = -modDistance;
-      }
-      distance = distance + modDistance;
+    double modDistance = m_SwerveMods[0].getPosition().distanceMeters;
+    if ((m_SwerveMods[0].getAngle().getDegrees() < 270)
+        && (m_SwerveMods[0].getAngle().getDegrees() > 90)) {
+      modDistance = -modDistance;
     }
-    distance /= 4;
-    return distance * 39.3701;
+
+    return modDistance * 39.3701;
   }
 
   @Override
@@ -288,13 +285,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       if ((mod.getModuleNumber() == 0) || (mod.getModuleNumber() == 3)) {
         angle = 45;
       }
-      mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), false, true);
+      mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), true, true);
     }
   }
 
   public void setToZero() {
     for (SwerveModule mod : m_SwerveMods) {
-      mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), false, true);
+      mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), true, true);
     }
   }
 }

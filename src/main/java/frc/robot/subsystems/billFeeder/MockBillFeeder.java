@@ -2,10 +2,11 @@ package frc.robot.subsystems.billFeeder;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 
 public class MockBillFeeder implements BillFeederBase {
   @Override
-  public void runBillFeeder(double speed) {
+  public void runBillFeederIntake() {
   }
 
   @Override
@@ -13,17 +14,44 @@ public class MockBillFeeder implements BillFeederBase {
   }
 
   @Override
-  public void runBillFeederInReverse(double speed) {
+  public void runBillFeederEject() {
+  }
+
+  @Override
+  public boolean getNoteDetectorState() {
+    return false;
   }
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+    return new MockSubsystem();
   }
 
   @Override
   public void setDefaultCommand(Command command) {
-    throw new UnsupportedOperationException("Unimplemented method 'setDefaultCommand'");
+  }
+
+  @Override
+  public void runBillFeederShooting() {
+  }
+
+  @Override
+  public void runBillFeederTrapShooting() {
+  }
+
+  @Override
+  public void runBillFeederSlowEject() {
+
+  }
+
+  @Override
+  public void setBrakeMode() {
+
+  }
+
+  @Override
+  public void setCoastMode() {
+
   }
 
 }

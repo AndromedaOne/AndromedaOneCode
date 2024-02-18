@@ -59,6 +59,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
             // Use the output here
             drivetrain.moveUsingGyro(output, 0, false, heading);
           });
+      Trace.getInstance().logCommandInfo(this, "constructed");
       m_distance = distance;
       m_setpoint = this::getSetpoint;
       m_driveTrain = drivetrain;
