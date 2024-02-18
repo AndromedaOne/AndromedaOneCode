@@ -14,33 +14,27 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
   private BillShooterBase m_shooterWheel;
   private SetPointSupplier m_setpoint;
   private boolean m_useSmartDashboardRPM = false;
-  private BooleanSupplier m_finishedCondition;
-  private boolean m_finished = false;
   private RunBillShooterWheelVelocity m_shooterCommand;
 
   public RunBillShooterRPM(BillShooterBase shooterWheel, double setpoint,
-      boolean useSmartDashboardRPM, BooleanSupplier finishedCondition) {
+      boolean useSmartDashboardRPM) {
     m_shooterWheel = shooterWheel;
     m_useSmartDashboardRPM = useSmartDashboardRPM;
-    m_finishedCondition = finishedCondition;
     m_setpoint = new SetPointSupplier(setpoint);
 
     m_shooterCommand = new RunBillShooterWheelVelocity(m_shooterWheel, m_setpoint,
-        Config4905.getConfig4905().getBillShooterConfig(), m_finishedCondition);
+        Config4905.getConfig4905().getBillShooterConfig(), () -> false);
 
-    if (useSmartDashboardRPM) {
-      m_finishedCondition = new FinishedConditionSupplier();
-    }
     addCommands(m_shooterCommand);
     SmartDashboard.putNumber("Set Shooter RPM", 1000);
   }
 
   public RunBillShooterRPM(BillShooterBase shooterWheel, double setpoint) {
-    this(shooterWheel, setpoint, false, () -> false);
+    this(shooterWheel, setpoint, false);
   }
 
   public RunBillShooterRPM(BillShooterBase shooterWheel) {
-    this(shooterWheel, 0, true, () -> false);
+    this(shooterWheel, 0, true);
   }
 
   // Called when the command is initially scheduled.
@@ -48,7 +42,6 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
   public void additionalInitialize() {
     if (m_useSmartDashboardRPM) {
       m_setpoint.setSetpoint(SmartDashboard.getNumber("Set Shooter RPM", 1000));
-      m_finished = false;
     }
     System.out.println("Setpoint Set To" + m_setpoint.getAsDouble());
   }
@@ -57,22 +50,6 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
   @Override
   public void additionalEnd(boolean interrupted) {
     m_shooterWheel.setShooterWheelPower(0);
-    m_finished = true;
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinishedAdditional() {
-    return m_finishedCondition.getAsBoolean();
-  }
-
-  private class FinishedConditionSupplier implements BooleanSupplier {
-
-    @Override
-    public boolean getAsBoolean() {
-      return m_finished;
-    }
-
   }
 
   private class SetPointSupplier implements DoubleSupplier {
@@ -91,4 +68,17 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
       m_setpointSupplied = value;
     }
   }
+
+  private class OnTarget implements BooleanSupplier {
+
+    @Override
+    public boolean getAsBoolean() {
+      return m_shooterCommand.atSetpoint();
+    }
+  }
+
+  public BooleanSupplier getOnTargetSupplier() {
+    return (new OnTarget());
+  }
+
 }
