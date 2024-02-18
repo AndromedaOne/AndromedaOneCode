@@ -3,6 +3,7 @@ package frc.robot.commands.billthovenFeederCommands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 
 public class RunBillFeeder extends Command {
@@ -10,6 +11,7 @@ public class RunBillFeeder extends Command {
   private BooleanSupplier m_readyToShoot;
   private FeederStates m_feederState = FeederStates.EJECT;
   private boolean m_noteInPlace = false;
+  private boolean m_autonomous = false;
 
   /** use this if you are shooting. */
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState,
@@ -29,6 +31,7 @@ public class RunBillFeeder extends Command {
   @Override
   public void initialize() {
     m_noteInPlace = false;
+    m_autonomous = Robot.getInstance().isAutonomous();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -72,8 +75,10 @@ public class RunBillFeeder extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((m_feederState == FeederStates.INTAKE) && (m_noteInPlace)
-        && (!m_feeder.getNoteDetectorState())) {
+    if (((m_feederState == FeederStates.INTAKE) && (m_noteInPlace)
+        && (!m_feeder.getNoteDetectorState()))
+        || ((!Robot.getInstance().getOIContainer().getSubsystemController()
+            .getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
       return true;
     }
     return false;
