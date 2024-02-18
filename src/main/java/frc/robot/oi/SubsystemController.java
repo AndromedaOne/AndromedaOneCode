@@ -10,10 +10,13 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenClimberCommands.RunBillCimber;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -40,9 +43,13 @@ public class SubsystemController extends ControllerBase {
     return getRightStickButton();
   }
 
-  public double getBillClimberStick() {
-    // Moves the climber up and down
+  public double getBillClimberSpeed() {
     return getLeftStickForwardBackwardValue();
+  }
+
+  public JoystickButton getBillClimberModeStart() {
+    // Moves the climber up and down
+    return getBackButton();
   }
 
   public JoystickButton getBillFeederEjectNoteButton() {
@@ -98,6 +105,8 @@ public class SubsystemController extends ControllerBase {
         .whileTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
             m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
             m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
-
+    getBillClimberModeStart().onTrue(new SequentialCommandGroup4905(
+        new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 255, true),
+        new RunBillCimber(m_subsystemsContainer.getBillClimber(), true, 0.5)));
   }
 }

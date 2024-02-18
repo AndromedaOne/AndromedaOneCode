@@ -29,12 +29,12 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   public void periodic() {
     SmartDashboard.putNumber("ClimberHeight", getWinchAdjustedEncoderValue());
     SmartDashboard.putNumber("Raw Climber Height", m_winch.getEncoderPositionTicks());
+    SmartDashboard.putBoolean("is Limit Switch On", m_winch.isForwardLimitSwitchOn());
   }
 
   @Override
   public void driveWinch(double speed) {
     if (brakeState == BillClimberBrakeState.ENGAGECLIMBERBRAKE) {
-      Trace.getInstance().logInfo("Drive winch with the break engaged");
       m_winch.setSpeed(0);
       m_finished = true;
       return;
@@ -43,7 +43,8 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
     // position
     Trace.getInstance()
         .logInfo("Climber execute values " + speed + " " + getWinchAdjustedEncoderValue());
-    if ((speed > 0) && (getWinchAdjustedEncoderValue() <= m_contractHeight)) {
+    if ((speed > 0) && ((getWinchAdjustedEncoderValue() <= m_contractHeight)
+        || m_winch.isForwardLimitSwitchOn())) {
       Trace.getInstance()
           .logInfo("Climb limits have been reached " + speed + " " + m_contractHeight);
       m_winch.setSpeed(0);
@@ -102,5 +103,15 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   @Override
   public boolean isFinished() {
     return m_finished;
+  }
+
+  @Override
+  public void resetOffset() {
+    m_initialEncoderWinch = m_winch.getEncoderPositionTicks();
+  }
+
+  @Override
+  public void resetFinished() {
+    m_finished = false;
   }
 }

@@ -15,4 +15,8 @@ public interface BillClimberBase extends SubsystemInterface {
   public abstract void setWinchBrakeMode(boolean brakeOn);
 
   public abstract boolean isFinished();
+
+  public abstract void resetOffset();
+
+  public abstract void resetFinished();
 }

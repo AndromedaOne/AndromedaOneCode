@@ -45,4 +45,13 @@ public class MockBillClimber implements BillClimberBase {
     return false;
   }
 
+  @Override
+  public void resetOffset() {
+
+  }
+
+  @Override
+  public void resetFinished() {
+
+  }
 }

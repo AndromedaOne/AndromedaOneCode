@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenClimberCommands.RunBillCimber;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
@@ -322,6 +323,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
+    }
+    if (Config4905.getConfig4905().doesBillClimberExist()) {
+      m_billClimber.setDefaultCommand(new RunBillCimber(m_billClimber, false, 0));
     }
   }
 }
