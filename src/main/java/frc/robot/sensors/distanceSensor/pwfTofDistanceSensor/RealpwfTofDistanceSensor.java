@@ -1,4 +1,4 @@
-package frc.robot.sensors.pwfTofDistanceSensor;
+package frc.robot.sensors.distanceSensor.pwfTofDistanceSensor;
 
 import frc.robot.sensors.RealSensorBase;
 
