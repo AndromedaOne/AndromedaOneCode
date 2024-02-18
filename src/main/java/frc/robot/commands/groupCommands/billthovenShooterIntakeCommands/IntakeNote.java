@@ -1,6 +1,5 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
-import frc.robot.commands.Timer;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.DisengageEndEffectorPosition;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.EngageEndEffectorPosition;
