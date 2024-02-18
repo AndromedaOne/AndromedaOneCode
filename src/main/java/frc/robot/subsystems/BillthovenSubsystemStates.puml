@@ -44,7 +44,7 @@ State "Podium Shooting Modes" as PSM{
     PSL: Feeder: Stop
   }
   PSL-->PSL: "Y" \n While \n Held \t
-  PSL-->PSH: "+LTrig" \n When \n Pressed \t
+  PSL-->PSH: "+LBumper" \n When \n Pressed \t
 
   State "Podium Shooting High Mode" as PSH{
     PSH: Arm Position: Podium High Shooting Position
@@ -52,8 +52,8 @@ State "Podium Shooting Modes" as PSM{
     PSH: Shooter: Forward to setpoint
     PSH: Feeder: Stop
   }
-  PSH-->PSH: "Y+LTrig" \n While \n Held \t
-  PSH-->PSL: "-LTrig" \n On \n Release \t
+  PSH-->PSH: "Y+LBumper" \n While \n Held \t
+  PSH-->PSL: "-LBumper" \n On \n Release \t
 
 }
 PSM -down->Shoot: "RTrig" \n When \n Pressed \t
@@ -67,7 +67,7 @@ State "Speaker Shooting Modes" as SSM{
     SSL: Feeder: Stop
   }
   SSL-->SSL: "X" \n While \n Held \t
-  SSL-->SSH: "X+LTrig" \n When \n Pressed \t
+  SSL-->SSH: "X+LBumper" \n When \n Pressed \t
 
   State "Speaker Shooting High Mode" as SSH{
     SSH: Arm Position: Podium High Shooting Position
@@ -75,8 +75,8 @@ State "Speaker Shooting Modes" as SSM{
     SSH: Shooter: Forward to setpoint
     SSH: Feeder: Stop
   }
-  SSH-->SSH: "X+LTrig" \n While \n Held \t
-  SSH-->SSL: "-LTrig" \n On \n Release \t
+  SSH-->SSH: "X+LBumper" \n While \n Held \t
+  SSH-->SSL: "-LBumper" \n On \n Release \t
 
 }
 SSM-down->Shoot: "RTrig" \n When \n Pressed \t
@@ -90,7 +90,7 @@ State "Mid Shooting Modes" as MSM{
     MSL: Feeder: Stop
   }
   MSL-->MSL: "B" \n While \n Held \t
-  MSL-->MSH: "B+LTrig" \n When \n Pressed \t
+  MSL-->MSH: "B+LBumper" \n When \n Pressed \t
 
   State "Mid Shooting High Mode" as MSH{
     MSH: Arm Position: Podium High Shooting Position
@@ -98,8 +98,8 @@ State "Mid Shooting Modes" as MSM{
     MSH: Shooter: Forward to setpoint
     MSH: Feeder: Stop
   }
-  MSH-->MSH: "B+LTrig" \n While \n Held \t
-  MSH-->MSL: "-LTrig" \n On \n Release \t
+  MSH-->MSH: "B+LBumper" \n While \n Held \t
+  MSH-->MSL: "-LBumper" \n On \n Release \t
 
 }
 MSM -down->Shoot: "RTrig" \n When \n Pressed \t
