@@ -75,11 +75,12 @@ public class RunBillFeeder extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (((m_feederState == FeederStates.INTAKE) && (m_noteInPlace)
-        && (!m_feeder.getNoteDetectorState()))
-        || ((!Robot.getInstance().getOIContainer().getSubsystemController()
-            .getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
-      return true;
+    if (m_feederState == FeederStates.INTAKE) {
+      if ((!m_feeder.getNoteDetectorState() && m_noteInPlace)
+          || ((!Robot.getInstance().getOIContainer().getSubsystemController()
+              .getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
+        return true;
+      }
     }
     return false;
   }
