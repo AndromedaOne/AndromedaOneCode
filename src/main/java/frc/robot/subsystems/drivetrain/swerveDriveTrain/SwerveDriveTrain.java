@@ -2,7 +2,6 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -46,9 +45,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Config m_config;
   private ParkingBrakeStates m_ParkingBrakeState = ParkingBrakeStates.BRAKESOFF;
   public static SwerveDriveKinematics m_swerveKinematics;
-  private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
-  private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
-  private SlewRateLimiter rotationlimiter = new SlewRateLimiter(3.0);
   private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -87,13 +83,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       strafe = 0;
       rotation = 0;
     }
-    double translationLim = translationLimiter.calculate(forwardBackward);
-    double strafeLim = strafeLimiter.calculate(strafe);
-    double rotationLim = rotationlimiter.calculate(rotation);
-
-    SmartDashboard.putNumber("Drive controller forward backward", translationLim);
-    SmartDashboard.putNumber("Drive controller strafe", strafeLim);
-    SmartDashboard.putNumber("Drive controller rotation", rotationLim);
     Translation2d translation2d = new Translation2d(forwardBackward, strafe)
         .times(m_config.getDouble("maxSpeed"));
     ChassisSpeeds chassisSpeeds = fieldRelative
@@ -108,9 +97,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     for (SwerveModule mod : m_SwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop, false);
     }
-    SmartDashboard.putNumber("ChassisSpeeds X", chassisSpeeds.vxMetersPerSecond);
-    SmartDashboard.putNumber("ChassisSpeeds Y", chassisSpeeds.vyMetersPerSecond);
-    SmartDashboard.putNumber("ChassisSpeeds O", chassisSpeeds.omegaRadiansPerSecond);
   }
 
   public Pose2d getPose() {
@@ -147,12 +133,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   public void periodic() {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
-    for (SwerveModule mod : m_SwerveMods) {
-      SmartDashboard.putNumber("Mod " + mod.getModuleNumber() + " Actual angle", mod.getRawAngle());
-      SmartDashboard.putNumber("distance mod " + mod.getModuleNumber(),
-          mod.getPosition().distanceMeters);
-      SmartDashboard.putNumber("angle mod" + mod.getModuleNumber(), mod.getAngle().getDegrees());
-    }
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
   }
 

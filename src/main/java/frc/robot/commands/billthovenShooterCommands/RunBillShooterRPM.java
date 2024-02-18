@@ -75,14 +75,6 @@ public class RunBillShooterRPM extends ParallelCommandGroup4905 {
 
   }
 
-  public BooleanSupplier atSetpoint() {
-    if (m_shooterCommand.atSetpoint()) {
-      System.out
-          .println("Shooter Wheel At Setpoint WheelSpeed: " + m_shooterWheel.getShooterWheelRpm());
-    }
-    return () -> (m_shooterCommand.atSetpoint());
-  }
-
   private class SetPointSupplier implements DoubleSupplier {
     private double m_setpointSupplied = 0;
 

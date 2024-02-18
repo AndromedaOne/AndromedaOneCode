@@ -14,7 +14,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.CANSparkMaxUtil;
@@ -139,9 +138,6 @@ public class SwerveModule {
     }
 
     m_angleController.setReference(angle, ControlType.kPosition);
-    SmartDashboard.putNumber("mod " + m_moduleNumber + " setAngle", angle);
-    SmartDashboard.putNumber("Mod " + m_moduleNumber + " desiredstate angle",
-        desiredState.angle.getDegrees());
   }
 
   public int getModuleNumber() {

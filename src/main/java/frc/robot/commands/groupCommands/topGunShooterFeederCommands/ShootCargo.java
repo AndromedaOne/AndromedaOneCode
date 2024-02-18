@@ -7,12 +7,12 @@ package frc.robot.commands.groupCommands.topGunShooterFeederCommands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.commands.Timer;
 import frc.robot.commands.topGunFeederCommands.RunFeeder;
 import frc.robot.commands.topGunShooterCommands.InitializeShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.RunShooterRPM;
+import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
@@ -28,9 +28,9 @@ public class ShootCargo extends SequentialCommandGroup4905 {
         shooterSetpoint);
 
     addCommands(new InitializeShooterAlignment(shooterAlignment),
-        new ParallelDeadlineGroup(new MoveShooterAlignment(shooterAlignment, angle),
+        new ParallelDeadlineGroup4905(new MoveShooterAlignment(shooterAlignment, angle),
             new RunFeeder(feeder, feederSetpoint, true, () -> false)),
-        new ParallelDeadlineGroup(new Timer(40),
+        new ParallelDeadlineGroup4905(new Timer(40),
             new RunFeeder(feeder, () -> 0.3, true, () -> false)),
         new ParallelCommandGroup(runShooterCommand,
             new RunFeeder(feeder, feederSetpoint, false, runShooterCommand.atSetpoint())));

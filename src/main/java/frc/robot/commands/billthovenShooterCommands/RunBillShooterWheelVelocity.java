@@ -27,7 +27,6 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
   private static Config m_shooterConfig;
   private FeedForward m_feedForward = new ShooterFeedForward();
   private InterpolatingMap m_kMap;
-  private InterpolatingMap m_pMap;
   private BooleanSupplier m_finishedCondition;
 
   private class ShooterFeedForward implements FeedForward {
@@ -76,7 +75,6 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
     }
     m_tuneValues = tuneValues;
     m_kMap = new InterpolatingMap(shooterConfig, "shooterMotor.shooterTargetRPMAndKValues");
-    m_pMap = new InterpolatingMap(shooterConfig, "shooterMotor.shooterTargetRPMandPValues");
     m_finishedCondition = finishedCondition;
   }
 
@@ -89,7 +87,6 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandStart(this);
     double pValue = 0;
     if (m_tuneValues) {
       pValue = m_pValue;
@@ -99,14 +96,14 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
     getController().setP(pValue);
     getController().setI(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.i"));
     getController().setD(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.d"));
-    System.out.println("Shooter Setpoint: " + m_target + "  P = " + pValue);
+    Trace.getInstance().logCommandInfo(this, "Shooter Setpoint: " + m_target + "  P = " + pValue);
   }
 
   @Override
   public void execute() {
     m_target = m_setpoint.getAsDouble();
     super.execute();
-    SmartDashboard.putNumber(m_shooterWheel.toString() + " Wheel Velocity Setpoint", m_target);
+    SmartDashboard.putNumber("Shooter Wheel Velocity Setpoint", m_target);
   }
 
   @Override
