@@ -52,7 +52,7 @@ public class RealBillEndEffectorPosition extends SubsystemBase
 
   @Override
   public void periodic() {
-    SmartDashboard.putString("Real End Effector state", getState().name());
+    SmartDashboard.putString("Real End Effector state", getState().toString());
   }
 
   @Override

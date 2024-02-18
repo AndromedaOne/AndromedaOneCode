@@ -9,6 +9,7 @@ import java.util.List;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.telemetries.Trace;
 
 /**
  * A command composition that runs a list of commands in sequence.
@@ -61,6 +62,7 @@ public class SequentialCommandGroup4905 extends Command {
     additionalInitialize();
     if (!m_commands.isEmpty()) {
       m_commands.get(0).initialize();
+      Trace.getInstance().logCommandStart(m_commands.get(0));
     }
   }
 
@@ -91,6 +93,7 @@ public class SequentialCommandGroup4905 extends Command {
     if (interrupted && !m_commands.isEmpty() && m_currentCommandIndex > -1
         && m_currentCommandIndex < m_commands.size()) {
       m_commands.get(m_currentCommandIndex).end(true);
+      Trace.getInstance().logCommandStop(m_commands.get(m_currentCommandIndex));
     }
     m_currentCommandIndex = -1;
   }

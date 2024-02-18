@@ -17,12 +17,10 @@ public class RealBillShooter extends SubsystemBase implements BillShooterBase {
     m_shooterMotor = new SparkMaxController(m_shooterConfig, "shooterMotor");
   }
 
-// positive speed shoots the note
+  // positive speed shoots the note
   @Override
   public void setShooterWheelPower(double power) {
     m_shooterMotor.setSpeed(power);
-    SmartDashboard.putNumber("ShooterWheelPower", power);
-
   }
 
   @Override
@@ -33,7 +31,6 @@ public class RealBillShooter extends SubsystemBase implements BillShooterBase {
   @Override
   public double getShooterWheelRpm() {
     double speed = m_shooterMotor.getBuiltInEncoderVelocityTicks();
-    SmartDashboard.putNumber("ShooterSpeed", speed);
     return speed;
   }
 
@@ -45,5 +42,10 @@ public class RealBillShooter extends SubsystemBase implements BillShooterBase {
   @Override
   public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Bill Shooter Wheel Speed", getShooterWheelRpm());
   }
 }
