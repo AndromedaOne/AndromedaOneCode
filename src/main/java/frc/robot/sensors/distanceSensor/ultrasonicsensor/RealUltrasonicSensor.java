@@ -1,4 +1,4 @@
-package frc.robot.sensors.ultrasonicsensor;
+package frc.robot.sensors.distanceSensor.ultrasonicsensor;
 
 import com.typesafe.config.Config;
 

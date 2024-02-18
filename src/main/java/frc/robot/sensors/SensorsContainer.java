@@ -11,6 +11,9 @@ import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
+import frc.robot.sensors.distanceSensor.ultrasonicsensor.MockUltrasonicSensor;
+import frc.robot.sensors.distanceSensor.ultrasonicsensor.RealUltrasonicSensor;
+import frc.robot.sensors.distanceSensor.ultrasonicsensor.UltrasonicSensor;
 import frc.robot.sensors.encoder.EncoderBase;
 import frc.robot.sensors.encoder.MockEncoder;
 import frc.robot.sensors.encoder.RealEncoder;
@@ -24,9 +27,6 @@ import frc.robot.sensors.limelightcamera.RealLimelightCamera;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.MockLimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
-import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
-import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
-import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
 import frc.robot.telemetries.Trace;
 
 /**

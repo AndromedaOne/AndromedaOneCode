@@ -1,8 +1,9 @@
 package frc.robot.sensors.distanceSensor.pwfTofDistanceSensor;
 
 import frc.robot.sensors.RealSensorBase;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 
-public class RealpwfTofDistanceSensor extends RealSensorBase implements pwfTofDistanceSensor {
+public class RealpwfTofDistanceSensor extends RealSensorBase implements DistanceSensorBase {
 
   public void pwfTofDistanceSensor() {
 
@@ -11,5 +12,10 @@ public class RealpwfTofDistanceSensor extends RealSensorBase implements pwfTofDi
   @Override
   protected void updateSmartDashboard() {
     throw new UnsupportedOperationException("Unimplemented method 'updateSmartDashboard'");
+  }
+
+  @Override
+  public double getDistance() {
+    return double tofdistance_mm = tof.getRange();
   }
 }

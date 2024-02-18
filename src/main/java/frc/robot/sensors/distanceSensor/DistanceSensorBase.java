@@ -2,7 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.sensors;
+package frc.robot.sensors.distanceSensor;
 
 /** Add your docs here. */
-public class DistanceSensorBase {}
+public interface DistanceSensorBase {
+
+  public double getDistance();
+}
