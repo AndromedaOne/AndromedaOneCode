@@ -87,7 +87,6 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().doesBillShooterExist()) {
       SmartDashboard.putData("Tune Bill Shooter Feed Forward", new TuneBillShooterFeedForward(
           subsystemsContainer.getBillShooter(), subsystemsContainer.getBillFeeder()));
-      SmartDashboard.putNumber("Set Bill Shooter RPM", 100); // Arbitrary value
       SmartDashboard.putData("Run Bill Shooter RPM",
           new RunBillShooterRPM(subsystemsContainer.getBillShooter()));
     }
