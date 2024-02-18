@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.telemetries.Trace;
 
 /**
  * A command composition that runs a set of commands in parallel, ending when
@@ -67,6 +68,7 @@ public class ParallelCommandGroup4905 extends Command {
   public final void initialize() {
     additionalInitialize();
     for (Map.Entry<Command, Boolean> commandRunning : m_commands.entrySet()) {
+      Trace.getInstance().logCommandStart(commandRunning.getKey());
       commandRunning.getKey().initialize();
       commandRunning.setValue(true);
     }
@@ -95,6 +97,7 @@ public class ParallelCommandGroup4905 extends Command {
       for (Map.Entry<Command, Boolean> commandRunning : m_commands.entrySet()) {
         if (commandRunning.getValue()) {
           commandRunning.getKey().end(true);
+          Trace.getInstance().logCommandStop(commandRunning.getKey());
         }
       }
     }
