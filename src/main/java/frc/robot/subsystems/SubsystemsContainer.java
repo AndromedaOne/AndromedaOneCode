@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToLowPosition;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
@@ -310,6 +311,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesFeederExist()) {
       m_feeder.setDefaultCommand(new StopFeeder(m_feeder));
+    }
+    if (Config4905.getConfig4905().doesEndEffectorExist()) {
+      m_endEffector.setDefaultCommand(new MoveToLowPosition(m_endEffector));
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       m_topShooterWheel.setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));

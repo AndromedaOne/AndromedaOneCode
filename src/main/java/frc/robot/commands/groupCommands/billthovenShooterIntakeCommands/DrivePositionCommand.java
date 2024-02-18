@@ -1,7 +1,7 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.EngageEndEffectorPosition;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToHighPosition;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
@@ -15,6 +15,6 @@ public class DrivePositionCommand extends SequentialCommandGroup4905 {
     final double m_armSetpoint = 0.0;
 
     addCommands(new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armSetpoint, true),
-        new EngageEndEffectorPosition(endEffector)));
+        new MoveToHighPosition(endEffector)));
   }
 }
