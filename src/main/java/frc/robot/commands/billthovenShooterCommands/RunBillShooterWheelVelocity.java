@@ -27,7 +27,6 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
   private static Config m_shooterConfig;
   private FeedForward m_feedForward = new ShooterFeedForward();
   private InterpolatingMap m_kMap;
-  private InterpolatingMap m_pMap;
   private BooleanSupplier m_finishedCondition;
 
   private class ShooterFeedForward implements FeedForward {
@@ -76,7 +75,6 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
     }
     m_tuneValues = tuneValues;
     m_kMap = new InterpolatingMap(shooterConfig, "shooterMotor.shooterTargetRPMAndKValues");
-    m_pMap = new InterpolatingMap(shooterConfig, "shooterMotor.shooterTargetRPMandPValues");
     m_finishedCondition = finishedCondition;
   }
 

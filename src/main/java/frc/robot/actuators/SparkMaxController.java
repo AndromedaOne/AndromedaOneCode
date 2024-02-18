@@ -17,8 +17,6 @@ public class SparkMaxController {
   private boolean m_hasReverseLimitSwitch = false;
   private RelativeEncoder m_builtInEncoder;
   private AbsoluteEncoder m_absoluteEncoder;
-  private String m_configString;
-  private Config m_subsystemConfig;
   private SparkLimitSwitch m_forwardLimitSwitch;
   private SparkLimitSwitch m_reverseLimitSwitch;
 
@@ -50,8 +48,6 @@ public class SparkMaxController {
     if (m_hasReverseLimitSwitch) {
       m_reverseLimitSwitch = m_sparkMax.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     }
-    m_configString = configString;
-    m_subsystemConfig = subsystemConfig;
     configure(subsystemConfig, configString);
   }
 
