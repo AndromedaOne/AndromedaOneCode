@@ -36,7 +36,7 @@ public class BottomShooterWheel extends SubsystemBase implements ShooterWheelBas
 
   @Override
   public double getShooterWheelRpm() {
-    double speed = m_shooterMotor.getEncoderVelocityTicks();
+    double speed = m_shooterMotor.getBuiltInEncoderVelocityTicks();
     SmartDashboard.putNumber("BottomShooterSpeed", speed);
     return speed;
   }

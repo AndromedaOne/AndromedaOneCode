@@ -16,8 +16,9 @@ import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrake;
+import frc.robot.commands.billthovenArmRotateCommands.DisablePneumaticArmBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
-import frc.robot.commands.billthovenClimberCommands.ResetBillClimberOffset;
+import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrake;
 import frc.robot.commands.billthovenClimberCommands.RunBillCimber;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
@@ -87,18 +88,21 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().doesBillShooterExist()) {
       SmartDashboard.putData("Tune Bill Shooter Feed Forward", new TuneBillShooterFeedForward(
           subsystemsContainer.getBillShooter(), subsystemsContainer.getBillFeeder()));
-      SmartDashboard.putNumber("Set Bill Shooter RPM", 100); // Arbitrary value
       SmartDashboard.putData("Run Bill Shooter RPM",
           new RunBillShooterRPM(subsystemsContainer.getBillShooter()));
     }
     if (Config4905.getConfig4905().doesArmRotateExist()) {
-      SmartDashboard.putData("Set Bill Arm Rotate 180",
-          new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 180, false, true));
+      SmartDashboard.putData("Set Bill Arm Rotate 50",
+          new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 50, false, true));
       // Will need to be changed at some point
       SmartDashboard.putData("Enable Arm Motor Brake Mode",
           new EnableMotorBrake(subsystemsContainer.getBillArmRotate()));
       SmartDashboard.putData("Disable Arm Motor Brake Mode",
           new DisableMotorBrake(subsystemsContainer.getBillArmRotate()));
+      SmartDashboard.putData("Enable Arm Brake",
+          new EnablePneumaticArmBrake(subsystemsContainer.getBillArmRotate()));
+      SmartDashboard.putData("Disable Arm Brake",
+          new DisablePneumaticArmBrake(subsystemsContainer.getBillArmRotate()));
     }
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);

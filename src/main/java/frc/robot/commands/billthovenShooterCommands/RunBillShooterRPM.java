@@ -12,73 +12,73 @@ import frc.robot.subsystems.billShooter.BillShooterBase;
 public class RunBillShooterRPM extends ParallelCommandGroup4905 {
 
   private BillShooterBase m_shooterWheel;
-  private DoubleSupplier m_setpoint;
+  private SetPointSupplier m_setpoint;
   private boolean m_useSmartDashboardRPM = false;
-  private BooleanSupplier m_finishedCondition;
-  private boolean m_finished = false;
   private RunBillShooterWheelVelocity m_shooterCommand;
 
-  public RunBillShooterRPM(BillShooterBase shooterWheel, DoubleSupplier setpoint,
-      boolean useSmartDashboardRPM, BooleanSupplier finishedCondition) {
+  public RunBillShooterRPM(BillShooterBase shooterWheel, double setpoint,
+      boolean useSmartDashboardRPM) {
     m_shooterWheel = shooterWheel;
-    m_setpoint = setpoint;
     m_useSmartDashboardRPM = useSmartDashboardRPM;
-    m_finishedCondition = finishedCondition;
+    m_setpoint = new SetPointSupplier(setpoint);
 
     m_shooterCommand = new RunBillShooterWheelVelocity(m_shooterWheel, m_setpoint,
-        Config4905.getConfig4905().getBillShooterConfig(), m_finishedCondition);
+        Config4905.getConfig4905().getBillShooterConfig(), () -> false);
 
-    if (useSmartDashboardRPM) {
-      m_finishedCondition = new FinishedConditionSupplier();
-    }
     addCommands(m_shooterCommand);
+    SmartDashboard.putNumber("Set Shooter RPM", 1000);
   }
 
-  public RunBillShooterRPM(BillShooterBase shooterWheel, DoubleSupplier setpoint) {
-    this(shooterWheel, setpoint, false, () -> false);
+  public RunBillShooterRPM(BillShooterBase shooterWheel, double setpoint) {
+    this(shooterWheel, setpoint, false);
   }
 
   public RunBillShooterRPM(BillShooterBase shooterWheel) {
-    this(shooterWheel, () -> 0, true, () -> false);
+    this(shooterWheel, 0, true);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
     if (m_useSmartDashboardRPM) {
-      m_setpoint = () -> SmartDashboard.getNumber("Set Shooter RPM", 1000);
-      m_finished = false;
+      m_setpoint.setSetpoint(SmartDashboard.getNumber("Set Shooter RPM", 1000));
     }
-    System.out.println("Setpoint Set To" + m_setpoint);
+    System.out.println("Setpoint Set To" + m_setpoint.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void additionalEnd(boolean interrupted) {
     m_shooterWheel.setShooterWheelPower(0);
-    m_finished = true;
   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinishedAdditional() {
-    return m_finishedCondition.getAsBoolean();
+  private class SetPointSupplier implements DoubleSupplier {
+    private double m_setpointSupplied = 0;
+
+    public SetPointSupplier(double setPoint) {
+      m_setpointSupplied = setPoint;
+    }
+
+    @Override
+    public double getAsDouble() {
+      return m_setpointSupplied;
+    }
+
+    public void setSetpoint(double value) {
+      m_setpointSupplied = value;
+    }
   }
 
-  private class FinishedConditionSupplier implements BooleanSupplier {
+  private class OnTarget implements BooleanSupplier {
 
     @Override
     public boolean getAsBoolean() {
-      return m_finished;
+      return m_shooterCommand.atSetpoint();
     }
-
   }
 
-  public BooleanSupplier atSetpoint() {
-    if (m_shooterCommand.atSetpoint()) {
-      System.out
-          .println("Shooter Wheel At Setpoint WheelSpeed: " + m_shooterWheel.getShooterWheelRpm());
-    }
-    return () -> (m_shooterCommand.atSetpoint());
+  public BooleanSupplier getOnTargetSupplier() {
+    return (new OnTarget());
   }
+
 }

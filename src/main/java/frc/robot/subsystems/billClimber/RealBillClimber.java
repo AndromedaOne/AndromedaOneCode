@@ -19,14 +19,14 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   public RealBillClimber() {
     Config climberConfig = Config4905.getConfig4905().getBillClimberConfig();
     m_winch = new SparkMaxController(climberConfig, "winch");
-    m_initialEncoderWinch = m_winch.getEncoderPositionTicks();
+    m_initialEncoderWinch = m_winch.getBuiltInEncoderPositionTicks();
     m_maxExtendHeight = climberConfig.getDouble("maxExtendHeight");
     m_contractHeight = climberConfig.getDouble("contractHeight");
   }
 
   public void periodic() {
     SmartDashboard.putNumber("ClimberHeight", getWinchAdjustedEncoderValue());
-    SmartDashboard.putNumber("Raw Climber Height", m_winch.getEncoderPositionTicks());
+    SmartDashboard.putNumber("Raw Climber Height", m_winch.getBuiltInEncoderPositionTicks());
     SmartDashboard.putBoolean("is Limit Switch On", m_winch.isForwardLimitSwitchOn());
   }
 
@@ -60,7 +60,7 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
 
   @Override
   public double getWinchAdjustedEncoderValue() {
-    return m_winch.getEncoderPositionTicks() - m_initialEncoderWinch;
+    return m_winch.getBuiltInEncoderPositionTicks() - m_initialEncoderWinch;
   }
 
   @Override

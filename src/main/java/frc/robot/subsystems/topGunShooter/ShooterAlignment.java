@@ -57,7 +57,7 @@ public class ShooterAlignment extends SubsystemBase implements ShooterAlignmentB
 
   @Override
   public double getAngle() {
-    return m_angleMotor.getEncoderPositionTicks() - getOffset();
+    return m_angleMotor.getBuiltInEncoderPositionTicks() - getOffset();
   }
 
   @Override
