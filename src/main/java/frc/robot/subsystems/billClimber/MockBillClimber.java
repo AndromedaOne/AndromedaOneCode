@@ -12,11 +12,6 @@ public class MockBillClimber implements BillClimberBase {
   }
 
   @Override
-  public void unwindWinch() {
-
-  }
-
-  @Override
   public void stopWinch() {
 
   }
@@ -41,17 +36,8 @@ public class MockBillClimber implements BillClimberBase {
   }
 
   @Override
-  public boolean isFinished() {
-    return false;
-  }
-
-  @Override
   public void resetOffset() {
 
   }
 
-  @Override
-  public void resetFinished() {
-
-  }
 }

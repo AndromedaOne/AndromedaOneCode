@@ -107,6 +107,6 @@ public class SubsystemController extends ControllerBase {
             m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
     getBillClimberModeStart().onTrue(new SequentialCommandGroup4905(
         new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 255, true),
-        new RunBillCimber(m_subsystemsContainer.getBillClimber(), true, 0.5)));
+        new RunBillCimber(m_subsystemsContainer.getBillClimber())));
   }
 }

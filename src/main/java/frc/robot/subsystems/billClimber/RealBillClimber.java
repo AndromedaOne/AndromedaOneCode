@@ -15,8 +15,6 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   private double m_initialEncoderWinch = 0;
   private double m_maxExtendHeight = 0;
   private double m_contractHeight = 0;
-  private boolean m_finished = false;
-  private BillClimberBrakeState brakeState = BillClimberBrakeState.ENGAGECLIMBERBRAKE;
 
   public RealBillClimber() {
     Config climberConfig = Config4905.getConfig4905().getBillClimberConfig();
@@ -34,21 +32,15 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
 
   @Override
   public void driveWinch(double speed) {
-    if (brakeState == BillClimberBrakeState.ENGAGECLIMBERBRAKE) {
-      m_winch.setSpeed(0);
-      m_finished = true;
-      return;
-    }
+
     // when the speed is greater than 0 the robot is climbing towards the contracted
     // position
-    Trace.getInstance()
-        .logInfo("Climber execute values " + speed + " " + getWinchAdjustedEncoderValue());
+
     if ((speed > 0) && ((getWinchAdjustedEncoderValue() <= m_contractHeight)
         || m_winch.isForwardLimitSwitchOn())) {
       Trace.getInstance()
           .logInfo("Climb limits have been reached " + speed + " " + m_contractHeight);
       m_winch.setSpeed(0);
-      m_finished = true;
     }
     // when the speed is less than 0 then the is robot lowering to the default
     // position
@@ -56,7 +48,6 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
       Trace.getInstance()
           .logInfo("Climb limits have been reached " + speed + " " + m_maxExtendHeight);
       m_winch.setSpeed(0);
-      m_finished = true;
     } else {
       m_winch.setSpeed(speed);
     }
@@ -65,13 +56,6 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   @Override
   public void stopWinch() {
     m_winch.setSpeed(0);
-    m_finished = true;
-  }
-
-  @Override
-  public void unwindWinch() {
-    driveWinch(-1);
-
   }
 
   @Override
@@ -82,10 +66,8 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   @Override
   public void setWinchBrakeMode(boolean brakeOn) {
     if (brakeOn) {
-      brakeState = BillClimberBrakeState.ENGAGECLIMBERBRAKE;
       m_winch.setIdleMode(IdleMode.kBrake);
     } else {
-      brakeState = BillClimberBrakeState.DISENGAGECLIMBERBRAKE;
       m_winch.setIdleMode(IdleMode.kCoast);
     }
   }
@@ -101,17 +83,8 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   }
 
   @Override
-  public boolean isFinished() {
-    return m_finished;
-  }
-
-  @Override
   public void resetOffset() {
     m_initialEncoderWinch = m_winch.getEncoderPositionTicks();
   }
 
-  @Override
-  public void resetFinished() {
-    m_finished = false;
-  }
 }

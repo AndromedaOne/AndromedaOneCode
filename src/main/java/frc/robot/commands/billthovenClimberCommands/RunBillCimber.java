@@ -7,18 +7,11 @@ import frc.robot.subsystems.billClimber.BillClimberBase;
 
 public class RunBillCimber extends Command {
   private BillClimberBase m_climber;
-  private double m_speed;
   private boolean m_useSmartDashboard;
-  private boolean m_needToEnd;
-  private boolean m_readJoystick;
 
-  public RunBillCimber(BillClimberBase climber, boolean needToEnd, double speed,
-      boolean useSmartDashboard, boolean readJoystick) {
+  public RunBillCimber(BillClimberBase climber, boolean useSmartDashboard) {
     m_climber = climber;
-    m_speed = speed;
     m_useSmartDashboard = useSmartDashboard;
-    m_needToEnd = needToEnd;
-    m_readJoystick = readJoystick;
     if (useSmartDashboard) {
       SmartDashboard.putNumber("Climber Speed", 0);
 
@@ -26,42 +19,33 @@ public class RunBillCimber extends Command {
     addRequirements(m_climber.getSubsystemBase());
   }
 
-  public RunBillCimber(BillClimberBase climber, boolean needToEnd, double speed) {
-    this(climber, needToEnd, speed, false, false);
-  }
-
-  public RunBillCimber(BillClimberBase climber, boolean needToEnd) {
-    this(climber, needToEnd, 0, false, true);
+  public RunBillCimber(BillClimberBase climber) {
+    this(climber, false);
   }
 
   @Override
   public void initialize() {
-    if (m_useSmartDashboard) {
-      m_speed = SmartDashboard.getNumber("Climber Speed", 0);
-    }
-    if ((m_speed != 0) && (!m_readJoystick)) {
-      m_climber.setWinchBrakeMode(false);
-    }
 
-    m_climber.resetFinished();
   }
 
   @Override
   public void execute() {
-    if (m_readJoystick) {
-      m_speed = Robot.getInstance().getOIContainer().getSubsystemController().getBillClimberSpeed();
+    double speed = 0;
+    if (m_useSmartDashboard) {
+      speed = SmartDashboard.getNumber("Climber Speed", 0);
+    } else {
+      speed = Robot.getInstance().getOIContainer().getSubsystemController().getBillClimberSpeed();
     }
-    m_climber.driveWinch(m_speed);
+    m_climber.driveWinch(speed);
   }
 
   @Override
   public void end(boolean interrupted) {
-    super.end(interrupted);
-    m_climber.setWinchBrakeMode(true);
+    m_climber.stopWinch();
   }
 
   @Override
   public boolean isFinished() {
-    return (m_needToEnd && m_climber.isFinished());
+    return (false);
   }
 }

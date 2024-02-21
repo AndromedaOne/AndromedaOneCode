@@ -325,7 +325,7 @@ public class SubsystemsContainer {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
     if (Config4905.getConfig4905().doesBillClimberExist()) {
-      m_billClimber.setDefaultCommand(new RunBillCimber(m_billClimber, false, 0));
+      m_billClimber.setDefaultCommand(new RunBillCimber(m_billClimber));
     }
   }
 }

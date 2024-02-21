@@ -17,8 +17,6 @@ import frc.robot.commands.ConfigReload;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
-import frc.robot.commands.billthovenClimberCommands.DisableClimberBrake;
-import frc.robot.commands.billthovenClimberCommands.EnableClimberBrake;
 import frc.robot.commands.billthovenClimberCommands.ResetBillClimberOffset;
 import frc.robot.commands.billthovenClimberCommands.RunBillCimber;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
@@ -134,10 +132,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
     }
     if (Config4905.getConfig4905().doesBillClimberExist()) {
-      SmartDashboard
-          .putData(new RunBillCimber(subsystemsContainer.getBillClimber(), true, 0, true, false));
-      SmartDashboard.putData(new EnableClimberBrake(subsystemsContainer.getBillClimber()));
-      SmartDashboard.putData(new DisableClimberBrake(subsystemsContainer.getBillClimber()));
+      SmartDashboard.putData(new RunBillCimber(subsystemsContainer.getBillClimber()));
       SmartDashboard.putData(new ResetBillClimberOffset(subsystemsContainer.getBillClimber()));
     }
   }
