@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.DisengageEndEffectorPosition;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.EngageEndEffectorPosition;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToHighPosition;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToLowPosition;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
@@ -58,31 +58,31 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
-        endEffectorPosition = new EngageEndEffectorPosition(m_endEffector);
+        endEffectorPosition = new MoveToHighPosition(endEffector);
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
-        endEffectorPosition = new EngageEndEffectorPosition(m_endEffector);
+        endEffectorPosition = new MoveToHighPosition(endEffector);
       }
     } else if (m_distance == SpeakerScoreDistanceEnum.FAR) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 3000;
-        endEffectorPosition = new DisengageEndEffectorPosition(m_endEffector);
+        endEffectorPosition = new MoveToLowPosition(endEffector);
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
-        endEffectorPosition = new DisengageEndEffectorPosition(m_endEffector);
+        endEffectorPosition = new MoveToLowPosition(endEffector);
       }
     } else {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 350;
         m_shooterSpeedInit = 3000;
-        endEffectorPosition = new DisengageEndEffectorPosition(m_endEffector);
+        endEffectorPosition = new MoveToHighPosition(endEffector);
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 3000;
-        endEffectorPosition = new EngageEndEffectorPosition(m_endEffector);
+        endEffectorPosition = new MoveToHighPosition(endEffector);
       }
     }
     final double m_armSetpoint = m_armSetpointInit;
