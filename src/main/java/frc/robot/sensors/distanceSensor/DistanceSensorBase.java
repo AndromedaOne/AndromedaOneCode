@@ -7,5 +7,7 @@ package frc.robot.sensors.distanceSensor;
 /** Add your docs here. */
 public interface DistanceSensorBase {
 
-  public double getDistance();
+  public double getDistance_mm();
+
+  public double getDistance_Inches();
 }

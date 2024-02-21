@@ -6,8 +6,9 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 
-public class RealUltrasonicSensor extends RealSensorBase implements UltrasonicSensor {
+public class RealUltrasonicSensor extends RealSensorBase implements DistanceSensorBase {
   private Ultrasonic m_ultrasonic;
   private String m_sensorName;
 
@@ -28,12 +29,17 @@ public class RealUltrasonicSensor extends RealSensorBase implements UltrasonicSe
   }
 
   @Override
-  public double getDistanceInches() {
+  public double getDistance_Inches() {
     return m_ultrasonic.getRangeInches();
   }
 
   @Override
+  public double getDistance_mm() {
+    return m_ultrasonic.getRangeMM();
+  }
+
+  @Override
   protected void updateSmartDashboard() {
-    SmartDashboard.putNumber(m_sensorName, getDistanceInches());
+    SmartDashboard.putNumber(m_sensorName, getDistance_Inches());
   }
 }

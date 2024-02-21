@@ -53,9 +53,9 @@ public class RealCannon extends SubsystemBase implements CannonBase {
   @Override
   public boolean shoot() {
     if (Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic()
-        .getDistanceInches() >= m_maxsafetyRange) {
+        .getDistance_Inches() >= m_maxsafetyRange) {
       System.out.println("Distance: " + Robot.getInstance().getSensorsContainer()
-          .getCannonSafetyUltrasonic().getDistanceInches());
+          .getCannonSafetyUltrasonic().getDistance_Inches());
       m_solenoid0_7.retractPiston();
       m_solenoid1_6.retractPiston();
       m_solenoid2_5.retractPiston();
@@ -65,7 +65,7 @@ public class RealCannon extends SubsystemBase implements CannonBase {
 
     } else {
       System.out.println("Cannot shoot due to something being in the way. Distance being: " + Robot
-          .getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
+          .getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistance_Inches());
       return false;
     }
 
@@ -92,7 +92,7 @@ public class RealCannon extends SubsystemBase implements CannonBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("cannonSafetyUltrasonic",
-        Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistanceInches());
+        Robot.getInstance().getSensorsContainer().getCannonSafetyUltrasonic().getDistance_Inches());
     SmartDashboard.putBoolean("cannonElevatorContactSwitch",
         m_cannonElevatorContactSwitch.isAtLimit());
     SmartDashboard.putNumber("canon rotate encoder ticks", m_canonRotateEncoder.getEncoderValue());

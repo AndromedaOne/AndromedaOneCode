@@ -11,9 +11,9 @@ import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 import frc.robot.sensors.distanceSensor.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.distanceSensor.ultrasonicsensor.RealUltrasonicSensor;
-import frc.robot.sensors.distanceSensor.ultrasonicsensor.UltrasonicSensor;
 import frc.robot.sensors.encoder.EncoderBase;
 import frc.robot.sensors.encoder.MockEncoder;
 import frc.robot.sensors.encoder.RealEncoder;
@@ -38,7 +38,7 @@ public class SensorsContainer {
   private Camera m_camera1;
   private LimeLightCameraBase m_limelightCameraBase;
   private Gyro4905 m_gyro;
-  private UltrasonicSensor m_cannonSafetyUltrasonic;
+  private DistanceSensorBase m_cannonSafetyUltrasonic;
   private EncoderBase m_cannonElevatorEncoder;
   private LimitSwitchSensor m_cannonHomeSwitch;
   private Config m_sensorConfig;
@@ -123,7 +123,7 @@ public class SensorsContainer {
     return m_limelightCameraBase;
   }
 
-  public UltrasonicSensor getCannonSafetyUltrasonic() {
+  public DistanceSensorBase getCannonSafetyUltrasonic() {
     return m_cannonSafetyUltrasonic;
   }
 

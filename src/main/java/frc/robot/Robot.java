@@ -7,13 +7,9 @@
 
 package frc.robot;
 
-import com.playingwithfusion.TimeOfFlight;
-import com.playingwithfusion.TimeOfFlight.RangingMode;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.oi.OIContainer;
@@ -36,7 +32,6 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase m_limelight;
-  private TimeOfFlight tof;
 
   private Robot() {
   }
@@ -67,7 +62,6 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
-    tof = new TimeOfFlight(15);
     m_subsystemContainer.getDriveTrain().setCoast(true);
     LiveWindow.disableAllTelemetry();
     CommandScheduler.getInstance()
@@ -98,14 +92,6 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
-
-    // Get the distance from the Time-of-Flight sensor
-    tof.setRangingMode(RangingMode.Long, 100);
-    tof.setRangeOfInterest(0, 0, 16, 16);
-    double tofdistance_mm = tof.getRange();
-
-    // Display the distance on the SmartDashboard
-    SmartDashboard.putNumber("tof Distance mm", tofdistance_mm);
 
   }
 
