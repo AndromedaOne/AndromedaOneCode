@@ -137,7 +137,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
     }
     if (Config4905.getConfig4905().doesBillClimberExist()) {
-      SmartDashboard.putData(new RunBillCimber(subsystemsContainer.getBillClimber()));
+      SmartDashboard.putData(new RunBillCimber(subsystemsContainer.getBillClimber(), true));
       SmartDashboard.putData(new ResetBillClimberOffset(subsystemsContainer.getBillClimber()));
     }
   }
