@@ -19,6 +19,7 @@ import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrake;
 import frc.robot.commands.billthovenArmRotateCommands.DisablePneumaticArmBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrake;
+import frc.robot.commands.billthovenClimberCommands.ResetBillClimberOffset;
 import frc.robot.commands.billthovenClimberCommands.RunBillCimber;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;

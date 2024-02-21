@@ -84,7 +84,7 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
 
   @Override
   public void resetOffset() {
-    m_initialEncoderWinch = m_winch.getEncoderPositionTicks();
+    m_initialEncoderWinch = m_winch.getBuiltInEncoderPositionTicks();
   }
 
 }
