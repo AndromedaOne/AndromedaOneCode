@@ -54,7 +54,7 @@ public class RunBillFeeder extends Command {
       return;
     case SHOOTING:
       if ((m_readyToShoot.getAsBoolean()) && (Robot.getInstance().getOIContainer()
-          .getSubsystemController().getBillFireTrigger() > 0.8)) {
+          .getSubsystemController().getBillFireTrigger() != 0.0)) {
         m_feeder.runBillFeederShooting();
         m_noteFired = true;
       } else if ((m_readyToShoot.getAsBoolean()) && (m_autonomous)) {

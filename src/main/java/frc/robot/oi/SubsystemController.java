@@ -46,6 +46,11 @@ public class SubsystemController extends ControllerBase {
     return getRightTriggerValue();
   }
 
+  public JoystickButton getBillShootingPositionButton() {
+    // Changes the shooting posistion from low to high
+    return getLeftBumperButton();
+  }
+
   public double getBillClimberStick() {
     // Moves the climber up and down
     return getLeftStickForwardBackwardValue();
