@@ -58,31 +58,31 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
-        endEffectorPosition = new MoveToHighPosition(endEffector);
+        endEffectorPosition = new MoveToHighPosition(m_endEffector);
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
-        endEffectorPosition = new MoveToHighPosition(endEffector);
+        endEffectorPosition = new MoveToHighPosition(m_endEffector);
       }
     } else if (m_distance == SpeakerScoreDistanceEnum.FAR) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 3000;
-        endEffectorPosition = new MoveToLowPosition(endEffector);
+        endEffectorPosition = new MoveToLowPosition(m_endEffector);
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
-        endEffectorPosition = new MoveToLowPosition(endEffector);
+        endEffectorPosition = new MoveToLowPosition(m_endEffector);
       }
     } else {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 350;
         m_shooterSpeedInit = 3000;
-        endEffectorPosition = new MoveToHighPosition(endEffector);
+        endEffectorPosition = new MoveToHighPosition(m_endEffector);
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 3000;
-        endEffectorPosition = new MoveToHighPosition(endEffector);
+        endEffectorPosition = new MoveToHighPosition(m_endEffector);
       }
     }
     final double m_armSetpoint = m_armSetpointInit;
