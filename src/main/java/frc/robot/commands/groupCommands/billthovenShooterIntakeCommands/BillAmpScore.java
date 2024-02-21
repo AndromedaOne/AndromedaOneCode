@@ -28,7 +28,7 @@ public class BillAmpScore extends SequentialCommandGroup4905 {
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armSetpoint, true),
             new DisengageEndEffectorPosition(endEffector)),
         new ParallelDeadlineGroup(new Timer(10000), new ParallelCommandGroup4905(runShooterCommand,
-            new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.atSetpoint()))));
+            new RunBillFeeder(feeder, FeederStates.SHOOTING))));
 
   }
 

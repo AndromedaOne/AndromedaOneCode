@@ -21,12 +21,11 @@ public class IntakeNote extends SequentialCommandGroup4905 {
     final double m_armIntakeSetpoint = 0.0; // we dont know
     final double m_armDriveSetpoint = 0.0; // we dont know
 
-    addCommands(
-        new ParallelDeadlineGroup(new Timer(15000),
-            new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
-                new DisengageEndEffectorPosition(endEffector),
-                new RunBillFeeder(feeder, FeederStates.INTAKE, () -> false))),
+    addCommands(new ParallelDeadlineGroup(new Timer(15000),
+        new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
+            new DisengageEndEffectorPosition(endEffector),
+            new RunBillFeeder(feeder, FeederStates.INTAKE)),
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armDriveSetpoint, true),
-            new EngageEndEffectorPosition(endEffector)));
+            new EngageEndEffectorPosition(endEffector))));
   }
 }
