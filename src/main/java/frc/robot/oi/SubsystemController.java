@@ -41,6 +41,11 @@ public class SubsystemController extends ControllerBase {
     return getRightStickButton();
   }
 
+  public double getBillFireTrigger() {
+    // Moves note into shooter motors
+    return getRightTriggerValue();
+  }
+
   public double getBillClimberStick() {
     // Moves the climber up and down
     return getLeftStickForwardBackwardValue();

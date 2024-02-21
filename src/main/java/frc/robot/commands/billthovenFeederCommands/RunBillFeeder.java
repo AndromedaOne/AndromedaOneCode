@@ -12,6 +12,7 @@ public class RunBillFeeder extends Command {
   private FeederStates m_feederState = FeederStates.EJECT;
   private boolean m_noteInPlace = false;
   private boolean m_autonomous = false;
+  private boolean m_noteFired = false;
 
   /** use this if you are shooting. */
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState,
@@ -52,8 +53,13 @@ public class RunBillFeeder extends Command {
       m_feeder.runBillFeederEject();
       return;
     case SHOOTING:
-      if (m_readyToShoot.getAsBoolean()) {
+      if ((m_readyToShoot.getAsBoolean()) && (Robot.getInstance().getOIContainer()
+          .getSubsystemController().getBillFireTrigger() > 0.8)) {
         m_feeder.runBillFeederShooting();
+        m_noteFired = true;
+      } else if ((m_readyToShoot.getAsBoolean()) && (m_autonomous)) {
+        m_feeder.runBillFeederShooting();
+        m_noteFired = true;
       } else {
         m_feeder.stopBillFeeder();
       }
@@ -81,6 +87,8 @@ public class RunBillFeeder extends Command {
               .getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
         return true;
       }
+    } else if ((m_feederState == FeederStates.SHOOTING) && (m_noteFired)) {
+      return true;
     }
     return false;
   }
