@@ -12,6 +12,8 @@ import com.typesafe.config.Config;
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;
+import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.MockpwfTofDistanceSensor;
+import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.RealpwfTofDistanceSensor;
 import frc.robot.sensors.distanceSensor.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.distanceSensor.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.encoder.EncoderBase;
@@ -41,6 +43,7 @@ public class SensorsContainer {
   private DistanceSensorBase m_cannonSafetyUltrasonic;
   private EncoderBase m_cannonElevatorEncoder;
   private LimitSwitchSensor m_cannonHomeSwitch;
+  private DistanceSensorBase m_rearTof;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -101,6 +104,13 @@ public class SensorsContainer {
       Trace.getInstance().logInfo("Using mock cannon home switch");
       m_cannonHomeSwitch = new MockLimitSwitchSensor();
     }
+    if (m_sensorConfig.hasPath("sensors.rearTof")) {
+      Trace.getInstance().logInfo("Using real PlayingWithFusion Time-of-flight sensor");
+      m_rearTof = new RealpwfTofDistanceSensor();
+    } else {
+      Trace.getInstance().logInfo("Using mock cannon home switch");
+      m_rearTof = new MockpwfTofDistanceSensor();
+    }
   }
 
   public Gyro4905 getGyro() {
@@ -133,6 +143,10 @@ public class SensorsContainer {
 
   public LimitSwitchSensor getCannonHomeSwitch() {
     return m_cannonHomeSwitch;
+  }
+
+  public DistanceSensorBase getRearTof() {
+    return m_rearTof;
   }
 
   public void periodic() {

@@ -14,9 +14,9 @@ public class RealpwfTofDistanceSensor extends RealSensorBase implements Distance
   private Config m_sensorConfig = Config4905.getConfig4905().getSensorConfig();
 
   public void pwfTofDistanceSensor() {
-    m_tof = new TimeOfFlight(m_sensorConfig.getInt("rearTof.port"));
+    m_tof = new TimeOfFlight(m_sensorConfig.getInt("sensors.rearTof.port"));
     RangingMode rangingMode;
-    switch (m_sensorConfig.getString("rearTof.rangingMode")) {
+    switch (m_sensorConfig.getString("sensors.rearTof.rangingMode")) {
     case "Long":
       rangingMode = RangingMode.Long;
       break;
@@ -30,17 +30,16 @@ public class RealpwfTofDistanceSensor extends RealSensorBase implements Distance
       rangingMode = RangingMode.Long;
       break;
     }
-    m_tof.setRangingMode(rangingMode, m_sensorConfig.getInt("rearTof.sampleTime"));
-    m_tof.setRangeOfInterest(m_sensorConfig.getInt("rearTof.rangeOfInterest.topLeftX"),
-        m_sensorConfig.getInt("rearTof.rangeOfInterest.topLeftY"),
-        m_sensorConfig.getInt("rearTof.rangingOfInterest.bottomRightX"),
-        m_sensorConfig.getInt("rearTof.rangingOfInterest.bottomRightY"));
+    m_tof.setRangingMode(rangingMode, m_sensorConfig.getInt("sensors.rearTof.sampleTime"));
+    m_tof.setRangeOfInterest(m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.topLeftX"),
+        m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.topLeftY"),
+        m_sensorConfig.getInt("sensors.rearTof.rangingOfInterest.bottomRightX"),
+        m_sensorConfig.getInt("sensors.rearTof.rangingOfInterest.bottomRightY"));
   }
 
   @Override
   protected void updateSmartDashboard() {
-    SmartDashboard.putNumber("tof Distance mm", m_tof.getRange());
-
+    SmartDashboard.putNumber("TOF Distance mm", m_tof.getRange());
   }
 
   @Override
@@ -50,7 +49,6 @@ public class RealpwfTofDistanceSensor extends RealSensorBase implements Distance
 
   @Override
   public double getDistance_Inches() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getDistance_Inches'");
+    return m_tof.getRange()/25.4;
   }
 }
