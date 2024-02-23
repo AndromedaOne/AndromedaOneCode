@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
-import frc.robot.commands.billthovenClimberCommands.RunBillCimber;
+import frc.robot.commands.billthovenClimberCommands.EnableClimberMode;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
@@ -47,11 +47,6 @@ public class SubsystemController extends ControllerBase {
     return getLeftStickForwardBackwardValue();
   }
 
-  public JoystickButton getBillClimberModeStart() {
-    // Moves the climber up and down
-    return getBackButton();
-  }
-
   public JoystickButton getBillFeederEjectNoteButton() {
     // Runs the feeder backwards
     return getRightBumperButton();
@@ -68,7 +63,7 @@ public class SubsystemController extends ControllerBase {
   }
 
   public JoystickButton getBillSpeakerMidScoreButton() {
-    // Scores the note into the speaker from Mid Range
+    // Scores the note into the speaker from mid Range
     return getBbutton();
   }
 
@@ -80,6 +75,10 @@ public class SubsystemController extends ControllerBase {
   public JoystickButton getBillAmpScoreButton() {
     // Scores the note into the amp
     return getAbutton();
+  }
+
+  public JoystickButton getBillEnableClimberMode() {
+    return getBackButton();
   }
 
   private void setUpBillEndEffectorButtons() {
@@ -104,8 +103,8 @@ public class SubsystemController extends ControllerBase {
         .whileTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
             m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
             m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
-    getBillClimberModeStart().onTrue(new SequentialCommandGroup4905(
+    getBillEnableClimberMode().onTrue(new SequentialCommandGroup4905(
         new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 255, true),
-        new RunBillCimber(m_subsystemsContainer.getBillClimber())));
+        new EnableClimberMode(m_subsystemsContainer.getBillClimber())));
   }
 }

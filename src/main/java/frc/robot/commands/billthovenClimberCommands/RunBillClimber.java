@@ -6,12 +6,12 @@ import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.subsystems.billClimber.BillClimberBase;
 
-public class RunBillCimber extends Command {
+public class RunBillClimber extends Command {
   private BillClimberBase m_climber;
   private boolean m_useSmartDashboard;
   private DriveController m_driveController;
 
-  public RunBillCimber(BillClimberBase climber, boolean useSmartDashboard) {
+  public RunBillClimber(BillClimberBase climber, boolean useSmartDashboard) {
     m_climber = climber;
     m_useSmartDashboard = useSmartDashboard;
 
@@ -22,7 +22,7 @@ public class RunBillCimber extends Command {
     addRequirements(m_climber.getSubsystemBase());
   }
 
-  public RunBillCimber(BillClimberBase climber) {
+  public RunBillClimber(BillClimberBase climber) {
     this(climber, false);
   }
 
