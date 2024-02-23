@@ -44,7 +44,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
       m_motor1.setSpeed(0);
     } else {
-      m_motor1.setSpeed(speed * 0.33); // 0.33 and .05 for test
+      m_motor1.setSpeed(speed * 0.66); // 0.33 and .05 for test
     }
   }
 

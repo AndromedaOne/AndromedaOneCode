@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 
 public class RunBillFeeder extends Command {
@@ -12,7 +13,8 @@ public class RunBillFeeder extends Command {
   private FeederStates m_feederState = FeederStates.EJECT;
   private boolean m_noteInPlace = false;
   private boolean m_autonomous = false;
-  private boolean m_noteFired = false;
+  private int m_count = 0;
+  private SubsystemController m_controller;
 
   /** use this if you are shooting. */
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState,
@@ -33,6 +35,8 @@ public class RunBillFeeder extends Command {
   public void initialize() {
     m_noteInPlace = false;
     m_autonomous = Robot.getInstance().isAutonomous();
+    m_count = 0;
+    m_controller = Robot.getInstance().getOIContainer().getSubsystemController();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,13 +57,12 @@ public class RunBillFeeder extends Command {
       m_feeder.runBillFeederEject();
       return;
     case SHOOTING:
-      if ((m_readyToShoot.getAsBoolean()) && (Robot.getInstance().getOIContainer()
-          .getSubsystemController().getBillFireTrigger() != 0.0)) {
+      if ((m_readyToShoot.getAsBoolean()) && (m_controller.getBillFireTrigger())) {
         m_feeder.runBillFeederShooting();
-        m_noteFired = true;
+        m_count++;
       } else if ((m_readyToShoot.getAsBoolean()) && (m_autonomous)) {
         m_feeder.runBillFeederShooting();
-        m_noteFired = true;
+        m_count++;
       } else {
         m_feeder.stopBillFeeder();
       }
@@ -83,12 +86,15 @@ public class RunBillFeeder extends Command {
   public boolean isFinished() {
     if (m_feederState == FeederStates.INTAKE) {
       if ((!m_feeder.getNoteDetectorState() && m_noteInPlace)
-          || ((!Robot.getInstance().getOIContainer().getSubsystemController()
-              .getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
+          || ((!m_controller.getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
         return true;
       }
-    } else if ((m_feederState == FeederStates.SHOOTING) && (m_noteFired)) {
-      return true;
+    } else if ((m_feederState == FeederStates.SHOOTING)) {
+      if ((m_count >= 50) || ((!m_controller.getBillAmpScoreButton().getAsBoolean())
+          && (!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
+          && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
+          && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean()) && (!m_autonomous)))
+        return true;
     }
     return false;
   }

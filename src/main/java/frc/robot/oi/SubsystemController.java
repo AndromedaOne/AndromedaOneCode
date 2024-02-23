@@ -41,9 +41,9 @@ public class SubsystemController extends ControllerBase {
     return getRightStickButton();
   }
 
-  public double getBillFireTrigger() {
+  public boolean getBillFireTrigger() {
     // Moves note into shooter motors
-    return getRightTriggerValue();
+    return getRightTriggerPressedBoolean();
   }
 
   public JoystickButton getBillShootingPositionButton() {
@@ -92,20 +92,20 @@ public class SubsystemController extends ControllerBase {
     // getBillFeederButton()
     // .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
     // FeederStates.INTAKE));
-    getBillFeederTrapShotButton().whileTrue(
+    getBillFeederTrapShotButton().onTrue(
         new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.TRAPSHOOTING));
     getBillFeederIntakeNoteButton().onTrue(new IntakeNote(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
-    getBillSpeakerCloseScoreButton().whileTrue(new BillSpeakerScore(
+    getBillSpeakerCloseScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
         BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
     getBillSpeakerMidScoreButton()
-        .whileTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
+        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
             m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
             m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
     getBillSpeakerFarScoreButton()
-        .whileTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
+        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
             m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
             m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
     getBillAmpScoreButton().onTrue(new BillAmpScore(m_subsystemsContainer.getBillArmRotate(),

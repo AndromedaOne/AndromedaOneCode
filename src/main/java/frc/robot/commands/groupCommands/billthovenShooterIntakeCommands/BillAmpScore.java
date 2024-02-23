@@ -19,7 +19,7 @@ public class BillAmpScore extends SequentialCommandGroup4905 {
   public BillAmpScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter) {
     // need to determine final values
-    final double m_armSetpoint = 260;
+    final double m_armSetpoint = 270;
     final double m_shooterSpeed = 1000;
     final double m_armDriveSetpoint = 300;
 

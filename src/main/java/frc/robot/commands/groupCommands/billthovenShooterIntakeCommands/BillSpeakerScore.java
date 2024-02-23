@@ -10,6 +10,7 @@ import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
+import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
@@ -78,7 +79,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 350;
         m_shooterSpeedInit = 3000;
-        endEffectorPosition = new MoveToHighPosition(m_endEffector);
+        endEffectorPosition = new MoveToLowPosition(m_endEffector);
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 3000;
@@ -92,9 +93,10 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     CommandScheduler.getInstance().schedule(
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
             endEffectorPosition),
-        new ParallelCommandGroup4905(runShooterCommand, new RunBillFeeder(m_feeder,
-            FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier())));
-
+        new ParallelDeadlineGroup4905(new RunBillFeeder(m_feeder, FeederStates.SHOOTING,
+            runShooterCommand.getOnTargetSupplier()), runShooterCommand),
+        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
+            new MoveToLowPosition(m_endEffector)));
   }
 
 }
