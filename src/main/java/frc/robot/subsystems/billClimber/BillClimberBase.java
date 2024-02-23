@@ -4,7 +4,7 @@ import frc.robot.subsystems.SubsystemInterface;
 
 public interface BillClimberBase extends SubsystemInterface {
 
-  public abstract void driveWinch(double speed);
+  public abstract void driveWinch(double speed, boolean override);
 
   public abstract void stopWinch();
 

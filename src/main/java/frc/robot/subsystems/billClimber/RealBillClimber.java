@@ -8,45 +8,40 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
-import frc.robot.telemetries.Trace;
 
 public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   public SparkMaxController m_winch;
-  private double m_initialEncoderWinch = 0;
-  private double m_maxExtendHeight = 0;
-  private double m_contractHeight = 0;
+  private double m_encoderOffset = 0;
+  private double m_maxHeight = 0;
+  private double m_minHeight = 0;
 
   public RealBillClimber() {
     Config climberConfig = Config4905.getConfig4905().getBillClimberConfig();
     m_winch = new SparkMaxController(climberConfig, "winch");
-    m_initialEncoderWinch = m_winch.getBuiltInEncoderPositionTicks();
-    m_maxExtendHeight = climberConfig.getDouble("maxExtendHeight");
-    m_contractHeight = climberConfig.getDouble("contractHeight");
+    m_encoderOffset = m_winch.getBuiltInEncoderPositionTicks();
+    m_maxHeight = climberConfig.getDouble("maxHeight");
+    m_minHeight = climberConfig.getDouble("minHeight");
   }
 
   public void periodic() {
     SmartDashboard.putNumber("ClimberHeight", getWinchAdjustedEncoderValue());
     SmartDashboard.putNumber("Raw Climber Height", m_winch.getBuiltInEncoderPositionTicks());
-    SmartDashboard.putBoolean("is Limit Switch On", m_winch.isForwardLimitSwitchOn());
+    SmartDashboard.putBoolean("is Limit Switch On", m_winch.isReverseLimitSwitchOn());
   }
 
   @Override
-  public void driveWinch(double speed) {
+  public void driveWinch(double speed, boolean override) {
 
     // when the speed is greater than 0 the robot is climbing towards the contracted
     // position
 
-    if ((speed > 0) && ((getWinchAdjustedEncoderValue() <= m_contractHeight)
-        || m_winch.isForwardLimitSwitchOn())) {
-      Trace.getInstance()
-          .logInfo("Climb limits have been reached " + speed + " " + m_contractHeight);
+    if ((speed > 0) && (getWinchAdjustedEncoderValue() >= m_maxHeight) && !override) {
       m_winch.setSpeed(0);
     }
     // when the speed is less than 0 then the is robot lowering to the default
     // position
-    else if ((speed < 0) && (getWinchAdjustedEncoderValue() >= m_maxExtendHeight)) {
-      Trace.getInstance()
-          .logInfo("Climb limits have been reached " + speed + " " + m_maxExtendHeight);
+    else if ((speed < 0)
+        && ((getWinchAdjustedEncoderValue() <= m_minHeight) || m_winch.isReverseLimitSwitchOn())) {
       m_winch.setSpeed(0);
     } else {
       m_winch.setSpeed(speed);
@@ -60,7 +55,7 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
 
   @Override
   public double getWinchAdjustedEncoderValue() {
-    return m_winch.getBuiltInEncoderPositionTicks() - m_initialEncoderWinch;
+    return m_winch.getBuiltInEncoderPositionTicks() - m_encoderOffset;
   }
 
   @Override
@@ -84,7 +79,6 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
 
   @Override
   public void resetOffset() {
-    m_initialEncoderWinch = m_winch.getBuiltInEncoderPositionTicks();
+    m_encoderOffset = m_winch.getBuiltInEncoderPositionTicks();
   }
-
 }

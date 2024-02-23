@@ -7,7 +7,7 @@ import frc.robot.subsystems.MockSubsystem;
 public class MockBillClimber implements BillClimberBase {
 
   @Override
-  public void driveWinch(double speed) {
+  public void driveWinch(double speed, boolean override) {
 
   }
 

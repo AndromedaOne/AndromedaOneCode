@@ -3,15 +3,18 @@ package frc.robot.commands.billthovenClimberCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.oi.DriveController;
 import frc.robot.subsystems.billClimber.BillClimberBase;
 
 public class RunBillCimber extends Command {
   private BillClimberBase m_climber;
   private boolean m_useSmartDashboard;
+  private DriveController m_driveController;
 
   public RunBillCimber(BillClimberBase climber, boolean useSmartDashboard) {
     m_climber = climber;
     m_useSmartDashboard = useSmartDashboard;
+
     if (useSmartDashboard) {
       SmartDashboard.putNumber("Climber Speed", 0);
 
@@ -25,7 +28,7 @@ public class RunBillCimber extends Command {
 
   @Override
   public void initialize() {
-
+    m_driveController = Robot.getInstance().getOIContainer().getDriveController();
   }
 
   @Override
@@ -36,7 +39,8 @@ public class RunBillCimber extends Command {
     } else {
       speed = Robot.getInstance().getOIContainer().getSubsystemController().getBillClimberSpeed();
     }
-    m_climber.driveWinch(speed);
+    speed = Math.pow(speed, 5);
+    m_climber.driveWinch(speed, m_driveController.getClimberOverrideTrigger());
   }
 
   @Override
