@@ -22,7 +22,6 @@ import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrake;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
-import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensor;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
@@ -121,8 +120,8 @@ public class SmartDashboard4905 {
           new MoveUsingEncoderTester(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       SmartDashboard.putData("MoveUsingDistanceSensor",
-          new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(), 
-          () -> Robot.getInstance().getSensorsContainer().getRearTof().getDistance_Inches()));
+          new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(),
+              () -> Robot.getInstance().getSensorsContainer().getRearTof().getDistance_Inches()));
       SmartDashboard.putData("DriveTrainRectangularPathExample",
           new DriveTrainRectangularPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("DriveTrainDiagonalPathExample",

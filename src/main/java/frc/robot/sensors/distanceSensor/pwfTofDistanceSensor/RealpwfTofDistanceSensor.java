@@ -15,10 +15,9 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
 
   public RealPwfTofDistanceSensor() {
     m_tof = new TimeOfFlight(m_sensorConfig.getInt("sensors.rearTof.port"));
-    /* ranging mode distances
-     * short < 1300mm (51.2in)
-     * medium < 2700mm(106.3in)
-     * long < 4000mm(157.5in)
+    /*
+     * ranging mode distances short < 1300mm (51.2in) medium < 2700mm(106.3in) long
+     * < 4000mm(157.5in)
      */
     RangingMode rangingMode;
     switch (m_sensorConfig.getString("sensors.rearTof.rangingMode")) {
@@ -35,24 +34,26 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
       rangingMode = RangingMode.Long;
       break;
     }
-    /* Sample time values
-     * 20 ms is the minimum timing budget and can be used only in Short distance mode.
-     * 33 ms is the minimum timing budget which can work for all distance modes.
-     * 140 ms is the timing budget which allows the maximum distance of 4 m (in the dark on
-     * a white chart) to be reached under Long distance mode
+    /*
+     * Sample time values 20 ms is the minimum timing budget and can be used only in
+     * Short distance mode. 33 ms is the minimum timing budget which can work for
+     * all distance modes. 140 ms is the timing budget which allows the maximum
+     * distance of 4 m (in the dark on a white chart) to be reached under Long
+     * distance mode
      */
     m_tof.setRangingMode(rangingMode, m_sensorConfig.getInt("sensors.rearTof.sampleTime"));
-    /* The range of interest rows and columns must be greater or equal to zero 
-     * and less than or equal to fifteen. 
-     * The top left corner row/column must be smaller than the bottom right column/row. 
-     * The region of interest must be at least four coulmns wide and four rows tall.
+    /*
+     * The range of interest rows and columns must be greater or equal to zero and
+     * less than or equal to fifteen. The top left corner row/column must be smaller
+     * than the bottom right column/row. The region of interest must be at least
+     * four coulmns wide and four rows tall.
      */
     m_tof.setRangeOfInterest(m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.topLeftX"),
         m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.topLeftY"),
         m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.bottomRightX"),
         m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.bottomRightY"));
   }
-    
+
   @Override
   protected void updateSmartDashboard() {
     SmartDashboard.putNumber("TOF Distance mm", getDistance_mm());
@@ -69,35 +70,45 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
     return m_tof.getRange() + (m_sensorConfig.getInt("sensors.rearTof.sensorOffset_inches") * 25.4);
   }
 
-  @Override 
+  @Override
   public double getDistance_Inches() {
-    return (m_tof.getRange()/25.4) + (m_sensorConfig.getInt("sensors.rearTof.sensorOffset_inches"));
+    return (m_tof.getRange() / 25.4)
+        + (m_sensorConfig.getInt("sensors.rearTof.sensorOffset_inches"));
   }
-  /* Determine if the last measurment was valid
+
+  /*
+   * Determine if the last measurment was valid
    */
   public boolean isRangeValid() {
     return m_tof.isRangeValid();
   }
-  /* Get ambient lighting level in mega counts per second.
-   */
-   public double getAmbientLightLevel() {
-     return m_tof.getAmbientLightLevel();
-   }
-   /* Get the standard deviation of the distance measurment in millimeters
-    */
-   public double getRangeSigma_mm() {
-    return m_tof.getRangeSigma();
-   }
-   /* Get the standard deviation of the distance measurment in inches
-    */
-   public double getRangeSigma_inches() {
-    return m_tof.getRangeSigma()/25.4;
-   }
 
-   public TimeOfFlight.Status getStatus() {
+  /*
+   * Get ambient lighting level in mega counts per second.
+   */
+  public double getAmbientLightLevel() {
+    return m_tof.getAmbientLightLevel();
+  }
+
+  /*
+   * Get the standard deviation of the distance measurment in millimeters
+   */
+  public double getRangeSigma_mm() {
+    return m_tof.getRangeSigma();
+  }
+
+  /*
+   * Get the standard deviation of the distance measurment in inches
+   */
+  public double getRangeSigma_inches() {
+    return m_tof.getRangeSigma() / 25.4;
+  }
+
+  public TimeOfFlight.Status getStatus() {
     return m_tof.getStatus();
-   }
-   public TimeOfFlight.RangingMode getRangingMode() {
+  }
+
+  public TimeOfFlight.RangingMode getRangingMode() {
     return m_tof.getRangingMode();
-   }
+  }
 }
