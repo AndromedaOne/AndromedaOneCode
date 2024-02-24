@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
@@ -74,6 +75,12 @@ public class DriveController extends ControllerBase {
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
       setupShowBotAudioButtons();
+    }
+
+    if (Config4905.getConfig4905().isBillthoven()) {
+      if (Config4905.getConfig4905().doesArmRotateExist()) {
+        setUpProtectedMode();
+      }
     }
   }
 
@@ -179,6 +186,16 @@ public class DriveController extends ControllerBase {
   public double getSwerveDriveTrainRotationAxis() {
     // XboxController.Axis.kRightX.value;
     return getRightStickLeftRightValue();
+  }
+
+  public boolean getProtectedMode() {
+    return getXbutton().getAsBoolean();
+  }
+
+  private void setUpProtectedMode() {
+    // Angle could change
+    getXbutton().whileTrue(
+        new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 290, false, false));
   }
 
 }
