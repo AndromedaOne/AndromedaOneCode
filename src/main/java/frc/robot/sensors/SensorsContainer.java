@@ -44,6 +44,7 @@ public class SensorsContainer {
   private EncoderBase m_cannonElevatorEncoder;
   private LimitSwitchSensor m_cannonHomeSwitch;
   private DistanceSensorBase m_rearTof;
+  private DistanceSensorBase m_frontTof;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -108,8 +109,15 @@ public class SensorsContainer {
       Trace.getInstance().logInfo("Using real PlayingWithFusion Time-of-flight sensor");
       m_rearTof = new RealPwfTofDistanceSensor();
     } else {
-      Trace.getInstance().logInfo("Using mock cannon home switch");
+      Trace.getInstance().logInfo("Using mock PlayingWithFusion Time-of-flight sensor");
       m_rearTof = new MockpwfTofDistanceSensor();
+    }
+    if (m_sensorConfig.hasPath("sensors.frontTof")) {
+      Trace.getInstance().logInfo("Using real PlayingWithFusion Time-of-flight sensor");
+      m_frontTof = new RealPwfTofDistanceSensor();
+    } else {
+      Trace.getInstance().logInfo("Using mock PlayingWithFusion Time-of-flight sensor");
+      m_frontTof = new MockpwfTofDistanceSensor();
     }
   }
 
@@ -147,6 +155,10 @@ public class SensorsContainer {
 
   public DistanceSensorBase getRearTof() {
     return m_rearTof;
+  }
+
+  public DistanceSensorBase getFrontTof() {
+    return m_frontTof;
   }
 
   public void periodic() {
