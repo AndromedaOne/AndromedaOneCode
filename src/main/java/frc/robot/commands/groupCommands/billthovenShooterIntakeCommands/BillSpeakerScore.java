@@ -1,5 +1,6 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
@@ -31,15 +32,26 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
   private BillFeederBase m_feeder;
   private BillShooterBase m_shooter;
   private SpeakerScoreDistanceEnum m_distance;
+  private boolean m_useSmartDashboard;
 
   public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
-      BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance) {
+      BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance,
+      boolean useSmartDashboard) {
     m_armRotate = armRotate;
     m_endEffector = endEffector;
     m_feeder = feeder;
     m_shooter = shooter;
     m_distance = distance;
+    m_useSmartDashboard = useSmartDashboard;
+    if (useSmartDashboard) {
+      SmartDashboard.putNumber("ShooterCommand RPM", 3000);
+      SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
+    }
+  }
 
+  public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
+      BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance) {
+    this(armRotate, endEffector, feeder, shooter, distance, false);
   }
 
   public void additionalInitialize() {
@@ -59,7 +71,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
-        endEffectorPosition = new MoveToHighPosition(m_endEffector);
+        endEffectorPosition = new MoveToLowPosition(m_endEffector);
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
@@ -73,7 +85,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       } else {
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
-        endEffectorPosition = new MoveToLowPosition(m_endEffector);
+        endEffectorPosition = new MoveToHighPosition(m_endEffector);
       }
     } else {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
@@ -85,6 +97,11 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         m_shooterSpeedInit = 3000;
         endEffectorPosition = new MoveToHighPosition(m_endEffector);
       }
+    }
+    if (m_useSmartDashboard) {
+      m_armSetpointInit = SmartDashboard.getNumber("ShooterCommand ArmPosition", 300);
+      m_shooterSpeedInit = SmartDashboard.getNumber("ShooterCommand RPM", 1000);
+
     }
     final double m_armSetpoint = m_armSetpointInit;
     final double m_shooterSpeed = m_shooterSpeedInit;

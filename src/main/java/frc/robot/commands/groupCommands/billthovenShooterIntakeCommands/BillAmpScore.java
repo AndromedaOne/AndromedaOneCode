@@ -2,6 +2,7 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToHighPosition;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToLowPosition;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
@@ -19,19 +20,20 @@ public class BillAmpScore extends SequentialCommandGroup4905 {
   public BillAmpScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter) {
     // need to determine final values
-    final double m_armSetpoint = 270;
-    final double m_shooterSpeed = 1000;
+    final double m_armSetpoint = 300;
+    final double m_shooterSpeed = 0;
     final double m_armDriveSetpoint = 300;
 
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, m_shooterSpeed);
 
     addCommands(
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armSetpoint, true),
-            new MoveToLowPosition(endEffector)),
-        new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.SHOOTING,
-            runShooterCommand.getOnTargetSupplier()), runShooterCommand),
-        new ArmRotate(armRotate, () -> m_armDriveSetpoint, true));
-
+            new MoveToHighPosition(endEffector)),
+        new ParallelDeadlineGroup4905(
+            new RunBillFeeder(feeder, FeederStates.EJECT, runShooterCommand.getOnTargetSupplier()),
+            runShooterCommand),
+        new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armDriveSetpoint, true),
+            new MoveToLowPosition(endEffector)));
   }
 
 }

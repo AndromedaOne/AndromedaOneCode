@@ -99,15 +99,15 @@ public class SubsystemController extends ControllerBase {
     getBillSpeakerCloseScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
-        BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
-    getBillSpeakerMidScoreButton()
-        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
-            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
-            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
-    getBillSpeakerFarScoreButton()
-        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
-            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
-            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
+        BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE, true));
+    getBillSpeakerMidScoreButton().onTrue(new BillSpeakerScore(
+        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
+        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
+        BillSpeakerScore.SpeakerScoreDistanceEnum.MID, true));
+    getBillSpeakerFarScoreButton().onTrue(new BillSpeakerScore(
+        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
+        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
+        BillSpeakerScore.SpeakerScoreDistanceEnum.FAR, true));
     getBillAmpScoreButton().onTrue(new BillAmpScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
         m_subsystemsContainer.getBillShooter()));
