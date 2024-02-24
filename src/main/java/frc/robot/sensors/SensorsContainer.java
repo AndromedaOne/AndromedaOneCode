@@ -13,7 +13,7 @@ import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.MockpwfTofDistanceSensor;
-import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.RealpwfTofDistanceSensor;
+import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.RealPwfTofDistanceSensor;
 import frc.robot.sensors.distanceSensor.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.distanceSensor.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.encoder.EncoderBase;
@@ -106,7 +106,7 @@ public class SensorsContainer {
     }
     if (m_sensorConfig.hasPath("sensors.rearTof")) {
       Trace.getInstance().logInfo("Using real PlayingWithFusion Time-of-flight sensor");
-      m_rearTof = new RealpwfTofDistanceSensor();
+      m_rearTof = new RealPwfTofDistanceSensor();
     } else {
       Trace.getInstance().logInfo("Using mock cannon home switch");
       m_rearTof = new MockpwfTofDistanceSensor();

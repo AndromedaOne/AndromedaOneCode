@@ -61,7 +61,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
     SmartDashboard.putNumber("TOF Ambient Light Level", getAmbientLightLevel());
     SmartDashboard.putBoolean("TOF Is Range Valid", isRangeValid());
     SmartDashboard.putString("TOF Status", getStatus().toString());
-    SmartDashboard.putString("TOF Status", getRangingMode().toString());
+    SmartDashboard.putString("TOF Ranging Mode", getRangingMode().toString());
   }
 
   @Override
