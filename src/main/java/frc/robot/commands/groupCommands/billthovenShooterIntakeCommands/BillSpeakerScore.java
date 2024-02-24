@@ -92,7 +92,8 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         m_armSetpointInit = 333;
         m_shooterSpeedInit = 3250;
         endEffectorPosition = new MoveToLowPosition(m_endEffector);
-      } else { // these are the same because there is no point in shooting high over a defense robot
+      } else { // these are the same because there is no point in shooting high over a defense
+               // robot
         m_armSetpointInit = 333;
         m_shooterSpeedInit = 3250;
         endEffectorPosition = new MoveToLowPosition(m_endEffector);

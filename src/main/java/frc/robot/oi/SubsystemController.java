@@ -73,12 +73,12 @@ public class SubsystemController extends ControllerBase {
 
   public JoystickButton getBillSpeakerMidScoreButton() {
     // Scores the note into the speaker from Mid Range
-    return getBbutton();
+    return getYbutton();
   }
 
   public JoystickButton getBillSpeakerFarScoreButton() {
     // Scores the note into the speaker from far range
-    return getYbutton();
+    return getBbutton();
   }
 
   public JoystickButton getBillAmpScoreButton() {
@@ -100,14 +100,14 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
         BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
-    getBillSpeakerMidScoreButton().onTrue(new BillSpeakerScore(
-        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
-        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
-        BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
-    getBillSpeakerFarScoreButton().onTrue(new BillSpeakerScore(
-        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
-        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
-        BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
+    getBillSpeakerMidScoreButton()
+        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
+            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
+    getBillSpeakerFarScoreButton()
+        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
+            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
     getBillAmpScoreButton().onTrue(new BillAmpScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
 
