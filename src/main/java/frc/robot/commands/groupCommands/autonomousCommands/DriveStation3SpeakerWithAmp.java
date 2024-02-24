@@ -134,7 +134,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5),
         new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 0.5),
-        new BillAmpScore(m_armRotate, m_endEffector, m_feeder, m_shooter),
+        new BillAmpScore(m_armRotate, m_endEffector, m_feeder),
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint5, 0.5),
         new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint6, 0.5),

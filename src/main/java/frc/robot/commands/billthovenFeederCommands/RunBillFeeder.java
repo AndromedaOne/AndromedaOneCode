@@ -70,6 +70,15 @@ public class RunBillFeeder extends Command {
     case TRAPSHOOTING:
       m_feeder.runBillFeederTrapShooting();
       return;
+    case AMPSHOOTING:
+      if ((m_controller.getBillFireTrigger())) {
+        m_feeder.runBillFeederEject();
+        m_count++;
+      } else if (m_autonomous) {
+        m_feeder.runBillFeederEject();
+        m_count++;
+      }
+      return;
     default:
       throw new UnsupportedOperationException("unknown feeder state: " + m_feederState.toString());
     }
@@ -89,7 +98,8 @@ public class RunBillFeeder extends Command {
           || ((!m_controller.getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
         return true;
       }
-    } else if ((m_feederState == FeederStates.SHOOTING)) {
+    } else if ((m_feederState == FeederStates.SHOOTING)
+        || (m_feederState == FeederStates.AMPSHOOTING)) {
       if ((m_count >= 50) || ((!m_controller.getBillAmpScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())

@@ -21,7 +21,6 @@ import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
-import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.utils.AllianceConfig;
 
@@ -50,7 +49,6 @@ public class AmpScore extends SequentialCommandGroup4905 {
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
   BillFeederBase m_feeder;
-  BillShooterBase m_shooter;
 
   public AmpScore() {
     // Robot is started straight
@@ -72,7 +70,6 @@ public class AmpScore extends SequentialCommandGroup4905 {
     m_endEffector = subsystemsContainer.getBillEffectorPosition();
     m_armRotate = subsystemsContainer.getBillArmRotate();
     m_feeder = subsystemsContainer.getBillFeeder();
-    m_shooter = subsystemsContainer.getBillShooter();
     Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     ampScoreConfigRed.m_waypoint1 = redConfig.getDouble("AmpScore.WayPoint1");
     ampScoreConfigRed.m_angle1 = redConfig.getDouble("AmpScore.Angle1");
@@ -115,7 +112,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5),
         new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 0.5),
-        new BillAmpScore(m_armRotate, m_endEffector, m_feeder, m_shooter),
+        new BillAmpScore(m_armRotate, m_endEffector, m_feeder),
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5),
         new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 0.5),
@@ -123,7 +120,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint5, 0.5),
         new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint6, 0.5),
-        new BillAmpScore(m_armRotate, m_endEffector, m_feeder, m_shooter),
+        new BillAmpScore(m_armRotate, m_endEffector, m_feeder),
         new MoveUsingEncoder(m_driveTrain, config.m_waypoint7, 0.5),
         new TurnToCompassHeading(config.m_angle4), new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint8, 0.5),

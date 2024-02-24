@@ -69,33 +69,33 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
 
     if (m_distance == SpeakerScoreDistanceEnum.MID) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
-        m_armSetpointInit = 300;
-        m_shooterSpeedInit = 1000;
+        m_armSetpointInit = 315;
+        m_shooterSpeedInit = 3650;
         endEffectorPosition = new MoveToLowPosition(m_endEffector);
       } else {
-        m_armSetpointInit = 300;
-        m_shooterSpeedInit = 1000;
+        m_armSetpointInit = 285;
+        m_shooterSpeedInit = 3650;
         endEffectorPosition = new MoveToHighPosition(m_endEffector);
       }
     } else if (m_distance == SpeakerScoreDistanceEnum.FAR) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
-        m_armSetpointInit = 300;
-        m_shooterSpeedInit = 3000;
+        m_armSetpointInit = 306;
+        m_shooterSpeedInit = 3800;
         endEffectorPosition = new MoveToLowPosition(m_endEffector);
-      } else {
+      } else { // not currently used idea of lower power to just chuck notes over
         m_armSetpointInit = 300;
         m_shooterSpeedInit = 1000;
         endEffectorPosition = new MoveToHighPosition(m_endEffector);
       }
     } else {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
-        m_armSetpointInit = 350;
-        m_shooterSpeedInit = 3000;
+        m_armSetpointInit = 333;
+        m_shooterSpeedInit = 3250;
         endEffectorPosition = new MoveToLowPosition(m_endEffector);
-      } else {
-        m_armSetpointInit = 300;
-        m_shooterSpeedInit = 3000;
-        endEffectorPosition = new MoveToHighPosition(m_endEffector);
+      } else { // these are the same because there is no point in shooting high over a defense robot
+        m_armSetpointInit = 333;
+        m_shooterSpeedInit = 3250;
+        endEffectorPosition = new MoveToLowPosition(m_endEffector);
       }
     }
     if (m_useSmartDashboard) {
@@ -107,13 +107,13 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     final double m_shooterSpeed = m_shooterSpeedInit;
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(m_shooter, m_shooterSpeed);
 
-    CommandScheduler.getInstance().schedule(
-        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
-            endEffectorPosition),
-        new ParallelDeadlineGroup4905(new RunBillFeeder(m_feeder, FeederStates.SHOOTING,
-            runShooterCommand.getOnTargetSupplier()), runShooterCommand),
-        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
-            new MoveToLowPosition(m_endEffector)));
+    CommandScheduler.getInstance()
+        .schedule(new SequentialCommandGroup4905(
+            new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
+                endEffectorPosition),
+            new ParallelDeadlineGroup4905(new RunBillFeeder(m_feeder, FeederStates.SHOOTING,
+                runShooterCommand.getOnTargetSupplier()), runShooterCommand),
+            new DrivePositionCommand(m_endEffector, m_armRotate)));
   }
 
 }
