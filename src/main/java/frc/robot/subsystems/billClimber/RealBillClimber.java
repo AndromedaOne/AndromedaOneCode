@@ -43,6 +43,9 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
     else if ((speed < 0)
         && ((getWinchAdjustedEncoderValue() <= m_minHeight) || m_winch.isReverseLimitSwitchOn())) {
       m_winch.setSpeed(0);
+    } else if ((speed > 0) && (getWinchAdjustedEncoderValue() + 30 >= m_maxHeight)) {
+      // Slows it down while going up if it is close to the top
+      m_winch.setSpeed(speed / 2);
     } else {
       m_winch.setSpeed(speed);
     }
