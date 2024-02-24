@@ -66,12 +66,12 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
 
   @Override
   public double getDistance_mm() {
-    return m_tof.getRange();
+    return m_tof.getRange() + (m_sensorConfig.getInt("sensors.rearTof.sensorOffset_inches") * 25.4);
   }
 
   @Override 
   public double getDistance_Inches() {
-    return m_tof.getRange()/25.4;
+    return (m_tof.getRange()/25.4) + (m_sensorConfig.getInt("sensors.rearTof.sensorOffset_inches"));
   }
   /* Determine if the last measurment was valid
    */
