@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.DisengageEndEffectorPosition;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToLowPosition;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
@@ -330,7 +330,7 @@ public class SubsystemsContainer {
         m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 333, false, false));
       }
       if (Config4905.getConfig4905().doesEndEffectorExist()) {
-        m_endEffector.setDefaultCommand(new DisengageEndEffectorPosition(m_endEffector));
+        m_endEffector.setDefaultCommand(new MoveToLowPosition(m_endEffector));
       }
     }
 
