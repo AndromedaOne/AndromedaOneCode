@@ -7,6 +7,7 @@ package frc.robot.commands.billthovenClimberCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.billClimber.BillClimberBase;
+import frc.robot.telemetries.Trace;
 
 public class EnableClimberMode extends Command {
   /** Creates a new EnableClimberMode. */
@@ -20,8 +21,10 @@ public class EnableClimberMode extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    CommandScheduler.getInstance().removeDefaultCommand(m_climber.getSubsystemBase());
     CommandScheduler.getInstance().setDefaultCommand(m_climber.getSubsystemBase(),
         new RunBillClimber(m_climber, false));
+    Trace.getInstance().logCommandInfo(this, "Enable Climber Mode Ran");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
