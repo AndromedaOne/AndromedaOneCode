@@ -81,6 +81,7 @@ public class SubsystemController extends ControllerBase {
     // Enables the climber buttons and disables the speaker and amp commands
     return getBackButton();
   }
+
   private void setUpBillEndEffectorButtons() {
     getBillFeederEjectNoteButton()
         .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.EJECT));

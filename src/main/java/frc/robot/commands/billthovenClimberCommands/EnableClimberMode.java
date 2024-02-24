@@ -15,6 +15,7 @@ public class EnableClimberMode extends Command {
 
   public EnableClimberMode(BillClimberBase climber) {
     m_climber = climber;
+    addRequirements(m_climber.getSubsystemBase());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,6 +26,8 @@ public class EnableClimberMode extends Command {
     CommandScheduler.getInstance().setDefaultCommand(m_climber.getSubsystemBase(),
         new RunBillClimber(m_climber, false));
     Trace.getInstance().logCommandInfo(this, "Enable Climber Mode Ran");
+    Trace.getInstance().logCommandInfo(this,
+        CommandScheduler.getInstance().getDefaultCommand(m_climber.getSubsystemBase()).getName());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
