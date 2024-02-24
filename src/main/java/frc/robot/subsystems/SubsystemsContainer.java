@@ -330,7 +330,7 @@ public class SubsystemsContainer {
         m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 333, false, false));
       }
       if (Config4905.getConfig4905().doesEndEffectorExist()) {
-        m_endEffector.setDefaultCommand(new MoveToLowPosition(m_endEffector));
+        m_endEffector.setDefaultCommand(new MoveToLowPosition(m_endEffector, false));
       }
     }
 

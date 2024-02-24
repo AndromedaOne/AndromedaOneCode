@@ -5,11 +5,16 @@ import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 
 public class MoveToLowPosition extends Command {
   BillEndEffectorPositionBase m_endEffectorPositionBase;
+  boolean m_needToEnd;
 
   /** Creates a new OpenGripper. */
-  public MoveToLowPosition(BillEndEffectorPositionBase endEffectorPositionBase) {
+  public MoveToLowPosition(BillEndEffectorPositionBase endEffectorPositionBase, boolean needToEnd) {
     addRequirements(endEffectorPositionBase.getSubsystemBase());
     m_endEffectorPositionBase = endEffectorPositionBase;
+    m_needToEnd = needToEnd;
+  }
+  public MoveToLowPosition(BillEndEffectorPositionBase endEffectorPositionBase) {
+    this(endEffectorPositionBase, true);
   }
 
   // Called when the command is initially scheduled.
@@ -31,6 +36,6 @@ public class MoveToLowPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_needToEnd;
   }
 }
