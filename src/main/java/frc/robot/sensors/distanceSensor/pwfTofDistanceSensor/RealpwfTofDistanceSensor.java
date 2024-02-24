@@ -13,7 +13,7 @@ public class RealpwfTofDistanceSensor extends RealSensorBase implements Distance
   private TimeOfFlight m_tof;
   private Config m_sensorConfig = Config4905.getConfig4905().getSensorConfig();
 
-  public void pwfTofDistanceSensor() {
+  public RealpwfTofDistanceSensor() {
     m_tof = new TimeOfFlight(m_sensorConfig.getInt("sensors.rearTof.port"));
     RangingMode rangingMode;
     switch (m_sensorConfig.getString("sensors.rearTof.rangingMode")) {
@@ -33,13 +33,14 @@ public class RealpwfTofDistanceSensor extends RealSensorBase implements Distance
     m_tof.setRangingMode(rangingMode, m_sensorConfig.getInt("sensors.rearTof.sampleTime"));
     m_tof.setRangeOfInterest(m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.topLeftX"),
         m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.topLeftY"),
-        m_sensorConfig.getInt("sensors.rearTof.rangingOfInterest.bottomRightX"),
-        m_sensorConfig.getInt("sensors.rearTof.rangingOfInterest.bottomRightY"));
+        m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.bottomRightX"),
+        m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.bottomRightY"));
   }
 
   @Override
   protected void updateSmartDashboard() {
-    SmartDashboard.putNumber("TOF Distance mm", m_tof.getRange());
+    SmartDashboard.putNumber("TOF Distance mm", getDistance_mm());
+    SmartDashboard.putNumber("TOF Dintance Inches", getDistance_Inches());
   }
 
   @Override
