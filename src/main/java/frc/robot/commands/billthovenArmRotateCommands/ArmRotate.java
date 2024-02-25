@@ -60,7 +60,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     public void initialize() {
       Config pidConstantsConfig = Config4905.getConfig4905().getArmRotateConfig();
       super.initialize();
-      getController().setMaxOutput(0.5);
+      getController().setMaxOutput(1);
       if (m_useSmartDashboard) {
         getController().setP(SmartDashboard.getNumber("Rotate Arm P-value", 0));
         getController().setI(SmartDashboard.getNumber("Robot Arm I-value", 0));

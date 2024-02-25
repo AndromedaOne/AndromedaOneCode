@@ -109,6 +109,10 @@ public class DriveController extends ControllerBase {
     return getRightTriggerValue();
   }
 
+  public boolean getClimberOverrideTrigger() {
+    return getRightTriggerPressedBoolean();
+  }
+
   private void setUpShooterButtons() {
     getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
