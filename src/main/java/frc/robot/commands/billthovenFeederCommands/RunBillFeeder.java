@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.telemetries.Trace;
 
 public class RunBillFeeder extends Command {
   private BillFeederBase m_feeder;
@@ -35,6 +36,7 @@ public class RunBillFeeder extends Command {
   public void initialize() {
     m_noteInPlace = false;
     m_autonomous = Robot.getInstance().isAutonomous();
+    Trace.getInstance().logCommandInfo(this, "in auto : " + m_autonomous);
     m_count = 0;
     m_controller = Robot.getInstance().getOIContainer().getSubsystemController();
   }
@@ -88,6 +90,7 @@ public class RunBillFeeder extends Command {
   @Override
   public void end(boolean interrupted) {
     m_feeder.stopBillFeeder();
+    System.out.println("feeder stopped");
   }
 
   // Returns true when the command should end.
@@ -103,8 +106,10 @@ public class RunBillFeeder extends Command {
       if ((m_count >= 50) || ((!m_controller.getBillAmpScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
-          && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean()) && (!m_autonomous)))
+          && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean()) && (!m_autonomous))){
+        System.out.println("RunBillFeeder Finished ");
         return true;
+      }
     }
     return false;
   }

@@ -18,7 +18,7 @@ import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 
-public class BillSpeakerScore extends SequentialCommandGroup4905 {
+public class BillSpeakerScore extends Command {
   public enum SpeakerScoreDistanceEnum {
     CLOSE, MID, FAR
   }
@@ -47,14 +47,16 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       SmartDashboard.putNumber("ShooterCommand RPM", 3000);
       SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
     }
+    addRequirements(armRotate.getSubsystemBase(), endEffector.getSubsystemBase(), feeder.getSubsystemBase(), 
+      shooter.getSubsystemBase());
   }
 
   public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance) {
     this(armRotate, endEffector, feeder, shooter, distance, false);
   }
-
-  public void additionalInitialize() {
+@Override
+  public void initialize() {
     // need to determine final values
     // these are going to be our close distance defalt
     double m_armSetpointInit = 300;
@@ -113,8 +115,11 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
             new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
                 endEffectorPosition),
             new ParallelDeadlineGroup4905(new RunBillFeeder(m_feeder, FeederStates.SHOOTING,
-                runShooterCommand.getOnTargetSupplier()), runShooterCommand),
-            new DrivePositionCommand(m_endEffector, m_armRotate)));
+                runShooterCommand.getOnTargetSupplier()), runShooterCommand)));
+  }
+  @Override
+  public boolean isFinished() {
+    return true;
   }
 
 }

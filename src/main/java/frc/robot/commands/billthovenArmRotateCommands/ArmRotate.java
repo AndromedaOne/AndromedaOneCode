@@ -41,6 +41,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       m_armRotate = armRotate;
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
+      addRequirements(armRotate.getSubsystemBase());
 
       m_kMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(), "armKValues");
 
