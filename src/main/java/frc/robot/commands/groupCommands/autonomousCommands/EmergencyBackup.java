@@ -60,7 +60,7 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
       config = emergencyBackupConfigRed;
     }
     CommandScheduler.getInstance().schedule(
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5)),
+        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 1)),
         new DrivePositionCommand(m_endEffector, m_armRotate));
   }
 }

@@ -99,23 +99,24 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
     } else {
       config = centralSpeaker3ScoresConfigRed;
     }
-    CommandScheduler.getInstance().schedule(new SequentialCommandGroup4905(
-        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-            BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
-        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-            BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
-        new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 0.5),
-        new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
-        new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5),
-        new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 0.5),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
-        new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
-        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-            BillSpeakerScore.SpeakerScoreDistanceEnum.MID)
+    CommandScheduler.getInstance()
+        .schedule(new SequentialCommandGroup4905(
+            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+                BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 1),
+                new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+                BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
+            new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 1),
+            new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
+            new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 1),
+            new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
+            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 1),
+                new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+            new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
+            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+                BillSpeakerScore.SpeakerScoreDistanceEnum.MID)
 
-    ));
+        ));
   }
 }

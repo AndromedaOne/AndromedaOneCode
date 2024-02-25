@@ -10,10 +10,13 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToHighPosition;
+import frc.robot.commands.billthovenFeederCommands.FeederStates;
+import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
-import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillAmpScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
@@ -124,20 +127,23 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     } else {
       config = driveStation3SpeakerWithAmpConfigRed;
     }
-    CommandScheduler.getInstance().schedule(new SequentialCommandGroup4905(
-        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-            BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
-        new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5),
-        new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 0.5),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
-        new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 0.5),
-        new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
-        new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 0.5),
-        new BillAmpScore(m_armRotate, m_endEffector, m_feeder),
-        new MoveUsingEncoder(m_driveTrain, config.m_waypoint5, 0.5),
-        new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint6, 0.5),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder))));
+    CommandScheduler.getInstance()
+        .schedule(new SequentialCommandGroup4905(
+            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+                BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+            new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 1),
+            new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
+            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 1),
+                new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+            new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 1),
+            new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
+            new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
+                new MoveToHighPosition(m_endEffector)),
+            new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 1),
+            new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
+            new MoveUsingEncoder(m_driveTrain, config.m_waypoint5, 1),
+            new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
+            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint6, 1),
+                new IntakeNote(m_armRotate, m_endEffector, m_feeder))));
   }
 }
