@@ -54,9 +54,6 @@ public class SubsystemController extends ControllerBase {
     return getLeftBumperButton();
   }
 
-    return getLeftStickForwardBackwardValue();
-  }
-
   public JoystickButton getBillFeederEjectNoteButton() {
     // Runs the feeder backwards
     return getRightBumperButton();
@@ -90,6 +87,10 @@ public class SubsystemController extends ControllerBase {
   public JoystickButton getBillEnableClimberMode() {
     // Enables the climber buttons and disables the speaker and amp commands
     return getBackButton();
+  }
+
+  public double getBillClimberSpeed() {
+    return getLeftStickForwardBackwardValue();
   }
 
   private void setUpBillEndEffectorButtons() {
