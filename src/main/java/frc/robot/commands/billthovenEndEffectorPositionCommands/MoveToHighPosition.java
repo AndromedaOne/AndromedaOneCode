@@ -3,11 +3,11 @@ package frc.robot.commands.billthovenEndEffectorPositionCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 
-public class EngageEndEffectorPosition extends Command {
+public class MoveToHighPosition extends Command {
   BillEndEffectorPositionBase m_endEffectorPositionBase;
 
   /** Creates a new OpenGripper. */
-  public EngageEndEffectorPosition(BillEndEffectorPositionBase endEffectorPositionBase) {
+  public MoveToHighPosition(BillEndEffectorPositionBase endEffectorPositionBase) {
     addRequirements(endEffectorPositionBase.getSubsystemBase());
     m_endEffectorPositionBase = endEffectorPositionBase;
   }

@@ -84,11 +84,15 @@ public class ArmRotate extends SequentialCommandGroup4905 {
 
     @Override
     public void execute() {
-      if (!m_useSmartDashboard) {
+      if (!m_needToEnd && isOnTarget()) {
+        m_armRotate.engageArmBrake();
+      } else if (!m_useSmartDashboard) {
         getController().setP(m_pMap.getInterpolatedValue(m_armRotate.getAngle()));
         m_feedForward.setConstant(m_kMap.getInterpolatedValue(m_armRotate.getAngle()));
+        super.execute();
+      } else {
+        super.execute();
       }
-      super.execute();
     }
 
     // Called once the command ends or is interrupted.
