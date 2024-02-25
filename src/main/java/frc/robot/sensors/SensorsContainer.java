@@ -107,14 +107,14 @@ public class SensorsContainer {
     }
     if (m_sensorConfig.hasPath("sensors.rearTof")) {
       Trace.getInstance().logInfo("Using real rear PlayingWithFusion Time-of-flight sensor");
-      m_rearTof = new RealPwfTofDistanceSensor();
+      m_rearTof = new RealPwfTofDistanceSensor("rearTof");
     } else {
       Trace.getInstance().logInfo("Using mock rear PlayingWithFusion Time-of-flight sensor");
       m_rearTof = new MockpwfTofDistanceSensor();
     }
     if (m_sensorConfig.hasPath("sensors.frontTof")) {
       Trace.getInstance().logInfo("Using real front PlayingWithFusion Time-of-flight sensor");
-      m_frontTof = new RealPwfTofDistanceSensor();
+      m_frontTof = new RealPwfTofDistanceSensor("frontTof");
     } else {
       Trace.getInstance().logInfo("Using mock front PlayingWithFusion Time-of-flight sensor");
       m_frontTof = new MockpwfTofDistanceSensor();

@@ -12,15 +12,17 @@ import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 public class RealPwfTofDistanceSensor extends RealSensorBase implements DistanceSensorBase {
   private TimeOfFlight m_tof;
   private Config m_sensorConfig = Config4905.getConfig4905().getSensorConfig();
+  private String m_sensorName; 
 
-  public RealPwfTofDistanceSensor() {
-    m_tof = new TimeOfFlight(m_sensorConfig.getInt("sensors.rearTof.port"));
+  public RealPwfTofDistanceSensor(String sensorName) {
+    m_sensorName = sensorName;
+    m_tof = new TimeOfFlight(m_sensorConfig.getInt("sensors." +sensorName+ ".port"));
     /*
      * ranging mode distances short < 1300mm (51.2in) medium < 2700mm(106.3in) long
      * < 4000mm(157.5in)
      */
     RangingMode rangingMode;
-    switch (m_sensorConfig.getString("sensors.rearTof.rangingMode")) {
+    switch (m_sensorConfig.getString("sensors." +sensorName+ ".rangingMode")) {
     case "Long":
       rangingMode = RangingMode.Long;
       break;
@@ -41,17 +43,17 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
      * distance of 4 m (in the dark on a white chart) to be reached under Long
      * distance mode
      */
-    m_tof.setRangingMode(rangingMode, m_sensorConfig.getInt("sensors.rearTof.sampleTime"));
+    m_tof.setRangingMode(rangingMode, m_sensorConfig.getInt("sensors." +sensorName+ ".sampleTime"));
     /*
      * The range of interest rows and columns must be greater or equal to zero and
      * less than or equal to fifteen. The top left corner row/column must be smaller
      * than the bottom right column/row. The region of interest must be at least
      * four coulmns wide and four rows tall.
      */
-    m_tof.setRangeOfInterest(m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.topLeftX"),
-        m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.topLeftY"),
-        m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.bottomRightX"),
-        m_sensorConfig.getInt("sensors.rearTof.rangeOfInterest.bottomRightY"));
+    m_tof.setRangeOfInterest(m_sensorConfig.getInt("sensors." +sensorName+ ".rangeOfInterest.topLeftX"),
+        m_sensorConfig.getInt("sensors." +sensorName+ ".rangeOfInterest.topLeftY"),
+        m_sensorConfig.getInt("sensors." +sensorName+ ".rangeOfInterest.bottomRightX"),
+        m_sensorConfig.getInt("sensors." +sensorName+ ".rangeOfInterest.bottomRightY"));
   }
 
   @Override
@@ -67,13 +69,13 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
 
   @Override
   public double getDistance_mm() {
-    return m_tof.getRange() + (m_sensorConfig.getInt("sensors.rearTof.sensorOffset_inches") * 25.4);
+    return m_tof.getRange() + (m_sensorConfig.getInt("sensors." +m_sensorName+ ".sensorOffset_inches") * 25.4);
   }
 
   @Override
   public double getDistance_Inches() {
     return (m_tof.getRange() / 25.4)
-        + (m_sensorConfig.getInt("sensors.rearTof.sensorOffset_inches"));
+        + (m_sensorConfig.getInt("sensors." +m_sensorName+ ".sensorOffset_inches"));
   }
 
   /*
