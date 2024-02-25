@@ -19,6 +19,8 @@ import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrake;
 import frc.robot.commands.billthovenArmRotateCommands.DisablePneumaticArmBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrake;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToHighPosition;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToLowPosition;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
@@ -103,6 +105,13 @@ public class SmartDashboard4905 {
           new EnablePneumaticArmBrake(subsystemsContainer.getBillArmRotate()));
       SmartDashboard.putData("Disable Arm Brake",
           new DisablePneumaticArmBrake(subsystemsContainer.getBillArmRotate()));
+    }
+    if (Config4905.getConfig4905().doesEndEffectorExist()) {
+      SmartDashboard.putData("EndEffector Low Position",
+          new MoveToLowPosition(subsystemsContainer.getBillEffectorPosition()));
+      SmartDashboard.putData("EndEffector High Position",
+          new MoveToHighPosition(subsystemsContainer.getBillEffectorPosition()));
+
     }
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
