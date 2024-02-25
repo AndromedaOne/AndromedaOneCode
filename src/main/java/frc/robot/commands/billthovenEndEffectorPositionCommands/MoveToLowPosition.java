@@ -13,6 +13,7 @@ public class MoveToLowPosition extends Command {
     m_endEffectorPositionBase = endEffectorPositionBase;
     m_needToEnd = needToEnd;
   }
+
   public MoveToLowPosition(BillEndEffectorPositionBase endEffectorPositionBase) {
     this(endEffectorPositionBase, true);
   }

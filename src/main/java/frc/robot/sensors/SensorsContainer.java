@@ -106,17 +106,17 @@ public class SensorsContainer {
       m_cannonHomeSwitch = new MockLimitSwitchSensor();
     }
     if (m_sensorConfig.hasPath("sensors.rearTof")) {
-      Trace.getInstance().logInfo("Using real PlayingWithFusion Time-of-flight sensor");
+      Trace.getInstance().logInfo("Using real rear PlayingWithFusion Time-of-flight sensor");
       m_rearTof = new RealPwfTofDistanceSensor();
     } else {
-      Trace.getInstance().logInfo("Using mock PlayingWithFusion Time-of-flight sensor");
+      Trace.getInstance().logInfo("Using mock rear PlayingWithFusion Time-of-flight sensor");
       m_rearTof = new MockpwfTofDistanceSensor();
     }
     if (m_sensorConfig.hasPath("sensors.frontTof")) {
-      Trace.getInstance().logInfo("Using real PlayingWithFusion Time-of-flight sensor");
+      Trace.getInstance().logInfo("Using real front PlayingWithFusion Time-of-flight sensor");
       m_frontTof = new RealPwfTofDistanceSensor();
     } else {
-      Trace.getInstance().logInfo("Using mock PlayingWithFusion Time-of-flight sensor");
+      Trace.getInstance().logInfo("Using mock front PlayingWithFusion Time-of-flight sensor");
       m_frontTof = new MockpwfTofDistanceSensor();
     }
   }
