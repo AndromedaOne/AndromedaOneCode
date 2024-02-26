@@ -24,25 +24,14 @@ public class RealBillEndEffectorPosition extends SubsystemBase
   }
 
   @Override
-  public void initialize() {
-    moveLowEndEffector();
-    m_endEffectorState = BillEndEffectorState.LOWSHOOTING;
-
-  }
-
-  @Override
   public void moveHighEndEffector() {
-    // retracts piston
     m_solenoid0_1.extendPiston();
-    System.out.println("extend piston");
     m_endEffectorState = BillEndEffectorState.HIGHSHOOTING;
   }
 
   @Override
   public void moveLowEndEffector() {
-    // extends piston
     m_solenoid0_1.retractPiston();
-    System.out.println("retract piston");
     m_endEffectorState = BillEndEffectorState.LOWSHOOTING;
   }
 
@@ -52,7 +41,7 @@ public class RealBillEndEffectorPosition extends SubsystemBase
 
   @Override
   public void periodic() {
-    SmartDashboard.putString("Real End Effector state", getState().name());
+    SmartDashboard.putString("Real End Effector state", getState().toString());
   }
 
   @Override

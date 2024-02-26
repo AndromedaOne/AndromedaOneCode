@@ -1,7 +1,5 @@
 package frc.robot.subsystems.billArmRotate;
 
-import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,7 +13,6 @@ import frc.robot.subsystems.compressor.CompressorBase;
 //This was just copied over from RealSamArmRotate so it will need editing
 public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBase {
   private final SparkMaxController m_motor1;
-  private SparkAbsoluteEncoder m_armAngleEncoder;
   private double m_minAngle = 0;
   private double m_maxAngle = 0;
   private BillArmBrakeState m_armAngleBrakeState = BillArmBrakeState.ENGAGEARMBRAKE;
@@ -24,9 +21,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   public RealBillArmRotate(CompressorBase compressorBase) {
     Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
-    // m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig,
-    // "solenoidbrake");
-    m_armAngleEncoder = m_motor1.getAbsoluteEncoder(Type.kDutyCycle);
+    m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");
   }
@@ -43,12 +38,13 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
       m_motor1.setSpeed(0);
       return;
     }
+    // Positive value for speed makes the angle go up and the arm down
     if ((speed < 0) && (getAngle() <= m_minAngle)) {
       m_motor1.setSpeed(0);
     } else if ((speed > 0) && (getAngle() >= m_maxAngle)) {
       m_motor1.setSpeed(0);
     } else {
-      m_motor1.setSpeed(speed * 0.63);
+      m_motor1.setSpeed(speed * 0.66); // 0.33 and .05 for test
     }
   }
 
@@ -67,11 +63,17 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
 
   @Override
   public double getAngle() {
-    double fixedEncoderValue = (m_armAngleEncoder.getPosition());
-    if (fixedEncoderValue >= 1) {
-      fixedEncoderValue = fixedEncoderValue - 1;
+    double angle;
+    double preAngle;
+    double offset = 350;
+    double fixedEncoderValue = m_motor1.getAbsoluteEncoderPosition();
+    // A 360 - angle is used to invert the encoder
+    preAngle = (fixedEncoderValue * 360) + offset;
+    angle = preAngle;
+    if (preAngle >= 360) {
+      angle = preAngle - 360;
     }
-    return fixedEncoderValue * 360;
+    return angle;
   }
 
   public BillArmBrakeState getBrakeState() {

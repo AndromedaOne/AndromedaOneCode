@@ -143,50 +143,51 @@ public class TeleOpCommand extends Command {
     case FASTMODEBUTTONRELEASED:
       if (m_driveController.getDownShiftPressed()) {
         m_slowMidFastMode = SlowMidFastModeStates.MIDMODEBUTTONPRESSED;
-        System.out.println("DownShiftPressed, Entering MidMode");
+        Trace.getInstance().logCommandInfo(this, "DownShiftPressed, Entering MidMode");
       }
       break;
 
     case FASTMODEBUTTONPRESSED:
       if (m_driveController.getUpShiftReleased() && m_driveController.getDownShiftReleased()) {
         m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONRELEASED;
-        System.out.println("UpShiftReleased, Entering FastMode");
+        Trace.getInstance().logCommandInfo(this, "UpShiftReleased, Entering FastMode");
       }
       break;
 
     case MIDMODEBUTTONRELEASED:
       if (m_driveController.getDownShiftPressed()) {
         m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONPRESSED;
-        System.out.println("DownShiftPressed, Entering SlowMode");
+        Trace.getInstance().logCommandInfo(this, "DownShiftPressed, Entering SlowMode");
       } else if (m_driveController.getUpShiftPressed()) {
         m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONPRESSED;
-        System.out.println("UpShiftPressed, Entering FastMode");
+        Trace.getInstance().logCommandInfo(this, "UpShiftPressed, Entering FastMode");
       }
       break;
 
     case MIDMODEBUTTONPRESSED:
       if ((m_driveController.getDownShiftReleased() && m_driveController.getUpShiftReleased())) {
         m_slowMidFastMode = SlowMidFastModeStates.MIDMODEBUTTONRELEASED;
-        System.out.println("DownShiftReleased, Entering MidMode");
+        Trace.getInstance().logCommandInfo(this, "DownShiftReleased, Entering MidMode");
       }
       break;
 
     case SLOWMODEBUTTONRELEASED:
       if (m_driveController.getUpShiftPressed()) {
         m_slowMidFastMode = SlowMidFastModeStates.MIDMODEBUTTONPRESSED;
-        System.out.println("UpShiftPressed, Entering MidMode");
+        Trace.getInstance().logCommandInfo(this, "UpShiftPressed, Entering MidMode");
       }
       break;
 
     case SLOWMODEBUTTONPRESSED:
       if (m_driveController.getDownShiftReleased() && m_driveController.getUpShiftReleased()) {
         m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
-        System.out.println("DownShiftPressed, Entering SlowMode");
+        Trace.getInstance().logCommandInfo(this, "DownShiftPressed, Entering SlowMode");
       }
       break;
 
     default:
-      System.out.println("WARNING: unknown state detected: " + m_slowMidFastMode.toString());
+      Trace.getInstance().logCommandInfo(this,
+          "WARNING: unknown state detected: " + m_slowMidFastMode.toString());
     }
   }
 }

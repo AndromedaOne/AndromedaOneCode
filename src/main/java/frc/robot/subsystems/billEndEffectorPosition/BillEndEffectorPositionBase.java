@@ -4,8 +4,6 @@ import frc.robot.subsystems.SubsystemInterface;
 
 public interface BillEndEffectorPositionBase extends SubsystemInterface {
 
-  public void initialize();
-
   public void moveHighEndEffector();
 
   public void moveLowEndEffector();
