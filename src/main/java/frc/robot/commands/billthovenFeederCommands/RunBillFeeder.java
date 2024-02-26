@@ -106,7 +106,7 @@ public class RunBillFeeder extends Command {
       if ((m_count >= 50) || ((!m_controller.getBillAmpScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
-          && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean()) && (!m_autonomous))){
+          && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean()) && (!m_autonomous))) {
         System.out.println("RunBillFeeder Finished ");
         return true;
       }

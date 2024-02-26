@@ -42,10 +42,10 @@ public class DriveController extends ControllerBase {
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
     if (!Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
-      getPOVnorth().onTrue(new TurnToCompassHeading(0));
-      getPOVeast().onTrue(new TurnToCompassHeading(90));
-      getPOVsouth().onTrue(new TurnToCompassHeading(180));
-      getPOVwest().onTrue(new TurnToCompassHeading(270));
+      getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
+      getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
+      getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
+      getPOVwest().onTrue(new TurnToCompassHeading(() -> 270));
     }
     getStartButton().onTrue(
         new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));

@@ -7,7 +7,6 @@ package frc.robot.commands.groupCommands.autonomousCommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
@@ -39,6 +38,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
 
   DriveStation2SpeakerConfig driveStation2SpeakerConfigRed = new DriveStation2SpeakerConfig();
   DriveStation2SpeakerConfig driveStation2SpeakerConfigBlue = new DriveStation2SpeakerConfig();
+  DriveStation2SpeakerConfigSupplier m_configSupplier;
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
@@ -85,27 +85,40 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     driveStation2SpeakerConfigBlue.m_waypoint3 = blueConfig
         .getDouble("DriveStation2Speaker.WayPoint3");
 
+    addCommands(
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
+        new PauseRobot(40, m_driveTrain),
+        new ParallelCommandGroup4905(
+            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
+        new PauseRobot(40, m_driveTrain),
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1));
   }
 
   public void additionalInitialize() {
-    DriveStation2SpeakerConfig config;
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     if (alliance == Alliance.Blue) {
-      config = driveStation2SpeakerConfigBlue;
+      m_configSupplier.setConfig(driveStation2SpeakerConfigBlue);
     } else {
-      config = driveStation2SpeakerConfigRed;
+      m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     }
-    CommandScheduler.getInstance()
-        .schedule(new SequentialCommandGroup4905(
-            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-                BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
-            new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 1),
-            new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
-            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 1),
-                new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
-            new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
-            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-                BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
-            new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 1)));
+  }
+
+  private class DriveStation2SpeakerConfigSupplier {
+    DriveStation2SpeakerConfig m_config;
+
+    public void setConfig(DriveStation2SpeakerConfig config) {
+      m_config = config;
+    }
+
+    public DriveStation2SpeakerConfig getConfig() {
+      return m_config;
+    }
   }
 }

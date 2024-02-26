@@ -1,7 +1,7 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToLowPosition;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
@@ -16,8 +16,10 @@ public class IntakeNote extends SequentialCommandGroup4905 {
       BillFeederBase feeder) {
 
     final double m_armIntakeSetpoint = 350.0; // we dont know - 300 test only
-    addCommands(new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.INTAKE),
-        new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
-        new MoveToLowPosition(endEffector)), new DrivePositionCommand(endEffector, armRotate));
+    addCommands(
+        new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.INTAKE),
+            new ArmRotate(armRotate, () -> m_armIntakeSetpoint, true),
+            new MoveEndEffector(endEffector, () -> false)),
+        new DrivePositionCommand(endEffector, armRotate));
   }
 }

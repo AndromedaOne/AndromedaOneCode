@@ -7,7 +7,6 @@ package frc.robot.commands.groupCommands.autonomousCommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
@@ -41,6 +40,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
 
   CentralSpeaker3ScoresConfig centralSpeaker3ScoresConfigRed = new CentralSpeaker3ScoresConfig();
   CentralSpeaker3ScoresConfig centralSpeaker3ScoresConfigBlue = new CentralSpeaker3ScoresConfig();
+  CentralSpeaker3ScoresConfigSupplier m_configSupplier;
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
@@ -89,34 +89,49 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
         .getDouble("CentralSpeaker3Scores.WayPoint4");
     centralSpeaker3ScoresConfigBlue.m_angle3 = blueConfig.getDouble("CentralSpeaker3Scores.Angle3");
 
+    addCommands(new SequentialCommandGroup4905(
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+        new ParallelCommandGroup4905(
+            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
+            BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
+        new PauseRobot(40, m_driveTrain),
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
+        new PauseRobot(40, m_driveTrain),
+        new ParallelCommandGroup4905(
+            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint4, 1),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),
+        new PauseRobot(40, m_driveTrain), new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder,
+            m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.MID)
+
+    ));
   }
 
   public void additionalInitialize() {
-    CentralSpeaker3ScoresConfig config;
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     if (alliance == Alliance.Blue) {
-      config = centralSpeaker3ScoresConfigBlue;
+      m_configSupplier.setConfig(centralSpeaker3ScoresConfigBlue);
     } else {
-      config = centralSpeaker3ScoresConfigRed;
+      m_configSupplier.setConfig(centralSpeaker3ScoresConfigRed);
     }
-    CommandScheduler.getInstance()
-        .schedule(new SequentialCommandGroup4905(
-            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-                BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
-            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 1),
-                new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
-            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-                BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
-            new MoveUsingEncoder(m_driveTrain, config.m_waypoint2, 1),
-            new TurnToCompassHeading(config.m_angle1), new PauseRobot(40, m_driveTrain),
-            new MoveUsingEncoder(m_driveTrain, config.m_waypoint3, 1),
-            new TurnToCompassHeading(config.m_angle2), new PauseRobot(40, m_driveTrain),
-            new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint4, 1),
-                new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
-            new TurnToCompassHeading(config.m_angle3), new PauseRobot(40, m_driveTrain),
-            new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-                BillSpeakerScore.SpeakerScoreDistanceEnum.MID)
 
-        ));
+  }
+
+  private class CentralSpeaker3ScoresConfigSupplier {
+    CentralSpeaker3ScoresConfig m_config;
+
+    public void setConfig(CentralSpeaker3ScoresConfig config) {
+      m_config = config;
+    }
+
+    public CentralSpeaker3ScoresConfig getConfig() {
+      return m_config;
+    }
   }
 }
