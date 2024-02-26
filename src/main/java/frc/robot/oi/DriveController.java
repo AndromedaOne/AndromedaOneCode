@@ -48,7 +48,7 @@ public class DriveController extends ControllerBase {
       getPOVsouth().onTrue(new TurnToCompassHeading(180));
       getPOVwest().onTrue(new TurnToCompassHeading(270));
     }
-    getXbutton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
+    getLeftStickButton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
     getStartButton().onTrue(
         new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
     if (sensorsContainer.hasLimeLight()) {
