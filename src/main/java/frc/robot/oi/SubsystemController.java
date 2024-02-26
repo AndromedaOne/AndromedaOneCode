@@ -10,11 +10,14 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenClimberCommands.EnableClimberMode;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillAmpScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -51,11 +54,6 @@ public class SubsystemController extends ControllerBase {
     return getLeftBumperButton();
   }
 
-  public double getBillClimberStick() {
-    // Moves the climber up and down
-    return getLeftStickForwardBackwardValue();
-  }
-
   public JoystickButton getBillFeederEjectNoteButton() {
     // Runs the feeder backwards
     return getRightBumperButton();
@@ -72,7 +70,7 @@ public class SubsystemController extends ControllerBase {
   }
 
   public JoystickButton getBillSpeakerMidScoreButton() {
-    // Scores the note into the speaker from Mid Range
+    // Scores the note into the speaker from mid Range
     return getYbutton();
   }
 
@@ -84,6 +82,15 @@ public class SubsystemController extends ControllerBase {
   public JoystickButton getBillAmpScoreButton() {
     // Scores the note into the amp
     return getAbutton();
+  }
+
+  public JoystickButton getBillEnableClimberMode() {
+    // Enables the climber buttons and disables the speaker and amp commands
+    return getBackButton();
+  }
+
+  public double getBillClimberSpeed() {
+    return getLeftStickForwardBackwardValue();
   }
 
   private void setUpBillEndEffectorButtons() {
@@ -110,6 +117,8 @@ public class SubsystemController extends ControllerBase {
             m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
     getBillAmpScoreButton().onTrue(new BillAmpScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
-
+    getBillEnableClimberMode().onTrue(new SequentialCommandGroup4905(
+        new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 255, true),
+        new EnableClimberMode(m_subsystemsContainer.getBillClimber())));
   }
 }

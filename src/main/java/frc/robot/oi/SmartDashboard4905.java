@@ -19,6 +19,8 @@ import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrake;
 import frc.robot.commands.billthovenArmRotateCommands.DisablePneumaticArmBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrake;
+import frc.robot.commands.billthovenClimberCommands.ResetBillClimberOffset;
+import frc.robot.commands.billthovenClimberCommands.RunBillClimber;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToHighPosition;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToLowPosition;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
@@ -94,8 +96,8 @@ public class SmartDashboard4905 {
           new RunBillShooterRPM(subsystemsContainer.getBillShooter()));
     }
     if (Config4905.getConfig4905().doesArmRotateExist()) {
-      SmartDashboard.putData("Set Bill Arm Rotate 50",
-          new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 50, false, true));
+      SmartDashboard.putData("Set Bill Arm Rotate 300",
+          new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 300, false, true));
       // Will need to be changed at some point
       SmartDashboard.putData("Enable Arm Motor Brake Mode",
           new EnableMotorBrake(subsystemsContainer.getBillArmRotate()));
@@ -147,6 +149,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("play audio",
           new PlayAudio(subsystemsContainer.getShowBotAudio(), AudioFiles.CrazyTrain));
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
+    }
+    if (Config4905.getConfig4905().doesBillClimberExist()) {
+      SmartDashboard.putData(new RunBillClimber(subsystemsContainer.getBillClimber(), true));
+      SmartDashboard.putData(new ResetBillClimberOffset(subsystemsContainer.getBillClimber()));
     }
   }
 
