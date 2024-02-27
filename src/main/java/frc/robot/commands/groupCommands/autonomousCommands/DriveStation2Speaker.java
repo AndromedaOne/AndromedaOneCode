@@ -38,7 +38,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
 
   DriveStation2SpeakerConfig driveStation2SpeakerConfigRed = new DriveStation2SpeakerConfig();
   DriveStation2SpeakerConfig driveStation2SpeakerConfigBlue = new DriveStation2SpeakerConfig();
-  DriveStation2SpeakerConfigSupplier m_configSupplier;
+  DriveStation2SpeakerConfigSupplier m_configSupplier = new DriveStation2SpeakerConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
@@ -84,7 +84,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     driveStation2SpeakerConfigBlue.m_angle2 = blueConfig.getDouble("DriveStation2Speaker.Angle2");
     driveStation2SpeakerConfigBlue.m_waypoint3 = blueConfig
         .getDouble("DriveStation2Speaker.WayPoint3");
-
+    m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     addCommands(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),

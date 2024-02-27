@@ -40,7 +40,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
 
   CentralSpeaker3ScoresConfig centralSpeaker3ScoresConfigRed = new CentralSpeaker3ScoresConfig();
   CentralSpeaker3ScoresConfig centralSpeaker3ScoresConfigBlue = new CentralSpeaker3ScoresConfig();
-  CentralSpeaker3ScoresConfigSupplier m_configSupplier;
+  CentralSpeaker3ScoresConfigSupplier m_configSupplier = new CentralSpeaker3ScoresConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
@@ -88,7 +88,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
     centralSpeaker3ScoresConfigBlue.m_waypoint4 = blueConfig
         .getDouble("CentralSpeaker3Scores.WayPoint4");
     centralSpeaker3ScoresConfigBlue.m_angle3 = blueConfig.getDouble("CentralSpeaker3Scores.Angle3");
-
+    m_configSupplier.setConfig(centralSpeaker3ScoresConfigRed);
     addCommands(new SequentialCommandGroup4905(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),

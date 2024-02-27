@@ -16,6 +16,7 @@ import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -51,7 +52,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
   private BillEndEffectorPositionBase m_endEffector;
   private BillArmRotateBase m_armRotate;
   private BillFeederBase m_feeder;
-  private AmpScoreConfigSupplier m_ampScoreConfigSupplier;
+  private AmpScoreConfigSupplier m_ampScoreConfigSupplier = new AmpScoreConfigSupplier();
 
   public AmpScore() {
     // Robot is started straight
@@ -100,7 +101,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
     m_ampScoreConfigBlue.m_waypoint7 = blueConfig.getDouble("AmpScore.WayPoint7");
     m_ampScoreConfigBlue.m_angle4 = blueConfig.getDouble("AmpScore.Angle4");
     m_ampScoreConfigBlue.m_waypoint8 = blueConfig.getDouble("AmpScore.WayPoint8");
-
+    m_ampScoreConfigSupplier.setAmpScoreConfig(m_ampScoreConfigRed);
     addCommands(
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint1, 1),
@@ -117,7 +118,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain,
-                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint4, 1),
+                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint4, 0.5),
             new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint5, 1),
@@ -132,10 +133,9 @@ public class AmpScore extends SequentialCommandGroup4905 {
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint7, 1),
         new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle4),
         new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(
+        new DrivePositionCommand(m_endEffector, m_armRotate),
             new MoveUsingEncoder(m_driveTrain,
-                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint8, 1),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)));
+                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint8, 1));
 
   }
 

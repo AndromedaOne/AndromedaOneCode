@@ -13,6 +13,7 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -38,7 +39,7 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
 
   CentralSpeaker2ScoresConfig CentralSpeaker2ScoresConfigRed = new CentralSpeaker2ScoresConfig();
   CentralSpeaker2ScoresConfig CentralSpeaker2ScoresConfigBlue = new CentralSpeaker2ScoresConfig();
-  CentralSpeaker2ScoresConfigSupplier m_configSupplier;
+  CentralSpeaker2ScoresConfigSupplier m_configSupplier = new CentralSpeaker2ScoresConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
@@ -66,7 +67,7 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
     // Both
     // 8. Pick up note C2
     // 9. Start driving backward towards speaker so the robot can score the note in
-    // Teleop.
+    // Teleop./src/main/java/frc/robot/commands/groupCommands/autonomousCommands
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
     m_driveTrain = subsystemsContainer.getDriveTrain();
     m_endEffector = subsystemsContainer.getBillEffectorPosition();
@@ -92,7 +93,7 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
     CentralSpeaker2ScoresConfigBlue.m_angle2 = blueConfig.getDouble("CentralSpeaker2Scores.Angle2");
     CentralSpeaker2ScoresConfigBlue.m_waypoint3 = blueConfig
         .getDouble("CentralSpeaker2Scores.WayPoint3");
-
+    m_configSupplier.setConfig(CentralSpeaker2ScoresConfigRed);
     addCommands(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
@@ -101,14 +102,13 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
             new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
+        new DrivePositionCommand(m_endEffector, m_armRotate),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(
-            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)));
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1));
   }
 
   public void additionalInitialize() {

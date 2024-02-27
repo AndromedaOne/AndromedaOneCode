@@ -17,6 +17,7 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -46,7 +47,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
 
   DriveStation3SpeakerWithAmpConfig driveStation3SpeakerWithAmpConfigRed = new DriveStation3SpeakerWithAmpConfig();
   DriveStation3SpeakerWithAmpConfig driveStation3SpeakerWithAmpConfigBlue = new DriveStation3SpeakerWithAmpConfig();
-  DriveStation3SpeakerWithAmpConfigSupplier m_configSupplier;
+  DriveStation3SpeakerWithAmpConfigSupplier m_configSupplier = new DriveStation3SpeakerWithAmpConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
@@ -116,7 +117,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         .getDouble("DriveStation3SpeakerWithAmp.Angle3");
     driveStation3SpeakerWithAmpConfigBlue.m_waypoint6 = blueConfig
         .getDouble("DriveStation3SpeakerWithAmp.WayPoint6");
-
+    m_configSupplier.setConfig(driveStation3SpeakerWithAmpConfigRed);
     addCommands(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
@@ -136,9 +137,8 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint5, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),
         new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(
-            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint6, 1),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)));
+        new DrivePositionCommand(m_endEffector, m_armRotate),
+            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint6, 1));
   }
 
   public void additionalInitialize() {
