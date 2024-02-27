@@ -132,10 +132,9 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint7, 1),
         new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle4),
-        new PauseRobot(40, m_driveTrain),
-        new DrivePositionCommand(m_endEffector, m_armRotate),
-            new MoveUsingEncoder(m_driveTrain,
-                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint8, 1));
+        new PauseRobot(40, m_driveTrain), new DrivePositionCommand(m_endEffector, m_armRotate),
+        new MoveUsingEncoder(m_driveTrain,
+            () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint8, 1));
 
   }
 
