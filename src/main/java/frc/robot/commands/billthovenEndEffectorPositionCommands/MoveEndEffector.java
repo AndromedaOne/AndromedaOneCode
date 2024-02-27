@@ -7,6 +7,7 @@ package frc.robot.commands.billthovenEndEffectorPositionCommands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 
 public class MoveEndEffector extends Command {
@@ -24,6 +25,9 @@ public class MoveEndEffector extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+      return;
+    }
     if (m_toHighPosition.getAsBoolean()) {
       m_endEffectorPositionBase.moveHighEndEffector();
     } else {

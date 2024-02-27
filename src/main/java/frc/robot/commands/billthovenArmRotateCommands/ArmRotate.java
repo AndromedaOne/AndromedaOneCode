@@ -6,6 +6,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
@@ -85,6 +86,9 @@ public class ArmRotate extends SequentialCommandGroup4905 {
 
     @Override
     public void execute() {
+      if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+        return;
+      }
       if (!m_needToEnd && isOnTarget()) {
         m_armRotate.engageArmBrake();
       } else if (!m_useSmartDashboard) {
@@ -107,7 +111,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      if (m_needToEnd && isOnTarget()) {
+      if (m_needToEnd && isOnTarget() || BillClimberSingleton.getInstance().getClimberEnabled()) {
         return true;
       }
       return false;

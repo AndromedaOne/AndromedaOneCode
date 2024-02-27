@@ -14,7 +14,6 @@ public class IntakeNote extends SequentialCommandGroup4905 {
 
   public IntakeNote(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder) {
-
     final double m_armIntakeSetpoint = 350.0; // we dont know - 300 test only
     addCommands(
         new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.INTAKE),

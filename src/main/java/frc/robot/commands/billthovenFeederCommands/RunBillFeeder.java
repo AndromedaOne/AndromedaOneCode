@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.telemetries.Trace;
@@ -44,6 +45,9 @@ public class RunBillFeeder extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+      return; // Remove this when trap scoring becomes a thing
+    }
     switch (m_feederState) {
     case INTAKE:
       if (!m_feeder.getNoteDetectorState() && !m_noteInPlace) {
@@ -96,6 +100,9 @@ public class RunBillFeeder extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+      return true; // Also remove this one
+    }
     if (m_feederState == FeederStates.INTAKE) {
       if ((!m_feeder.getNoteDetectorState() && m_noteInPlace)
           || ((!m_controller.getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
