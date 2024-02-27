@@ -40,7 +40,7 @@ public class SwerveDriveSetWheelsToZeroDegrees extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_count >= 60) {
+    if (m_count >= 5) {
       return true;
     }
     return false;
