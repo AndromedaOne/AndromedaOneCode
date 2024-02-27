@@ -117,5 +117,6 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
     getBillEnableClimberMode().onTrue(new EnableClimberMode(m_subsystemsContainer.getBillClimber(),
         m_subsystemsContainer.getBillArmRotate()));
+    getBillSpeakerCloseScoreButton();
   }
 }

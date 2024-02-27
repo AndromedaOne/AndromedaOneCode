@@ -27,6 +27,7 @@ public class EnableClimberMode extends Command {
   @Override
   public void initialize() {
     double armAngleForClimbing = 255;
+    BillClimberSingleton.getInstance().setClimberEnabled();
     CommandScheduler.getInstance().removeDefaultCommand(m_climber.getSubsystemBase());
     CommandScheduler.getInstance().removeDefaultCommand(m_armRotate.getSubsystemBase());
     CommandScheduler.getInstance().setDefaultCommand(m_climber.getSubsystemBase(),

@@ -107,7 +107,6 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     final double m_armSetpoint = m_armSetpointInit;
     final double m_shooterSpeed = m_shooterSpeedInit;
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(m_shooter, m_shooterSpeed);
-
     CommandScheduler.getInstance()
         .schedule(new SequentialCommandGroup4905(
             new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
