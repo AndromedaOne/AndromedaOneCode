@@ -136,9 +136,8 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint5, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),
-        new PauseRobot(40, m_driveTrain),
-        new DrivePositionCommand(m_endEffector, m_armRotate),
-            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint6, 1));
+        new PauseRobot(40, m_driveTrain), new DrivePositionCommand(m_endEffector, m_armRotate),
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint6, 1));
   }
 
   public void additionalInitialize() {
