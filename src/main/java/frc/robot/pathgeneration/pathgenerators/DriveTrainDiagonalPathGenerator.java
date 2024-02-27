@@ -37,10 +37,10 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
   @Override
   protected Command createTurnCommand(double angle) {
     if (m_pauseAfterTurn) {
-      return (new SequentialCommandGroup(new TurnToCompassHeading(angle),
+      return (new SequentialCommandGroup(new TurnToCompassHeading(() -> angle),
           new PauseRobot(10, m_driveTrain)));
     }
-    return (new TurnToCompassHeading(angle));
+    return (new TurnToCompassHeading(() -> angle));
   }
 
   /**
@@ -50,7 +50,7 @@ public class DriveTrainDiagonalPathGenerator extends DiagonalPathGenerator {
    */
   @Override
   protected Command createMoveCommand(double distance, double angle) {
-    return new MoveUsingEncoder(m_driveTrain, distance, angle, m_maxOutput);
+    return new MoveUsingEncoder(m_driveTrain, () -> distance, angle, m_maxOutput);
   }
 
 }

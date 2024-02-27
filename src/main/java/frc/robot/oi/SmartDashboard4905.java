@@ -21,8 +21,7 @@ import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
 import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrake;
 import frc.robot.commands.billthovenClimberCommands.ResetBillClimberOffset;
 import frc.robot.commands.billthovenClimberCommands.RunBillClimber;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToHighPosition;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToLowPosition;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
@@ -109,9 +108,9 @@ public class SmartDashboard4905 {
     }
     if (Config4905.getConfig4905().doesEndEffectorExist()) {
       SmartDashboard.putData("EndEffector Low Position",
-          new MoveToLowPosition(subsystemsContainer.getBillEffectorPosition()));
+          new MoveEndEffector(subsystemsContainer.getBillEffectorPosition(), () -> false));
       SmartDashboard.putData("EndEffector High Position",
-          new MoveToHighPosition(subsystemsContainer.getBillEffectorPosition()));
+          new MoveEndEffector(subsystemsContainer.getBillEffectorPosition(), () -> true));
 
     }
     if (Config4905.getConfig4905().isRomi()) {

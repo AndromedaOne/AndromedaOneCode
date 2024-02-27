@@ -30,6 +30,7 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
 
   EmergencyBackupConfig emergencyBackupConfigRed = new EmergencyBackupConfig();
   EmergencyBackupConfig emergencyBackupConfigBlue = new EmergencyBackupConfig();
+  EmergencyBackupConfigSupplier m_configSupplier = new EmergencyBackupConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
@@ -48,19 +49,35 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
 
     Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     emergencyBackupConfigBlue.m_waypoint1 = blueConfig.getDouble("EmergencyBackup.WayPoint1");
-
+    m_configSupplier.setConfig(emergencyBackupConfigRed);
+    addCommands(
+        new ParallelCommandGroup4905(
+            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1)),
+        new DrivePositionCommand(m_endEffector, m_armRotate));
   }
 
   public void additionalInitialize() {
-    EmergencyBackupConfig config;
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     if (alliance == Alliance.Blue) {
-      config = emergencyBackupConfigBlue;
+      m_configSupplier.setConfig(emergencyBackupConfigBlue);
     } else {
-      config = emergencyBackupConfigRed;
+      m_configSupplier.setConfig(emergencyBackupConfigRed);
     }
     CommandScheduler.getInstance().schedule(
-        new ParallelCommandGroup4905(new MoveUsingEncoder(m_driveTrain, config.m_waypoint1, 0.5)),
+        new ParallelCommandGroup4905(
+            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1)),
         new DrivePositionCommand(m_endEffector, m_armRotate));
+  }
+
+  private class EmergencyBackupConfigSupplier {
+    EmergencyBackupConfig m_config;
+
+    public void setConfig(EmergencyBackupConfig config) {
+      m_config = config;
+    }
+
+    public EmergencyBackupConfig getConfig() {
+      return m_config;
+    }
   }
 }

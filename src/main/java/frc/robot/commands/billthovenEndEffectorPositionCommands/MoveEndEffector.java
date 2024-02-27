@@ -1,27 +1,34 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.commands.billthovenEndEffectorPositionCommands;
+
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 
-public class MoveToLowPosition extends Command {
+public class MoveEndEffector extends Command {
   BillEndEffectorPositionBase m_endEffectorPositionBase;
-  boolean m_needToEnd;
+  BooleanSupplier m_toHighPosition;
 
-  /** Creates a new OpenGripper. */
-  public MoveToLowPosition(BillEndEffectorPositionBase endEffectorPositionBase, boolean needToEnd) {
+  // toHighPosition: if true moves effector to hight position, low if false
+  public MoveEndEffector(BillEndEffectorPositionBase endEffectorPositionBase,
+      BooleanSupplier toHighPosition) {
     addRequirements(endEffectorPositionBase.getSubsystemBase());
     m_endEffectorPositionBase = endEffectorPositionBase;
-    m_needToEnd = needToEnd;
-  }
-
-  public MoveToLowPosition(BillEndEffectorPositionBase endEffectorPositionBase) {
-    this(endEffectorPositionBase, true);
+    m_toHighPosition = toHighPosition;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_endEffectorPositionBase.moveLowEndEffector();
+    if (m_toHighPosition.getAsBoolean()) {
+      m_endEffectorPositionBase.moveHighEndEffector();
+    } else {
+      m_endEffectorPositionBase.moveLowEndEffector();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,6 +44,6 @@ public class MoveToLowPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_needToEnd;
+    return true;
   }
 }
