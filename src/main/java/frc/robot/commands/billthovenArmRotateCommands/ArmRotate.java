@@ -81,7 +81,9 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       }
 
       Trace.getInstance().logCommandInfo(this, "Rotate Arm to: " + m_setpoint.getAsDouble());
-      m_armRotate.disengageArmBrake();
+      if (!BillClimberSingleton.getInstance().getClimberEnabled()) {
+        m_armRotate.disengageArmBrake();
+      }
     }
 
     @Override
