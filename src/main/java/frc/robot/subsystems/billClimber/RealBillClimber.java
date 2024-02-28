@@ -11,34 +11,41 @@ import frc.robot.actuators.SparkMaxController;
 
 public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   public SparkMaxController m_winch;
-  private double m_initialEncoderWinch = 0;
+  private double m_encoderOffset = 0;
   private double m_maxHeight = 0;
-  private double m_contractHeight = 0;
-  private BillClimberBrakeState brakeState = BillClimberBrakeState.ENGAGECLIMBERBRAKE;
+  private double m_minHeight = 0;
 
   public RealBillClimber() {
     Config climberConfig = Config4905.getConfig4905().getBillClimberConfig();
     m_winch = new SparkMaxController(climberConfig, "winch");
-    m_initialEncoderWinch = m_winch.getBuiltInEncoderPositionTicks();
-    m_maxHeight = climberConfig.getDouble("maxExtendHeight");
-    m_contractHeight = climberConfig.getDouble("contractHeight");
+    m_encoderOffset = m_winch.getBuiltInEncoderPositionTicks();
+    m_maxHeight = climberConfig.getDouble("maxHeight");
+    m_minHeight = climberConfig.getDouble("minHeight");
   }
 
   public void periodic() {
     SmartDashboard.putNumber("ClimberHeight", getWinchAdjustedEncoderValue());
     SmartDashboard.putNumber("Raw Climber Height", m_winch.getBuiltInEncoderPositionTicks());
+    SmartDashboard.putBoolean("is Limit Switch On", m_winch.isReverseLimitSwitchOn());
   }
 
   @Override
-  public void driveWinch(double speed) {
-    if (brakeState == BillClimberBrakeState.ENGAGECLIMBERBRAKE) {
+  public void driveWinch(double speed, boolean override) {
+
+    // when the speed is greater than 0 the robot is climbing towards the contracted
+    // position
+
+    if ((speed > 0) && (getWinchAdjustedEncoderValue() >= m_maxHeight) && !override) {
       m_winch.setSpeed(0);
-      return;
     }
-    if ((speed < 0) && (getWinchAdjustedEncoderValue() <= m_contractHeight)) {
+    // when the speed is less than 0 then the is robot lowering to the default
+    // position
+    else if ((speed < 0)
+        && ((getWinchAdjustedEncoderValue() <= m_minHeight) || m_winch.isReverseLimitSwitchOn())) {
       m_winch.setSpeed(0);
-    } else if ((speed > 0) && (getWinchAdjustedEncoderValue() >= m_maxHeight)) {
-      m_winch.setSpeed(0);
+    } else if ((speed > 0) && (getWinchAdjustedEncoderValue() + 30 >= m_maxHeight)) {
+      // Slows it down while going up if it is close to the top
+      m_winch.setSpeed(speed / 2);
     } else {
       m_winch.setSpeed(speed);
     }
@@ -50,23 +57,15 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
   }
 
   @Override
-  public void unwindWinch() {
-    driveWinch(-1);
-
-  }
-
-  @Override
   public double getWinchAdjustedEncoderValue() {
-    return m_winch.getBuiltInEncoderPositionTicks() - m_initialEncoderWinch;
+    return m_winch.getBuiltInEncoderPositionTicks() - m_encoderOffset;
   }
 
   @Override
   public void setWinchBrakeMode(boolean brakeOn) {
     if (brakeOn) {
-      brakeState = BillClimberBrakeState.ENGAGECLIMBERBRAKE;
       m_winch.setIdleMode(IdleMode.kBrake);
     } else {
-      brakeState = BillClimberBrakeState.DISENGAGECLIMBERBRAKE;
       m_winch.setIdleMode(IdleMode.kCoast);
     }
   }
@@ -81,4 +80,8 @@ public class RealBillClimber extends SubsystemBase implements BillClimberBase {
     super.setDefaultCommand(command);
   }
 
+  @Override
+  public void resetOffset() {
+    m_encoderOffset = m_winch.getBuiltInEncoderPositionTicks();
+  }
 }

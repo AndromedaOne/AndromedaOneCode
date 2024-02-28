@@ -6,6 +6,7 @@ import java.util.function.DoubleSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
@@ -101,6 +102,9 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
 
   @Override
   public void execute() {
+    if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+      return;
+    }
     m_target = m_setpoint.getAsDouble();
     super.execute();
     SmartDashboard.putNumber("Shooter Wheel Velocity Setpoint", m_target);
@@ -108,6 +112,9 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
 
   @Override
   public boolean isFinished() {
+    if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+      return true;
+    }
     return m_finishedCondition.getAsBoolean();
   }
 

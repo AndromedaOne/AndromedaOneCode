@@ -6,10 +6,6 @@ import frc.robot.subsystems.MockSubsystem;
 
 public class MockBillEndEffectorPosition implements BillEndEffectorPositionBase {
   @Override
-  public void initialize() {
-  }
-
-  @Override
   public void moveHighEndEffector() {
   }
 

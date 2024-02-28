@@ -6,6 +6,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
@@ -41,6 +42,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       m_armRotate = armRotate;
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
+      addRequirements(armRotate.getSubsystemBase());
 
       m_kMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(), "armKValues");
 
@@ -60,7 +62,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     public void initialize() {
       Config pidConstantsConfig = Config4905.getConfig4905().getArmRotateConfig();
       super.initialize();
-      getController().setMaxOutput(0.5);
+      getController().setMaxOutput(1);
       if (m_useSmartDashboard) {
         getController().setP(SmartDashboard.getNumber("Rotate Arm P-value", 0));
         getController().setI(SmartDashboard.getNumber("Robot Arm I-value", 0));
@@ -79,11 +81,16 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       }
 
       Trace.getInstance().logCommandInfo(this, "Rotate Arm to: " + m_setpoint.getAsDouble());
-      m_armRotate.disengageArmBrake();
+      if (!BillClimberSingleton.getInstance().getClimberEnabled()) {
+        m_armRotate.disengageArmBrake();
+      }
     }
 
     @Override
     public void execute() {
+      if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+        return;
+      }
       if (!m_needToEnd && isOnTarget()) {
         m_armRotate.engageArmBrake();
       } else if (!m_useSmartDashboard) {

@@ -7,6 +7,8 @@
 
 package frc.robot.commands.driveTrainCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -18,20 +20,20 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 public class MoveUsingEncoder extends SequentialCommandGroup4905 {
-  public MoveUsingEncoder(DriveTrainBase drivetrain, double distance, double heading,
+  public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double heading,
       double maxOutput, boolean useCurrentHeading) {
     addCommands(new SwerveDriveSetWheelsToZeroDegrees(drivetrain),
         new MoveUsingEncoderInternal(drivetrain, distance, heading, maxOutput, useCurrentHeading));
   }
 
   // Use this constructor to move the robot in the heading passed in
-  public MoveUsingEncoder(DriveTrainBase drivetrain, double distance, double heading,
+  public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double heading,
       double maxOutput) {
     this(drivetrain, distance, heading, maxOutput, false);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
-  public MoveUsingEncoder(DriveTrainBase driveTrain, double distance, double maxOutput) {
+  public MoveUsingEncoder(DriveTrainBase driveTrain, DoubleSupplier distance, double maxOutput) {
     this(driveTrain, distance, 0, maxOutput, true);
   }
 
@@ -45,8 +47,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     /**
      * Creates a new MoveUsingEncoder.
      */
-    public MoveUsingEncoderInternal(DriveTrainBase drivetrain, double distance, double heading,
-        double maxOutput, boolean useCurrentHeading) {
+    public MoveUsingEncoderInternal(DriveTrainBase drivetrain, DoubleSupplier distance,
+        double heading, double maxOutput, boolean useCurrentHeading) {
       super(
           // The controller that the command will use
           new PIDController4905SampleStop("MoveUsingEncoder"),
@@ -60,7 +62,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
             drivetrain.moveUsingGyro(output, 0, false, heading);
           });
       Trace.getInstance().logCommandInfo(this, "constructed");
-      m_distance = distance;
+      m_distance = distance.getAsDouble();
       m_setpoint = this::getSetpoint;
       m_driveTrain = drivetrain;
       m_maxOutput = maxOutput;
