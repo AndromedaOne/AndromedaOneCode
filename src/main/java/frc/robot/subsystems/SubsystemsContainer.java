@@ -330,12 +330,13 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesBillClimberExist()) {
       m_billClimber.setDefaultCommand(new StopClimber(m_billClimber));
     }
+
     if (Config4905.getConfig4905().isBillthoven()) {
       if (Config4905.getConfig4905().doesArmRotateExist()) {
         m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 333, false, false));
       }
       if (Config4905.getConfig4905().doesEndEffectorExist()) {
-        m_endEffector.setDefaultCommand(new MoveEndEffector(m_endEffector, () -> false));
+        m_endEffector.setDefaultCommand(new MoveEndEffector(m_endEffector, () -> false, false));
       }
     }
 

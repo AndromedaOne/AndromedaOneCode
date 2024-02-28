@@ -13,13 +13,20 @@ import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 public class MoveEndEffector extends Command {
   BillEndEffectorPositionBase m_endEffectorPositionBase;
   BooleanSupplier m_toHighPosition;
+  private boolean m_needToEnd;
 
   // toHighPosition: if true moves effector to hight position, low if false
   public MoveEndEffector(BillEndEffectorPositionBase endEffectorPositionBase,
-      BooleanSupplier toHighPosition) {
+      BooleanSupplier toHighPosition, boolean needToEnd) {
     addRequirements(endEffectorPositionBase.getSubsystemBase());
     m_endEffectorPositionBase = endEffectorPositionBase;
     m_toHighPosition = toHighPosition;
+    m_needToEnd = needToEnd;
+  }
+
+  public MoveEndEffector(BillEndEffectorPositionBase endEffectorPositionBase,
+      BooleanSupplier toHighPosition) {
+    this(endEffectorPositionBase, toHighPosition, true);
   }
 
   // Called when the command is initially scheduled.
@@ -48,6 +55,6 @@ public class MoveEndEffector extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_needToEnd;
   }
 }
