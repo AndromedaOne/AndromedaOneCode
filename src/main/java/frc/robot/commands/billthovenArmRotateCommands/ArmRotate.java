@@ -111,7 +111,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      if (m_needToEnd && isOnTarget() || BillClimberSingleton.getInstance().getClimberEnabled()) {
+      if (m_needToEnd && isOnTarget()) {
         return true;
       }
       return false;
