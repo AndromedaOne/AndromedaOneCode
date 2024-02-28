@@ -118,7 +118,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain,
-                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint4, 0.5),
+                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint4, 0.25),
             new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint5, 1),
