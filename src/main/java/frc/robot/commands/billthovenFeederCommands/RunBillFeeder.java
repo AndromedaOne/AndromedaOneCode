@@ -4,8 +4,10 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.telemetries.Trace;
 
 public class RunBillFeeder extends Command {
   private BillFeederBase m_feeder;
@@ -35,6 +37,7 @@ public class RunBillFeeder extends Command {
   public void initialize() {
     m_noteInPlace = false;
     m_autonomous = Robot.getInstance().isAutonomous();
+    Trace.getInstance().logCommandInfo(this, "in auto : " + m_autonomous);
     m_count = 0;
     m_controller = Robot.getInstance().getOIContainer().getSubsystemController();
   }
@@ -42,6 +45,9 @@ public class RunBillFeeder extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+      return; // Remove this when trap scoring becomes a thing
+    }
     switch (m_feederState) {
     case INTAKE:
       if (!m_feeder.getNoteDetectorState() && !m_noteInPlace) {
@@ -88,11 +94,15 @@ public class RunBillFeeder extends Command {
   @Override
   public void end(boolean interrupted) {
     m_feeder.stopBillFeeder();
+    System.out.println("feeder stopped");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+      return true; // Also remove this one
+    }
     if (m_feederState == FeederStates.INTAKE) {
       if ((!m_feeder.getNoteDetectorState() && m_noteInPlace)
           || ((!m_controller.getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
@@ -103,8 +113,10 @@ public class RunBillFeeder extends Command {
       if ((m_count >= 50) || ((!m_controller.getBillAmpScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
-          && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean()) && (!m_autonomous)))
+          && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean()) && (!m_autonomous))) {
+        System.out.println("RunBillFeeder Finished ");
         return true;
+      }
     }
     return false;
   }

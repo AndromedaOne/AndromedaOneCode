@@ -2,7 +2,7 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveToHighPosition;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
@@ -19,7 +19,7 @@ public class BillAmpScore extends SequentialCommandGroup4905 {
     final double m_armSetpoint = 300;
     addCommands(
         new ParallelCommandGroup4905(new ArmRotate(armRotate, () -> m_armSetpoint, true),
-            new MoveToHighPosition(endEffector)),
+            new MoveEndEffector(endEffector, () -> true)),
         new RunBillFeeder(feeder, FeederStates.AMPSHOOTING),
         new DrivePositionCommand(endEffector, armRotate));
   }
