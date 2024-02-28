@@ -34,7 +34,7 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
    */
   @Override
   protected Command createTurnCommand(double angle) {
-    return new TurnToCompassHeading(angle);
+    return new TurnToCompassHeading(() -> angle);
   }
 
   /**
@@ -44,7 +44,7 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
    */
   @Override
   protected Command createMoveCommand(double distance, double angle) {
-    return new MoveUsingEncoder(m_driveTrain, distance, angle, m_maxMoveOutput);
+    return new MoveUsingEncoder(m_driveTrain, () -> distance, angle, m_maxMoveOutput);
   }
 
 }

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
@@ -43,11 +44,12 @@ public class DriveController extends ControllerBase {
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
     if (!Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
-      getPOVnorth().onTrue(new TurnToCompassHeading(0));
-      getPOVeast().onTrue(new TurnToCompassHeading(90));
-      getPOVsouth().onTrue(new TurnToCompassHeading(180));
-      getPOVwest().onTrue(new TurnToCompassHeading(270));
+      getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
+      getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
+      getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
+      getPOVwest().onTrue(new TurnToCompassHeading(() -> 270));
     }
+    getLeftStickButton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
     getStartButton().onTrue(
         new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
     if (sensorsContainer.hasLimeLight()) {
@@ -114,6 +116,10 @@ public class DriveController extends ControllerBase {
 
   public double getShowBotElevatorDownTriggerValue() {
     return getRightTriggerValue();
+  }
+
+  public boolean getClimberOverrideTrigger() {
+    return getRightTriggerPressedBoolean();
   }
 
   private void setUpShooterButtons() {
@@ -197,5 +203,4 @@ public class DriveController extends ControllerBase {
     getXbutton().whileTrue(
         new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 290, false, false));
   }
-
 }
