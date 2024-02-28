@@ -229,6 +229,7 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using real Billthoven arm rotate");
       m_armRotate = new RealBillArmRotate(m_compressor);
     } else {
+      Trace.getInstance().logInfo("using mock Billthoven arm rotate");
       m_armRotate = new MockBillArmRotate();
     }
     if (Config4905.getConfig4905().doesBillClimberExist()) {

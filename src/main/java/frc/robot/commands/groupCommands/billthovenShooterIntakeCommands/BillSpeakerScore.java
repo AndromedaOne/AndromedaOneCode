@@ -104,7 +104,6 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       m_shooterSpeed = SmartDashboard.getNumber("ShooterCommand RPM", 1000);
 
     }
-
   }
 
 }
