@@ -95,4 +95,14 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   public void setToZero() {
   };
 
+  @Override
+  public void enableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void disableAccelerationLimiting() {
+
+  }
+
 }

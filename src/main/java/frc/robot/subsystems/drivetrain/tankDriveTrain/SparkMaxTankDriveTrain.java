@@ -185,4 +185,14 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
       boolean isOpenLoop) {
   }
 
+  @Override
+  public void enableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void disableAccelerationLimiting() {
+
+  }
+
 }

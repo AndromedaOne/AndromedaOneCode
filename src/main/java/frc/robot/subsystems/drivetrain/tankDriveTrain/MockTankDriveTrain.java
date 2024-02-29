@@ -130,4 +130,14 @@ public class MockTankDriveTrain implements TankDriveTrain {
   public void setToZero() {
   }
 
+  @Override
+  public void enableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void disableAccelerationLimiting() {
+
+  }
+
 }
