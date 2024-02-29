@@ -24,7 +24,7 @@ import frc.robot.telemetries.Trace;
  */
 public class SequentialCommandGroup4905 extends Command {
   private final List<Command> m_commands = new ArrayList<>();
-  private int m_currentCommandIndex = -1;
+  protected int m_currentCommandIndex = -1;
   private boolean m_runWhenDisabled = true;
   private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.kCancelIncoming;
 

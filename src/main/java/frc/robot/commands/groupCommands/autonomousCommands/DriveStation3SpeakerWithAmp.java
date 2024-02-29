@@ -4,6 +4,8 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -13,6 +15,7 @@ import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
+import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensor;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
@@ -73,6 +76,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     // 7. Pick up the note C1
     // 8. Start driving back to score the note in Teleop
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
+    DoubleSupplier distanceSensorValue = () -> 0;
     m_driveTrain = subsystemsContainer.getDriveTrain();
     m_endEffector = subsystemsContainer.getBillEffectorPosition();
     m_armRotate = subsystemsContainer.getBillArmRotate();
@@ -132,7 +136,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
             new MoveEndEffector(m_endEffector, () -> true)),
-        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint4, 1),
+        new MoveUsingDistanceSensor(m_driveTrain, distanceSensorValue, 0.25, 1),
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint5, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),

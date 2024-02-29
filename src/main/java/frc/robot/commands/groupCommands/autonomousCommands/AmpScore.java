@@ -4,6 +4,8 @@
 
 package frc.robot.commands.groupCommands.autonomousCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -13,6 +15,7 @@ import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
+import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensor;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
@@ -70,6 +73,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
     // front)
     // score picked up Note in Amp
     SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
+    DoubleSupplier distanceSensorValue = () -> 0;
     m_driveTrain = subsystemsContainer.getDriveTrain();
     m_endEffector = subsystemsContainer.getBillEffectorPosition();
     m_armRotate = subsystemsContainer.getBillArmRotate();
@@ -109,8 +113,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
             new MoveEndEffector(m_endEffector, () -> true)),
-        new MoveUsingEncoder(m_driveTrain,
-            () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint2, 1),
+        new MoveUsingDistanceSensor(m_driveTrain, distanceSensorValue, 0.25, 1),
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint3, 1),
@@ -126,8 +129,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
             new MoveEndEffector(m_endEffector, () -> true)),
-        new MoveUsingEncoder(m_driveTrain,
-            () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint6, 1),
+        new MoveUsingDistanceSensor(m_driveTrain, distanceSensorValue, 0.25, 1),
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint7, 1),
