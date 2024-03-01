@@ -17,8 +17,8 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
     m_initialZAngleReading = value;
   }
 
-  public void setInitialZangleOffset(double offset) {
-    if (!m_isZangleOffsetinitialized) {
+  public void setInitialZangleOffset(double offset, boolean override) {
+    if (!m_isZangleOffsetinitialized || override) {
       System.out.print("orig init Z Angle: " + m_initialZAngleReading);
       m_initialZAngleReading = m_initialZAngleReading + offset;
       m_isZangleOffsetinitialized = true;

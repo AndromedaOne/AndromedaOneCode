@@ -201,6 +201,6 @@ public class DriveController extends ControllerBase {
   private void setUpProtectedMode() {
     // Angle could change
     getXbutton().whileTrue(
-        new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 290, false, false));
+        new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 290, false, true));
   }
 }

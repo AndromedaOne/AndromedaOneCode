@@ -21,7 +21,7 @@ public class EnableClimberMode extends SequentialCommandGroup4905 {
   public EnableClimberMode(BillClimberBase climber, BillArmRotateBase armRotate) {
     m_climber = climber;
     m_armRotate = armRotate;
-    addCommands(new ArmRotate(m_armRotate, () -> m_armAngleForClimbing, true, false),
+    addCommands(new ArmRotate(m_armRotate, () -> m_armAngleForClimbing, true, true),
         new EnableClimberModeInternal());
   }
 
@@ -43,7 +43,7 @@ public class EnableClimberMode extends SequentialCommandGroup4905 {
       CommandScheduler.getInstance().setDefaultCommand(m_climber.getSubsystemBase(),
           new RunBillClimber(m_climber, false));
       CommandScheduler.getInstance().setDefaultCommand(m_armRotate.getSubsystemBase(),
-          new ArmRotate(m_armRotate, () -> m_armAngleForClimbing, false, false));
+          new ArmRotate(m_armRotate, () -> m_armAngleForClimbing, false, true));
       Trace.getInstance().logCommandInfo(this, "Enable Climber Mode Ran");
       Trace.getInstance().logCommandInfo(this,
           CommandScheduler.getInstance().getDefaultCommand(m_climber.getSubsystemBase()).getName());

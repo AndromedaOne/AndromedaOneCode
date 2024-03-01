@@ -62,7 +62,7 @@ public class MockGyro implements Gyro4905 {
   }
 
   @Override
-  public void setInitialZangleOffset(double offset) {
+  public void setInitialZangleOffset(double offset, boolean override) {
   }
 
   @Override

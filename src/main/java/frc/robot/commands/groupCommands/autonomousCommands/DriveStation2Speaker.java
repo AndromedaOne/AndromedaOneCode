@@ -80,7 +80,8 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     driveStation2SpeakerConfigRed.m_waypoint3 = redConfig
         .getDouble("DriveStation2Speaker.WayPoint3");
     driveStation2SpeakerConfigRed.m_gyroOffset = redConfig
-        .getDouble("DriveStation3SpeakerWithAmp.GyroOffset");
+        .getDouble("DriveStation2Speaker.GyroOffset");
+    System.out.println("Red gyroOffset: " + driveStation2SpeakerConfigRed.m_gyroOffset);
 
     Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     driveStation2SpeakerConfigBlue.m_waypoint1 = blueConfig
@@ -92,7 +93,8 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     driveStation2SpeakerConfigBlue.m_waypoint3 = blueConfig
         .getDouble("DriveStation2Speaker.WayPoint3");
     driveStation2SpeakerConfigBlue.m_gyroOffset = blueConfig
-        .getDouble("DriveStation3SpeakerWithAmp.GyroOffset");
+        .getDouble("DriveStation2Speaker.GyroOffset");
+    System.out.println("Blue gyroOffset: " + driveStation2SpeakerConfigBlue.m_gyroOffset);
     m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     addCommands(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
@@ -117,8 +119,8 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     } else {
       m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     }
-    m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset);
-    Trace.getInstance().logCommandInfo(this, "Setting off set to " + m_gyro.getCompassHeading());
+    m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset, true);
+    Trace.getInstance().logCommandInfo(this, "Setting offset to " + m_configSupplier.getConfig().m_gyroOffset);
 
   }
 
@@ -127,9 +129,11 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
 
     public void setConfig(DriveStation2SpeakerConfig config) {
       m_config = config;
+      System.out.println("SetConfig: Gyro offset " + m_config.m_gyroOffset);
     }
 
     public DriveStation2SpeakerConfig getConfig() {
+      System.out.println("GetConfig: Gyro offset " + m_config.m_gyroOffset);
       return m_config;
     }
   }
