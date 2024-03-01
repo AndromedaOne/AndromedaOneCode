@@ -33,11 +33,13 @@ public class WS2812LEDs extends RealLEDs {
     }
     m_led.setData(m_ledBuffer);
   }
-  //true indicates robot has a note, otherwise it is false. 
-  public void setNoteState (boolean state){
-   m_haveNote = state;
+
+  // true indicates robot has a note, otherwise it is false.
+  public void setNoteState(boolean state) {
+    m_haveNote = state;
   }
-  public boolean getNoteState(){
-    return m_haveNote; 
+
+  public boolean getNoteState() {
+    return m_haveNote;
   }
 }

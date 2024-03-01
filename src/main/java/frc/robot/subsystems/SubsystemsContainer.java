@@ -301,7 +301,7 @@ public class SubsystemsContainer {
     return m_billClimber;
   }
 
-  public LEDs getWs2812LEDs(){
+  public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
 

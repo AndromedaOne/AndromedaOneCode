@@ -8,7 +8,6 @@ import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.ledlights.LEDs;
-import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.telemetries.Trace;
 
 public class RunBillFeeder extends Command {
@@ -59,10 +58,11 @@ public class RunBillFeeder extends Command {
       } else if (m_feeder.getNoteDetectorState()) {
         m_feeder.runBillFeederSlowEject();
         m_noteInPlace = true;
-        m_LEDs
+
       } else {
         m_feeder.stopBillFeeder();
       }
+      m_LEDs.setNoteState(m_feeder.getNoteDetectorState());
       return;
     case EJECT:
       m_feeder.runBillFeederEject();
