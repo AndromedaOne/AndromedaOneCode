@@ -100,6 +100,7 @@ public class RunBillFeeder extends Command {
   public void end(boolean interrupted) {
     m_feeder.stopBillFeeder();
     System.out.println("feeder stopped");
+    m_noteInPlace = false; 
   }
 
   // Returns true when the command should end.
@@ -111,6 +112,7 @@ public class RunBillFeeder extends Command {
     if (m_feederState == FeederStates.INTAKE) {
       if ((!m_feeder.getNoteDetectorState() && m_noteInPlace)
           || ((!m_controller.getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
+            Trace.getInstance().logCommandInfo(this, "Note in feeder");
         return true;
       }
     } else if ((m_feederState == FeederStates.SHOOTING)
