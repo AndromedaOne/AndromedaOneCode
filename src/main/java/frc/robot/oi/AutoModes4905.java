@@ -10,6 +10,7 @@ import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3Scores
 import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2Speaker;
 import frc.robot.commands.groupCommands.autonomousCommands.DriveStation3SpeakerWithAmp;
 import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
+import frc.robot.commands.groupCommands.autonomousCommands.SideScoreLeaveHome;
 import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -39,6 +40,9 @@ public class AutoModes4905 {
       m_autoChooser.addOption(
           "6: DriveStation3SpeakerWithAmp: Drive Station Start, Score Speaker, Pick up Note, Score Amp",
           new DriveStation3SpeakerWithAmp());
+      m_autoChooser.addOption(
+          "7: SideScoreLeaveHome: Drive Station Start, Score Speaker, Leave Home",
+          new SideScoreLeaveHome());
     }
 
     SmartDashboard.putData("autoModes", m_autoChooser);

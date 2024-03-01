@@ -21,12 +21,14 @@ import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePos
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -43,6 +45,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     double m_waypoint5;
     double m_angle3;
     double m_waypoint6;
+    double m_gyroOffset;
   }
 
   DriveStation3SpeakerWithAmpConfig driveStation3SpeakerWithAmpConfigRed = new DriveStation3SpeakerWithAmpConfig();
@@ -53,6 +56,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
   BillArmRotateBase m_armRotate;
   BillFeederBase m_feeder;
   BillShooterBase m_shooter;
+  Gyro4905 m_gyro;
 
   public DriveStation3SpeakerWithAmp() {
     // List of what this auto mode should do.
@@ -78,6 +82,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     m_armRotate = subsystemsContainer.getBillArmRotate();
     m_feeder = subsystemsContainer.getBillFeeder();
     m_shooter = subsystemsContainer.getBillShooter();
+    m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
     Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     driveStation3SpeakerWithAmpConfigRed.m_waypoint1 = redConfig
         .getDouble("DriveStation3SpeakerWithAmp.WayPoint1");
@@ -97,6 +102,8 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         .getDouble("DriveStation3SpeakerWithAmp.Angle3");
     driveStation3SpeakerWithAmpConfigRed.m_waypoint6 = redConfig
         .getDouble("DriveStation3SpeakerWithAmp.WayPoint6");
+    driveStation3SpeakerWithAmpConfigRed.m_gyroOffset = redConfig
+        .getDouble("DriveStation3SpeakerWithAmp.GyroOffset");
 
     Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     driveStation3SpeakerWithAmpConfigBlue.m_waypoint1 = blueConfig
@@ -117,7 +124,10 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         .getDouble("DriveStation3SpeakerWithAmp.Angle3");
     driveStation3SpeakerWithAmpConfigBlue.m_waypoint6 = blueConfig
         .getDouble("DriveStation3SpeakerWithAmp.WayPoint6");
+    driveStation3SpeakerWithAmpConfigBlue.m_gyroOffset = blueConfig
+        .getDouble("DriveStation3SpeakerWithAmp.GyroOffset");
     m_configSupplier.setConfig(driveStation3SpeakerWithAmpConfigRed);
+
     addCommands(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
@@ -147,6 +157,9 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     } else {
       m_configSupplier.setConfig(driveStation3SpeakerWithAmpConfigRed);
     }
+    m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset, true);
+    Trace.getInstance().logCommandInfo(this,
+        "Setting off set to " + m_configSupplier.getConfig().m_gyroOffset);
   }
 
   private class DriveStation3SpeakerWithAmpConfigSupplier {
