@@ -54,6 +54,7 @@ public class AllianceConfig {
       }
 
     }
+    Trace.getInstance().logInfo("Using Alliance " + alliance.toString());
     return alliance;
   }
 }
