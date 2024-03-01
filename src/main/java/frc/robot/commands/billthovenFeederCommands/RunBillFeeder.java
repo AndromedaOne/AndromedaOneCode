@@ -7,6 +7,8 @@ import frc.robot.Robot;
 import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.ledlights.LEDs;
+import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.telemetries.Trace;
 
 public class RunBillFeeder extends Command {
@@ -17,6 +19,7 @@ public class RunBillFeeder extends Command {
   private boolean m_autonomous = false;
   private int m_count = 0;
   private SubsystemController m_controller;
+  private LEDs m_LEDs;
 
   /** use this if you are shooting. */
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState,
@@ -24,6 +27,7 @@ public class RunBillFeeder extends Command {
     m_feeder = feeder;
     m_readyToShoot = readyToShoot;
     m_feederState = feederState;
+    m_LEDs = Robot.getInstance().getSubsystemsContainer().getWs2812LEDs();
     addRequirements(m_feeder.getSubsystemBase());
   }
 
@@ -55,6 +59,7 @@ public class RunBillFeeder extends Command {
       } else if (m_feeder.getNoteDetectorState()) {
         m_feeder.runBillFeederSlowEject();
         m_noteInPlace = true;
+        m_LEDs
       } else {
         m_feeder.stopBillFeeder();
       }

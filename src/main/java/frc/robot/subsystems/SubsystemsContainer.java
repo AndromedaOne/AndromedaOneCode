@@ -301,6 +301,10 @@ public class SubsystemsContainer {
     return m_billClimber;
   }
 
+  public LEDs getWs2812LEDs(){
+    return m_ws2812LEDs;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());

@@ -33,6 +33,7 @@ public abstract class RealLEDs extends LEDs {
       switch (m_driveTrain.getDriveTrainMode()) {
       case SLOW:
         setBlue(1);
+        
         setSolid();
         break;
 

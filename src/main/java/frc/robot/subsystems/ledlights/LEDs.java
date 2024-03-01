@@ -224,4 +224,6 @@ public abstract class LEDs extends SubsystemBase {
   }
 
   protected abstract void updateRGBcolor(Color color);
+  
+  public void setNoteState(){}
 }
