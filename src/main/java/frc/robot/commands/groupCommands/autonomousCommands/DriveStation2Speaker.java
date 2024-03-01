@@ -120,7 +120,8 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
       m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     }
     m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset, true);
-    Trace.getInstance().logCommandInfo(this, "Setting offset to " + m_configSupplier.getConfig().m_gyroOffset);
+    Trace.getInstance().logCommandInfo(this,
+        "Setting offset to " + m_configSupplier.getConfig().m_gyroOffset);
 
   }
 

@@ -158,7 +158,8 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
       m_configSupplier.setConfig(driveStation3SpeakerWithAmpConfigRed);
     }
     m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset, true);
-    Trace.getInstance().logCommandInfo(this, "Setting off set to " + m_configSupplier.getConfig().m_gyroOffset);
+    Trace.getInstance().logCommandInfo(this,
+        "Setting off set to " + m_configSupplier.getConfig().m_gyroOffset);
   }
 
   private class DriveStation3SpeakerWithAmpConfigSupplier {
