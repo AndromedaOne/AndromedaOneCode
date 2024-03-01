@@ -23,6 +23,7 @@ import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -117,6 +118,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
       m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     }
     m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset);
+    Trace.getInstance().logCommandInfo(this, "Setting off set to " + m_gyro.getCompassHeading());
 
   }
 
