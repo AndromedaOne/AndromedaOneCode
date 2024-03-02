@@ -87,6 +87,10 @@ public class SubsystemController extends ControllerBase {
     return getBackButton();
   }
 
+  public JoystickButton getBillDisableClimberMode() {
+    return getLeftStickButton();
+  }
+
   public double getBillClimberSpeed() {
     return getLeftStickForwardBackwardValue();
   }
