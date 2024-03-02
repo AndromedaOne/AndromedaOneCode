@@ -39,6 +39,7 @@ public class RunBillFeeder extends Command {
   @Override
   public void initialize() {
     m_noteInPlace = false;
+    m_LEDs.setNoteState(false);
     m_autonomous = Robot.getInstance().isAutonomous();
     Trace.getInstance().logCommandInfo(this, "in auto : " + m_autonomous);
     m_count = 0;
@@ -58,11 +59,10 @@ public class RunBillFeeder extends Command {
       } else if (m_feeder.getNoteDetectorState()) {
         m_feeder.runBillFeederSlowEject();
         m_noteInPlace = true;
-
+        m_LEDs.setNoteState(true);
       } else {
         m_feeder.stopBillFeeder();
       }
-      m_LEDs.setNoteState(m_feeder.getNoteDetectorState());
       return;
     case EJECT:
       m_feeder.runBillFeederEject();
@@ -100,7 +100,7 @@ public class RunBillFeeder extends Command {
   public void end(boolean interrupted) {
     m_feeder.stopBillFeeder();
     System.out.println("feeder stopped");
-    m_noteInPlace = false; 
+    m_noteInPlace = false;
   }
 
   // Returns true when the command should end.
@@ -112,7 +112,7 @@ public class RunBillFeeder extends Command {
     if (m_feederState == FeederStates.INTAKE) {
       if ((!m_feeder.getNoteDetectorState() && m_noteInPlace)
           || ((!m_controller.getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
-            Trace.getInstance().logCommandInfo(this, "Note in feeder");
+        Trace.getInstance().logCommandInfo(this, "Note in feeder");
         return true;
       }
     } else if ((m_feederState == FeederStates.SHOOTING)
