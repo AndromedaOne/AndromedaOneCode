@@ -35,6 +35,7 @@ public class DriveBackwardTimed extends Command {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
+    m_driveTrain.disableAccelerationLimiting();
 
   }
 
@@ -51,6 +52,7 @@ public class DriveBackwardTimed extends Command {
 
   @Override
   public void end(boolean interrupted) {
+    m_driveTrain.enableAccelerationLimiting();
 
   }
 }

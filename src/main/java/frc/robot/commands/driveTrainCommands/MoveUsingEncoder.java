@@ -98,6 +98,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandInfo(this, "Moving with encoder to position: " + getSetpoint());
       Trace.getInstance().logCommandInfo(this,
           "Starting encoder position: " + m_driveTrain.getRobotPositionInches());
+      m_driveTrain.disableAccelerationLimiting();
     }
 
     public double getSetpoint() {
@@ -120,6 +121,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       m_driveTrain.stop();
       Trace.getInstance().logCommandInfo(this,
           "Ending position: " + m_driveTrain.getRobotPositionInches());
+      m_driveTrain.enableAccelerationLimiting();
     }
   }
 }
