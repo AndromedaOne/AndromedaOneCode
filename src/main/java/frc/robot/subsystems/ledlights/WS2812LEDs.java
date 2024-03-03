@@ -15,6 +15,7 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 public class WS2812LEDs extends RealLEDs {
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
+  private boolean m_haveNote = false;
 
   public WS2812LEDs(Config ws2812Config, DriveTrainBase driveTrain) {
     super(driveTrain);
@@ -31,5 +32,14 @@ public class WS2812LEDs extends RealLEDs {
       m_ledBuffer.setLED(i, color);
     }
     m_led.setData(m_ledBuffer);
+  }
+
+  // true indicates robot has a note, otherwise it is false.
+  public void setNoteState(boolean state) {
+    m_haveNote = state;
+  }
+
+  public boolean getNoteState() {
+    return m_haveNote;
   }
 }
