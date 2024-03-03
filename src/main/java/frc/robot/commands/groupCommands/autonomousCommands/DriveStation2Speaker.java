@@ -16,12 +16,14 @@ import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpea
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -34,6 +36,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     double m_waypoint2;
     double m_angle2;
     double m_waypoint3;
+    double m_gyroOffset;
   }
 
   DriveStation2SpeakerConfig driveStation2SpeakerConfigRed = new DriveStation2SpeakerConfig();
@@ -44,6 +47,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
   BillArmRotateBase m_armRotate;
   BillFeederBase m_feeder;
   BillShooterBase m_shooter;
+  Gyro4905 m_gyro;
 
   public DriveStation2Speaker() {
     // Both
@@ -65,6 +69,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     m_armRotate = subsystemsContainer.getBillArmRotate();
     m_feeder = subsystemsContainer.getBillFeeder();
     m_shooter = subsystemsContainer.getBillShooter();
+    m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
     Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     driveStation2SpeakerConfigRed.m_waypoint1 = redConfig
         .getDouble("DriveStation2Speaker.WayPoint1");
@@ -74,6 +79,9 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     driveStation2SpeakerConfigRed.m_angle2 = redConfig.getDouble("DriveStation2Speaker.Angle2");
     driveStation2SpeakerConfigRed.m_waypoint3 = redConfig
         .getDouble("DriveStation2Speaker.WayPoint3");
+    driveStation2SpeakerConfigRed.m_gyroOffset = redConfig
+        .getDouble("DriveStation2Speaker.GyroOffset");
+    System.out.println("Red gyroOffset: " + driveStation2SpeakerConfigRed.m_gyroOffset);
 
     Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     driveStation2SpeakerConfigBlue.m_waypoint1 = blueConfig
@@ -84,6 +92,9 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     driveStation2SpeakerConfigBlue.m_angle2 = blueConfig.getDouble("DriveStation2Speaker.Angle2");
     driveStation2SpeakerConfigBlue.m_waypoint3 = blueConfig
         .getDouble("DriveStation2Speaker.WayPoint3");
+    driveStation2SpeakerConfigBlue.m_gyroOffset = blueConfig
+        .getDouble("DriveStation2Speaker.GyroOffset");
+    System.out.println("Blue gyroOffset: " + driveStation2SpeakerConfigBlue.m_gyroOffset);
     m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     addCommands(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
@@ -108,6 +119,10 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     } else {
       m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     }
+    m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset, true);
+    Trace.getInstance().logCommandInfo(this,
+        "Setting offset to " + m_configSupplier.getConfig().m_gyroOffset);
+
   }
 
   private class DriveStation2SpeakerConfigSupplier {
@@ -115,9 +130,11 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
 
     public void setConfig(DriveStation2SpeakerConfig config) {
       m_config = config;
+      System.out.println("SetConfig: Gyro offset " + m_config.m_gyroOffset);
     }
 
     public DriveStation2SpeakerConfig getConfig() {
+      System.out.println("GetConfig: Gyro offset " + m_config.m_gyroOffset);
       return m_config;
     }
   }

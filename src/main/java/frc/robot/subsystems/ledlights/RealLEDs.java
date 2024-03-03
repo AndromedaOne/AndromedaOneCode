@@ -6,7 +6,8 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
 public abstract class RealLEDs extends LEDs {
 
-  DriveTrainBase m_driveTrain;
+  private DriveTrainBase m_driveTrain;
+  private double m_intakeBlinkRate = 0.1;
   private LEDRobotInformation m_ledRobotInfo = LEDRobotInformation.getInstance();
 
   public RealLEDs(DriveTrainBase driveTrain) {
@@ -33,22 +34,38 @@ public abstract class RealLEDs extends LEDs {
       switch (m_driveTrain.getDriveTrainMode()) {
       case SLOW:
         setBlue(1);
-        setSolid();
+        if (getNoteState()) {
+          setBlinking(m_intakeBlinkRate);
+        } else {
+          setSolid();
+        }
         break;
 
       case MID:
         setGreen(1);
-        setSolid();
+        if (getNoteState()) {
+          setBlinking(m_intakeBlinkRate);
+        } else {
+          setSolid();
+        }
         break;
 
       case FAST:
         setRed(1);
-        setSolid();
+        if (getNoteState()) {
+          setBlinking(m_intakeBlinkRate);
+        } else {
+          setSolid();
+        }
         break;
 
       default:
         setOrange(1);
-        setSolid();
+        if (getNoteState()) {
+          setBlinking(m_intakeBlinkRate);
+        } else {
+          setSolid();
+        }
       }
     } else if (Robot.getInstance().isAutonomous()) {
       setWhite(1);

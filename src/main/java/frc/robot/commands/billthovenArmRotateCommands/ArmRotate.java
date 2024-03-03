@@ -17,12 +17,18 @@ import frc.robot.utils.InterpolatingMap;
 
 public class ArmRotate extends SequentialCommandGroup4905 {
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
-      boolean useSmartDashboard) {
-    addCommands(new RotateArmInternal(armRotate, angle, needToEnd, useSmartDashboard));
+      boolean useSmartDashboard, boolean engagePneumaticBrake) {
+    addCommands(new RotateArmInternal(armRotate, angle, needToEnd, useSmartDashboard,
+        engagePneumaticBrake));
   }
 
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
-    this(armRotate, angle, needToEnd, false);
+    this(armRotate, angle, needToEnd, false, true);
+  }
+
+  public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
+      boolean engagePneumaticBrake) {
+    this(armRotate, angle, needToEnd, false, engagePneumaticBrake);
   }
 
   private class RotateArmInternal extends PIDCommand4905 {
@@ -32,9 +38,10 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     private RotateFeedForward m_feedForward = new RotateFeedForward();
     private InterpolatingMap m_kMap;
     private InterpolatingMap m_pMap;
+    private boolean m_engagePneumaticBrake;
 
     public RotateArmInternal(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
-        boolean useSmartDashboard) {
+        boolean useSmartDashboard, boolean engagePneumaticBrake) {
 
       super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
         armRotate.rotate(output);
@@ -42,6 +49,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       m_armRotate = armRotate;
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
+      m_engagePneumaticBrake = engagePneumaticBrake;
       addRequirements(armRotate.getSubsystemBase());
 
       m_kMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(), "armKValues");
@@ -91,7 +99,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       if (BillClimberSingleton.getInstance().getClimberEnabled()) {
         return;
       }
-      if (!m_needToEnd && isOnTarget()) {
+      if (!m_needToEnd && isOnTarget() && m_engagePneumaticBrake) {
         m_armRotate.engageArmBrake();
       } else if (!m_useSmartDashboard) {
         getController().setP(m_pMap.getInterpolatedValue(m_armRotate.getAngle()));
@@ -107,7 +115,9 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     public void end(boolean interrupted) {
       super.end(interrupted);
       Trace.getInstance().logCommandInfo(this, "Ending Angle: " + m_armRotate.getAngle());
-      m_armRotate.engageArmBrake();
+      if (m_engagePneumaticBrake) {
+        m_armRotate.engageArmBrake();
+      }
     }
 
     // Returns true when the command should end.

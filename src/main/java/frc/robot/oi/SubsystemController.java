@@ -10,6 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenClimberCommands.DisableClimberMode;
 import frc.robot.commands.billthovenClimberCommands.EnableClimberMode;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
@@ -87,6 +88,10 @@ public class SubsystemController extends ControllerBase {
     return getBackButton();
   }
 
+  public JoystickButton getBillDisableClimberMode() {
+    return getLeftStickButton();
+  }
+
   public double getBillClimberSpeed() {
     return getLeftStickForwardBackwardValue();
   }
@@ -117,6 +122,7 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
     getBillEnableClimberMode().onTrue(new EnableClimberMode(m_subsystemsContainer.getBillClimber(),
         m_subsystemsContainer.getBillArmRotate()));
-    getBillSpeakerCloseScoreButton();
+    getBillDisableClimberMode().onTrue(new DisableClimberMode(
+        m_subsystemsContainer.getBillClimber(), m_subsystemsContainer.getBillArmRotate()));
   }
 }

@@ -301,6 +301,10 @@ public class SubsystemsContainer {
     return m_billClimber;
   }
 
+  public LEDs getWs2812LEDs() {
+    return m_ws2812LEDs;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());
@@ -333,7 +337,7 @@ public class SubsystemsContainer {
 
     if (Config4905.getConfig4905().isBillthoven()) {
       if (Config4905.getConfig4905().doesArmRotateExist()) {
-        m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 333, false, false));
+        m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 333, false, true));
       }
       if (Config4905.getConfig4905().doesEndEffectorExist()) {
         m_endEffector.setDefaultCommand(new MoveEndEffector(m_endEffector, () -> false, false));

@@ -28,7 +28,7 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
 // A positive value means intake
   @Override
   public void runBillFeederIntake() {
-    m_feederMotor.setSpeed(0.8);
+    m_feederMotor.setSpeed(1);
   }
 
   @Override
@@ -38,7 +38,7 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
 
   @Override
   public void runBillFeederShooting() {
-    m_feederMotor.setSpeed(0.6);
+    m_feederMotor.setSpeed(1);
   }
 
   @Override

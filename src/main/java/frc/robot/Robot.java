@@ -162,7 +162,7 @@ public class Robot extends TimedRobot {
   }
 
   private void setInitialZangleOffset() {
-    m_sensorsContainer.getGyro().setInitialZangleOffset(0);
+    m_sensorsContainer.getGyro().setInitialZangleOffset(0, false);
   }
 
   @Override

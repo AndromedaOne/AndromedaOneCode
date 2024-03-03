@@ -24,6 +24,10 @@ public class BillClimberSingleton {
     m_isClimberEnabled = true;
   }
 
+  public void setClimberDisabled() {
+    m_isClimberEnabled = false;
+  }
+
   public boolean getClimberEnabled() {
     return m_isClimberEnabled;
   }

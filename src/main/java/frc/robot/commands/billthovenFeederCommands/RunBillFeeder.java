@@ -7,6 +7,7 @@ import frc.robot.Robot;
 import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.telemetries.Trace;
 
 public class RunBillFeeder extends Command {
@@ -17,6 +18,7 @@ public class RunBillFeeder extends Command {
   private boolean m_autonomous = false;
   private int m_count = 0;
   private SubsystemController m_controller;
+  private LEDs m_LEDs;
 
   /** use this if you are shooting. */
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState,
@@ -24,6 +26,7 @@ public class RunBillFeeder extends Command {
     m_feeder = feeder;
     m_readyToShoot = readyToShoot;
     m_feederState = feederState;
+    m_LEDs = Robot.getInstance().getSubsystemsContainer().getWs2812LEDs();
     addRequirements(m_feeder.getSubsystemBase());
   }
 
@@ -36,6 +39,7 @@ public class RunBillFeeder extends Command {
   @Override
   public void initialize() {
     m_noteInPlace = false;
+    m_LEDs.setNoteState(false);
     m_autonomous = Robot.getInstance().isAutonomous();
     Trace.getInstance().logCommandInfo(this, "in auto : " + m_autonomous);
     m_count = 0;
@@ -55,6 +59,7 @@ public class RunBillFeeder extends Command {
       } else if (m_feeder.getNoteDetectorState()) {
         m_feeder.runBillFeederSlowEject();
         m_noteInPlace = true;
+        m_LEDs.setNoteState(true);
       } else {
         m_feeder.stopBillFeeder();
       }
@@ -95,6 +100,7 @@ public class RunBillFeeder extends Command {
   public void end(boolean interrupted) {
     m_feeder.stopBillFeeder();
     System.out.println("feeder stopped");
+    m_noteInPlace = false;
   }
 
   // Returns true when the command should end.
@@ -106,6 +112,7 @@ public class RunBillFeeder extends Command {
     if (m_feederState == FeederStates.INTAKE) {
       if ((!m_feeder.getNoteDetectorState() && m_noteInPlace)
           || ((!m_controller.getBillFeederIntakeNoteButton().getAsBoolean()) && (!m_autonomous))) {
+        Trace.getInstance().logCommandInfo(this, "Note in feeder");
         return true;
       }
     } else if ((m_feederState == FeederStates.SHOOTING)
