@@ -11,7 +11,7 @@ public class DrivePositionCommand extends ParallelCommandGroup4905 {
   public DrivePositionCommand(BillEndEffectorPositionBase endEffector,
       BillArmRotateBase armRotate) {
 
-    final double m_armSetpoint = 333.00;
+    final double m_armSetpoint = 290.0;
 
     addCommands(new ArmRotate(armRotate, () -> m_armSetpoint, true),
         new MoveEndEffector(endEffector, () -> false));
