@@ -16,6 +16,7 @@ import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
@@ -128,7 +129,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         .getDouble("DriveStation3SpeakerWithAmp.GyroOffset");
     m_configSupplier.setConfig(driveStation3SpeakerWithAmpConfigRed);
 
-    addCommands(
+    addCommands(new DelayedSequentialCommandGroup(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
@@ -147,7 +148,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint5, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),
         new PauseRobot(40, m_driveTrain), new DrivePositionCommand(m_endEffector, m_armRotate),
-        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint6, 1));
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint6, 1)));
   }
 
   public void additionalInitialize() {

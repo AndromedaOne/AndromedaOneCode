@@ -11,6 +11,7 @@ import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
@@ -99,6 +100,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandInfo(this,
           "Starting encoder position: " + m_driveTrain.getRobotPositionInches());
       m_driveTrain.disableAccelerationLimiting();
+      SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", false);
     }
 
     public double getSetpoint() {
@@ -122,6 +124,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandInfo(this,
           "Ending position: " + m_driveTrain.getRobotPositionInches());
       m_driveTrain.enableAccelerationLimiting();
+      SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", true);
     }
   }
 }
