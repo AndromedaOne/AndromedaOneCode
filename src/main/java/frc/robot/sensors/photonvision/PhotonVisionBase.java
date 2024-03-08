@@ -4,14 +4,13 @@
 
 package frc.robot.sensors.photonvision;
 
-import java.util.function.DoubleSupplier;
-
 /** Add your docs here. */
 public interface PhotonVisionBase {
-  public DoubleSupplier getYawDoubleSupplier();
 
   public boolean doesTargetExist();
 
   public double getDistanceToTarget();
+
+  public double getTargetID();
 
 }

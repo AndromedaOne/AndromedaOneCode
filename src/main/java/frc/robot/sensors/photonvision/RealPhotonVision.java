@@ -4,11 +4,13 @@
 
 package frc.robot.sensors.photonvision;
 
+import java.util.List;
 import java.util.function.DoubleSupplier;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,10 +30,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
         m_camera.getLatestResult().getBestTarget().getYaw());
   }
 
-  @Override
-  public DoubleSupplier getYawDoubleSupplier() {
-    return () -> m_camera.getLatestResult().getBestTarget().getYaw();
-  }
+  
 
   @Override
   public boolean doesTargetExist() {
@@ -50,5 +49,26 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
           m_cameraPitch, Units.degreesToRadians(m_latestResult.getBestTarget().getPitch()));
     }
     return range;
+  }
+
+  @Override
+  public double getTargetID() {
+    return m_camera.getLatestResult().getBestTarget().getFiducialId();
+  }
+
+  private class PhotonVisionYawSupplier {
+    private int m_wantedID = -1;
+    public PhotonVisionYawSupplier(int wantedID) {
+      m_wantedID = wantedID;
+    }
+    public Pair<int, double> getYawDoubleSupplier() {
+      List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
+      for (PhotonTrackedTarget target : targets) {
+        if (target.getFiducialId() == m_wantedID) {
+          return () -> target.getYaw();
+        }
+      }
+      return () -> m_camera.getLatestResult().getBestTarget().getYaw();
+    }
   }
 }
