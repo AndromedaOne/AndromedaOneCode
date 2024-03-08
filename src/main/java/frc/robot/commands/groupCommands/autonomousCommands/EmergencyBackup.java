@@ -50,8 +50,7 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
     Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     emergencyBackupConfigBlue.m_waypoint1 = blueConfig.getDouble("EmergencyBackup.WayPoint1");
     m_configSupplier.setConfig(emergencyBackupConfigRed);
-    addCommands(
-        new DelayedSequentialCommandGroup(
+    addCommands(new DelayedSequentialCommandGroup(
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1)),
         new DrivePositionCommand(m_endEffector, m_armRotate)));
