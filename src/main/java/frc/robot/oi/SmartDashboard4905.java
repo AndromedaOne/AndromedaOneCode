@@ -132,11 +132,13 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
-      SmartDashboard.putData("AmpScore", new AmpScore());
-      SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores());
-      SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores());
-      SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker());
-      SmartDashboard.putData("DriveStation3SpeakerWithAmp", new DriveStation3SpeakerWithAmp());
+      if (Config4905.getConfig4905().isBillthoven()) {
+        SmartDashboard.putData("AmpScore", new AmpScore());
+        SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores());
+        SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores());
+        SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker());
+        SmartDashboard.putData("DriveStation3SpeakerWithAmp", new DriveStation3SpeakerWithAmp());
+      }
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {

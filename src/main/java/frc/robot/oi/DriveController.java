@@ -81,7 +81,7 @@ public class DriveController extends ControllerBase {
 
     if (Config4905.getConfig4905().isBillthoven()) {
       if (Config4905.getConfig4905().doesArmRotateExist()) {
-        setUpProtectedMode();
+        setUpUnprotectedMode();
       }
     }
   }
@@ -198,9 +198,9 @@ public class DriveController extends ControllerBase {
     return getXbutton().getAsBoolean();
   }
 
-  private void setUpProtectedMode() {
+  private void setUpUnprotectedMode() {
     // Angle could change
     getXbutton()
-        .whileTrue(new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 290, false, true));
+        .whileTrue(new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 333, false, true));
   }
 }
