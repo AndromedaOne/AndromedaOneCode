@@ -117,7 +117,7 @@ public class TeleOpCommand extends Command {
         new TracePair("rotateStick", rotateStickValue));
     double exponent = 3;
     forwardBackwardStickValue = Math.pow(forwardBackwardStickValue, exponent);
-    strafeStickValue = Math.pow(strafeStickValue, exponent);
+    // removed strafe for more fine control
     rotateStickValue = Math.pow(rotateStickValue, exponent);
     // do not use moveWithGyro here as we're providing the drive straight correction
     if (m_isStrafe) {
