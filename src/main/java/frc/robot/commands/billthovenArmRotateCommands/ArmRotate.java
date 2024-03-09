@@ -39,6 +39,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     private InterpolatingMap m_kMap;
     private InterpolatingMap m_pMap;
     private boolean m_engagePneumaticBrake;
+    private double m_count = 0;
 
     public RotateArmInternal(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
         boolean useSmartDashboard, boolean engagePneumaticBrake) {
@@ -70,6 +71,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     public void initialize() {
       Config pidConstantsConfig = Config4905.getConfig4905().getArmRotateConfig();
       super.initialize();
+      m_count = 0;
       getController().setMaxOutput(1);
       if (m_useSmartDashboard) {
         getController().setP(SmartDashboard.getNumber("Rotate Arm P-value", 0));
@@ -101,6 +103,9 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       }
       if (!m_needToEnd && isOnTarget() && m_engagePneumaticBrake) {
         m_armRotate.engageArmBrake();
+      } else if (m_engagePneumaticBrake && isOnTarget()) {
+        m_armRotate.engageArmBrake();
+        m_count++;
       } else if (!m_useSmartDashboard) {
         getController().setP(m_pMap.getInterpolatedValue(m_armRotate.getAngle()));
         m_feedForward.setConstant(m_kMap.getInterpolatedValue(m_armRotate.getAngle()));
@@ -123,7 +128,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      if (m_needToEnd && isOnTarget()) {
+      if (m_needToEnd && isOnTarget() && m_count >= 20) {
         return true;
       }
       return false;
