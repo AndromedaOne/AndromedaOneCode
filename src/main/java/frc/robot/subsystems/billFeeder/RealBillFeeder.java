@@ -30,7 +30,7 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
     SmartDashboard.putBoolean("Note detection", getNoteDetectorState());
     SmartDashboard.putBoolean("ActualNoteDetectorValue", !m_noteDetector.get());
     if (!m_noteDetector.get()) {
-      if (m_counter >= 2) {
+      if (m_counter >= 6) {
         m_noteDetected = true;
       } else {
         m_counter++;
