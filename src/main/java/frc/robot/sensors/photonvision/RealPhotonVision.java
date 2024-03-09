@@ -4,6 +4,7 @@
 
 package frc.robot.sensors.photonvision;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
@@ -23,9 +24,20 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private double m_targetHeight = 12;
   private double m_cameraPitch = 14;
 
+  public RealPhotonVision() {
+    m_camera = new PhotonCamera("Arducam_OV2311_USB_Camera");
+  }
+
   @Override
   protected void updateSmartDashboard() {
+    ArrayList<Double> iDArrayList = new ArrayList<>();
 
+    for (PhotonTrackedTarget target : m_camera.getLatestResult().getTargets()) {
+      iDArrayList.add((double) target.getFiducialId());
+    }
+    Double[] iDArray = new Double[iDArrayList.size()];
+    iDArray = iDArrayList.toArray(iDArray);
+    SmartDashboard.putNumberArray("Target IDs", iDArray);
   }
 
   @Override

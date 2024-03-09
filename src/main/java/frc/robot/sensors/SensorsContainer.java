@@ -45,6 +45,7 @@ public class SensorsContainer {
   private EncoderBase m_cannonElevatorEncoder;
   private LimitSwitchSensor m_cannonHomeSwitch;
   private PhotonVisionBase m_photonVision;
+  private boolean m_hasPhotonVision = false;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -88,6 +89,7 @@ public class SensorsContainer {
     if (m_sensorConfig.hasPath("photonvision")) {
       Trace.getInstance().logInfo("Using real Photon Vision");
       m_photonVision = new RealPhotonVision();
+      m_hasPhotonVision = true;
     } else {
       Trace.getInstance().logInfo("Using mock Photon Vision");
       m_photonVision = new MockPhotonVision();
@@ -127,11 +129,11 @@ public class SensorsContainer {
   }
 
   public boolean hasLimeLight() {
-    return (true);
+    return false;
   }
 
   public boolean hasPhotonVision() {
-    return (true);
+    return m_hasPhotonVision;
   }
 
   public LimeLightCameraBase getLimeLight() {

@@ -27,10 +27,10 @@ public class TurnToTarget extends PIDCommand4905 {
         // This should return the measurement
         Robot.getInstance().getSensorsContainer().getPhotonVision().getYaw(wantedID, setpoint),
         // This should return the setpoint (can also be a constant)
-        () -> 0,
+        setpoint,
         // This uses the output
         output -> {
-          Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, output, false);
+          Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, -output, false);
         });
     m_wantedID = wantedID;
     m_setpoint = setpoint;
@@ -43,6 +43,7 @@ public class TurnToTarget extends PIDCommand4905 {
     getController().setD(pidConfig.getDouble("TurnToTarget.TurningDTerm"));
     getController().setMinOutputToMove(pidConfig.getDouble("TurnToTarget.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("TurnToTarget.positionTolerance"));
+    getController().setMaxOutput(0.25);
   }
 
   // Called when the command is initially scheduled.
@@ -53,17 +54,12 @@ public class TurnToTarget extends PIDCommand4905 {
     Trace.getInstance().logCommandInfo(this, "Setpoint:" + m_setpoint.getAsDouble());
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
     Trace.getInstance().logCommandInfo(this, "Finish turn angle: " + Robot.getInstance()
-        .getSensorsContainer().getPhotonVision().getYaw(m_wantedID, m_setpoint));
+        .getSensorsContainer().getPhotonVision().getYaw(m_wantedID, m_setpoint).getAsDouble());
   }
 
   // Returns true when the command should end.
