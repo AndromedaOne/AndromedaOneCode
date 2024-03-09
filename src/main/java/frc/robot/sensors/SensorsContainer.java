@@ -130,6 +130,10 @@ public class SensorsContainer {
     return (true);
   }
 
+  public boolean hasPhotonVision() {
+    return (true);
+  }
+
   public LimeLightCameraBase getLimeLight() {
     return m_limelightCameraBase;
   }

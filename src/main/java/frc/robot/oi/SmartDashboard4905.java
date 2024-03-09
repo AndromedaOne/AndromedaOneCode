@@ -27,6 +27,7 @@ import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.driveTrainCommands.TurnToTarget;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
@@ -132,6 +133,9 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
+      if (Robot.getInstance().getSensorsContainer().getPhotonVision().doesPhotonVisionExist()) {
+        SmartDashboard.putData("Turn to ID 2", new TurnToTarget(() -> 2, () -> 0));
+      }
       if (Config4905.getConfig4905().isBillthoven()) {
         SmartDashboard.putData("AmpScore", new AmpScore());
         SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores());
