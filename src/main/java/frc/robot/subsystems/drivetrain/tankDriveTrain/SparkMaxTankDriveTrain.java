@@ -195,4 +195,8 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
 
   }
 
+  @Override
+  public void setToAngle(double angle) {
+  }
+
 }

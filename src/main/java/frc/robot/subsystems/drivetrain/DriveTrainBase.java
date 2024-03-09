@@ -29,6 +29,9 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract void moveUsingGyro(double forwardBackward, double rotation,
       boolean useSquaredInputs, double heading);
 
+  public abstract void moveUsingGyroStrafe(double forwardBackward, double strafe, double rotation,
+      boolean useSquaredInputs, double heading);
+
   /**
    * This moves the robot and corrects for any rotation using the gyro
    * 
@@ -60,6 +63,8 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract void setDriveTrainMode(DriveTrainModeEnum mode);
 
   public abstract DriveTrainModeEnum getDriveTrainMode();
+
+  public abstract void setToAngle(double angle);
 
   public abstract void setToZero();
 

@@ -92,6 +92,10 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   }
 
   @Override
+  public void setToAngle(double angle) {
+  }
+
+  @Override
   public void setToZero() {
   };
 
@@ -103,6 +107,10 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   @Override
   public void disableAccelerationLimiting() {
 
+  }
+
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
+      boolean useSquaredInputs, double compassHeading) {
   }
 
 }

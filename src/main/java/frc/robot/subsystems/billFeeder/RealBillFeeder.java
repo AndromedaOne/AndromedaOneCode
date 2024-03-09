@@ -22,7 +22,7 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
     m_noteDetector = new DigitalInput(m_feederConfig.getInt("ports.noteDetector"));
     m_counter = 0;
     m_noteDetected = false;
-    
+
   }
 
   @Override
@@ -35,13 +35,13 @@ public class RealBillFeeder extends SubsystemBase implements BillFeederBase {
       } else {
         m_counter++;
       }
-      
+
     } else {
       m_counter = 0;
       m_noteDetected = false;
     }
-  
-  } 
+
+  }
 
 // A positive value means intake
   @Override
