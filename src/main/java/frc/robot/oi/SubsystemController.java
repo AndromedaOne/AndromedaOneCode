@@ -16,6 +16,7 @@ import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillAmpScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillTrapScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -102,18 +103,19 @@ public class SubsystemController extends ControllerBase {
     // getBillFeederButton()
     // .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
     // FeederStates.INTAKE));
-    getBillFeederTrapShotButton().onTrue(
-        new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.TRAPSHOOTING));
+    getBillFeederTrapShotButton().onTrue(new BillTrapScore(m_subsystemsContainer.getBillArmRotate(),
+        m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+        m_subsystemsContainer.getBillShooter()));
     getBillFeederIntakeNoteButton().onTrue(new IntakeNote(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
     getBillSpeakerCloseScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
         BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
-    getBillSpeakerMidScoreButton()
-        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
-            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
-            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
+    getBillSpeakerMidScoreButton().onTrue(new BillSpeakerScore(
+        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
+        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
+        BillSpeakerScore.SpeakerScoreDistanceEnum.MID, true));
     getBillSpeakerFarScoreButton()
         .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
             m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),

@@ -211,8 +211,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
     double angleInRadians = Math.toRadians(angle);
     double forwardBackwardValue = forwardBackward * Math.cos(angleInRadians);
-    double strafeValue = -1*forwardBackward * Math.sin(angleInRadians);
-    Trace.getInstance().logInfo("Move Using Gyro Strafe "+ forwardBackward + " " + angleInRadians + " " + forwardBackwardValue + " " + strafeValue + " ");
+    double strafeValue = -1 * forwardBackward * Math.sin(angleInRadians);
+    Trace.getInstance().logInfo("Move Using Gyro Strafe " + forwardBackward + " " + angleInRadians
+        + " " + forwardBackwardValue + " " + strafeValue + " " + getRobotPositionInches() + " " + m_SwerveMods[0].getAngle().getDegrees());
     move(forwardBackwardValue, strafeValue, rotation, false, true);
   }
 

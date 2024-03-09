@@ -102,7 +102,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       if (m_useCurrentHeading) {
         double heading = Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading();
         super.setOutput(output -> {
-          m_driveTrain.moveUsingGyroStrafe(output,m_angle, 0, false, heading);
+          m_driveTrain.moveUsingGyroStrafe(output, m_angle, 0, false, heading);
         });
       }
       Trace.getInstance().logCommandInfo(this, "Moving with encoder to position: " + getSetpoint());
