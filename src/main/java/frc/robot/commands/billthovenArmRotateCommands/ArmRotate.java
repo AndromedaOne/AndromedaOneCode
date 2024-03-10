@@ -17,18 +17,23 @@ import frc.robot.utils.InterpolatingMap;
 
 public class ArmRotate extends SequentialCommandGroup4905 {
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
-      boolean useSmartDashboard, boolean engagePneumaticBrake) {
+      boolean useSmartDashboard, boolean engagePneumaticBrake, boolean rotateWhileClimb) {
     addCommands(new RotateArmInternal(armRotate, angle, needToEnd, useSmartDashboard,
-        engagePneumaticBrake));
+        engagePneumaticBrake, rotateWhileClimb));
   }
 
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
-    this(armRotate, angle, needToEnd, false, true);
+    this(armRotate, angle, needToEnd, false, true, false);
+  }
+
+  public ArmRotate(BillArmRotateBase armRotate, boolean rotateWhileClimb, DoubleSupplier angle,
+      boolean needToEnd) {
+    this(armRotate, angle, needToEnd, false, true, rotateWhileClimb);
   }
 
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
       boolean engagePneumaticBrake) {
-    this(armRotate, angle, needToEnd, false, engagePneumaticBrake);
+    this(armRotate, angle, needToEnd, false, engagePneumaticBrake, false);
   }
 
   private class RotateArmInternal extends PIDCommand4905 {
@@ -40,9 +45,10 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     private InterpolatingMap m_pMap;
     private boolean m_engagePneumaticBrake;
     private double m_count = 0;
+    private boolean m_rotateWhileClimb = false;
 
     public RotateArmInternal(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
-        boolean useSmartDashboard, boolean engagePneumaticBrake) {
+        boolean useSmartDashboard, boolean engagePneumaticBrake, boolean rotateWhileClimb) {
 
       super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
         armRotate.rotate(output);
@@ -51,6 +57,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       m_needToEnd = needToEnd;
       m_useSmartDashboard = useSmartDashboard;
       m_engagePneumaticBrake = engagePneumaticBrake;
+      m_rotateWhileClimb = rotateWhileClimb;
       addRequirements(armRotate.getSubsystemBase());
 
       m_kMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(), "armKValues");
@@ -91,14 +98,14 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       }
 
       Trace.getInstance().logCommandInfo(this, "Rotate Arm to: " + m_setpoint.getAsDouble());
-      if (!BillClimberSingleton.getInstance().getClimberEnabled()) {
+      if (!BillClimberSingleton.getInstance().getClimberEnabled() || m_rotateWhileClimb) {
         m_armRotate.disengageArmBrake();
       }
     }
 
     @Override
     public void execute() {
-      if (BillClimberSingleton.getInstance().getClimberEnabled()) {
+      if (BillClimberSingleton.getInstance().getClimberEnabled() && !m_rotateWhileClimb) {
         return;
       }
       if (!m_needToEnd && isOnTarget() && m_engagePneumaticBrake) {
