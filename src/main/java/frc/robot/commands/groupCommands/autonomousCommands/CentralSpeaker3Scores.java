@@ -109,7 +109,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
             new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),
         new PauseRobot(40, m_driveTrain), new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder,
-            m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.MID)
+            m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.FAR)
 
     ));
   }

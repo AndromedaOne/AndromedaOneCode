@@ -105,7 +105,7 @@ public class SubsystemController extends ControllerBase {
     // FeederStates.INTAKE));
     getBillTrapShotButton().onTrue(new BillTrapScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
-        m_subsystemsContainer.getBillShooter()));
+        m_subsystemsContainer.getBillShooter(), true));
     getBillFeederIntakeNoteButton().onTrue(new IntakeNote(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
     getBillSpeakerCloseScoreButton().onTrue(new BillSpeakerScore(
@@ -115,7 +115,7 @@ public class SubsystemController extends ControllerBase {
     getBillSpeakerMidScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
-        BillSpeakerScore.SpeakerScoreDistanceEnum.MID, true));
+        BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
     getBillSpeakerFarScoreButton()
         .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
             m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),

@@ -112,9 +112,12 @@ public class RunBillFeeder extends Command {
         Trace.getInstance().logCommandInfo(this, "Note in feeder");
         return true;
       }
-    } else if ((m_feederState == FeederStates.SHOOTING)
+    } else if ((m_feederState == FeederStates.SHOOTING) && (m_controller.getBillTrapShotButton().getAsBoolean())) {
+      return false;
+    } 
+     else if ((m_feederState == FeederStates.SHOOTING)
         || (m_feederState == FeederStates.AMPSHOOTING)) {
-      if ((m_count >= 50) || ((!m_controller.getBillAmpScoreButton().getAsBoolean())
+      if ((m_count >= 10) || ((!m_controller.getBillAmpScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean())
