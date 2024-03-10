@@ -112,10 +112,10 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
         BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
-    getBillSpeakerMidScoreButton().onTrue(new BillSpeakerScore(
-        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
-        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
-        BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
+    getBillSpeakerMidScoreButton()
+        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
+            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
     getBillSpeakerFarScoreButton()
         .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
             m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),

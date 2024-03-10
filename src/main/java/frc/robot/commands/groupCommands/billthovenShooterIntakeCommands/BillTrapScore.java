@@ -27,8 +27,8 @@ public class BillTrapScore extends SequentialCommandGroup4905 {
 
     m_useSmartDashboard = useSmartDashboard;
     if (useSmartDashboard) {
-      SmartDashboard.putNumber("TrapCommand RPM", 1750);
-      SmartDashboard.putNumber("TrapCommand ArmPosition", 340);
+      SmartDashboard.putNumber("TrapCommand RPM", 1500);
+      SmartDashboard.putNumber("TrapCommand ArmPosition", 330);
     }
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
     addCommands(
@@ -47,12 +47,12 @@ public class BillTrapScore extends SequentialCommandGroup4905 {
   public void additionalInitialize() {
     // need to determine final values
     // these are going to be our close distance defalt
-    m_armSetpoint = 340;
-    m_shooterSpeed = 1750;
+    m_armSetpoint = 330;
+    m_shooterSpeed = 1500;
 
     if (m_useSmartDashboard) {
-      m_armSetpoint = SmartDashboard.getNumber("TrapCommand ArmPosition", 340);
-      m_shooterSpeed = SmartDashboard.getNumber("TrapCommand RPM", 1750);
+      m_armSetpoint = SmartDashboard.getNumber("TrapCommand ArmPosition", 330);
+      m_shooterSpeed = SmartDashboard.getNumber("TrapCommand RPM", 1500);
 
     }
   }
