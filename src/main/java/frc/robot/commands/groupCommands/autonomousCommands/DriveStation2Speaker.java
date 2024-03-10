@@ -109,7 +109,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-            BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
+            BillSpeakerScore.SpeakerScoreDistanceEnum.FAR),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1)));
   }
 
