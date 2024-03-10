@@ -20,9 +20,12 @@ import frc.robot.sensors.RealSensorBase;
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
   private PhotonCamera m_camera;
-  private double m_cameraHeight = 12; // Put these into configs at some point
-  private double m_targetHeight = 12;
-  private double m_cameraPitch = 14;
+  private final double m_cameraHeightInInches = 9.625;
+  private final double m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
+  private final double m_targetHeightInInches = 57.25;
+  private final double m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
+  private final double m_cameraPitchInDegrees = 17.8;
+  private final double m_cameraPitchInRadians = Math.toRadians(m_cameraPitchInDegrees);
 
   public RealPhotonVision() {
     m_camera = new PhotonCamera("Arducam_OV2311_USB_Camera");
@@ -38,6 +41,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     Double[] iDArray = new Double[iDArrayList.size()];
     iDArray = iDArrayList.toArray(iDArray);
     SmartDashboard.putNumberArray("Target IDs", iDArray);
+    SmartDashboard.putNumber("Photon Vision Distance", getDistanceToTarget(7) * 39.3701);
   }
 
   @Override
@@ -54,12 +58,16 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   @Override
   public double getDistanceToTarget(int wantedID) {
     double range = 0;
+    double hypo = 0;
 
     List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
     for (PhotonTrackedTarget target : targets) {
       if (target.getFiducialId() == wantedID) {
-        range = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeight, m_targetHeight,
-            m_cameraPitch, Units.degreesToRadians(target.getPitch()));
+        hypo = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeightInMeters,
+            m_targetHeightInMeters, m_cameraPitchInRadians,
+            Units.degreesToRadians(target.getPitch()));
+        range = Math.sqrt(Math.pow(hypo, 2) - Math.pow(m_targetHeightInMeters, 2));
+        SmartDashboard.putNumber("Target Pitch", target.getPitch());
       }
     }
     return range;
