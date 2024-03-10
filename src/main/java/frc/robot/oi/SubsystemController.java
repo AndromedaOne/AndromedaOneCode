@@ -59,7 +59,7 @@ public class SubsystemController extends ControllerBase {
     return getRightBumperButton();
   }
 
-  public JoystickButton getBillFeederTrapShotButton() {
+  public JoystickButton getBillTrapShotButton() {
     // Shoots the note into the trap
     return getStartButton();
   }
@@ -103,7 +103,7 @@ public class SubsystemController extends ControllerBase {
     // getBillFeederButton()
     // .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
     // FeederStates.INTAKE));
-    getBillFeederTrapShotButton().onTrue(new BillTrapScore(m_subsystemsContainer.getBillArmRotate(),
+    getBillTrapShotButton().onTrue(new BillTrapScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
         m_subsystemsContainer.getBillShooter()));
     getBillFeederIntakeNoteButton().onTrue(new IntakeNote(m_subsystemsContainer.getBillArmRotate(),
