@@ -86,6 +86,8 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private class PhotonVisionYawSupplier implements DoubleSupplier {
     private IntSupplier m_wantedID = () -> -1;
     private DoubleSupplier m_setpoint = () -> 0;
+    private double m_counter = 0;
+    private double m_previousYaw = 0;
 
     public PhotonVisionYawSupplier(IntSupplier wantedID, DoubleSupplier setpoint) {
       m_wantedID = wantedID;
@@ -99,10 +101,16 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
         if (target.getFiducialId() == m_wantedID.getAsInt()) {
           SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
           SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
+          m_previousYaw = target.getYaw();
+          m_counter = 0;
           return target.getYaw();
         }
       }
-      return m_setpoint.getAsDouble();
+      m_counter++;
+      if (m_counter >= 8) {
+        return m_setpoint.getAsDouble();
+      }
+      return m_previousYaw;
     }
 
   }
