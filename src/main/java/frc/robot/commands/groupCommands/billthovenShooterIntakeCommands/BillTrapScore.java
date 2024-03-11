@@ -35,7 +35,8 @@ public class BillTrapScore extends SequentialCommandGroup4905 {
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
             new MoveEndEffector(endEffector, () -> m_endEffectorToHighPosition)),
         new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.SHOOTING,
-            runShooterCommand.getOnTargetSupplier()), runShooterCommand));
+            runShooterCommand.getOnTargetSupplier()), runShooterCommand),
+        new ArmRotate(m_armRotate, () -> 340, true));
   }
 
   public BillTrapScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
