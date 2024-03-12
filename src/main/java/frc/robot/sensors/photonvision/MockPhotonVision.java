@@ -16,7 +16,12 @@ public class MockPhotonVision implements PhotonVisionBase {
   }
 
   @Override
-  public double getDistanceToTarget(int wantedID) {
+  public double getDistanceToTargetInMeters(int wantedID) {
+    return 0;
+  }
+
+  @Override
+  public double getDistanceToTargetInInches(int wantedID) {
     return 0;
   }
 

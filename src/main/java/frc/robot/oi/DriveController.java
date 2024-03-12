@@ -15,6 +15,7 @@ import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.driveTrainCommands.TurnToTarget;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLongShot;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootShortShot;
@@ -84,6 +85,9 @@ public class DriveController extends ControllerBase {
         setUpUnprotectedMode();
       }
     }
+    if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
+      setUpPhotonVision();
+    }
   }
 
   public double getDriveTrainForwardBackwardStick() {
@@ -120,6 +124,10 @@ public class DriveController extends ControllerBase {
 
   public boolean getClimberOverrideTrigger() {
     return getRightTriggerPressedBoolean();
+  }
+
+  public boolean getTurnToTarget() {
+    return getAbutton().getAsBoolean();
   }
 
   private void setUpShooterButtons() {
@@ -202,5 +210,9 @@ public class DriveController extends ControllerBase {
     // Angle could change
     getXbutton()
         .whileTrue(new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 333, false, true));
+  }
+
+  private void setUpPhotonVision() {
+    getAbutton().onTrue(new TurnToTarget(() -> -1, () -> 0));
   }
 }

@@ -15,20 +15,24 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
   private PhotonCamera m_camera;
+  private final double m_metersToInches = 39.3701;
+  private final double m_inchesToMeters = 1 / m_metersToInches;
   private final double m_cameraHeightInInches = 9.625;
-  private final double m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
+  private final double m_cameraHeightInMeters = m_cameraHeightInInches * m_inchesToMeters;
   private final double m_targetHeightInInches = 57.25;
-  private final double m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
+  private final double m_targetHeightInMeters = m_targetHeightInInches * m_inchesToMeters;
   private final double m_cameraPitchInDegrees = 17.8;
   private final double m_cameraPitchInRadians = Math.toRadians(m_cameraPitchInDegrees);
 
   public RealPhotonVision() {
-    m_camera = new PhotonCamera("Arducam_OV2311_USB_Camera");
+    m_camera = new PhotonCamera(
+        Config4905.getConfig4905().getSensorConfig().getString("photonvision.cameraname"));
   }
 
   @Override
@@ -41,7 +45,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     Double[] iDArray = new Double[iDArrayList.size()];
     iDArray = iDArrayList.toArray(iDArray);
     SmartDashboard.putNumberArray("Target IDs", iDArray);
-    SmartDashboard.putNumber("Photon Vision Distance", getDistanceToTarget(7) * 39.3701);
+    SmartDashboard.putNumber("Photon Vision Distance", getDistanceToTargetInInches(7));
   }
 
   @Override
@@ -56,7 +60,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   }
 
   @Override
-  public double getDistanceToTarget(int wantedID) {
+  public double getDistanceToTargetInMeters(int wantedID) {
     double range = 0;
     double hypo = 0;
 
@@ -71,6 +75,11 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
       }
     }
     return range;
+  }
+
+  @Override
+  public double getDistanceToTargetInInches(int wantedID) {
+    return getDistanceToTargetInMeters(wantedID) * m_metersToInches;
   }
 
   @Override
