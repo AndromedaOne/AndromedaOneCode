@@ -107,4 +107,12 @@ public class PIDCommand4905 extends Command {
   public DoubleSupplier getSetpoint() {
     return m_setpoint;
   }
+
+  public void setUseOutput(DoubleConsumer output) {
+    m_useOutput = output;
+  }
+
+  public void setMeasurementSource(DoubleSupplier source) {
+    m_measurement = source;
+  }
 }

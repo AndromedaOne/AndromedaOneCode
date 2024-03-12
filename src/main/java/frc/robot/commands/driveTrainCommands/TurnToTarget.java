@@ -34,7 +34,6 @@ public class TurnToTarget extends PIDCommand4905 {
         output -> {
           Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, -output, false);
         });
-    m_setpoint = setpoint;
     addRequirements(
         Robot.getInstance().getSubsystemsContainer().getDriveTrain().getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
@@ -57,8 +56,10 @@ public class TurnToTarget extends PIDCommand4905 {
     if (alliance == Alliance.Blue) {
       m_wantedID = 8;
     }
+    setMeasurementSource(Robot.getInstance().getSensorsContainer().getPhotonVision()
+        .getYaw(() -> m_wantedID, getSetpoint()));
     Trace.getInstance().logCommandInfo(this, "Wanted ID:" + m_wantedID);
-    Trace.getInstance().logCommandInfo(this, "Setpoint:" + m_setpoint.getAsDouble());
+    Trace.getInstance().logCommandInfo(this, "Setpoint:" + getSetpoint().getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -67,7 +68,7 @@ public class TurnToTarget extends PIDCommand4905 {
     super.end(interrupted);
     Trace.getInstance().logCommandInfo(this,
         "Finish turn angle: " + Robot.getInstance().getSensorsContainer().getPhotonVision()
-            .getYaw(() -> m_wantedID, m_setpoint).getAsDouble());
+            .getYaw(() -> m_wantedID, getSetpoint()).getAsDouble());
   }
 
   // Returns true when the command should end.
