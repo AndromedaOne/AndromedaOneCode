@@ -1,6 +1,7 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
@@ -14,6 +15,7 @@ import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
+import frc.robot.utils.InterpolatingMap;
 
 public class BillSpeakerScore extends SequentialCommandGroup4905 {
   public enum SpeakerScoreDistanceEnum {
@@ -30,6 +32,8 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
   private double m_shooterSpeed = 0;
   private double m_armSetpoint = 0;
   private boolean m_useSmartDashboard;
+  private InterpolatingMap m_shotArmAngleMap;
+  private InterpolatingMap m_shotShootingRPMMap;
 
   public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance,
@@ -52,6 +56,12 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
   public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance) {
     this(armRotate, endEffector, feeder, shooter, distance, false);
+
+    m_shotArmAngleMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
+        "shotArmAngle");
+
+    m_shotShootingRPMMap = new InterpolatingMap(Config4905.getConfig4905().getBillShooterConfig(),
+        "shotShootingRPM");
   }
 
   @Override
