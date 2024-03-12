@@ -36,6 +36,6 @@ public class DriveTrainDiagonalPath extends SequentialCommandGroup {
   public DriveTrainDiagonalPath(DriveTrainBase driveTrain) {
     PathGeneratorBase path = new DriveTrainDiagonalPathGenerator(getClass().getSimpleName(),
         new ExampleWayPoints(), driveTrain, 0.5, true, true);
-    addCommands(path.getPath(), new TurnToCompassHeading(() -> 0));
+    addCommands(path.getPath(), new TurnToCompassHeading(0));
   }
 }

@@ -97,7 +97,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
         setSetpoint(() -> SmartDashboard.getNumber("Rotate PID Arm Angle Setpoint", 300));
       }
 
-      Trace.getInstance().logCommandInfo(this, "Rotate Arm to: " + m_setpoint.getAsDouble());
+      Trace.getInstance().logCommandInfo(this, "Rotate Arm to: " + getSetpoint().getAsDouble());
       if (!BillClimberSingleton.getInstance().getClimberEnabled() || m_rotateWhileClimb) {
         m_armRotate.disengageArmBrake();
       }

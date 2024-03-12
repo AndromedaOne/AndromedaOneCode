@@ -126,10 +126,6 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
     m_shooterWheel.setShooterWheelPower(0);
   }
 
-  public double getSetpoint() {
-    return m_target;
-  }
-
   public boolean atSetpoint() {
     return getController().atSetpoint();
   }

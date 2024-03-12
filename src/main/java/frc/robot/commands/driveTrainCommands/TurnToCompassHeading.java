@@ -8,8 +8,6 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import java.util.function.DoubleSupplier;
-
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -23,7 +21,7 @@ import frc.robot.telemetries.Trace;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToCompassHeading extends PIDCommand4905 {
 
-  private DoubleSupplier m_compassHeading;
+  private double m_compassHeading;
   private DriveTrainBase m_driveTrain;
 
   /**
@@ -31,14 +29,14 @@ public class TurnToCompassHeading extends PIDCommand4905 {
    * 
    * @param compassHeading input an angle in degrees.
    */
-  public TurnToCompassHeading(DoubleSupplier compassHeading) {
+  public TurnToCompassHeading(double compassHeading) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("TurnToCompassHeading"),
         // This should return the measurement
         Robot.getInstance().getSensorsContainer().getGyro().getCompassHeadingDoubleSupplier(),
         // This should return the setpoint (can also be a constant)
-        compassHeading,
+        () -> compassHeading,
         // This uses the output
         output -> {
           Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, output, false);
@@ -48,7 +46,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     addRequirements(m_driveTrain.getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
-    m_setpoint = m_compassHeading;
   }
 
   public void initialize() {
@@ -60,8 +57,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"),
         pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
-    Trace.getInstance().logCommandInfo(this,
-        "Turning to Compass Heading: " + m_compassHeading.getAsDouble());
+    Trace.getInstance().logCommandInfo(this, "Turning to Compass Heading: " + m_compassHeading);
     m_driveTrain.disableAccelerationLimiting();
   }
 

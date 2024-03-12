@@ -23,10 +23,10 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * This class is provided by the NewCommands VendorDep
  */
 public class PIDCommand4905 extends Command {
-  protected final PIDController4905 m_controller;
-  protected DoubleSupplier m_measurement;
-  protected DoubleSupplier m_setpoint;
-  protected DoubleConsumer m_useOutput;
+  private final PIDController4905 m_controller;
+  private DoubleSupplier m_measurement;
+  private DoubleSupplier m_setpoint;
+  private DoubleConsumer m_useOutput;
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -102,5 +102,9 @@ public class PIDCommand4905 extends Command {
 
   public void setSetpoint(DoubleSupplier setpoint) {
     m_setpoint = setpoint;
+  }
+
+  public DoubleSupplier getSetpoint() {
+    return m_setpoint;
   }
 }
