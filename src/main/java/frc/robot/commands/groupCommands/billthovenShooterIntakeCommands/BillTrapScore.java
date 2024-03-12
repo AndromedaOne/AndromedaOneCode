@@ -35,7 +35,10 @@ public class BillTrapScore extends SequentialCommandGroup4905 {
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
             new MoveEndEffector(endEffector, () -> m_endEffectorToHighPosition)),
         new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.SHOOTING,
-            runShooterCommand.getOnTargetSupplier()), runShooterCommand));
+            runShooterCommand.getOnTargetSupplier()), runShooterCommand),
+        // intentionally leaving with need to end = false to not smash the arm into the
+        // stage
+        new ArmRotate(m_armRotate, () -> 340, false));
   }
 
   public BillTrapScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
@@ -47,7 +50,7 @@ public class BillTrapScore extends SequentialCommandGroup4905 {
   public void additionalInitialize() {
     // need to determine final values
     // these are going to be our close distance defalt
-    m_armSetpoint = 330;
+    m_armSetpoint = 331;
     m_shooterSpeed = 1500;
 
     if (m_useSmartDashboard) {
