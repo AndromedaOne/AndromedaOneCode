@@ -200,7 +200,7 @@ public class ControllerBase {
   }
 
   private double deadband(double stickValue) {
-    if (Math.abs(stickValue) < 0.1) {
+    if (Math.abs(stickValue) < 0.05) {
       return 0.0;
     } else {
       return stickValue;

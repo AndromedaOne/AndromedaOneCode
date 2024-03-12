@@ -7,10 +7,10 @@ package frc.robot.commands.groupCommands.autonomousCommands;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
+import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -50,10 +50,10 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
     Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     emergencyBackupConfigBlue.m_waypoint1 = blueConfig.getDouble("EmergencyBackup.WayPoint1");
     m_configSupplier.setConfig(emergencyBackupConfigRed);
-    addCommands(
+    addCommands(new DelayedSequentialCommandGroup(
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1)),
-        new DrivePositionCommand(m_endEffector, m_armRotate));
+        new DrivePositionCommand(m_endEffector, m_armRotate)));
   }
 
   public void additionalInitialize() {
@@ -63,10 +63,6 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
     } else {
       m_configSupplier.setConfig(emergencyBackupConfigRed);
     }
-    CommandScheduler.getInstance().schedule(
-        new ParallelCommandGroup4905(
-            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1)),
-        new DrivePositionCommand(m_endEffector, m_armRotate));
   }
 
   private class EmergencyBackupConfigSupplier {

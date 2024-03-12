@@ -6,5 +6,5 @@ package frc.robot.commands.billthovenFeederCommands;
 
 /** Add your docs here. */
 public enum FeederStates {
-  INTAKE, SHOOTING, EJECT, TRAPSHOOTING, AMPSHOOTING
+  INTAKE, SHOOTING, EJECT, AMPSHOOTING
 }

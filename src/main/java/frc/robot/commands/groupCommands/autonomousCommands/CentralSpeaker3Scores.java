@@ -12,6 +12,7 @@ import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
@@ -89,7 +90,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
         .getDouble("CentralSpeaker3Scores.WayPoint4");
     centralSpeaker3ScoresConfigBlue.m_angle3 = blueConfig.getDouble("CentralSpeaker3Scores.Angle3");
     m_configSupplier.setConfig(centralSpeaker3ScoresConfigRed);
-    addCommands(new SequentialCommandGroup4905(
+    addCommands(new DelayedSequentialCommandGroup(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new ParallelCommandGroup4905(
@@ -98,17 +99,17 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
-        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
+        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1),
-        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
+        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint4, 1),
             new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
-        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),
+        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle3),
         new PauseRobot(40, m_driveTrain), new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder,
-            m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.MID)
+            m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.FAR)
 
     ));
   }

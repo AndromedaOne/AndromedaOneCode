@@ -12,6 +12,7 @@ import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
@@ -94,7 +95,7 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
     CentralSpeaker2ScoresConfigBlue.m_waypoint3 = blueConfig
         .getDouble("CentralSpeaker2Scores.WayPoint3");
     m_configSupplier.setConfig(CentralSpeaker2ScoresConfigRed);
-    addCommands(
+    addCommands(new DelayedSequentialCommandGroup(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new ParallelCommandGroup4905(
@@ -103,12 +104,12 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
         new DrivePositionCommand(m_endEffector, m_armRotate),
-        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
+        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
-        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
+        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
-        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1));
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1)));
   }
 
   public void additionalInitialize() {

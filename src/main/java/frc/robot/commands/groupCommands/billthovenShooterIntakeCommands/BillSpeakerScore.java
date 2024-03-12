@@ -69,22 +69,22 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
 
     if (m_distance == SpeakerScoreDistanceEnum.MID) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
+        m_armSetpoint = 320;
+        m_shooterSpeed = 3650;
+        m_endEffectorToHighPosition = false;
+      } else {
+        m_armSetpoint = 290;
+        m_shooterSpeed = 3650;
+        m_endEffectorToHighPosition = true;
+      }
+    } else if (m_distance == SpeakerScoreDistanceEnum.FAR) {
+      if (armPosition == SpeakerScoreArmPositionEnum.LOW) { // now from the podium
         m_armSetpoint = 315;
         m_shooterSpeed = 3650;
         m_endEffectorToHighPosition = false;
       } else {
         m_armSetpoint = 285;
         m_shooterSpeed = 3650;
-        m_endEffectorToHighPosition = true;
-      }
-    } else if (m_distance == SpeakerScoreDistanceEnum.FAR) {
-      if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
-        m_armSetpoint = 306;
-        m_shooterSpeed = 3800;
-        m_endEffectorToHighPosition = false;
-      } else { // not currently used idea of lower power to just chuck notes over
-        m_armSetpoint = 300;
-        m_shooterSpeed = 1000;
         m_endEffectorToHighPosition = true;
       }
     } else {
