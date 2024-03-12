@@ -111,7 +111,7 @@ public class SubsystemController extends ControllerBase {
     // FeederStates.INTAKE));
     getBillTrapShotButton().onTrue(new BillTrapScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
-        m_subsystemsContainer.getBillShooter(), true));
+        m_subsystemsContainer.getBillShooter()));
     getBillFeederIntakeNoteButton().onTrue(new IntakeNote(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
     getBillSpeakerCloseScoreButton().onTrue(new BillSpeakerScore(
