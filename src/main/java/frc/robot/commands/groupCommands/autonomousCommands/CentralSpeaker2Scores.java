@@ -112,10 +112,10 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
         new DrivePositionCommand(m_endEffector, m_armRotate),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle1),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle2),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1)));
   }

@@ -118,7 +118,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
     addCommands(new DelayedSequentialCommandGroup(
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint1, 1),
-        new TurnToCompassHeading(m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle1),
+        new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
             new MoveEndEffector(m_endEffector, () -> true)),
@@ -127,7 +127,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint3, 1),
-        new TurnToCompassHeading(m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle2),
+        new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain,
@@ -135,7 +135,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
             new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint5, 1),
-        new TurnToCompassHeading(m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle3),
+        new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle3),
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
             new MoveEndEffector(m_endEffector, () -> true)),
@@ -144,7 +144,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint7, 1),
-        new TurnToCompassHeading(m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle4),
+        new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle4),
         new PauseRobot(40, m_driveTrain), new DrivePositionCommand(m_endEffector, m_armRotate),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint8, 1)));

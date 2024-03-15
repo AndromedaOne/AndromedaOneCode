@@ -141,20 +141,20 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle1),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
             new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle2),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
             new MoveEndEffector(m_endEffector, () -> true)),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint4, 1),
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint5, 1),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle3),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),
         new PauseRobot(40, m_driveTrain), new DrivePositionCommand(m_endEffector, m_armRotate),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint6, 1)));
   }

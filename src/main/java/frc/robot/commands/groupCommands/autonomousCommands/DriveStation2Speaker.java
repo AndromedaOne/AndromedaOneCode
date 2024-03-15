@@ -108,12 +108,12 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle1),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
             new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle2),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.FAR),
@@ -139,11 +139,9 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
 
     public void setConfig(DriveStation2SpeakerConfig config) {
       m_config = config;
-      System.out.println("SetConfig: Gyro offset " + m_config.m_gyroOffset);
     }
 
     public DriveStation2SpeakerConfig getConfig() {
-      System.out.println("GetConfig: Gyro offset " + m_config.m_gyroOffset);
       return m_config;
     }
   }
