@@ -75,10 +75,6 @@ public class ArmRotate extends SequentialCommandGroup4905 {
           "armPValuesDown");
 
       if (m_useSmartDashboard) {
-        SmartDashboard.putNumber("Rotate Arm P-value", 0);
-        SmartDashboard.putNumber("Rotate Arm I-value", 0);
-        SmartDashboard.putNumber("Rotate Arm D-value", 0);
-        SmartDashboard.putNumber("Rotate Arm Feed Forward", 0);
         SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 300);
       }
     }
@@ -90,12 +86,12 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       super.initialize();
       m_count = 0;
       getController().setMaxOutput(1);
-      if (m_useSmartDashboard) {
-        getController().setP(SmartDashboard.getNumber("Rotate Arm P-value", 0));
-        getController().setI(SmartDashboard.getNumber("Robot Arm I-value", 0));
-        getController().setD(SmartDashboard.getNumber("Robot Arm D-value", 0));
-      } else {
+      if ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) > 0) {
         getController().setP(m_pMapUp.getInterpolatedValue(m_armRotate.getAngle()));
+        getController().setI(pidConstantsConfig.getDouble("ArmRotate.Ki"));
+        getController().setD(pidConstantsConfig.getDouble("ArmRotate.Kd"));
+      } else {
+        getController().setP(m_pMapDown.getInterpolatedValue(m_armRotate.getAngle()));
         getController().setI(pidConstantsConfig.getDouble("ArmRotate.Ki"));
         getController().setD(pidConstantsConfig.getDouble("ArmRotate.Kd"));
       }
