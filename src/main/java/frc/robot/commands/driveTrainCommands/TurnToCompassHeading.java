@@ -59,7 +59,8 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"),
         pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
-    Trace.getInstance().logCommandInfo(this, "Turning to Compass Heading: " + m_compassHeading.getAsDouble());
+    Trace.getInstance().logCommandInfo(this,
+        "Turning to Compass Heading: " + m_compassHeading.getAsDouble());
     m_driveTrain.disableAccelerationLimiting();
   }
 

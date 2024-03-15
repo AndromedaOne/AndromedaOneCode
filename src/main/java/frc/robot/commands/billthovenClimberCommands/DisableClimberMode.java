@@ -46,7 +46,7 @@ public class DisableClimberMode extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandInfo(this, "Disable Climber Mode Ran");
       Trace.getInstance().logCommandInfo(this,
           CommandScheduler.getInstance().getDefaultCommand(m_climber.getSubsystemBase()).getName());
-      
+
     }
 
     @Override
