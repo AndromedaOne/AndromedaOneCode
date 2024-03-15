@@ -34,7 +34,7 @@ public class DriveTrainRectangularPathGenerator extends RectangularPathGenerator
    */
   @Override
   protected Command createTurnCommand(double angle) {
-    return new TurnToCompassHeading(angle);
+    return new TurnToCompassHeading(() -> angle);
   }
 
   /**

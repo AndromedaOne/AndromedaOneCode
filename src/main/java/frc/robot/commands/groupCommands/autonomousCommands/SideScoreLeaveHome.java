@@ -85,10 +85,10 @@ public class SideScoreLeaveHome extends SequentialCommandGroup4905 {
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle1),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
-        new TurnToCompassHeading(m_configSupplier.getConfig().m_angle2),
+        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1)));
 
@@ -113,11 +113,9 @@ public class SideScoreLeaveHome extends SequentialCommandGroup4905 {
 
     public void setConfig(SideScoreLeaveHomeConfig config) {
       m_config = config;
-      System.out.println("SetConfig: Gyro offset " + m_config.m_gyroOffset);
     }
 
     public SideScoreLeaveHomeConfig getConfig() {
-      System.out.println("GetConfig: Gyro offset " + m_config.m_gyroOffset);
       return m_config;
     }
   }
