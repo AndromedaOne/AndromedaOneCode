@@ -117,11 +117,16 @@ public class RunBillFeeder extends Command {
     } else if ((m_feederState == FeederStates.SHOOTING)
         && (m_controller.getBillTrapShotButton().getAsBoolean())) {
       return false;
-    } else if ((m_feederState == FeederStates.SHOOTING)) {
+    } else if (m_feederState == FeederStates.SHOOTING) {
       if ((m_count >= 10) || ((!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean())
           && (!m_controller.getBillTrapShotButton().getAsBoolean()) && (!m_autonomous))) {
+        System.out.println("RunBillFeeder Finished ");
+        return true;
+      }
+    } else if (m_feederState == FeederStates.AMPSHOOTING) {
+      if ((m_count >= 50) || (!m_controller.getBillAmpScoreButton().getAsBoolean())) {
         System.out.println("RunBillFeeder Finished ");
         return true;
       }
