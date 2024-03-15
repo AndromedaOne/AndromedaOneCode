@@ -47,6 +47,14 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     double m_angle3;
     double m_waypoint6;
     double m_gyroOffset;
+
+    public String toString() {
+      String str = new String("\twaypt 1: " + m_waypoint1 + "\n\tang 1: " + m_angle1
+          + "\n\twaypt 2:" + m_waypoint2 + "\n\twaypt 3: " + m_waypoint3 + "\n\tandg 2: " + m_angle2
+          + "\n\twaypt 4: " + m_waypoint4 + "\n\twaypt 5: " + m_waypoint5 + "\n\tang 3: " + m_angle3
+          + "\n\twaypt 6: " + m_waypoint6 + "\n\tgyrooffset: " + m_gyroOffset + "\n");
+      return str;
+    }
   }
 
   DriveStation3SpeakerWithAmpConfig driveStation3SpeakerWithAmpConfigRed = new DriveStation3SpeakerWithAmpConfig();
@@ -161,6 +169,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
     m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset, true);
     Trace.getInstance().logCommandInfo(this,
         "Setting off set to " + m_configSupplier.getConfig().m_gyroOffset);
+    Trace.getInstance().logCommandInfo(this, m_configSupplier.getConfig().toString());
   }
 
   private class DriveStation3SpeakerWithAmpConfigSupplier {

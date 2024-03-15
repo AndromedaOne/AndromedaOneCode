@@ -23,6 +23,7 @@ import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -37,6 +38,13 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
     double m_angle2;
     double m_waypoint4;
     double m_angle3;
+
+    public String toString() {
+      String str = new String("\twaypt 1: " + m_waypoint1 + "\n\tang 1: " + m_angle1
+          + "\n\twaypt 2:" + m_waypoint2 + "\n\tang 2: " + m_angle2 + "\n\twaypt 3: " + m_waypoint3
+          + "\n\tang 3: " + m_angle3 + "\n");
+      return str;
+    }
   }
 
   CentralSpeaker3ScoresConfig centralSpeaker3ScoresConfigRed = new CentralSpeaker3ScoresConfig();
@@ -121,7 +129,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
     } else {
       m_configSupplier.setConfig(centralSpeaker3ScoresConfigRed);
     }
-
+    Trace.getInstance().logCommandInfo(this, m_configSupplier.getConfig().toString());
   }
 
   private class CentralSpeaker3ScoresConfigSupplier {
