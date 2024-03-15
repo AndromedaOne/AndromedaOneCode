@@ -25,6 +25,7 @@ import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
@@ -63,6 +64,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
   private BillEndEffectorPositionBase m_endEffector;
   private BillArmRotateBase m_armRotate;
   private BillFeederBase m_feeder;
+  private BillShooterBase m_shooter = Robot.getInstance().getSubsystemsContainer().getBillShooter();
   private AmpScoreConfigSupplier m_ampScoreConfigSupplier = new AmpScoreConfigSupplier();
 
   public AmpScore() {
@@ -130,7 +132,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain,
                 () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint4, 0.25),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint5, 1),
         new TurnToCompassHeading(m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle3),

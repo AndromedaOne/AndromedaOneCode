@@ -113,7 +113,8 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
         m_subsystemsContainer.getBillShooter()));
     getBillFeederIntakeNoteButton().onTrue(new IntakeNote(m_subsystemsContainer.getBillArmRotate(),
-        m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
+        m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+        m_subsystemsContainer.getBillShooter()));
     getBillSpeakerCloseScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
