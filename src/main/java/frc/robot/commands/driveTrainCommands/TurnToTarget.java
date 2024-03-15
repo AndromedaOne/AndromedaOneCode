@@ -43,7 +43,7 @@ public class TurnToTarget extends PIDCommand4905 {
     getController().setD(pidConfig.getDouble("TurnToTarget.TurningDTerm"));
     getController().setMinOutputToMove(pidConfig.getDouble("TurnToTarget.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("TurnToTarget.positionTolerance"));
-    getController().setMaxOutput(0.25);
+    getController().setMaxOutput(1);
   }
 
   // Called when the command is initially scheduled.

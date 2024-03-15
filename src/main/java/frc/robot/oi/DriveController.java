@@ -126,10 +126,7 @@ public class DriveController extends ControllerBase {
     return getRightTriggerPressedBoolean();
   }
 
-  public boolean getTurnToTarget() {
-    return getAbutton().getAsBoolean();
-  }
-
+  
   private void setUpShooterButtons() {
     getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
