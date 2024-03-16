@@ -126,7 +126,8 @@ public class RunBillFeeder extends Command {
         return true;
       }
     } else if (m_feederState == FeederStates.AMPSHOOTING) {
-      if (((m_count >= 50) && (m_autonomous)) || ((!m_controller.getBillAmpScoreButton().getAsBoolean()) && (!m_autonomous))){
+      if (((m_count >= 50) && (m_autonomous))
+          || ((!m_controller.getBillAmpScoreButton().getAsBoolean()) && (!m_autonomous))) {
         System.out.println("RunBillFeeder Finished ");
         return true;
       }
