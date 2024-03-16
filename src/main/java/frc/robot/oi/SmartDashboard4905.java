@@ -95,8 +95,8 @@ public class SmartDashboard4905 {
           new RunBillShooterRPM(subsystemsContainer.getBillShooter()));
     }
     if (Config4905.getConfig4905().doesArmRotateExist()) {
-      SmartDashboard.putData("Set Bill Arm Rotate 300",
-          new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 300, false, true));
+      SmartDashboard.putData("Set Bill Arm Rotate For Tuning",
+          new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 300, false, true, false, false));
       // Will need to be changed at some point
       SmartDashboard.putData("Enable Arm Motor Brake Mode",
           new EnableMotorBrake(subsystemsContainer.getBillArmRotate()));

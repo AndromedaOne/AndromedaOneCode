@@ -73,10 +73,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
 
       m_pMapDown = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
           "armPValuesDown");
-
-      if (m_useSmartDashboard) {
         SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 300);
-      }
     }
 
     // Called when the command is initially scheduled.
@@ -99,7 +96,6 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       getController().setTolerance(pidConstantsConfig.getDouble("ArmRotate.tolerance"));
       getController().setFeedforward(m_feedForward);
       if (m_useSmartDashboard) {
-        m_feedForward.setConstant(SmartDashboard.getNumber("Rotate Arm Feed Forward", 0));
         setSetpoint(() -> SmartDashboard.getNumber("Rotate PID Arm Angle Setpoint", 300));
       }
 
@@ -119,14 +115,13 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       } else if (m_engagePneumaticBrake && isOnTarget()) {
         m_armRotate.engageArmBrake();
         m_count++;
-      } else if ((!m_useSmartDashboard)
-          && ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) < 0)) {
+        super.execute();
+      } else if ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) < 0) {
         // going up
         getController().setP(m_pMapUp.getInterpolatedValue(m_armRotate.getAngle()));
         m_feedForward.setConstant(m_kMapUp.getInterpolatedValue(m_armRotate.getAngle()));
         super.execute();
-      } else if ((!m_useSmartDashboard)
-          && ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) > 0)) {
+      } else if ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) > 0) {
         // going down
         getController().setP(m_pMapDown.getInterpolatedValue(m_armRotate.getAngle()));
         m_feedForward.setConstant(m_kMapDown.getInterpolatedValue(m_armRotate.getAngle()));
@@ -149,7 +144,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      if (m_needToEnd && isOnTarget() && m_count >= 20) {
+      if (m_needToEnd && isOnTarget() && m_count >= 10) {
         return true;
       }
       return false;
