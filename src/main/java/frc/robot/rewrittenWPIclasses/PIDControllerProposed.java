@@ -29,10 +29,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   // The period (in seconds) of the loop that calls the controller
   private final double m_period;
 
-  private double m_maximumIntegral = 1.0;
-
-  private double m_minimumIntegral = -1.0;
-
   // Maximum input - limit setpoint to this
   private double m_maximumInput;
 
@@ -56,6 +52,8 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   private double m_pError;
   private double m_iError;
   private double m_dError;
+
+  private double m_iZone = 0;
 
   // The percentage or absolute error that is considered at setpoint.
   private double m_positionTolerance = 0.05;
@@ -150,6 +148,15 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   }
 
   /**
+   * Sets the Intergral clamping zone of the PID controller gain.
+   *
+   * @param iZone intergral clamping zone
+   */
+  public void setIZone(double iZone) {
+    m_iZone = iZone;
+  }
+
+  /**
    * Get the Proportional coefficient.
    *
    * @return proportional coefficient
@@ -174,6 +181,23 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    */
   public double getD() {
     return m_kd;
+  }
+
+  /**
+   * Get the Integral clamping zone.
+   *
+   * @return integral clamping zone
+   */
+  public double getIZone() {
+    return m_iZone;
+  }
+
+  public double getIZoneLower() {
+    return m_setpoint - Math.abs(getIZone());
+  }
+
+  public double getIZoneUpper() {
+    return m_setpoint + Math.abs(getIZone());
   }
 
   /**
@@ -279,21 +303,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   }
 
   /**
-   * Sets the minimum and maximum values for the integrator.
-   *
-   * <p>
-   * When the cap is reached, the integrator value is added to the controller
-   * output rather than the integrator value times the integral gain.
-   *
-   * @param minimumIntegral The minimum value of the integrator.
-   * @param maximumIntegral The maximum value of the integrator.
-   */
-  public void setIntegratorRange(double minimumIntegral, double maximumIntegral) {
-    m_minimumIntegral = minimumIntegral;
-    m_maximumIntegral = maximumIntegral;
-  }
-
-  /**
    * Sets the error which is considered tolerable for use with atSetpoint().
    *
    * @param positionTolerance Position error which is tolerable.
@@ -356,9 +365,11 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     }
     m_velocityError = (m_positionError - m_prevError) / m_period;
 
-    if (m_ki != 0) {
-      m_totalError = MathUtil.clamp(m_totalError + m_positionError * m_period,
-          m_minimumIntegral / m_ki, m_maximumIntegral / m_ki);
+    if ((m_ki != 0) && ((m_positionError >= getIZoneLower()) && (m_positionError <= getIZoneUpper())
+        || (m_iZone == 0))) {
+      m_totalError = m_totalError + m_positionError * m_period;
+    } else {
+      m_totalError = 0;
     }
 
     m_pError = m_kp * m_positionError;
