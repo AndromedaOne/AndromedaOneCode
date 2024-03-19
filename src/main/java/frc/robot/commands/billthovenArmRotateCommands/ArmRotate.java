@@ -112,23 +112,23 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       }
       if (!m_needToEnd && isOnTarget() && m_engagePneumaticBrake) {
         m_armRotate.engageArmBrake();
+        return;
       } else if (m_engagePneumaticBrake && isOnTarget()) {
         m_armRotate.engageArmBrake();
         m_count++;
-        super.execute();
       } else if ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) < 0) {
         // going up
         getController().setP(m_pMapUp.getInterpolatedValue(m_armRotate.getAngle()));
         m_feedForward.setConstant(m_kMapUp.getInterpolatedValue(m_armRotate.getAngle()));
-        super.execute();
+        System.out.println("Going Up");
       } else if ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) > 0) {
         // going down
         getController().setP(m_pMapDown.getInterpolatedValue(m_armRotate.getAngle()));
         m_feedForward.setConstant(m_kMapDown.getInterpolatedValue(m_armRotate.getAngle()));
-        super.execute();
-      } else {
-        super.execute();
+        System.out.println("Going Down");
       }
+      super.execute();
+      System.out.println("Using P: " + getController().getP());
     }
 
     // Called once the command ends or is interrupted.
@@ -163,7 +163,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
 
       @Override
       public double calculate() {
-        return m_armRotate.getAngle() * m_constant;
+        return m_constant;
       }
 
       public void setConstant(double constant) {
