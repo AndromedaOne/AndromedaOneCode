@@ -62,18 +62,9 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       m_rotateWhileClimb = rotateWhileClimb;
       addRequirements(armRotate.getSubsystemBase());
 
-      m_kMapUp = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
-          "armKValuesUp");
+      loadMaps();
 
-      m_pMapUp = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
-          "armPValuesUp");
-
-      m_kMapDown = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
-          "armKValuesDown");
-
-      m_pMapDown = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
-          "armPValuesDown");
-        SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 300);
+      SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 300);
     }
 
     // Called when the command is initially scheduled.
@@ -83,6 +74,11 @@ public class ArmRotate extends SequentialCommandGroup4905 {
       super.initialize();
       m_count = 0;
       getController().setMaxOutput(1);
+      if (m_useSmartDashboard) {
+        loadMaps();
+        System.out.println("pMapDown: " + m_pMapDown.getInterpolatingMap().toString());
+        System.out.println("pMapUp: " + m_pMapUp.getInterpolatingMap().toString());
+      }
       if ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) > 0) {
         getController().setP(m_pMapUp.getInterpolatedValue(m_armRotate.getAngle()));
         getController().setI(pidConstantsConfig.getDouble("ArmRotate.Ki"));
@@ -120,15 +116,12 @@ public class ArmRotate extends SequentialCommandGroup4905 {
         // going up
         getController().setP(m_pMapUp.getInterpolatedValue(m_armRotate.getAngle()));
         m_feedForward.setConstant(m_kMapUp.getInterpolatedValue(m_armRotate.getAngle()));
-        System.out.println("Going Up");
       } else if ((getSetpoint().getAsDouble() - m_armRotate.getAngle()) > 0) {
         // going down
         getController().setP(m_pMapDown.getInterpolatedValue(m_armRotate.getAngle()));
         m_feedForward.setConstant(m_kMapDown.getInterpolatedValue(m_armRotate.getAngle()));
-        System.out.println("Going Down");
       }
       super.execute();
-      System.out.println("Using P: " + getController().getP());
     }
 
     // Called once the command ends or is interrupted.
@@ -170,6 +163,20 @@ public class ArmRotate extends SequentialCommandGroup4905 {
         m_constant = constant;
       }
 
+    }
+
+    private void loadMaps() {
+      m_kMapUp = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
+          "armKValuesUp");
+
+      m_pMapUp = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
+          "armPValuesUp");
+
+      m_kMapDown = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
+          "armKValuesDown");
+
+      m_pMapDown = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
+          "armPValuesDown");
     }
   }
 }
