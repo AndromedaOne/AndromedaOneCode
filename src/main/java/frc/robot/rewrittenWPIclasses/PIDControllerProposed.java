@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
+import frc.robot.telemetries.Trace;
 
 /**
  * Implements a PID control loop.
@@ -54,6 +55,9 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   private double m_dError;
 
   private double m_iZone = 0;
+
+  private double m_minimumIntegral = -1.0;
+  private double m_maximumIntegral = 1.0;
 
   // The percentage or absolute error that is considered at setpoint.
   private double m_positionTolerance = 0.05;
@@ -303,6 +307,21 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   }
 
   /**
+   * Sets the minimum and maximum values for the integrator.
+   *
+   * <p>
+   * When the cap is reached, the integrator value is added to the controller
+   * output rather than the integrator value times the integral gain.
+   *
+   * @param minimumIntegral The minimum value of the integrator.
+   * @param maximumIntegral The maximum value of the integrator.
+   */
+  public void setIntegratorRange(double minimumIntegral, double maximumIntegral) {
+    m_minimumIntegral = minimumIntegral;
+    m_maximumIntegral = maximumIntegral;
+  }
+
+  /**
    * Sets the error which is considered tolerable for use with atSetpoint().
    *
    * @param positionTolerance Position error which is tolerable.
@@ -364,10 +383,11 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
       m_positionError = m_setpoint - m_measurement;
     }
     m_velocityError = (m_positionError - m_prevError) / m_period;
-
-    if ((m_ki != 0) && ((m_positionError >= getIZoneLower()) && (m_positionError <= getIZoneUpper())
+    if ((m_ki != 0) && ((m_measurement >= getIZoneLower()) && (m_measurement <= getIZoneUpper())
         || (m_iZone == 0))) {
-      m_totalError = m_totalError + m_positionError * m_period;
+      m_totalError = MathUtil.clamp(m_totalError + m_positionError * m_period,
+          m_minimumIntegral / m_ki, m_maximumIntegral / m_ki);
+      Trace.getInstance().logInfo("iZone activated, total error: " + m_totalError);
     } else {
       m_totalError = 0;
     }
