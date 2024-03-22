@@ -15,17 +15,22 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
   private PhotonCamera m_camera;
-  private double m_cameraHeight = 8; // Put these into configs at some point
-  private double m_targetHeight = 57.125;
-  private double m_cameraPitch = 28.6;
+  private final double m_cameraHeightInInches = 8;
+  private final double m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
+  private final double m_targetHeightInInches = 57.125;
+  private final double m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
+  private final double m_cameraPitchInDegrees = 28.6;
+  private final double m_cameraPitchInRadians = Units.degreesToRadians(m_cameraPitchInDegrees);
 
   public RealPhotonVision() {
-    m_camera = new PhotonCamera("Arducam_OV2311_USB_Camera");
+    m_camera = new PhotonCamera(Config4905.getConfig4905().getSensorConfig().
+      getString("photonvision.cameraName"));
   }
 
   @Override
@@ -59,8 +64,8 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
     for (PhotonTrackedTarget target : targets) {
       if (target.getFiducialId() == wantedID) {
-        range = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeight, m_targetHeight,
-            m_cameraPitch, Units.degreesToRadians(target.getPitch()));
+        range = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeightInMeters, m_targetHeightInMeters,
+            m_cameraPitchInRadians, Units.degreesToRadians(target.getPitch()));
       }
     }
     return range;
