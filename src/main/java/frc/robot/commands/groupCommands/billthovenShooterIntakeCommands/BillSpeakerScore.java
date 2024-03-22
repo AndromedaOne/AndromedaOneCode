@@ -89,12 +89,12 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       }
     } else {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
-        m_armSetpoint = 333;
+        m_armSetpoint = 332;
         m_shooterSpeed = 3250;
         m_endEffectorToHighPosition = false;
       } else { // these are the same because there is no point in shooting high over a defense
                // robot
-        m_armSetpoint = 333;
+        m_armSetpoint = 332;
         m_shooterSpeed = 3250;
         m_endEffectorToHighPosition = false;
       }
