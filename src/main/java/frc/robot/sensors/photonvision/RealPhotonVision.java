@@ -20,9 +20,9 @@ import frc.robot.sensors.RealSensorBase;
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
   private PhotonCamera m_camera;
-  private double m_cameraHeight = 12; // Put these into configs at some point
-  private double m_targetHeight = 12;
-  private double m_cameraPitch = 14;
+  private double m_cameraHeight = 8; // Put these into configs at some point
+  private double m_targetHeight = 57.125;
+  private double m_cameraPitch = 28.6;
 
   public RealPhotonVision() {
     m_camera = new PhotonCamera("Arducam_OV2311_USB_Camera");
@@ -38,6 +38,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     Double[] iDArray = new Double[iDArrayList.size()];
     iDArray = iDArrayList.toArray(iDArray);
     SmartDashboard.putNumberArray("Target IDs", iDArray);
+    SmartDashboard.putNumber("Photon Vision Range", getDistanceToTarget(4));
   }
 
   @Override
