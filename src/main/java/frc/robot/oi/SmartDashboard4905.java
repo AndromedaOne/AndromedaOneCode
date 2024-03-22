@@ -134,7 +134,7 @@ public class SmartDashboard4905 {
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
       if (Robot.getInstance().getSensorsContainer().getPhotonVision().doesPhotonVisionExist()) {
-        SmartDashboard.putData("Turn to ID 2", new TurnToTarget(() -> 2, () -> 0));
+        SmartDashboard.putData("Turn to ID 7", new TurnToTarget(() -> 7, () -> 0));
       }
       if (Config4905.getConfig4905().isBillthoven()) {
         SmartDashboard.putData("AmpScore", new AmpScore());
