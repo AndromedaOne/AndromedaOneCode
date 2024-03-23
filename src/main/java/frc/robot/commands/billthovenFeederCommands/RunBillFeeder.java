@@ -27,6 +27,7 @@ public class RunBillFeeder extends Command {
       BooleanSupplier shooterReadyToShoot, BooleanSupplier armComplete) {
     m_feeder = feeder;
     m_shooterReadyToShoot = shooterReadyToShoot;
+    m_armComplete = armComplete;
     m_feederState = feederState;
     m_LEDs = Robot.getInstance().getSubsystemsContainer().getWs2812LEDs();
     addRequirements(m_feeder.getSubsystemBase());
