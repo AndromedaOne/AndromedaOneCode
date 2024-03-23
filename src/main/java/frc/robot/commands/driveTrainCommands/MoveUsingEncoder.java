@@ -49,8 +49,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     private DriveTrainBase m_driveTrain;
     private double m_distance = 0;
     private double m_maxOutput = 0;
-    private double m_target;
-    private double m_angle;
+    private double m_angle = 0;
+    private double m_target = 0;
     private boolean m_useCurrentHeading = false;
 
     /**
@@ -71,9 +71,10 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
             drivetrain.moveUsingGyroStrafe(output, angle, 0, false, heading);
           });
       m_distance = distance.getAsDouble();
-      m_setpoint = this::getSetpoint;
       m_driveTrain = drivetrain;
       m_maxOutput = maxOutput;
+      // the setpoint can be changed on the fly by updating m_target
+      setSetpoint(() -> m_target);
       m_useCurrentHeading = useCurrentHeading;
       m_angle = angle;
       // Configure additional PID options by calling `getController` here.
@@ -105,15 +106,12 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
           m_driveTrain.moveUsingGyroStrafe(output, m_angle, 0, false, heading);
         });
       }
-      Trace.getInstance().logCommandInfo(this, "Moving with encoder to position: " + getSetpoint());
+      Trace.getInstance().logCommandInfo(this,
+          "Moving with encoder to position: " + getSetpoint().getAsDouble());
       Trace.getInstance().logCommandInfo(this,
           "Starting encoder position: " + m_driveTrain.getRobotPositionInches());
       m_driveTrain.disableAccelerationLimiting();
       SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", false);
-    }
-
-    public double getSetpoint() {
-      return m_target;
     }
 
     public void setDistance(double distance) {

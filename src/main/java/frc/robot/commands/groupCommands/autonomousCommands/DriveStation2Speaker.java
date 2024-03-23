@@ -38,6 +38,13 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     double m_angle2;
     double m_waypoint3;
     double m_gyroOffset;
+
+    public String toString() {
+      String str = new String("\twaypt 1: " + m_waypoint1 + "\n\tang 1: " + m_angle1
+          + "\n\twaypt 2:" + m_waypoint2 + "\n\tandg 2: " + m_angle2 + "\n\twaypt 3: " + m_waypoint3
+          + "\n\tgyrooffset: " + m_gyroOffset + "\n");
+      return str;
+    }
   }
 
   DriveStation2SpeakerConfig driveStation2SpeakerConfigRed = new DriveStation2SpeakerConfig();
@@ -105,7 +112,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
@@ -123,6 +130,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
     m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset, true);
     Trace.getInstance().logCommandInfo(this,
         "Setting offset to " + m_configSupplier.getConfig().m_gyroOffset);
+    Trace.getInstance().logCommandInfo(this, m_configSupplier.getConfig().toString());
 
   }
 
@@ -131,11 +139,9 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
 
     public void setConfig(DriveStation2SpeakerConfig config) {
       m_config = config;
-      System.out.println("SetConfig: Gyro offset " + m_config.m_gyroOffset);
     }
 
     public DriveStation2SpeakerConfig getConfig() {
-      System.out.println("GetConfig: Gyro offset " + m_config.m_gyroOffset);
       return m_config;
     }
   }

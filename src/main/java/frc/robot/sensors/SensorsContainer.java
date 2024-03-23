@@ -24,6 +24,9 @@ import frc.robot.sensors.limelightcamera.RealLimelightCamera;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.MockLimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
+import frc.robot.sensors.photonvision.MockPhotonVision;
+import frc.robot.sensors.photonvision.PhotonVisionBase;
+import frc.robot.sensors.photonvision.RealPhotonVision;
 import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
@@ -41,6 +44,8 @@ public class SensorsContainer {
   private UltrasonicSensor m_cannonSafetyUltrasonic;
   private EncoderBase m_cannonElevatorEncoder;
   private LimitSwitchSensor m_cannonHomeSwitch;
+  private PhotonVisionBase m_photonVision;
+  private boolean m_hasPhotonVision = false;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -81,6 +86,14 @@ public class SensorsContainer {
       Trace.getInstance().logInfo("Using fake LimeLight");
       m_limelightCameraBase = new MockLimeLightCamera();
     }
+    if (m_sensorConfig.hasPath("photonvision")) {
+      Trace.getInstance().logInfo("Using real Photon Vision");
+      m_photonVision = new RealPhotonVision();
+      m_hasPhotonVision = true;
+    } else {
+      Trace.getInstance().logInfo("Using mock Photon Vision");
+      m_photonVision = new MockPhotonVision();
+    }
     if (m_sensorConfig.hasPath("sensors.cannonSafetyUltrasonic")) {
       m_cannonSafetyUltrasonic = new RealUltrasonicSensor("cannonSafetyUltrasonic");
       Trace.getInstance().logInfo("Using Real Cannon Safety Ultrasonic");
@@ -116,7 +129,11 @@ public class SensorsContainer {
   }
 
   public boolean hasLimeLight() {
-    return (true);
+    return false;
+  }
+
+  public boolean hasPhotonVision() {
+    return m_hasPhotonVision;
   }
 
   public LimeLightCameraBase getLimeLight() {
@@ -133,6 +150,10 @@ public class SensorsContainer {
 
   public LimitSwitchSensor getCannonHomeSwitch() {
     return m_cannonHomeSwitch;
+  }
+
+  public PhotonVisionBase getPhotonVision() {
+    return m_photonVision;
   }
 
   public void periodic() {

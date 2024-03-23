@@ -27,6 +27,7 @@ import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.driveTrainCommands.TurnToTarget;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
@@ -94,8 +95,8 @@ public class SmartDashboard4905 {
           new RunBillShooterRPM(subsystemsContainer.getBillShooter()));
     }
     if (Config4905.getConfig4905().doesArmRotateExist()) {
-      SmartDashboard.putData("Set Bill Arm Rotate 300",
-          new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 300, false, true));
+      SmartDashboard.putData("Set Bill Arm Rotate For Tuning", new ArmRotate(
+          subsystemsContainer.getBillArmRotate(), () -> 300, false, true, false, false));
       // Will need to be changed at some point
       SmartDashboard.putData("Enable Arm Motor Brake Mode",
           new EnableMotorBrake(subsystemsContainer.getBillArmRotate()));
@@ -133,6 +134,9 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
+      if (Robot.getInstance().getSensorsContainer().getPhotonVision().doesPhotonVisionExist()) {
+        SmartDashboard.putData("Turn to ID 7", new TurnToTarget(() -> 7, () -> 0));
+      }
       if (Config4905.getConfig4905().isBillthoven()) {
         SmartDashboard.putData("AmpScore", new AmpScore());
         SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores());

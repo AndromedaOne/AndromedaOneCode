@@ -73,6 +73,6 @@ public class MoveShooterAlignment extends PIDCommand4905 {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_controller.atSetpoint();
+    return getController().atSetpoint();
   }
 }

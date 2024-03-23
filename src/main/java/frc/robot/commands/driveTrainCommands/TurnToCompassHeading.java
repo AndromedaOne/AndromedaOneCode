@@ -48,7 +48,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     addRequirements(m_driveTrain.getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
-    m_setpoint = m_compassHeading;
   }
 
   public void initialize() {

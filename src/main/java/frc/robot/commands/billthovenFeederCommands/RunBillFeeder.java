@@ -2,6 +2,7 @@ package frc.robot.commands.billthovenFeederCommands;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.commands.billthovenClimberCommands.BillClimberSingleton;
@@ -70,6 +71,7 @@ public class RunBillFeeder extends Command {
     case SHOOTING:
       if ((m_readyToShoot.getAsBoolean()) && (m_controller.getBillFireTrigger())) {
         m_feeder.runBillFeederShooting();
+        SmartDashboard.putBoolean("Bill Fire Trigger", m_controller.getBillFireTrigger());
         m_count++;
       } else if ((m_readyToShoot.getAsBoolean()) && (m_autonomous)) {
         m_feeder.runBillFeederShooting();
@@ -115,13 +117,17 @@ public class RunBillFeeder extends Command {
     } else if ((m_feederState == FeederStates.SHOOTING)
         && (m_controller.getBillTrapShotButton().getAsBoolean())) {
       return false;
-    } else if ((m_feederState == FeederStates.SHOOTING)
-        || (m_feederState == FeederStates.AMPSHOOTING)) {
-      if ((m_count >= 10) || ((!m_controller.getBillAmpScoreButton().getAsBoolean())
-          && (!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
+    } else if (m_feederState == FeederStates.SHOOTING) {
+      if ((m_count >= 10) || ((!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean())
           && (!m_controller.getBillTrapShotButton().getAsBoolean()) && (!m_autonomous))) {
+        System.out.println("RunBillFeeder Finished ");
+        return true;
+      }
+    } else if (m_feederState == FeederStates.AMPSHOOTING) {
+      if (((m_count >= 50) && (m_autonomous))
+          || ((!m_controller.getBillAmpScoreButton().getAsBoolean()) && (!m_autonomous))) {
         System.out.println("RunBillFeeder Finished ");
         return true;
       }
