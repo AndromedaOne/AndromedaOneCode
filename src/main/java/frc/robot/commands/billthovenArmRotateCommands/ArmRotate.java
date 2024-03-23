@@ -1,5 +1,6 @@
 package frc.robot.commands.billthovenArmRotateCommands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
@@ -16,10 +17,13 @@ import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
 
 public class ArmRotate extends SequentialCommandGroup4905 {
+  private RotateArmInternal m_armCommand;
+
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
       boolean useSmartDashboard, boolean engagePneumaticBrake, boolean rotateWhileClimb) {
-    addCommands(new RotateArmInternal(armRotate, angle, needToEnd, useSmartDashboard,
-        engagePneumaticBrake, rotateWhileClimb));
+    m_armCommand = new RotateArmInternal(armRotate, angle, needToEnd, useSmartDashboard,
+        engagePneumaticBrake, rotateWhileClimb);
+    addCommands(m_armCommand);
   }
 
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
@@ -34,6 +38,18 @@ public class ArmRotate extends SequentialCommandGroup4905 {
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
       boolean engagePneumaticBrake) {
     this(armRotate, angle, needToEnd, false, engagePneumaticBrake, false);
+  }
+
+  private class OnTarget implements BooleanSupplier {
+
+    @Override
+    public boolean getAsBoolean() {
+      return m_armCommand.isOnTarget();
+    }
+  }
+
+  public BooleanSupplier getOnTargetSupplier() {
+    return (new OnTarget());
   }
 
   private class RotateArmInternal extends PIDCommand4905 {

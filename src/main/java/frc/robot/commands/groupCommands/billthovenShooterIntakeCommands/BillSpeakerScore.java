@@ -8,7 +8,8 @@ import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
-import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.driveTrainCommands.TurnToTarget;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
@@ -27,6 +28,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
   }
 
   private BillArmRotateBase m_armRotate;
+  private BillEndEffectorPositionBase m_endEffector;
   private SpeakerScoreDistanceEnum m_distance;
   private boolean m_endEffectorToHighPosition = false;
   private double m_shooterSpeed = 0;
@@ -40,17 +42,29 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       boolean useSmartDashboard) {
     m_armRotate = armRotate;
     m_distance = distance;
+    m_endEffector = endEffector;
     m_useSmartDashboard = useSmartDashboard;
     if (useSmartDashboard) {
       SmartDashboard.putNumber("ShooterCommand RPM", 3000);
       SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
     }
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
-    addCommands(
-        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
-            new MoveEndEffector(endEffector, () -> m_endEffectorToHighPosition)),
-        new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.SHOOTING,
-            runShooterCommand.getOnTargetSupplier()), runShooterCommand));
+    ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, m_useSmartDashboard);
+    if (distance == SpeakerScoreDistanceEnum.CLOSE) {
+      addCommands(new ParallelDeadlineGroup4905(
+          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
+              runArmCommand.getOnTargetSupplier()),
+          new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
+          new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+          runShooterCommand));
+    } else {
+      addCommands(new TurnToTarget(() -> -1, () -> 0), new ParallelDeadlineGroup4905(
+          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
+              runArmCommand.getOnTargetSupplier()),
+          new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
+          new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition), runShooterCommand,
+          new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+    }
   }
 
   public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
