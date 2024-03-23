@@ -54,7 +54,7 @@ public class TurnToTarget extends PIDCommand4905 {
     // 4 is the middle speaker april tag on red, 8 is blue
     m_wantedID = 4;
     if (alliance == Alliance.Blue) {
-      m_wantedID = 8;
+      m_wantedID = 7;
     }
     setMeasurementSource(Robot.getInstance().getSensorsContainer().getPhotonVision()
         .getYaw(() -> m_wantedID, getSetpoint()));

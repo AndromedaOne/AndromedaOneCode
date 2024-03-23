@@ -105,7 +105,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
             new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-            BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
+            BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
@@ -117,7 +117,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
             new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle3),
         new PauseRobot(40, m_driveTrain), new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder,
-            m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.FAR)
+            m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY)
 
     ));
   }

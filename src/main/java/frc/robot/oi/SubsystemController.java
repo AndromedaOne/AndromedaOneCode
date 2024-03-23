@@ -71,14 +71,9 @@ public class SubsystemController extends ControllerBase {
     return getXbutton();
   }
 
-  public JoystickButton getBillSpeakerMidScoreButton() {
+  public JoystickButton getBillSpeakerAwayScoreButton() {
     // Scores the note into the speaker from mid Range
     return getYbutton();
-  }
-
-  public JoystickButton getBillSpeakerFarScoreButton() {
-    // Scores the note into the speaker from far range
-    return getBbutton();
   }
 
   public JoystickButton getBillAmpScoreButton() {
@@ -119,14 +114,10 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
         BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
-    getBillSpeakerMidScoreButton()
-        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
-            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
-            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.MID));
-    getBillSpeakerFarScoreButton()
-        .onTrue(new BillSpeakerScore(m_subsystemsContainer.getBillArmRotate(),
-            m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
-            m_subsystemsContainer.getBillShooter(), BillSpeakerScore.SpeakerScoreDistanceEnum.FAR));
+    getBillSpeakerAwayScoreButton().onTrue(new BillSpeakerScore(
+        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
+        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
+        BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY));
     getBillAmpScoreButton().onTrue(new BillAmpScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
     getBillEnableClimberMode().onTrue(new EnableClimberMode(m_subsystemsContainer.getBillClimber(),

@@ -1,5 +1,6 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -16,11 +17,12 @@ import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
+import frc.robot.utils.AllianceConfig;
 import frc.robot.utils.InterpolatingMap;
 
 public class BillSpeakerScore extends SequentialCommandGroup4905 {
   public enum SpeakerScoreDistanceEnum {
-    CLOSE, MID, FAR
+    CLOSE, AWAY
   }
 
   public enum SpeakerScoreArmPositionEnum {
@@ -33,6 +35,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
   private boolean m_endEffectorToHighPosition = false;
   private double m_shooterSpeed = 0;
   private double m_armSetpoint = 0;
+  private int m_wantedID = -1;
   private boolean m_useSmartDashboard;
   private InterpolatingMap m_shotArmAngleMap;
   private InterpolatingMap m_shotShootingRPMMap;
@@ -84,34 +87,19 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     // these are going to be our close distance defalt
     m_armSetpoint = 300;
     m_shooterSpeed = 1000;
+    Alliance alliance = AllianceConfig.getCurrentAlliance();
+    // 4 is the middle speaker april tag on red, 8 is blue
+    m_wantedID = 4;
+    if (alliance == Alliance.Blue) {
+      m_wantedID = 7;
+    }
     SpeakerScoreArmPositionEnum armPosition = SpeakerScoreArmPositionEnum.LOW;
 
     if (Robot.getInstance().getOIContainer().getSubsystemController()
         .getBillShootingPositionButton().getAsBoolean()) {
       armPosition = SpeakerScoreArmPositionEnum.HIGH;
     }
-
-    if (m_distance == SpeakerScoreDistanceEnum.MID) {
-      if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
-        m_armSetpoint = 320;
-        m_shooterSpeed = 3650;
-        m_endEffectorToHighPosition = false;
-      } else {
-        m_armSetpoint = 290;
-        m_shooterSpeed = 3650;
-        m_endEffectorToHighPosition = true;
-      }
-    } else if (m_distance == SpeakerScoreDistanceEnum.FAR) {
-      if (armPosition == SpeakerScoreArmPositionEnum.LOW) { // now from the podium
-        m_armSetpoint = 315;
-        m_shooterSpeed = 3650;
-        m_endEffectorToHighPosition = false;
-      } else {
-        m_armSetpoint = 285;
-        m_shooterSpeed = 3650;
-        m_endEffectorToHighPosition = true;
-      }
-    } else {
+    if (m_distance == SpeakerScoreDistanceEnum.CLOSE) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpoint = 332;
         m_shooterSpeed = 3250;
@@ -122,7 +110,14 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         m_shooterSpeed = 3250;
         m_endEffectorToHighPosition = false;
       }
+    } else {
+      double measuredDistance = Robot.getInstance().getSensorsContainer().getPhotonVision()
+          .getDistanceToTargetInInches(m_wantedID);
+      m_armSetpoint = m_shotArmAngleMap.getInterpolatedValue(measuredDistance);
+      m_shooterSpeed = m_shotShootingRPMMap.getInterpolatedValue(measuredDistance);
+      m_endEffectorToHighPosition = false;
     }
+
     if (m_useSmartDashboard) {
       m_armSetpoint = SmartDashboard.getNumber("ShooterCommand ArmPosition", 300);
       m_shooterSpeed = SmartDashboard.getNumber("ShooterCommand RPM", 1000);
