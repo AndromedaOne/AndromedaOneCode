@@ -122,14 +122,12 @@ public class RealBillArmRotate extends ProfiledPIDSubsystem implements BillArmRo
 
   @Override
   protected void useOutput(double output, State setpoint) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
+  
   }
 
   @Override
   protected double getMeasurement() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
+    return getAngle();
   }
 
 }
