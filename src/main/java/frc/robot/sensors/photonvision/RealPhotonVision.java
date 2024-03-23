@@ -24,6 +24,8 @@ import frc.robot.sensors.RealSensorBase;
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
   private PhotonCamera m_camera;
   private Config m_config = Config4905.getConfig4905().getSensorConfig();
+  private final double m_offsetToSwerveModInches = m_config
+      .getDouble("photonvision.offsetToSwerveModInches");
   private final double m_cameraHeightInInches = m_config
       .getDouble("photonvision.cameraHeightInInches");
   private final double m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
@@ -48,7 +50,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     Double[] iDArray = new Double[iDArrayList.size()];
     iDArray = iDArrayList.toArray(iDArray);
     SmartDashboard.putNumberArray("Target IDs", iDArray);
-    SmartDashboard.putNumber("Photon Vision Range", getDistanceToTargetInInches(4));
+    SmartDashboard.putNumber("Photon Vision Range", getDistanceToTargetInInches(1));
   }
 
   @Override
@@ -75,7 +77,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
         SmartDashboard.putNumber("Vision Pitch", target.getPitch());
       }
     }
-    return range / 0.0254;
+    return (range / 0.0254) - m_offsetToSwerveModInches;
   }
 
   @Override
