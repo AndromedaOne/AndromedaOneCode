@@ -2,6 +2,7 @@ package frc.robot.subsystems.billArmRotate;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
@@ -19,6 +20,9 @@ public class RealBillArmRotate extends ProfiledPIDSubsystem implements BillArmRo
   private final SparkMaxController m_motor1;
   private double m_minAngle = 0;
   private double m_maxAngle = 0;
+  private double m_Ks = 0; 
+  private double m_Kg = 0; 
+  private double m_Kv = 0; 
   private BillArmBrakeState m_armAngleBrakeState = BillArmBrakeState.ENGAGEARMBRAKE;
   private DoubleSolenoid4905 m_solenoidBrake;
 
@@ -31,16 +35,21 @@ public class RealBillArmRotate extends ProfiledPIDSubsystem implements BillArmRo
             0,
             // The motion profile constraints
             new TrapezoidProfile.Constraints(0, 0)));
+        new ArmFeedforward(m_Ks, m_Kg, m_Kv);
     Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
     m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
     m_maxAngle = armrotateConfig.getDouble("maxAngle");
     m_minAngle = armrotateConfig.getDouble("minAngle");
+    m_Ks = armrotateConfig.getDouble("Ks");
+    m_Kg = armrotateConfig.getDouble("Kg");
+    m_Kv = armrotateConfig.getDouble("Kv");
     
   }
 
   @Override
   public void periodic() {
+    super.periodic();
     SmartDashboard.putNumber("Measured Arm Angle", getAngle());
     SmartDashboard.putString("Arm Brake State", getBrakeState().toString());
   }
