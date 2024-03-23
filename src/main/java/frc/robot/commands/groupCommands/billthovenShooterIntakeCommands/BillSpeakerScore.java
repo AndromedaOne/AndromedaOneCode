@@ -17,6 +17,7 @@ import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 import frc.robot.utils.InterpolatingMap;
 
@@ -78,7 +79,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         "shotArmAngle");
 
     m_shotShootingRPMMap = new InterpolatingMap(Config4905.getConfig4905().getBillShooterConfig(),
-        "shotShootingRPM");
+        "shooterMotor.shotShootingRPM");
   }
 
   @Override
@@ -115,6 +116,9 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
           .getDistanceToTargetInInches(m_wantedID);
       m_armSetpoint = m_shotArmAngleMap.getInterpolatedValue(measuredDistance);
       m_shooterSpeed = m_shotShootingRPMMap.getInterpolatedValue(measuredDistance);
+      Trace.getInstance().logInfo("Distance: " + measuredDistance);
+      Trace.getInstance().logInfo("Arm Setpoint: " + m_armSetpoint);
+      Trace.getInstance().logInfo("Shooter Setpoint: " + m_shooterSpeed);
       m_endEffectorToHighPosition = false;
     }
 
