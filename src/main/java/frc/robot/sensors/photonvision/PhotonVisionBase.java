@@ -12,7 +12,7 @@ public interface PhotonVisionBase {
 
   public boolean doesTargetExist(int wantedID);
 
-  public double getDistanceToTarget(int wantedID);
+  public double getDistanceToTargetInInches(int wantedID);
 
   public double getTargetID();
 

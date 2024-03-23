@@ -13,6 +13,8 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
@@ -21,16 +23,19 @@ import frc.robot.sensors.RealSensorBase;
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
   private PhotonCamera m_camera;
-  private final double m_cameraHeightInInches = 8;
+  private Config m_config = Config4905.getConfig4905().getSensorConfig();
+  private final double m_cameraHeightInInches = m_config
+      .getDouble("photonvision.cameraHeightInInches");
   private final double m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
-  private final double m_targetHeightInInches = 57.125;
+  private final double m_targetHeightInInches = m_config
+      .getDouble("photonvision.targetHeightInInches");
   private final double m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
-  private final double m_cameraPitchInDegrees = 28.6;
+  private final double m_cameraPitchInDegrees = m_config
+      .getDouble("photonvision.cameraPitchInDegrees");
   private final double m_cameraPitchInRadians = Units.degreesToRadians(m_cameraPitchInDegrees);
 
   public RealPhotonVision() {
-    m_camera = new PhotonCamera(Config4905.getConfig4905().getSensorConfig().
-      getString("photonvision.cameraName"));
+    m_camera = new PhotonCamera(m_config.getString("photonvision.cameraName"));
   }
 
   @Override
@@ -43,7 +48,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     Double[] iDArray = new Double[iDArrayList.size()];
     iDArray = iDArrayList.toArray(iDArray);
     SmartDashboard.putNumberArray("Target IDs", iDArray);
-    SmartDashboard.putNumber("Photon Vision Range", getDistanceToTarget(4));
+    SmartDashboard.putNumber("Photon Vision Range", getDistanceToTargetInInches(4));
   }
 
   @Override
@@ -58,17 +63,19 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   }
 
   @Override
-  public double getDistanceToTarget(int wantedID) {
+  public double getDistanceToTargetInInches(int wantedID) {
     double range = 0;
 
     List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
     for (PhotonTrackedTarget target : targets) {
       if (target.getFiducialId() == wantedID) {
-        range = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeightInMeters, m_targetHeightInMeters,
-            m_cameraPitchInRadians, Units.degreesToRadians(target.getPitch()));
+        range = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeightInMeters,
+            m_targetHeightInMeters, m_cameraPitchInRadians,
+            Units.degreesToRadians(target.getPitch()));
+        SmartDashboard.putNumber("Vision Pitch", target.getPitch());
       }
     }
-    return range;
+    return range / 0.0254;
   }
 
   @Override
