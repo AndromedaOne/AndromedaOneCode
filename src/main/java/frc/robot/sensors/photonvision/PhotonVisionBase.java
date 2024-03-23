@@ -14,6 +14,8 @@ public interface PhotonVisionBase {
 
   public double getDistanceToTargetInInches(int wantedID);
 
+  public double getDistanceToTargetInMeters(int wantedID);
+
   public double getTargetID();
 
   public DoubleSupplier getYaw(IntSupplier wantedID, DoubleSupplier setpoint);

@@ -65,6 +65,11 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   }
 
   @Override
+  public double getDistanceToTargetInMeters(int wantedID) {
+    return getDistanceToTargetInInches(wantedID) * 0.0254;
+  }
+
+  @Override
   public double getDistanceToTargetInInches(int wantedID) {
     double range = 0;
 
