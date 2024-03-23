@@ -28,14 +28,16 @@ public class RealBillArmRotate extends ProfiledPIDSubsystem implements BillArmRo
 
   public RealBillArmRotate(CompressorBase compressorBase) {
     super(
-        // The ProfiledPIDController used by the subsystem
         new ProfiledPIDController(
             0,
             0,
             0,
-            // The motion profile constraints
-            new TrapezoidProfile.Constraints(0, 0)));
+            new TrapezoidProfile.Constraints(
+                0,
         new ArmFeedforward(m_Ks, m_Kg, m_Kv);
+        0);
+    // Start arm at rest in neutral position
+    setGoal(0);
     Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
     m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
@@ -44,7 +46,6 @@ public class RealBillArmRotate extends ProfiledPIDSubsystem implements BillArmRo
     m_Ks = armrotateConfig.getDouble("Ks");
     m_Kg = armrotateConfig.getDouble("Kg");
     m_Kv = armrotateConfig.getDouble("Kv");
-    
   }
 
   @Override
@@ -135,6 +136,6 @@ public class RealBillArmRotate extends ProfiledPIDSubsystem implements BillArmRo
   @Override
   protected double getMeasurement() {
     return getAngle();
+  }
 
-}
 }
