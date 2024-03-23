@@ -19,7 +19,7 @@ public class ArmRotateMotionProfiling extends ProfiledPIDCommand {
 
   public ArmRotateMotionProfiling() {
     super(
-    new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0,0)),
+    new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(5,10)),
     () -> 0,
     // This should return the goal (can also be a constant)
     () -> new TrapezoidProfile.State(),
