@@ -9,13 +9,16 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.billthovenClimberCommands.DisableClimberMode;
 import frc.robot.commands.billthovenClimberCommands.EnableClimberMode;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillAmpScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillTrapScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -58,7 +61,7 @@ public class SubsystemController extends ControllerBase {
     return getRightBumperButton();
   }
 
-  public JoystickButton getBillFeederTrapShotButton() {
+  public JoystickButton getBillTrapShotButton() {
     // Shoots the note into the trap
     return getStartButton();
   }
@@ -96,16 +99,22 @@ public class SubsystemController extends ControllerBase {
     return getLeftStickForwardBackwardValue();
   }
 
+  public POVButton getBillArmRotateWhileClimb() {
+    return getPOVnorth();
+  }
+
   private void setUpBillEndEffectorButtons() {
     getBillFeederEjectNoteButton()
         .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.EJECT));
     // getBillFeederButton()
     // .whileTrue(new RunBillFeeder(m_subsystemsContainer.getBillFeeder(),
     // FeederStates.INTAKE));
-    getBillFeederTrapShotButton().onTrue(
-        new RunBillFeeder(m_subsystemsContainer.getBillFeeder(), FeederStates.TRAPSHOOTING));
+    getBillTrapShotButton().onTrue(new BillTrapScore(m_subsystemsContainer.getBillArmRotate(),
+        m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+        m_subsystemsContainer.getBillShooter()));
     getBillFeederIntakeNoteButton().onTrue(new IntakeNote(m_subsystemsContainer.getBillArmRotate(),
-        m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
+        m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder(),
+        m_subsystemsContainer.getBillShooter()));
     getBillSpeakerCloseScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
@@ -124,5 +133,7 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillArmRotate()));
     getBillDisableClimberMode().onTrue(new DisableClimberMode(
         m_subsystemsContainer.getBillClimber(), m_subsystemsContainer.getBillArmRotate()));
+    getBillArmRotateWhileClimb()
+        .onTrue(new ArmRotate(m_subsystemsContainer.getBillArmRotate(), true, () -> 285, false));
   }
 }

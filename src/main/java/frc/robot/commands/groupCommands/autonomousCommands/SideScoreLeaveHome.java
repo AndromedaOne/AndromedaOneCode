@@ -12,6 +12,7 @@ import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.gyro.Gyro4905;
@@ -32,6 +33,13 @@ public class SideScoreLeaveHome extends SequentialCommandGroup4905 {
     double m_angle2;
     double m_waypoint3;
     double m_gyroOffset;
+
+    public String toString() {
+      String str = new String("\twaypt 1: " + m_waypoint1 + "\n\tang 1: " + m_angle1
+          + "\n\twaypt 2:" + m_waypoint2 + "\n\tang 2: " + m_angle2 + "\n\twaypt 3: " + m_waypoint3
+          + "\n\tgyrooffset: " + m_gyroOffset + "\n");
+      return str;
+    }
   }
 
   SideScoreLeaveHomeConfig SideScoreLeaveHomeConfigRed = new SideScoreLeaveHomeConfig();
@@ -73,7 +81,7 @@ public class SideScoreLeaveHome extends SequentialCommandGroup4905 {
         .getDouble("SideScoreLeaveHome.GyroOffset");
     System.out.println("Blue gyroOffset: " + SideScoreLeaveHomeConfigBlue.m_gyroOffset);
     m_configSupplier.setConfig(SideScoreLeaveHomeConfigRed);
-    addCommands(
+    addCommands(new DelayedSequentialCommandGroup(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
@@ -82,7 +90,7 @@ public class SideScoreLeaveHome extends SequentialCommandGroup4905 {
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
-        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1));
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1)));
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -97,7 +105,7 @@ public class SideScoreLeaveHome extends SequentialCommandGroup4905 {
     m_gyro.setInitialZangleOffset(m_configSupplier.getConfig().m_gyroOffset, true);
     Trace.getInstance().logCommandInfo(this,
         "Setting offset to " + m_configSupplier.getConfig().m_gyroOffset);
-
+    Trace.getInstance().logCommandInfo(this, m_configSupplier.getConfig().toString());
   }
 
   private class SideScoreLeaveHomeConfigSupplier {
@@ -105,11 +113,9 @@ public class SideScoreLeaveHome extends SequentialCommandGroup4905 {
 
     public void setConfig(SideScoreLeaveHomeConfig config) {
       m_config = config;
-      System.out.println("SetConfig: Gyro offset " + m_config.m_gyroOffset);
     }
 
     public SideScoreLeaveHomeConfig getConfig() {
-      System.out.println("GetConfig: Gyro offset " + m_config.m_gyroOffset);
       return m_config;
     }
   }

@@ -28,16 +28,15 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
       .getDouble("photonvision.offsetToSwerveModInches");
   private final double m_cameraHeightInInches = m_config
       .getDouble("photonvision.cameraHeightInInches");
-  private final double m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
   private final double m_targetHeightInInches = m_config
       .getDouble("photonvision.targetHeightInInches");
-  private final double m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
   private final double m_cameraPitchInDegrees = m_config
       .getDouble("photonvision.cameraPitchInDegrees");
   private final double m_cameraPitchInRadians = Units.degreesToRadians(m_cameraPitchInDegrees);
 
   public RealPhotonVision() {
     m_camera = new PhotonCamera(m_config.getString("photonvision.cameraName"));
+        Config4905.getConfig4905().getSensorConfig().getString("photonvision.cameraname"));
   }
 
   @Override
@@ -78,6 +77,11 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
       }
     }
     return (range / 0.0254) - m_offsetToSwerveModInches;
+  }
+
+  @Override
+  public double getDistanceToTargetInInches(int wantedID) {
+    return getDistanceToTargetInMeters(wantedID) * m_metersToInches;
   }
 
   @Override

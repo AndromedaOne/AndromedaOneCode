@@ -181,6 +181,10 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
     }
   }
 
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
+      boolean useSquaredInputs, double compassHeading) {
+  }
+
   @Override
   public void disableParkingBrakes() {
     if (!m_hasParkingBrake) {
@@ -230,6 +234,10 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
   @Override
   public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void setToAngle(double angle) {
   }
 
   @Override

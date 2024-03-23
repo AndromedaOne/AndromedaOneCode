@@ -199,4 +199,17 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
       boolean isOpenLoop) {
   }
 
+  @Override
+  public void enableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void disableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void setToAngle(double angle) {
+  }
 }

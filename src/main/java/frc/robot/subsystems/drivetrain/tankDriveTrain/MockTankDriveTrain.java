@@ -127,7 +127,25 @@ public class MockTankDriveTrain implements TankDriveTrain {
   }
 
   @Override
+  public void setToAngle(double angle) {
+  }
+
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
+      boolean useSquaredInputs, double compassHeading) {
+  }
+
+  @Override
   public void setToZero() {
+  }
+
+  @Override
+  public void enableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void disableAccelerationLimiting() {
+
   }
 
 }

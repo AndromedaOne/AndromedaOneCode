@@ -15,6 +15,7 @@ import com.typesafe.config.Config;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.*;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -23,6 +24,7 @@ import frc.robot.telemetries.Trace;
 public class TurnToCompassHeading extends PIDCommand4905 {
 
   private DoubleSupplier m_compassHeading;
+  private DriveTrainBase m_driveTrain;
 
   /**
    * Creates a new TurnToCompassHeading.
@@ -41,12 +43,11 @@ public class TurnToCompassHeading extends PIDCommand4905 {
         output -> {
           Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, output, false);
         });
+    m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
     m_compassHeading = compassHeading;
-    addRequirements(
-        Robot.getInstance().getSubsystemsContainer().getDriveTrain().getSubsystemBase());
+    addRequirements(m_driveTrain.getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
-    m_setpoint = m_compassHeading;
   }
 
   public void initialize() {
@@ -60,6 +61,7 @@ public class TurnToCompassHeading extends PIDCommand4905 {
         pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
     Trace.getInstance().logCommandInfo(this,
         "Turning to Compass Heading: " + m_compassHeading.getAsDouble());
+    m_driveTrain.disableAccelerationLimiting();
   }
 
   // Returns true when the command should end.
@@ -73,5 +75,6 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     Robot.getInstance().getSubsystemsContainer().getDriveTrain().stop();
     Trace.getInstance().logCommandInfo(this, "Final heading: "
         + Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading());
+    m_driveTrain.enableAccelerationLimiting();
   }
 }

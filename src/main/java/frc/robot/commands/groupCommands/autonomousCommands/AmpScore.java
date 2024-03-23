@@ -16,6 +16,7 @@ import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
@@ -24,7 +25,9 @@ import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -44,6 +47,15 @@ public class AmpScore extends SequentialCommandGroup4905 {
     double m_waypoint7;
     double m_angle4;
     double m_waypoint8;
+
+    public String toString() {
+      String str = new String("\twaypt 1: " + m_waypoint1 + "\n\tang 1: " + m_angle1
+          + "\n\twaypt 2:" + m_waypoint2 + "\n\tandg 2: " + m_angle2 + "\n\twaypt 3: " + m_waypoint3
+          + "\n\tang 3: " + m_angle3 + "\n\twaypt 4: " + m_waypoint4 + "\n\twaypt 5: " + m_waypoint5
+          + "\n\tang 3: " + m_angle3 + "\n\twaypt 6: " + m_waypoint6 + "\n\twaypt 7: " + m_waypoint7
+          + "\n\tang 4: " + m_angle4 + "\n\twaypt 8: " + m_waypoint8 + "\n");
+      return str;
+    }
   }
 
   private AmpScoreConfig m_ampScoreConfigRed = new AmpScoreConfig();
@@ -52,6 +64,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
   private BillEndEffectorPositionBase m_endEffector;
   private BillArmRotateBase m_armRotate;
   private BillFeederBase m_feeder;
+  private BillShooterBase m_shooter = Robot.getInstance().getSubsystemsContainer().getBillShooter();
   private AmpScoreConfigSupplier m_ampScoreConfigSupplier = new AmpScoreConfigSupplier();
 
   public AmpScore() {
@@ -102,7 +115,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
     m_ampScoreConfigBlue.m_angle4 = blueConfig.getDouble("AmpScore.Angle4");
     m_ampScoreConfigBlue.m_waypoint8 = blueConfig.getDouble("AmpScore.WayPoint8");
     m_ampScoreConfigSupplier.setAmpScoreConfig(m_ampScoreConfigRed);
-    addCommands(
+    addCommands(new DelayedSequentialCommandGroup(
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint1, 1),
         new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle1),
@@ -119,7 +132,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain,
                 () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint4, 0.25),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint5, 1),
         new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle3),
@@ -134,7 +147,7 @@ public class AmpScore extends SequentialCommandGroup4905 {
         new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle4),
         new PauseRobot(40, m_driveTrain), new DrivePositionCommand(m_endEffector, m_armRotate),
         new MoveUsingEncoder(m_driveTrain,
-            () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint8, 1));
+            () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint8, 1)));
 
   }
 
@@ -145,6 +158,8 @@ public class AmpScore extends SequentialCommandGroup4905 {
     } else {
       m_ampScoreConfigSupplier.setAmpScoreConfig(m_ampScoreConfigRed);
     }
+    Trace.getInstance().logCommandInfo(this,
+        m_ampScoreConfigSupplier.getAmpScoreConfig().toString());
   }
 
   private class AmpScoreConfigSupplier {

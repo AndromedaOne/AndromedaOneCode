@@ -179,4 +179,12 @@ public class SwerveModule {
     m_driveMotor.setIdleMode(mode);
   }
 
+  public void disableAccelerationLimiting() {
+    m_driveMotor.setOpenLoopRampRate(0);
+  }
+
+  public void enableAccelerationLimiting() {
+    m_driveMotor.setOpenLoopRampRate(m_config.getDouble("drivekRampRate"));
+  }
+
 }

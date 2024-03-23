@@ -9,15 +9,17 @@ import java.util.function.IntSupplier;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.telemetries.Trace;
+import frc.robot.utils.AllianceConfig;
 
 public class TurnToTarget extends PIDCommand4905 {
-  /** Creates a new TurnToTarget. */
-  private IntSupplier m_wantedID;
+  /* Creates a new TurnToTarget. */
+  private int m_wantedID = -1;
   Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
 
   public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint) {
@@ -32,8 +34,6 @@ public class TurnToTarget extends PIDCommand4905 {
         output -> {
           Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, -output, false);
         });
-    m_wantedID = wantedID;
-    m_setpoint = setpoint;
     addRequirements(
         Robot.getInstance().getSubsystemsContainer().getDriveTrain().getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
@@ -43,23 +43,32 @@ public class TurnToTarget extends PIDCommand4905 {
     getController().setD(pidConfig.getDouble("TurnToTarget.TurningDTerm"));
     getController().setMinOutputToMove(pidConfig.getDouble("TurnToTarget.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("TurnToTarget.positionTolerance"));
-    getController().setMaxOutput(0.25);
+    getController().setMaxOutput(1);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     super.initialize();
-    Trace.getInstance().logCommandInfo(this, "Wanted ID:" + m_wantedID.getAsInt());
-    Trace.getInstance().logCommandInfo(this, "Setpoint:" + m_setpoint.getAsDouble());
+    Alliance alliance = AllianceConfig.getCurrentAlliance();
+    // 4 is the middle speaker april tag on red, 8 is blue
+    m_wantedID = 4;
+    if (alliance == Alliance.Blue) {
+      m_wantedID = 8;
+    }
+    setMeasurementSource(Robot.getInstance().getSensorsContainer().getPhotonVision()
+        .getYaw(() -> m_wantedID, getSetpoint()));
+    Trace.getInstance().logCommandInfo(this, "Wanted ID:" + m_wantedID);
+    Trace.getInstance().logCommandInfo(this, "Setpoint:" + getSetpoint().getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandInfo(this, "Finish turn angle: " + Robot.getInstance()
-        .getSensorsContainer().getPhotonVision().getYaw(m_wantedID, m_setpoint).getAsDouble());
+    Trace.getInstance().logCommandInfo(this,
+        "Finish turn angle: " + Robot.getInstance().getSensorsContainer().getPhotonVision()
+            .getYaw(() -> m_wantedID, getSetpoint()).getAsDouble());
   }
 
   // Returns true when the command should end.

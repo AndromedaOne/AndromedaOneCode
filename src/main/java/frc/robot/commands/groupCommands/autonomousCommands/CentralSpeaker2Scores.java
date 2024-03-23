@@ -12,6 +12,7 @@ import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePositionCommand;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
@@ -23,6 +24,7 @@ import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -35,6 +37,13 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
     double m_waypoint2;
     double m_angle2;
     double m_waypoint3;
+
+    public String toString() {
+      String str = new String(
+          "\twaypt 1: " + m_waypoint1 + "\n\tang 1: " + m_angle1 + "\n\twaypt 2:" + m_waypoint2
+              + "\n\tandg 2: " + m_angle2 + "\n\twaypt 3: " + m_waypoint3 + "\n");
+      return str;
+    }
   }
 
   CentralSpeaker2ScoresConfig CentralSpeaker2ScoresConfigRed = new CentralSpeaker2ScoresConfig();
@@ -94,12 +103,12 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
     CentralSpeaker2ScoresConfigBlue.m_waypoint3 = blueConfig
         .getDouble("CentralSpeaker2Scores.WayPoint3");
     m_configSupplier.setConfig(CentralSpeaker2ScoresConfigRed);
-    addCommands(
+    addCommands(new DelayedSequentialCommandGroup(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder)),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.MID),
         new DrivePositionCommand(m_endEffector, m_armRotate),
@@ -108,7 +117,7 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
         new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
-        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1));
+        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1)));
   }
 
   public void additionalInitialize() {
@@ -118,7 +127,7 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
     } else {
       m_configSupplier.setConfig(CentralSpeaker2ScoresConfigRed);
     }
-
+    Trace.getInstance().logCommandInfo(this, m_configSupplier.getConfig().toString());
   }
 
   private class CentralSpeaker2ScoresConfigSupplier {

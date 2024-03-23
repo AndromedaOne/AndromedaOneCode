@@ -196,6 +196,27 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     move(forwardBackward, 0, rotation, false, true);
   }
 
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
+      boolean useSquaredInputs, double compassHeading) {
+    if (rotation == 0.0) {
+      double robotDeltaAngle = AngleConversionUtils
+          .calculateMinimalCompassHeadingDifference(m_gyro.getCompassHeading(), compassHeading);
+      rotation = robotDeltaAngle
+          * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("moveUsingGyroP");
+      Trace.getInstance().addTrace(true, "MoveUsingGyro",
+          new TracePair("CompassHeading", compassHeading),
+          new TracePair("GyroCompassHeading", m_gyro.getCompassHeading()),
+          new TracePair("robotDeltaAngle", robotDeltaAngle), new TracePair("rotation", rotation),
+          new TracePair("ForwardBackward", forwardBackward));
+    }
+    double angleInRadians = Math.toRadians(angle);
+    double forwardBackwardValue = forwardBackward * Math.cos(angleInRadians);
+    double strafeValue = -1 * forwardBackward * Math.sin(angleInRadians);
+    // this is where you want to put debugging for fowardBackward, angleInRadians,
+    // fowardBackwardValue, strafeValue,m_SwerveMods[0].getAngle().getDefrees()
+    move(forwardBackwardValue, strafeValue, rotation, false, true);
+  }
+
   @Override
   public void stop() {
     move(0, 0, 0, true, true);
@@ -269,9 +290,28 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
+  public void setToAngle(double angle) {
+    for (SwerveModule mod : m_SwerveMods) {
+      mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), true, true);
+    }
+  }
+
   public void setToZero() {
     for (SwerveModule mod : m_SwerveMods) {
       mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), true, true);
     }
   }
+
+  public void disableAccelerationLimiting() {
+    for (SwerveModule mod : m_SwerveMods) {
+      mod.disableAccelerationLimiting();
+    }
+  }
+
+  public void enableAccelerationLimiting() {
+    for (SwerveModule mod : m_SwerveMods) {
+      mod.enableAccelerationLimiting();
+    }
+  }
+
 }
