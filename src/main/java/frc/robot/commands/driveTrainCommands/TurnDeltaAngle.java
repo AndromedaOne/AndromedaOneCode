@@ -7,6 +7,8 @@
 
 package frc.robot.commands.driveTrainCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -21,7 +23,7 @@ import frc.robot.telemetries.Trace;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnDeltaAngle extends PIDCommand4905 {
-  private double m_deltaTurnAngle;
+  private DoubleSupplier m_deltaTurnAngle;
   private double m_targetAngle;
   Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
   private Gyro4905 m_gyro;
@@ -30,7 +32,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   /**
    * Creates a new TurnDeltaAngle.
    */
-  public TurnDeltaAngle(double deltaTurnAngle) {
+  public TurnDeltaAngle(DoubleSupplier deltaTurnAngle) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("TurnDeltaAngle"),
@@ -57,7 +59,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   @Override
   public void initialize() {
     super.initialize();
-    m_targetAngle = m_gyro.getZAngle() + m_deltaTurnAngle;
+    m_targetAngle = m_gyro.getZAngle() + m_deltaTurnAngle.getAsDouble();
     double angle = m_gyro.getZAngle();
     Trace.getInstance().logCommandInfo(this, "Starting Angle:" + angle);
     Trace.getInstance().logCommandInfo(this, "Setpoint: " + getSetpoint().getAsDouble());

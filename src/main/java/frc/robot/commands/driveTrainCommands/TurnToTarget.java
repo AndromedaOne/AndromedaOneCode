@@ -10,6 +10,7 @@ import java.util.function.IntSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
@@ -20,9 +21,10 @@ import frc.robot.utils.AllianceConfig;
 public class TurnToTarget extends PIDCommand4905 {
   /* Creates a new TurnToTarget. */
   private int m_wantedID = -1;
-  Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
+  private Config m_pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
+  private boolean m_useSmartDashboard = false;
 
-  public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint) {
+  public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint, boolean useSmartDashboard) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("TurnToTarget"),
@@ -38,12 +40,18 @@ public class TurnToTarget extends PIDCommand4905 {
         Robot.getInstance().getSubsystemsContainer().getDriveTrain().getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
 
-    getController().setP(pidConfig.getDouble("TurnToTarget.TurningPTerm"));
-    getController().setI(pidConfig.getDouble("TurnToTarget.TurningITerm"));
-    getController().setD(pidConfig.getDouble("TurnToTarget.TurningDTerm"));
-    getController().setMinOutputToMove(pidConfig.getDouble("TurnToTarget.minOutputToMove"));
-    getController().setTolerance(pidConfig.getDouble("TurnToTarget.positionTolerance"));
-    getController().setMaxOutput(1);
+    getController().setP(m_pidConfig.getDouble("TurnToTarget.TurningPTerm"));
+    getController().setI(m_pidConfig.getDouble("TurnToTarget.TurningITerm"));
+    getController().setD(m_pidConfig.getDouble("TurnToTarget.TurningDTerm"));
+    getController().setMinOutputToMove(m_pidConfig.getDouble("TurnToTarget.minOutputToMove"));
+    getController().setTolerance(m_pidConfig.getDouble("TurnToTarget.positionTolerance"));
+    getController().setMaxOutput(0.25);
+    m_useSmartDashboard = useSmartDashboard;
+    SmartDashboard.putNumber("Turn To Target ID", -1);
+  }
+
+  public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint) {
+    this(wantedID, setpoint, false);
   }
 
   // Called when the command is initially scheduled.
@@ -55,6 +63,9 @@ public class TurnToTarget extends PIDCommand4905 {
     m_wantedID = 4;
     if (alliance == Alliance.Blue) {
       m_wantedID = 8;
+    }
+    if (m_useSmartDashboard) {
+      m_wantedID = (int) SmartDashboard.getNumber("Turn To Target ID", -1);
     }
     setMeasurementSource(Robot.getInstance().getSensorsContainer().getPhotonVision()
         .getYaw(() -> m_wantedID, getSetpoint()));

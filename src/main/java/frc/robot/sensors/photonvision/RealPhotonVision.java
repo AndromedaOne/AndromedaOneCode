@@ -22,6 +22,7 @@ import frc.robot.sensors.RealSensorBase;
 
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
+  private final double m_consecutiveFramesWithoutTarget = 16;
   private PhotonCamera m_camera;
   private Config m_config = Config4905.getConfig4905().getSensorConfig();
   private final double m_offsetToSwerveModInches = m_config
@@ -38,6 +39,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
 
   public RealPhotonVision() {
     m_camera = new PhotonCamera(m_config.getString("photonvision.cameraName"));
+    SmartDashboard.putBoolean("lost target", false);
   }
 
   @Override
@@ -100,10 +102,12 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     private DoubleSupplier m_setpoint = () -> 0;
     private double m_counter = 0;
     private double m_previousYaw = 0;
+    private double m_offset = m_config.getDouble("photonvision.cameraOffsetToCenterInInches");
 
     public PhotonVisionYawSupplier(IntSupplier wantedID, DoubleSupplier setpoint) {
       m_wantedID = wantedID;
       m_setpoint = setpoint;
+      SmartDashboard.putBoolean("lost target", true);
     }
 
     @Override
@@ -115,11 +119,17 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
           SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
           m_previousYaw = target.getYaw();
           m_counter = 0;
-          return target.getYaw();
+          double offsetAngle = Units.radiansToDegrees(
+              Math.asin(m_offset / getDistanceToTargetInInches(m_wantedID.getAsInt())));
+          SmartDashboard.putNumber("Yaw", m_previousYaw);
+          SmartDashboard.putNumber("Photon Offset", offsetAngle);
+          m_previousYaw += offsetAngle;
+          return m_previousYaw;
         }
       }
       m_counter++;
-      if (m_counter >= 8) {
+      if (m_counter >= m_consecutiveFramesWithoutTarget) {
+        SmartDashboard.putBoolean("lost target", true);
         return m_setpoint.getAsDouble();
       }
       return m_previousYaw;
