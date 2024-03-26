@@ -108,7 +108,7 @@ public class CentralSpeaker2Scores extends SequentialCommandGroup4905 {
             BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter, false)),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY),
         new DrivePositionCommand(m_endEffector, m_armRotate),

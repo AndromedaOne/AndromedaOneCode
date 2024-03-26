@@ -15,11 +15,20 @@ import frc.robot.subsystems.billShooter.BillShooterBase;
 public class IntakeNote extends SequentialCommandGroup4905 {
 
   public IntakeNote(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
-      BillFeederBase feeder, BillShooterBase shooter) {
+      BillFeederBase feeder, BillShooterBase shooter, boolean endInDrivePosition) {
     final double m_armIntakeSetpoint = 352.0; // we dont know - 300 test only
-    addCommands(new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.INTAKE),
-        new ArmRotate(armRotate, () -> m_armIntakeSetpoint, false, false),
-        new MoveEndEffector(endEffector, () -> false), new RunBillShooterRPM(shooter, () -> -200)),
-        new DrivePositionCommand(endEffector, armRotate));
+    if (endInDrivePosition) {
+      addCommands(
+          new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.INTAKE),
+              new ArmRotate(armRotate, () -> m_armIntakeSetpoint, false, false),
+              new MoveEndEffector(endEffector, () -> false),
+              new RunBillShooterRPM(shooter, () -> -200)),
+          new DrivePositionCommand(endEffector, armRotate));
+    } else {
+      addCommands(new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.INTAKE),
+          new ArmRotate(armRotate, () -> m_armIntakeSetpoint, false, false),
+          new MoveEndEffector(endEffector, () -> false),
+          new RunBillShooterRPM(shooter, () -> -200)));
+    }
   }
 }
