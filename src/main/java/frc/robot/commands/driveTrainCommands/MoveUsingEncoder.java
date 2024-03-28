@@ -93,6 +93,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
           .setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingEncoder.minOutputToMove"));
       getController()
           .setTolerance(pidConstantsConfig.getDouble("MoveUsingEncoder.positionTolerance"));
+      getController().setIZone(pidConstantsConfig.getDouble("MoveUsingEncoder.iZone"));
       // Allows anyone who calls MoveUsingEncoder to override the maxOutput defined in
       // config (if present)
       if (m_maxOutput != 0) {
