@@ -368,14 +368,17 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     return m_pError + m_iError + m_dError;
   }
 
+  /* Gets the proportional error. */
   protected double getPError() {
     return m_pError;
   }
 
+  /* Gets the intergral error. */
   protected double getIError() {
     return m_iError;
   }
 
+  /* Gets the differential error. */
   protected double getDError() {
     return m_dError;
   }
