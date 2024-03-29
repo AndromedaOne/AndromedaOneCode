@@ -16,6 +16,7 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.gyro.Gyro4905;
+import frc.robot.sensors.photonvision.RealPhotonVision.AngleToTargetDoubleSupplier;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
@@ -54,6 +55,10 @@ public class TurnDeltaAngle extends PIDCommand4905 {
     getController().setD(pidConfig.getDouble("GyroPIDCommands.TurningDTerm"));
     getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"));
+  }
+
+  public TurnDeltaAngle(AngleToTargetDoubleSupplier angleToTarget){
+    this(()->angleToTarget.getAngle());
   }
 
   @Override

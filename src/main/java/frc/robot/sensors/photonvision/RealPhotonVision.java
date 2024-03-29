@@ -36,6 +36,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private final double m_cameraPitchInDegrees = m_config
       .getDouble("photonvision.cameraPitchInDegrees");
   private final double m_cameraPitchInRadians = Units.degreesToRadians(m_cameraPitchInDegrees);
+  private double m_offset = m_config.getDouble("photonvision.cameraOffsetToCenterInInches");
 
   public RealPhotonVision() {
     m_camera = new PhotonCamera(m_config.getString("photonvision.cameraName"));
@@ -97,12 +98,29 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     return true;
   }
 
-  private class PhotonVisionYawSupplier implements DoubleSupplier {
+public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint) {
+      List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
+      for (PhotonTrackedTarget target : targets) {
+        if (target.getFiducialId() == wantedID) {
+          SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
+          SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
+          double offsetAngle = Units.radiansToDegrees(
+              Math.asin(m_offset / getDistanceToTargetInInches(wantedID)));
+          double yaw = target.getYaw();
+          SmartDashboard.putNumber("Yaw", yaw);
+          SmartDashboard.putNumber("Photon Offset", offsetAngle);
+          return new TargetDetectedAndAngle(yaw + offsetAngle, true);
+        } 
+      }
+      return new TargetDetectedAndAngle(setPoint, false);
+    }
+
+  public class PhotonVisionYawSupplier implements DoubleSupplier {
     private IntSupplier m_wantedID = () -> -1;
     private DoubleSupplier m_setpoint = () -> 0;
     private double m_counter = 0;
     private double m_previousYaw = 0;
-    private double m_offset = m_config.getDouble("photonvision.cameraOffsetToCenterInInches");
+    
 
     public PhotonVisionYawSupplier(IntSupplier wantedID, DoubleSupplier setpoint) {
       m_wantedID = wantedID;
@@ -112,20 +130,12 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
 
     @Override
     public double getAsDouble() {
-      List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
-      for (PhotonTrackedTarget target : targets) {
-        if (target.getFiducialId() == m_wantedID.getAsInt()) {
-          SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
-          SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
-          m_previousYaw = target.getYaw();
-          m_counter = 0;
-          double offsetAngle = Units.radiansToDegrees(
-              Math.asin(m_offset / getDistanceToTargetInInches(m_wantedID.getAsInt())));
-          SmartDashboard.putNumber("Yaw", m_previousYaw);
-          SmartDashboard.putNumber("Photon Offset", offsetAngle);
-          m_previousYaw += offsetAngle;
-          return m_previousYaw;
-        }
+      TargetDetectedAndAngle detectedAnAngle = getTargetDetectedAndAngle(m_wantedID.getAsInt(), 
+        m_setpoint.getAsDouble());
+      if (detectedAnAngle.getDetected()) {
+        m_counter = 0;
+        m_previousYaw = detectedAnAngle.getAngle();
+        return m_previousYaw;
       }
       m_counter++;
       if (m_counter >= m_consecutiveFramesWithoutTarget) {
@@ -140,5 +150,46 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   @Override
   public DoubleSupplier getYaw(IntSupplier wantedID, DoubleSupplier setpoint) {
     return new PhotonVisionYawSupplier(wantedID, setpoint);
+  }
+  
+  public class AngleToTargetDoubleSupplier {
+    private double m_angle = 0;
+
+    public AngleToTargetDoubleSupplier (double angle) {
+    m_angle = angle;
+    }
+    public double getAngle() {
+      return m_angle;
+    }
+
+    public void setAngle(double angle) {
+      m_angle = angle;
+    } 
+  }
+  public class TargetDetectedAndAngle {
+    private double m_angle = 0;
+    private boolean m_detected = false;
+
+    public TargetDetectedAndAngle (double angle, boolean detected) {
+      m_angle = angle;
+      m_detected = detected;
+
+    }
+
+    public double getAngle() {
+      return m_angle;
+    }
+
+    public boolean getDetected() {
+      return m_detected;
+    }
+
+    public void setAngle(double angle) {
+      m_angle = angle;
+    }
+  }
+    @Override
+  public PhotonVisionYawSupplier getPhotonVisionSupplier(IntSupplier wantedID, DoubleSupplier setpoint) {
+    return(new PhotonVisionYawSupplier(wantedID, setpoint));
   }
 }

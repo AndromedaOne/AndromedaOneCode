@@ -7,6 +7,9 @@ package frc.robot.sensors.photonvision;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
+import frc.robot.sensors.photonvision.RealPhotonVision;
+import frc.robot.sensors.photonvision.RealPhotonVision.PhotonVisionYawSupplier;
+
 /** Add your docs here. */
 public class MockPhotonVision implements PhotonVisionBase {
 
@@ -40,4 +43,9 @@ public class MockPhotonVision implements PhotonVisionBase {
     return 0;
   }
 
+  @Override
+  public PhotonVisionYawSupplier getPhotonVisionSupplier(IntSupplier wantedID, DoubleSupplier setpoint) {
+    RealPhotonVision = new RealPhotonVision();
+    return(new PhotonVisionYawSupplier(() -> -1, () -> 0));
+  }
 }
