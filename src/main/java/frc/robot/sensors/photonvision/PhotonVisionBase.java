@@ -4,9 +4,6 @@
 
 package frc.robot.sensors.photonvision;
 
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-
 /** Add your docs here. */
 public interface PhotonVisionBase {
 

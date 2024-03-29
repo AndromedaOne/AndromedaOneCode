@@ -16,7 +16,7 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.gyro.Gyro4905;
-import frc.robot.sensors.photonvision.RealPhotonVision.AngleToTargetDoubleSupplier;
+import frc.robot.sensors.photonvision.TargetDetectedAndAngle;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
@@ -25,7 +25,7 @@ import frc.robot.telemetries.Trace;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnDeltaAngle extends PIDCommand4905 {
   private DoubleSupplier m_deltaTurnAngle;
-  private double m_targetAngle;
+  private double m_targetAngle = 0;
   Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
   private Gyro4905 m_gyro;
   private DriveTrainBase m_driveTrain;
@@ -57,8 +57,8 @@ public class TurnDeltaAngle extends PIDCommand4905 {
     getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"));
   }
 
-  public TurnDeltaAngle(AngleToTargetDoubleSupplier angleToTarget){
-    this(()->angleToTarget.getAngle());
+  public TurnDeltaAngle(TargetDetectedAndAngle angleToTarget) {
+    this(() -> angleToTarget.getAngle());
   }
 
   @Override

@@ -6,8 +6,6 @@ package frc.robot.sensors.photonvision;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -99,20 +97,19 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
 
   @Override
   public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint) {
-      List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
-      for (PhotonTrackedTarget target : targets) {
-        if (target.getFiducialId() == wantedID) {
-          SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
-          SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
-          double offsetAngle = Units.radiansToDegrees(
-              Math.asin(m_offset / getDistanceToTargetInInches(wantedID)));
-          double yaw = target.getYaw();
-          SmartDashboard.putNumber("Yaw", yaw);
-          SmartDashboard.putNumber("Photon Offset", offsetAngle);
-          return new TargetDetectedAndAngle(yaw + offsetAngle, true);
-        } 
+    List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
+    for (PhotonTrackedTarget target : targets) {
+      if (target.getFiducialId() == wantedID) {
+        SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
+        SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
+        double offsetAngle = Units
+            .radiansToDegrees(Math.asin(m_offset / getDistanceToTargetInInches(wantedID)));
+        double yaw = target.getYaw();
+        SmartDashboard.putNumber("Yaw", yaw);
+        SmartDashboard.putNumber("Photon Offset", offsetAngle);
+        return new TargetDetectedAndAngle(yaw + offsetAngle, true);
       }
-      return new TargetDetectedAndAngle(setPoint, false);
     }
+    return new TargetDetectedAndAngle(setPoint, false);
   }
-
+}

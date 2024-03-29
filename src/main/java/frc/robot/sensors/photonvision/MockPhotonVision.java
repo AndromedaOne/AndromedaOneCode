@@ -4,11 +4,6 @@
 
 package frc.robot.sensors.photonvision;
 
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-
-import frc.robot.sensors.photonvision.RealPhotonVision;
-
 /** Add your docs here. */
 public class MockPhotonVision implements PhotonVisionBase {
 

@@ -4,17 +4,26 @@
 
 package frc.robot.commands.photonVisionCommands;
 
+import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.sensors.photonvision.RealPhotonVision;
-import frc.robot.sensors.photonvision.RealPhotonVision.PhotonVisionYawSupplier;
+import frc.robot.sensors.photonvision.PhotonVisionBase;
+import frc.robot.sensors.photonvision.TargetDetectedAndAngle;
 
 public class AngleToTarget extends Command {
 
-  private RealPhotonVision m_yawSupplier;
+  private PhotonVisionBase m_photonVision;
+  private IntSupplier m_wantedID;
+  private DoubleSupplier m_setpoint;
+  private TargetDetectedAndAngle m_targetDetectedAndAngle;
 
   /** Creates a new AngleToTarget. */
-  public AngleToTarget(RealPhotonVision yawSupplier) {
-    m_yawSupplier = yawSupplier;
+  public AngleToTarget(PhotonVisionBase photonvision, IntSupplier wantedID, DoubleSupplier setpoint,
+      TargetDetectedAndAngle targetDetectedAndAngle) {
+    m_photonVision = photonvision;
+    m_wantedID = wantedID;
+    m_setpoint = setpoint;
   }
 
   // Called when the command is initially scheduled.
@@ -22,18 +31,25 @@ public class AngleToTarget extends Command {
   public void initialize() {
 
   }
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+
   }
+
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_yawSupplier.getTargetDetectedAndAngle().getDetected();
+    TargetDetectedAndAngle target = m_photonVision.getTargetDetectedAndAngle(m_wantedID.getAsInt(),
+        m_setpoint.getAsDouble());
+    m_targetDetectedAndAngle.setAngle(target.getAngle());
+    m_targetDetectedAndAngle.setDetected(target.getDetected());
+    return m_targetDetectedAndAngle.getDetected();
   }
 }

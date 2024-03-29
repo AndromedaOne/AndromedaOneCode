@@ -15,6 +15,8 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
+import frc.robot.sensors.photonvision.PhotonVisionBase;
+import frc.robot.sensors.photonvision.PhotonVisionYawSupplier;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 
@@ -23,13 +25,15 @@ public class TurnToTarget extends PIDCommand4905 {
   private int m_wantedID = -1;
   private Config m_pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
   private boolean m_useSmartDashboard = false;
+  private PhotonVisionBase m_photonVision = Robot.getInstance().getSensorsContainer()
+      .getPhotonVision();
 
   public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint, boolean useSmartDashboard) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("TurnToTarget"),
         // This should return the measurement
-        Robot.getInstance().getSensorsContainer().getPhotonVision().getYaw(wantedID, setpoint),
+        () -> 0,
         // This should return the setpoint (can also be a constant)
         setpoint,
         // This uses the output
@@ -67,8 +71,8 @@ public class TurnToTarget extends PIDCommand4905 {
     if (m_useSmartDashboard) {
       m_wantedID = (int) SmartDashboard.getNumber("Turn To Target ID", -1);
     }
-    setMeasurementSource(Robot.getInstance().getSensorsContainer().getPhotonVision()
-        .getYaw(() -> m_wantedID, getSetpoint()));
+    setMeasurementSource(
+        new PhotonVisionYawSupplier(() -> m_wantedID, getSetpoint(), m_photonVision));
     Trace.getInstance().logCommandInfo(this, "Wanted ID:" + m_wantedID);
     Trace.getInstance().logCommandInfo(this, "Setpoint:" + getSetpoint().getAsDouble());
   }
@@ -77,9 +81,8 @@ public class TurnToTarget extends PIDCommand4905 {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandInfo(this,
-        "Finish turn angle: " + Robot.getInstance().getSensorsContainer().getPhotonVision()
-            .getYaw(() -> m_wantedID, getSetpoint()).getAsDouble());
+    Trace.getInstance().logCommandInfo(this, "Finish turn angle: " + m_photonVision
+        .getTargetDetectedAndAngle(m_wantedID, getSetpoint().getAsDouble()).getAngle());
   }
 
   // Returns true when the command should end.
