@@ -22,7 +22,6 @@ import frc.robot.sensors.RealSensorBase;
 
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
-  private final double m_consecutiveFramesWithoutTarget = 16;
   private PhotonCamera m_camera;
   private Config m_config = Config4905.getConfig4905().getSensorConfig();
   private final double m_offsetToSwerveModInches = m_config
@@ -98,7 +97,8 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     return true;
   }
 
-public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint) {
+  @Override
+  public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint) {
       List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
       for (PhotonTrackedTarget target : targets) {
         if (target.getFiducialId() == wantedID) {
@@ -114,82 +114,5 @@ public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double set
       }
       return new TargetDetectedAndAngle(setPoint, false);
     }
-
-  public class PhotonVisionYawSupplier implements DoubleSupplier {
-    private IntSupplier m_wantedID = () -> -1;
-    private DoubleSupplier m_setpoint = () -> 0;
-    private double m_counter = 0;
-    private double m_previousYaw = 0;
-    
-
-    public PhotonVisionYawSupplier(IntSupplier wantedID, DoubleSupplier setpoint) {
-      m_wantedID = wantedID;
-      m_setpoint = setpoint;
-      SmartDashboard.putBoolean("lost target", true);
-    }
-
-    @Override
-    public double getAsDouble() {
-      TargetDetectedAndAngle detectedAnAngle = getTargetDetectedAndAngle(m_wantedID.getAsInt(), 
-        m_setpoint.getAsDouble());
-      if (detectedAnAngle.getDetected()) {
-        m_counter = 0;
-        m_previousYaw = detectedAnAngle.getAngle();
-        return m_previousYaw;
-      }
-      m_counter++;
-      if (m_counter >= m_consecutiveFramesWithoutTarget) {
-        SmartDashboard.putBoolean("lost target", true);
-        return m_setpoint.getAsDouble();
-      }
-      return m_previousYaw;
-    }
-
   }
 
-  @Override
-  public DoubleSupplier getYaw(IntSupplier wantedID, DoubleSupplier setpoint) {
-    return new PhotonVisionYawSupplier(wantedID, setpoint);
-  }
-  
-  public class AngleToTargetDoubleSupplier {
-    private double m_angle = 0;
-
-    public AngleToTargetDoubleSupplier (double angle) {
-    m_angle = angle;
-    }
-    public double getAngle() {
-      return m_angle;
-    }
-
-    public void setAngle(double angle) {
-      m_angle = angle;
-    } 
-  }
-  public class TargetDetectedAndAngle {
-    private double m_angle = 0;
-    private boolean m_detected = false;
-
-    public TargetDetectedAndAngle (double angle, boolean detected) {
-      m_angle = angle;
-      m_detected = detected;
-
-    }
-
-    public double getAngle() {
-      return m_angle;
-    }
-
-    public boolean getDetected() {
-      return m_detected;
-    }
-
-    public void setAngle(double angle) {
-      m_angle = angle;
-    }
-  }
-    @Override
-  public PhotonVisionYawSupplier getPhotonVisionSupplier(IntSupplier wantedID, DoubleSupplier setpoint) {
-    return(new PhotonVisionYawSupplier(wantedID, setpoint));
-  }
-}

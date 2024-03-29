@@ -7,8 +7,6 @@ package frc.robot.sensors.photonvision;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
-import frc.robot.sensors.photonvision.RealPhotonVision.PhotonVisionYawSupplier;
-
 /** Add your docs here. */
 public interface PhotonVisionBase {
 
@@ -20,10 +18,8 @@ public interface PhotonVisionBase {
 
   public double getTargetID();
 
-  public DoubleSupplier getYaw(IntSupplier wantedID, DoubleSupplier setpoint);
-
   public boolean doesPhotonVisionExist();
 
-  public PhotonVisionYawSupplier getPhotonVisionSupplier(IntSupplier wantedID, DoubleSupplier setpoint);
+  public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint);
 
 }

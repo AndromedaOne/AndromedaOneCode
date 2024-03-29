@@ -8,7 +8,6 @@ import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
 import frc.robot.sensors.photonvision.RealPhotonVision;
-import frc.robot.sensors.photonvision.RealPhotonVision.PhotonVisionYawSupplier;
 
 /** Add your docs here. */
 public class MockPhotonVision implements PhotonVisionBase {
@@ -29,11 +28,6 @@ public class MockPhotonVision implements PhotonVisionBase {
   }
 
   @Override
-  public DoubleSupplier getYaw(IntSupplier wantedID, DoubleSupplier setpoint) {
-    return () -> 0;
-  }
-
-  @Override
   public boolean doesPhotonVisionExist() {
     return false;
   }
@@ -44,8 +38,7 @@ public class MockPhotonVision implements PhotonVisionBase {
   }
 
   @Override
-  public PhotonVisionYawSupplier getPhotonVisionSupplier(IntSupplier wantedID, DoubleSupplier setpoint) {
-    RealPhotonVision = new RealPhotonVision();
-    return(new PhotonVisionYawSupplier(() -> -1, () -> 0));
+  public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint) {
+    return new TargetDetectedAndAngle(0, false);
   }
 }
