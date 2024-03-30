@@ -4,6 +4,7 @@
 
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
@@ -13,12 +14,14 @@ import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore.SpeakerScoreDistanceEnum;
+import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.telemetries.Trace;
+import frc.robot.utils.AllianceConfig;
 import frc.robot.utils.InterpolatingMap;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -53,16 +56,23 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
     ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
     // Add the deadline command in the super() call. Add other commands using
     addCommands(
+        new ParallelDeadlineGroup4905(
         new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
             runArmCommand.getOnTargetSupplier()),
         runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
         runShooterCommand,
-        new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain()));
+        new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
 
   }
 
   @Override
   public void additionalInitialize() {
+    Alliance alliance = AllianceConfig.getCurrentAlliance();
+    // 4 is the middle speaker april tag on red, 8 is blue
+    m_wantedID = 4;
+    if (alliance == Alliance.Blue) {
+      m_wantedID = 7;
+    }
     double measuredDistance = Robot.getInstance().getSensorsContainer().getPhotonVision()
         .getDistanceToTargetInInches(m_wantedID);
     Trace.getInstance().logCommandInfo(this, "Measured Distance: " + measuredDistance);
