@@ -62,8 +62,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       addCommands(new ParallelDeadlineGroup4905(
           new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
               runArmCommand.getOnTargetSupplier()),
-          runArmCommand,
-          new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
           runShooterCommand));
     } else {
       addCommands(
@@ -71,8 +70,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
           new ParallelDeadlineGroup4905(
               new RunBillFeeder(feeder, FeederStates.SHOOTING,
                   runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
-              runArmCommand,
-              new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+              runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
               runShooterCommand,
               new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
     }
