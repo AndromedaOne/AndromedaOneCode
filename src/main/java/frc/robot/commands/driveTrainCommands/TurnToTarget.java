@@ -66,7 +66,7 @@ public class TurnToTarget extends PIDCommand4905 {
     // 4 is the middle speaker april tag on red, 8 is blue
     m_wantedID = 4;
     if (alliance == Alliance.Blue) {
-      m_wantedID = 8;
+      m_wantedID = 7;
     }
     if (m_useSmartDashboard) {
       m_wantedID = (int) SmartDashboard.getNumber("Turn To Target ID", -1);
