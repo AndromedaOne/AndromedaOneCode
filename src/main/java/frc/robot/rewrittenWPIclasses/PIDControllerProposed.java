@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
+import frc.robot.telemetries.Trace;
 
 /**
  * Implements a PID control loop.
@@ -28,10 +29,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
 
   // The period (in seconds) of the loop that calls the controller
   private final double m_period;
-
-  private double m_maximumIntegral = 1.0;
-
-  private double m_minimumIntegral = -1.0;
 
   // Maximum input - limit setpoint to this
   private double m_maximumInput;
@@ -56,6 +53,11 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   private double m_pError;
   private double m_iError;
   private double m_dError;
+
+  private double m_iZone = 0;
+
+  private double m_minimumIntegral = -1.0;
+  private double m_maximumIntegral = 1.0;
 
   // The percentage or absolute error that is considered at setpoint.
   private double m_positionTolerance = 0.05;
@@ -150,6 +152,15 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
   }
 
   /**
+   * Sets the Intergral clamping zone of the PID controller gain.
+   *
+   * @param iZone intergral clamping zone
+   */
+  public void setIZone(double iZone) {
+    m_iZone = iZone;
+  }
+
+  /**
    * Get the Proportional coefficient.
    *
    * @return proportional coefficient
@@ -174,6 +185,23 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
    */
   public double getD() {
     return m_kd;
+  }
+
+  /**
+   * Get the Integral clamping zone.
+   *
+   * @return integral clamping zone
+   */
+  public double getIZone() {
+    return m_iZone;
+  }
+
+  public double getIZoneLower() {
+    return m_setpoint - Math.abs(getIZone());
+  }
+
+  public double getIZoneUpper() {
+    return m_setpoint + Math.abs(getIZone());
   }
 
   /**
@@ -355,10 +383,13 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
       m_positionError = m_setpoint - m_measurement;
     }
     m_velocityError = (m_positionError - m_prevError) / m_period;
-
-    if (m_ki != 0) {
+    if ((m_ki != 0) && ((m_measurement >= getIZoneLower()) && (m_measurement <= getIZoneUpper())
+        || (m_iZone == 0))) {
       m_totalError = MathUtil.clamp(m_totalError + m_positionError * m_period,
           m_minimumIntegral / m_ki, m_maximumIntegral / m_ki);
+      Trace.getInstance().logInfo("iZone activated, total error: " + m_totalError);
+    } else {
+      m_totalError = 0;
     }
 
     m_pError = m_kp * m_positionError;
@@ -368,14 +399,17 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     return m_pError + m_iError + m_dError;
   }
 
+  /* Gets the proportional error. */
   protected double getPError() {
     return m_pError;
   }
 
+  /* Gets the intergral error. */
   protected double getIError() {
     return m_iError;
   }
 
+  /* Gets the differential error. */
   protected double getDError() {
     return m_dError;
   }

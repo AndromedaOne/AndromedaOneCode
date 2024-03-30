@@ -17,6 +17,7 @@ import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
 
 public class ArmRotate extends SequentialCommandGroup4905 {
+  // When using ArmRotate in auto, ALWAYS engage the break, even when feeding.
   private RotateArmInternal m_armCommand;
 
   public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
