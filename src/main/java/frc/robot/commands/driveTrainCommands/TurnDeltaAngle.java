@@ -16,7 +16,6 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.sensors.gyro.Gyro4905;
-import frc.robot.sensors.photonvision.TargetDetectedAndAngle;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
@@ -33,7 +32,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
   /**
    * Creates a new TurnDeltaAngle.
    */
-  public TurnDeltaAngle(DoubleSupplier deltaTurnAngle) {
+  public TurnDeltaAngle(DoubleSupplier deltaTurnAngle, DriveTrainBase driveTrainBase) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("TurnDeltaAngle"),
@@ -45,6 +44,7 @@ public class TurnDeltaAngle extends PIDCommand4905 {
         output -> {
           Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, output, false);
         });
+        m_driveTrain = driveTrainBase;
     setSetpoint(() -> m_targetAngle);
     addRequirements(m_driveTrain.getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
@@ -57,15 +57,12 @@ public class TurnDeltaAngle extends PIDCommand4905 {
     getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"));
   }
 
-  public TurnDeltaAngle(TargetDetectedAndAngle angleToTarget) {
-    this(() -> angleToTarget.getAngle());
-  }
-
   @Override
   public void initialize() {
     super.initialize();
     m_targetAngle = m_gyro.getZAngle() + m_deltaTurnAngle.getAsDouble();
     double angle = m_gyro.getZAngle();
+    Trace.getInstance().logCommandInfo(this, "Delta Angle Requested: " + m_deltaTurnAngle.getAsDouble());
     Trace.getInstance().logCommandInfo(this, "Starting Angle:" + angle);
     Trace.getInstance().logCommandInfo(this, "Setpoint: " + getSetpoint().getAsDouble());
     m_driveTrain.disableAccelerationLimiting();

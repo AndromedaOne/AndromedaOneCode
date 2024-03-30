@@ -7,17 +7,21 @@ package frc.robot.commands.driveTrainCommands;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
+import frc.robot.commands.photonVisionCommands.AngleToTarget;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.photonvision.PhotonVisionBase;
+import frc.robot.sensors.photonvision.TargetDetectedAndAngle;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 public class TurnToTargetUsingGyro extends SequentialCommandGroup4905 {
   /** Creates a new TurnToTargetUsingGyro. */
-  public TurnToTargetUsingGyro(DriveTrainBase driveTrainIntSupplier, IntSupplier wantedID,
-      DoubleSupplier setpoint, boolean useSmartDashboard) {
-    // PhotonVisionYawSupplier yawSupplier = new PhotonVisionYawSupplier(wantedID,
-    // setpoint);
+  public TurnToTargetUsingGyro(DriveTrainBase driveTrain, IntSupplier wantedID,
+      DoubleSupplier setpoint, boolean useSmartDashboard, PhotonVisionBase photonVision) {
+    TargetDetectedAndAngle targetDetectedAndAngle = new TargetDetectedAndAngle(0, false);
+    addCommands(new AngleToTarget(photonVision, wantedID, setpoint, targetDetectedAndAngle),
+        new TurnDeltaAngle(() -> targetDetectedAndAngle.getAngle(), driveTrain), 
+        new AngleToTarget(photonVision, wantedID, setpoint, targetDetectedAndAngle),
+        new TurnDeltaAngle(() -> targetDetectedAndAngle.getAngle(), driveTrain));
   }
-
-  // Called when the command is initially scheduled.
 
 }

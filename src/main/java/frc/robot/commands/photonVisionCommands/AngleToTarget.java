@@ -24,6 +24,7 @@ public class AngleToTarget extends Command {
     m_photonVision = photonvision;
     m_wantedID = wantedID;
     m_setpoint = setpoint;
+    m_targetDetectedAndAngle = targetDetectedAndAngle;
   }
 
   // Called when the command is initially scheduled.
