@@ -9,7 +9,6 @@ import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
-import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -19,7 +18,6 @@ import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
-import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 import frc.robot.utils.InterpolatingMap;
 
@@ -67,12 +65,8 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     } else {
       addCommands(
           new TurnToTargetUsingGyro(driveTrain, () -> m_wantedID, () -> 0, false, photonVision),
-          new ParallelDeadlineGroup4905(
-              new RunBillFeeder(feeder, FeederStates.SHOOTING,
-                  runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
-              runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-              runShooterCommand,
-              new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+          new BillDistanceSpeakerScore(armRotate, endEffector, feeder, shooter, distance,
+              useSmartDashboard));
     }
   }
 
@@ -116,15 +110,6 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         m_shooterSpeed = 3250;
         m_endEffectorToHighPosition = false;
       }
-    } else {
-      double measuredDistance = Robot.getInstance().getSensorsContainer().getPhotonVision()
-          .getDistanceToTargetInInches(m_wantedID);
-      m_armSetpoint = m_shotArmAngleMap.getInterpolatedValue(measuredDistance);
-      m_shooterSpeed = m_shotShootingRPMMap.getInterpolatedValue(measuredDistance);
-      Trace.getInstance().logInfo("Distance: " + measuredDistance);
-      Trace.getInstance().logInfo("Arm Setpoint: " + m_armSetpoint);
-      Trace.getInstance().logInfo("Shooter Setpoint: " + m_shooterSpeed);
-      m_endEffectorToHighPosition = false;
     }
 
     if (m_useSmartDashboard) {
