@@ -113,7 +113,7 @@ public class SubsystemController extends ControllerBase {
     getBillSpeakerCloseScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
-        BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
+        BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE, true));
     getBillSpeakerAwayScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
