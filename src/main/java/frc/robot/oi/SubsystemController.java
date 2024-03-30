@@ -76,6 +76,10 @@ public class SubsystemController extends ControllerBase {
     return getYbutton();
   }
 
+  public JoystickButton getBillSpeakerShuttleScoreButton() {
+    return getBbutton();
+  }
+
   public JoystickButton getBillAmpScoreButton() {
     // Scores the note into the amp
     return getAbutton();
@@ -118,6 +122,10 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
         BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY));
+    getBillSpeakerShuttleScoreButton().onTrue(new BillSpeakerScore(
+        m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
+        m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
+        BillSpeakerScore.SpeakerScoreDistanceEnum.SHUTTLE, true));
     getBillAmpScoreButton().onTrue(new BillAmpScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
     getBillEnableClimberMode().onTrue(new EnableClimberMode(m_subsystemsContainer.getBillClimber(),

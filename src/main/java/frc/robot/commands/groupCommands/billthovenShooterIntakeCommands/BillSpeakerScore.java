@@ -1,5 +1,7 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
@@ -10,6 +12,7 @@ import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.driveTrainCommands.TurnToTarget;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -23,7 +26,7 @@ import frc.robot.utils.InterpolatingMap;
 
 public class BillSpeakerScore extends SequentialCommandGroup4905 {
   public enum SpeakerScoreDistanceEnum {
-    CLOSE, AWAY
+    CLOSE, AWAY, SHUTTLE
   }
 
   public enum SpeakerScoreArmPositionEnum {
@@ -40,6 +43,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
   private boolean m_useSmartDashboard;
   private InterpolatingMap m_shotArmAngleMap;
   private InterpolatingMap m_shotShootingRPMMap;
+  private DoubleSupplier m_shuttleAngle = () -> 330;
 
   public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance,
@@ -53,21 +57,27 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
     }
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
-    ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, m_useSmartDashboard);
-    if (distance == SpeakerScoreDistanceEnum.CLOSE) {
-      addCommands(new ParallelDeadlineGroup4905(
-          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
-              runArmCommand.getOnTargetSupplier()),
-          new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
-          new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-          runShooterCommand));
-    } else {
+    ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
+    if (distance == SpeakerScoreDistanceEnum.AWAY) {
       addCommands(new TurnToTarget(() -> -1, () -> 0), new ParallelDeadlineGroup4905(
           new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
               runArmCommand.getOnTargetSupplier()),
-          new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
-          new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition), runShooterCommand,
+          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+          runShooterCommand,
           new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+    } else if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
+      addCommands(new TurnToCompassHeading(m_shuttleAngle), new ParallelDeadlineGroup4905(
+          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
+              runArmCommand.getOnTargetSupplier()),
+          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+          runShooterCommand,
+          new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+    } else {
+      addCommands(new ParallelDeadlineGroup4905(
+          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
+              runArmCommand.getOnTargetSupplier()),
+          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+          runShooterCommand));
     }
   }
 
@@ -91,8 +101,10 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     // 4 is the middle speaker april tag on red, 8 is blue
     m_wantedID = 4;
+    m_shuttleAngle = () -> 345;
     if (alliance == Alliance.Blue) {
       m_wantedID = 7;
+      m_shuttleAngle = () -> 15;
     }
     SpeakerScoreArmPositionEnum armPosition = SpeakerScoreArmPositionEnum.LOW;
 
@@ -110,6 +122,16 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         m_armSetpoint = 332;
         m_shooterSpeed = 3250;
         m_endEffectorToHighPosition = false;
+      }
+    } else if (m_distance == SpeakerScoreDistanceEnum.SHUTTLE) {
+      if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
+        m_armSetpoint = 330;
+        m_shooterSpeed = 4000;
+        m_endEffectorToHighPosition = true;
+      } else {
+        m_armSetpoint = 330;
+        m_shooterSpeed = 4000;
+        m_endEffectorToHighPosition = true;
       }
     } else {
       double measuredDistance = Robot.getInstance().getSensorsContainer().getPhotonVision()
