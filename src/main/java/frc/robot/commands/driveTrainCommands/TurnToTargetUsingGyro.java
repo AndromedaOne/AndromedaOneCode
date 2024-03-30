@@ -19,7 +19,7 @@ public class TurnToTargetUsingGyro extends SequentialCommandGroup4905 {
       DoubleSupplier setpoint, boolean useSmartDashboard, PhotonVisionBase photonVision) {
     TargetDetectedAndAngle targetDetectedAndAngle = new TargetDetectedAndAngle(0, false);
     addCommands(new AngleToTarget(photonVision, wantedID, setpoint, targetDetectedAndAngle),
-        new TurnDeltaAngle(() -> targetDetectedAndAngle.getAngle(), driveTrain), 
+        new TurnDeltaAngle(() -> targetDetectedAndAngle.getAngle(), driveTrain),
         new AngleToTarget(photonVision, wantedID, setpoint, targetDetectedAndAngle),
         new TurnDeltaAngle(() -> targetDetectedAndAngle.getAngle(), driveTrain));
   }
