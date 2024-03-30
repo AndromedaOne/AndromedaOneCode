@@ -125,7 +125,7 @@ public class SubsystemController extends ControllerBase {
     getBillSpeakerShuttleScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
-        BillSpeakerScore.SpeakerScoreDistanceEnum.SHUTTLE, true));
+        BillSpeakerScore.SpeakerScoreDistanceEnum.SHUTTLE));
     getBillAmpScoreButton().onTrue(new BillAmpScore(m_subsystemsContainer.getBillArmRotate(),
         m_subsystemsContainer.getBillEffectorPosition(), m_subsystemsContainer.getBillFeeder()));
     getBillEnableClimberMode().onTrue(new EnableClimberMode(m_subsystemsContainer.getBillClimber(),
