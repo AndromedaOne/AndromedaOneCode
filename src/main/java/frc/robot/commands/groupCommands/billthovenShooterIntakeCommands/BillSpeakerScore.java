@@ -10,13 +10,15 @@ import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
-import frc.robot.commands.driveTrainCommands.TurnToTarget;
+import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.AllianceConfig;
 import frc.robot.utils.InterpolatingMap;
@@ -48,6 +50,8 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     m_distance = distance;
     m_endEffector = endEffector;
     m_useSmartDashboard = useSmartDashboard;
+    DriveTrainBase driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
+    PhotonVisionBase photonVision = Robot.getInstance().getSensorsContainer().getPhotonVision();
     if (useSmartDashboard) {
       SmartDashboard.putNumber("ShooterCommand RPM", 3000);
       SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
@@ -62,12 +66,15 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
           new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
           runShooterCommand));
     } else {
-      addCommands(new TurnToTarget(() -> -1, () -> 0), new ParallelDeadlineGroup4905(
-          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
-              runArmCommand.getOnTargetSupplier()),
-          new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
-          new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition), runShooterCommand,
-          new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+      addCommands(
+          new TurnToTargetUsingGyro(driveTrain, () -> m_wantedID, () -> 0, false, photonVision),
+          new ParallelDeadlineGroup4905(
+              new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                  runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+              new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
+              new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+              runShooterCommand,
+              new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
     }
   }
 
