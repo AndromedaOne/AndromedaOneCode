@@ -136,7 +136,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
       if (Robot.getInstance().getSensorsContainer().getPhotonVision().doesPhotonVisionExist()) {
         SmartDashboard.putData("Turn to target",
-            new TurnToTargetUsingGyro(subsystemsContainer.getDriveTrain(), () -> 1, () -> 0, true,
+            new TurnToTargetUsingGyro(subsystemsContainer.getDriveTrain(), () -> 4, () -> 0, true,
                 sensorsContainer.getPhotonVision()));
       }
       if (Config4905.getConfig4905().isBillthoven()) {
