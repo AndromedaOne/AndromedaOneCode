@@ -55,8 +55,7 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
     ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
     // Add the deadline command in the super() call. Add other commands using
-    addCommands(
-        new ParallelDeadlineGroup4905(
+    addCommands(new ParallelDeadlineGroup4905(
         new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
             runArmCommand.getOnTargetSupplier()),
         runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
