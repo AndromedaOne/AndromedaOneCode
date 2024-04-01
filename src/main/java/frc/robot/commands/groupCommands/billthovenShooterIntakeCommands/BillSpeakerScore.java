@@ -35,6 +35,8 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
 
   private BillArmRotateBase m_armRotate;
   private BillEndEffectorPositionBase m_endEffector;
+  private DriveTrainBase m_driveTrain;
+  private PhotonVisionBase m_photonVision;
   private SpeakerScoreDistanceEnum m_distance;
   private boolean m_endEffectorToHighPosition = false;
   private double m_shooterSpeed = 0;
@@ -52,8 +54,8 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     m_distance = distance;
     m_endEffector = endEffector;
     m_useSmartDashboard = useSmartDashboard;
-    DriveTrainBase driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
-    PhotonVisionBase photonVision = Robot.getInstance().getSensorsContainer().getPhotonVision();
+    m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
+    m_photonVision = Robot.getInstance().getSensorsContainer().getPhotonVision();
     if (useSmartDashboard) {
       SmartDashboard.putNumber("ShooterCommand RPM", 3000);
       SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
@@ -61,19 +63,19 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
     ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
     if (distance == SpeakerScoreDistanceEnum.AWAY) {
-      addCommands(new TurnToTarget(() -> -1, () -> 0), new ParallelDeadlineGroup4905(
-          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
-              runArmCommand.getOnTargetSupplier()),
-          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-          runShooterCommand,
-          new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+      addCommands(new TurnToTarget(() -> -1, () -> 0),
+          new ParallelDeadlineGroup4905(
+              new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                  runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+              runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+              runShooterCommand, new PauseRobot(m_driveTrain)));
     } else if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
-      addCommands(new TurnToCompassHeading(() -> m_shuttleAngle), new ParallelDeadlineGroup4905(
-          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
-              runArmCommand.getOnTargetSupplier()),
-          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-          runShooterCommand,
-          new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+      addCommands(new TurnToCompassHeading(() -> m_shuttleAngle),
+          new ParallelDeadlineGroup4905(
+              new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                  runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+              runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+              runShooterCommand, new PauseRobot(m_driveTrain)));
     } else {
       addCommands(new ParallelDeadlineGroup4905(
           new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
@@ -136,8 +138,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         m_endEffectorToHighPosition = true;
       }
     } else {
-      double measuredDistance = Robot.getInstance().getSensorsContainer().getPhotonVision()
-          .getDistanceToTargetInInches(m_wantedID);
+      double measuredDistance = m_photonVision.getDistanceToTargetInInches(m_wantedID);
       m_armSetpoint = m_shotArmAngleMap.getInterpolatedValue(measuredDistance);
       m_shooterSpeed = m_shotShootingRPMMap.getInterpolatedValue(measuredDistance);
       Trace.getInstance().logInfo("Distance: " + measuredDistance);
