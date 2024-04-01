@@ -120,7 +120,7 @@ public class TeleOpCommand extends Command {
     // removed strafe for more fine control
     // strafe should be in there, it's not being exponented at the moment and it
     // needs to be
-    if (forwardBackwardStickValue <= 0.01) {
+    if (forwardBackwardStickValue == 0) {
       strafeStickValue = Math.pow(strafeStickValue, exponent);
     }
     // it's here now

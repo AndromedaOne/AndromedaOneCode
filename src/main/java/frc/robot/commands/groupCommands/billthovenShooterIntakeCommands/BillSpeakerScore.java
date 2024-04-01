@@ -11,7 +11,7 @@ import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
-import frc.robot.commands.driveTrainCommands.TurnToTarget;
+import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
@@ -63,12 +63,14 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
     ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
     if (distance == SpeakerScoreDistanceEnum.AWAY) {
-      addCommands(new TurnToTarget(() -> -1, () -> 0),
+      addCommands(
+          new TurnToTargetUsingGyro(m_driveTrain, () -> m_wantedID, () -> 0, false, m_photonVision),
           new ParallelDeadlineGroup4905(
               new RunBillFeeder(feeder, FeederStates.SHOOTING,
                   runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
               runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-              runShooterCommand, new PauseRobot(m_driveTrain)));
+              runShooterCommand,
+              new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
     } else if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
       addCommands(new TurnToCompassHeading(() -> m_shuttleAngle),
           new ParallelDeadlineGroup4905(
