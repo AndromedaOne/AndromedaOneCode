@@ -10,6 +10,7 @@ import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
@@ -23,7 +24,7 @@ import frc.robot.utils.InterpolatingMap;
 
 public class BillSpeakerScore extends SequentialCommandGroup4905 {
   public enum SpeakerScoreDistanceEnum {
-    CLOSE, AWAY
+    CLOSE, AWAY, SHUTTLE
   }
 
   public enum SpeakerScoreArmPositionEnum {
@@ -40,6 +41,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
   private boolean m_useSmartDashboard;
   private InterpolatingMap m_shotArmAngleMap;
   private InterpolatingMap m_shotShootingRPMMap;
+  private double m_shuttleAngle = 330;
 
   public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance,
@@ -56,17 +58,25 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     }
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
     ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
-    if (distance == SpeakerScoreDistanceEnum.CLOSE) {
+    if (distance == SpeakerScoreDistanceEnum.AWAY) {
+      addCommands(new TurnToTarget(() -> -1, () -> 0), new ParallelDeadlineGroup4905(
+          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
+              runArmCommand.getOnTargetSupplier()),
+          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+          runShooterCommand,
+          new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+    } else if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
+      addCommands(new TurnToCompassHeading(() -> m_shuttleAngle), new ParallelDeadlineGroup4905(
+          new TurnToTargetUsingGyro(driveTrain, () -> m_wantedID, () -> 0, false, photonVision),
+          new BillDistanceSpeakerScore(armRotate, endEffector, feeder, shooter, distance,
+          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+          runShooterCommand,
+    } else {
       addCommands(new ParallelDeadlineGroup4905(
           new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
               runArmCommand.getOnTargetSupplier()),
           runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
           runShooterCommand));
-    } else {
-      addCommands(
-          new TurnToTargetUsingGyro(driveTrain, () -> m_wantedID, () -> 0, false, photonVision),
-          new BillDistanceSpeakerScore(armRotate, endEffector, feeder, shooter, distance,
-              useSmartDashboard));
     }
   }
 
@@ -90,8 +100,10 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     // 4 is the middle speaker april tag on red, 8 is blue
     m_wantedID = 4;
+    m_shuttleAngle = 330; // should be 330 once it works
     if (alliance == Alliance.Blue) {
       m_wantedID = 7;
+      m_shuttleAngle = 30; // should be 30 once it works
     }
     SpeakerScoreArmPositionEnum armPosition = SpeakerScoreArmPositionEnum.LOW;
 
@@ -109,6 +121,16 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
         m_armSetpoint = 332;
         m_shooterSpeed = 3250;
         m_endEffectorToHighPosition = false;
+      }
+    } else if (m_distance == SpeakerScoreDistanceEnum.SHUTTLE) {
+      if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
+        m_armSetpoint = 300;
+        m_shooterSpeed = 3000;
+        m_endEffectorToHighPosition = true;
+      } else {
+        m_armSetpoint = 300;
+        m_shooterSpeed = 3000;
+        m_endEffectorToHighPosition = true;
       }
     }
 
