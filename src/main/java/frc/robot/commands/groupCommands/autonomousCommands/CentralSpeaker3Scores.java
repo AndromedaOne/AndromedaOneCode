@@ -33,17 +33,12 @@ import frc.robot.utils.AllianceConfig;
 public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
   private class CentralSpeaker3ScoresConfig {
     double m_waypoint1;
-    double m_waypoint2;
     double m_angle1;
-    double m_waypoint3;
-    double m_angle2;
-    double m_waypoint4;
-    double m_angle3;
+    double m_waypoint2;
 
     public String toString() {
       String str = new String("\twaypt 1: " + m_waypoint1 + "\n\tang 1: " + m_angle1
-          + "\n\twaypt 2:" + m_waypoint2 + "\n\tang 2: " + m_angle2 + "\n\twaypt 3: " + m_waypoint3
-          + "\n\tang 3: " + m_angle3 + "\n");
+          + "\n\twaypt 2:" + m_waypoint2);
       return str;
     }
   }
@@ -79,25 +74,12 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
     centralSpeaker3ScoresConfigRed.m_waypoint2 = redConfig
         .getDouble("CentralSpeaker3Scores.WayPoint2");
     centralSpeaker3ScoresConfigRed.m_angle1 = redConfig.getDouble("CentralSpeaker3Scores.Angle1");
-    centralSpeaker3ScoresConfigRed.m_waypoint3 = redConfig
-        .getDouble("CentralSpeaker3Scores.WayPoint3");
-    centralSpeaker3ScoresConfigRed.m_angle2 = redConfig.getDouble("CentralSpeaker3Scores.Angle2");
-    centralSpeaker3ScoresConfigRed.m_waypoint4 = redConfig
-        .getDouble("CentralSpeaker3Scores.WayPoint4");
-    centralSpeaker3ScoresConfigRed.m_angle3 = redConfig.getDouble("CentralSpeaker3Scores.Angle3");
-
     Config blueConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     centralSpeaker3ScoresConfigBlue.m_waypoint1 = blueConfig
         .getDouble("CentralSpeaker3Scores.WayPoint1");
     centralSpeaker3ScoresConfigBlue.m_waypoint2 = blueConfig
         .getDouble("CentralSpeaker3Scores.WayPoint2");
     centralSpeaker3ScoresConfigBlue.m_angle1 = blueConfig.getDouble("CentralSpeaker3Scores.Angle1");
-    centralSpeaker3ScoresConfigBlue.m_waypoint3 = blueConfig
-        .getDouble("CentralSpeaker3Scores.WayPoint3");
-    centralSpeaker3ScoresConfigBlue.m_angle2 = blueConfig.getDouble("CentralSpeaker3Scores.Angle2");
-    centralSpeaker3ScoresConfigBlue.m_waypoint4 = blueConfig
-        .getDouble("CentralSpeaker3Scores.WayPoint4");
-    centralSpeaker3ScoresConfigBlue.m_angle3 = blueConfig.getDouble("CentralSpeaker3Scores.Angle3");
     m_configSupplier.setConfig(centralSpeaker3ScoresConfigRed);
     addCommands(new DelayedSequentialCommandGroup(
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
@@ -107,15 +89,11 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1)),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY),
-        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle1),
-        new PauseRobot(40, m_driveTrain),
-        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1),
-        new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),
         new PauseRobot(40, m_driveTrain),
         new ParallelDeadlineGroup4905(
             new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter, false),
-            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint4, 1)),
+            new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1)),
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
             BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY)
 
