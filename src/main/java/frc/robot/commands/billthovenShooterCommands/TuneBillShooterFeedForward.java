@@ -18,7 +18,7 @@ public class TuneBillShooterFeedForward extends Command {
     m_shooterWheel = shooterWheel;
     SmartDashboard.putNumber("Shooter Feed Forward Value", 0.00025);
     SmartDashboard.putNumber("Shooter p Value", 0.0001);
-    SmartDashboard.putNumber("ShooterRPMTarget", 3000);
+    SmartDashboard.putNumber("Bill ShooterRPMTarget", 3000);
     System.out.println("end constructor of TuneBillShooterFeedForward");
   }
 
@@ -28,7 +28,7 @@ public class TuneBillShooterFeedForward extends Command {
     System.out.println("TuneBillShooterInitialize");
     double feedForward = SmartDashboard.getNumber("Shooter Feed Forward Value", 0.00025);
     double PValue = SmartDashboard.getNumber("Shooter p Value", 0.0001);
-    double shootRPM = SmartDashboard.getNumber("ShooterRPMTarget", 3000);
+    double shootRPM = SmartDashboard.getNumber("Bill ShooterRPMTarget", 3000);
     System.out.println("Scheduling RunBillShooterWheelVelocity");
     CommandScheduler.getInstance()
         .schedule(new RunBillShooterWheelVelocity(m_shooterWheel, () -> shootRPM, true, feedForward,

@@ -43,6 +43,9 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
   public BillDistanceSpeakerScore(BillArmRotateBase armRotate,
       BillEndEffectorPositionBase endEffector, BillFeederBase feeder, BillShooterBase shooter,
       SpeakerScoreDistanceEnum distance, boolean useSmartDashboard) {
+    // Why is this a thing
+    // It isn't called anywhere
+    // Why does it exist
     m_armRotate = armRotate;
     m_distance = distance;
     m_endEffector = endEffector;
