@@ -192,8 +192,8 @@ public abstract class LEDs extends SubsystemBase {
   public void setPink(double brightness) {
     clearColor();
     m_redValue = brightness; // 255
-    m_greenValue = brightness * 0.41176470588; // 105
-    m_blueValue = brightness * 0.70588235294; // 180
+    m_greenValue = brightness * 0.31176470588; // 105
+    m_blueValue = brightness * 0.30588235294; // 180
   }
 
 //#get the i'th color, of n colors. 
