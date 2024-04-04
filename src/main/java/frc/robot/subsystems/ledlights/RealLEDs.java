@@ -31,40 +31,45 @@ public abstract class RealLEDs extends LEDs {
     } else if (Robot.getInstance().isDisabled()) {
       setRainbow();
     } else if (Robot.getInstance().isTeleop()) {
-      switch (m_driveTrain.getDriveTrainMode()) {
-      case SLOW:
-        setBlue(1);
-        if (getNoteState()) {
-          setBlinking(m_intakeBlinkRate);
-        } else {
-          setSolid();
-        }
-        break;
+      if (!getTargetFound()) {
+        setPink(1);
+        setBlinking(0.2);
+      } else {
+        switch (m_driveTrain.getDriveTrainMode()) {
+        case SLOW:
+          setBlue(1);
+          if (getNoteState()) {
+            setBlinking(m_intakeBlinkRate);
+          } else {
+            setSolid();
+          }
+          break;
 
-      case MID:
-        setGreen(1);
-        if (getNoteState()) {
-          setBlinking(m_intakeBlinkRate);
-        } else {
-          setSolid();
-        }
-        break;
+        case MID:
+          setGreen(1);
+          if (getNoteState()) {
+            setBlinking(m_intakeBlinkRate);
+          } else {
+            setSolid();
+          }
+          break;
 
-      case FAST:
-        setRed(1);
-        if (getNoteState()) {
-          setBlinking(m_intakeBlinkRate);
-        } else {
-          setSolid();
-        }
-        break;
+        case FAST:
+          setRed(1);
+          if (getNoteState()) {
+            setBlinking(m_intakeBlinkRate);
+          } else {
+            setSolid();
+          }
+          break;
 
-      default:
-        setOrange(1);
-        if (getNoteState()) {
-          setBlinking(m_intakeBlinkRate);
-        } else {
-          setSolid();
+        default:
+          setOrange(1);
+          if (getNoteState()) {
+            setBlinking(m_intakeBlinkRate);
+          } else {
+            setSolid();
+          }
         }
       }
     } else if (Robot.getInstance().isAutonomous()) {

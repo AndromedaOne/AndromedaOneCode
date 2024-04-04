@@ -8,8 +8,10 @@ import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.sensors.photonvision.TargetDetectedAndAngle;
+import frc.robot.subsystems.ledlights.LEDs;
 
 public class AngleToTarget extends Command {
 
@@ -17,6 +19,8 @@ public class AngleToTarget extends Command {
   private IntSupplier m_wantedID;
   private DoubleSupplier m_setpoint;
   private TargetDetectedAndAngle m_targetDetectedAndAngle;
+  private boolean m_targetFound;
+  private LEDs m_LEDs = Robot.getInstance().getSubsystemsContainer().getWs2812LEDs();
 
   /** Creates a new AngleToTarget. */
   public AngleToTarget(PhotonVisionBase photonvision, IntSupplier wantedID, DoubleSupplier setpoint,
@@ -30,7 +34,7 @@ public class AngleToTarget extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    m_LEDs.setTargetFound(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +46,7 @@ public class AngleToTarget extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_LEDs.setTargetFound(true);
   }
 
   // Returns true when the command should end.
@@ -51,6 +56,8 @@ public class AngleToTarget extends Command {
         m_setpoint.getAsDouble());
     m_targetDetectedAndAngle.setAngle(target.getAngle());
     m_targetDetectedAndAngle.setDetected(target.getDetected());
+    m_targetFound = m_targetDetectedAndAngle.getDetected();
+    m_LEDs.setTargetFound(m_targetFound);
     return m_targetDetectedAndAngle.getDetected();
   }
 }
