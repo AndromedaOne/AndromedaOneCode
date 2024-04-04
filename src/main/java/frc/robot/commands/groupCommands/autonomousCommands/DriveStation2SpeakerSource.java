@@ -30,7 +30,7 @@ import frc.robot.utils.AllianceConfig;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveStation2Speaker extends SequentialCommandGroup4905 {
+public class DriveStation2SpeakerSource extends SequentialCommandGroup4905 {
   private class DriveStation2SpeakerConfig {
     double m_waypoint1;
     double m_angle1;
@@ -57,7 +57,7 @@ public class DriveStation2Speaker extends SequentialCommandGroup4905 {
   BillShooterBase m_shooter;
   Gyro4905 m_gyro;
 
-  public DriveStation2Speaker() {
+  public DriveStation2SpeakerSource() {
     // Both
     // Angled towards speaker by driver station 2
     // Score preloaded note in speaker
