@@ -132,11 +132,11 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     } else if (m_distance == SpeakerScoreDistanceEnum.SHUTTLE) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
         m_armSetpoint = 300;
-        m_shooterSpeed = 3000;
+        m_shooterSpeed = 4000;
         m_endEffectorToHighPosition = true;
       } else {
         m_armSetpoint = 300;
-        m_shooterSpeed = 3000;
+        m_shooterSpeed = 4000;
         m_endEffectorToHighPosition = true;
       }
     } else {

@@ -73,8 +73,13 @@ public abstract class RealLEDs extends LEDs {
         }
       }
     } else if (Robot.getInstance().isAutonomous()) {
-      setWhite(1);
-      setSolid();
+      if (!getTargetFound()) {
+        setPink(1);
+        setBlinking(0.2);
+      } else {
+        setWhite(1);
+        setSolid();
+      }
     } else {
       setRainbow();
     }

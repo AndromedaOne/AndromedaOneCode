@@ -15,7 +15,6 @@ import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
-import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -84,9 +83,9 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
     centralSpeaker3ScoresConfigBlue.m_angle1 = blueConfig.getDouble("CentralSpeaker3Scores.Angle1");
     centralSpeaker3ScoresConfigBlue.m_angle2 = blueConfig.getDouble("CentralSpeaker3Scores.Angle2");
     m_configSupplier.setConfig(centralSpeaker3ScoresConfigRed);
-    addCommands(new DelayedSequentialCommandGroup(
-        new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-            BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+    addCommands(new DelayedSequentialCommandGroup(new BillSpeakerScore(m_armRotate, m_endEffector,
+        m_feeder, m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),
+        new PauseRobot(100, m_driveTrain),
         new ParallelDeadlineGroup4905(
             new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter, false),
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint1, 1)),
