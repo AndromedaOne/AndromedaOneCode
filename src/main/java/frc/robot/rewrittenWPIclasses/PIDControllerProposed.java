@@ -387,7 +387,6 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
         || (m_iZone == 0))) {
       m_totalError = MathUtil.clamp(m_totalError + m_positionError * m_period,
           m_minimumIntegral / m_ki, m_maximumIntegral / m_ki);
-      Trace.getInstance().logInfo("iZone activated, total error: " + m_totalError);
     } else {
       m_totalError = 0;
     }
