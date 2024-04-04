@@ -73,6 +73,9 @@ public class RunBillFeeder extends Command {
       m_feeder.runBillFeederEject();
       return;
     case SHOOTING:
+      if (m_controller.getBillFireTrigger() && (!readyToShoot)) {
+        Trace.getInstance().logCommandInfo(this, "NOTReadyToShootAndTriggerPulled");
+      }
       if ((readyToShoot) && (m_controller.getBillFireTrigger())) {
         m_feeder.runBillFeederShooting();
         SmartDashboard.putBoolean("Bill Fire Trigger", m_controller.getBillFireTrigger());
