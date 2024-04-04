@@ -33,8 +33,10 @@ import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
 import frc.robot.commands.groupCommands.autonomousCommands.AmpScore;
 import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker2Scores;
-import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3Scores;
-import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2Speaker;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3ScoresAmpSide;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3ScoresSource;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2SpeakerAmpSide;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2SpeakerSource;
 import frc.robot.commands.groupCommands.autonomousCommands.DriveStation3SpeakerWithAmp;
 import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
@@ -142,9 +144,11 @@ public class SmartDashboard4905 {
       if (Config4905.getConfig4905().isBillthoven()) {
         SmartDashboard.putData("AmpScore", new AmpScore());
         SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores());
-        SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores());
-        SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker());
+        SmartDashboard.putData("CentralSpeaker3ScoresSource", new CentralSpeaker3ScoresSource());
+        SmartDashboard.putData("DriveStation2SpeakerSource", new DriveStation2SpeakerSource());
         SmartDashboard.putData("DriveStation3SpeakerWithAmp", new DriveStation3SpeakerWithAmp());
+        SmartDashboard.putData("CentralSpeaker3ScoresAmpSide", new CentralSpeaker3ScoresAmpSide());
+        SmartDashboard.putData("DriveStation2SpeakerAmpSide", new DriveStation2SpeakerAmpSide());
       }
     }
 
