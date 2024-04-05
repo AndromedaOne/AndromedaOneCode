@@ -70,18 +70,22 @@ public class CentralSpeaker3ScoresAmpSide extends SequentialCommandGroup4905 {
     m_shooter = subsystemsContainer.getBillShooter();
     Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     centralSpeaker3ScoresConfigRed.m_waypoint1 = redConfig
-        .getDouble("CentralSpeaker3Scores.WayPoint1");
+        .getDouble("CentralSpeaker3ScoresAmpSide.WayPoint1");
     centralSpeaker3ScoresConfigRed.m_waypoint2 = redConfig
-        .getDouble("CentralSpeaker3Scores.WayPoint2");
-    centralSpeaker3ScoresConfigRed.m_angle1 = redConfig.getDouble("CentralSpeaker3Scores.Angle1");
-    centralSpeaker3ScoresConfigRed.m_angle2 = redConfig.getDouble("CentralSpeaker3Scores.Angle2");
+        .getDouble("CentralSpeaker3ScoresAmpSide.WayPoint2");
+    centralSpeaker3ScoresConfigRed.m_angle1 = redConfig
+        .getDouble("CentralSpeaker3ScoresAmpSide.Angle1");
+    centralSpeaker3ScoresConfigRed.m_angle2 = redConfig
+        .getDouble("CentralSpeaker3ScoresAmpSide.Angle2");
     Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     centralSpeaker3ScoresConfigBlue.m_waypoint1 = blueConfig
-        .getDouble("CentralSpeaker3Scores.WayPoint1");
+        .getDouble("CentralSpeaker3ScoresAmpSide.WayPoint1");
     centralSpeaker3ScoresConfigBlue.m_waypoint2 = blueConfig
-        .getDouble("CentralSpeaker3Scores.WayPoint2");
-    centralSpeaker3ScoresConfigBlue.m_angle1 = blueConfig.getDouble("CentralSpeaker3Scores.Angle1");
-    centralSpeaker3ScoresConfigBlue.m_angle2 = blueConfig.getDouble("CentralSpeaker3Scores.Angle2");
+        .getDouble("CentralSpeaker3ScoresAmpSide.WayPoint2");
+    centralSpeaker3ScoresConfigBlue.m_angle1 = blueConfig
+        .getDouble("CentralSpeaker3ScoresAmpSide.Angle1");
+    centralSpeaker3ScoresConfigBlue.m_angle2 = blueConfig
+        .getDouble("CentralSpeaker3ScoresAmpSide.Angle2");
     m_configSupplier.setConfig(centralSpeaker3ScoresConfigRed);
     addCommands(new DelayedSequentialCommandGroup(new BillSpeakerScore(m_armRotate, m_endEffector,
         m_feeder, m_shooter, BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE),

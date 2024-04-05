@@ -35,14 +35,11 @@ public class DriveStation2SpeakerAmpSide extends SequentialCommandGroup4905 {
     double m_waypoint1;
     double m_angle1;
     double m_waypoint2;
-    double m_angle2;
-    double m_waypoint3;
     double m_gyroOffset;
 
     public String toString() {
       String str = new String("\twaypt 1: " + m_waypoint1 + "\n\tang 1: " + m_angle1
-          + "\n\twaypt 2:" + m_waypoint2 + "\n\tandg 2: " + m_angle2 + "\n\twaypt 3: " + m_waypoint3
-          + "\n\tgyrooffset: " + m_gyroOffset + "\n");
+          + "\n\twaypt 2:" + m_waypoint2 + "\n\tgyrooffset: " + m_gyroOffset + "\n");
       return str;
     }
   }
@@ -80,28 +77,24 @@ public class DriveStation2SpeakerAmpSide extends SequentialCommandGroup4905 {
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
     Config redConfig = Config4905.getConfig4905().getRedAutonomousConfig();
     driveStation2SpeakerConfigRed.m_waypoint1 = redConfig
-        .getDouble("DriveStation2Speaker.WayPoint1");
-    driveStation2SpeakerConfigRed.m_angle1 = redConfig.getDouble("DriveStation2Speaker.Angle1");
+        .getDouble("DriveStation2SpeakerAmpSide.WayPoint1");
+    driveStation2SpeakerConfigRed.m_angle1 = redConfig
+        .getDouble("DriveStation2SpeakerAmpSide.Angle1");
     driveStation2SpeakerConfigRed.m_waypoint2 = redConfig
-        .getDouble("DriveStation2Speaker.WayPoint2");
-    driveStation2SpeakerConfigRed.m_angle2 = redConfig.getDouble("DriveStation2Speaker.Angle2");
-    driveStation2SpeakerConfigRed.m_waypoint3 = redConfig
-        .getDouble("DriveStation2Speaker.WayPoint3");
+        .getDouble("DriveStation2SpeakerAmpSide.WayPoint2");
     driveStation2SpeakerConfigRed.m_gyroOffset = redConfig
-        .getDouble("DriveStation2Speaker.GyroOffset");
+        .getDouble("DriveStation2SpeakerAmpSide.GyroOffset");
     System.out.println("Red gyroOffset: " + driveStation2SpeakerConfigRed.m_gyroOffset);
 
     Config blueConfig = Config4905.getConfig4905().getBlueAutonomousConfig();
     driveStation2SpeakerConfigBlue.m_waypoint1 = blueConfig
-        .getDouble("DriveStation2Speaker.WayPoint1");
-    driveStation2SpeakerConfigBlue.m_angle1 = blueConfig.getDouble("DriveStation2Speaker.Angle1");
+        .getDouble("DriveStation2SpeakerAmpSide.WayPoint1");
+    driveStation2SpeakerConfigBlue.m_angle1 = blueConfig
+        .getDouble("DriveStation2SpeakerAmpSide.Angle1");
     driveStation2SpeakerConfigBlue.m_waypoint2 = blueConfig
-        .getDouble("DriveStation2Speaker.WayPoint2");
-    driveStation2SpeakerConfigBlue.m_angle2 = blueConfig.getDouble("DriveStation2Speaker.Angle2");
-    driveStation2SpeakerConfigBlue.m_waypoint3 = blueConfig
-        .getDouble("DriveStation2Speaker.WayPoint3");
+        .getDouble("DriveStation2SpeakerAmpSide.WayPoint2");
     driveStation2SpeakerConfigBlue.m_gyroOffset = blueConfig
-        .getDouble("DriveStation2Speaker.GyroOffset");
+        .getDouble("DriveStation2SpeakerAmpSide.GyroOffset");
     System.out.println("Blue gyroOffset: " + driveStation2SpeakerConfigBlue.m_gyroOffset);
     m_configSupplier.setConfig(driveStation2SpeakerConfigRed);
     addCommands(new DelayedSequentialCommandGroup(
@@ -115,8 +108,7 @@ public class DriveStation2SpeakerAmpSide extends SequentialCommandGroup4905 {
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1)),
 
         new BillSpeakerScore(m_armRotate, m_endEffector, m_feeder, m_shooter,
-            BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY),
-        new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1)));
+            BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY)));
   }
 
   public void additionalInitialize() {
