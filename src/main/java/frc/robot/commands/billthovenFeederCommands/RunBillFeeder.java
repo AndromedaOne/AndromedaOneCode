@@ -126,7 +126,7 @@ public class RunBillFeeder extends Command {
         && (m_controller.getBillTrapShotButton().getAsBoolean())) {
       return false;
     } else if (m_feederState == FeederStates.SHOOTING) {
-      if ((m_count >= 10) || ((!m_controller.getBillSpeakerAwayScoreButton().getAsBoolean())
+      if ((m_count >= 20) || ((!m_controller.getBillSpeakerAwayScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
           && (!m_controller.getBillTrapShotButton().getAsBoolean())
           && (!m_controller.getBillSpeakerShuttleScoreButton().getAsBoolean())
