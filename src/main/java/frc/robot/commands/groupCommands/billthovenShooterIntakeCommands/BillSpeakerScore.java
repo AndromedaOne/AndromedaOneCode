@@ -60,30 +60,30 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       SmartDashboard.putNumber("ShooterCommand RPM", 3000);
       SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
     }
-    RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
-    ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
     if (distance == SpeakerScoreDistanceEnum.AWAY) {
       addCommands(
           new TurnToTargetUsingGyro(m_driveTrain, () -> m_wantedID, () -> 0, false, m_photonVision),
+          new PauseRobot(40, m_driveTrain),
           new ParallelDeadlineGroup4905(
-              new RunBillFeeder(feeder, FeederStates.SHOOTING,
-                  runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
-              runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-              runShooterCommand,
+              new BillDistanceSpeakerScore(armRotate, endEffector, feeder, shooter, distance,
+                  useSmartDashboard),
               new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
-    } else if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
-      addCommands(new TurnToCompassHeading(() -> m_shuttleAngle),
-          new ParallelDeadlineGroup4905(
-              new RunBillFeeder(feeder, FeederStates.SHOOTING,
-                  runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
-              runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-              runShooterCommand, new PauseRobot(m_driveTrain)));
     } else {
-      addCommands(new ParallelDeadlineGroup4905(
-          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
-              runArmCommand.getOnTargetSupplier()),
-          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-          runShooterCommand));
+      RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
+      ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
+      if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
+        addCommands(new TurnToCompassHeading(() -> m_shuttleAngle), new ParallelDeadlineGroup4905(
+            new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+            runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+            runShooterCommand, new PauseRobot(m_driveTrain)));
+      } else {
+        addCommands(new ParallelDeadlineGroup4905(
+            new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+            runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+            runShooterCommand));
+      }
     }
   }
 
