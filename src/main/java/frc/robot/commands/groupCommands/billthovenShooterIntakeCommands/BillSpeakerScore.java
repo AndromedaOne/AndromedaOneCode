@@ -61,13 +61,13 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
     }
     if (distance == SpeakerScoreDistanceEnum.AWAY) {
-      addCommands(
+      /*addCommands(
           new TurnToTargetUsingGyro(m_driveTrain, () -> m_wantedID, () -> 0, false, m_photonVision),
           new PauseRobot(40, m_driveTrain),
           new ParallelDeadlineGroup4905(
               new BillDistanceSpeakerScore(armRotate, endEffector, feeder, shooter, distance,
                   useSmartDashboard),
-              new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
+              new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));*/
     } else {
       RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
       ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
