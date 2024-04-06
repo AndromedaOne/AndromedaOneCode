@@ -17,6 +17,7 @@ import frc.robot.commands.billthovenClimberCommands.EnableClimberMode;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillAmpScore;
+import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillDistanceSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillTrapScore;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNote;
@@ -118,10 +119,10 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
         BillSpeakerScore.SpeakerScoreDistanceEnum.CLOSE));
-    getBillSpeakerAwayScoreButton().onTrue(new BillSpeakerScore(
+    getBillSpeakerAwayScoreButton().onTrue(new BillDistanceSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),
-        BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY));
+        BillSpeakerScore.SpeakerScoreDistanceEnum.AWAY, false));
     getBillSpeakerShuttleScoreButton().onTrue(new BillSpeakerScore(
         m_subsystemsContainer.getBillArmRotate(), m_subsystemsContainer.getBillEffectorPosition(),
         m_subsystemsContainer.getBillFeeder(), m_subsystemsContainer.getBillShooter(),

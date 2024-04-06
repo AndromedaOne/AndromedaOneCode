@@ -12,6 +12,8 @@ import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
+import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore.SpeakerScoreDistanceEnum;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
@@ -57,10 +59,14 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
     ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
     // Add the deadline command in the super() call. Add other commands using
     addCommands(
+        new TurnToTargetUsingGyro(Robot.getInstance().getSubsystemsContainer().getDriveTrain(),
+            () -> m_wantedID, () -> 0, false,
+            Robot.getInstance().getSensorsContainer().getPhotonVision()),
         new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
             runArmCommand.getOnTargetSupplier()),
         runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-        runShooterCommand);
+        runShooterCommand,
+        new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain()));
 
   }
 
