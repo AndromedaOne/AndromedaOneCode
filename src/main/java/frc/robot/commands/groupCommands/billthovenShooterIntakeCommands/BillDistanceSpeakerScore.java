@@ -15,6 +15,7 @@ import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore.SpeakerScoreDistanceEnum;
+import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
@@ -62,11 +63,12 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
         new TurnToTargetUsingGyro(Robot.getInstance().getSubsystemsContainer().getDriveTrain(),
             () -> m_wantedID, () -> 0, false,
             Robot.getInstance().getSensorsContainer().getPhotonVision()),
-        new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
-            runArmCommand.getOnTargetSupplier()),
-        runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-        runShooterCommand,
-        new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain()));
+        new ParallelDeadlineGroup4905(
+            new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+            runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+            runShooterCommand,
+            new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
 
   }
 
