@@ -36,4 +36,9 @@ public class MockPhotonVision implements PhotonVisionBase {
   public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint) {
     return new TargetDetectedAndAngle(0, false);
   }
+
+  @Override
+  public TargetDetectedAndDistance getTargetDetectedAndDistance(int wantedID) {
+    return new TargetDetectedAndDistance(0, false);
+  }
 }
