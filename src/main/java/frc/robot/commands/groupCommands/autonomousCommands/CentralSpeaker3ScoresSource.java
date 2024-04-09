@@ -31,7 +31,7 @@ import frc.robot.utils.AllianceConfig;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
+public class CentralSpeaker3ScoresSource extends SequentialCommandGroup4905 {
   private class CentralSpeaker3ScoresConfig {
     double m_waypoint1;
     double m_angle1;
@@ -56,7 +56,7 @@ public class CentralSpeaker3Scores extends SequentialCommandGroup4905 {
   BillFeederBase m_feeder;
   BillShooterBase m_shooter;
 
-  public CentralSpeaker3Scores() {
+  public CentralSpeaker3ScoresSource() {
     // Positioned by the central speaker
     // Score preloaded note in speaker
     // drive foward toward Note B2/R2

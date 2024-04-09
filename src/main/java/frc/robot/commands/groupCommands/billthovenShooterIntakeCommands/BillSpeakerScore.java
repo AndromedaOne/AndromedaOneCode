@@ -12,6 +12,7 @@ import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
+import frc.robot.commands.photonVisionCommands.DistanceToTarget;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
@@ -60,30 +61,28 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
       SmartDashboard.putNumber("ShooterCommand RPM", 3000);
       SmartDashboard.putNumber("ShooterCommand ArmPosition", 300);
     }
-    RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
-    ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
     if (distance == SpeakerScoreDistanceEnum.AWAY) {
       addCommands(
           new TurnToTargetUsingGyro(m_driveTrain, () -> m_wantedID, () -> 0, false, m_photonVision),
-          new ParallelDeadlineGroup4905(
-              new RunBillFeeder(feeder, FeederStates.SHOOTING,
-                  runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
-              runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-              runShooterCommand,
-              new PauseRobot(Robot.getInstance().getSubsystemsContainer().getDriveTrain())));
-    } else if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
-      addCommands(new TurnToCompassHeading(() -> m_shuttleAngle),
-          new ParallelDeadlineGroup4905(
-              new RunBillFeeder(feeder, FeederStates.SHOOTING,
-                  runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
-              runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-              runShooterCommand, new PauseRobot(m_driveTrain)));
+          new DistanceToTarget(m_photonVision, () -> m_wantedID),
+          (new BillDistanceSpeakerScore(armRotate, endEffector, feeder, shooter,
+              useSmartDashboard)));
     } else {
-      addCommands(new ParallelDeadlineGroup4905(
-          new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),
-              runArmCommand.getOnTargetSupplier()),
-          runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
-          runShooterCommand));
+      RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
+      ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
+      if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
+        addCommands(new TurnToCompassHeading(() -> m_shuttleAngle), new ParallelDeadlineGroup4905(
+            new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+            runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+            runShooterCommand, new PauseRobot(m_driveTrain)));
+      } else {
+        addCommands(new ParallelDeadlineGroup4905(
+            new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+            runArmCommand, new MoveEndEffector(m_endEffector, () -> m_endEffectorToHighPosition),
+            runShooterCommand));
+      }
     }
   }
 

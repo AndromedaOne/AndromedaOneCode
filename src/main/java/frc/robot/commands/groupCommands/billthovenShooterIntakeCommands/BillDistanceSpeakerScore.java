@@ -13,7 +13,6 @@ import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
 import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
-import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpeakerScore.SpeakerScoreDistanceEnum;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
@@ -30,7 +29,6 @@ import frc.robot.utils.InterpolatingMap;
 public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
   private BillArmRotateBase m_armRotate;
   private BillEndEffectorPositionBase m_endEffector;
-  private SpeakerScoreDistanceEnum m_distance;
   private boolean m_endEffectorToHighPosition = false;
   private double m_shooterSpeed = 0;
   private double m_armSetpoint = 0;
@@ -42,12 +40,11 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
   /** Creates a new BillDistanceSpeakerScore. */
   public BillDistanceSpeakerScore(BillArmRotateBase armRotate,
       BillEndEffectorPositionBase endEffector, BillFeederBase feeder, BillShooterBase shooter,
-      SpeakerScoreDistanceEnum distance, boolean useSmartDashboard) {
+      boolean useSmartDashboard) {
     // Why is this a thing
     // It isn't called anywhere
     // Why does it exist
     m_armRotate = armRotate;
-    m_distance = distance;
     m_endEffector = endEffector;
     m_useSmartDashboard = useSmartDashboard;
     m_shotArmAngleMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),

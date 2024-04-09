@@ -19,4 +19,6 @@ public interface PhotonVisionBase {
 
   public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint);
 
+  public TargetDetectedAndDistance getTargetDetectedAndDistance(int wantedID);
+
 }

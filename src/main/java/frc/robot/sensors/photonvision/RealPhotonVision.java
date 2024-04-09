@@ -112,4 +112,13 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     }
     return new TargetDetectedAndAngle(setPoint, false);
   }
+
+  @Override
+  public TargetDetectedAndDistance getTargetDetectedAndDistance(int wantedID) {
+    double distance = getDistanceToTargetInInches(wantedID);
+    if (distance <= 0) {
+      return new TargetDetectedAndDistance(0, false);
+    }
+    return new TargetDetectedAndDistance(distance, true);
+  }
 }
