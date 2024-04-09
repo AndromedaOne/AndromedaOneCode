@@ -33,7 +33,6 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
   private double m_shooterSpeed = 0;
   private double m_armSetpoint = 0;
   private int m_wantedID = -1;
-  private boolean m_useSmartDashboard;
   private InterpolatingMap m_shotArmAngleMap;
   private InterpolatingMap m_shotShootingRPMMap;
 
@@ -46,7 +45,6 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
     // Why does it exist
     m_armRotate = armRotate;
     m_endEffector = endEffector;
-    m_useSmartDashboard = useSmartDashboard;
     m_shotArmAngleMap = new InterpolatingMap(Config4905.getConfig4905().getArmRotateConfig(),
         "shotArmAngle");
 
