@@ -50,7 +50,8 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     Double[] iDArray = new Double[iDArrayList.size()];
     iDArray = iDArrayList.toArray(iDArray);
     SmartDashboard.putNumberArray("Target IDs", iDArray);
-    SmartDashboard.putNumber("Photon Vision Range", getDistanceToTargetInInches(7));
+    int tagID = (int) SmartDashboard.getNumber("PhotonVisionTagID For Distance", 4);
+    SmartDashboard.putNumber("Photon Vision Range", getDistanceToTargetInInches(tagID));
   }
 
   @Override
