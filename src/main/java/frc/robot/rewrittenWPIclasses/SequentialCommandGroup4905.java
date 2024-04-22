@@ -9,6 +9,7 @@ import java.util.List;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.telemetries.Trace;
 
 /**
  * A command composition that runs a list of commands in sequence.
@@ -21,8 +22,7 @@ import edu.wpi.first.wpilibj2.command.*;
  * <p>
  * This class is provided by the NewCommands VendorDep
  */
-@SuppressWarnings("removal")
-public class SequentialCommandGroup4905 extends CommandGroupBase {
+public class SequentialCommandGroup4905 extends Command {
   private final List<Command> m_commands = new ArrayList<>();
   private int m_currentCommandIndex = -1;
   private boolean m_runWhenDisabled = true;
@@ -38,7 +38,6 @@ public class SequentialCommandGroup4905 extends CommandGroupBase {
     addCommands(commands);
   }
 
-  @Override
   public final void addCommands(Command... commands) {
     if (m_currentCommandIndex != -1) {
       throw new IllegalStateException(
@@ -63,6 +62,7 @@ public class SequentialCommandGroup4905 extends CommandGroupBase {
     additionalInitialize();
     if (!m_commands.isEmpty()) {
       m_commands.get(0).initialize();
+      Trace.getInstance().logCommandStart(m_commands.get(0));
     }
   }
 
@@ -93,6 +93,7 @@ public class SequentialCommandGroup4905 extends CommandGroupBase {
     if (interrupted && !m_commands.isEmpty() && m_currentCommandIndex > -1
         && m_currentCommandIndex < m_commands.size()) {
       m_commands.get(m_currentCommandIndex).end(true);
+      Trace.getInstance().logCommandStop(m_commands.get(m_currentCommandIndex));
     }
     m_currentCommandIndex = -1;
   }

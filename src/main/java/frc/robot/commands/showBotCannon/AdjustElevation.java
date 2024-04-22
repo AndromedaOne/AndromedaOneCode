@@ -4,13 +4,12 @@
 
 package frc.robot.commands.showBotCannon;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.encoder.EncoderBase;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.subsystems.showBotCannonElevator.CannonElevatorBase;
-import frc.robot.telemetries.Trace;
 
 public class AdjustElevation extends SequentialCommandGroup4905 {
   private CannonElevatorBase m_cannonElevator;
@@ -28,21 +27,11 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
     addCommands(new InitializeElevation(), new AdjustElevationInternal(cannonElevator));
   }
 
-  @Override
-  public void additionalInitialize() {
-    Trace.getInstance().logCommandStart(this);
-  }
-
-  @Override
-  public void additionalEnd(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
-  }
-
   public double getElevation() {
     return m_cannonElevatorEncoder.getEncoderValue() - m_encoderOffset;
   }
 
-  private class InitializeElevation extends CommandBase {
+  private class InitializeElevation extends Command {
 
     public InitializeElevation() {
       addRequirements(m_cannonElevator.getSubsystemBase());
@@ -50,7 +39,6 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
 
     @Override
     public void initialize() {
-      Trace.getInstance().logCommandStart(this);
       if (!m_initialized && !m_cannonHomeSwitch.isAtLimit()) {
         throw new RuntimeException(
             "CannonElevator cannot be initialized. The home switch is not triggered. Please rotate the cannon so the switch is engaged.");
@@ -84,11 +72,10 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
 
     @Override
     public void end(boolean interrupted) {
-      Trace.getInstance().logCommandStop(this);
     }
   }
 
-  private class AdjustElevationInternal extends CommandBase {
+  private class AdjustElevationInternal extends Command {
     /** Creates a new AdjustElevation. */
     private CannonElevatorBase m_cannonElevator;
 
@@ -100,7 +87,6 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      Trace.getInstance().logCommandStart(this);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -129,7 +115,6 @@ public class AdjustElevation extends SequentialCommandGroup4905 {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-      Trace.getInstance().logCommandStop(this);
     }
 
     // Returns true when the command should end.

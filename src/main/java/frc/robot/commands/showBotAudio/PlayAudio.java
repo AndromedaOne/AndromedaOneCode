@@ -4,12 +4,11 @@
 
 package frc.robot.commands.showBotAudio;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
-import frc.robot.telemetries.Trace;
 
-public class PlayAudio extends CommandBase {
+public class PlayAudio extends Command {
   ShowBotAudioBase m_audio;
   AudioFiles m_audioFile;
 
@@ -23,7 +22,6 @@ public class PlayAudio extends CommandBase {
   @Override
   public void initialize() {
     m_audio.playAudio(m_audioFile);
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +32,6 @@ public class PlayAudio extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

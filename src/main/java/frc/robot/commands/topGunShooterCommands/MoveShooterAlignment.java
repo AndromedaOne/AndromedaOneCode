@@ -12,7 +12,6 @@ import frc.robot.Config4905;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
-import frc.robot.telemetries.Trace;
 
 public class MoveShooterAlignment extends PIDCommand4905 {
   private Config m_shooterConfig = Config4905.getConfig4905().getShooterConfig();
@@ -53,7 +52,6 @@ public class MoveShooterAlignment extends PIDCommand4905 {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     super.initialize();
     System.out.println(
         "moveShooter setpoint: " + getController().getSetpoint() + " p= " + getController().getP());
@@ -70,12 +68,11 @@ public class MoveShooterAlignment extends PIDCommand4905 {
   public void end(boolean interrupted) {
     m_shooterAlignment.rotateShooter(0);
     super.end(interrupted);
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_controller.atSetpoint();
+    return getController().atSetpoint();
   }
 }

@@ -16,12 +16,12 @@ public class HitecHS322HDpositionalServoMotor extends ServoMotorPositional {
   private final double m_maxServoAngle = 180.0;
   private final double m_minServoAngle = 0.0;
 
-  private final double m_maxServoPWM = 2.4;
-  private final double m_minServoPWM = 0.6;
+  private final int m_maxServoPWM = 2400;
+  private final int m_minServoPWM = 600;
 
   public HitecHS322HDpositionalServoMotor(Config motorConfig, String servoName) {
     super(motorConfig, servoName);
-    setBounds(m_maxServoPWM, 0, 0, 0, m_minServoPWM);
+    setBoundsMicroseconds(m_maxServoPWM, 0, 0, 0, m_minServoPWM);
     setPeriodMultiplier(PeriodMultiplier.k4X);
     setMinMaxServoAngle(m_minServoAngle, m_maxServoAngle);
   }

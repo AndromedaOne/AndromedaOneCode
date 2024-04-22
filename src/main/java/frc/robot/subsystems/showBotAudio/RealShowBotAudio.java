@@ -5,7 +5,7 @@
 package frc.robot.subsystems.showBotAudio;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.telemetries.Trace;
 
@@ -83,7 +83,7 @@ public class RealShowBotAudio extends SubsystemBase implements ShowBotAudioBase 
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
   }
 }

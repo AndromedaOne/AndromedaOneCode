@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -22,11 +22,11 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * <p>
  * This class is provided by the NewCommands VendorDep
  */
-public class PIDCommand4905 extends CommandBase {
-  protected final PIDController4905 m_controller;
-  protected DoubleSupplier m_measurement;
-  protected DoubleSupplier m_setpoint;
-  protected DoubleConsumer m_useOutput;
+public class PIDCommand4905 extends Command {
+  private final PIDController4905 m_controller;
+  private DoubleSupplier m_measurement;
+  private DoubleSupplier m_setpoint;
+  private DoubleConsumer m_useOutput;
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -102,5 +102,17 @@ public class PIDCommand4905 extends CommandBase {
 
   public void setSetpoint(DoubleSupplier setpoint) {
     m_setpoint = setpoint;
+  }
+
+  public DoubleSupplier getSetpoint() {
+    return m_setpoint;
+  }
+
+  public void setUseOutput(DoubleConsumer output) {
+    m_useOutput = output;
+  }
+
+  public void setMeasurementSource(DoubleSupplier source) {
+    m_measurement = source;
   }
 }

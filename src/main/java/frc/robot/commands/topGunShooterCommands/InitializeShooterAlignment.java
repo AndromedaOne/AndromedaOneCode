@@ -4,11 +4,10 @@
 
 package frc.robot.commands.topGunShooterCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
-import frc.robot.telemetries.Trace;
 
-public class InitializeShooterAlignment extends CommandBase {
+public class InitializeShooterAlignment extends Command {
   private ShooterAlignmentBase m_shooterAlignment;
   private boolean m_rotateUp = true;
 
@@ -21,7 +20,6 @@ public class InitializeShooterAlignment extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +40,6 @@ public class InitializeShooterAlignment extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_shooterAlignment.rotateShooter(0);
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

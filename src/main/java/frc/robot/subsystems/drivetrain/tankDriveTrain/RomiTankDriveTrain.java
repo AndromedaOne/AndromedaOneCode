@@ -12,18 +12,18 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
 
+@SuppressWarnings("removal")
 public class RomiTankDriveTrain extends RealTankDriveTrain {
   private static final double METERSPERINCH = 0.0254;
   private final SparkController m_leftMotor;
   private final SparkController m_rightMotor;
 
-  private final MotorControllerGroup m_left;
-  private final MotorControllerGroup m_right;
+  private final edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup m_left;
+  private final edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup m_right;
   private Timer timer;
   private double m_previousLeftPositionMeters;
   private double m_previousRightPositionMeters;
@@ -41,8 +41,8 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
     m_leftMotor = new SparkController(drivetrainConfig, "left");
     m_rightMotor = new SparkController(drivetrainConfig, "right");
 
-    m_left = new MotorControllerGroup(m_leftMotor);
-    m_right = new MotorControllerGroup(m_rightMotor);
+    m_left = new edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup(m_leftMotor);
+    m_right = new edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup(m_rightMotor);
 
     double ticksPerRevolution = drivetrainConfig.getInt("ticksPerRevolution");
     double wheelDiameterInch = drivetrainConfig.getDouble("wheelDiameterInch");
@@ -105,12 +105,12 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   }
 
   @Override
-  protected MotorControllerGroup getLeftSpeedControllerGroup() {
+  protected edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup getLeftSpeedControllerGroup() {
     return m_left;
   }
 
   @Override
-  protected MotorControllerGroup getRightSpeedControllerGroup() {
+  protected edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup getRightSpeedControllerGroup() {
     return m_right;
   }
 
@@ -194,4 +194,22 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   public void setCoast(boolean value) {
   }
 
+  @Override
+  public void move(double forwardBackSpeedn, double strafe, double rotation, boolean fieldRelative,
+      boolean isOpenLoop) {
+  }
+
+  @Override
+  public void enableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void disableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void setToAngle(double angle) {
+  }
 }

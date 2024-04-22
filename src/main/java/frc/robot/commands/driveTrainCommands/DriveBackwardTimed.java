@@ -8,21 +8,21 @@
 package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 /**
  * Add your docs here.
  */
-public class DriveBackwardTimed extends CommandBase {
+public class DriveBackwardTimed extends Command {
   /**
    * Add your docs here.
    */
   private double m_timeout;
   private Timer m_timer;
-  private TankDriveTrain m_driveTrain;
+  private DriveTrainBase m_driveTrain;
 
-  public DriveBackwardTimed(double timeout, TankDriveTrain driveTrain) {
+  public DriveBackwardTimed(double timeout, DriveTrainBase driveTrain) {
     m_timeout = timeout;
     m_timer = new Timer();
     // Use requires() here to declare subsystem dependencies
@@ -35,6 +35,7 @@ public class DriveBackwardTimed extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
+    m_driveTrain.disableAccelerationLimiting();
 
   }
 
@@ -51,6 +52,7 @@ public class DriveBackwardTimed extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    m_driveTrain.enableAccelerationLimiting();
 
   }
 }

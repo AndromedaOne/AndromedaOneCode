@@ -1,0 +1,13 @@
+*** for our code to figure out what robot it's running on there needs to be a;
+name.conf
+file in the home lvuser home directory on the roborio
+the file needs to look like this:
+
+
+robot {
+        name=<robot name, for example SwerveBot>
+}
+
+
+NOTE: the name must exactly match the name used in Config4905 construtor to
+figure out which robot we're on.

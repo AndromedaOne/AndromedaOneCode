@@ -7,12 +7,11 @@ package frc.robot.commands.topGunFeederCommands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.topGunFeeder.FeederBase;
-import frc.robot.telemetries.Trace;
 
-public class RunFeeder extends CommandBase {
+public class RunFeeder extends Command {
   private FeederBase m_feeder;
   private DoubleSupplier m_speed;
   private boolean m_runInReverse;
@@ -31,7 +30,6 @@ public class RunFeeder extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,7 +51,6 @@ public class RunFeeder extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     m_feeder.stopFeeder();
   }
 

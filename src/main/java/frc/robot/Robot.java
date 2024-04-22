@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.driveTrainCommands.EnableParkingBrake;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
@@ -33,7 +32,6 @@ public class Robot extends TimedRobot {
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
   private LimeLightCameraBase m_limelight;
-  private boolean m_parkingBrakeScheduled = true;
 
   private Robot() {
   }
@@ -64,8 +62,12 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
-    m_subsystemContainer.getDrivetrain().setCoast(true);
+    m_subsystemContainer.getDriveTrain().setCoast(true);
     LiveWindow.disableAllTelemetry();
+    CommandScheduler.getInstance()
+        .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));
+    CommandScheduler.getInstance()
+        .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
     Trace.getInstance().logInfo("robot init finished");
   }
 
@@ -101,11 +103,11 @@ public class Robot extends TimedRobot {
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
-    m_subsystemContainer.getDrivetrain().setCoast(true);
+    m_subsystemContainer.getDriveTrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
     m_limelight.disableLED();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
-    System.out.println("Shooter Allignment set to coast");
+    m_subsystemContainer.getBillFeeder().setCoastMode();
   }
 
   @Override
@@ -134,12 +136,13 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
     m_limelight.enableLED();
-    m_subsystemContainer.getDrivetrain().setCoast(false);
+    m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
+    m_subsystemContainer.getBillFeeder().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
-    m_subsystemContainer.getDrivetrain().disableParkingBrakes();
+    m_subsystemContainer.getDriveTrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
-    m_parkingBrakeScheduled = false;
+
     Trace.getInstance().logInfo("autonomousInit finished");
   }
 
@@ -154,25 +157,11 @@ public class Robot extends TimedRobot {
       Trace.getInstance().logInfo("autonomousPeriodic called");
       m_autoPeriodicLogged = true;
     }
-    if (m_subsystemContainer.getDrivetrain().hasParkingBrake()) {
-      double matchTime = DriverStation.getMatchTime();
-      if (matchTime <= 0.5) {
-        // Call enable parking brake
-        System.out.println("Parking Brake First Call");
-        if (!m_parkingBrakeScheduled) {
-          CommandScheduler.getInstance()
-              .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
-          m_parkingBrakeScheduled = true;
-          System.out.println("PArking Brake is enabled");
-        }
-      }
-    }
 
   }
 
   private void setInitialZangleOffset() {
-    // For the Charged Up game 2023, the robot starts facing north.
-    m_sensorsContainer.getGyro().setInitialZangleOffset(180);
+    m_sensorsContainer.getGyro().setInitialZangleOffset(0, false);
   }
 
   @Override
@@ -190,12 +179,12 @@ public class Robot extends TimedRobot {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
     m_limelight.disableLED();
-    m_subsystemContainer.getDrivetrain().setCoast(false);
+    m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
-    System.out.println("Shooter Allignment set to brake");
-    m_subsystemContainer.getDrivetrain().disableParkingBrakes();
+    m_subsystemContainer.getBillFeeder().setBrakeMode();
+    m_subsystemContainer.getDriveTrain().disableParkingBrakes();
     LiveWindow.disableAllTelemetry();
-    m_parkingBrakeScheduled = false;
+
     m_subsystemContainer.getShowBotAudio().playAudio(AudioFiles.DiveAlert);
     Trace.getInstance().logInfo("teleopInit finished");
   }
@@ -211,25 +200,14 @@ public class Robot extends TimedRobot {
       Trace.getInstance().logInfo("teleopPeriodic called");
       m_teleopPeriodicLogged = true;
     }
-    if (m_subsystemContainer.getDrivetrain().hasParkingBrake()) {
-      double matchTime = DriverStation.getMatchTime();
-      if (matchTime <= 0.5) {
-        // Call enable parking brake
-        if (!m_parkingBrakeScheduled) {
-          CommandScheduler.getInstance()
-              .schedule(new EnableParkingBrake(m_subsystemContainer.getDrivetrain()));
-          m_parkingBrakeScheduled = true;
-        }
-      }
 
-    }
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    m_subsystemContainer.getDrivetrain().setCoast(false);
+    m_subsystemContainer.getDriveTrain().setCoast(false);
   }
 
   /**

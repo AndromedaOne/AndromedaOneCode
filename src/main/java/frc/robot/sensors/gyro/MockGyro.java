@@ -62,7 +62,7 @@ public class MockGyro implements Gyro4905 {
   }
 
   @Override
-  public void setInitialZangleOffset(double offset) {
+  public void setInitialZangleOffset(double offset, boolean override) {
   }
 
   @Override
@@ -78,6 +78,11 @@ public class MockGyro implements Gyro4905 {
   @Override
   public DoubleSupplier getCompassHeadingDoubleSupplier() {
     return (() -> 0);
+  }
+
+  @Override
+  public boolean getIsCalibrated() {
+    return true;
   }
 
 }

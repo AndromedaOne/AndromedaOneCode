@@ -8,12 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
-import frc.robot.telemetries.Trace;
 
-public class PlayNextAudioFile extends CommandBase {
+public class PlayNextAudioFile extends Command {
   ShowBotAudioBase m_audio;
   static List<AudioFiles> m_audioFiles = Arrays.asList(AudioFiles.AlsoSprachZarathustra,
       AudioFiles.CrazyTrain, AudioFiles.DeadMansParty, AudioFiles.DreamTheater,
@@ -30,7 +29,6 @@ public class PlayNextAudioFile extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     if (m_audioToPlay.hasNext()) {
       m_audio.playAudio(m_audioToPlay.next());
     } else {
@@ -47,7 +45,6 @@ public class PlayNextAudioFile extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

@@ -4,9 +4,9 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class FakeCommand extends CommandBase {
+public class FakeCommand extends Command {
   /** Creates a new FakeCommand. */
   public FakeCommand() {
     System.out.println("WARNING: FAKE COMMAND CONSTRUCTED!");

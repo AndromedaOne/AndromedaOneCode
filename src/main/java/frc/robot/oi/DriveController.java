@@ -10,6 +10,9 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
+import frc.robot.commands.CalibrateGyro;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
@@ -41,11 +44,14 @@ public class DriveController extends ControllerBase {
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
     if (!Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
-      getPOVnorth().onTrue(new TurnToCompassHeading(0));
-      getPOVeast().onTrue(new TurnToCompassHeading(90));
-      getPOVsouth().onTrue(new TurnToCompassHeading(180));
-      getPOVwest().onTrue(new TurnToCompassHeading(270));
+      getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
+      getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
+      getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
+      getPOVwest().onTrue(new TurnToCompassHeading(() -> 270));
     }
+    getLeftStickButton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
+    getStartButton().onTrue(
+        new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
     if (sensorsContainer.hasLimeLight()) {
       limeLightButtons();
     }
@@ -64,11 +70,22 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().doesShowBotCannonExist()) {
       setUpCannonButtons();
     }
-    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
+    if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")
+        || Config4905.getConfig4905().getSwerveDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
     }
+
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
       setupShowBotAudioButtons();
+    }
+
+    if (Config4905.getConfig4905().isBillthoven()) {
+      if (Config4905.getConfig4905().doesArmRotateExist()) {
+        setUpUnprotectedMode();
+      }
+    }
+    if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
+      // setUpPhotonVision();
     }
   }
 
@@ -104,6 +121,10 @@ public class DriveController extends ControllerBase {
     return getRightTriggerValue();
   }
 
+  public boolean getClimberOverrideTrigger() {
+    return getRightTriggerPressedBoolean();
+  }
+
   private void setUpShooterButtons() {
     getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
@@ -137,7 +158,7 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpParkingBrake() {
-    getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDrivetrain()));
+    getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDriveTrain()));
   }
 
   private void setUpCannonButtons() {
@@ -160,4 +181,33 @@ public class DriveController extends ControllerBase {
 
   private void setupRomiButtons() {
   }
+
+  public double getSwerveDriveTrainTranslationAxis() {
+    // XboxController.Axis.kLeftY.value;
+    return getLeftStickForwardBackwardValue();
+  }
+
+  public double getSwerveDriveTrainStrafeAxis() {
+    // XboxController.Axis.kLeftX.value;
+    return getLeftStickLeftRightValue();
+  }
+
+  public double getSwerveDriveTrainRotationAxis() {
+    // XboxController.Axis.kRightX.value;
+    return getRightStickLeftRightValue();
+  }
+
+  public boolean getProtectedMode() {
+    return getXbutton().getAsBoolean();
+  }
+
+  private void setUpUnprotectedMode() {
+    // Angle could change
+    getXbutton()
+        .whileTrue(new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 333, false, true));
+  }
+  /*
+   * private void setUpPhotonVision() { getAbutton().onTrue(new TurnToTarget(() ->
+   * -1, () -> 0)); }
+   */
 }

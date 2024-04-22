@@ -12,7 +12,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.pathgeneration.waypoints.Waypoint;
@@ -89,7 +89,7 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
   protected abstract void resetOdometryToZero(Pose2d initialPosition);
 
   @Override
-  protected CommandBase getGeneratedPath() {
+  protected Command getGeneratedPath() {
     RamseteCommand4905 ramseteCommand = new RamseteCommand4905(trajectory, () -> getPos(),
         new RamseteController(m_ramseteB, m_ramseteZeta),
         new SimpleMotorFeedforward(m_sVolts, m_vVoltSecondsPerMeter, m_aVoltSecondsSquaredPerMeter),
@@ -103,13 +103,13 @@ public abstract class TwoDPathGenerator extends PathGeneratorBase {
     if (!m_resetOdometryToZero) {
       return ramseteCommand;
     }
-    CommandBase resetOdometry = new ResetOdometry();
+    Command resetOdometry = new ResetOdometry();
     SequentialCommandGroup resetOdometryAndThenMove = new SequentialCommandGroup(resetOdometry,
         ramseteCommand);
     return resetOdometryAndThenMove;
   }
 
-  private class ResetOdometry extends CommandBase {
+  private class ResetOdometry extends Command {
     @Override
     public void initialize() {
       resetOdometryToZero(trajectory.getInitialPose());

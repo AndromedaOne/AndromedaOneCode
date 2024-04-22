@@ -2,12 +2,11 @@ package frc.robot.sensors.gyro;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.RealSensorBase;
 import frc.robot.utils.AngleConversionUtils;
 
-public abstract class RealGyroBase extends RealSensorBase implements Gyro, Gyro4905 {
+public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
 
   private double m_initialZAngleReading = 0.0;
   private double m_initialXAngleReading = 0.0;
@@ -18,8 +17,8 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro, Gyro4
     m_initialZAngleReading = value;
   }
 
-  public void setInitialZangleOffset(double offset) {
-    if (!m_isZangleOffsetinitialized) {
+  public void setInitialZangleOffset(double offset, boolean override) {
+    if (!m_isZangleOffsetinitialized || override) {
       System.out.print("orig init Z Angle: " + m_initialZAngleReading);
       m_initialZAngleReading = m_initialZAngleReading + offset;
       m_isZangleOffsetinitialized = true;
@@ -46,7 +45,7 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro, Gyro4
   public abstract double getRawYAngle();
 
   public double getZAngle() {
-    return getRawZAngle() - m_initialZAngleReading;
+    return (getRawZAngle() - m_initialZAngleReading);
   }
 
   public double getXAngle() {

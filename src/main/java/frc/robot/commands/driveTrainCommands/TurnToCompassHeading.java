@@ -8,11 +8,14 @@
 
 package frc.robot.commands.driveTrainCommands;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.*;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,35 +23,34 @@ import frc.robot.telemetries.Trace;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToCompassHeading extends PIDCommand4905 {
 
-  private double m_compassHeading;
+  private DoubleSupplier m_compassHeading;
+  private DriveTrainBase m_driveTrain;
 
   /**
    * Creates a new TurnToCompassHeading.
    * 
    * @param compassHeading input an angle in degrees.
    */
-  public TurnToCompassHeading(double compassHeading) {
+  public TurnToCompassHeading(DoubleSupplier compassHeading) {
     super(
         // The controller that the command will use
         new PIDController4905SampleStop("TurnToCompassHeading"),
         // This should return the measurement
         Robot.getInstance().getSensorsContainer().getGyro().getCompassHeadingDoubleSupplier(),
         // This should return the setpoint (can also be a constant)
-        () -> compassHeading,
+        compassHeading,
         // This uses the output
         output -> {
-          Robot.getInstance().getSubsystemsContainer().getDrivetrain().move(0, output, false);
+          Robot.getInstance().getSubsystemsContainer().getDriveTrain().move(0, output, false);
         });
-    this.m_compassHeading = compassHeading;
-    addRequirements(
-        Robot.getInstance().getSubsystemsContainer().getDrivetrain().getSubsystemBase());
+    m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
+    m_compassHeading = compassHeading;
+    addRequirements(m_driveTrain.getSubsystemBase());
     // Configure additional PID options by calling `getController` here.
     getController().enableContinuousInput(0, 360);
-    m_setpoint = () -> m_compassHeading;
   }
 
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     Config pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
     super.initialize();
     getController().setP(pidConfig.getDouble("GyroPIDCommands.TurningPTerm"));
@@ -57,7 +59,9 @@ public class TurnToCompassHeading extends PIDCommand4905 {
     getController().setMinOutputToMove(pidConfig.getDouble("GyroPIDCommands.minOutputToMove"));
     getController().setTolerance(pidConfig.getDouble("GyroPIDCommands.positionTolerance"),
         pidConfig.getDouble("GyroPIDCommands.velocityTolerance"));
-    Trace.getInstance().logCommandInfo(this, "Turning to Compass Heading: " + m_compassHeading);
+    Trace.getInstance().logCommandInfo(this,
+        "Turning to Compass Heading: " + m_compassHeading.getAsDouble());
+    m_driveTrain.disableAccelerationLimiting();
   }
 
   // Returns true when the command should end.
@@ -68,14 +72,9 @@ public class TurnToCompassHeading extends PIDCommand4905 {
 
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Robot.getInstance().getSubsystemsContainer().getDrivetrain().stop();
-    Trace.getInstance().logCommandStop(this);
+    Robot.getInstance().getSubsystemsContainer().getDriveTrain().stop();
     Trace.getInstance().logCommandInfo(this, "Final heading: "
         + Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading());
-  }
-
-  public void setCompassHeading(double compassHeading) {
-    this.m_compassHeading = compassHeading;
-
+    m_driveTrain.enableAccelerationLimiting();
   }
 }

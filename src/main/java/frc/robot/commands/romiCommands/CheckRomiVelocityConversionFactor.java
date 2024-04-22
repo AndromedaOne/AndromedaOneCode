@@ -2,11 +2,11 @@ package frc.robot.commands.romiCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 
-public class CheckRomiVelocityConversionFactor extends CommandBase {
+public class CheckRomiVelocityConversionFactor extends Command {
   private RomiTankDriveTrain m_driveTrain;
   private boolean m_initialPositionSet;
   private double m_initialPosition;

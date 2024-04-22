@@ -9,7 +9,8 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SensorUtil;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 
@@ -61,7 +62,12 @@ public class RealCompressor extends SubsystemBase implements CompressorBase {
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Pneumatics Pressure", m_compressor.getPressure());
   }
 }

@@ -1,8 +1,8 @@
 package pathgeneratortests;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class DummyMoveCommand extends CommandBase {
+public class DummyMoveCommand extends Command {
   private double m_distance;
   private double m_angle;
   public static int numberOfDummyMoveCommandInstances = 0;

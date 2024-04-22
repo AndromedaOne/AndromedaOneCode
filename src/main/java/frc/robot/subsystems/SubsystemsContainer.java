@@ -8,21 +8,39 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.commands.driveTrainCommands.TankTeleOpCommand;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenClimberCommands.StopClimber;
+import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
+import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
+import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.billArmRotate.MockBillArmRotate;
+import frc.robot.subsystems.billArmRotate.RealBillArmRotate;
+import frc.robot.subsystems.billClimber.BillClimberBase;
+import frc.robot.subsystems.billClimber.MockBillClimber;
+import frc.robot.subsystems.billClimber.RealBillClimber;
+import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
+import frc.robot.subsystems.billEndEffectorPosition.MockBillEndEffectorPosition;
+import frc.robot.subsystems.billEndEffectorPosition.RealBillEndEffectorPosition;
+import frc.robot.subsystems.billFeeder.BillFeederBase;
+import frc.robot.subsystems.billFeeder.MockBillFeeder;
+import frc.robot.subsystems.billFeeder.RealBillFeeder;
+import frc.robot.subsystems.billShooter.BillShooterBase;
+import frc.robot.subsystems.billShooter.MockBillShooter;
+import frc.robot.subsystems.billShooter.RealBillShooter;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.MockTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TalonSRXTankDriveTrain;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
@@ -54,7 +72,7 @@ import frc.robot.telemetries.Trace;
 public class SubsystemsContainer {
 
   // Declare member variables.
-  TankDriveTrain m_driveTrain;
+  DriveTrainBase m_driveTrain;
   LEDs m_leds;
   LEDs m_leftLeds;
   LEDs m_rightLeds;
@@ -68,6 +86,11 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
+  BillShooterBase m_billShooter;
+  BillFeederBase m_billFeeder;
+  BillEndEffectorPositionBase m_endEffector;
+  BillArmRotateBase m_armRotate;
+  BillClimberBase m_billClimber;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -82,16 +105,12 @@ public class SubsystemsContainer {
      * The settings will be printed to the console.
      *
      */
-    if (Config4905.getConfig4905().doesDrivetrainExist()) {
+    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
       Trace.getInstance().logInfo("Using real Drive Train.");
       if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("sparkMax")) {
         Trace.getInstance().logInfo("Using real sparkMax Drive Train");
         m_driveTrain = new SparkMaxTankDriveTrain();
-      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
-          .equals("talonSRX")) {
-        Trace.getInstance().logInfo("Using real talonSRX Drive Train");
-        m_driveTrain = new TalonSRXTankDriveTrain();
       } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
           .equals("romiDrive")) {
         Trace.getInstance().logInfo("Using Romi drive train");
@@ -102,11 +121,18 @@ public class SubsystemsContainer {
         throw (new RuntimeException(
             "ERROR: Unknown drivetrain type: " + drivetrainType + " in drivetrain.conf"));
       }
+      m_driveTrain.init();
+
+    } else if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
+      Trace.getInstance().logInfo("Using swerve drive train.");
+      m_driveTrain = new SwerveDriveTrain();
+      m_driveTrain.init();
+
     } else {
       Trace.getInstance().logInfo("Using mock Drive Train.");
       m_driveTrain = new MockTankDriveTrain();
+      m_driveTrain.init();
     }
-    m_driveTrain.init();
 
     if (Config4905.getConfig4905().doesLeftLEDExist()) {
       Trace.getInstance().logInfo("Using Real Left LEDs");
@@ -178,9 +204,44 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
     }
+    if (Config4905.getConfig4905().doesBillFeederExist()) {
+      Trace.getInstance().logInfo("using real Billthoven feeder");
+      m_billFeeder = new RealBillFeeder();
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven feeder");
+      m_billFeeder = new MockBillFeeder();
+    }
+    if (Config4905.getConfig4905().doesBillShooterExist()) {
+      Trace.getInstance().logInfo("using real Billthoven shooter");
+      m_billShooter = new RealBillShooter();
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven shooter");
+      m_billShooter = new MockBillShooter();
+    }
+    if (Config4905.getConfig4905().doesEndEffectorExist()) {
+      Trace.getInstance().logInfo("using real Billthoven end effector");
+      m_endEffector = new RealBillEndEffectorPosition(m_compressor);
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven end effector");
+      m_endEffector = new MockBillEndEffectorPosition();
+    }
+    if (Config4905.getConfig4905().doesArmRotateExist()) {
+      Trace.getInstance().logInfo("using real Billthoven arm rotate");
+      m_armRotate = new RealBillArmRotate(m_compressor);
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven arm rotate");
+      m_armRotate = new MockBillArmRotate();
+    }
+    if (Config4905.getConfig4905().doesBillClimberExist()) {
+      Trace.getInstance().logInfo("using real Billthoven climber");
+      m_billClimber = new RealBillClimber();
+    } else {
+      Trace.getInstance().logInfo("using mock Billthoven climber");
+      m_billClimber = new MockBillClimber();
+    }
   }
 
-  public TankDriveTrain getDrivetrain() {
+  public DriveTrainBase getDriveTrain() {
     return m_driveTrain;
   }
 
@@ -220,9 +281,37 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public BillShooterBase getBillShooter() {
+    return m_billShooter;
+  }
+
+  public BillFeederBase getBillFeeder() {
+    return m_billFeeder;
+  }
+
+  public BillArmRotateBase getBillArmRotate() {
+    return m_armRotate;
+  }
+
+  public BillEndEffectorPositionBase getBillEffectorPosition() {
+    return m_endEffector;
+  }
+
+  public BillClimberBase getBillClimber() {
+    return m_billClimber;
+  }
+
+  public LEDs getWs2812LEDs() {
+    return m_ws2812LEDs;
+  }
+
   public void setDefaultCommands() {
-    if (Config4905.getConfig4905().doesDrivetrainExist()) {
-      m_driveTrain.setDefaultCommand(new TankTeleOpCommand());
+    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
+      m_driveTrain.setDefaultCommand(new TeleOpCommand());
+    } else {
+      if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
+        m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
+      }
     }
     if (Config4905.getConfig4905().doesIntakeExist()) {
       m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
@@ -242,5 +331,18 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
+    if (Config4905.getConfig4905().doesBillClimberExist()) {
+      m_billClimber.setDefaultCommand(new StopClimber(m_billClimber));
+    }
+
+    if (Config4905.getConfig4905().isBillthoven()) {
+      if (Config4905.getConfig4905().doesArmRotateExist()) {
+        m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 290, false, true));
+      }
+      if (Config4905.getConfig4905().doesEndEffectorExist()) {
+        m_endEffector.setDefaultCommand(new MoveEndEffector(m_endEffector, () -> false, false));
+      }
+    }
+
   }
 }

@@ -4,8 +4,9 @@
 
 package frc.robot.subsystems.showBotAudio;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 
 /** Add your docs here. */
 public class MockShowBotAudio implements ShowBotAudioBase {
@@ -29,11 +30,11 @@ public class MockShowBotAudio implements ShowBotAudioBase {
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+    return new MockSubsystem();
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
   }
 
 }

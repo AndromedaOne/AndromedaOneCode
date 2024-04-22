@@ -7,7 +7,6 @@ package frc.robot.commands.groupCommands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.telemetries.Trace;
 
@@ -25,7 +24,7 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
     addCommands(commands);
   }
 
-  private class SpecialWaitCommand extends CommandBase {
+  private class SpecialWaitCommand extends Command {
     protected Timer m_timer = new Timer();
     private double m_duration;
 
@@ -34,14 +33,12 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
       m_duration = SmartDashboard.getNumber("Auto Delay", 0);
       m_timer.reset();
       m_timer.start();
-      Trace.getInstance().logCommandStart(this);
       Trace.getInstance().logCommandInfo(this, "Auto Delay; " + m_duration);
     }
 
     @Override
     public void end(boolean interrupted) {
       m_timer.stop();
-      Trace.getInstance().logCommandStop(this);
     }
 
     @Override

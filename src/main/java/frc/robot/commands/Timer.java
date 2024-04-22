@@ -6,10 +6,10 @@ package frc.robot.commands;
 
 import java.time.Instant;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.telemetries.Trace;
 
-public class Timer extends CommandBase {
+public class Timer extends Command {
   private long m_duration = 0;
   private Instant m_endTime;
 
@@ -24,7 +24,6 @@ public class Timer extends CommandBase {
     m_endTime = Instant.now().plusMillis(m_duration);
     Trace.getInstance().logCommandInfo(this,
         "Current Time: " + Instant.now().toEpochMilli() + " End Time: " + m_endTime.toEpochMilli());
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +34,6 @@ public class Timer extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

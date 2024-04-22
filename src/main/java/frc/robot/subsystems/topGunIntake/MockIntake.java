@@ -4,8 +4,9 @@
 
 package frc.robot.subsystems.topGunIntake;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 
 public class MockIntake implements IntakeBase {
   private double m_previousSpeed = 0;
@@ -34,10 +35,10 @@ public class MockIntake implements IntakeBase {
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+    return new MockSubsystem();
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
   }
 }

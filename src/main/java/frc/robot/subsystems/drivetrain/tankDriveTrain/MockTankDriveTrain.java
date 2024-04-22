@@ -10,8 +10,9 @@ package frc.robot.subsystems.drivetrain.tankDriveTrain;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 
@@ -113,11 +114,38 @@ public class MockTankDriveTrain implements TankDriveTrain {
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+    return new MockSubsystem();
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
+  }
+
+  @Override
+  public void move(double forwardBackSpeed, double strafe, double rotation, boolean fieldRelative,
+      boolean isOpenLoop) {
+  }
+
+  @Override
+  public void setToAngle(double angle) {
+  }
+
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
+      boolean useSquaredInputs, double compassHeading) {
+  }
+
+  @Override
+  public void setToZero() {
+  }
+
+  @Override
+  public void enableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void disableAccelerationLimiting() {
+
   }
 
 }

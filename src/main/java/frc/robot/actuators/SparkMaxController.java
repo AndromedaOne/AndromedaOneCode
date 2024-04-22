@@ -1,33 +1,39 @@
 package frc.robot.actuators;
 
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAbsoluteEncoder;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
-import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.SparkLimitSwitch;
 import com.typesafe.config.Config;
 
 public class SparkMaxController {
   private CANSparkMax m_sparkMax;
-  private boolean m_hasEncoder = false;
+  private boolean m_hasAbsoluteEncoder = false;
   private boolean m_hasForwardLimitSwitch = false;
   private boolean m_hasReverseLimitSwitch = false;
-  private RelativeEncoder m_sparkMaxEncoder;
-  private String m_configString;
-  private Config m_subsystemConfig;
-  private SparkMaxLimitSwitch m_forwardLimitSwitch;
-  private SparkMaxLimitSwitch m_reverseLimitSwitch;
+  private RelativeEncoder m_builtInEncoder;
+  private AbsoluteEncoder m_absoluteEncoder;
+  private SparkLimitSwitch m_forwardLimitSwitch;
+  private SparkLimitSwitch m_reverseLimitSwitch;
 
   public SparkMaxController(Config subsystemConfig, String configString) {
     m_sparkMax = new CANSparkMax(subsystemConfig.getInt("ports." + configString),
-        CANSparkMaxLowLevel.MotorType.kBrushless);
+        MotorType.kBrushless);
+    m_builtInEncoder = m_sparkMax.getEncoder();
     System.out.println("Enabling SparkMaxController \"" + configString + "\" for port "
         + subsystemConfig.getInt("ports." + configString));
-    m_hasEncoder = subsystemConfig.getBoolean(configString + ".hasEncoder");
-    if (hasEncoder()) {
-      m_sparkMaxEncoder = m_sparkMax.getEncoder();
+    m_hasAbsoluteEncoder = subsystemConfig.getBoolean(configString + ".hasAbsoluteEncoder");
+    if (hasAbsoluteEncoder()) {
+      m_absoluteEncoder = m_sparkMax.getAbsoluteEncoder(Type.kDutyCycle);
+      m_absoluteEncoder
+          .setInverted(subsystemConfig.getBoolean(configString + ".absoluteEncoderInverted"));
+      // m_absoluteEncoder
+      // .setZeroOffset(subsystemConfig.getDouble(configString +
+      // ".absoluteEncoderZeroOffset"));
     }
     /*********
      * NOTE: you CANNOT disable the hard limit capability on sparkmax controllers
@@ -36,16 +42,12 @@ public class SparkMaxController {
      ******************/
     m_hasForwardLimitSwitch = subsystemConfig.getBoolean(configString + ".hasForwardLimitSwitch");
     if (m_hasForwardLimitSwitch) {
-      m_forwardLimitSwitch = m_sparkMax
-          .getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+      m_forwardLimitSwitch = m_sparkMax.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     }
     m_hasReverseLimitSwitch = subsystemConfig.getBoolean(configString + ".hasReverseLimitSwitch");
     if (m_hasReverseLimitSwitch) {
-      m_reverseLimitSwitch = m_sparkMax
-          .getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+      m_reverseLimitSwitch = m_sparkMax.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     }
-    m_configString = configString;
-    m_subsystemConfig = subsystemConfig;
     configure(subsystemConfig, configString);
   }
 
@@ -61,8 +63,8 @@ public class SparkMaxController {
     if (subsystemConfig.hasPath(configString + ".encoderTicksPerRotation")) {
       double encoderTicksPerRotation = subsystemConfig
           .getDouble(configString + ".encoderTicksPerRotation");
-      m_sparkMaxEncoder.setPositionConversionFactor(encoderTicksPerRotation);
-      m_sparkMaxEncoder.setVelocityConversionFactor(encoderTicksPerRotation);
+      m_builtInEncoder.setPositionConversionFactor(encoderTicksPerRotation);
+      m_builtInEncoder.setVelocityConversionFactor(encoderTicksPerRotation);
     }
   }
 
@@ -70,30 +72,16 @@ public class SparkMaxController {
     return m_sparkMax;
   }
 
-  public double getEncoderPositionTicks() {
-    if (!hasEncoder()) {
-      return 0;
-    }
-    double sensorPosition = m_sparkMaxEncoder.getPosition();
-    sensorPosition = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
-        ? -sensorPosition
-        : sensorPosition);
-    return sensorPosition;
+  public double getBuiltInEncoderPositionTicks() {
+    return m_builtInEncoder.getPosition();
   }
 
-  public double getEncoderVelocityTicks() {
-    if (!hasEncoder()) {
-      return 0;
-    }
-    double sensorVelocity = m_sparkMaxEncoder.getVelocity();
-    sensorVelocity = (m_subsystemConfig.getBoolean(m_configString + ".encoderInverted")
-        ? -sensorVelocity
-        : sensorVelocity);
-    return sensorVelocity;
+  public double getBuiltInEncoderVelocityTicks() {
+    return m_builtInEncoder.getVelocity();
   }
 
-  public boolean hasEncoder() {
-    return m_hasEncoder;
+  public boolean hasAbsoluteEncoder() {
+    return m_hasAbsoluteEncoder;
   }
 
   public boolean isForwardLimitSwitchOn() {
@@ -126,11 +114,29 @@ public class SparkMaxController {
     m_sparkMax.set(speed);
   }
 
-  public SparkMaxAbsoluteEncoder getAbsoluteEncoder(Type type) {
-    return m_sparkMax.getAbsoluteEncoder(type);
-  }
-
   public double getSpeed() {
     return m_sparkMax.get();
+  }
+
+  public REVLibError setMotorDirectionInverted(boolean inverted) {
+    m_sparkMax.setInverted(inverted);
+    return REVLibError.kOk;
+  }
+
+  // Returns the position between 0 and 1 - It rolls over at 1
+  public double getAbsoluteEncoderPosition() {
+    return m_absoluteEncoder.getPosition();
+  }
+
+  public double getAbsoluteZeroOffset() {
+    return m_absoluteEncoder.getZeroOffset();
+  }
+
+  public void setAbsoluteZeroOffset(double offset) {
+    m_absoluteEncoder.setZeroOffset(offset);
+  }
+
+  public void setAbsoluteInverted(boolean inverted) {
+    m_absoluteEncoder.setInverted(inverted);
   }
 }

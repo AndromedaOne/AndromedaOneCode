@@ -6,31 +6,29 @@ package frc.robot.commands.driveTrainCommands;
 
 import java.time.*;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
-import frc.robot.telemetries.Trace;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
-public class PauseRobot extends CommandBase {
+public class PauseRobot extends Command {
   private long m_pauseTimeInMS = 0;
   private Instant m_startTime;
-  private TankDriveTrain m_driveTrain;
+  private DriveTrainBase m_driveTrain;
 
   /** Creates a new PauseRobot. */
-  public PauseRobot(long pauseTimeInMS, TankDriveTrain driveTrain) {
+  public PauseRobot(long pauseTimeInMS, DriveTrainBase driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain.getSubsystemBase());
     m_pauseTimeInMS = pauseTimeInMS;
     m_driveTrain = driveTrain;
   }
 
-  public PauseRobot(TankDriveTrain driveTrain) {
+  public PauseRobot(DriveTrainBase driveTrain) {
     this(Long.MAX_VALUE, driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     m_startTime = Instant.now();
   }
 
@@ -43,7 +41,6 @@ public class PauseRobot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

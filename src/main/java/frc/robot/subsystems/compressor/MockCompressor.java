@@ -5,8 +5,9 @@
 package frc.robot.subsystems.compressor;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 
 /** Add your docs here. */
 public class MockCompressor implements CompressorBase {
@@ -26,11 +27,10 @@ public class MockCompressor implements CompressorBase {
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+    return new MockSubsystem();
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
-    throw new UnsupportedOperationException("Unimplemented method 'setDefaultCommand'");
+  public void setDefaultCommand(Command command) {
   }
 }

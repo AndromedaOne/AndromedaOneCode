@@ -6,12 +6,11 @@ package frc.robot.commands.topGunIntakeCommands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.subsystems.topGunIntake.IntakeBase;
-import frc.robot.telemetries.Trace;
 
-public class DeployAndRunIntake extends CommandBase {
+public class DeployAndRunIntake extends Command {
   /** Creates a new DeployAndRunIntake. */
   private IntakeBase m_intakeBase;
   private Config m_intakeConfig = Config4905.getConfig4905().getIntakeConfig();
@@ -30,7 +29,6 @@ public class DeployAndRunIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,7 +51,6 @@ public class DeployAndRunIntake extends CommandBase {
     if (m_deployed) {
       m_intakeBase.retractIntake();
     }
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

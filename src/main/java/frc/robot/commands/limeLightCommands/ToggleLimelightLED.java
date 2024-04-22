@@ -7,11 +7,11 @@
 
 package frc.robot.commands.limeLightCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 
-public class ToggleLimelightLED extends CommandBase {
+public class ToggleLimelightLED extends Command {
   private boolean m_ledStatus;
   private LimeLightCameraBase limelight;
 

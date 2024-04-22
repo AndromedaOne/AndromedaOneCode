@@ -7,15 +7,15 @@
 
 package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.telemetries.Trace;
 
+@SuppressWarnings("removal")
 public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   // public static SparkMaxController
 
@@ -25,10 +25,10 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   private final SparkMaxController m_backRight;
 
   // motors on the Left side of the drive
-  private final MotorControllerGroup m_leftmotors;
+  private final edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup m_leftmotors;
 
   // motors on the right side of the drive
-  private final MotorControllerGroup m_rightmotors;
+  private final edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup m_rightmotors;
 
   private double ticksPerInch;
   public static final double metersPerInch = 0.0254;
@@ -42,12 +42,12 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     m_backRight = new SparkMaxController(drivetrainConfig, "backright");
 
     // motors on the left side of the drive
-    m_leftmotors = new MotorControllerGroup(m_frontLeft.getMotorController(),
-        m_backLeft.getMotorController());
+    m_leftmotors = new edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup(
+        m_frontLeft.getMotorController(), m_backLeft.getMotorController());
 
     // motors on the right side of the drive.
-    m_rightmotors = new MotorControllerGroup(m_frontRight.getMotorController(),
-        m_backRight.getMotorController());
+    m_rightmotors = new edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup(
+        m_frontRight.getMotorController(), m_backRight.getMotorController());
 
     ticksPerInch = drivetrainConfig.getDouble("ticksPerInch");
   }
@@ -56,25 +56,26 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   public double getRobotPositionInches() {
     double encoderPositionAvg = 0;
     int encoders = 0;
-    if (m_frontLeft.hasEncoder()) {
+    if (m_frontLeft.hasAbsoluteEncoder()) {
       encoders++;
-      encoderPositionAvg += m_frontLeft.getEncoderPositionTicks();
-      SmartDashboard.putNumber("FrontLeftDriveTrain", m_frontLeft.getEncoderPositionTicks());
+      encoderPositionAvg += m_frontLeft.getBuiltInEncoderPositionTicks();
+      SmartDashboard.putNumber("FrontLeftDriveTrain", m_frontLeft.getBuiltInEncoderPositionTicks());
     }
-    if (m_backLeft.hasEncoder()) {
+    if (m_backLeft.hasAbsoluteEncoder()) {
       encoders++;
-      encoderPositionAvg += m_backLeft.getEncoderPositionTicks();
-      SmartDashboard.putNumber("BackLeftDriveTrain", m_backLeft.getEncoderPositionTicks());
+      encoderPositionAvg += m_backLeft.getBuiltInEncoderPositionTicks();
+      SmartDashboard.putNumber("BackLeftDriveTrain", m_backLeft.getBuiltInEncoderPositionTicks());
     }
-    if (m_frontRight.hasEncoder()) {
+    if (m_frontRight.hasAbsoluteEncoder()) {
       encoders++;
-      encoderPositionAvg += m_frontRight.getEncoderPositionTicks();
-      SmartDashboard.putNumber("FrontRightDriveTrain", m_frontRight.getEncoderPositionTicks());
+      encoderPositionAvg += m_frontRight.getBuiltInEncoderPositionTicks();
+      SmartDashboard.putNumber("FrontRightDriveTrain",
+          m_frontRight.getBuiltInEncoderPositionTicks());
     }
-    if (m_backRight.hasEncoder()) {
+    if (m_backRight.hasAbsoluteEncoder()) {
       encoders++;
-      encoderPositionAvg += m_backRight.getEncoderPositionTicks();
-      SmartDashboard.putNumber("BackRightDriveTrain", m_backRight.getEncoderPositionTicks());
+      encoderPositionAvg += m_backRight.getBuiltInEncoderPositionTicks();
+      SmartDashboard.putNumber("BackRightDriveTrain", m_backRight.getBuiltInEncoderPositionTicks());
     }
 
     if (encoders > 0) {
@@ -87,21 +88,21 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   public double getRobotVelocityInches() {
     double encoderVelocityAvg = 0;
     int encoders = 0;
-    if (m_frontLeft.hasEncoder()) {
+    if (m_frontLeft.hasAbsoluteEncoder()) {
       encoders++;
-      encoderVelocityAvg += m_frontLeft.getEncoderVelocityTicks();
+      encoderVelocityAvg += m_frontLeft.getBuiltInEncoderVelocityTicks();
     }
-    if (m_backLeft.hasEncoder()) {
+    if (m_backLeft.hasAbsoluteEncoder()) {
       encoders++;
-      encoderVelocityAvg += m_backLeft.getEncoderVelocityTicks();
+      encoderVelocityAvg += m_backLeft.getBuiltInEncoderVelocityTicks();
     }
-    if (m_frontRight.hasEncoder()) {
+    if (m_frontRight.hasAbsoluteEncoder()) {
       encoders++;
-      encoderVelocityAvg += m_frontRight.getEncoderVelocityTicks();
+      encoderVelocityAvg += m_frontRight.getBuiltInEncoderVelocityTicks();
     }
-    if (m_backRight.hasEncoder()) {
+    if (m_backRight.hasAbsoluteEncoder()) {
       encoders++;
-      encoderVelocityAvg += m_backRight.getEncoderVelocityTicks();
+      encoderVelocityAvg += m_backRight.getBuiltInEncoderVelocityTicks();
     }
     if (encoders > 0) {
       encoderVelocityAvg = encoderVelocityAvg / (ticksPerInch * encoders);
@@ -109,13 +110,12 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     return encoderVelocityAvg;
   }
 
-  @Override
-  protected MotorControllerGroup getLeftSpeedControllerGroup() {
+  protected edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup getLeftSpeedControllerGroup() {
     return m_leftmotors;
   }
 
   @Override
-  protected MotorControllerGroup getRightSpeedControllerGroup() {
+  protected edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup getRightSpeedControllerGroup() {
     return m_rightmotors;
   }
 
@@ -138,27 +138,28 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
 
   public double getLeftRateMetersPerSecond() {
     return ticksPerMinuteToMetersPerSecond(
-        (m_backLeft.getEncoderVelocityTicks() + m_frontLeft.getEncoderVelocityTicks()) * 0.5);
+        (m_backLeft.getBuiltInEncoderVelocityTicks() + m_frontLeft.getBuiltInEncoderVelocityTicks())
+            * 0.5);
   }
 
   @Override
   public double getRightRateMetersPerSecond() {
-    return ticksPerMinuteToMetersPerSecond(
-        (m_backRight.getEncoderVelocityTicks() + m_frontRight.getEncoderVelocityTicks()) * 0.5);
+    return ticksPerMinuteToMetersPerSecond((m_backRight.getBuiltInEncoderVelocityTicks()
+        + m_frontRight.getBuiltInEncoderVelocityTicks()) * 0.5);
   }
 
   @Override
   protected double getLeftSideMeters() {
-    double averageTicks = (m_backLeft.getEncoderPositionTicks()
-        + m_frontLeft.getEncoderPositionTicks()) * 0.5;
+    double averageTicks = (m_backLeft.getBuiltInEncoderPositionTicks()
+        + m_frontLeft.getBuiltInEncoderPositionTicks()) * 0.5;
     double averageMeters = ticksToMeters(averageTicks);
     return averageMeters;
   }
 
   @Override
   protected double getRightsSideMeters() {
-    double averageTicks = (m_backRight.getEncoderPositionTicks()
-        + m_frontRight.getEncoderPositionTicks()) * 0.5;
+    double averageTicks = (m_backRight.getBuiltInEncoderPositionTicks()
+        + m_frontRight.getBuiltInEncoderPositionTicks()) * 0.5;
     double averageMeters = ticksToMeters(averageTicks);
     return averageMeters;
   }
@@ -177,6 +178,25 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     m_frontLeft.resetEncoder();
     m_backRight.resetEncoder();
     m_frontRight.resetEncoder();
+  }
+
+  @Override
+  public void move(double forwardBackSpeed, double strafe, double rotation, boolean fieldRelative,
+      boolean isOpenLoop) {
+  }
+
+  @Override
+  public void enableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void disableAccelerationLimiting() {
+
+  }
+
+  @Override
+  public void setToAngle(double angle) {
   }
 
 }

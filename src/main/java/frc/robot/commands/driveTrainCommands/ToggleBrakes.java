@@ -4,16 +4,15 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
-import frc.robot.telemetries.Trace;
 
-public class ToggleBrakes extends CommandBase {
+public class ToggleBrakes extends Command {
   /** Creates a new ToggleBrakes. */
-  TankDriveTrain m_driveTrain;
+  DriveTrainBase m_driveTrain;
 
-  public ToggleBrakes(TankDriveTrain driveTrain) {
+  public ToggleBrakes(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     addRequirements(driveTrain.getSubsystemBase());
   }
@@ -21,7 +20,6 @@ public class ToggleBrakes extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,7 +38,6 @@ public class ToggleBrakes extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

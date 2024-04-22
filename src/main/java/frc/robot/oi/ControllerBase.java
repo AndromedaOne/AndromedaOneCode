@@ -117,8 +117,30 @@ public class ControllerBase {
     return deadband(m_controller.getLeftTriggerAxis());
   }
 
+  protected boolean getLeftTriggerPressedBoolean() {
+    if (deadband(m_controller.getLeftTriggerAxis()) >= 0.1) {
+      return true;
+    }
+    return false;
+  }
+
+  protected JoystickButton getLeftTriggerPressed() {
+    return (new JoystickButton(m_controller, ButtonsEnumerated.LEFTTRIGGERBUTTON.getValue()));
+  }
+
   protected double getRightTriggerValue() {
     return deadband(m_controller.getRightTriggerAxis());
+  }
+
+  protected boolean getRightTriggerPressedBoolean() {
+    if (deadband(m_controller.getRightTriggerAxis()) >= 0.1) {
+      return true;
+    }
+    return false;
+  }
+
+  protected JoystickButton getRightTriggerPressed() {
+    return (new JoystickButton(m_controller, ButtonsEnumerated.RIGHTTRIGGERBUTTON.getValue()));
   }
 
   protected boolean getLeftBumperPressed() {
@@ -178,7 +200,7 @@ public class ControllerBase {
   }
 
   private double deadband(double stickValue) {
-    if (Math.abs(stickValue) < 0.1) {
+    if (Math.abs(stickValue) < 0.05) {
       return 0.0;
     } else {
       return stickValue;

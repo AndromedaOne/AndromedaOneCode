@@ -14,7 +14,6 @@ import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
-import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -92,7 +91,6 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   // Returns true when the command should end.
   @Override
   public void initialize() {
-    Trace.getInstance().logCommandStart(this);
     super.initialize();
     m_target = m_setpoint.getAsDouble();
     double pValue = 0;
@@ -126,11 +124,6 @@ public class RunOneShooterWheelVelocity extends PIDCommand4905 {
   @Override
   public void end(boolean interrupt) {
     m_shooterWheel.setShooterWheelPower(0);
-    Trace.getInstance().logCommandStop(this);
-  }
-
-  public double getSetpoint() {
-    return m_target;
   }
 
   public boolean atSetpoint() {

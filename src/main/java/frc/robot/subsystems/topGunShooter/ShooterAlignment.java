@@ -7,7 +7,7 @@ package frc.robot.subsystems.topGunShooter;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
@@ -57,7 +57,7 @@ public class ShooterAlignment extends SubsystemBase implements ShooterAlignmentB
 
   @Override
   public double getAngle() {
-    return m_angleMotor.getEncoderPositionTicks() - getOffset();
+    return m_angleMotor.getBuiltInEncoderPositionTicks() - getOffset();
   }
 
   @Override
@@ -86,7 +86,7 @@ public class ShooterAlignment extends SubsystemBase implements ShooterAlignmentB
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
   }
 

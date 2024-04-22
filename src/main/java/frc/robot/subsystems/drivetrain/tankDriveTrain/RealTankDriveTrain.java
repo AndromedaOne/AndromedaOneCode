@@ -12,9 +12,8 @@ import com.typesafe.config.Config;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -27,6 +26,7 @@ import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 
+@SuppressWarnings("removal")
 public abstract class RealTankDriveTrain extends SubsystemBase implements TankDriveTrain {
   // Gyro variables
   private Gyro4905 gyro;
@@ -130,9 +130,9 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
     }
   }
 
-  protected abstract MotorControllerGroup getLeftSpeedControllerGroup();
+  protected abstract edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup getLeftSpeedControllerGroup();
 
-  protected abstract MotorControllerGroup getRightSpeedControllerGroup();
+  protected abstract edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup getRightSpeedControllerGroup();
 
   @Override
   public Pose2d getPose() {
@@ -179,6 +179,10 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
     } else {
       System.out.println("Moving too fast! Please slow down to engage brakes!");
     }
+  }
+
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
+      boolean useSquaredInputs, double compassHeading) {
   }
 
   @Override
@@ -228,8 +232,16 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void setToAngle(double angle) {
+  }
+
+  @Override
+  public void setToZero() {
   }
 
   @Override

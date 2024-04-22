@@ -17,8 +17,9 @@ public class RealNavXGyroSensor extends RealGyroBase {
 
   private long kInitializeDelay = 3000;
   private long kDefaultPeriod = 50;
-  private java.util.Timer controlLoop;
+  private java.util.Timer m_controlLoop;
   private Instant m_start;
+  private boolean m_calibrated = false;
 
   /**
    * Trys creating the gyro and if it can not then it reports an error to the
@@ -46,23 +47,16 @@ public class RealNavXGyroSensor extends RealGyroBase {
         } else if (navXPort.equals("SPI")) {
           m_gyro = new AHRS(SPI.Port.kOnboardCS0);
         } else {
-          System.err.println("ERROR: Unkown NavX Port: " + navXPort);
+          System.err.println("ERROR: Unknown NavX Port: " + navXPort);
           return;
         }
         System.out.println("Created NavX instance");
-        // New thread to initialize the initial angle
-        controlLoop = new java.util.Timer();
-        SetInitialAngleReading task = new SetInitialAngleReading(this);
-        controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
-
+        calibrate();
       } catch (RuntimeException ex) {
         DriverStation.reportError("Error instantiating navX MXP: " + ex.getMessage(), true);
       }
     }
-    m_start = Instant.now();
   }
-
-  private boolean calibrated = false;
 
   private class SetInitialAngleReading extends TimerTask {
 
@@ -79,7 +73,7 @@ public class RealNavXGyroSensor extends RealGyroBase {
         m_navX.setInitialZAngleReading(m_gyro.getAngle());
         m_navX.setInitialXAngleReading(m_gyro.getPitch());
         m_navX.setInitialYAngleReading(m_gyro.getRoll());
-        calibrated = true;
+        m_calibrated = true;
         System.out.println("Gyro is calibrated. Initial Angles: \n\tZangle: " + m_gyro.getAngle()
             + "\n\tXangle: " + m_gyro.getPitch() + "\n\tYangle: " + m_gyro.getRoll() + "\n");
         cancel();
@@ -88,8 +82,17 @@ public class RealNavXGyroSensor extends RealGyroBase {
   }
 
   @Override
+  public void calibrate() {
+    m_start = Instant.now();
+    m_calibrated = false;
+    m_controlLoop = new java.util.Timer();
+    SetInitialAngleReading task = new SetInitialAngleReading(this);
+    m_controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
+  }
+
+  @Override
   public double getRawZAngle() {
-    if (!calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
+    if (!m_calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
       System.out.println(
           "WARNING: navx gyro has not completed calibrating before getRawZangle has been called");
     }
@@ -98,7 +101,7 @@ public class RealNavXGyroSensor extends RealGyroBase {
 
   @Override
   public double getRawXAngle() {
-    if (!calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
+    if (!m_calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
       System.out.println(
           "WARNING: navx gyro has not completed calibrating before getRawXangle has been called");
     }
@@ -107,17 +110,11 @@ public class RealNavXGyroSensor extends RealGyroBase {
 
   @Override
   public double getRawYAngle() {
-    if (!calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
+    if (!m_calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
       System.out.println(
           "WARNING: navx gyro has not completed calibrating before getRawYangle has been called");
     }
     return m_gyro.getRoll();
-  }
-
-  @Override
-  public void calibrate() {
-    throw new RuntimeException(
-        "Calibrate is not implemented in realNaNavX so you should implement it if you are trying to call it.");
   }
 
   @Override
@@ -139,6 +136,11 @@ public class RealNavXGyroSensor extends RealGyroBase {
   @Override
   public void close() throws Exception {
 
+  }
+
+  @Override
+  public boolean getIsCalibrated() {
+    return m_calibrated;
   }
 
 }

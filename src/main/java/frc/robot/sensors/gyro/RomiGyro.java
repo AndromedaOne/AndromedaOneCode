@@ -157,4 +157,9 @@ public class RomiGyro extends RealGyroBase {
   public void close() throws Exception {
   }
 
+  @Override
+  public boolean getIsCalibrated() {
+    return true;
+  }
+
 }

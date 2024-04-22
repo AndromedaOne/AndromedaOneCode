@@ -4,7 +4,7 @@
 
 package frc.robot.commands.showBotCannon;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.ledlights.LEDRobotInformation;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
@@ -16,7 +16,7 @@ import frc.robot.telemetries.Trace;
  * button is released before the audio has completed playing, the shoot will be aborted. the
  * cannon will only shoot once the audio has completed.
  */
-public class ShootCannon extends CommandBase {
+public class ShootCannon extends Command {
   /** Creates a new ShootCannon. */
   private CannonBase m_cannon;
   private ShowBotAudioBase m_audio;
@@ -39,7 +39,6 @@ public class ShootCannon extends CommandBase {
     m_audio.playShootCannonAudio();
     m_delayCount = 0;
     m_cannonShot = false;
-    Trace.getInstance().logCommandStart(this);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -64,7 +63,6 @@ public class ShootCannon extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
   }
 
   // Returns true when the command should end.

@@ -4,14 +4,14 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.TankDriveTrain;
 import frc.robot.telemetries.Trace;
 
 /*Move robot without using a PID loop. Use this to move the robot over uneven ground.
  * The robot will roll past the distance due to momentum.
  */
-public class MoveWithoutPID extends CommandBase {
+public class MoveWithoutPID extends Command {
   private TankDriveTrain m_driveTrain;
   private double m_distance = 0;
   private double m_speed = 0;
@@ -38,7 +38,6 @@ public class MoveWithoutPID extends CommandBase {
   @Override
   public void initialize() {
     m_distance += m_driveTrain.getRobotPositionInches();
-    Trace.getInstance().logCommandStart(this);
     Trace.getInstance().logCommandInfo(this, "target distance: " + m_distance);
   }
 
@@ -51,7 +50,6 @@ public class MoveWithoutPID extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Trace.getInstance().logCommandStop(this);
     m_driveTrain.stop();
     Trace.getInstance().logCommandInfo(this,
         "ending position: " + m_driveTrain.getRobotPositionInches());

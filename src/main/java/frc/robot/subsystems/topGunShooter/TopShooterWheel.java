@@ -7,7 +7,7 @@ package frc.robot.subsystems.topGunShooter;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
@@ -36,7 +36,7 @@ public class TopShooterWheel extends SubsystemBase implements ShooterWheelBase {
 
   @Override
   public double getShooterWheelRpm() {
-    double speed = m_shooterMotor.getEncoderVelocityTicks();
+    double speed = m_shooterMotor.getBuiltInEncoderVelocityTicks();
     SmartDashboard.putNumber("TopShooterSpeed", speed);
     return speed;
   }
@@ -52,7 +52,7 @@ public class TopShooterWheel extends SubsystemBase implements ShooterWheelBase {
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
   }
 }

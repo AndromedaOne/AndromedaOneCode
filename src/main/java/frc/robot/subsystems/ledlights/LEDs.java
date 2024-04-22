@@ -14,6 +14,8 @@ public abstract class LEDs extends SubsystemBase {
   private double m_blueValue = 0;
   private boolean m_ledsOn = false;
   private int m_rainbowCounter = 0;
+  private boolean m_noteState = false;
+  private boolean m_targetFound = true;
 
   enum Mode {
     SOLID, BLINKING, RAINBOW,
@@ -141,7 +143,7 @@ public abstract class LEDs extends SubsystemBase {
   public void setYellow(double brightness) {
     clearColor();
     m_redValue = brightness;
-    m_greenValue = brightness / 1.5;
+    m_greenValue = brightness / 2;
   }
 
   /**
@@ -187,6 +189,20 @@ public abstract class LEDs extends SubsystemBase {
     m_blueValue = 0;
   }
 
+  public void setPink(double brightness) {
+    clearColor();
+    m_redValue = brightness; // 255
+    m_greenValue = brightness * 0.31176470588; // 105
+    m_blueValue = brightness * 0.30588235294; // 180
+  }
+
+  public void setMahogony(double brightness) {
+    clearColor();
+    m_redValue = brightness * 0.564705882352941;
+    m_greenValue = brightness * 0.047058823529412;
+    m_blueValue = brightness * 0.247058823529412;
+  }
+
 //#get the i'th color, of n colors. 
   public static Color rainbow(int i, int n) {
     int r = 0;
@@ -224,4 +240,20 @@ public abstract class LEDs extends SubsystemBase {
   }
 
   protected abstract void updateRGBcolor(Color color);
+
+  public void setNoteState(boolean noteState) {
+    m_noteState = noteState;
+  }
+
+  public boolean getNoteState() {
+    return m_noteState;
+  }
+
+  public void setTargetFound(boolean targetFound) {
+    m_targetFound = targetFound;
+  }
+
+  public boolean getTargetFound() {
+    return m_targetFound;
+  }
 }

@@ -4,8 +4,9 @@
 
 package frc.robot.subsystems.topGunShooter;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.MockSubsystem;
 
 /** Add your docs here. */
 public class MockTopShooter implements ShooterWheelBase {
@@ -34,10 +35,10 @@ public class MockTopShooter implements ShooterWheelBase {
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    throw new UnsupportedOperationException("Unimplemented method 'getSubsystemBase'");
+    return new MockSubsystem();
   }
 
   @Override
-  public void setDefaultCommand(CommandBase command) {
+  public void setDefaultCommand(Command command) {
   }
 }
