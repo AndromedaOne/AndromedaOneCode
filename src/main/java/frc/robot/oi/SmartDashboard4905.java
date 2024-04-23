@@ -63,7 +63,9 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
-    AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+    if (Config4905.getConfig4905().isBillthoven()) {
+      AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+    }
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
@@ -135,7 +137,6 @@ public class SmartDashboard4905 {
           new DriveTrainRectangularPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
-      SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
       if (Robot.getInstance().getSensorsContainer().getPhotonVision().doesPhotonVisionExist()) {
         SmartDashboard.putData("Turn to target",
             new TurnToTargetUsingGyro(subsystemsContainer.getDriveTrain(), () -> 4, () -> 0, true,
@@ -149,6 +150,7 @@ public class SmartDashboard4905 {
         SmartDashboard.putData("DriveStation3SpeakerWithAmp", new DriveStation3SpeakerWithAmp());
         SmartDashboard.putData("CentralSpeaker3ScoresAmpSide", new CentralSpeaker3ScoresAmpSide());
         SmartDashboard.putData("DriveStation2SpeakerAmpSide", new DriveStation2SpeakerAmpSide());
+        SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
       }
     }
 
