@@ -27,14 +27,16 @@ import frc.robot.commands.billthovenShooterCommands.TuneBillShooterFeedForward;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
-import frc.robot.commands.driveTrainCommands.TurnToTarget;
+import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
 import frc.robot.commands.groupCommands.autonomousCommands.AmpScore;
 import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker2Scores;
-import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3Scores;
-import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2Speaker;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3ScoresAmpSide;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3ScoresSource;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2SpeakerAmpSide;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2SpeakerSource;
 import frc.robot.commands.groupCommands.autonomousCommands.DriveStation3SpeakerWithAmp;
 import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
@@ -61,7 +63,9 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
-    AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+    if (Config4905.getConfig4905().isBillthoven()) {
+      AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+    }
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
@@ -95,8 +99,8 @@ public class SmartDashboard4905 {
           new RunBillShooterRPM(subsystemsContainer.getBillShooter()));
     }
     if (Config4905.getConfig4905().doesArmRotateExist()) {
-      SmartDashboard.putData("Set Bill Arm Rotate 300",
-          new ArmRotate(subsystemsContainer.getBillArmRotate(), () -> 300, false, true));
+      SmartDashboard.putData("Set Bill Arm Rotate For Tuning", new ArmRotate(
+          subsystemsContainer.getBillArmRotate(), () -> 300, false, true, false, false));
       // Will need to be changed at some point
       SmartDashboard.putData("Enable Arm Motor Brake Mode",
           new EnableMotorBrake(subsystemsContainer.getBillArmRotate()));
@@ -133,16 +137,20 @@ public class SmartDashboard4905 {
           new DriveTrainRectangularPath(subsystemsContainer.getDriveTrain()));
       SmartDashboard.putData("DriveTrainDiagonalPathExample",
           new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
-      SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
       if (Robot.getInstance().getSensorsContainer().getPhotonVision().doesPhotonVisionExist()) {
-        SmartDashboard.putData("Turn to ID 7", new TurnToTarget(() -> 7, () -> 0));
+        SmartDashboard.putData("Turn to target",
+            new TurnToTargetUsingGyro(subsystemsContainer.getDriveTrain(), () -> 4, () -> 0, true,
+                sensorsContainer.getPhotonVision()));
       }
       if (Config4905.getConfig4905().isBillthoven()) {
         SmartDashboard.putData("AmpScore", new AmpScore());
         SmartDashboard.putData("CentralSpeaker2Scores", new CentralSpeaker2Scores());
-        SmartDashboard.putData("CentralSpeaker3Scores", new CentralSpeaker3Scores());
-        SmartDashboard.putData("DriveStation2Speaker", new DriveStation2Speaker());
+        SmartDashboard.putData("CentralSpeaker3ScoresSource", new CentralSpeaker3ScoresSource());
+        SmartDashboard.putData("DriveStation2SpeakerSource", new DriveStation2SpeakerSource());
         SmartDashboard.putData("DriveStation3SpeakerWithAmp", new DriveStation3SpeakerWithAmp());
+        SmartDashboard.putData("CentralSpeaker3ScoresAmpSide", new CentralSpeaker3ScoresAmpSide());
+        SmartDashboard.putData("DriveStation2SpeakerAmpSide", new DriveStation2SpeakerAmpSide());
+        SmartDashboard.putData("EmergencyBackup", new EmergencyBackup());
       }
     }
 

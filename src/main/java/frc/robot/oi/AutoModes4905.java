@@ -6,8 +6,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.groupCommands.autonomousCommands.AmpScore;
 import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker2Scores;
-import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3Scores;
-import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2Speaker;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3ScoresAmpSide;
+import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3ScoresSource;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2SpeakerAmpSide;
+import frc.robot.commands.groupCommands.autonomousCommands.DriveStation2SpeakerSource;
 import frc.robot.commands.groupCommands.autonomousCommands.DriveStation3SpeakerWithAmp;
 import frc.robot.commands.groupCommands.autonomousCommands.EmergencyBackup;
 import frc.robot.commands.groupCommands.autonomousCommands.SideScoreLeaveHome;
@@ -32,17 +34,23 @@ public class AutoModes4905 {
           "3: CentralSpeaker2Scores: Central Speaker Start, Score Speaker, Pick Up Note, Score Speaker",
           new CentralSpeaker2Scores());
       m_autoChooser.addOption(
-          "4: CentralSpeaker3Scores: Cental Speaker Start, Score Speaker, Pick Up Note, Score Speaker, Pick Up Note, Score Speaker",
-          new CentralSpeaker3Scores());
+          "4: CentralSpeaker3Scores: Source Side, Cental Speaker Start, Score Speaker, Pick Up Note, Score Speaker, Pick Up Note, Score Speaker",
+          new CentralSpeaker3ScoresSource());
       m_autoChooser.addOption(
-          "5: DriveStation2Speaker: Drive Station 2 Start, Score Speaker, Pick up Note, Score Speaker",
-          new DriveStation2Speaker());
+          "5: DriveStation2Speaker: Source Side, Drive Station 2 Start, Score Speaker, Pick up Note, Score Speaker",
+          new DriveStation2SpeakerSource());
       m_autoChooser.addOption(
           "6: DriveStation3SpeakerWithAmp: Drive Station Start, Score Speaker, Pick up Note, Score Amp",
           new DriveStation3SpeakerWithAmp());
       m_autoChooser.addOption(
           "7: SideScoreLeaveHome: Drive Station Start, Score Speaker, Leave Home",
           new SideScoreLeaveHome());
+      m_autoChooser.addOption(
+          "8: CentralSpeaker3Scores: Amp Side, Cental Speaker Start, Score Speaker, Pick Up Note, Score Speaker, Pick Up Note, Score Speaker",
+          new CentralSpeaker3ScoresAmpSide());
+      m_autoChooser.addOption(
+          "9: DriveStation2Speaker: Amp Side, Drive Station 2 Start, Score Speaker, Pick up Note, Score Speaker",
+          new DriveStation2SpeakerAmpSide());
     }
 
     SmartDashboard.putData("autoModes", m_autoChooser);

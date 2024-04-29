@@ -4,20 +4,12 @@
 
 package frc.robot.sensors.photonvision;
 
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-
 /** Add your docs here. */
 public class MockPhotonVision implements PhotonVisionBase {
 
   @Override
   public boolean doesTargetExist(int wantedID) {
     return false;
-  }
-
-  @Override
-  public double getDistanceToTargetInMeters(int wantedID) {
-    return 0;
   }
 
   @Override
@@ -31,13 +23,22 @@ public class MockPhotonVision implements PhotonVisionBase {
   }
 
   @Override
-  public DoubleSupplier getYaw(IntSupplier wantedID, DoubleSupplier setpoint) {
-    return () -> 0;
-  }
-
-  @Override
   public boolean doesPhotonVisionExist() {
     return false;
   }
 
+  @Override
+  public double getDistanceToTargetInMeters(int wantedID) {
+    return 0;
+  }
+
+  @Override
+  public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint) {
+    return new TargetDetectedAndAngle(0, false);
+  }
+
+  @Override
+  public TargetDetectedAndDistance getTargetDetectedAndDistance(int wantedID) {
+    return new TargetDetectedAndDistance(0, false);
+  }
 }

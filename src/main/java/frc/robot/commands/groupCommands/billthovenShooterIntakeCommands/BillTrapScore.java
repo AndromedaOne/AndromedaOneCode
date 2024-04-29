@@ -31,11 +31,14 @@ public class BillTrapScore extends SequentialCommandGroup4905 {
       SmartDashboard.putNumber("TrapCommand ArmPosition", 330);
     }
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
+    ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, m_useSmartDashboard);
     addCommands(
         new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
             new MoveEndEffector(endEffector, () -> m_endEffectorToHighPosition)),
-        new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.SHOOTING,
-            runShooterCommand.getOnTargetSupplier()), runShooterCommand),
+        new ParallelDeadlineGroup4905(
+            new RunBillFeeder(feeder, FeederStates.SHOOTING,
+                runShooterCommand.getOnTargetSupplier(), runArmCommand.getOnTargetSupplier()),
+            runShooterCommand),
         // intentionally leaving with need to end = false to not smash the arm into the
         // stage
         new ArmRotate(m_armRotate, () -> 340, false));

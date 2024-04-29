@@ -98,6 +98,7 @@ public class RunBillShooterWheelVelocity extends PIDCommand4905 {
     getController().setI(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.i"));
     getController().setD(m_shooterConfig.getDouble("shooterMotor.runshooterwheelvelocity.d"));
     Trace.getInstance().logCommandInfo(this, "  P = " + pValue);
+    Trace.getInstance().logCommandInfo(this, "setpoint: " + getController().getSetpoint());
   }
 
   @Override

@@ -116,29 +116,37 @@ public class AmpScore extends SequentialCommandGroup4905 {
     m_ampScoreConfigBlue.m_waypoint8 = blueConfig.getDouble("AmpScore.WayPoint8");
     m_ampScoreConfigSupplier.setAmpScoreConfig(m_ampScoreConfigRed);
     addCommands(new DelayedSequentialCommandGroup(
-        new MoveUsingEncoder(m_driveTrain,
-            () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint1, 1),
+        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
+            new MoveEndEffector(m_endEffector, () -> true),
+            new MoveUsingEncoder(m_driveTrain,
+                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint1, 1)),
+
         new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle1),
         new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
-            new MoveEndEffector(m_endEffector, () -> true)),
+
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint2, 1),
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint3, 1),
         new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle2),
+        new ParallelCommandGroup4905(
+            new ArmRotate(m_armRotate, () -> 350, true, false, true, false),
+            new MoveEndEffector(m_endEffector, () -> false)),
+
         new PauseRobot(40, m_driveTrain),
         new ParallelCommandGroup4905(
             new MoveUsingEncoder(m_driveTrain,
                 () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint4, 0.25),
-            new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter)),
-        new MoveUsingEncoder(m_driveTrain,
-            () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint5, 1),
+            new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter, false)),
+        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
+            new MoveEndEffector(m_endEffector, () -> true),
+            new MoveUsingEncoder(m_driveTrain,
+                () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint5, 1)),
+
         new TurnToCompassHeading(() -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_angle3),
         new PauseRobot(40, m_driveTrain),
-        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
-            new MoveEndEffector(m_endEffector, () -> true)),
+
         new MoveUsingEncoder(m_driveTrain,
             () -> m_ampScoreConfigSupplier.getAmpScoreConfig().m_waypoint6, 1),
         new RunBillFeeder(m_feeder, FeederStates.AMPSHOOTING),

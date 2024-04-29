@@ -13,7 +13,8 @@ import frc.robot.telemetries.Trace;
 
 public class RunBillFeeder extends Command {
   private BillFeederBase m_feeder;
-  private BooleanSupplier m_readyToShoot;
+  private BooleanSupplier m_shooterReadyToShoot;
+  private BooleanSupplier m_armComplete;
   private FeederStates m_feederState = FeederStates.EJECT;
   private boolean m_noteInPlace = false;
   private boolean m_autonomous = false;
@@ -23,9 +24,10 @@ public class RunBillFeeder extends Command {
 
   /** use this if you are shooting. */
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState,
-      BooleanSupplier readyToShoot) {
+      BooleanSupplier shooterReadyToShoot, BooleanSupplier armComplete) {
     m_feeder = feeder;
-    m_readyToShoot = readyToShoot;
+    m_shooterReadyToShoot = shooterReadyToShoot;
+    m_armComplete = armComplete;
     m_feederState = feederState;
     m_LEDs = Robot.getInstance().getSubsystemsContainer().getWs2812LEDs();
     addRequirements(m_feeder.getSubsystemBase());
@@ -33,7 +35,7 @@ public class RunBillFeeder extends Command {
 
 // use this constructor if not shooting
   public RunBillFeeder(BillFeederBase feeder, FeederStates feederState) {
-    this(feeder, feederState, () -> false);
+    this(feeder, feederState, () -> false, () -> false);
   }
 
   // Called when the command is initially scheduled.
@@ -50,6 +52,8 @@ public class RunBillFeeder extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    boolean readyToShoot = m_shooterReadyToShoot.getAsBoolean() && m_armComplete.getAsBoolean();
+
     if (BillClimberSingleton.getInstance().getClimberEnabled()) {
       return; // Remove this when trap scoring becomes a thing
     }
@@ -69,11 +73,15 @@ public class RunBillFeeder extends Command {
       m_feeder.runBillFeederEject();
       return;
     case SHOOTING:
-      if ((m_readyToShoot.getAsBoolean()) && (m_controller.getBillFireTrigger())) {
+      if (m_controller.getBillFireTrigger() && (!readyToShoot)) {
+        Trace.getInstance().logCommandInfo(this, "NOTReadyToShootAndTriggerPulled");
+      }
+      if ((readyToShoot) && (m_controller.getBillFireTrigger())) {
         m_feeder.runBillFeederShooting();
         SmartDashboard.putBoolean("Bill Fire Trigger", m_controller.getBillFireTrigger());
+        Trace.getInstance().logCommandInfo(this, "readyToShootAndTriggerPulled");
         m_count++;
-      } else if ((m_readyToShoot.getAsBoolean()) && (m_autonomous)) {
+      } else if ((readyToShoot) && (m_autonomous)) {
         m_feeder.runBillFeederShooting();
         m_count++;
       } else {
@@ -118,10 +126,11 @@ public class RunBillFeeder extends Command {
         && (m_controller.getBillTrapShotButton().getAsBoolean())) {
       return false;
     } else if (m_feederState == FeederStates.SHOOTING) {
-      if ((m_count >= 10) || ((!m_controller.getBillSpeakerFarScoreButton().getAsBoolean())
+      if ((m_count >= 20) || ((!m_controller.getBillSpeakerAwayScoreButton().getAsBoolean())
           && (!m_controller.getBillSpeakerCloseScoreButton().getAsBoolean())
-          && (!m_controller.getBillSpeakerMidScoreButton().getAsBoolean())
-          && (!m_controller.getBillTrapShotButton().getAsBoolean()) && (!m_autonomous))) {
+          && (!m_controller.getBillTrapShotButton().getAsBoolean())
+          && (!m_controller.getBillSpeakerShuttleScoreButton().getAsBoolean())
+          && (!m_autonomous))) {
         System.out.println("RunBillFeeder Finished ");
         return true;
       }
