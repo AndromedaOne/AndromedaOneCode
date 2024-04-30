@@ -37,7 +37,7 @@ import frc.robot.utils.AngleConversionUtils;
  * 
  */
 public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
-
+  private Pose2d currentPose;
   private Gyro4905 m_gyro;
   private SwerveDriveOdometry m_swerveOdometry;
   private SwerveModule[] m_SwerveMods;
@@ -134,6 +134,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
+    currentPose = m_swerveOdometry.update(getYaw(), getPositions());
+    SmartDashboard.putNumber("Pose X ", currentPose.getX());
+    SmartDashboard.putNumber("Pose Y ", currentPose.getY());
+    SmartDashboard.putNumber("Pose angle ", currentPose.getRotation().getDegrees());
   }
 
   // @Override
