@@ -17,6 +17,7 @@ import frc.robot.sensors.encoder.RealEncoder;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
+import frc.robot.sensors.gyro.RealPigeonGyroSensor;
 import frc.robot.sensors.gyro.RomiGyro;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
@@ -54,6 +55,9 @@ public class SensorsContainer {
     if (m_sensorConfig.hasPath("navx")) {
       Trace.getInstance().logInfo("Using real NavX Gyro sensor");
       m_gyro = new RealNavXGyroSensor();
+    } else if (m_sensorConfig.hasPath("pigeon")) {
+      Trace.getInstance().logInfo("Using real Pigeon Gyro sensor");
+      m_gyro = new RealPigeonGyroSensor();
     } else if (m_sensorConfig.hasPath("RomiGyro")) {
       Trace.getInstance().logInfo("Using RomiGyro");
       m_gyro = new RomiGyro();
