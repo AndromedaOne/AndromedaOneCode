@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.TimerTask;
 
-import com.ctre.phoenix.sensors.WPI_PigeonIMU;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,7 +12,7 @@ import frc.robot.Config4905;
 
 public class RealPigeonGyroSensor extends RealGyroBase {
   // use singleton for the gyro member
-  static private WPI_PigeonIMU m_gyro = null;
+  static private Pigeon2 m_gyro = null;
 
   private long kInitializeDelay = 3000;
   private long kDefaultPeriod = 50;
@@ -41,7 +41,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
         int pigeonId = pigeonConfig.getInt("id");
         System.out.println("Creating a pigeon Gyro on port: " + pigeonId);
         /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
-        m_gyro = new WPI_PigeonIMU(pigeonId);
+        m_gyro = new Pigeon2(pigeonId, "rio");
         System.out.println("Created pigeon instance");
         calibrate();
       } catch (RuntimeException ex) {
@@ -62,8 +62,8 @@ public class RealPigeonGyroSensor extends RealGyroBase {
     public void run() {
       System.out.println("Setting Initial Gyro Angle");
       m_pigeon.setInitialZAngleReading(m_gyro.getAngle());
-      m_pigeon.setInitialXAngleReading(m_gyro.getPitch());
-      m_pigeon.setInitialYAngleReading(m_gyro.getRoll());
+      m_pigeon.setInitialYAngleReading(m_gyro.getPitch().getValueAsDouble());
+      m_pigeon.setInitialXAngleReading(m_gyro.getRoll().getValueAsDouble());
       m_calibrated = true;
       System.out.println("Gyro is calibrated. Initial Angles: \n\tZangle: " + m_gyro.getAngle()
           + "\n\tXangle: " + m_gyro.getPitch() + "\n\tYangle: " + m_gyro.getRoll() + "\n");
@@ -95,7 +95,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
       System.out.println(
           "WARNING: pigeon gyro has not completed calibrating before getRawXangle has been called");
     }
-    return m_gyro.getPitch();
+    return m_gyro.getPitch().getValueAsDouble();
   }
 
   @Override
@@ -104,7 +104,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
       System.out.println(
           "WARNING: pigeon gyro has not completed calibrating before getRawYangle has been called");
     }
-    return m_gyro.getRoll();
+    return m_gyro.getRoll().getValueAsDouble();
   }
 
   @Override
