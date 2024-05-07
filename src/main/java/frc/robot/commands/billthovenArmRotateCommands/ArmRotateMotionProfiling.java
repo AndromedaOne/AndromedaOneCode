@@ -44,10 +44,10 @@ public class ArmRotateMotionProfiling extends SequentialCommandGroup4905 {
     private BillArmRotateBase m_armRotate;
     private Double m_goal = 0.0;
     private boolean m_needToEnd = false;
-    private boolean m_useSmartDashboard = false;
+    private boolean m_useSmartDashboard = true;
     private InterpolatingMap m_kMap;
     private InterpolatingMap m_pMap;
-    private boolean m_engagePneumaticBrake;
+    private boolean m_engagePneumaticBrake; 
     private boolean m_rotateWhileClimb = false;
     private static Config pidConstantsConfig = Config4905.getConfig4905().getArmRotateConfig();
     private static TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(
