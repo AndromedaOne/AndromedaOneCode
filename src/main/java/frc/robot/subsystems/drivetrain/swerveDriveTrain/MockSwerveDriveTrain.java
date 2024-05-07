@@ -113,4 +113,9 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
       boolean useSquaredInputs, double compassHeading) {
   }
 
+  @Override
+  public void resetOdometryForCalibration() {
+
+  }
+
 }

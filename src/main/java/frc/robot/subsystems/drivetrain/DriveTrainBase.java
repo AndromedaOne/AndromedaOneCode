@@ -71,4 +71,6 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract void enableAccelerationLimiting();
 
   public abstract void disableAccelerationLimiting();
+
+  public abstract void resetOdometryForCalibration();
 }

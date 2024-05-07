@@ -212,4 +212,10 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   @Override
   public void setToAngle(double angle) {
   }
+
+  @Override
+  public void resetOdometryForCalibration() {
+
+  }
+
 }
