@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import com.typesafe.config.Config;
 
+import static edu.wpi.first.math.util.Units.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -73,7 +74,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
     m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics, getYaw(), swerveModulePositions);
-    resetOdometryForCalibration();
   }
 
   @Override
@@ -108,10 +108,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     m_swerveOdometry.resetPosition(getYaw(), this.getPositions(), pose);
   }
 
-  public void resetOdometryForCalibration() {
-    m_swerveOdometry.resetPosition(getYaw(), this.getPositions(), new Pose2d());
-  }
-
   public SwerveModuleState[] getStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
     for (SwerveModule mod : m_SwerveMods) {
@@ -139,9 +135,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
-    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(m_gyro.getCompassHeading()), getPositions());
-    SmartDashboard.putNumber("Pose X ", currentPose.getX());
-    SmartDashboard.putNumber("Pose Y ", currentPose.getY());
+    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(m_gyro.getCompassHeading()),
+        getPositions());
+    SmartDashboard.putNumber("Pose X ", metersToInches(currentPose.getX()));
+    SmartDashboard.putNumber("Pose Y ", metersToInches(currentPose.getY()));
     SmartDashboard.putNumber("Pose angle ", currentPose.getRotation().getDegrees());
   }
 
