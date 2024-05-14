@@ -13,8 +13,8 @@ public abstract class SwerveModuleBase {
 
   private int m_moduleNumber = 0;
 
-  public SwerveModuleBase(int moduleNuber) {
-    m_moduleNumber = moduleNuber;
+  public SwerveModuleBase(int moduleNumber) {
+    m_moduleNumber = moduleNumber;
   }
 
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop,

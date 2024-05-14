@@ -4,8 +4,10 @@
 
 package frc.robot.actuators.SwerveModule;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -25,6 +27,7 @@ import frc.robot.utils.CANSparkMaxUtil.Usage;
 public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   private SparkMaxController m_angleMotor;
   private TalonFX m_driveMotor;
+  private TalonFXConfiguration m_configuration;
   private SparkPIDController m_angleController;
   private PhoenixPIDController m_driveController;
   private double m_lastAngle = 0;
@@ -48,6 +51,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
 
     /* drive motor config */
     m_driveMotor = new TalonFX(moduleNumber);
+    m_configuration = new TalonFXConfiguration();
+    configDriveMotor();
   }
 
   private void configAngleMotor() {
@@ -84,7 +89,12 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     m_driveMotor.setInverted(m_config.getBoolean("driveInvert"));
     m_driveController.setPID(m_config.getDouble("driveKP"), m_config.getDouble("driveKI"),
         m_config.getDouble("driveKD"));
+    m_configuration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
+        .getDouble("drivekRampRate");
+    m_configuration.Feedback.SensorToMechanismRatio = m_config.getDouble("driveGearRatio");
+    // Gear ratio (I think)
     // There's a bunch of stuff that was here that I don't know the Talon version of
+    // I have no clue whether or not this is right
     m_driveMotor.setPosition(0.0);
 
   }
@@ -98,9 +108,9 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   }
 
   @Override
-  protected void setAngle(SwerveModuleState desiredState, boolean overRide) {
+  protected void setAngle(SwerveModuleState desiredState, boolean override) {
     double angle = desiredState.angle.getDegrees();
-    if (!overRide
+    if (!override
         && Math.abs(desiredState.speedMetersPerSecond) <= (m_config.getDouble("maxSpeed") * 0.01)) {
       angle = m_lastAngle;
     }
@@ -132,23 +142,24 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   @Override
   public void setCoast(boolean value) {
     IdleMode mode = CANSparkMax.IdleMode.kBrake;
+    NeutralModeValue kMode = NeutralModeValue.Brake;
     if (value) {
       mode = CANSparkMax.IdleMode.kCoast;
+      kMode = NeutralModeValue.Coast;
     }
-    // DutyCycleOut m_dutyCycle
-    m_angleMotor.setIdleMode(mode);
 
-    // m_driveMotor.setControl(m_dutyCycle);
-    // I don't know how to fix this
+    m_angleMotor.setIdleMode(mode);
+    m_driveMotor.setNeutralMode(kMode);
   }
 
   @Override
   public void disableAccelerationLimiting() {
-    // No clue how to do this because the documentation sucks
+    m_configuration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0;
   }
 
   @Override
   public void enableAccelerationLimiting() {
-    // No clue how to do this because the documentation sucks
+    m_configuration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
+        .getDouble("drivekRampRate");
   }
 }
