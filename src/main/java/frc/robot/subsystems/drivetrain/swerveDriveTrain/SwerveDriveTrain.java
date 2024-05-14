@@ -1,8 +1,9 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
+import static edu.wpi.first.math.util.Units.*;
+
 import com.typesafe.config.Config;
 
-import static edu.wpi.first.math.util.Units.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -73,7 +74,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics, getYaw(), swerveModulePositions);
+    m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics,
+        Rotation2d.fromDegrees(m_gyro.getCompassHeading()), swerveModulePositions);
   }
 
   @Override
