@@ -119,8 +119,8 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     }
     if (m_distance == SpeakerScoreDistanceEnum.CLOSE) {
       if (armPosition == SpeakerScoreArmPositionEnum.LOW) {
-        m_armSetpoint = 332;
-        m_shooterSpeed = 3250;
+        m_armSetpoint = 290;
+        m_shooterSpeed = 2500;
         m_endEffectorToHighPosition = false;
       } else { // these are the same because there is no point in shooting high over a defense
                // robot

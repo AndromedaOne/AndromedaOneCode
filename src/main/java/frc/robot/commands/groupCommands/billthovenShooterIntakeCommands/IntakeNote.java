@@ -16,7 +16,7 @@ public class IntakeNote extends SequentialCommandGroup4905 {
 
   public IntakeNote(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, boolean endInDrivePosition) {
-    final double m_armIntakeSetpoint = 352.0; // we dont know - 300 test only
+    final double m_armIntakeSetpoint = 290.0; // we dont know - 300 test only
     if (endInDrivePosition) {
       addCommands(
           new ParallelDeadlineGroup4905(new RunBillFeeder(feeder, FeederStates.INTAKE),
