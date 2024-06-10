@@ -151,8 +151,13 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
   }
 
   @Override
-  protected double getDriveEncoderPosition() {
+  public double getDriveEncoderPosition() {
     return m_driveEncoder.getPosition();
+  }
+
+  @Override
+  public double getDriveEncoderVelocity() {
+    return m_driveEncoder.getVelocity();
   }
 
 }

@@ -38,7 +38,9 @@ public abstract class SwerveModuleBase {
     return Rotation2d.fromDegrees(getAngleMotorRawAngle());
   }
 
-  protected abstract double getDriveEncoderPosition();
+  public abstract double getDriveEncoderPosition();
+
+  public abstract double getDriveEncoderVelocity();
 
   public SwerveModuleState getState() {
     return new SwerveModuleState(getDriveEncoderPosition(), getAngle());

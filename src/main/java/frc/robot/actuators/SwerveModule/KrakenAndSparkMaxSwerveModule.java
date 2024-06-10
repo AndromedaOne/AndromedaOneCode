@@ -50,7 +50,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     configAngleMotor();
 
     /* drive motor config */
-    m_driveMotor = new TalonFX(moduleNumber);
+    m_driveMotor = new TalonFX(moduleNumber, "*");
     m_configuration = new TalonFXConfiguration();
     configDriveMotor();
   }
@@ -91,12 +91,10 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
         m_config.getDouble("driveKD"));
     m_configuration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
         .getDouble("drivekRampRate");
-    m_configuration.Feedback.SensorToMechanismRatio = m_config.getDouble("driveGearRatio");
-    // Gear ratio (I think)
-    // There's a bunch of stuff that was here that I don't know the Talon version of
-    // I have no clue whether or not this is right
+    // The Kraken cannot have a set conversion factor for getPosition and
+    // getVelocity
+    m_driveMotor.getConfigurator().apply(m_configuration, 0.1);
     m_driveMotor.setPosition(0.0);
-
   }
 
   @Override
@@ -133,10 +131,18 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   }
 
   @Override
-  protected double getDriveEncoderPosition() {
+  public double getDriveEncoderPosition() {
     double positionConversionFactor = m_config.getDouble("wheelDiameter") * Math.PI
         / m_config.getDouble("driveGearRatio");
     return m_driveMotor.getPosition().getValueAsDouble() * (positionConversionFactor / 39.3701);
+  }
+
+  @Override
+  public double getDriveEncoderVelocity() {
+    double positionConversionFactor = m_config.getDouble("wheelDiameter") * Math.PI
+        / m_config.getDouble("driveGearRatio");
+    return m_driveMotor.getVelocity().getValueAsDouble()
+        * ((positionConversionFactor * 39.3701) / 60);
   }
 
   @Override
