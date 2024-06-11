@@ -27,6 +27,7 @@ public class SwerveModule {
   private SparkPIDController m_driveController;
   private double m_lastAngle = 0;
   private Config m_config;
+  private double m_driveMotorPositionOffset = 0;
 
   private RelativeEncoder driveEncoder;
   private AbsoluteEncoder absoluteAngleEncoder;
@@ -107,8 +108,7 @@ public class SwerveModule {
     m_driveMotor.setOpenLoopRampRate(m_config.getDouble("drivekRampRate"));
     m_driveMotor.enableVoltageCompensation(m_config.getDouble("voltageComp"));
     m_driveMotor.burnFlash();
-    driveEncoder.setPosition(0.0);
-
+    m_driveMotorPositionOffset = driveEncoder.getPosition();
   }
 
   private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
@@ -158,11 +158,15 @@ public class SwerveModule {
   }
 
   public SwerveModuleState getState() {
-    return new SwerveModuleState(driveEncoder.getPosition(), getAngle());
+    return new SwerveModuleState(getDriveMotorPosition(), getAngle());
   }
 
   public SwerveModulePosition getPosition() {
-    return new SwerveModulePosition(driveEncoder.getPosition(), getAngle());
+    return new SwerveModulePosition(getDriveMotorPosition(), getAngle());
+  }
+
+  public double getDriveMotorPosition() {
+    return driveEncoder.getPosition() - m_driveMotorPositionOffset;
   }
 
   public double getDriveMotorCurrentSpeed() {

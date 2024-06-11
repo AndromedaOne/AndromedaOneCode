@@ -73,6 +73,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
+      Trace.getInstance().logInfo("Swerve mod drive position "+ m_SwerveMods[i].getDriveMotorPosition());
     }
     m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics,
         Rotation2d.fromDegrees(m_gyro.getCompassHeading()), swerveModulePositions);
