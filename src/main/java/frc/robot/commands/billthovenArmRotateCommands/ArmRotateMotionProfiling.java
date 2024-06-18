@@ -47,7 +47,7 @@ public class ArmRotateMotionProfiling extends SequentialCommandGroup4905 {
     private boolean m_useSmartDashboard = true;
     private InterpolatingMap m_kMap;
     private InterpolatingMap m_pMap;
-    private boolean m_engagePneumaticBrake; 
+    private boolean m_engagePneumaticBrake;
     private boolean m_rotateWhileClimb = false;
     private static Config pidConstantsConfig = Config4905.getConfig4905().getArmRotateConfig();
     private static TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(
@@ -76,16 +76,16 @@ public class ArmRotateMotionProfiling extends SequentialCommandGroup4905 {
       addRequirements(armRotate.getSubsystemBase());
 
       if (m_useSmartDashboard) {
-        SmartDashboard.putNumber("Rotate Arm P-value", 0);
-        SmartDashboard.putNumber("Rotate Arm I-value", 0);
-        SmartDashboard.putNumber("Rotate Arm D-value", 0);
-        SmartDashboard.putNumber("Rotate Arm S-value", 0);
-        SmartDashboard.putNumber("Rotate Arm G-value", 0);
-        SmartDashboard.putNumber("Rotate Arm V-value", 0);
-        SmartDashboard.putNumber("Rotate Arm Max Velocity-value", 0);
-        SmartDashboard.putNumber("Rotate Arm Max Acceleration-value", 0);
-        SmartDashboard.putNumber("Rotate Arm Feed Forward", 0);
-        SmartDashboard.putNumber("Rotate PID Arm Angle Setpoint", 300);
+        SmartDashboard.getNumber("Rotate Arm P-value", 0);
+        SmartDashboard.getNumber("Rotate Arm I-value", 0);
+        SmartDashboard.getNumber("Rotate Arm D-value", 0);
+        SmartDashboard.getNumber("Rotate Arm S-value", 0);
+        SmartDashboard.getNumber("Rotate Arm G-value", 0);
+        SmartDashboard.getNumber("Rotate Arm V-value", 0);
+        SmartDashboard.getNumber("Rotate Arm Max Velocity-value", 0);
+        SmartDashboard.getNumber("Rotate Arm Max Acceleration-value", 0);
+        SmartDashboard.getNumber("Rotate Arm Feed Forward", 0);
+        SmartDashboard.getNumber("Rotate PID Arm Angle Setpoint", 300);
       }
     }
 
@@ -98,6 +98,7 @@ public class ArmRotateMotionProfiling extends SequentialCommandGroup4905 {
         getController().setP(SmartDashboard.getNumber("Rotate Arm P-value", 0));
         getController().setI(SmartDashboard.getNumber("Robot Arm I-value", 0));
         getController().setD(SmartDashboard.getNumber("Robot Arm D-value", 0));
+
       } else {
         getController().setP(pidConstantsConfig.getDouble("ArmRotate.Kp"));
         getController().setI(pidConstantsConfig.getDouble("ArmRotate.Ki"));
