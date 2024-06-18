@@ -40,6 +40,7 @@ import frc.robot.utils.AngleConversionUtils;
  */
 public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Pose2d currentPose;
+  private Boolean needToReset = true;
   private Gyro4905 m_gyro;
   private SwerveDriveOdometry m_swerveOdometry;
   private SwerveModule[] m_SwerveMods;
@@ -73,7 +74,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
-      Trace.getInstance().logInfo("Swerve mod drive position "+ m_SwerveMods[i].getDriveMotorPosition());
+      Trace.getInstance()
+          .logInfo("Swerve mod drive position " + m_SwerveMods[i].getDriveMotorPosition());
     }
     m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics,
         Rotation2d.fromDegrees(m_gyro.getCompassHeading()), swerveModulePositions);
@@ -108,7 +110,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   public void resetOdometry(Pose2d pose) {
-    m_swerveOdometry.resetPosition(getYaw(), this.getPositions(), pose);
+    System.out.println("Resetting Odometry, compass heading " + m_gyro.getCompassHeading());
+
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(m_gyro.getCompassHeading()),
+        this.getPositions(), pose);
   }
 
   public SwerveModuleState[] getStates() {
@@ -138,11 +143,20 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
+    SmartDashboard.putNumber("Odometry Input Heading", m_gyro.getCompassHeading());
+    if (needToReset) {
+      if (m_gyro.getIsCalibrated()) {
+        resetOdometry(getPose());
+        needToReset=false;
+      }
+    }
+    else {
     currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(m_gyro.getCompassHeading()),
         getPositions());
     SmartDashboard.putNumber("Pose X ", metersToInches(currentPose.getX()));
     SmartDashboard.putNumber("Pose Y ", metersToInches(currentPose.getY()));
     SmartDashboard.putNumber("Pose angle ", currentPose.getRotation().getDegrees());
+    }
   }
 
   // @Override

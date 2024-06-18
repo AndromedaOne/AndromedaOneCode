@@ -109,6 +109,8 @@ public class SwerveModule {
     m_driveMotor.enableVoltageCompensation(m_config.getDouble("voltageComp"));
     m_driveMotor.burnFlash();
     m_driveMotorPositionOffset = driveEncoder.getPosition();
+    Trace.getInstance()
+        .logInfo("Swerve mod" + m_moduleNumber + " position offset " + m_driveMotorPositionOffset);
   }
 
   private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {

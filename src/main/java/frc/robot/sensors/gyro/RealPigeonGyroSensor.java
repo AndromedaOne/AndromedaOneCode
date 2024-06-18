@@ -7,8 +7,12 @@ import java.util.TimerTask;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Config4905;
+import frc.robot.Robot;
+import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 public class RealPigeonGyroSensor extends RealGyroBase {
   // use singleton for the gyro member
@@ -38,6 +42,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
          */
         Config conf = Config4905.getConfig4905().getSensorConfig();
         Config pigeonConfig = conf.getConfig("pigeon");
+        DriveTrainBase driveTrain;
         int pigeonId = pigeonConfig.getInt("id");
         System.out.println("Creating a pigeon Gyro on port: " + pigeonId);
         /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
