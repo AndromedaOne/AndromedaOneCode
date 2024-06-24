@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule;
-import frc.robot.oi.SubsystemController;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode;
@@ -33,7 +32,6 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -55,9 +53,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private ChassisSpeeds m_currentChassisSpeeds;
   private SwerveSetpoint m_prevSetpoint;
   private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
-  private static SwerveKinematicLimits m_limits = new SwerveKinematicLimits(5.5, 10.0, Units.rotationsToRadians(10.0));
-  private static SwerveSetpointGenerator m_generator = new SwerveSetpointGenerator(m_swerveKinematics);
-  
+  private static SwerveKinematicLimits m_limits = new SwerveKinematicLimits(5.5, 10.0,
+      Units.rotationsToRadians(10.0));
+  private static SwerveSetpointGenerator m_generator = new SwerveSetpointGenerator(
+      m_swerveKinematics);
+
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
   // in AdvantageScope to show the state of the swerve drive
@@ -86,18 +86,15 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
     m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics, getYaw(), swerveModulePositions);
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
-    
-    HolonomicPathFollowerConfig m_pathFollowingConfig =
-        new HolonomicPathFollowerConfig(
-            new PIDConstants(6.0, 0.0, 0.0),
-            new PIDConstants(5.0, 0.0, 0.0),
-            m_config.getDouble("maxSpeed"),
-            0.5,
-            new ReplanningConfig(true, true, 0.5, 0.25),
-            0.0);
-    
+
+    HolonomicPathFollowerConfig m_pathFollowingConfig = new HolonomicPathFollowerConfig(
+        new PIDConstants(6.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0),
+        m_config.getDouble("maxSpeed"), 0.5, new ReplanningConfig(true, true, 0.5, 0.25), 0.0);
+
     // the numbers for the holonomic path are extremely inaccurate.
-    AutoBuilder.configureHolonomic(() -> getPose(), getPose() -> resetOdometry(getPose()), getCurrentSpeeds(), (speeds) -> driveRobotRelative(speeds, false), m_pathFollowingConfig, false, getSubsystemBase());
+    AutoBuilder.configureHolonomic(this::getPose, this::resetOdometry, this::getCurrentSpeeds,
+        (speeds) -> driveRobotRelative(speeds, false), m_pathFollowingConfig, () -> false,
+        getSubsystemBase());
   }
 
   @Override
@@ -127,13 +124,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   public void driveRobotRelative(ChassisSpeeds robotRelative, boolean useSetpointGenerator) {
     ChassisSpeeds discretized = ChassisSpeeds.discretize(robotRelative, 0.02);
     if (useSetpointGenerator) {
-      m_prevSetpoint =
-          m_generator.generateSetpoint(
-           m_limits, m_prevSetpoint, discretized, 0.02);
-      
+      m_prevSetpoint = m_generator.generateSetpoint(m_limits, m_prevSetpoint, discretized, 0.02);
+
     } else {
       m_prevSetpoint = new SwerveSetpoint(getCurrentSpeeds(), getStates());
-      
+
     }
   }
 
@@ -142,15 +137,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   public ChassisSpeeds getCurrentSpeeds() {
-    ChassisSpeeds speeds =
-        new ChassisSpeeds(
-            m_currentChassisSpeeds.vxMetersPerSecond,
-            m_currentChassisSpeeds.vyMetersPerSecond,
-            m_currentChassisSpeeds.omegaRadiansPerSecond);
+    ChassisSpeeds speeds = new ChassisSpeeds(m_currentChassisSpeeds.vxMetersPerSecond,
+        m_currentChassisSpeeds.vyMetersPerSecond, m_currentChassisSpeeds.omegaRadiansPerSecond);
     return speeds;
   }
 
-  
   public void resetOdometry(Pose2d pose) {
     m_swerveOdometry.resetPosition(getYaw(), this.getPositions(), pose);
   }

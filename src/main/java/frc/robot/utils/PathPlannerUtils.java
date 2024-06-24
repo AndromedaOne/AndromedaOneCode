@@ -7,13 +7,8 @@ public class PathPlannerUtils {
   private static final double kEpsilon = 1E-8;
 
   public static Twist3d multiplyTwist(Twist3d twist, double factor) {
-    return new Twist3d(
-        twist.dx * factor,
-        twist.dy * factor,
-        twist.dz * factor,
-        twist.rx * factor,
-        twist.ry * factor,
-        twist.rz * factor);
+    return new Twist3d(twist.dx * factor, twist.dy * factor, twist.dz * factor, twist.rx * factor,
+        twist.ry * factor, twist.rz * factor);
   }
 
   public static boolean epsilonEquals(double a, double b, double epsilon) {
