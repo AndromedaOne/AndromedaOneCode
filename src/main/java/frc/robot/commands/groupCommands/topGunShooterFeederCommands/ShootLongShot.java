@@ -24,8 +24,8 @@ public class ShootLongShot extends SequentialCommandGroup4905 {
   @Override
   public void additionalInitialize() {
     // Values need to be changed for three pointer
-    m_shooterSetpoint = 4500.0;
-    m_shooterAngle = 42;
+    m_shooterSetpoint = 4700.0;
+    m_shooterAngle = 40;
     m_feederSetpoint = 1.0;
   }
 }

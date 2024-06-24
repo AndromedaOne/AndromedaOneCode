@@ -46,7 +46,7 @@ public class MoveShooterAlignment extends PIDCommand4905 {
   }
 
   public MoveShooterAlignment(ShooterAlignmentBase shooterAlignment, DoubleSupplier setpoint) {
-    this(shooterAlignment, setpoint, false, 0.0, 0.0, 0.0);
+    this(shooterAlignment, setpoint, false, 0.0, 0.0, 1.0);
   }
 
   // Called when the command is initially scheduled.
