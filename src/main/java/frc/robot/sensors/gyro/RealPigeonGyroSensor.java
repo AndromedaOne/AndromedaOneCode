@@ -7,11 +7,8 @@ import java.util.TimerTask;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Config4905;
-import frc.robot.Robot;
-import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 public class RealPigeonGyroSensor extends RealGyroBase {
