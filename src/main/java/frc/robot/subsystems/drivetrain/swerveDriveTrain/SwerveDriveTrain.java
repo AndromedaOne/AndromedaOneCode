@@ -87,14 +87,24 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics, getYaw(), swerveModulePositions);
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
 
-    HolonomicPathFollowerConfig m_pathFollowingConfig = new HolonomicPathFollowerConfig(
-        new PIDConstants(6.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0),
-        m_config.getDouble("maxSpeed"), 0.5, new ReplanningConfig(true, true, 0.5, 0.25), 0.0);
+    if (m_config.getBoolean("usePathPlanning")) {
+      HolonomicPathFollowerConfig m_pathFollowingConfig = new HolonomicPathFollowerConfig(
+          new PIDConstants(m_config.getDouble("pathplanning.translationConstants.p"),
+              m_config.getDouble("pathplanning.translationConstants.i"),
+              m_config.getDouble("pathplanning.translationConstants.d")),
+          new PIDConstants(m_config.getDouble("pathplanning.rotationConstants.p"),
+              m_config.getDouble("pathplanning.rotationConstants.i"),
+              m_config.getDouble("pathplanning.rotationConstants.d")),
+          m_config.getDouble("maxSpeed"),
+          m_config.getDouble("pathplanning.driveBaseRadiusInMeters"),
+          new ReplanningConfig(true, true, m_config.getDouble("pathplanning.totalErrorThreshold"),
+              m_config.getDouble("pathplanning.errorSpikeThreshold")));
 
-    // the numbers for the holonomic path are extremely inaccurate.
-    AutoBuilder.configureHolonomic(this::getPose, this::resetOdometry, this::getCurrentSpeeds,
-        (speeds) -> driveRobotRelative(speeds, false), m_pathFollowingConfig, () -> false,
-        getSubsystemBase());
+      // the numbers for the holonomic path are extremely inaccurate.
+      AutoBuilder.configureHolonomic(this::getPose, this::resetOdometry, this::getCurrentSpeeds,
+          (speeds) -> driveRobotRelative(speeds, false), m_pathFollowingConfig, () -> false,
+          getSubsystemBase());
+    }
   }
 
   @Override
@@ -173,7 +183,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
-    m_currentChassisSpeeds = getCurrentSpeeds();
+    m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
   }
 
   // @Override
