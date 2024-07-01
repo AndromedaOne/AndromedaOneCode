@@ -59,8 +59,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
   private static SwerveKinematicLimits m_limits = new SwerveKinematicLimits(5.5, 10.0,
       Units.rotationsToRadians(10.0));
-  private static SwerveSetpointGenerator m_generator = new SwerveSetpointGenerator(
-      m_swerveKinematics);
+  private static SwerveSetpointGenerator m_generator;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -80,6 +79,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+    m_generator = new SwerveSetpointGenerator(m_swerveKinematics);
 
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
