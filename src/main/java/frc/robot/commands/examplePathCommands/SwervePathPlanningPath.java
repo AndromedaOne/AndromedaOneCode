@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class SwervePathPlanningPath extends SequentialCommandGroup {
   /** Creates a new SwervePathPlanningPath. */
   public SwervePathPlanningPath() {
-    PathPlannerPath path = PathPlannerPath.fromPathFile("SmallCurve");
+    PathPlannerPath path = PathPlannerPath.fromPathFile("Small Curve");
     Command pathCommand = AutoBuilder.followPath(path);
     addCommands(pathCommand);
   }
