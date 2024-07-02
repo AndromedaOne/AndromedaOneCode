@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.actuators.SwerveModule.KrakenAndSparkMaxSwerveModule;
 import frc.robot.actuators.SwerveModule.SparkMaxSwerveModule;
 import frc.robot.actuators.SwerveModule.SwerveModuleBase;
 import frc.robot.sensors.gyro.Gyro4905;
@@ -66,8 +67,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
-    m_SwerveMods = new SparkMaxSwerveModule[] { new SparkMaxSwerveModule(0),
-        new SparkMaxSwerveModule(1), new SparkMaxSwerveModule(2), new SparkMaxSwerveModule(3) };
+    m_SwerveMods = new KrakenAndSparkMaxSwerveModule[] { new KrakenAndSparkMaxSwerveModule(0),
+        new KrakenAndSparkMaxSwerveModule(1), new KrakenAndSparkMaxSwerveModule(2), new KrakenAndSparkMaxSwerveModule(3) };
 
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     for (int i = 0; i < 4; ++i) {
