@@ -8,12 +8,12 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SwervePathPlanningPath extends SequentialCommandGroup {
+public class SwervePathPlanningPath extends SequentialCommandGroup4905 {
   /** Creates a new SwervePathPlanningPath. */
   public SwervePathPlanningPath() {
     PathPlannerPath path = PathPlannerPath.fromPathFile("Small Curve");
