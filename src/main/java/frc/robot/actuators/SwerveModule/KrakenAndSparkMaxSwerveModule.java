@@ -29,7 +29,6 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   private TalonFX m_driveMotor;
   private TalonFXConfiguration m_configuration;
   private SparkPIDController m_angleController;
-  private PhoenixPIDController m_driveController;
   private double m_lastAngle = 0;
   private Config m_config;
 
@@ -50,7 +49,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     configAngleMotor();
 
     /* drive motor config */
-    m_driveMotor = new TalonFX(moduleNumber, "*");
+    m_driveMotor = new TalonFX(m_config.getInt("ports.Mod"+getModuleNumber()+".driveMotorID"), "rio");
     m_configuration = new TalonFXConfiguration();
     configDriveMotor();
   }
@@ -87,8 +86,6 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
 
   private void configDriveMotor() {
     m_driveMotor.setInverted(m_config.getBoolean("driveInvert"));
-    m_driveController.setPID(m_config.getDouble("driveKP"), m_config.getDouble("driveKI"),
-        m_config.getDouble("driveKD"));
     m_configuration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
         .getDouble("drivekRampRate");
     // The Kraken cannot have a set conversion factor for getPosition and
