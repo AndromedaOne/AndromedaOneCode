@@ -32,6 +32,7 @@ import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
+import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.groupCommands.autonomousCommands.AmpScore;
 import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker2Scores;
 import frc.robot.commands.groupCommands.autonomousCommands.CentralSpeaker3ScoresAmpSide;
@@ -156,6 +157,10 @@ public class SmartDashboard4905 {
     }
     if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {

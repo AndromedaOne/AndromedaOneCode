@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.CANSparkMaxUtil;
@@ -115,6 +116,7 @@ public class SwerveModule {
     if (isOpenLoop) {
       double percentOutput = desiredState.speedMetersPerSecond / m_config.getDouble("maxSpeed");
       m_driveMotor.set(percentOutput);
+      SmartDashboard.putNumber("mod: " + getModuleNumber() + " speed", percentOutput);
     } else {
       m_driveController.setReference(desiredState.speedMetersPerSecond, ControlType.kVelocity, 0,
           m_feedForward.calculate(desiredState.speedMetersPerSecond));
@@ -136,7 +138,7 @@ public class SwerveModule {
     if (angle < 0) {
       angle += 360;
     }
-
+    SmartDashboard.putNumber("mod: " + getModuleNumber() + " angle", angle);
     m_angleController.setReference(angle, ControlType.kPosition);
   }
 

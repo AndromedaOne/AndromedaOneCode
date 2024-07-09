@@ -147,6 +147,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       m_prevSetpoint = new SwerveSetpoint(getCurrentSpeeds(), getStates());
 
     }
+
+    SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(discretized);
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
+    for (SwerveModule mod : m_SwerveMods) {
+      mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], true, false);
+    }
   }
 
   public Pose2d getPose() {
