@@ -55,6 +55,7 @@ public class Config4905 {
   private Config m_billShooterConfig;
   private Config m_billFeederConfig;
   private Config m_billClimberConfig;
+  private Config m_armTestBenchConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -174,6 +175,7 @@ public class Config4905 {
     m_billShooterConfig = load("billshooter.conf");
     m_billFeederConfig = load("billfeeder.conf");
     m_billClimberConfig = load("billclimber.conf");
+    m_armTestBenchConfig = load("armtestbench.conf");
   }
 
   public Config getControllersConfig() {
@@ -416,6 +418,17 @@ public class Config4905 {
 
   public boolean doesArmRotateExist() {
     if (m_config.hasPath("subsystems.billArmRotate")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getArmTestBenchConfig() {
+    return m_armTestBenchConfig;
+  }
+
+  public boolean doesArmTestBenchExist() {
+    if (m_config.hasPath("subsystems.armTestBench")) {
       return true;
     }
     return false;
