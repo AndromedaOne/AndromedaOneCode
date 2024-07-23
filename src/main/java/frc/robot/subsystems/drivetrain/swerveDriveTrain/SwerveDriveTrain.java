@@ -60,6 +60,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private static SwerveKinematicLimits m_limits = new SwerveKinematicLimits(5.5, 10.0,
       Units.rotationsToRadians(10.0));
   private static SwerveSetpointGenerator m_generator;
+  private double m_modSpeed = 0;
+  private double m_modDistance = 0;
+  private int m_count = 0;
+  private double m_highestAccel = 0;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -104,7 +108,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
               m_config.getDouble("pathplanning.rotationConstants.d")),
           m_config.getDouble("maxSpeed"),
           m_config.getDouble("pathplanning.driveBaseRadiusInMeters"),
-          new ReplanningConfig(true, true, m_config.getDouble("pathplanning.totalErrorThreshold"),
+          new ReplanningConfig(false, false, m_config.getDouble("pathplanning.totalErrorThreshold"),
               m_config.getDouble("pathplanning.errorSpikeThreshold")));
 
       // the numbers for the holonomic path are extremely inaccurate.
@@ -202,6 +206,22 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
     SmartDashboard.putNumber("Odometry Input Heading", -1 * m_gyro.getCompassHeading());
+    if (m_count == 25) {
+    double currentPosition = m_SwerveMods[0].getPosition().distanceMeters;
+    double currentVelocity = (currentPosition - m_modDistance) * 2;
+    SmartDashboard.putNumber("Mod Distance ", m_modDistance);
+    SmartDashboard.putNumber("Current Position ", currentPosition);
+    SmartDashboard.putNumber("Robot Velocity   ", currentVelocity);
+    if (m_highestAccel < Math.abs(currentVelocity - m_modSpeed) * 2) {
+      m_highestAccel = Math.abs(currentVelocity - m_modSpeed) * 2;
+    }
+    SmartDashboard.putNumber("Robot Acceleration ", (currentVelocity - m_modSpeed) * 2);
+    m_modSpeed = currentVelocity;
+    m_modDistance = currentPosition;
+    m_count = 0;
+    SmartDashboard.putNumber("Max Acceleration ", m_highestAccel);
+    }
+    m_count++;
     if (needToReset) {
       if (m_gyro.getIsCalibrated()) {
         resetOdometry(getPose());
