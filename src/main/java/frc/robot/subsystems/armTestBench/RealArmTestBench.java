@@ -6,6 +6,7 @@ package frc.robot.subsystems.armTestBench;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
@@ -53,8 +54,7 @@ public class RealArmTestBench extends SubsystemBase implements ArmTestBenchBase 
 
   @Override
   public double getAngle() {
-    return m_motor.getAbsoluteEncoderPosition() * 360;
-
+    return 360 - (m_motor.getAbsoluteEncoderPosition() * 360);
   }
 
   @Override
@@ -65,5 +65,10 @@ public class RealArmTestBench extends SubsystemBase implements ArmTestBenchBase 
   @Override
   public void disableMotorBrake() {
     m_motor.setCoastMode();
+  }
+
+  @Override
+  public void periodic(){
+    SmartDashboard.putNumber("Arm test Bench Angle", getAngle());
   }
 }
