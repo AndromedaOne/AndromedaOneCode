@@ -34,10 +34,10 @@ public class MockArmTestBench implements ArmTestBenchBase {
   }
 
   @Override
-  public void enableMotorBrake() {
+  public void setCoastMode() {
   }
 
   @Override
-  public void disableMotorBrake() {
+  public void setBrakeMode() {
   }
 }

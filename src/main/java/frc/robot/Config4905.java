@@ -428,7 +428,7 @@ public class Config4905 {
   }
 
   public boolean doesArmTestBenchExist() {
-    if (m_config.hasPath("subsystems.armTestBench")) {
+    if (m_config.hasPath("subsystems.armtestbench")) {
       return true;
     }
     return false;

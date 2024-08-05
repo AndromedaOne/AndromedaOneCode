@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
     m_limelight.disableLED();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
     m_subsystemContainer.getBillFeeder().setCoastMode();
+    m_subsystemContainer.getArmTestBench().setCoastMode();
   }
 
   @Override
@@ -183,6 +184,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     m_subsystemContainer.getBillFeeder().setBrakeMode();
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
+    m_subsystemContainer.getArmTestBench().setBrakeMode();
     LiveWindow.disableAllTelemetry();
 
     m_subsystemContainer.getShowBotAudio().playAudio(AudioFiles.DiveAlert);

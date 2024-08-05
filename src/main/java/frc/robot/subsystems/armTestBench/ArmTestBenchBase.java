@@ -14,8 +14,8 @@ public interface ArmTestBenchBase extends SubsystemInterface {
 
   public abstract double getAngle();
 
-  public abstract void enableMotorBrake();
+  public abstract void setCoastMode();
 
-  public abstract void disableMotorBrake();
+  public abstract void setBrakeMode();
 
 }

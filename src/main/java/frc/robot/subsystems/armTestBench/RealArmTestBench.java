@@ -58,17 +58,18 @@ public class RealArmTestBench extends SubsystemBase implements ArmTestBenchBase 
   }
 
   @Override
-  public void enableMotorBrake() {
-    m_motor.setBrakeMode();
+  public void periodic() {
+    SmartDashboard.putNumber("Arm test Bench Angle", getAngle());
   }
 
   @Override
-  public void disableMotorBrake() {
+  public void setCoastMode() {
     m_motor.setCoastMode();
   }
 
   @Override
-  public void periodic(){
-    SmartDashboard.putNumber("Arm test Bench Angle", getAngle());
+  public void setBrakeMode() {
+    m_motor.setBrakeMode();
   }
+
 }

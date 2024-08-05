@@ -18,6 +18,9 @@ import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
+import frc.robot.subsystems.armTestBench.ArmTestBenchBase;
+import frc.robot.subsystems.armTestBench.MockArmTestBench;
+import frc.robot.subsystems.armTestBench.RealArmTestBench;
 import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
 import frc.robot.subsystems.billArmRotate.MockBillArmRotate;
 import frc.robot.subsystems.billArmRotate.RealBillArmRotate;
@@ -91,6 +94,7 @@ public class SubsystemsContainer {
   BillEndEffectorPositionBase m_endEffector;
   BillArmRotateBase m_armRotate;
   BillClimberBase m_billClimber;
+  ArmTestBenchBase m_armTestBenchBase;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -239,6 +243,14 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock Billthoven climber");
       m_billClimber = new MockBillClimber();
     }
+    if (Config4905.getConfig4905().doesArmTestBenchExist()) {
+      Trace.getInstance().logInfo("using real Arm Test Bench");
+      m_armTestBenchBase = new RealArmTestBench();
+    } else {
+      Trace.getInstance().logInfo("using mock Arm Test Bench");
+      m_armTestBenchBase = new MockArmTestBench();
+    }
+
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -303,6 +315,10 @@ public class SubsystemsContainer {
 
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
+  }
+
+  public ArmTestBenchBase getArmTestBench() {
+    return m_armTestBenchBase;
   }
 
   public void setDefaultCommands() {
