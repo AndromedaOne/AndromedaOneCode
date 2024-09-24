@@ -337,7 +337,7 @@ public class SubsystemsContainer {
 
     if (Config4905.getConfig4905().isBillthoven()) {
       if (Config4905.getConfig4905().doesArmRotateExist()) {
-        m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 255, false, true));
+        m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 290, false, true));
       }
       if (Config4905.getConfig4905().doesEndEffectorExist()) {
         m_endEffector.setDefaultCommand(new MoveEndEffector(m_endEffector, () -> false, false));
