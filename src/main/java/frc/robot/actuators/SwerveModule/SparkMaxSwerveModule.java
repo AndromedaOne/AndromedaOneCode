@@ -23,6 +23,7 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
   private SparkPIDController m_driveController;
   private double m_lastAngle = 0;
   private Config m_config;
+  private double m_driveMotorPositionOffset = 0;
 
   private RelativeEncoder m_driveEncoder;
   private AbsoluteEncoder m_absoluteAngleEncoder;
@@ -95,8 +96,7 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
     m_driveMotor.getMotorController().setOpenLoopRampRate(m_config.getDouble("drivekRampRate"));
     m_driveMotor.getMotorController().enableVoltageCompensation(m_config.getDouble("voltageComp"));
     m_driveMotor.getMotorController().burnFlash();
-    m_driveEncoder.setPosition(0.0);
-
+    m_driveMotorPositionOffset = m_driveEncoder.getPosition();
   }
 
   protected void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
@@ -152,7 +152,7 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
 
   @Override
   public double getDriveEncoderPosition() {
-    return m_driveEncoder.getPosition();
+    return m_driveEncoder.getPosition() - m_driveMotorPositionOffset;
   }
 
   @Override

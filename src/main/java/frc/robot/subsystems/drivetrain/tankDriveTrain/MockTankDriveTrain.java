@@ -148,4 +148,8 @@ public class MockTankDriveTrain implements TankDriveTrain {
 
   }
 
+  public void resetOdometryForCalibration() {
+
+  }
+
 }

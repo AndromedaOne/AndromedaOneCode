@@ -6,7 +6,6 @@ package frc.robot.actuators.SwerveModule;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
@@ -49,7 +48,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     configAngleMotor();
 
     /* drive motor config */
-    m_driveMotor = new TalonFX(m_config.getInt("ports.Mod"+getModuleNumber()+".driveMotorID"), "rio");
+    m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
+        "rio");
     m_configuration = new TalonFXConfiguration();
     configDriveMotor();
   }

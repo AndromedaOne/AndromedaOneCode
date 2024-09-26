@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
+import static edu.wpi.first.math.util.Units.*;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -12,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule.KrakenAndSparkMaxSwerveModule;
-import frc.robot.actuators.SwerveModule.SparkMaxSwerveModule;
 import frc.robot.actuators.SwerveModule.SwerveModuleBase;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
@@ -39,7 +41,8 @@ import frc.robot.utils.AngleConversionUtils;
  * 
  */
 public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
-
+  private Pose2d currentPose;
+  private Boolean needToReset = true;
   private Gyro4905 m_gyro;
   private SwerveDriveOdometry m_swerveOdometry;
   private SwerveModuleBase[] m_SwerveMods;
@@ -53,6 +56,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   // in AdvantageScope to show the state of the swerve drive
   StructArrayPublisher<SwerveModuleState> m_publisher = NetworkTableInstance.getDefault()
       .getStructArrayTopic("/MyStates", SwerveModuleState.struct).publish();
+  StructPublisher<Pose2d> m_posePublisher = NetworkTableInstance.getDefault()
+      .getStructTopic("/MyPose", Pose2d.struct).publish();
 
   public SwerveDriveTrain() {
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
@@ -68,13 +73,15 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
     m_SwerveMods = new KrakenAndSparkMaxSwerveModule[] { new KrakenAndSparkMaxSwerveModule(0),
-        new KrakenAndSparkMaxSwerveModule(1), new KrakenAndSparkMaxSwerveModule(2), new KrakenAndSparkMaxSwerveModule(3) };
+        new KrakenAndSparkMaxSwerveModule(1), new KrakenAndSparkMaxSwerveModule(2),
+        new KrakenAndSparkMaxSwerveModule(3) };
 
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics, getYaw(), swerveModulePositions);
+    m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics,
+        Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()), swerveModulePositions);
   }
 
   @Override
@@ -106,7 +113,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   public void resetOdometry(Pose2d pose) {
-    m_swerveOdometry.resetPosition(getYaw(), this.getPositions(), pose);
+    System.out.println("Resetting Odometry, compass heading " + m_gyro.getCompassHeading());
+
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
+        this.getPositions(), pose);
   }
 
   public SwerveModuleState[] getStates() {
@@ -136,6 +146,20 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
+    SmartDashboard.putNumber("Odometry Input Heading", -1 * m_gyro.getCompassHeading());
+    if (needToReset) {
+      if (m_gyro.getIsCalibrated()) {
+        resetOdometry(getPose());
+        needToReset = false;
+      }
+    } else {
+      currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
+          getPositions());
+      m_posePublisher.set(currentPose);
+      SmartDashboard.putNumber("Pose X ", metersToInches(currentPose.getX()));
+      SmartDashboard.putNumber("Pose Y ", metersToInches(currentPose.getY()));
+      SmartDashboard.putNumber("Pose angle ", currentPose.getRotation().getDegrees());
+    }
   }
 
   // @Override
