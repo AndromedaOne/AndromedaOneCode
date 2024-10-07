@@ -18,7 +18,7 @@ import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
 
 public class ArmTestBenchMotionProfiling extends SequentialCommandGroup4905 {
-  public ArmRotateMotionProfiling(ArmTestBenchBase armTest, DoubleSupplier angle,
+  public ArmTestBenchMotionProfiling(BillArmRotateBase armRotate, DoubleSupplier angle,
       boolean needToEnd, boolean useSmartDashboard, boolean engagePneumaticBrake,
       boolean rotateWhileClimb) {
     addCommands(new RotateArmInternalProfiled(armRotate, angle, needToEnd, useSmartDashboard,
