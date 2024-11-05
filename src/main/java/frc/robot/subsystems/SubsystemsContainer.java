@@ -8,9 +8,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
-import frc.robot.commands.billthovenClimberCommands.StopClimber;
-import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
@@ -18,21 +15,6 @@ import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
-import frc.robot.subsystems.billArmRotate.MockBillArmRotate;
-import frc.robot.subsystems.billArmRotate.RealBillArmRotate;
-import frc.robot.subsystems.billClimber.BillClimberBase;
-import frc.robot.subsystems.billClimber.MockBillClimber;
-import frc.robot.subsystems.billClimber.RealBillClimber;
-import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
-import frc.robot.subsystems.billEndEffectorPosition.MockBillEndEffectorPosition;
-import frc.robot.subsystems.billEndEffectorPosition.RealBillEndEffectorPosition;
-import frc.robot.subsystems.billFeeder.BillFeederBase;
-import frc.robot.subsystems.billFeeder.MockBillFeeder;
-import frc.robot.subsystems.billFeeder.RealBillFeeder;
-import frc.robot.subsystems.billShooter.BillShooterBase;
-import frc.robot.subsystems.billShooter.MockBillShooter;
-import frc.robot.subsystems.billShooter.RealBillShooter;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -86,11 +68,6 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
-  BillShooterBase m_billShooter;
-  BillFeederBase m_billFeeder;
-  BillEndEffectorPositionBase m_endEffector;
-  BillArmRotateBase m_armRotate;
-  BillClimberBase m_billClimber;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -204,41 +181,7 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
     }
-    if (Config4905.getConfig4905().doesBillFeederExist()) {
-      Trace.getInstance().logInfo("using real Billthoven feeder");
-      m_billFeeder = new RealBillFeeder();
-    } else {
-      Trace.getInstance().logInfo("using mock Billthoven feeder");
-      m_billFeeder = new MockBillFeeder();
-    }
-    if (Config4905.getConfig4905().doesBillShooterExist()) {
-      Trace.getInstance().logInfo("using real Billthoven shooter");
-      m_billShooter = new RealBillShooter();
-    } else {
-      Trace.getInstance().logInfo("using mock Billthoven shooter");
-      m_billShooter = new MockBillShooter();
-    }
-    if (Config4905.getConfig4905().doesEndEffectorExist()) {
-      Trace.getInstance().logInfo("using real Billthoven end effector");
-      m_endEffector = new RealBillEndEffectorPosition(m_compressor);
-    } else {
-      Trace.getInstance().logInfo("using mock Billthoven end effector");
-      m_endEffector = new MockBillEndEffectorPosition();
-    }
-    if (Config4905.getConfig4905().doesArmRotateExist()) {
-      Trace.getInstance().logInfo("using real Billthoven arm rotate");
-      m_armRotate = new RealBillArmRotate(m_compressor);
-    } else {
-      Trace.getInstance().logInfo("using mock Billthoven arm rotate");
-      m_armRotate = new MockBillArmRotate();
-    }
-    if (Config4905.getConfig4905().doesBillClimberExist()) {
-      Trace.getInstance().logInfo("using real Billthoven climber");
-      m_billClimber = new RealBillClimber();
-    } else {
-      Trace.getInstance().logInfo("using mock Billthoven climber");
-      m_billClimber = new MockBillClimber();
-    }
+
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -281,26 +224,6 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
-  public BillShooterBase getBillShooter() {
-    return m_billShooter;
-  }
-
-  public BillFeederBase getBillFeeder() {
-    return m_billFeeder;
-  }
-
-  public BillArmRotateBase getBillArmRotate() {
-    return m_armRotate;
-  }
-
-  public BillEndEffectorPositionBase getBillEffectorPosition() {
-    return m_endEffector;
-  }
-
-  public BillClimberBase getBillClimber() {
-    return m_billClimber;
-  }
-
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
@@ -330,18 +253,6 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
-    }
-    if (Config4905.getConfig4905().doesBillClimberExist()) {
-      m_billClimber.setDefaultCommand(new StopClimber(m_billClimber));
-    }
-
-    if (Config4905.getConfig4905().isBillthoven()) {
-      if (Config4905.getConfig4905().doesArmRotateExist()) {
-        m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 290, false, true));
-      }
-      if (Config4905.getConfig4905().doesEndEffectorExist()) {
-        m_endEffector.setDefaultCommand(new MoveEndEffector(m_endEffector, () -> false, false));
-      }
     }
 
   }
