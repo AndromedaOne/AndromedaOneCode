@@ -22,13 +22,24 @@ public class Odometry4905 {
     return m_swerveOdometry.getPoseMeters();
   }
 
-  public void resetPosition(SwerveModulePosition[] modulePositions, Pose2d pose) {
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
-        modulePositions, pose);
+  // This function is used to reset the position returns if position has been
+  // reset or not
+  public boolean resetPosition(SwerveModulePosition[] modulePositions, Pose2d pose) {
+    if (m_gyro.getIsCalibrated()) {
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
+          modulePositions, pose);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public Pose2d update(SwerveModulePosition[] modulePositions) {
-    return m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
+    // where we collect the camera info
+    // get camera info - calculate april tags and where tf you at
+    Pose2d localPose;
+    localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
         modulePositions);
+    return localPose;
   }
 }

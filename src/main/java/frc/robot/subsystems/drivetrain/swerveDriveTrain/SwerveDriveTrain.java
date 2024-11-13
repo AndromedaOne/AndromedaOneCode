@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -32,6 +31,7 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
+import frc.robot.utils.Odometry4905;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -45,7 +45,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Pose2d currentPose;
   private Boolean needToReset = true;
   private Gyro4905 m_gyro;
-  private SwerveDriveOdometry m_swerveOdometry;
+  private Odometry4905 m_swerveOdometry;
   private SwerveModuleBase[] m_SwerveMods;
   private Field2d m_field;
   private Config m_config;
@@ -86,8 +86,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    m_swerveOdometry = new SwerveDriveOdometry(m_swerveKinematics,
-        Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()), swerveModulePositions);
+    m_swerveOdometry = new Odometry4905(m_swerveKinematics, swerveModulePositions);
   }
 
   @Override
@@ -115,14 +114,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   public Pose2d getPose() {
-    return m_swerveOdometry.getPoseMeters();
+    return m_swerveOdometry.getPose();
   }
 
-  public void resetOdometry(Pose2d pose) {
+  public boolean resetOdometry(Pose2d pose) {
     System.out.println("Resetting Odometry, compass heading " + m_gyro.getCompassHeading());
 
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
-        this.getPositions(), pose);
+    return m_swerveOdometry.resetPosition(this.getPositions(), pose);
   }
 
   public SwerveModuleState[] getStates() {
@@ -154,13 +152,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
     SmartDashboard.putNumber("Odometry Input Heading", -1 * m_gyro.getCompassHeading());
     if (needToReset) {
-      if (m_gyro.getIsCalibrated()) {
-        resetOdometry(getPose());
+      if (resetOdometry(getPose())) {
         needToReset = false;
       }
     } else {
-      currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
-          getPositions());
+      currentPose = m_swerveOdometry.update(getPositions());
       m_posePublisher.set(currentPose);
       SmartDashboard.putNumber("Pose X ", metersToInches(currentPose.getX()));
       SmartDashboard.putNumber("Pose Y ", metersToInches(currentPose.getY()));
@@ -182,11 +178,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   public void init() {
   }
 
-  public SwerveDriveOdometry getSwerveOdometry() {
+  public Odometry4905 getSwerveOdometry() {
     return m_swerveOdometry;
   }
 
-  public void setSwerveOdometry(SwerveDriveOdometry swerveOdometry) {
+  public void setSwerveOdometry(Odometry4905 swerveOdometry) {
     this.m_swerveOdometry = swerveOdometry;
   }
 
