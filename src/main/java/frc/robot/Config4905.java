@@ -48,13 +48,8 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
-  private Config m_armRotateConfig;
-  private Config m_endEffectorConfig;
   private Config m_RedAutonomousConfig;
   private Config m_BlueAutonomousConfig;
-  private Config m_billShooterConfig;
-  private Config m_billFeederConfig;
-  private Config m_billClimberConfig;
   private Config m_armTestBenchConfig;
   private static Config4905 m_config4905 = null;
 
@@ -67,7 +62,6 @@ public class Config4905 {
   private boolean m_isShowBot = false;
   private boolean m_isTopGun = false;
   private boolean m_isSwerveBot = false;
-  private boolean m_isBillthoven = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -81,8 +75,6 @@ public class Config4905 {
         m_isTopGun = true;
       } else if (m_robotName.equals("SwerveBot")) { // Name pending
         m_isSwerveBot = true;
-      } else if (m_robotName.equals("Billthoven")) {
-        m_isBillthoven = true;
       }
     } else {
       // try to figure out which Romi we're on by looking at the SSID's we're
@@ -168,13 +160,8 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
-    m_armRotateConfig = load("billarmrotate.conf");
-    m_endEffectorConfig = load("endeffectorposition.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
-    m_billShooterConfig = load("billshooter.conf");
-    m_billFeederConfig = load("billfeeder.conf");
-    m_billClimberConfig = load("billclimber.conf");
     m_armTestBenchConfig = load("armtestbench.conf");
   }
 
@@ -367,28 +354,6 @@ public class Config4905 {
     return m_shooterConfig;
   }
 
-  public boolean doesBillShooterExist() {
-    if (m_config.hasPath("subsystems.billShooter")) {
-      return true;
-    }
-    return false;
-  }
-
-  public Config getBillShooterConfig() {
-    return m_billShooterConfig;
-  }
-
-  public boolean doesBillFeederExist() {
-    if (m_config.hasPath("subsystems.billFeeder")) {
-      return true;
-    }
-    return false;
-  }
-
-  public Config getBillFeederConfig() {
-    return m_billFeederConfig;
-  }
-
   public boolean doesFeederExist() {
     if (m_config.hasPath("subsystems.feeder")) {
       return true;
@@ -412,12 +377,6 @@ public class Config4905 {
     return m_wingsConfig;
   }
 
-  public Config getArmRotateConfig() {
-    return m_armRotateConfig;
-  }
-
-  public boolean doesArmRotateExist() {
-    if (m_config.hasPath("subsystems.billArmRotate")) {
       return true;
     }
     return false;
@@ -429,22 +388,6 @@ public class Config4905 {
 
   public boolean doesArmTestBenchExist() {
     if (m_config.hasPath("subsystems.armtestbench")) {
-      return true;
-    }
-    return false;
-  }
-
-  public Config getEndEffectorPositionConfig() {
-    return m_endEffectorConfig;
-  }
-
-  public boolean doesEndEffectorExist() {
-    if (m_config.hasPath("subsystems.billEndEffectorPosition")) {
-      return true;
-    }
-    return false;
-  }
-
   public Config getIntakeConfig() {
     return m_intakeConfig;
   }
@@ -464,17 +407,6 @@ public class Config4905 {
     return false;
   }
 
-  public Config getBillClimberConfig() {
-    return m_billClimberConfig;
-  }
-
-  public boolean doesBillClimberExist() {
-    if (m_config.hasPath("subsystems.billClimber")) {
-      return true;
-    }
-    return false;
-  }
-
   public boolean isRomi() {
     return m_isRomi;
   }
@@ -489,10 +421,6 @@ public class Config4905 {
 
   public boolean isSwerveBot() {
     return m_isSwerveBot;
-  }
-
-  public boolean isBillthoven() {
-    return m_isBillthoven;
   }
 
   public String getRobotName() {
