@@ -21,7 +21,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.actuators.SwerveModule;
+import frc.robot.actuators.SwerveModule.KrakenAndSparkMaxSwerveModule;
+import frc.robot.actuators.SwerveModule.SparkMaxSwerveModule;
+import frc.robot.actuators.SwerveModule.SwerveModuleBase;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode;
@@ -44,7 +46,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Boolean needToReset = true;
   private Gyro4905 m_gyro;
   private SwerveDriveOdometry m_swerveOdometry;
-  private SwerveModule[] m_SwerveMods;
+  private SwerveModuleBase[] m_SwerveMods;
   private Field2d m_field;
   private Config m_config;
   private ParkingBrakeStates m_ParkingBrakeState = ParkingBrakeStates.BRAKESOFF;
@@ -71,8 +73,14 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
-    m_SwerveMods = new SwerveModule[] { new SwerveModule(0), new SwerveModule(1),
-        new SwerveModule(2), new SwerveModule(3) };
+    if (m_config.getBoolean("useKraken")) {
+      m_SwerveMods = new KrakenAndSparkMaxSwerveModule[] { new KrakenAndSparkMaxSwerveModule(0),
+          new KrakenAndSparkMaxSwerveModule(1), new KrakenAndSparkMaxSwerveModule(2),
+          new KrakenAndSparkMaxSwerveModule(3) };
+    } else {
+      m_SwerveMods = new SparkMaxSwerveModule[] { new SparkMaxSwerveModule(0),
+          new SparkMaxSwerveModule(1), new SparkMaxSwerveModule(2), new SparkMaxSwerveModule(3) };
+    }
 
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     for (int i = 0; i < 4; ++i) {
@@ -101,7 +109,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(chassisSpeeds);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], isOpenLoop, false);
     }
   }
@@ -119,7 +127,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   public SwerveModuleState[] getStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       states[mod.getModuleNumber()] = mod.getState();
     }
     return states;
@@ -127,7 +135,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       positions[mod.getModuleNumber()] = mod.getPosition();
     }
     return positions;
@@ -182,11 +190,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     this.m_swerveOdometry = swerveOdometry;
   }
 
-  public SwerveModule[] getSwerveMods() {
+  public SwerveModuleBase[] getSwerveMods() {
     return m_SwerveMods;
   }
 
-  public void setSwerveMods(SwerveModule[] swerveMods) {
+  public void setSwerveMods(SwerveModuleBase[] swerveMods) {
     this.m_SwerveMods = swerveMods;
   }
 
@@ -289,7 +297,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public void setCoast(boolean value) {
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setCoast(value);
     }
   }
@@ -305,7 +313,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   private void setX() {
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       int angle = -45;
       if ((mod.getModuleNumber() == 0) || (mod.getModuleNumber() == 3)) {
         angle = 45;
@@ -315,25 +323,25 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   public void setToAngle(double angle) {
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), true, true);
     }
   }
 
   public void setToZero() {
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), true, true);
     }
   }
 
   public void disableAccelerationLimiting() {
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       mod.disableAccelerationLimiting();
     }
   }
 
   public void enableAccelerationLimiting() {
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       mod.enableAccelerationLimiting();
     }
   }
