@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
@@ -79,11 +78,6 @@ public class DriveController extends ControllerBase {
       setupShowBotAudioButtons();
     }
 
-    if (Config4905.getConfig4905().isBillthoven()) {
-      if (Config4905.getConfig4905().doesArmRotateExist()) {
-        setUpUnprotectedMode();
-      }
-    }
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
     }
@@ -119,10 +113,6 @@ public class DriveController extends ControllerBase {
 
   public double getShowBotElevatorDownTriggerValue() {
     return getRightTriggerValue();
-  }
-
-  public boolean getClimberOverrideTrigger() {
-    return getRightTriggerPressedBoolean();
   }
 
   private void setUpShooterButtons() {
@@ -201,11 +191,6 @@ public class DriveController extends ControllerBase {
     return getXbutton().getAsBoolean();
   }
 
-  private void setUpUnprotectedMode() {
-    // Angle could change
-    getXbutton()
-        .whileTrue(new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 333, false, true));
-  }
   /*
    * private void setUpPhotonVision() { getAbutton().onTrue(new TurnToTarget(() ->
    * -1, () -> 0)); }
