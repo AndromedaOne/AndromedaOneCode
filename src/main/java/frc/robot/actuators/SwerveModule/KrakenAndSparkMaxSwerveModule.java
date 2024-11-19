@@ -33,16 +33,14 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
 
   private AbsoluteEncoder m_absoluteAngleEncoder;
 
-  private SimpleMotorFeedforward m_feedForward;
-
   // The drive motor code is different because it uses the krakens
   // The angle motor code is the same because it uses the SparkMaxes
   public KrakenAndSparkMaxSwerveModule(int moduleNumber) {
     super(moduleNumber);
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getConfig("SwerveDriveConstants");
-    m_feedForward = new SimpleMotorFeedforward(m_config.getDouble("driveKS"),
-        m_config.getDouble("driveKV"), m_config.getDouble("driveKA"));
+    new SimpleMotorFeedforward(m_config.getDouble("driveKS"), m_config.getDouble("driveKV"),
+        m_config.getDouble("driveKA"));
     /* Angle Motor Config */
     m_angleMotor = new SparkMaxController(m_config, "Mod" + getModuleNumber() + ".angleMotorID");
     configAngleMotor();

@@ -31,7 +31,7 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
-import frc.robot.utils.Odometry4905;
+import frc.robot.utils.PoseEstimation4905;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -45,7 +45,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Pose2d currentPose;
   private Boolean needToReset = true;
   private Gyro4905 m_gyro;
-  private Odometry4905 m_swerveOdometry;
+  private PoseEstimation4905 m_swerveOdometry;
   private SwerveModuleBase[] m_SwerveMods;
   private Field2d m_field;
   private Config m_config;
@@ -86,7 +86,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    m_swerveOdometry = new Odometry4905(m_swerveKinematics, swerveModulePositions);
+    m_swerveOdometry = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
   }
 
   @Override
@@ -178,11 +178,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   public void init() {
   }
 
-  public Odometry4905 getSwerveOdometry() {
+  public PoseEstimation4905 getSwerveOdometry() {
     return m_swerveOdometry;
   }
 
-  public void setSwerveOdometry(Odometry4905 swerveOdometry) {
+  public void setSwerveOdometry(PoseEstimation4905 swerveOdometry) {
     this.m_swerveOdometry = swerveOdometry;
   }
 

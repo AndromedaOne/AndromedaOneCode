@@ -92,7 +92,7 @@ public class SensorsContainer {
     }
     if (m_sensorConfig.hasPath("photonvision")) {
       Trace.getInstance().logInfo("Using real Photon Vision");
-      m_photonVision = new RealPhotonVision();
+      m_photonVision = new RealPhotonVision(m_sensorConfig.getString("photonvision.cameraName1"));
       m_hasPhotonVision = true;
     } else {
       Trace.getInstance().logInfo("Using mock Photon Vision");

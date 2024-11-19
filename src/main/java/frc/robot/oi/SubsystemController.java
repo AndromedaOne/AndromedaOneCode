@@ -16,10 +16,7 @@ import frc.robot.subsystems.SubsystemsContainer;
  * they are easier to find.
  */
 public class SubsystemController extends ControllerBase {
-  private SubsystemsContainer m_subsystemsContainer;
-
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
-    m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
 
     if (Config4905.getConfig4905().doesRightLEDExist()

@@ -8,11 +8,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.Gyro4905;
 
-public class Odometry4905 {
+public class PoseEstimation4905 {
   private SwerveDriveOdometry m_swerveOdometry;
   private Gyro4905 m_gyro;
 
-  public Odometry4905(SwerveDriveKinematics kinematics, SwerveModulePosition[] modulePositions) {
+  public PoseEstimation4905(SwerveDriveKinematics kinematics,
+      SwerveModulePosition[] modulePositions) {
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
     m_swerveOdometry = new SwerveDriveOdometry(kinematics,
         Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()), modulePositions);

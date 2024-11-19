@@ -22,21 +22,38 @@ import frc.robot.sensors.RealSensorBase;
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
   private PhotonCamera m_camera;
   private Config m_config = Config4905.getConfig4905().getSensorConfig();
-  private final double m_offsetToSwerveModInches = m_config
-      .getDouble("photonvision.offsetToSwerveModInches");
-  private final double m_cameraHeightInInches = m_config
-      .getDouble("photonvision.cameraHeightInInches");
-  private final double m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
-  private final double m_targetHeightInInches = m_config
-      .getDouble("photonvision.targetHeightInInches");
-  private final double m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
-  private final double m_cameraPitchInDegrees = m_config
-      .getDouble("photonvision.cameraPitchInDegrees");
-  private final double m_cameraPitchInRadians = Units.degreesToRadians(m_cameraPitchInDegrees);
-  private double m_offset = m_config.getDouble("photonvision.cameraOffsetToCenterInInches");
+  private double m_offsetToSwerveModInches = 0;
+  private double m_cameraHeightInInches = 0;
+  private double m_cameraHeightInMeters = 0;
+  private double m_targetHeightInInches = 0;
+  private double m_targetHeightInMeters = 0;
+  private double m_cameraPitchInDegrees = 0;
+  private double m_cameraPitchInRadians = 0;
+  private double m_offset = 0;
 
-  public RealPhotonVision() {
-    m_camera = new PhotonCamera(m_config.getString("photonvision.cameraName"));
+  public class AprilTagInfo {
+    int aprilTagID;
+    double distanceToTarget;
+    double angleToTarget;
+    double ambiguity;
+  }
+
+  public RealPhotonVision(String cameraName) {
+    // pass the name of the camera in
+    // pass in photonvision.name
+    m_camera = new PhotonCamera(cameraName);
+    m_offsetToSwerveModInches = m_config
+        .getDouble("photonvision." + cameraName + ".offsetToSwerveModInches");
+    m_cameraHeightInInches = m_config
+        .getDouble("photonvision." + cameraName + ".cameraHeightInInches");
+    m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
+    m_targetHeightInInches = m_config
+        .getDouble("photonvision." + cameraName + ".targetHeightInInches");
+    m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
+    m_cameraPitchInDegrees = m_config
+        .getDouble("photonvision." + cameraName + ".cameraPitchInDegrees");
+    m_cameraPitchInRadians = Units.degreesToRadians(m_cameraPitchInDegrees);
+    m_offset = m_config.getDouble("photonvision." + cameraName + ".cameraOffsetToCenterInInches");
     SmartDashboard.putBoolean("lost target", false);
   }
 
