@@ -377,17 +377,14 @@ public class Config4905 {
     return m_wingsConfig;
   }
 
-      return true;
-    }
-    return false;
-  }
-
   public Config getArmTestBenchConfig() {
     return m_armTestBenchConfig;
   }
 
   public boolean doesArmTestBenchExist() {
-    if (m_config.hasPath("subsystems.armtestbench")) {
+    return (m_config.hasPath("subsystems.armtestbench"));
+  }
+
   public Config getIntakeConfig() {
     return m_intakeConfig;
   }
