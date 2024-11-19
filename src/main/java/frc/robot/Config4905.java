@@ -162,9 +162,6 @@ public class Config4905 {
     m_feederConfig = load("feeder.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
-    m_billShooterConfig = load("billshooter.conf");
-    m_billFeederConfig = load("billfeeder.conf");
-    m_billClimberConfig = load("billclimber.conf");
     m_armTestBenchConfig = load("armtestbench.conf");
   }
 
