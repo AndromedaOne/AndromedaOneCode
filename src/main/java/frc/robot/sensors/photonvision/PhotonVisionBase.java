@@ -4,6 +4,10 @@
 
 package frc.robot.sensors.photonvision;
 
+import java.util.List;
+
+import frc.robot.sensors.photonvision.RealPhotonVision.AprilTagInfo;
+
 /** Add your docs here. */
 public interface PhotonVisionBase {
 

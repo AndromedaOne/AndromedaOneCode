@@ -57,6 +57,25 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     SmartDashboard.putBoolean("lost target", false);
   }
 
+  public List<AprilTagInfo> getAprilTagInfo() {
+    ArrayList<AprilTagInfo> info = new ArrayList<>();
+    AprilTagInfo localInfo = new AprilTagInfo();
+
+    for (PhotonTrackedTarget target : m_camera.getLatestResult().getTargets()) {
+      localInfo.aprilTagID = target.getFiducialId();
+      localInfo.distanceToTarget = getDistanceToTargetInMeters(localInfo.aprilTagID);
+      localInfo.angleToTarget = getTargetAngle(target);
+      localInfo.ambiguity = getAmbiguity(target);
+      info.add(localInfo);
+    }
+
+    return info;
+  }
+
+  public double getAmbiguity(PhotonTrackedTarget target) {
+    return target.getPoseAmbiguity();
+  }
+
   @Override
   protected void updateSmartDashboard() {
     ArrayList<Double> iDArrayList = new ArrayList<>();
@@ -129,6 +148,19 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
       }
     }
     return new TargetDetectedAndAngle(setPoint, false);
+  }
+
+  public double getTargetAngle(PhotonTrackedTarget target) {
+
+    SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
+    SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
+    double offsetAngle = Units.radiansToDegrees(
+        Math.asin(m_offset / getDistanceToTargetInInches(target.getFiducialId())));
+    double yaw = target.getYaw();
+    SmartDashboard.putNumber("Yaw", yaw);
+    SmartDashboard.putNumber("Photon Offset", offsetAngle);
+    return yaw + offsetAngle;
+
   }
 
   @Override
