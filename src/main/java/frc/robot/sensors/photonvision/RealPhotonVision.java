@@ -31,12 +31,10 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private double m_cameraPitchInRadians = 0;
   private double m_offset = 0;
 
-  public class AprilTagInfo {
-    int aprilTagID;
-    double distanceToTarget;
-    double angleToTarget;
-    double ambiguity;
-  }
+  /*
+   * public class AprilTagInfo { int aprilTagID; double distanceToTarget; double
+   * angleToTarget; double ambiguity; }
+   */
 
   public RealPhotonVision(String cameraName) {
     // pass the name of the camera in
@@ -57,6 +55,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     SmartDashboard.putBoolean("lost target", false);
   }
 
+  @Override
   public List<AprilTagInfo> getAprilTagInfo() {
     ArrayList<AprilTagInfo> info = new ArrayList<>();
     AprilTagInfo localInfo = new AprilTagInfo();

@@ -6,8 +6,6 @@ package frc.robot.sensors.photonvision;
 
 import java.util.List;
 
-import frc.robot.sensors.photonvision.RealPhotonVision.AprilTagInfo;
-
 /** Add your docs here. */
 public interface PhotonVisionBase {
 
@@ -24,5 +22,14 @@ public interface PhotonVisionBase {
   public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint);
 
   public TargetDetectedAndDistance getTargetDetectedAndDistance(int wantedID);
+
+  public class AprilTagInfo {
+    int aprilTagID;
+    double distanceToTarget;
+    double angleToTarget;
+    double ambiguity;
+  }
+
+  public List<AprilTagInfo> getAprilTagInfo();
 
 }

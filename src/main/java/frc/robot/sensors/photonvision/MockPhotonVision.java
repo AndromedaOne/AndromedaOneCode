@@ -4,6 +4,9 @@
 
 package frc.robot.sensors.photonvision;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Add your docs here. */
 public class MockPhotonVision implements PhotonVisionBase {
 
@@ -40,5 +43,10 @@ public class MockPhotonVision implements PhotonVisionBase {
   @Override
   public TargetDetectedAndDistance getTargetDetectedAndDistance(int wantedID) {
     return new TargetDetectedAndDistance(0, false);
+  }
+
+  @Override
+  public List<AprilTagInfo> getAprilTagInfo() {
+    return new ArrayList<AprilTagInfo>();
   }
 }

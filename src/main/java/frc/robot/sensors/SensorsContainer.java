@@ -48,6 +48,7 @@ public class SensorsContainer {
   private EncoderBase m_cannonElevatorEncoder;
   private LimitSwitchSensor m_cannonHomeSwitch;
   private ArrayList<PhotonVisionBase> m_photonVision;
+  private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
   private Config m_sensorConfig;
 
@@ -95,12 +96,16 @@ public class SensorsContainer {
     if (m_sensorConfig.hasPath("photonvision")) {
       Trace.getInstance().logInfo("Using real Photon Vision");
       for (int i = 1; i <= m_sensorConfig.getInt("photonvision.numberOfCameras"); i++) {
-        m_photonVision.add(new RealPhotonVision(m_sensorConfig.getString("photonvision.cameraName" + i)));
+        m_photonVision
+            .add(new RealPhotonVision(m_sensorConfig.getString("photonvision.cameraName" + i)));
       }
+      m_targetPhotonVision = new RealPhotonVision(
+          m_sensorConfig.getString("photonvision.targetCameraName"));
       m_hasPhotonVision = true;
     } else {
       Trace.getInstance().logInfo("Using mock Photon Vision");
       m_photonVision.add(new MockPhotonVision());
+      m_targetPhotonVision = new MockPhotonVision();
     }
     if (m_sensorConfig.hasPath("sensors.cannonSafetyUltrasonic")) {
       m_cannonSafetyUltrasonic = new RealUltrasonicSensor("cannonSafetyUltrasonic");
@@ -160,8 +165,12 @@ public class SensorsContainer {
     return m_cannonHomeSwitch;
   }
 
-  public ArrayList<PhotonVisionBase> getPhotonVision() {
+  public ArrayList<PhotonVisionBase> getPhotonVisionList() {
     return m_photonVision;
+  }
+
+  public PhotonVisionBase getPhotonVision() {
+    return m_targetPhotonVision;
   }
 
   public void periodic() {
