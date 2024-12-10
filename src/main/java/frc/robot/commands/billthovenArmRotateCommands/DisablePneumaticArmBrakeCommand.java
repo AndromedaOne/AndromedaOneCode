@@ -1,13 +1,13 @@
 package frc.robot.commands.billthovenArmRotateCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 
-public class EnablePneumaticArmBrake extends Command {
+public class DisablePneumaticArmBrakeCommand extends Command {
   /** Creates a new ToggleArmBrake. */
-  protected BillArmRotateBase m_armRotateBase;
+  protected ArmTestBenchRotateBase m_armRotateBase;
 
-  public EnablePneumaticArmBrake(BillArmRotateBase armRotateBase) {
+  public DisablePneumaticArmBrakeCommand(ArmTestBenchRotateBase armRotateBase) {
     m_armRotateBase = armRotateBase;
     addRequirements(m_armRotateBase.getSubsystemBase());
   }
@@ -15,13 +15,12 @@ public class EnablePneumaticArmBrake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armRotateBase.engageArmBrake();
+    m_armRotateBase.disengageArmBrake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armRotateBase.stop();
   }
 
   // Called once the command ends or is interrupted.

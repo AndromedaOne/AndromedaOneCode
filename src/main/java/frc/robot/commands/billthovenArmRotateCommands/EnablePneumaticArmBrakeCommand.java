@@ -1,29 +1,27 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.billthovenArmRotateCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 
-public class DisableMotorBrake extends Command {
-  private BillArmRotateBase m_armRotate;
+public class EnablePneumaticArmBrakeCommand extends Command {
+  /** Creates a new ToggleArmBrake. */
+  protected ArmTestBenchRotateBase m_armRotateBase;
 
-  public DisableMotorBrake(BillArmRotateBase armRotate) {
-    m_armRotate = armRotate;
-    addRequirements(m_armRotate.getSubsystemBase());
+  public EnablePneumaticArmBrakeCommand(ArmTestBenchRotateBase armRotateBase) {
+    m_armRotateBase = armRotateBase;
+    addRequirements(m_armRotateBase.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armRotate.disableMotorBrake();
+    m_armRotateBase.engageArmBrake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_armRotateBase.stop();
   }
 
   // Called once the command ends or is interrupted.

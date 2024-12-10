@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
@@ -16,7 +16,7 @@ import frc.robot.commands.photonVisionCommands.DistanceToTarget;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
@@ -34,7 +34,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     LOW, HIGH
   }
 
-  private BillArmRotateBase m_armRotate;
+  private ArmTestBenchRotateBase m_armRotate;
   private BillEndEffectorPositionBase m_endEffector;
   private DriveTrainBase m_driveTrain;
   private PhotonVisionBase m_photonVision;
@@ -48,7 +48,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
   private InterpolatingMap m_shotShootingRPMMap;
   private double m_shuttleAngle = 330;
 
-  public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
+  public BillSpeakerScore(ArmTestBenchRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance,
       boolean useSmartDashboard) {
     m_armRotate = armRotate;
@@ -69,7 +69,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
               useSmartDashboard)));
     } else {
       RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
-      ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
+      ArmRotateCommand runArmCommand = new ArmRotateCommand(m_armRotate, () -> m_armSetpoint, true);
       if (distance == SpeakerScoreDistanceEnum.SHUTTLE) {
         addCommands(new TurnToCompassHeading(() -> m_shuttleAngle), new ParallelDeadlineGroup4905(
             new RunBillFeeder(feeder, FeederStates.SHOOTING,
@@ -86,7 +86,7 @@ public class BillSpeakerScore extends SequentialCommandGroup4905 {
     }
   }
 
-  public BillSpeakerScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
+  public BillSpeakerScore(ArmTestBenchRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, SpeakerScoreDistanceEnum distance) {
     this(armRotate, endEffector, feeder, shooter, distance, false);
 

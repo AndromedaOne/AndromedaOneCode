@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.commands.billthovenClimberCommands.StopClimber;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
@@ -21,9 +21,9 @@ import frc.robot.commands.topGunShooterCommands.StopShooter;
 import frc.robot.subsystems.armTestBench.ArmTestBenchBase;
 import frc.robot.subsystems.armTestBench.MockArmTestBench;
 import frc.robot.subsystems.armTestBench.RealArmTestBench;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
-import frc.robot.subsystems.billArmRotate.MockBillArmRotate;
-import frc.robot.subsystems.billArmRotate.RealBillArmRotate;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.MockArmTestBenchRotate;
+import frc.robot.subsystems.armTestBenchRotate.RealArmTestBenchRotate;
 import frc.robot.subsystems.billClimber.BillClimberBase;
 import frc.robot.subsystems.billClimber.MockBillClimber;
 import frc.robot.subsystems.billClimber.RealBillClimber;
@@ -92,7 +92,7 @@ public class SubsystemsContainer {
   BillShooterBase m_billShooter;
   BillFeederBase m_billFeeder;
   BillEndEffectorPositionBase m_endEffector;
-  BillArmRotateBase m_armRotate;
+  ArmTestBenchRotateBase m_armRotate;
   BillClimberBase m_billClimber;
   ArmTestBenchBase m_armTestBenchBase;
 
@@ -231,10 +231,10 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesArmRotateExist()) {
       Trace.getInstance().logInfo("using real Billthoven arm rotate");
-      m_armRotate = new RealBillArmRotate(m_compressor);
+      m_armRotate = new RealArmTestBenchRotate(m_compressor);
     } else {
       Trace.getInstance().logInfo("using mock Billthoven arm rotate");
-      m_armRotate = new MockBillArmRotate();
+      m_armRotate = new MockArmTestBenchRotate();
     }
     if (Config4905.getConfig4905().doesBillClimberExist()) {
       Trace.getInstance().logInfo("using real Billthoven climber");
@@ -301,7 +301,7 @@ public class SubsystemsContainer {
     return m_billFeeder;
   }
 
-  public BillArmRotateBase getBillArmRotate() {
+  public ArmTestBenchRotateBase getBillArmRotate() {
     return m_armRotate;
   }
 
@@ -353,7 +353,7 @@ public class SubsystemsContainer {
 
     if (Config4905.getConfig4905().isBillthoven()) {
       if (Config4905.getConfig4905().doesArmRotateExist()) {
-        m_armRotate.setDefaultCommand(new ArmRotate(m_armRotate, () -> 290, false, true));
+        m_armRotate.setDefaultCommand(new ArmRotateCommand(m_armRotate, () -> 290, false, true));
       }
       if (Config4905.getConfig4905().doesEndEffectorExist()) {
         m_endEffector.setDefaultCommand(new MoveEndEffector(m_endEffector, () -> false, false));

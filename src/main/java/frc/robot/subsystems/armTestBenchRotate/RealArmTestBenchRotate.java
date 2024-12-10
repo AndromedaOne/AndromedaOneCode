@@ -1,4 +1,4 @@
-package frc.robot.subsystems.billArmRotate;
+package frc.robot.subsystems.armTestBenchRotate;
 
 import com.typesafe.config.Config;
 
@@ -11,14 +11,14 @@ import frc.robot.actuators.SparkMaxController;
 import frc.robot.subsystems.compressor.CompressorBase;
 
 //This was just copied over from RealSamArmRotate so it will need editing
-public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBase {
+public class RealArmTestBenchRotate extends SubsystemBase implements ArmTestBenchRotateBase {
   private final SparkMaxController m_motor1;
   private double m_minAngle = 0;
   private double m_maxAngle = 0;
-  private BillArmBrakeState m_armAngleBrakeState = BillArmBrakeState.ENGAGEARMBRAKE;
+  private ArmTestBenchRotateBrakeState m_armAngleBrakeState = ArmTestBenchRotateBrakeState.ENGAGEARMBRAKE;
   private DoubleSolenoid4905 m_solenoidBrake;
 
-  public RealBillArmRotate(CompressorBase compressorBase) {
+  public RealArmTestBenchRotate(CompressorBase compressorBase) {
     Config armrotateConfig = Config4905.getConfig4905().getArmRotateConfig();
     m_motor1 = new SparkMaxController(armrotateConfig, "motor1");
     m_solenoidBrake = new DoubleSolenoid4905(compressorBase, armrotateConfig, "solenoidbrake");
@@ -34,7 +34,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
 
   @Override
   public void rotate(double speed) {
-    if (m_armAngleBrakeState == BillArmBrakeState.ENGAGEARMBRAKE) {
+    if (m_armAngleBrakeState == ArmTestBenchRotateBrakeState.ENGAGEARMBRAKE) {
       m_motor1.setSpeed(0);
       return;
     }
@@ -51,14 +51,14 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
   @Override
   public void engageArmBrake() {
     m_solenoidBrake.retractPiston();
-    m_armAngleBrakeState = BillArmBrakeState.ENGAGEARMBRAKE;
+    m_armAngleBrakeState = ArmTestBenchRotateBrakeState.ENGAGEARMBRAKE;
     m_motor1.setSpeed(0);
   }
 
   @Override
   public void disengageArmBrake() {
     m_solenoidBrake.extendPiston();
-    m_armAngleBrakeState = BillArmBrakeState.DISENGAGEARMBRAKE;
+    m_armAngleBrakeState = ArmTestBenchRotateBrakeState.DISENGAGEARMBRAKE;
   }
 
   @Override
@@ -76,7 +76,7 @@ public class RealBillArmRotate extends SubsystemBase implements BillArmRotateBas
     return angle;
   }
 
-  public BillArmBrakeState getBrakeState() {
+  public ArmTestBenchRotateBrakeState getBrakeState() {
     return m_armAngleBrakeState;
   }
 

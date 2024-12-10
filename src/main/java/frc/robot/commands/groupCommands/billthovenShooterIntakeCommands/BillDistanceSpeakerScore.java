@@ -7,7 +7,7 @@ package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
@@ -15,7 +15,7 @@ import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
@@ -27,7 +27,7 @@ import frc.robot.utils.InterpolatingMap;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
-  private BillArmRotateBase m_armRotate;
+  private ArmTestBenchRotateBase m_armRotate;
   private BillEndEffectorPositionBase m_endEffector;
   private boolean m_endEffectorToHighPosition = false;
   private double m_shooterSpeed = 0;
@@ -37,7 +37,7 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
   private InterpolatingMap m_shotShootingRPMMap;
 
   /** Creates a new BillDistanceSpeakerScore. */
-  public BillDistanceSpeakerScore(BillArmRotateBase armRotate,
+  public BillDistanceSpeakerScore(ArmTestBenchRotateBase armRotate,
       BillEndEffectorPositionBase endEffector, BillFeederBase feeder, BillShooterBase shooter,
       boolean useSmartDashboard) {
     // Why is this a thing
@@ -51,7 +51,7 @@ public class BillDistanceSpeakerScore extends SequentialCommandGroup4905 {
     m_shotShootingRPMMap = new InterpolatingMap(Config4905.getConfig4905().getBillShooterConfig(),
         "shooterMotor.shotShootingRPM");
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
-    ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, true);
+    ArmRotateCommand runArmCommand = new ArmRotateCommand(m_armRotate, () -> m_armSetpoint, true);
     // Add the deadline command in the super() call. Add other commands using
     addCommands(new ParallelDeadlineGroup4905(
         new RunBillFeeder(feeder, FeederStates.SHOOTING, runShooterCommand.getOnTargetSupplier(),

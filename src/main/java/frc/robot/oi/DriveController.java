@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
@@ -203,8 +203,8 @@ public class DriveController extends ControllerBase {
 
   private void setUpUnprotectedMode() {
     // Angle could change
-    getXbutton()
-        .whileTrue(new ArmRotate(m_subsystemsContainer.getBillArmRotate(), () -> 333, false, true));
+    getXbutton().whileTrue(
+        new ArmRotateCommand(m_subsystemsContainer.getBillArmRotate(), () -> 333, false, true));
   }
   /*
    * private void setUpPhotonVision() { getAbutton().onTrue(new TurnToTarget(() ->

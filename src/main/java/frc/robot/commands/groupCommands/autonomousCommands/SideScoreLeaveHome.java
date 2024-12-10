@@ -17,7 +17,7 @@ import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.BillSpea
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
@@ -47,7 +47,7 @@ public class SideScoreLeaveHome extends SequentialCommandGroup4905 {
   SideScoreLeaveHomeConfigSupplier m_configSupplier = new SideScoreLeaveHomeConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
-  BillArmRotateBase m_armRotate;
+  ArmTestBenchRotateBase m_armRotate;
   BillFeederBase m_feeder;
   BillShooterBase m_shooter;
   Gyro4905 m_gyro;

@@ -12,31 +12,32 @@ import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
 
-public class ArmRotate extends SequentialCommandGroup4905 {
+public class ArmRotateCommand extends SequentialCommandGroup4905 {
   // When using ArmRotate in auto, ALWAYS engage the break, even when feeding.
   private RotateArmInternal m_armCommand;
 
-  public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
+  public ArmRotateCommand(ArmTestBenchRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
       boolean useSmartDashboard, boolean engagePneumaticBrake, boolean rotateWhileClimb) {
     m_armCommand = new RotateArmInternal(armRotate, angle, needToEnd, useSmartDashboard,
         engagePneumaticBrake, rotateWhileClimb);
     addCommands(m_armCommand);
   }
 
-  public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd) {
+  public ArmRotateCommand(ArmTestBenchRotateBase armRotate, DoubleSupplier angle,
+      boolean needToEnd) {
     this(armRotate, angle, needToEnd, false, true, false);
   }
 
-  public ArmRotate(BillArmRotateBase armRotate, boolean rotateWhileClimb, DoubleSupplier angle,
-      boolean needToEnd) {
+  public ArmRotateCommand(ArmTestBenchRotateBase armRotate, boolean rotateWhileClimb,
+      DoubleSupplier angle, boolean needToEnd) {
     this(armRotate, angle, needToEnd, false, true, rotateWhileClimb);
   }
 
-  public ArmRotate(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
+  public ArmRotateCommand(ArmTestBenchRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
       boolean engagePneumaticBrake) {
     this(armRotate, angle, needToEnd, false, engagePneumaticBrake, false);
   }
@@ -54,7 +55,7 @@ public class ArmRotate extends SequentialCommandGroup4905 {
   }
 
   private class RotateArmInternal extends PIDCommand4905 {
-    private BillArmRotateBase m_armRotate;
+    private ArmTestBenchRotateBase m_armRotate;
     private boolean m_needToEnd = false;
     private boolean m_useSmartDashboard = false;
     private RotateFeedForward m_feedForward = new RotateFeedForward();
@@ -66,8 +67,9 @@ public class ArmRotate extends SequentialCommandGroup4905 {
     private double m_count = 0;
     private boolean m_rotateWhileClimb = false;
 
-    public RotateArmInternal(BillArmRotateBase armRotate, DoubleSupplier angle, boolean needToEnd,
-        boolean useSmartDashboard, boolean engagePneumaticBrake, boolean rotateWhileClimb) {
+    public RotateArmInternal(ArmTestBenchRotateBase armRotate, DoubleSupplier angle,
+        boolean needToEnd, boolean useSmartDashboard, boolean engagePneumaticBrake,
+        boolean rotateWhileClimb) {
 
       super(new PIDController4905SampleStop("ArmRotate"), armRotate::getAngle, angle, output -> {
         armRotate.rotate(output);

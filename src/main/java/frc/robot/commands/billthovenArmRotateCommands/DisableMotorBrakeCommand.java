@@ -5,12 +5,12 @@
 package frc.robot.commands.billthovenArmRotateCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 
-public class EnableMotorBrake extends Command {
-  private BillArmRotateBase m_armRotate;
+public class DisableMotorBrakeCommand extends Command {
+  private ArmTestBenchRotateBase m_armRotate;
 
-  public EnableMotorBrake(BillArmRotateBase armRotate) {
+  public DisableMotorBrakeCommand(ArmTestBenchRotateBase armRotate) {
     m_armRotate = armRotate;
     addRequirements(m_armRotate.getSubsystemBase());
   }
@@ -18,7 +18,7 @@ public class EnableMotorBrake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armRotate.enableMotorBrake();
+    m_armRotate.disableMotorBrake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

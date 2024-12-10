@@ -15,7 +15,7 @@ import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.DrivePos
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.utils.AllianceConfig;
@@ -33,7 +33,7 @@ public class EmergencyBackup extends SequentialCommandGroup4905 {
   EmergencyBackupConfigSupplier m_configSupplier = new EmergencyBackupConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
-  BillArmRotateBase m_armRotate;
+  ArmTestBenchRotateBase m_armRotate;
 
   public EmergencyBackup() {
     // Both

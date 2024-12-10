@@ -6,22 +6,22 @@ package frc.robot.commands.billthovenClimberCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.subsystems.billClimber.BillClimberBase;
 import frc.robot.telemetries.Trace;
 
 public class EnableClimberMode extends SequentialCommandGroup4905 {
   /** Creates a new EnableClimberMode. */
   private BillClimberBase m_climber;
-  private BillArmRotateBase m_armRotate;
+  private ArmTestBenchRotateBase m_armRotate;
   private double m_armAngleForClimbing = 255;
 
-  public EnableClimberMode(BillClimberBase climber, BillArmRotateBase armRotate) {
+  public EnableClimberMode(BillClimberBase climber, ArmTestBenchRotateBase armRotate) {
     m_climber = climber;
     m_armRotate = armRotate;
-    addCommands(new ArmRotate(m_armRotate, () -> m_armAngleForClimbing, true, true),
+    addCommands(new ArmRotateCommand(m_armRotate, () -> m_armAngleForClimbing, true, true),
         new EnableClimberModeInternal());
   }
 
@@ -43,7 +43,7 @@ public class EnableClimberMode extends SequentialCommandGroup4905 {
       CommandScheduler.getInstance().setDefaultCommand(m_climber.getSubsystemBase(),
           new RunBillClimber(m_climber, false));
       CommandScheduler.getInstance().setDefaultCommand(m_armRotate.getSubsystemBase(),
-          new ArmRotate(m_armRotate, () -> m_armAngleForClimbing, false, true));
+          new ArmRotateCommand(m_armRotate, () -> m_armAngleForClimbing, false, true));
       Trace.getInstance().logCommandInfo(this, "Enable Climber Mode Ran");
       Trace.getInstance().logCommandInfo(this,
           CommandScheduler.getInstance().getDefaultCommand(m_climber.getSubsystemBase()).getName());

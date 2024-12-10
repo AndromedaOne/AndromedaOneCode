@@ -14,11 +14,11 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
-import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrake;
-import frc.robot.commands.billthovenArmRotateCommands.DisablePneumaticArmBrake;
-import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrake;
-import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrake;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
+import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrakeCommand;
+import frc.robot.commands.billthovenArmRotateCommands.DisablePneumaticArmBrakeCommand;
+import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrakeCommand;
+import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrakeCommand;
 import frc.robot.commands.billthovenClimberCommands.ResetBillClimberOffset;
 import frc.robot.commands.billthovenClimberCommands.RunBillClimber;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
@@ -99,17 +99,17 @@ public class SmartDashboard4905 {
           new RunBillShooterRPM(subsystemsContainer.getBillShooter()));
     }
     if (Config4905.getConfig4905().doesArmRotateExist()) {
-      SmartDashboard.putData("Set Bill Arm Rotate For Tuning", new ArmRotate(
+      SmartDashboard.putData("Set Bill Arm Rotate For Tuning", new ArmRotateCommand(
           subsystemsContainer.getBillArmRotate(), () -> 300, false, true, false, false));
       // Will need to be changed at some point
       SmartDashboard.putData("Enable Arm Motor Brake Mode",
-          new EnableMotorBrake(subsystemsContainer.getBillArmRotate()));
+          new EnableMotorBrakeCommand(subsystemsContainer.getBillArmRotate()));
       SmartDashboard.putData("Disable Arm Motor Brake Mode",
-          new DisableMotorBrake(subsystemsContainer.getBillArmRotate()));
+          new DisableMotorBrakeCommand(subsystemsContainer.getBillArmRotate()));
       SmartDashboard.putData("Enable Arm Brake",
-          new EnablePneumaticArmBrake(subsystemsContainer.getBillArmRotate()));
+          new EnablePneumaticArmBrakeCommand(subsystemsContainer.getBillArmRotate()));
       SmartDashboard.putData("Disable Arm Brake",
-          new DisablePneumaticArmBrake(subsystemsContainer.getBillArmRotate()));
+          new DisablePneumaticArmBrakeCommand(subsystemsContainer.getBillArmRotate()));
     }
     if (Config4905.getConfig4905().doesEndEffectorExist()) {
       SmartDashboard.putData("EndEffector Low Position",

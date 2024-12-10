@@ -1,8 +1,8 @@
-package frc.robot.subsystems.billArmRotate;
+package frc.robot.subsystems.armTestBenchRotate;
 
 import frc.robot.subsystems.SubsystemInterface;
 
-public interface BillArmRotateBase extends SubsystemInterface {
+public interface ArmTestBenchRotateBase extends SubsystemInterface {
 
   public abstract void rotate(double speed);
 
@@ -14,7 +14,7 @@ public interface BillArmRotateBase extends SubsystemInterface {
 
   public abstract void disengageArmBrake();
 
-  public abstract BillArmBrakeState getBrakeState();
+  public abstract ArmTestBenchRotateBrakeState getBrakeState();
 
   public abstract void enableMotorBrake();
 

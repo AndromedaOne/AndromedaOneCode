@@ -20,7 +20,7 @@ import frc.robot.commands.groupCommands.billthovenShooterIntakeCommands.IntakeNo
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
@@ -52,7 +52,7 @@ public class CentralSpeaker3ScoresSource extends SequentialCommandGroup4905 {
   CentralSpeaker3ScoresConfigSupplier m_configSupplier = new CentralSpeaker3ScoresConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
-  BillArmRotateBase m_armRotate;
+  ArmTestBenchRotateBase m_armRotate;
   BillFeederBase m_feeder;
   BillShooterBase m_shooter;
 

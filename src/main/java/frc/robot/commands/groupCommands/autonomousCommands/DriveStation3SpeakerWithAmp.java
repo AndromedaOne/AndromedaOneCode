@@ -9,7 +9,7 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Config4905;
 import frc.robot.Robot;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
@@ -24,7 +24,7 @@ import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
@@ -62,7 +62,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
   DriveStation3SpeakerWithAmpConfigSupplier m_configSupplier = new DriveStation3SpeakerWithAmpConfigSupplier();
   DriveTrainBase m_driveTrain;
   BillEndEffectorPositionBase m_endEffector;
-  BillArmRotateBase m_armRotate;
+  ArmTestBenchRotateBase m_armRotate;
   BillFeederBase m_feeder;
   BillShooterBase m_shooter;
   Gyro4905 m_gyro;
@@ -147,7 +147,7 @@ public class DriveStation3SpeakerWithAmp extends SequentialCommandGroup4905 {
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint2, 1),
             new IntakeNote(m_armRotate, m_endEffector, m_feeder, m_shooter, false)),
 
-        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> 300, true),
+        new ParallelCommandGroup4905(new ArmRotateCommand(m_armRotate, () -> 300, true),
             new MoveEndEffector(m_endEffector, () -> true),
             new MoveUsingEncoder(m_driveTrain, () -> m_configSupplier.getConfig().m_waypoint3, 1)),
         new TurnToCompassHeading(() -> m_configSupplier.getConfig().m_angle2),

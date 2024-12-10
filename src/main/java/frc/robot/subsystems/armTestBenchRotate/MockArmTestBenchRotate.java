@@ -1,10 +1,10 @@
-package frc.robot.subsystems.billArmRotate;
+package frc.robot.subsystems.armTestBenchRotate;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MockSubsystem;
 
-public class MockBillArmRotate implements BillArmRotateBase {
+public class MockArmTestBenchRotate implements ArmTestBenchRotateBase {
   @Override
   public void rotate(double speed) {
   }
@@ -22,8 +22,8 @@ public class MockBillArmRotate implements BillArmRotateBase {
   public void disengageArmBrake() {
   }
 
-  public BillArmBrakeState getBrakeState() {
-    return BillArmBrakeState.ENGAGEARMBRAKE;
+  public ArmTestBenchRotateBrakeState getBrakeState() {
+    return ArmTestBenchRotateBrakeState.ENGAGEARMBRAKE;
   }
 
   @Override

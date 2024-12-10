@@ -1,7 +1,7 @@
 package frc.robot.commands.groupCommands.billthovenShooterIntakeCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.commands.billthovenEndEffectorPositionCommands.MoveEndEffector;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
 import frc.robot.commands.billthovenFeederCommands.RunBillFeeder;
@@ -9,19 +9,19 @@ import frc.robot.commands.billthovenShooterCommands.RunBillShooterRPM;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
-import frc.robot.subsystems.billArmRotate.BillArmRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
 import frc.robot.subsystems.billEndEffectorPosition.BillEndEffectorPositionBase;
 import frc.robot.subsystems.billFeeder.BillFeederBase;
 import frc.robot.subsystems.billShooter.BillShooterBase;
 
 public class BillTrapScore extends SequentialCommandGroup4905 {
-  private BillArmRotateBase m_armRotate;
+  private ArmTestBenchRotateBase m_armRotate;
   private boolean m_endEffectorToHighPosition = true;
   private double m_shooterSpeed = 0;
   private double m_armSetpoint = 0;
   private boolean m_useSmartDashboard;
 
-  public BillTrapScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
+  public BillTrapScore(ArmTestBenchRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter, boolean useSmartDashboard) {
     m_armRotate = armRotate;
 
@@ -31,9 +31,10 @@ public class BillTrapScore extends SequentialCommandGroup4905 {
       SmartDashboard.putNumber("TrapCommand ArmPosition", 330);
     }
     RunBillShooterRPM runShooterCommand = new RunBillShooterRPM(shooter, () -> m_shooterSpeed);
-    ArmRotate runArmCommand = new ArmRotate(m_armRotate, () -> m_armSetpoint, m_useSmartDashboard);
+    ArmRotateCommand runArmCommand = new ArmRotateCommand(m_armRotate, () -> m_armSetpoint,
+        m_useSmartDashboard);
     addCommands(
-        new ParallelCommandGroup4905(new ArmRotate(m_armRotate, () -> m_armSetpoint, true),
+        new ParallelCommandGroup4905(new ArmRotateCommand(m_armRotate, () -> m_armSetpoint, true),
             new MoveEndEffector(endEffector, () -> m_endEffectorToHighPosition)),
         new ParallelDeadlineGroup4905(
             new RunBillFeeder(feeder, FeederStates.SHOOTING,
@@ -41,10 +42,10 @@ public class BillTrapScore extends SequentialCommandGroup4905 {
             runShooterCommand),
         // intentionally leaving with need to end = false to not smash the arm into the
         // stage
-        new ArmRotate(m_armRotate, () -> 340, false));
+        new ArmRotateCommand(m_armRotate, () -> 340, false));
   }
 
-  public BillTrapScore(BillArmRotateBase armRotate, BillEndEffectorPositionBase endEffector,
+  public BillTrapScore(ArmTestBenchRotateBase armRotate, BillEndEffectorPositionBase endEffector,
       BillFeederBase feeder, BillShooterBase shooter) {
     this(armRotate, endEffector, feeder, shooter, false);
   }

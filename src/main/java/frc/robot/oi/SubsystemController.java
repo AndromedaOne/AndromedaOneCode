@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotate;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.commands.billthovenClimberCommands.DisableClimberMode;
 import frc.robot.commands.billthovenClimberCommands.EnableClimberMode;
 import frc.robot.commands.billthovenFeederCommands.FeederStates;
@@ -132,7 +132,7 @@ public class SubsystemController extends ControllerBase {
         m_subsystemsContainer.getBillArmRotate()));
     getBillDisableClimberMode().onTrue(new DisableClimberMode(
         m_subsystemsContainer.getBillClimber(), m_subsystemsContainer.getBillArmRotate()));
-    getBillArmRotateWhileClimb()
-        .onTrue(new ArmRotate(m_subsystemsContainer.getBillArmRotate(), true, () -> 285, false));
+    getBillArmRotateWhileClimb().onTrue(
+        new ArmRotateCommand(m_subsystemsContainer.getBillArmRotate(), true, () -> 285, false));
   }
 }
