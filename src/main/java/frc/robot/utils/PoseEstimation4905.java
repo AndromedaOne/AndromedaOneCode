@@ -14,15 +14,10 @@ import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.sensors.photonvision.PhotonVisionBase.AprilTagInfo;
 
 public class PoseEstimation4905 {
-  private class PoseAprilTags {
-    AprilTagInfo info;
-    boolean valid;
-  }
 
   private SwerveDriveOdometry m_swerveOdometry;
   private Gyro4905 m_gyro;
   private ArrayList<PhotonVisionBase> m_photonVision;
-  private PoseAprilTags[] m_poseTags; // TODO: allocate to correct number of Tags
 
   public PoseEstimation4905(SwerveDriveKinematics kinematics,
       SwerveModulePosition[] modulePositions) {
