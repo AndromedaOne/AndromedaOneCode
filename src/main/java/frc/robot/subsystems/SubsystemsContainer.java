@@ -191,8 +191,8 @@ public class SubsystemsContainer {
       m_feeder = new MockFeeder();
     }
 
-      m_armRotate = new RealArmTestBenchRotate(m_compressor);
-      m_armRotate = new MockArmTestBenchRotate();
+    m_armRotate = new RealArmTestBenchRotate(m_compressor);
+    m_armRotate = new MockArmTestBenchRotate();
     if (Config4905.getConfig4905().doesArmTestBenchExist()) {
       Trace.getInstance().logInfo("using real Arm Test Bench");
       m_armTestBenchBase = new RealArmTestBench();
@@ -244,6 +244,9 @@ public class SubsystemsContainer {
   }
 
   public ArmTestBenchRotateBase getBillArmRotate() {
+    return m_armRotate;
+  }
+
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
@@ -278,7 +281,7 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
-        m_armRotate.setDefaultCommand(new ArmRotateCommand(m_armRotate, () -> 290, false, true));
+    m_armRotate.setDefaultCommand(new ArmRotateCommand(m_armRotate, () -> 290, false, true));
 
   }
 }

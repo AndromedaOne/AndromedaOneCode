@@ -9,7 +9,6 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -28,7 +27,4 @@ public class SubsystemController extends ControllerBase {
     }
 
   }
-
-    getBillArmRotateWhileClimb().onTrue(
-        new ArmRotateCommand(m_subsystemsContainer.getBillArmRotate(), true, () -> 285, false));
 }

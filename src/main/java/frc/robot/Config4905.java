@@ -51,6 +51,7 @@ public class Config4905 {
   private Config m_RedAutonomousConfig;
   private Config m_BlueAutonomousConfig;
   private Config m_armTestBenchConfig;
+  private Config m_armRotateConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -163,6 +164,7 @@ public class Config4905 {
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
     m_armTestBenchConfig = load("armtestbench.conf");
+    m_armRotateConfig = load("armtestbenchrotate.conf");
   }
 
   public Config getControllersConfig() {
@@ -383,6 +385,14 @@ public class Config4905 {
 
   public boolean doesArmTestBenchExist() {
     return (m_config.hasPath("subsystems.armtestbench"));
+  }
+
+  public Config getArmRotateConfig() {
+    return m_armRotateConfig;
+  }
+
+  public boolean doesArmRotateExist() {
+    return (m_config.hasPath("subsystems.armrotate"));
   }
 
   public Config getIntakeConfig() {

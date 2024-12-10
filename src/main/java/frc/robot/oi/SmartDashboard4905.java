@@ -14,11 +14,6 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
-import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
-import frc.robot.commands.billthovenArmRotateCommands.DisableMotorBrakeCommand;
-import frc.robot.commands.billthovenArmRotateCommands.DisablePneumaticArmBrakeCommand;
-import frc.robot.commands.billthovenArmRotateCommands.EnableMotorBrakeCommand;
-import frc.robot.commands.billthovenArmRotateCommands.EnablePneumaticArmBrakeCommand;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
@@ -76,11 +71,16 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
           subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
     }
-      SmartDashboard.putData("Set Bill Arm Rotate For Tuning", new ArmRotateCommand(
-          new EnableMotorBrakeCommand(subsystemsContainer.getBillArmRotate()));
-          new DisableMotorBrakeCommand(subsystemsContainer.getBillArmRotate()));
-          new EnablePneumaticArmBrakeCommand(subsystemsContainer.getBillArmRotate()));
-          new DisablePneumaticArmBrakeCommand(subsystemsContainer.getBillArmRotate()));
+    /*
+     * SmartDashboard.putData("Set Bill Arm Rotate For Tuning", new
+     * ArmRotateCommand( new
+     * EnableMotorBrakeCommand(subsystemsContainer.getBillArmRotate()), new
+     * DisableMotorBrakeCommand(subsystemsContainer.getBillArmRotate()), new
+     * EnablePneumaticArmBrakeCommand(subsystemsContainer.getBillArmRotate()), new
+     * DisablePneumaticArmBrakeCommand(subsystemsContainer.getBillArmRotate())));
+     * 
+     */
+    // someone else fix this please
 
     if (Config4905.getConfig4905().isRomi()) {
       romiCommands(subsystemsContainer);
