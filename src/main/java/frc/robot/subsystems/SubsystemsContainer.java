@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
+import frc.robot.commands.billthovenArmRotateCommands.ArmRotateCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
@@ -18,6 +19,9 @@ import frc.robot.commands.topGunShooterCommands.StopShooter;
 import frc.robot.subsystems.armTestBench.ArmTestBenchBase;
 import frc.robot.subsystems.armTestBench.MockArmTestBench;
 import frc.robot.subsystems.armTestBench.RealArmTestBench;
+import frc.robot.subsystems.armTestBenchRotate.ArmTestBenchRotateBase;
+import frc.robot.subsystems.armTestBenchRotate.MockArmTestBenchRotate;
+import frc.robot.subsystems.armTestBenchRotate.RealArmTestBenchRotate;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -71,6 +75,7 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
+  ArmTestBenchRotateBase m_armRotate;
   ArmTestBenchBase m_armTestBenchBase;
 
   /**
@@ -186,6 +191,8 @@ public class SubsystemsContainer {
       m_feeder = new MockFeeder();
     }
 
+      m_armRotate = new RealArmTestBenchRotate(m_compressor);
+      m_armRotate = new MockArmTestBenchRotate();
     if (Config4905.getConfig4905().doesArmTestBenchExist()) {
       Trace.getInstance().logInfo("using real Arm Test Bench");
       m_armTestBenchBase = new RealArmTestBench();
@@ -236,6 +243,7 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public ArmTestBenchRotateBase getBillArmRotate() {
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
@@ -270,6 +278,7 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
+        m_armRotate.setDefaultCommand(new ArmRotateCommand(m_armRotate, () -> 290, false, true));
 
   }
 }
