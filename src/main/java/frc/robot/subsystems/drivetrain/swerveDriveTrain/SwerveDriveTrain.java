@@ -163,7 +163,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(discretized);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
-    for (SwerveModule mod : m_SwerveMods) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], true, false);
     }
   }
@@ -215,19 +215,19 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
     SmartDashboard.putNumber("Odometry Input Heading", -1 * m_gyro.getCompassHeading());
     if (m_count == 25) {
-    double currentPosition = m_SwerveMods[0].getPosition().distanceMeters;
-    double currentVelocity = (currentPosition - m_modDistance) * 2;
-    SmartDashboard.putNumber("Mod Distance ", m_modDistance);
-    SmartDashboard.putNumber("Current Position ", currentPosition);
-    SmartDashboard.putNumber("Robot Velocity   ", currentVelocity);
-    if (m_highestAccel < Math.abs(currentVelocity - m_modSpeed) * 2) {
-      m_highestAccel = Math.abs(currentVelocity - m_modSpeed) * 2;
-    }
-    SmartDashboard.putNumber("Robot Acceleration ", (currentVelocity - m_modSpeed) * 2);
-    m_modSpeed = currentVelocity;
-    m_modDistance = currentPosition;
-    m_count = 0;
-    SmartDashboard.putNumber("Max Acceleration ", m_highestAccel);
+      double currentPosition = m_SwerveMods[0].getPosition().distanceMeters;
+      double currentVelocity = (currentPosition - m_modDistance) * 2;
+      SmartDashboard.putNumber("Mod Distance ", m_modDistance);
+      SmartDashboard.putNumber("Current Position ", currentPosition);
+      SmartDashboard.putNumber("Robot Velocity   ", currentVelocity);
+      if (m_highestAccel < Math.abs(currentVelocity - m_modSpeed) * 2) {
+        m_highestAccel = Math.abs(currentVelocity - m_modSpeed) * 2;
+      }
+      SmartDashboard.putNumber("Robot Acceleration ", (currentVelocity - m_modSpeed) * 2);
+      m_modSpeed = currentVelocity;
+      m_modDistance = currentPosition;
+      m_count = 0;
+      SmartDashboard.putNumber("Max Acceleration ", m_highestAccel);
     }
     m_count++;
     if (needToReset) {
