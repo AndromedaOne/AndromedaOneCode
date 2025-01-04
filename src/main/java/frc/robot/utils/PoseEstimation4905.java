@@ -3,6 +3,8 @@ package frc.robot.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -24,6 +26,8 @@ public class PoseEstimation4905 {
 
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
     m_photonVision = (Robot.getInstance().getSensorsContainer().getPhotonVisionList());
+    AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo
+        .loadAprilTagLayoutField();
     m_swerveOdometry = new SwerveDriveOdometry(kinematics,
         Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()), modulePositions);
   }
@@ -50,13 +54,19 @@ public class PoseEstimation4905 {
     Pose2d localPose;
     PhotonVisionBase localCamera;
     List<AprilTagInfo> info;
+    int bestCamIndex = -1;
+    double savedAmbiguity = 100.0;
     localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
         modulePositions);
     for (int i = 0; i < m_photonVision.size(); i++) {
       localCamera = m_photonVision.get(i);
       info = localCamera.getAprilTagInfo();
       for (int j = 0; j < info.size(); j++) {
-
+        AprilTagInfo currentTag = info.get(j);
+        if (savedAmbiguity > currentTag.ambiguity) {
+          savedAmbiguity = currentTag.ambiguity;
+          bestCamIndex = i;
+        }
       }
     }
     return localPose;
