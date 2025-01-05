@@ -1,9 +1,10 @@
 package frc.robot.actuators;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
@@ -11,7 +12,7 @@ import com.revrobotics.SparkLimitSwitch;
 import com.typesafe.config.Config;
 
 public class SparkMaxController {
-  private CANSparkMax m_sparkMax;
+  private SparkMax m_sparkMax;
   private boolean m_hasAbsoluteEncoder = false;
   private boolean m_hasForwardLimitSwitch = false;
   private boolean m_hasReverseLimitSwitch = false;
@@ -21,7 +22,7 @@ public class SparkMaxController {
   private SparkLimitSwitch m_reverseLimitSwitch;
 
   public SparkMaxController(Config subsystemConfig, String configString) {
-    m_sparkMax = new CANSparkMax(subsystemConfig.getInt("ports." + configString),
+    m_sparkMax = new SparkMax(subsystemConfig.getInt("ports." + configString),
         MotorType.kBrushless);
     m_builtInEncoder = m_sparkMax.getEncoder();
     System.out.println("Enabling SparkMaxController \"" + configString + "\" for port "
@@ -56,7 +57,7 @@ public class SparkMaxController {
     m_sparkMax.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
     m_sparkMax.setSmartCurrentLimit(subsystemConfig.getInt(configString + ".currentLimit"));
     if (subsystemConfig.getBoolean(configString + ".brakeMode")) {
-      m_sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      m_sparkMax.setIdleMode(SparkMax.IdleMode.kBrake);
     } else {
       m_sparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
