@@ -2,14 +2,15 @@ package frc.robot.actuators;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
-import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
+import com.revrobotics.spark.SparkLimitSwitch;
 import com.typesafe.config.Config;
+import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 
 public class SparkMaxController {
   private SparkMax m_sparkMax;
@@ -29,12 +30,11 @@ public class SparkMaxController {
         + subsystemConfig.getInt("ports." + configString));
     m_hasAbsoluteEncoder = subsystemConfig.getBoolean(configString + ".hasAbsoluteEncoder");
     if (hasAbsoluteEncoder()) {
-      m_absoluteEncoder = m_sparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-      m_absoluteEncoder
-          .setInverted(subsystemConfig.getBoolean(configString + ".absoluteEncoderInverted"));
-      // m_absoluteEncoder
-      // .setZeroOffset(subsystemConfig.getDouble(configString +
-      // ".absoluteEncoderZeroOffset"));
+      AbsoluteEncoderConfig absoluteEncoderConfig;
+      m_absoluteEncoder = m_sparkMax.getAbsoluteEncoder();
+      absoluteEncoderConfig.inverted(subsystemConfig.getBoolean(configString + ".absoluteEncoderInverted"));
+      absoluteEncoderConfig.zeroOffset(subsystemConfig.getDouble(configString +".absoluteEncoderZeroOffset"));
+      m_absoluteEncoder.configure(absoluteEncoderConfig);
     }
     /*********
      * NOTE: you CANNOT disable the hard limit capability on sparkmax controllers
@@ -57,7 +57,7 @@ public class SparkMaxController {
     m_sparkMax.setInverted(subsystemConfig.getBoolean(configString + ".inverted"));
     m_sparkMax.setSmartCurrentLimit(subsystemConfig.getInt(configString + ".currentLimit"));
     if (subsystemConfig.getBoolean(configString + ".brakeMode")) {
-      m_sparkMax.setIdleMode(SparkMax.IdleMode.kBrake);
+      m_sparkMax.setIdleMode(SparkBaseConfig.IdleMode.kBrake);
     } else {
       m_sparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
@@ -129,15 +129,4 @@ public class SparkMaxController {
     return m_absoluteEncoder.getPosition();
   }
 
-  public double getAbsoluteZeroOffset() {
-    return m_absoluteEncoder.getZeroOffset();
-  }
-
-  public void setAbsoluteZeroOffset(double offset) {
-    m_absoluteEncoder.setZeroOffset(offset);
-  }
-
-  public void setAbsoluteInverted(boolean inverted) {
-    m_absoluteEncoder.setInverted(inverted);
-  }
 }

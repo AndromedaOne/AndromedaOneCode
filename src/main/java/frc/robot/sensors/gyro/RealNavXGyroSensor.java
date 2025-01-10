@@ -4,11 +4,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.TimerTask;
 
-import com.kauailabs.navx.frc.AHRS;
+
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Config4905;
 
 public class RealNavXGyroSensor extends RealGyroBase {
@@ -43,9 +44,7 @@ public class RealNavXGyroSensor extends RealGyroBase {
         System.out.println("Creating a NavX Gyro on port: " + navXPort);
         /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
         if (navXPort.equals("MXP")) {
-          m_gyro = new AHRS(SPI.Port.kMXP);
-        } else if (navXPort.equals("SPI")) {
-          m_gyro = new AHRS(SPI.Port.kOnboardCS0);
+          m_gyro = new AHRS(NavXComType.kMXP_SPI);
         } else {
           System.err.println("ERROR: Unknown NavX Port: " + navXPort);
           return;
