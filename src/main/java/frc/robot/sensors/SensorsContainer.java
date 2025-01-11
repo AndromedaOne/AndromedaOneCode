@@ -47,7 +47,7 @@ public class SensorsContainer {
   private UltrasonicSensor m_cannonSafetyUltrasonic;
   private EncoderBase m_cannonElevatorEncoder;
   private LimitSwitchSensor m_cannonHomeSwitch;
-  private ArrayList<PhotonVisionBase> m_photonVision;
+  private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
   private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
   private Config m_sensorConfig;

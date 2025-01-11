@@ -45,7 +45,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Pose2d currentPose;
   private Boolean needToReset = true;
   private Gyro4905 m_gyro;
-  private PoseEstimation4905 m_swerveOdometry;
+  private PoseEstimation4905 m_poseEstimation;
   private SwerveModuleBase[] m_SwerveMods;
   private Field2d m_field;
   private Config m_config;
@@ -86,7 +86,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     for (int i = 0; i < 4; ++i) {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
-    m_swerveOdometry = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
+    m_poseEstimation = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
   }
 
   @Override
@@ -114,13 +114,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   public Pose2d getPose() {
-    return m_swerveOdometry.getPose();
+    return m_poseEstimation.getPose();
   }
 
   public boolean resetOdometry(Pose2d pose) {
     System.out.println("Resetting Odometry, compass heading " + m_gyro.getCompassHeading());
 
-    return m_swerveOdometry.resetPosition(this.getPositions(), pose);
+    return m_poseEstimation.resetPosition(this.getPositions(), pose);
   }
 
   public SwerveModuleState[] getStates() {
@@ -156,7 +156,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         needToReset = false;
       }
     } else {
-      currentPose = m_swerveOdometry.update(getPositions());
+      currentPose = m_poseEstimation.update(getPositions());
       m_posePublisher.set(currentPose);
       SmartDashboard.putNumber("Pose X ", metersToInches(currentPose.getX()));
       SmartDashboard.putNumber("Pose Y ", metersToInches(currentPose.getY()));
@@ -179,11 +179,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   public PoseEstimation4905 getSwerveOdometry() {
-    return m_swerveOdometry;
+    return m_poseEstimation;
   }
 
   public void setSwerveOdometry(PoseEstimation4905 swerveOdometry) {
-    this.m_swerveOdometry = swerveOdometry;
+    this.m_poseEstimation = swerveOdometry;
   }
 
   public SwerveModuleBase[] getSwerveMods() {

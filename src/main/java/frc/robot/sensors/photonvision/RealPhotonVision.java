@@ -61,8 +61,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     m_cameraHeightInInches = m_config
         .getDouble("photonvision." + cameraName + ".cameraHeightInInches");
     m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
-    m_targetHeightInInches = m_config
-        .getDouble("photonvision." + cameraName + ".targetHeightInInches");
+    m_targetHeightInInches = m_config.getDouble("photonvision.targetHeightInInches");
     m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
     m_cameraRollInDegrees = m_config
         .getDouble("photonvision." + cameraName + ".cameraRollInDegrees");
@@ -199,5 +198,10 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
       return new TargetDetectedAndDistance(0, false);
     }
     return new TargetDetectedAndDistance(distance, true);
+  }
+
+  @Override
+  public PhotonCamera getPhotonCamera() {
+    return m_camera;
   }
 }

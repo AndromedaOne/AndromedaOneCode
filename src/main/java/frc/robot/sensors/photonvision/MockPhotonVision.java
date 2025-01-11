@@ -7,6 +7,8 @@ package frc.robot.sensors.photonvision;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 
@@ -61,5 +63,10 @@ public class MockPhotonVision implements PhotonVisionBase {
   @Override
   public List<AprilTagInfo> getAprilTagInfo() {
     return new ArrayList<AprilTagInfo>();
+  }
+
+  @Override
+  public PhotonCamera getPhotonCamera() {
+    return null;
   }
 }

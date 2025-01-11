@@ -6,6 +6,8 @@ package frc.robot.sensors.photonvision;
 
 import java.util.List;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 
@@ -38,5 +40,7 @@ public interface PhotonVisionBase {
   }
 
   public List<AprilTagInfo> getAprilTagInfo();
+
+  public PhotonCamera getPhotonCamera();
 
 }
