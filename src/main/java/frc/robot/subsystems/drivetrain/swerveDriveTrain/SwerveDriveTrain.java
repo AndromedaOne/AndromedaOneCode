@@ -3,9 +3,10 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 import static edu.wpi.first.math.util.Units.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
@@ -107,21 +109,29 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
 
     if (m_config.getBoolean("usePathPlanning")) {
-      HolonomicPathFollowerConfig m_pathFollowingConfig = new HolonomicPathFollowerConfig(
+      PPHolonomicDriveController m_pathFollowingConfig = new PPHolonomicDriveController(
           new PIDConstants(m_config.getDouble("pathplanning.translationConstants.p"),
               m_config.getDouble("pathplanning.translationConstants.i"),
               m_config.getDouble("pathplanning.translationConstants.d")),
           new PIDConstants(m_config.getDouble("pathplanning.rotationConstants.p"),
               m_config.getDouble("pathplanning.rotationConstants.i"),
-              m_config.getDouble("pathplanning.rotationConstants.d")),
-          m_config.getDouble("maxSpeed"),
-          m_config.getDouble("pathplanning.driveBaseRadiusInMeters"),
-          new ReplanningConfig(false, false, m_config.getDouble("pathplanning.totalErrorThreshold"),
-              m_config.getDouble("pathplanning.errorSpikeThreshold")));
-
+              m_config.getDouble("pathplanning.rotationConstants.d")));
+      // Load the RobotConfig from the GUI settings. You should probably
+    // store this in your Constants file
+    DCMotor dcMotor = new DCMotor(0, 0, 0, 0, 0, 0);
+    ModuleConfig modConfig = new ModuleConfig(0.0, 0.0, 0.0, dcMotor, 0.0, 0.0, 0);
+    RobotConfig robotConfig = new RobotConfig(0.0, 0.0, modConfig, 0.0);
+    try{
+      robotConfig = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      // Handle exception as needed
+      e.printStackTrace();
+      
+    }
       // the numbers for the holonomic path are extremely inaccurate.
-      AutoBuilder.configureHolonomic(this::getPose, this::resetOdometry, this::getCurrentSpeeds,
-          (speeds) -> driveRobotRelative(speeds, false), m_pathFollowingConfig, () -> false,
+      AutoBuilder.configure(this::getPose, this::resetOdometry, this::getCurrentSpeeds,
+          (speeds, feedforwards) -> driveRobotRelative(speeds, false),
+           m_pathFollowingConfig, robotConfig, () -> false,
           getSubsystemBase());
     }
   }
