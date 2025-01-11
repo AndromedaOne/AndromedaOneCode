@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
-import com.revrobotics.CANSparkBase.IdleMode;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -123,15 +122,15 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   public void setCoast(boolean value) {
     Trace.getInstance().logInfo("coast set to " + value);
     if (value) {
-      m_frontLeft.setIdleMode(IdleMode.kCoast);
-      m_frontRight.setIdleMode(IdleMode.kCoast);
-      m_backLeft.setIdleMode(IdleMode.kCoast);
-      m_backRight.setIdleMode(IdleMode.kCoast);
+      m_frontLeft.setCoastMode();
+      m_frontRight.setCoastMode();
+      m_backLeft.setCoastMode();
+      m_backRight.setCoastMode();
     } else {
-      m_frontLeft.setIdleMode(IdleMode.kBrake);
-      m_frontRight.setIdleMode(IdleMode.kBrake);
-      m_backLeft.setIdleMode(IdleMode.kBrake);
-      m_backRight.setIdleMode(IdleMode.kBrake);
+      m_frontLeft.setBrakeMode();
+      m_frontRight.setBrakeMode();
+      m_backLeft.setBrakeMode();
+      m_backRight.setBrakeMode();
 
     }
   }

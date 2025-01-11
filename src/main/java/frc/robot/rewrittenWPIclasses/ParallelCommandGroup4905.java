@@ -48,15 +48,16 @@ public class ParallelCommandGroup4905 extends Command {
           "Commands cannot be added to a composition while it's running");
     }
 
+
     CommandScheduler.getInstance().registerComposedCommands(commands);
 
     for (Command command : commands) {
-      if (!Collections.disjoint(command.getRequirements(), m_requirements)) {
+      if (!Collections.disjoint(command.getRequirements(), getRequirements())) {
         throw new IllegalArgumentException(
             "Multiple commands in a parallel composition cannot require the same subsystems");
       }
       m_commands.put(command, false);
-      m_requirements.addAll(command.getRequirements());
+      getRequirements().addAll(command.getRequirements());
       m_runWhenDisabled &= command.runsWhenDisabled();
       if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
         m_interruptBehavior = InterruptionBehavior.kCancelSelf;

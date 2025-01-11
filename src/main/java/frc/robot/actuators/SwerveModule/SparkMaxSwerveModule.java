@@ -50,7 +50,7 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
     m_absoluteAngleEncoder = m_angleMotor.getMotorController()
         .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     m_angleController = m_angleMotor.getMotorController().getPIDController();
-    CANSparkMaxUtil.setCANSparkMaxBusUsage(m_angleMotor.getMotorController(), Usage.kPositionOnly);
+    
     m_angleMotor.getMotorController()
         .setSmartCurrentLimit(m_config.getInt("angleContinuousCurrentLimit"));
     m_absoluteAngleEncoder.setPositionConversionFactor(
