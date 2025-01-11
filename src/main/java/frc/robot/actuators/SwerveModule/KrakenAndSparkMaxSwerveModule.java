@@ -30,6 +30,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   private SparkPIDController m_angleController;
   private double m_lastAngle = 0;
   private Config m_config;
+  private double m_driveMotorPositionOffset = 0;
 
   private AbsoluteEncoder m_absoluteAngleEncoder;
 
@@ -80,6 +81,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     m_angleMotor.getMotorController().setClosedLoopRampRate(m_config.getDouble("anglekRampRate"));
     m_absoluteAngleEncoder.setInverted(m_config.getBoolean("absoluteAngleEncoderInvert"));
     m_angleMotor.getMotorController().burnFlash();
+
   }
 
   private void configDriveMotor() {
@@ -89,7 +91,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     // The Kraken cannot have a set conversion factor for getPosition and
     // getVelocity
     m_driveMotor.getConfigurator().apply(m_configuration, 0.1);
-    m_driveMotor.setPosition(0.0);
+    m_driveMotorPositionOffset = m_driveMotor.getPosition().getValueAsDouble();
   }
 
   @Override
@@ -129,7 +131,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   public double getDriveEncoderPosition() {
     double positionConversionFactor = m_config.getDouble("wheelDiameter") * Math.PI
         / m_config.getDouble("driveGearRatio");
-    return m_driveMotor.getPosition().getValueAsDouble() * (positionConversionFactor / 39.3701);
+    return (m_driveMotor.getPosition().getValueAsDouble() - m_driveMotorPositionOffset)
+        * (positionConversionFactor / 39.3701);
   }
 
   @Override
