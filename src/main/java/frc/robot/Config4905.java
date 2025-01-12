@@ -50,6 +50,7 @@ public class Config4905 {
   private Config m_feederConfig;
   private Config m_RedAutonomousConfig;
   private Config m_BlueAutonomousConfig;
+  private Config m_ArmTestBedConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -61,6 +62,7 @@ public class Config4905 {
   private boolean m_isShowBot = false;
   private boolean m_isTopGun = false;
   private boolean m_isSwerveBot = false;
+  private boolean m_isRoadKill = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -74,8 +76,9 @@ public class Config4905 {
         m_isTopGun = true;
       } else if (m_robotName.equals("SwerveBot")) { // Name pending
         m_isSwerveBot = true;
+      } else if (m_robotName.equals("RoadKill")) { // Name pending
+        m_isRoadKill = true;
       }
-    } else {
       // try to figure out which Romi we're on by looking at the SSID's we're
       // connected to
       // all of our Romi's will start with "4905_Romi" and potentially have some
@@ -161,6 +164,8 @@ public class Config4905 {
     m_feederConfig = load("feeder.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
+    m_ArmTestBedConfig = load("armtestbed.conf");
+
   }
 
   public Config getControllersConfig() {
@@ -392,6 +397,14 @@ public class Config4905 {
       return true;
     }
     return false;
+  }
+
+  public Config getArmTestBedConfig() {
+    return m_ArmTestBedConfig;
+  }
+
+  public boolean isRoadKill() {
+    return m_isRoadKill;
   }
 
   public boolean isRomi() {
