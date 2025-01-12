@@ -8,7 +8,7 @@ import frc.robot.subsystems.SubsystemInterface;
 
 public interface ArmTestBenchBase extends SubsystemInterface {
 
-  public abstract void rotate(double speed);
+  public abstract void setPosition(double angle);
 
   public void stop();
 

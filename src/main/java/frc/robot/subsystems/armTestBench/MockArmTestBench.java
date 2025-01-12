@@ -21,7 +21,7 @@ public class MockArmTestBench implements ArmTestBenchBase {
   }
 
   @Override
-  public void rotate(double speed) {
+  public void setPosition(double angle) {
   }
 
   @Override
