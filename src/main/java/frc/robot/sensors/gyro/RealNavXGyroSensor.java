@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.TimerTask;
 
-
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import com.typesafe.config.Config;

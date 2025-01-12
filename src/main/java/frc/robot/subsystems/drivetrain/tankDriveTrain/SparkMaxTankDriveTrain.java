@@ -35,10 +35,10 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   public SparkMaxTankDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
 
-    m_frontLeft = new SparkMaxController(drivetrainConfig, "frontleft");
-    m_backLeft = new SparkMaxController(drivetrainConfig, "backleft");
-    m_frontRight = new SparkMaxController(drivetrainConfig, "frontright");
-    m_backRight = new SparkMaxController(drivetrainConfig, "backright");
+    m_frontLeft = new SparkMaxController(drivetrainConfig, "frontleft", false, false);
+    m_backLeft = new SparkMaxController(drivetrainConfig, "backleft", false, false);
+    m_frontRight = new SparkMaxController(drivetrainConfig, "frontright", false, false);
+    m_backRight = new SparkMaxController(drivetrainConfig, "backright", false, false);
 
     // motors on the left side of the drive
     m_leftmotors = new edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup(

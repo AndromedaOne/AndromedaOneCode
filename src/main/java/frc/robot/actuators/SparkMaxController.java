@@ -1,19 +1,16 @@
 package frc.robot.actuators;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.SparkBaseConfig;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.REVLibError;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkLimitSwitch;
-import com.typesafe.config.Config;
-import com.revrobotics.spark.config.AbsoluteEncoderConfig;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.LimitSwitchConfig;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.typesafe.config.Config;
 
 public class SparkMaxController {
   private SparkMax m_sparkMax;
@@ -25,17 +22,19 @@ public class SparkMaxController {
   private SparkLimitSwitch m_forwardLimitSwitch;
   private SparkLimitSwitch m_reverseLimitSwitch;
 
-  public SparkMaxController(Config subsystemConfig, String configString) {
+  public SparkMaxController(Config subsystemConfig, String configString, boolean isSwerve,
+      boolean isDrive) {
     m_sparkMax = new SparkMax(subsystemConfig.getInt("ports." + configString),
         MotorType.kBrushless);
     m_builtInEncoder = m_sparkMax.getEncoder();
     System.out.println("Enabling SparkMaxController \"" + configString + "\" for port "
         + subsystemConfig.getInt("ports." + configString));
     m_hasAbsoluteEncoder = subsystemConfig.getBoolean(configString + ".hasAbsoluteEncoder");
-    configure(subsystemConfig, configString);
+    configure(subsystemConfig, configString, isSwerve, isDrive);
   }
 
-  private void configure(Config subsystemConfig, String configString) {
+  private void configure(Config subsystemConfig, String configString, boolean isSwerve,
+      boolean isDrive) {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.inverted(subsystemConfig.getBoolean(configString + ".inverted"));
     sparkConfig.smartCurrentLimit(subsystemConfig.getInt(configString + ".currentLimit"));
@@ -46,8 +45,10 @@ public class SparkMaxController {
     }
     if (hasAbsoluteEncoder()) {
       m_absoluteEncoder = m_sparkMax.getAbsoluteEncoder();
-      sparkConfig.absoluteEncoder.inverted(subsystemConfig.getBoolean(configString + ".absoluteEncoderInverted"));
-      sparkConfig.absoluteEncoder.zeroOffset(subsystemConfig.getDouble(configString +".absoluteEncoderZeroOffset"));
+      sparkConfig.absoluteEncoder
+          .inverted(subsystemConfig.getBoolean(configString + ".absoluteEncoderInverted"));
+      sparkConfig.absoluteEncoder
+          .zeroOffset(subsystemConfig.getDouble(configString + ".absoluteEncoderZeroOffset"));
     }
     /*********
      * NOTE: you CANNOT disable the hard limit capability on sparkmax controllers
@@ -64,8 +65,39 @@ public class SparkMaxController {
       m_reverseLimitSwitch = m_sparkMax.getReverseLimitSwitch();
       sparkConfig.limitSwitch.reverseLimitSwitchType(LimitSwitchConfig.Type.kNormallyOpen);
     }
-    
-    m_sparkMax.configure(sparkConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    if (isSwerve && isDrive) {
+      sparkConfig.closedLoop.p(subsystemConfig.getDouble("driveKP"));
+      sparkConfig.closedLoop.i(subsystemConfig.getDouble("driveKI"));
+      sparkConfig.closedLoop.d(subsystemConfig.getDouble("driveKD"));
+      sparkConfig.closedLoop.velocityFF(subsystemConfig.getDouble("driveKFF"));
+      sparkConfig.openLoopRampRate(subsystemConfig.getDouble("drivekRampRate"));
+      sparkConfig.voltageCompensation(subsystemConfig.getDouble("voltageComp"));
+      sparkConfig.smartCurrentLimit(subsystemConfig.getInt("driveContinuousCurrentLimit"));
+      double positionConversionFactor = subsystemConfig.getDouble("wheelDiameter") * Math.PI
+          / subsystemConfig.getDouble("driveGearRatio");
+      sparkConfig.encoder.positionConversionFactor(positionConversionFactor / 39.3701);
+      sparkConfig.encoder.velocityConversionFactor(positionConversionFactor * 39.3701 / 60.0);
+
+    } else if (isSwerve && !isDrive) {
+      sparkConfig.smartCurrentLimit(subsystemConfig.getInt("angleContinuousCurrentLimit"));
+      sparkConfig.closedLoop.p(subsystemConfig.getDouble("angleKP"));
+      sparkConfig.closedLoop.i(subsystemConfig.getDouble("angleKI"));
+      sparkConfig.closedLoop.d(subsystemConfig.getDouble("angleKD"));
+      sparkConfig.closedLoop.velocityFF(subsystemConfig.getDouble("angleKFF"));
+      sparkConfig.closedLoop.positionWrappingEnabled(true);
+      sparkConfig.closedLoop.positionWrappingMinInput(0);
+      sparkConfig.closedLoop.positionWrappingMaxInput(360);
+      sparkConfig.closedLoop.outputRange(-1.0, 1.0);
+      sparkConfig.voltageCompensation(subsystemConfig.getDouble("voltageComp"));
+      sparkConfig.closedLoopRampRate(subsystemConfig.getDouble("anglekRampRate"));
+
+      sparkConfig.absoluteEncoder
+          .positionConversionFactor(subsystemConfig.getInt("angleDegreesPerRotation")
+              / subsystemConfig.getInt("angleGearRatio"));
+    }
+
+    m_sparkMax.configure(sparkConfig, ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
   }
 
   public SparkMax getMotorController() {
@@ -95,15 +127,31 @@ public class SparkMaxController {
   public void setCoastMode() {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.idleMode(SparkBaseConfig.IdleMode.kCoast);
-    m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters,
+        PersistMode.kPersistParameters);
     System.out.println("SparkMax set to coast");
   }
 
   public void setBrakeMode() {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
-    m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters,
+        PersistMode.kPersistParameters);
     System.out.println("SparkMax set to brake");
+  }
+
+  public void disableAccelerationLimiting() {
+    SparkMaxConfig sparkConfig = new SparkMaxConfig();
+    sparkConfig.openLoopRampRate(0);
+    m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters,
+        PersistMode.kPersistParameters);
+  }
+
+  public void enableAccelerationLimiting(double rate) {
+    SparkMaxConfig sparkConfig = new SparkMaxConfig();
+    sparkConfig.openLoopRampRate(rate);
+    m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters,
+        PersistMode.kPersistParameters);
   }
 
   public void resetEncoder() {
