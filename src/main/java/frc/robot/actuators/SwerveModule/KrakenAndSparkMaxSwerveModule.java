@@ -26,8 +26,6 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   private double m_lastAngle = 0;
   private Config m_config;
 
-  private AbsoluteEncoder m_absoluteAngleEncoder;
-
   private SimpleMotorFeedforward m_feedForward;
 
   // The drive motor code is different because it uses the krakens
@@ -85,7 +83,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
 
   @Override
   protected double getAngleMotorRawAngle() {
-    double angle = m_absoluteAngleEncoder.getPosition();
+    double angle = m_angleMotor.getAbsoluteEncoderPosition();
     if (angle < 0) {
       angle += 360;
     }
