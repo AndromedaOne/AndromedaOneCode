@@ -117,22 +117,21 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
               m_config.getDouble("pathplanning.rotationConstants.i"),
               m_config.getDouble("pathplanning.rotationConstants.d")));
       // Load the RobotConfig from the GUI settings. You should probably
-    // store this in your Constants file
-    DCMotor dcMotor = new DCMotor(0, 0, 0, 0, 0, 0);
-    ModuleConfig modConfig = new ModuleConfig(0.0, 0.0, 0.0, dcMotor, 0.0, 0.0, 0);
-    RobotConfig robotConfig = new RobotConfig(0.0, 0.0, modConfig, 0.0);
-    try{
-      robotConfig = RobotConfig.fromGUISettings();
-    } catch (Exception e) {
-      // Handle exception as needed
-      e.printStackTrace();
-      
-    }
+      // store this in your Constants file
+      DCMotor dcMotor = new DCMotor(0, 0, 0, 0, 0, 0);
+      ModuleConfig modConfig = new ModuleConfig(0.0, 0.0, 0.0, dcMotor, 0.0, 0.0, 0);
+      RobotConfig robotConfig = new RobotConfig(0.0, 0.0, modConfig, 0.0);
+      try {
+        robotConfig = RobotConfig.fromGUISettings();
+      } catch (Exception e) {
+        // Handle exception as needed
+        e.printStackTrace();
+
+      }
       // the numbers for the holonomic path are extremely inaccurate.
       AutoBuilder.configure(this::getPose, this::resetOdometry, this::getCurrentSpeeds,
-          (speeds, feedforwards) -> driveRobotRelative(speeds, false),
-           m_pathFollowingConfig, robotConfig, () -> false,
-          getSubsystemBase());
+          (speeds, feedforwards) -> driveRobotRelative(speeds, false), m_pathFollowingConfig,
+          robotConfig, () -> false, getSubsystemBase());
     }
   }
 

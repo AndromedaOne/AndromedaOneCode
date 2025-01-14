@@ -7,6 +7,11 @@
 
 package frc.robot.oi;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
+import com.pathplanner.lib.util.FileVersionException;
 import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
@@ -21,7 +26,8 @@ public class OIContainer {
   private SmartDashboard4905 m_smartDashboard;
   private SubsystemController m_subsystemController;
 
-  public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer) {
+  public OIContainer(SubsystemsContainer subsystemsContainer, SensorsContainer sensorsContainer)
+      throws FileVersionException, IOException, ParseException {
     Config controllersConfig = Config4905.getConfig4905().getControllersConfig();
     if (controllersConfig.hasPath("driveController")) {
       System.out.println("Creating drive controller");

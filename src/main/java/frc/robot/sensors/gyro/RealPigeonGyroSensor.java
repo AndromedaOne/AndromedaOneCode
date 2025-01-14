@@ -63,11 +63,11 @@ public class RealPigeonGyroSensor extends RealGyroBase {
     @Override
     public void run() {
       System.out.println("Setting Initial Gyro Angle");
-      m_pigeon.setInitialZAngleReading(m_gyro.getAngle());
+      m_pigeon.setInitialZAngleReading(m_gyro.getYaw().getValueAsDouble());
       m_pigeon.setInitialYAngleReading(m_gyro.getPitch().getValueAsDouble());
       m_pigeon.setInitialXAngleReading(m_gyro.getRoll().getValueAsDouble());
       m_calibrated = true;
-      System.out.println("Gyro is calibrated. Initial Angles: \n\tZangle: " + m_gyro.getAngle()
+      System.out.println("Gyro is calibrated. Initial Angles: \n\tZangle: " + m_gyro.getYaw()
           + "\n\tXangle: " + m_gyro.getPitch() + "\n\tYangle: " + m_gyro.getRoll() + "\n");
       cancel();
     }
@@ -88,7 +88,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
       System.out.println(
           "WARNING: pigeon gyro has not completed calibrating before getRawZangle has been called");
     }
-    return m_gyro.getAngle();
+    return m_gyro.getYaw().getValueAsDouble();
   }
 
   @Override
@@ -122,7 +122,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
 
   @Override
   public double getRate() {
-    return m_gyro.getRate();
+    return m_gyro.getAngularVelocityZWorld().getValueAsDouble();
   }
 
   @Override

@@ -7,6 +7,12 @@
 
 package frc.robot.oi;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
+import com.pathplanner.lib.util.FileVersionException;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,7 +52,7 @@ public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
-      SensorsContainer sensorsContainer) {
+      SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
