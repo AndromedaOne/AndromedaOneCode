@@ -78,7 +78,9 @@ public class Config4905 {
         m_isSwerveBot = true;
       } else if (m_robotName.equals("RoadKill")) { // Name pending
         m_isRoadKill = true;
+        System.out.println("RoadKill");
       }
+      else {
       // try to figure out which Romi we're on by looking at the SSID's we're
       // connected to
       // all of our Romi's will start with "4905_Romi" and potentially have some
@@ -123,6 +125,7 @@ public class Config4905 {
     reload();
     System.out.println("Robot name = " + m_robotName);
   }
+}
 
   public static Config4905 getConfig4905() {
     if (m_config4905 == null) {
@@ -369,6 +372,7 @@ public class Config4905 {
   }
 
   public boolean doesArmTestBedExist() {
+    System.out.println("testing armtestbed");
     if (m_config.hasPath("subsystems.armTestBed")) {
       return true;
     }
