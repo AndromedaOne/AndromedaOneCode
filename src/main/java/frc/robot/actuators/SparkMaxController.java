@@ -7,6 +7,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.LimitSwitchConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -95,6 +96,7 @@ public class SparkMaxController {
       sparkConfig.absoluteEncoder
           .positionConversionFactor(subsystemConfig.getInt("angleDegreesPerRotation")
               / subsystemConfig.getInt("angleGearRatio"));
+      sparkConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
     }
 
     m_sparkMax.configure(sparkConfig, ResetMode.kResetSafeParameters,
