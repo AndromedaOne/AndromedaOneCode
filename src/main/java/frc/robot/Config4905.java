@@ -368,6 +368,13 @@ public class Config4905 {
     return m_feederConfig;
   }
 
+  public boolean doesArmTestBedExist() {
+    if (m_config.hasPath("subsystems.armTestBed")) {
+      return true;
+    }
+    return false;
+  }
+
   public Config getSensorConfig() {
     return m_sensorConfig;
   }

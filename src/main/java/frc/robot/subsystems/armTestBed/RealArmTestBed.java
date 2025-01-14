@@ -64,7 +64,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Arm test Bed Angle", getAngle());
+    SmartDashboard.putNumber("Arm Test Bed Angle", getAngle());
   }
 
   @Override

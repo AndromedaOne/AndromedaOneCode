@@ -15,6 +15,9 @@ import frc.robot.commands.topGunFeederCommands.StopFeeder;
 import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
 import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.StopShooter;
+import frc.robot.subsystems.armTestBed.ArmTestBedBase;
+import frc.robot.subsystems.armTestBed.MockArmTestBed;
+import frc.robot.subsystems.armTestBed.RealArmTestBed;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -68,6 +71,7 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
+  ArmTestBedBase m_armTestBed;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -180,6 +184,13 @@ public class SubsystemsContainer {
     } else {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
+    }
+    if (Config4905.getConfig4905().doesArmTestBedExist()) {
+      Trace.getInstance().logInfo("using real arm test bed");
+      m_armTestBed = new RealArmTestBed();
+    } else {
+      Trace.getInstance().logInfo("using mock arm test bed");
+      m_armTestBed = new MockArmTestBed();
     }
 
   }
