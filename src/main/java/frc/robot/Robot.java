@@ -107,6 +107,7 @@ public class Robot extends TimedRobot {
     Trace.getInstance().flushTraceFiles();
     m_limelight.disableLED();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
+    m_subsystemContainer.getArmTestBed().setCoastMode();
   }
 
   @Override

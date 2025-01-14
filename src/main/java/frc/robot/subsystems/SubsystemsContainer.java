@@ -239,6 +239,10 @@ public class SubsystemsContainer {
     return m_ws2812LEDs;
   }
 
+  public ArmTestBedBase getArmTestBed() {
+    return m_armTestBed;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand());

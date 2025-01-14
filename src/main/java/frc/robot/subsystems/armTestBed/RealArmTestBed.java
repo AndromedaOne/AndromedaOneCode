@@ -29,12 +29,10 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private double kS = 1.1;
   private double kG = 1.2;
   private double kV = 1.3;
-  private Encoder m_encoder = new Encoder(1, 0);
 
   public RealArmTestBed() {
     Config armrotateConfig = Config4905.getConfig4905().getArmTestBedConfig();
     m_motor = new SparkMaxController(armrotateConfig, "motor", false, false);
-    m_encoder = new Encoder(1, 2);
   }
 
   @Override
@@ -59,7 +57,17 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   @Override
   public double getAngle() {
-    return 360 - (m_motor.getAbsoluteEncoderPosition() * 360);
+    double angle = 360 - (m_motor.getAbsoluteEncoderPosition() * 360);
+    if (angle >= 171)
+    {
+      angle -= 171;
+    }
+    else
+    {
+      angle += 190;
+    }
+    return angle; 
+
   }
 
   @Override
