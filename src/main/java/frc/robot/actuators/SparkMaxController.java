@@ -36,7 +36,6 @@ public class SparkMaxController {
   private void configure(Config subsystemConfig, String configString, boolean isSwerve,
       boolean isDrive) {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
-    sparkConfig.inverted(subsystemConfig.getBoolean(configString + ".inverted"));
     sparkConfig.smartCurrentLimit(subsystemConfig.getInt(configString + ".currentLimit"));
     if (subsystemConfig.getBoolean(configString + ".brakeMode")) {
       sparkConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
@@ -73,6 +72,7 @@ public class SparkMaxController {
       sparkConfig.openLoopRampRate(subsystemConfig.getDouble("drivekRampRate"));
       sparkConfig.voltageCompensation(subsystemConfig.getDouble("voltageComp"));
       sparkConfig.smartCurrentLimit(subsystemConfig.getInt("driveContinuousCurrentLimit"));
+      sparkConfig.inverted(subsystemConfig.getBoolean("driveInvert"));
       double positionConversionFactor = subsystemConfig.getDouble("wheelDiameter") * Math.PI
           / subsystemConfig.getDouble("driveGearRatio");
       sparkConfig.encoder.positionConversionFactor(positionConversionFactor / 39.3701);
@@ -90,6 +90,7 @@ public class SparkMaxController {
       sparkConfig.closedLoop.outputRange(-1.0, 1.0);
       sparkConfig.voltageCompensation(subsystemConfig.getDouble("voltageComp"));
       sparkConfig.closedLoopRampRate(subsystemConfig.getDouble("anglekRampRate"));
+      sparkConfig.inverted(subsystemConfig.getBoolean("angleInvert"));
 
       sparkConfig.absoluteEncoder
           .positionConversionFactor(subsystemConfig.getInt("angleDegreesPerRotation")
@@ -128,7 +129,7 @@ public class SparkMaxController {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.idleMode(SparkBaseConfig.IdleMode.kCoast);
     m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters,
-        PersistMode.kPersistParameters);
+        PersistMode.kNoPersistParameters);
     System.out.println("SparkMax set to coast");
   }
 
@@ -136,7 +137,7 @@ public class SparkMaxController {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
     m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters,
-        PersistMode.kPersistParameters);
+        PersistMode.kNoPersistParameters);
     System.out.println("SparkMax set to brake");
   }
 
@@ -144,14 +145,14 @@ public class SparkMaxController {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.openLoopRampRate(0);
     m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters,
-        PersistMode.kPersistParameters);
+        PersistMode.kNoPersistParameters);
   }
 
   public void enableAccelerationLimiting(double rate) {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.openLoopRampRate(rate);
     m_sparkMax.configure(sparkConfig, ResetMode.kNoResetSafeParameters,
-        PersistMode.kPersistParameters);
+        PersistMode.kNoPersistParameters);
   }
 
   public void resetEncoder() {

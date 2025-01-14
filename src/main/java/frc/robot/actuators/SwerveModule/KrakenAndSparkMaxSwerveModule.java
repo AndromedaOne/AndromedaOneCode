@@ -7,9 +7,7 @@ package frc.robot.actuators.SwerveModule;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -22,7 +20,6 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   private SparkMaxController m_angleMotor;
   private TalonFX m_driveMotor;
   private TalonFXConfiguration m_configuration;
-  private SparkClosedLoopController m_angleController;
   private double m_lastAngle = 0;
   private Config m_config;
 
@@ -78,7 +75,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     if (angle < 0) {
       angle += 360;
     }
-    m_angleController.setReference(angle, ControlType.kPosition);
+    m_angleMotor.getMotorController().getClosedLoopController().setReference(angle,
+        ControlType.kPosition);
   }
 
   @Override
