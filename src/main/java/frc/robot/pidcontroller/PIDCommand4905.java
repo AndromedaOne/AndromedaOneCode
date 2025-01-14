@@ -53,7 +53,7 @@ public class PIDCommand4905 extends Command {
     m_useOutput = useOutput;
     m_measurement = measurementSource;
     m_setpoint = setpointSource;
-    m_requirements.addAll(Set.of(requirements));
+    getRequirements().addAll(Set.of(requirements));
   }
 
   /**

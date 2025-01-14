@@ -48,7 +48,7 @@ public class SequentialCommandGroup4905 extends Command {
 
     for (Command command : commands) {
       m_commands.add(command);
-      m_requirements.addAll(command.getRequirements());
+      getRequirements().addAll(command.getRequirements());
       m_runWhenDisabled &= command.runsWhenDisabled();
       if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
         m_interruptBehavior = InterruptionBehavior.kCancelSelf;
