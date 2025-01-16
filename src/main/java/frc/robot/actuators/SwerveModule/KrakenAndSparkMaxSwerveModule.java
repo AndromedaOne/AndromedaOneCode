@@ -6,6 +6,7 @@ package frc.robot.actuators.SwerveModule;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.typesafe.config.Config;
@@ -45,9 +46,14 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   }
 
   private void configDriveMotor() {
-    m_driveMotor.setInverted(m_config.getBoolean("driveInvert"));
     m_configuration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
         .getDouble("drivekRampRate");
+    if (m_config.getBoolean("driveInvert")) {
+      m_configuration.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    } else {
+      m_configuration.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    }
+
     // The Kraken cannot have a set conversion factor for getPosition and
     // getVelocity
     m_driveMotor.getConfigurator().apply(m_configuration, 0.1);
