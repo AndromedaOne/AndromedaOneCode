@@ -23,7 +23,7 @@ public class ShooterAlignment extends SubsystemBase implements ShooterAlignmentB
 
   /** Creates a new ShooterAlignment. */
   public ShooterAlignment() {
-    m_angleMotor = new SparkMaxController(m_shooterConfig, getShooterName());
+    m_angleMotor = new SparkMaxController(m_shooterConfig, getShooterName(), false, false);
     m_hooksServoMotor = new HitecHS322HDpositionalServoMotor(m_shooterConfig, "hooksServoMotor");
   }
 
