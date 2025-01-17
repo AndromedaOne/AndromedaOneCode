@@ -46,7 +46,7 @@ public class PoseEstimation4905 {
         m_robotToCam
             .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
         m_poseEstimator.add(new PhotonPoseEstimator(aprilTagFieldLayout,
-            PoseStrategy.LOWEST_AMBIGUITY, localCamera.getPhotonCamera(), m_robotToCam.get(i)));
+            PoseStrategy.LOWEST_AMBIGUITY, m_robotToCam.get(i)));
       }
     }
     m_swerveOdometry = new SwerveDrivePoseEstimator(kinematics,

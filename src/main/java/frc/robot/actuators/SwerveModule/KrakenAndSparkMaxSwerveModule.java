@@ -46,7 +46,6 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     configDriveMotor();
   }
 
-
   private void configDriveMotor() {
     m_configuration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
         .getDouble("drivekRampRate");
