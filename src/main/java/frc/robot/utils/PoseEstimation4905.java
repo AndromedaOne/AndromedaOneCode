@@ -1,8 +1,9 @@
 package frc.robot.utils;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
@@ -14,11 +15,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
-import frc.robot.sensors.photonvision.PhotonVisionBase.AprilTagInfo;
 
 public class PoseEstimation4905 {
 
@@ -73,32 +72,20 @@ public class PoseEstimation4905 {
     // where we collect the camera info
     // get camera info - calculate april tags and where you at
     Pose2d localPose;
-    PhotonVisionBase localCamera;
-    List<AprilTagInfo> info;
-    int bestCamIndex = -1;
-    double savedAmbiguity = 100.0;
-    localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
-        modulePositions);
+
     if (m_cameraPresent) {
-      for (int i = 0; i < m_photonVision.size(); i++) {
-        localCamera = m_photonVision.get(i);
-        info = localCamera.getAprilTagInfo();
-        for (int j = 0; j < info.size(); j++) {
-          AprilTagInfo currentTag = info.get(j);
-          if (savedAmbiguity > currentTag.ambiguity) {
-            savedAmbiguity = currentTag.ambiguity;
-            bestCamIndex = i;
-          }
+      for (int i = 0; i < m_poseEstimator.size(); i++) {
+        final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
+            .update(m_photonVision.get(i).getPhotonCamera().getLatestResult());
+        if (optionalEstimatedPose.isPresent()) {
+          final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
+          m_swerveOdometry.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
+              estimatedPose.timestampSeconds);
         }
       }
     }
-    // if the ambiguity is high we don't want to use the cameras because it will be
-    // unreliable
-    if (savedAmbiguity > 50.0) {
-      return localPose;
-    }
-    localPose = m_poseEstimator.get(bestCamIndex).getReferencePose().toPose2d();
-    m_swerveOdometry.addVisionMeasurement(localPose, Timer.getFPGATimestamp());
+    localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
+        modulePositions);
     return localPose;
   }
 
