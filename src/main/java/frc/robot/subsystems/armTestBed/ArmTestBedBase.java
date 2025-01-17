@@ -18,4 +18,6 @@ public interface ArmTestBedBase extends SubsystemInterface {
 
   public abstract void setBrakeMode();
 
+  public abstract void rotate(double speed);
+
 }

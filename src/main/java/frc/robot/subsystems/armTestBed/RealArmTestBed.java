@@ -6,7 +6,6 @@ package frc.robot.subsystems.armTestBed;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,8 +17,8 @@ import frc.robot.actuators.SparkMaxController;
  */
 public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private final SparkMaxController m_motor;
-  private double m_minAngle = 0;
-  private double m_maxAngle = 0;
+  private final double m_minAngle = 45;
+  private final double m_maxAngle = 315;
   private double kDt = 0.02;
   private double kMaxVelocity = 1.75;
   private double kMaxAcceleration = 0.75;
@@ -58,15 +57,12 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   @Override
   public double getAngle() {
     double angle = 360 - (m_motor.getAbsoluteEncoderPosition() * 360);
-    if (angle >= 171)
-    {
+    if (angle >= 171) {
       angle -= 171;
-    }
-    else
-    {
+    } else {
       angle += 190;
     }
-    return angle; 
+    return angle;
 
   }
 
@@ -83,6 +79,18 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   @Override
   public void setBrakeMode() {
     m_motor.setBrakeMode();
+  }
+
+  @Override
+  public void rotate(double speed) {
+    if ((getAngle() <= m_minAngle) && (speed < 0)) {
+      stop();
+    } else if ((getAngle() >= m_maxAngle) && (speed > 0)) {
+      stop();
+    } else {
+      m_motor.setSpeed(speed);
+    }
+
   }
 
 }

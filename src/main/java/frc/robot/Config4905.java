@@ -79,53 +79,53 @@ public class Config4905 {
       } else if (m_robotName.equals("RoadKill")) { // Name pending
         m_isRoadKill = true;
         System.out.println("RoadKill");
-      }
-      else {
-      // try to figure out which Romi we're on by looking at the SSID's we're
-      // connected to
-      // all of our Romi's will start with "4905_Romi" and potentially have some
-      // identifier
-      // after Romi. so search for 4905_Romi and extract the romi name and use this
-      // as the robot name
-      try {
-        Process proc = Runtime.getRuntime().exec("netsh wlan show interfaces");
-        BufferedReader bReader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        String line;
-        while ((line = bReader.readLine()) != null) {
-          if (line.matches("(.*)SSID(.*)4905_Romi(.*)")) {
-            System.out.println("SSID line: " + line);
-            String[] tokens = line.trim().split("\\s+");
-            System.out.println("Romi Robot name = " + tokens[2]);
-            m_robotName = tokens[2];
+      } else {
+        // try to figure out which Romi we're on by looking at the SSID's we're
+        // connected to
+        // all of our Romi's will start with "4905_Romi" and potentially have some
+        // identifier
+        // after Romi. so search for 4905_Romi and extract the romi name and use this
+        // as the robot name
+        try {
+          Process proc = Runtime.getRuntime().exec("netsh wlan show interfaces");
+          BufferedReader bReader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+          String line;
+          while ((line = bReader.readLine()) != null) {
+            if (line.matches("(.*)SSID(.*)4905_Romi(.*)")) {
+              System.out.println("SSID line: " + line);
+              String[] tokens = line.trim().split("\\s+");
+              System.out.println("Romi Robot name = " + tokens[2]);
+              m_robotName = tokens[2];
+            }
           }
+        } catch (IOException e) {
+          System.out.println("ERROR: cannot find name of Romi via SSID");
+          e.printStackTrace();
         }
-      } catch (IOException e) {
-        System.out.println("ERROR: cannot find name of Romi via SSID");
-        e.printStackTrace();
+        // the next line retrieves the path to the jar file that is being
+        // executed. this should be in a standard place in the repo. from there
+        // we can find the deploy directory and the configs
+        String relativePathToDeploy = "/src/main/deploy";
+        String jarDir = System.getProperty("user.dir");
+        if (!Files.exists(Paths.get(jarDir + relativePathToDeploy))) {
+          System.out.println(
+              "ERROR: could not find robot config directory: " + jarDir + relativePathToDeploy);
+        }
+        // don't look for name.conf file, just use Romi
+        m_baseDir = jarDir + "/src/main/";
+        m_isRomi = true;
       }
-      // the next line retrieves the path to the jar file that is being
-      // executed. this should be in a standard place in the repo. from there
-      // we can find the deploy directory and the configs
-      String relativePathToDeploy = "/src/main/deploy";
-      String jarDir = System.getProperty("user.dir");
-      if (!Files.exists(Paths.get(jarDir + relativePathToDeploy))) {
-        System.out.println(
-            "ERROR: could not find robot config directory: " + jarDir + relativePathToDeploy);
+      if ((m_robotName == null) || m_robotName.isEmpty()) {
+        throw new RuntimeException(
+            "ERROR: cannot determine robot name, maybe you're not connected?");
       }
-      // don't look for name.conf file, just use Romi
-      m_baseDir = jarDir + "/src/main/";
-      m_isRomi = true;
+      m_environmentalConfig = ConfigFactory
+          .parseFile(new File(m_baseDir + "deploy/robotConfigs/" + m_robotName + "/robot.conf"));
+      m_config = m_environmentalConfig.withFallback(m_defaultConfig).resolve();
+      reload();
+      System.out.println("Robot name = " + m_robotName);
     }
-    if ((m_robotName == null) || m_robotName.isEmpty()) {
-      throw new RuntimeException("ERROR: cannot determine robot name, maybe you're not connected?");
-    }
-    m_environmentalConfig = ConfigFactory
-        .parseFile(new File(m_baseDir + "deploy/robotConfigs/" + m_robotName + "/robot.conf"));
-    m_config = m_environmentalConfig.withFallback(m_defaultConfig).resolve();
-    reload();
-    System.out.println("Robot name = " + m_robotName);
   }
-}
 
   public static Config4905 getConfig4905() {
     if (m_config4905 == null) {

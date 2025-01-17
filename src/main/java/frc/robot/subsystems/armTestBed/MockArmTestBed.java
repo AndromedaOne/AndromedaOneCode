@@ -40,4 +40,8 @@ public class MockArmTestBed implements ArmTestBedBase {
   @Override
   public void setBrakeMode() {
   }
+
+  @Override
+  public void rotate(double speed) {
+  }
 }

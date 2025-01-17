@@ -14,6 +14,7 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.armTestBedCommands.Rotate;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
@@ -104,7 +105,9 @@ public class SmartDashboard4905 {
           new PlayAudio(subsystemsContainer.getShowBotAudio(), AudioFiles.CrazyTrain));
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
     }
-
+    if (Config4905.getConfig4905().doesArmTestBedExist()) {
+      SmartDashboard.putData("Arm Rotate", new Rotate());
+    }
   }
 
   public Command getSelectedAutoChooserCommand() {

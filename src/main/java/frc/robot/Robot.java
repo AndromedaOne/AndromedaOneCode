@@ -140,6 +140,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
+    m_subsystemContainer.getArmTestBed().setBrakeMode();
     LiveWindow.disableAllTelemetry();
 
     Trace.getInstance().logInfo("autonomousInit finished");
@@ -181,6 +182,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
+    m_subsystemContainer.getArmTestBed().setBrakeMode();
     LiveWindow.disableAllTelemetry();
 
     m_subsystemContainer.getShowBotAudio().playAudio(AudioFiles.DiveAlert);
