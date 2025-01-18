@@ -4,14 +4,25 @@
 
 package frc.robot.subsystems.armTestBed;
 
+import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.measure.MutAngle;
+import edu.wpi.first.units.measure.MutAngularVelocity;
+import edu.wpi.first.units.measure.MutVoltage;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
@@ -29,8 +40,16 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private double kI = 0.0;
   private double kD = 0.7;
   private double kS = 1.1;
-  private double kG = 1.2;
-  private double kV = 1.3;
+  private double kG = 0.18;
+  private double kV = 7.31;
+  private final MutVoltage m_appliedVoltage = Volts.mutable(0);
+  private final MutAngle m_angle = Radian.mutable(0);
+  private final MutAngularVelocity m_velocity = RadiansPerSecond.mutable(0);
+  private final SysIdRoutine m_sysIdRoutine;
+  private double m_currentAngularVel = 0.0;
+  private double m_previousTimeAngularVel = 0.0;
+  private double m_previousAngleAngularVel = m_minAngle;
+
   private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(
       kMaxVelocity, kMaxAcceleration);
   private final ArmFeedforward m_feedforward = new ArmFeedforward(kS, kV, kG);
@@ -40,6 +59,14 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   public RealArmTestBed() {
     Config armrotateConfig = Config4905.getConfig4905().getArmTestBedConfig();
     m_motor = new SparkMaxController(armrotateConfig, "motor", false, false);
+    m_sysIdRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
+        new SysIdRoutine.Mechanism(m_motor::setVoltage, log -> {
+          log.motor("Arm Test Bed")
+              .voltage(m_appliedVoltage
+                  .mut_replace(m_motor.getSpeed() * RobotController.getBatteryVoltage(), Volts))
+              .angularPosition(m_angle.mut_replace(getAngle(), Rotations))
+              .angularVelocity(m_velocity.mut_replace(getAngularVelocity(), RotationsPerSecond));
+        }, this.getSubsystemBase()));
   }
 
   @Override
@@ -71,12 +98,27 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
       angle += 190;
     }
     return angle;
+  }
 
+  private void updateAngularVelocity() {
+    long currentTime = System.currentTimeMillis();
+    double currentAngle = getAngle();
+    m_currentAngularVel = (currentAngle - m_previousAngleAngularVel)
+        / (currentTime - m_previousTimeAngularVel);
+    m_previousTimeAngularVel = currentTime;
+    m_previousAngleAngularVel = currentAngle;
+  }
+
+  @Override
+  public double getAngularVelocity() {
+    return m_currentAngularVel;
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Arm Test Bed Angle", getAngle());
+    updateAngularVelocity();
+    SmartDashboard.putNumber("Arm Test Bed Angular Velocity", getAngularVelocity());
   }
 
   @Override
@@ -100,5 +142,4 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     }
 
   }
-
 }

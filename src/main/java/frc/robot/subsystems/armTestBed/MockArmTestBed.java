@@ -34,6 +34,11 @@ public class MockArmTestBed implements ArmTestBedBase {
   }
 
   @Override
+  public double getAngularVelocity() {
+    return 0.0;
+  }
+
+  @Override
   public void setCoastMode() {
   }
 

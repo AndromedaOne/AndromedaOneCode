@@ -12,6 +12,8 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.units.measure.Voltage;
+
 public class SparkMaxController {
   private SparkMax m_sparkMax;
   private boolean m_hasAbsoluteEncoder = false;
@@ -171,4 +173,11 @@ public class SparkMaxController {
     return m_absoluteEncoder.getPosition();
   }
 
+  public void setVoltage(Voltage voltage) {
+    m_sparkMax.setVoltage(voltage);
+  }
+
+  public double getVoltage() {
+    return m_sparkMax.getBusVoltage();
+  }
 }

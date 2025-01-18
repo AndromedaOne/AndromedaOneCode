@@ -14,6 +14,8 @@ public interface ArmTestBedBase extends SubsystemInterface {
 
   public abstract double getAngle();
 
+  public abstract double getAngularVelocity();
+
   public abstract void setCoastMode();
 
   public abstract void setBrakeMode();
