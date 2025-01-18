@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.armTestBed;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Radian;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
@@ -18,6 +20,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,10 +40,10 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private double kDt = 0.02;
   private double kMaxVelocity = 1.75;
   private double kMaxAcceleration = 0.75;
-  private double kP = 1.3;
+  private double kP = 0.000001;
   private double kI = 0.0;
-  private double kD = 0.7;
-  private double kS = 1.1;
+  private double kD = 0.0;
+  private double kS = 4.8;
   private double kG = 0.18;
   private double kV = 7.31;
   private final MutVoltage m_appliedVoltage = Volts.mutable(0);
@@ -61,12 +64,12 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     Config armrotateConfig = Config4905.getConfig4905().getArmTestBedConfig();
     m_motor = new SparkMaxController(armrotateConfig, "motor", false, false);
     m_sysIdRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
-        new SysIdRoutine.Mechanism(m_motor::setVoltage, log -> {
+        new SysIdRoutine.Mechanism(this::setVoltage, log -> {
           log.motor("Arm Test Bed")
               .voltage(m_appliedVoltage
                   .mut_replace(m_motor.getVoltage(), Volts))
-              .angularPosition(m_angle.mut_replace(getAngle(), Rotations))
-              .angularVelocity(m_velocity.mut_replace(getAngularVelocity(), RotationsPerSecond));
+              .angularPosition(m_angle.mut_replace(getAngle(), Degrees))
+              .angularVelocity(m_velocity.mut_replace(getAngularVelocity(), DegreesPerSecond));
         }, this.getSubsystemBase()));
   }
 
@@ -104,8 +107,10 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private void updateAngularVelocity() {
     long currentTime = System.currentTimeMillis();
     double currentAngle = getAngle();
-    m_currentAngularVel = (currentAngle - m_previousAngleAngularVel)
-        / (currentTime - m_previousTimeAngularVel);
+    SmartDashboard.putNumber("Delta angle:", currentAngle - m_previousAngleAngularVel);
+    SmartDashboard.putNumber("Delta time:", currentTime - m_previousTimeAngularVel);
+    m_currentAngularVel = ((currentAngle - m_previousAngleAngularVel)
+        / (currentTime - m_previousTimeAngularVel))*1000;
     m_previousTimeAngularVel = currentTime;
     m_previousAngleAngularVel = currentAngle;
   }
@@ -140,6 +145,16 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
       stop();
     } else {
       m_motor.setSpeed(speed);
+    }
+  }
+
+  public void setVoltage (Voltage voltage){
+    if ((getAngle() <= m_minAngle) && (voltage.in(Volts) < 0)) {
+      stop();
+    } else if ((getAngle() >= 180) && (voltage.in(Volts) > 0)) {
+      stop();
+    } else {
+      m_motor.setVoltage(voltage);
     }
   }
 
