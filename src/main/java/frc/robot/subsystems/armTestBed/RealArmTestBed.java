@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
@@ -63,7 +64,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
         new SysIdRoutine.Mechanism(m_motor::setVoltage, log -> {
           log.motor("Arm Test Bed")
               .voltage(m_appliedVoltage
-                  .mut_replace(m_motor.getSpeed() * RobotController.getBatteryVoltage(), Volts))
+                  .mut_replace(m_motor.getVoltage(), Volts))
               .angularPosition(m_angle.mut_replace(getAngle(), Rotations))
               .angularVelocity(m_velocity.mut_replace(getAngularVelocity(), RotationsPerSecond));
         }, this.getSubsystemBase()));
@@ -140,6 +141,15 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     } else {
       m_motor.setSpeed(speed);
     }
+  }
 
+  @Override
+  public Command sysIdQuasistatic(Direction direction) {
+    return m_sysIdRoutine.quasistatic(direction);
+  }
+
+  @Override
+  public Command sysIdDynamic(Direction direction) {
+    return m_sysIdRoutine.dynamic(direction);
   }
 }

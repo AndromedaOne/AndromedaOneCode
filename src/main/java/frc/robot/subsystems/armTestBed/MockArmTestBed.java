@@ -6,6 +6,7 @@ package frc.robot.subsystems.armTestBed;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.MockSubsystem;
 
 /** Add your docs here. */
@@ -48,5 +49,15 @@ public class MockArmTestBed implements ArmTestBedBase {
 
   @Override
   public void rotate(double speed) {
+  }
+
+  @Override
+  public Command sysIdQuasistatic(Direction direction) {
+    return null;
+  }
+
+  @Override
+  public Command sysIdDynamic(Direction direction) {
+    return null;
   }
 }

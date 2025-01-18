@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.armTestBed;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.SubsystemInterface;
 
 public interface ArmTestBedBase extends SubsystemInterface {
@@ -22,4 +24,7 @@ public interface ArmTestBedBase extends SubsystemInterface {
 
   public abstract void rotate(double speed);
 
+  public abstract Command sysIdQuasistatic(SysIdRoutine.Direction direction);
+
+  public abstract Command sysIdDynamic(SysIdRoutine.Direction direction);
 }

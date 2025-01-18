@@ -178,6 +178,6 @@ public class SparkMaxController {
   }
 
   public double getVoltage() {
-    return m_sparkMax.getBusVoltage();
+    return m_sparkMax.getAppliedOutput()*m_sparkMax.getBusVoltage();
   }
 }

@@ -15,6 +15,7 @@ import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.armTestBedCommands.Rotate;
+import frc.robot.commands.armTestBedCommands.SysIdCommand;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
@@ -107,6 +108,8 @@ public class SmartDashboard4905 {
     }
     if (Config4905.getConfig4905().doesArmTestBedExist()) {
       SmartDashboard.putData("Arm Rotate", new Rotate());
+      SmartDashboard.putData("Run SysId", new SysIdCommand());
+      
     }
   }
 
