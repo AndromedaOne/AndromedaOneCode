@@ -14,9 +14,11 @@ public interface ArmTestBedBase extends SubsystemInterface {
 
   public void stop();
 
-  public abstract double getAngle();
+  public abstract double getAngleDeg();
 
-  public abstract double getAngularVelocity();
+  public abstract double getAngleRad();
+
+  public abstract double getAngularVelDeg();
 
   public abstract void setCoastMode();
 
@@ -27,4 +29,8 @@ public interface ArmTestBedBase extends SubsystemInterface {
   public abstract Command sysIdQuasistatic(SysIdRoutine.Direction direction);
 
   public abstract Command sysIdDynamic(SysIdRoutine.Direction direction);
+
+  public abstract void setGoal (double goal);
+
+  public abstract void calculateVoltageForGoal();
 }

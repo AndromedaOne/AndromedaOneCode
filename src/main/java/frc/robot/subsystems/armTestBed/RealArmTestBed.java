@@ -35,15 +35,16 @@ import frc.robot.actuators.SparkMaxController;
  */
 public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private final SparkMaxController m_motor;
-  private final double m_minAngle = 45;
-  private final double m_maxAngle = 315;
+  private final double m_minAngle = 45.0;
+  private final double m_maxAngle = 315.0;
+  private final double m_offset = 90.0; 
   private double kDt = 0.02;
   private double kMaxVelocity = 1.75;
   private double kMaxAcceleration = 0.75;
   private double kP = 0.000001;
   private double kI = 0.0;
   private double kD = 0.0;
-  private double kS = 4.8;
+  private double kS = 3.57;
   private double kG = 0.18;
   private double kV = 7.31;
   private final MutVoltage m_appliedVoltage = Volts.mutable(0);
@@ -68,8 +69,8 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
           log.motor("Arm Test Bed")
               .voltage(m_appliedVoltage
                   .mut_replace(m_motor.getVoltage(), Volts))
-              .angularPosition(m_angle.mut_replace(getAngle(), Degrees))
-              .angularVelocity(m_velocity.mut_replace(getAngularVelocity(), DegreesPerSecond));
+              .angularPosition(m_angle.mut_replace(getAngleDeg(), Degrees))
+              .angularVelocity(m_velocity.mut_replace(getAngularVelDeg(), DegreesPerSecond));
         }, this.getSubsystemBase()));
   }
 
@@ -94,7 +95,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   }
 
   @Override
-  public double getAngle() {
+  public double getAngleDeg() {
     double angle = 360 - (m_motor.getAbsoluteEncoderPosition() * 360);
     if (angle >= 171) {
       angle -= 171;
@@ -104,9 +105,14 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     return angle;
   }
 
+  @Override
+  public double getAngleRad() {
+   return (getAngleDeg() * (Math.PI / 180));
+  }
+
   private void updateAngularVelocity() {
     long currentTime = System.currentTimeMillis();
-    double currentAngle = getAngle();
+    double currentAngle = getAngleDeg();
     SmartDashboard.putNumber("Delta angle:", currentAngle - m_previousAngleAngularVel);
     SmartDashboard.putNumber("Delta time:", currentTime - m_previousTimeAngularVel);
     m_currentAngularVel = ((currentAngle - m_previousAngleAngularVel)
@@ -116,15 +122,15 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   }
 
   @Override
-  public double getAngularVelocity() {
+  public double getAngularVelDeg() {
     return m_currentAngularVel;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Arm Test Bed Angle", getAngle());
+    SmartDashboard.putNumber("Arm Test Bed Angle", getAngleDeg());
     updateAngularVelocity();
-    SmartDashboard.putNumber("Arm Test Bed Angular Velocity", getAngularVelocity());
+    SmartDashboard.putNumber("Arm Test Bed Angular Velocity", getAngularVelDeg());
   }
 
   @Override
@@ -139,9 +145,9 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   @Override
   public void rotate(double speed) {
-    if ((getAngle() <= m_minAngle) && (speed < 0)) {
+    if ((getAngleDeg() <= m_minAngle) && (speed < 0)) {
       stop();
-    } else if ((getAngle() >= m_maxAngle) && (speed > 0)) {
+    } else if ((getAngleDeg() >= m_maxAngle) && (speed > 0)) {
       stop();
     } else {
       m_motor.setSpeed(speed);
@@ -149,14 +155,15 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   }
 
   public void setVoltage (Voltage voltage){
-    if ((getAngle() <= m_minAngle) && (voltage.in(Volts) < 0)) {
+    if ((getAngleDeg() <= m_minAngle) && (voltage.in(Volts) < 0)) {
       stop();
-    } else if ((getAngle() >= 180) && (voltage.in(Volts) > 0)) {
+    } else if ((getAngleDeg() >= 155) && (voltage.in(Volts) > 0)) {
       stop();
     } else {
       m_motor.setVoltage(voltage);
     }
   }
+
 
   @Override
   public Command sysIdQuasistatic(Direction direction) {
@@ -166,5 +173,17 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   @Override
   public Command sysIdDynamic(Direction direction) {
     return m_sysIdRoutine.dynamic(direction);
+  }
+
+  @Override
+  public void setGoal(double goal) {
+    m_controller.setGoal(goal);
+  }
+
+  @Override
+  public void calculateVoltageForGoal() {
+    double currentAngleRad = getAngleRad() - Math.PI/2;
+    double voltage = m_controller.calculate(currentAngleRad) + 
+    m_feedforward.calculate(currentAngleRad, 0);
   }
 }
