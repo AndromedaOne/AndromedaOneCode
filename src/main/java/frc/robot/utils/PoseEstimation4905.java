@@ -15,6 +15,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
@@ -28,6 +30,11 @@ public class PoseEstimation4905 {
   private ArrayList<PhotonPoseEstimator> m_poseEstimator = new ArrayList<PhotonPoseEstimator>();
   private boolean m_cameraPresent = true;
 
+  StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
+      .getStructTopic("/OdometryPose", Pose2d.struct).publish();
+  StructPublisher<Pose2d> m_posePublisherVision = NetworkTableInstance.getDefault()
+      .getStructTopic("/VisionPose", Pose2d.struct).publish();
+
   public PoseEstimation4905(SwerveDriveKinematics kinematics,
       SwerveModulePosition[] modulePositions) {
 
@@ -35,6 +42,7 @@ public class PoseEstimation4905 {
     m_photonVision = (Robot.getInstance().getSensorsContainer().getPhotonVisionList());
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo
         .loadAprilTagLayoutField();
+    AprilTagFieldLayout apt = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
     PhotonVisionBase localCamera;
     if (m_photonVision == null) {
       m_cameraPresent = false;
@@ -73,6 +81,10 @@ public class PoseEstimation4905 {
     // get camera info - calculate april tags and where you at
     Pose2d localPose;
 
+    localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
+        modulePositions);
+    m_posePublisherOdometry.set(localPose);
+
     if (m_cameraPresent) {
       for (int i = 0; i < m_poseEstimator.size(); i++) {
         final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
@@ -83,9 +95,9 @@ public class PoseEstimation4905 {
               estimatedPose.timestampSeconds);
         }
       }
+      localPose = m_swerveOdometry.getEstimatedPosition();
     }
-    localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
-        modulePositions);
+    m_posePublisherVision.set(localPose);
     return localPose;
   }
 
