@@ -19,7 +19,7 @@ public class RealFeeder extends SubsystemBase implements FeederBase {
   private SparkMaxController m_feederMotor;
 
   public RealFeeder() {
-    m_feederMotor = new SparkMaxController(m_feederConfig, "feederMotor");
+    m_feederMotor = new SparkMaxController(m_feederConfig, "feederMotor", false, false);
   }
 
   @Override

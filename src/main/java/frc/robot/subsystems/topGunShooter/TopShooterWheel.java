@@ -19,7 +19,7 @@ public class TopShooterWheel extends SubsystemBase implements ShooterWheelBase {
   private SparkMaxController m_shooterMotor;
 
   public TopShooterWheel() {
-    m_shooterMotor = new SparkMaxController(m_shooterConfig, getShooterName());
+    m_shooterMotor = new SparkMaxController(m_shooterConfig, getShooterName(), false, false);
   }
 
   @Override

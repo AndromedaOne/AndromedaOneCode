@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
-import com.revrobotics.CANSparkBase.IdleMode;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,10 +35,10 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   public SparkMaxTankDriveTrain() {
     Config drivetrainConfig = Config4905.getConfig4905().getDrivetrainConfig();
 
-    m_frontLeft = new SparkMaxController(drivetrainConfig, "frontleft");
-    m_backLeft = new SparkMaxController(drivetrainConfig, "backleft");
-    m_frontRight = new SparkMaxController(drivetrainConfig, "frontright");
-    m_backRight = new SparkMaxController(drivetrainConfig, "backright");
+    m_frontLeft = new SparkMaxController(drivetrainConfig, "frontleft", false, false);
+    m_backLeft = new SparkMaxController(drivetrainConfig, "backleft", false, false);
+    m_frontRight = new SparkMaxController(drivetrainConfig, "frontright", false, false);
+    m_backRight = new SparkMaxController(drivetrainConfig, "backright", false, false);
 
     // motors on the left side of the drive
     m_leftmotors = new edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup(
@@ -123,15 +122,15 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   public void setCoast(boolean value) {
     Trace.getInstance().logInfo("coast set to " + value);
     if (value) {
-      m_frontLeft.setIdleMode(IdleMode.kCoast);
-      m_frontRight.setIdleMode(IdleMode.kCoast);
-      m_backLeft.setIdleMode(IdleMode.kCoast);
-      m_backRight.setIdleMode(IdleMode.kCoast);
+      m_frontLeft.setCoastMode();
+      m_frontRight.setCoastMode();
+      m_backLeft.setCoastMode();
+      m_backRight.setCoastMode();
     } else {
-      m_frontLeft.setIdleMode(IdleMode.kBrake);
-      m_frontRight.setIdleMode(IdleMode.kBrake);
-      m_backLeft.setIdleMode(IdleMode.kBrake);
-      m_backRight.setIdleMode(IdleMode.kBrake);
+      m_frontLeft.setBrakeMode();
+      m_frontRight.setBrakeMode();
+      m_backLeft.setBrakeMode();
+      m_backRight.setBrakeMode();
 
     }
   }
