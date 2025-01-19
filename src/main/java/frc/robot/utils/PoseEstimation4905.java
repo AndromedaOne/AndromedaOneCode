@@ -40,9 +40,8 @@ public class PoseEstimation4905 {
 
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
     m_photonVision = (Robot.getInstance().getSensorsContainer().getPhotonVisionList());
-    AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo
+    AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2025Reefscape
         .loadAprilTagLayoutField();
-    AprilTagFieldLayout apt = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
     PhotonVisionBase localCamera;
     if (m_photonVision == null) {
       m_cameraPresent = false;
@@ -87,6 +86,8 @@ public class PoseEstimation4905 {
 
     if (m_cameraPresent) {
       for (int i = 0; i < m_poseEstimator.size(); i++) {
+        // get latest result is deprecated and needs to be replaced with get all unread
+        // results which returns a list of results
         final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
             .update(m_photonVision.get(i).getPhotonCamera().getLatestResult());
         if (optionalEstimatedPose.isPresent()) {
