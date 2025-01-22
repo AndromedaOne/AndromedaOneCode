@@ -68,7 +68,7 @@ public class MockArmTestBed implements ArmTestBedBase {
   }
 
   @Override
-  public void calculateVoltageForGoal() {
+  public void calculateAndSetVoltageForGoal() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'calculateVoltageForGoal'");
   }
@@ -77,5 +77,11 @@ public class MockArmTestBed implements ArmTestBedBase {
   public double getAngleRad() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getAngleRad'");
+  }
+
+  @Override
+  public double getAngularVelRad() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getAngularVelRad'");
   }
 }

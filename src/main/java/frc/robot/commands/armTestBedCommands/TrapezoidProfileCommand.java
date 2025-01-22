@@ -4,22 +4,31 @@
 
 package frc.robot.commands.armTestBedCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
+import frc.robot.subsystems.armTestBed.ArmTestBedBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TrapezoidProfileCommand extends Command {
-  /** Creates a new TrapezoidProfileCommand. */
+  private ArmTestBedBase m_armTestBed;
   public TrapezoidProfileCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    m_armTestBed= Robot.getInstance().getSubsystemsContainer().getArmTestBed();
+    addRequirements(m_armTestBed.getSubsystemBase());
+    SmartDashboard.putNumber("Arm Test Bed goal", 0);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_armTestBed.setGoal(SmartDashboard.getNumber("Arm Test Bed goal", 0));
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_armTestBed.calculateAndSetVoltageForGoal();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

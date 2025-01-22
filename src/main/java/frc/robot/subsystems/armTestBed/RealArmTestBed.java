@@ -12,11 +12,14 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import org.opencv.core.Mat;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.VoltageUnit;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
@@ -35,23 +38,22 @@ import frc.robot.actuators.SparkMaxController;
  */
 public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private final SparkMaxController m_motor;
-  private final double m_minAngle = 45.0;
-  private final double m_maxAngle = 315.0;
-  private final double m_offset = 90.0; 
+  private final double m_minAngle = -Math.PI/4;
+  private final double m_maxAngle = 3*Math.PI/4;
   private double kDt = 0.02;
   private double kMaxVelocity = 1.75;
   private double kMaxAcceleration = 0.75;
   private double kP = 0.000001;
   private double kI = 0.0;
   private double kD = 0.0;
-  private double kS = 3.57;
+  private double kS = 1.0;
   private double kG = 0.18;
-  private double kV = 7.31;
+  private double kV = 3.5;
   private final MutVoltage m_appliedVoltage = Volts.mutable(0);
   private final MutAngle m_angle = Radian.mutable(0);
   private final MutAngularVelocity m_velocity = RadiansPerSecond.mutable(0);
   private final SysIdRoutine m_sysIdRoutine;
-  private double m_currentAngularVel = 0.0;
+  private double m_currentAngularVelDeg = 0.0;
   private double m_previousTimeAngularVel = 0.0;
   private double m_previousAngleAngularVel = m_minAngle;
 
@@ -72,6 +74,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
               .angularPosition(m_angle.mut_replace(getAngleDeg(), Degrees))
               .angularVelocity(m_velocity.mut_replace(getAngularVelDeg(), DegreesPerSecond));
         }, this.getSubsystemBase()));
+    
   }
 
   @Override
@@ -107,7 +110,8 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   @Override
   public double getAngleRad() {
-   return (getAngleDeg() * (Math.PI / 180));
+  double angle = ((1 - (m_motor.getAbsoluteEncoderPosition()-0.277))*2*Math.PI)-2*Math.PI;
+  return angle;
   }
 
   private void updateAngularVelocity() {
@@ -115,7 +119,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     double currentAngle = getAngleDeg();
     SmartDashboard.putNumber("Delta angle:", currentAngle - m_previousAngleAngularVel);
     SmartDashboard.putNumber("Delta time:", currentTime - m_previousTimeAngularVel);
-    m_currentAngularVel = ((currentAngle - m_previousAngleAngularVel)
+    m_currentAngularVelDeg = ((currentAngle - m_previousAngleAngularVel)
         / (currentTime - m_previousTimeAngularVel))*1000;
     m_previousTimeAngularVel = currentTime;
     m_previousAngleAngularVel = currentAngle;
@@ -123,13 +127,20 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   @Override
   public double getAngularVelDeg() {
-    return m_currentAngularVel;
+    return m_currentAngularVelDeg;
+  }
+
+  @Override
+  public double getAngularVelRad() {
+    return (m_currentAngularVelDeg * (Math.PI / 180));
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Arm Test Bed Angle", getAngleDeg());
+    SmartDashboard.putNumber("Arm Test Bed Angle in Degrees", getAngleDeg());
     updateAngularVelocity();
+    SmartDashboard.putNumber("Arm Test Bed Angle in Rads", getAngleRad());
+    SmartDashboard.putNumber("Encoder Position", m_motor.getAbsoluteEncoderPosition());
     SmartDashboard.putNumber("Arm Test Bed Angular Velocity", getAngularVelDeg());
   }
 
@@ -177,13 +188,15 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   @Override
   public void setGoal(double goal) {
-    m_controller.setGoal(goal);
+    m_controller.setGoal((goal - 90.0)*Math.PI/180);
   }
 
   @Override
-  public void calculateVoltageForGoal() {
+  public void calculateAndSetVoltageForGoal() {
     double currentAngleRad = getAngleRad() - Math.PI/2;
     double voltage = m_controller.calculate(currentAngleRad) + 
-    m_feedforward.calculate(currentAngleRad, 0);
+    m_feedforward.calculate(currentAngleRad, getAngularVelRad());
+    setVoltage(Volts.mutable(voltage));
+    System.out.println("Voltage: " + voltage);
   }
 }

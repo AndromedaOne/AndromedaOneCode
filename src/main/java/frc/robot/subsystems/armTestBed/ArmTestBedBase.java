@@ -20,6 +20,8 @@ public interface ArmTestBedBase extends SubsystemInterface {
 
   public abstract double getAngularVelDeg();
 
+  public abstract double getAngularVelRad();
+
   public abstract void setCoastMode();
 
   public abstract void setBrakeMode();
@@ -32,5 +34,5 @@ public interface ArmTestBedBase extends SubsystemInterface {
 
   public abstract void setGoal (double goal);
 
-  public abstract void calculateVoltageForGoal();
+  public abstract void calculateAndSetVoltageForGoal();
 }
