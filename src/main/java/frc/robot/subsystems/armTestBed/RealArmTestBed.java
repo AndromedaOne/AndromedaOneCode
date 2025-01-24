@@ -40,6 +40,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private final SparkMaxController m_motor;
   private final double m_minAngle = -Math.PI/4;
   private final double m_maxAngle = 3*Math.PI/4;
+  private final double m_angleOffset = 1 - 0.28;
   private double kDt = 0.02;
   private double kMaxVelocity = 1.75;
   private double kMaxAcceleration = 0.75;
@@ -97,20 +98,30 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     m_motor.setSpeed(0);
   }
 
+  private double calculateCorrectedEncoder(){
+    double correctedEncoderValue = (1 -m_motor.getAbsoluteEncoderPosition());
+    if(correctedEncoderValue>= m_angleOffset){
+      correctedEncoderValue=  correctedEncoderValue - m_angleOffset;
+    } else {
+      correctedEncoderValue= correctedEncoderValue + (1 - m_angleOffset);
+    }
+    if ( correctedEncoderValue > 0.5)
+    {
+      correctedEncoderValue = correctedEncoderValue - 1;
+    }
+    SmartDashboard.putNumber("Corrected Encoder Value", correctedEncoderValue);
+    return correctedEncoderValue;
+  }
+
   @Override
   public double getAngleDeg() {
-    double angle = 360 - (m_motor.getAbsoluteEncoderPosition() * 360);
-    if (angle >= 171) {
-      angle -= 171;
-    } else {
-      angle += 190;
-    }
+    double angle = (calculateCorrectedEncoder() * 360);
     return angle;
   }
 
   @Override
   public double getAngleRad() {
-  double angle = ((1 - (m_motor.getAbsoluteEncoderPosition()-0.277))*2*Math.PI)-2*Math.PI;
+  double angle = calculateCorrectedEncoder() * 2 * Math.PI;
   return angle;
   }
 
