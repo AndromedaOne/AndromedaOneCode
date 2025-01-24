@@ -1,11 +1,13 @@
 package frc.robot.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -29,6 +31,7 @@ public class PoseEstimation4905 {
   private ArrayList<Transform3d> m_robotToCam = new ArrayList<Transform3d>();
   private ArrayList<PhotonPoseEstimator> m_poseEstimator = new ArrayList<PhotonPoseEstimator>();
   private boolean m_cameraPresent = true;
+  private ArrayList<StructPublisher<Pose2d>> m_posePublisherCamera = new ArrayList<StructPublisher<Pose2d>>();
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
       .getStructTopic("/OdometryPose", Pose2d.struct).publish();
@@ -52,7 +55,9 @@ public class PoseEstimation4905 {
         m_robotToCam
             .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
         m_poseEstimator.add(new PhotonPoseEstimator(aprilTagFieldLayout,
-            PoseStrategy.LOWEST_AMBIGUITY, m_robotToCam.get(i)));
+            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
+        m_posePublisherCamera.add(NetworkTableInstance.getDefault()
+            .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
       }
     }
     m_swerveOdometry = new SwerveDrivePoseEstimator(kinematics,
@@ -85,15 +90,29 @@ public class PoseEstimation4905 {
     m_posePublisherOdometry.set(localPose);
 
     if (m_cameraPresent) {
+      boolean usePose = true;
       for (int i = 0; i < m_poseEstimator.size(); i++) {
         // get latest result is deprecated and needs to be replaced with get all unread
         // results which returns a list of results
-        final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
-            .update(m_photonVision.get(i).getPhotonCamera().getLatestResult());
-        if (optionalEstimatedPose.isPresent()) {
-          final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
-          m_swerveOdometry.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
-              estimatedPose.timestampSeconds);
+        List<PhotonPipelineResult> pipelineResults = m_photonVision.get(i).getPhotonCamera()
+            .getAllUnreadResults();
+        for (int results = 0; results < pipelineResults.size(); results++) {
+          final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
+              .update(pipelineResults.get(results));
+          if (optionalEstimatedPose.isPresent()) {
+            final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
+            usePose = true;
+            for (int j = 0; j < estimatedPose.targetsUsed.size(); j++) {
+              if (estimatedPose.targetsUsed.get(j).getPoseAmbiguity() > 0.2) {
+                usePose = false;
+              }
+            }
+            if (usePose) {
+              m_swerveOdometry.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
+                  estimatedPose.timestampSeconds);
+            }
+            m_posePublisherCamera.get(i).set(estimatedPose.estimatedPose.toPose2d());
+          }
         }
       }
       localPose = m_swerveOdometry.getEstimatedPosition();
