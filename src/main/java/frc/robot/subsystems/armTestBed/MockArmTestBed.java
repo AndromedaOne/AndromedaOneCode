@@ -35,7 +35,7 @@ public class MockArmTestBed implements ArmTestBedBase {
   }
 
   @Override
-  public double getAngularVelDeg() {
+  public double getAngularVelRad() {
     return 0.0;
   }
 
@@ -62,7 +62,7 @@ public class MockArmTestBed implements ArmTestBedBase {
   }
 
   @Override
-  public void setGoal(double goal) {
+  public void setGoalDeg(double goal) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'setGoal'");
   }
@@ -77,11 +77,5 @@ public class MockArmTestBed implements ArmTestBedBase {
   public double getAngleRad() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getAngleRad'");
-  }
-
-  @Override
-  public double getAngularVelRad() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAngularVelRad'");
   }
 }

@@ -38,25 +38,25 @@ import frc.robot.actuators.SparkMaxController;
  */
 public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private final SparkMaxController m_motor;
-  private final double m_minAngle = -Math.PI/4;
-  private final double m_maxAngle = 3*Math.PI/4;
+  private final double m_minAngleRad = -Math.PI/4;
+  private final double m_maxAngleRad = 3*Math.PI/4;
   private final double m_angleOffset = 1 - 0.28;
   private double kDt = 0.02;
   private double kMaxVelocity = 1.75;
   private double kMaxAcceleration = 0.75;
-  private double kP = 0.000001;
+  private double kP = 1.0;
   private double kI = 0.0;
   private double kD = 0.0;
-  private double kS = 1.0;
-  private double kG = 0.18;
-  private double kV = 3.5;
+  private double kS = 0.1;
+  private double kG = 0.0;
+  private double kV = 1.5;
   private final MutVoltage m_appliedVoltage = Volts.mutable(0);
   private final MutAngle m_angle = Radian.mutable(0);
   private final MutAngularVelocity m_velocity = RadiansPerSecond.mutable(0);
   private final SysIdRoutine m_sysIdRoutine;
-  private double m_currentAngularVelDeg = 0.0;
+  private double m_currentAngularVelRad = 0.0;
   private double m_previousTimeAngularVel = 0.0;
-  private double m_previousAngleAngularVel = m_minAngle;
+  private double m_previousAngleAngularVelRad = m_minAngleRad;
 
   private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(
       kMaxVelocity, kMaxAcceleration);
@@ -73,7 +73,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
               .voltage(m_appliedVoltage
                   .mut_replace(m_motor.getVoltage(), Volts))
               .angularPosition(m_angle.mut_replace(getAngleDeg(), Degrees))
-              .angularVelocity(m_velocity.mut_replace(getAngularVelDeg(), DegreesPerSecond));
+              .angularVelocity(m_velocity.mut_replace(getAngularVelRad(), DegreesPerSecond));
         }, this.getSubsystemBase()));
     
   }
@@ -125,34 +125,30 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   return angle;
   }
 
-  private void updateAngularVelocity() {
+  private void updateAngularVelocityRad() {
     long currentTime = System.currentTimeMillis();
-    double currentAngle = getAngleDeg();
-    SmartDashboard.putNumber("Delta angle:", currentAngle - m_previousAngleAngularVel);
+    double currentAngleRad = getAngleRad();
+    SmartDashboard.putNumber("Delta angle:", currentAngleRad - m_previousAngleAngularVelRad);
     SmartDashboard.putNumber("Delta time:", currentTime - m_previousTimeAngularVel);
-    m_currentAngularVelDeg = ((currentAngle - m_previousAngleAngularVel)
+    m_currentAngularVelRad = ((currentAngleRad - m_previousAngleAngularVelRad)
         / (currentTime - m_previousTimeAngularVel))*1000;
     m_previousTimeAngularVel = currentTime;
-    m_previousAngleAngularVel = currentAngle;
-  }
-
-  @Override
-  public double getAngularVelDeg() {
-    return m_currentAngularVelDeg;
+    m_previousAngleAngularVelRad = currentAngleRad;
   }
 
   @Override
   public double getAngularVelRad() {
-    return (m_currentAngularVelDeg * (Math.PI / 180));
+    return m_currentAngularVelRad;
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Arm Test Bed Angle in Degrees", getAngleDeg());
-    updateAngularVelocity();
+    updateAngularVelocityRad();
     SmartDashboard.putNumber("Arm Test Bed Angle in Rads", getAngleRad());
     SmartDashboard.putNumber("Encoder Position", m_motor.getAbsoluteEncoderPosition());
-    SmartDashboard.putNumber("Arm Test Bed Angular Velocity", getAngularVelDeg());
+    SmartDashboard.putNumber("Arm Test Bed Angular Velocity", getAngularVelRad());
+    SmartDashboard.putNumber("Setpoint", m_controller.getSetpoint().position);
   }
 
   @Override
@@ -167,9 +163,9 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   @Override
   public void rotate(double speed) {
-    if ((getAngleDeg() <= m_minAngle) && (speed < 0)) {
+    if ((getAngleRad() <= m_minAngleRad) && (speed < 0)) {
       stop();
-    } else if ((getAngleDeg() >= m_maxAngle) && (speed > 0)) {
+    } else if ((getAngleRad() >= m_maxAngleRad) && (speed > 0)) {
       stop();
     } else {
       m_motor.setSpeed(speed);
@@ -177,9 +173,9 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   }
 
   public void setVoltage (Voltage voltage){
-    if ((getAngleDeg() <= m_minAngle) && (voltage.in(Volts) < 0)) {
+    if ((getAngleRad() <= m_minAngleRad) && (voltage.in(Volts) < 0)) {
       stop();
-    } else if ((getAngleDeg() >= 155) && (voltage.in(Volts) > 0)) {
+    } else if ((getAngleRad() >= Math.PI/2) && (voltage.in(Volts) > 0)) {
       stop();
     } else {
       m_motor.setVoltage(voltage);
@@ -198,16 +194,18 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   }
 
   @Override
-  public void setGoal(double goal) {
-    m_controller.setGoal((goal - 90.0)*Math.PI/180);
+  public void setGoalDeg(double goal) {
+    m_controller.reset(getAngleRad());
+    m_controller.setGoal((goal)*Math.PI/180);
   }
 
   @Override
   public void calculateAndSetVoltageForGoal() {
-    double currentAngleRad = getAngleRad() - Math.PI/2;
+    double currentAngleRad = getAngleRad();
     double voltage = m_controller.calculate(currentAngleRad) + 
     m_feedforward.calculate(currentAngleRad, getAngularVelRad());
     setVoltage(Volts.mutable(voltage));
-    System.out.println("Voltage: " + voltage);
+    SmartDashboard.putNumber("Voltage: ", voltage);
+    SmartDashboard.putNumber("Error", m_controller.getPositionError());
   }
 }
