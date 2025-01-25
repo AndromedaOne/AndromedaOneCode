@@ -37,6 +37,6 @@ public class SetPoseUsingSmartDashboard extends Command {
   public boolean isFinished() {
     return m_drivetrain.resetOdometry(new Pose2d(SmartDashboard.getNumber("Set Pose X", 0),
         SmartDashboard.getNumber("Set Pose Y", 0),
-        new Rotation2d(SmartDashboard.getNumber("Set Pose Angle", 0))));
+        Rotation2d.fromDegrees(SmartDashboard.getNumber("Set Pose Angle", 0))));
   }
 }
