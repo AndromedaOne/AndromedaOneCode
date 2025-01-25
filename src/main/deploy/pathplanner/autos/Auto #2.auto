@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop At E"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E To Pickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop At D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D To Pickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop At C"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C To Pickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop At Low C"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "2025 Autos",
+  "choreoAuto": false
+}
