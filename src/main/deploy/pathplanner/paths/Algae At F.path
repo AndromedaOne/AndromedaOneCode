@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 6.1455051369863005,
+        "y": 3.8296660958904107
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9999999999999998,
-        "y": 0.0
+        "x": 6.2807363013698625,
+        "y": 3.3939212328767123
       },
       "isLocked": false,
-      "linkedName": "In"
+      "linkedName": "Reef G"
     },
     {
       "anchor": {
-        "x": 2.0,
-        "y": 2.0
+        "x": 5.514426369863014,
+        "y": 2.717765410958904
       },
       "prevControl": {
-        "x": 0.67049,
-        "y": 2.0
+        "x": 6.29576198630137,
+        "y": 2.8830479452054796
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Out"
+      "linkedName": "Reef F"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "Practice Paths",
+  "folder": "Auto #5 Paths 2025",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

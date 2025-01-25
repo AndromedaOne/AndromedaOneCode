@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "A To Pickup"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path Connection"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Small Curve"
+            "pathName": "L To Pickup"
           }
         }
       ]

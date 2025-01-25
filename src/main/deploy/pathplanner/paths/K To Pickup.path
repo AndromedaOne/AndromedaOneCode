@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 3.8766267123287674,
+        "y": 5.572645547945205
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9999999999999998,
-        "y": 0.0
+        "x": 2.9691772620018986,
+        "y": 5.995052570424709
       },
       "isLocked": false,
-      "linkedName": "In"
+      "linkedName": "Reef K"
     },
     {
       "anchor": {
-        "x": 2.0,
-        "y": 2.0
+        "x": 1.6828767123287671,
+        "y": 7.390753424657535
       },
       "prevControl": {
-        "x": 0.67049,
-        "y": 2.0
+        "x": 2.2203837794526393,
+        "y": 6.791763298975853
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Out"
+      "linkedName": "Top Side Pickup"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -55.0
   },
   "reversed": false,
-  "folder": "Practice Paths",
+  "folder": "Auto #1 Paths 2025",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 119.99999999999999
   },
   "useDefaultConstraints": true
 }

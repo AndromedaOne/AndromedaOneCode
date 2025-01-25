@@ -7,25 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "Drop At G"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path Connection"
+            "pathName": "Algae At F"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Small Curve"
+            "pathName": "Algae At I"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Practice Autos",
+  "folder": "2025 Autos",
   "choreoAuto": false
 }
