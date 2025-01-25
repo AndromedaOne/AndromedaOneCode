@@ -66,6 +66,10 @@ public class MockGyro implements Gyro4905 {
   }
 
   @Override
+  public void setVisionPoseOffset(double visionAngle) {
+  }
+
+  @Override
   public DoubleSupplier getYangleDoubleSupplier() {
     return (() -> 0);
   }

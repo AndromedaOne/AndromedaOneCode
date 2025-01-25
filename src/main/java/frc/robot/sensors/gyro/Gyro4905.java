@@ -99,6 +99,8 @@ public interface Gyro4905 extends AutoCloseable {
 
   public void setInitialZangleOffset(double offset, boolean override);
 
+  public void setVisionPoseOffset(double visionAngle);
+
   public DoubleSupplier getYangleDoubleSupplier();
 
   public DoubleSupplier getZangleDoubleSupplier();

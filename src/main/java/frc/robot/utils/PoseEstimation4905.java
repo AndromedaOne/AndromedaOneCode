@@ -117,6 +117,7 @@ public class PoseEstimation4905 {
       }
       localPose = m_swerveOdometry.getEstimatedPosition();
     }
+    m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
     m_posePublisherVision.set(localPose);
     return localPose;
   }
