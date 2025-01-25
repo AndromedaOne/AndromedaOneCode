@@ -185,7 +185,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   public boolean resetOdometry(Pose2d pose) {
     System.out.println("Resetting Odometry, compass heading " + m_gyro.getCompassHeading());
-
     return m_poseEstimation.resetPosition(this.getPositions(), pose);
   }
 
