@@ -7,6 +7,12 @@
 
 package frc.robot.oi;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
+import com.pathplanner.lib.util.FileVersionException;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,6 +27,8 @@ import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
+import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
+import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -44,7 +52,7 @@ public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
-      SensorsContainer sensorsContainer) {
+      SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
@@ -97,6 +105,13 @@ public class SmartDashboard4905 {
                 sensorsContainer.getPhotonVision()));
       }
 
+    }
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {

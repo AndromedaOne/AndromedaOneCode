@@ -2,6 +2,11 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import static edu.wpi.first.math.util.Units.*;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -11,6 +16,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -50,7 +57,17 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Config m_config;
   private ParkingBrakeStates m_ParkingBrakeState = ParkingBrakeStates.BRAKESOFF;
   public static SwerveDriveKinematics m_swerveKinematics;
+  private ChassisSpeeds m_currentChassisSpeeds;
+  private SwerveSetpoint m_prevSetpoint;
   private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
+  private static SwerveKinematicLimits m_limits = new SwerveKinematicLimits(5.5, 10.0,
+      Units.rotationsToRadians(10.0));
+  private static SwerveSetpointGenerator m_generator;
+  private double m_modSpeed = 0;
+  private double m_modDistance = 0;
+  private int m_count = 0;
+  private double m_highestAccel = 0;
+
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
   // in AdvantageScope to show the state of the swerve drive
@@ -67,6 +84,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+    m_generator = new SwerveSetpointGenerator(m_swerveKinematics);
 
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
@@ -84,6 +102,33 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
     m_poseEstimation = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
+    m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
+
+    if (m_config.getBoolean("usePathPlanning")) {
+      PPHolonomicDriveController m_pathFollowingConfig = new PPHolonomicDriveController(
+          new PIDConstants(m_config.getDouble("pathplanning.translationConstants.p"),
+              m_config.getDouble("pathplanning.translationConstants.i"),
+              m_config.getDouble("pathplanning.translationConstants.d")),
+          new PIDConstants(m_config.getDouble("pathplanning.rotationConstants.p"),
+              m_config.getDouble("pathplanning.rotationConstants.i"),
+              m_config.getDouble("pathplanning.rotationConstants.d")));
+      // Load the RobotConfig from the GUI settings. You should probably
+      // store this in your Constants file
+      DCMotor dcMotor = new DCMotor(0, 0, 0, 0, 0, 0);
+      ModuleConfig modConfig = new ModuleConfig(0.0, 0.0, 0.0, dcMotor, 0.0, 0.0, 0);
+      RobotConfig robotConfig = new RobotConfig(0.0, 0.0, modConfig, 0.0);
+      try {
+        robotConfig = RobotConfig.fromGUISettings();
+      } catch (Exception e) {
+        // Handle exception as needed
+        e.printStackTrace();
+
+      }
+      // the numbers for the holonomic path are extremely inaccurate.
+      AutoBuilder.configure(this::getPose, this::resetOdometry, this::getCurrentSpeeds,
+          (speeds, feedforwards) -> driveRobotRelative(speeds, false), m_pathFollowingConfig,
+          robotConfig, () -> false, getSubsystemBase());
+    }
   }
 
   @Override
@@ -110,8 +155,32 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
+  public void driveRobotRelative(ChassisSpeeds robotRelative, boolean useSetpointGenerator) {
+    ChassisSpeeds discretized = ChassisSpeeds.discretize(robotRelative, 0.02);
+    if (useSetpointGenerator) {
+      m_prevSetpoint = m_generator.generateSetpoint(m_limits, m_prevSetpoint, discretized, 0.02);
+
+    } else {
+      m_prevSetpoint = new SwerveSetpoint(getCurrentSpeeds(), getStates());
+
+    }
+
+    SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(discretized);
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
+    for (SwerveModuleBase mod : m_SwerveMods) {
+      mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], true, false);
+    }
+  }
+
   public Pose2d getPose() {
     return m_poseEstimation.getPose();
+  }
+
+  public ChassisSpeeds getCurrentSpeeds() {
+    ChassisSpeeds speeds = new ChassisSpeeds(m_currentChassisSpeeds.vxMetersPerSecond,
+        m_currentChassisSpeeds.vyMetersPerSecond, m_currentChassisSpeeds.omegaRadiansPerSecond);
+    return speeds;
   }
 
   public boolean resetOdometry(Pose2d pose) {
@@ -147,7 +216,24 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
     SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
+    m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
     SmartDashboard.putNumber("Odometry Input Heading", -1 * m_gyro.getCompassHeading());
+    if (m_count == 25) {
+      double currentPosition = m_SwerveMods[0].getPosition().distanceMeters;
+      double currentVelocity = (currentPosition - m_modDistance) * 2;
+      SmartDashboard.putNumber("Mod Distance ", m_modDistance);
+      SmartDashboard.putNumber("Current Position ", currentPosition);
+      SmartDashboard.putNumber("Robot Velocity   ", currentVelocity);
+      if (m_highestAccel < Math.abs(currentVelocity - m_modSpeed) * 2) {
+        m_highestAccel = Math.abs(currentVelocity - m_modSpeed) * 2;
+      }
+      SmartDashboard.putNumber("Robot Acceleration ", (currentVelocity - m_modSpeed) * 2);
+      m_modSpeed = currentVelocity;
+      m_modDistance = currentPosition;
+      m_count = 0;
+      SmartDashboard.putNumber("Max Acceleration ", m_highestAccel);
+    }
+    m_count++;
     if (needToReset) {
       if (resetOdometry(getPose())) {
         needToReset = false;

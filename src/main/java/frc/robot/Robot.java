@@ -7,6 +7,12 @@
 
 package frc.robot;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
+import com.pathplanner.lib.util.FileVersionException;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -58,7 +64,12 @@ public class Robot extends TimedRobot {
     Trace.getInstance().logInfo("robot init started");
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
-    m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
+    try {
+      m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
+    } catch (FileVersionException | IOException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     m_subsystemContainer.setDefaultCommands();
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
