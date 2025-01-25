@@ -7,6 +7,18 @@
         {
           "type": "path",
           "data": {
+            "pathName": "New Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path Connection"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Small Curve"
           }
         }
