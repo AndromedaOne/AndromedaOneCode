@@ -28,6 +28,7 @@ import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.OttoOneTest;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
+import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
@@ -125,6 +126,10 @@ public class SmartDashboard4905 {
 
     if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("SpinTest", new Spinner());
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
