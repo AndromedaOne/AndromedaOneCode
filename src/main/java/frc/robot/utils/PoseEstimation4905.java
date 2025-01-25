@@ -19,6 +19,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
@@ -31,6 +33,7 @@ public class PoseEstimation4905 {
   private ArrayList<Transform3d> m_robotToCam = new ArrayList<Transform3d>();
   private ArrayList<PhotonPoseEstimator> m_poseEstimator = new ArrayList<PhotonPoseEstimator>();
   private boolean m_cameraPresent = true;
+  private boolean m_useVisionForPose = true;
   private ArrayList<StructPublisher<Pose2d>> m_posePublisherCamera = new ArrayList<StructPublisher<Pose2d>>();
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
@@ -60,12 +63,20 @@ public class PoseEstimation4905 {
             .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
       }
     }
+    m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
+        .getBoolean("photonvision.useVisionForPose");
     m_swerveOdometry = new SwerveDrivePoseEstimator(kinematics,
         Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()), modulePositions, new Pose2d());
   }
 
   public Pose2d getPose() {
     return m_swerveOdometry.getEstimatedPosition();
+  }
+
+  public void setPose() {
+    m_swerveOdometry.resetPose(new Pose2d(SmartDashboard.getNumber("Set Pose X", 0),
+        SmartDashboard.getNumber("Set Pose Y", 0),
+        new Rotation2d(SmartDashboard.getNumber("Set Pose Angle", 0))));
   }
 
   // This function is used to reset the position returns if position has been
@@ -107,7 +118,7 @@ public class PoseEstimation4905 {
                 usePose = false;
               }
             }
-            if (usePose) {
+            if (usePose && m_useVisionForPose) {
               m_swerveOdometry.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
                   estimatedPose.timestampSeconds);
             }

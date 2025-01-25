@@ -31,6 +31,7 @@ import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
@@ -78,6 +79,13 @@ public class SmartDashboard4905 {
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
       SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
           subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
+    }
+    if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
+      SmartDashboard.putNumber("Set Pose X", 0);
+      SmartDashboard.putNumber("Set Pose Y", 0);
+      SmartDashboard.putNumber("Set Pose Angle", 0);
+      SmartDashboard.putData("Set Pose",
+          new SetPoseUsingSmartDashboard(subsystemsContainer.getDriveTrain()));
     }
 
     if (Config4905.getConfig4905().isRomi()) {

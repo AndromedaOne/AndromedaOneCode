@@ -32,7 +32,7 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
       correctedAngle = visionAngle + 360;
     }
     correctedAngle = 360 - correctedAngle;
-    if ((Math.abs(getZAngle() - correctedAngle) > 1)) {
+    if ((Math.abs(getZAngle() - correctedAngle) > 5)) {
       m_initialZAngleReading = getZAngle() - correctedAngle;
       if (m_initialZAngleReading < 0) {
         m_initialZAngleReading += 360;
