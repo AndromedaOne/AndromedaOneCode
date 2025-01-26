@@ -48,7 +48,7 @@ import frc.robot.utils.PoseEstimation4905;
  * 
  */
 public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
-  private Pose2d currentPose;
+  private Pose2d m_currentPose;
   private Boolean needToReset = true;
   private Gyro4905 m_gyro;
   private PoseEstimation4905 m_poseEstimation;
@@ -65,6 +65,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private static SwerveSetpointGenerator m_generator;
   private double m_modSpeed = 0;
   private double m_modDistance = 0;
+  private double m_robotAngle = 0;
   private int m_count = 0;
   private double m_highestAccel = 0;
 
@@ -125,9 +126,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
       }
       // the numbers for the holonomic path are extremely inaccurate.
-      AutoBuilder.configure(this::getPose, this::resetOdometry, this::getCurrentSpeeds,
-          (speeds, feedforwards) -> driveRobotRelative(speeds, false), m_pathFollowingConfig,
-          robotConfig, () -> false, getSubsystemBase());
+      AutoBuilder.configure(this::getPoseForPathPlanner, this::resetOdometry,
+          this::getCurrentSpeeds, (speeds, feedforwards) -> driveRobotRelative(speeds, false),
+          m_pathFollowingConfig, robotConfig, () -> false, getSubsystemBase());
     }
   }
 
@@ -175,6 +176,19 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   public Pose2d getPose() {
     return m_poseEstimation.getPose();
+  }
+
+  public Pose2d getPoseForPathPlanner() {
+    Pose2d pathPlannerPose = m_poseEstimation.getPose();
+    // commented out because we thought it'd fix the rotation error of pathplanner
+    // but it didn't
+    /*
+     * double correctedAngle = pathPlannerPose.getRotation().getDegrees(); if
+     * (correctedAngle < 0) { correctedAngle += 360; } Pose2d correctedPose = new
+     * Pose2d(m_poseEstimation.getPose().getTranslation(),
+     * Rotation2d.fromDegrees(correctedAngle));
+     */
+    return pathPlannerPose;
   }
 
   public ChassisSpeeds getCurrentSpeeds() {
@@ -238,10 +252,14 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         needToReset = false;
       }
     } else {
-      currentPose = m_poseEstimation.update(getPositions());
-      SmartDashboard.putNumber("Pose X ", metersToInches(currentPose.getX()));
-      SmartDashboard.putNumber("Pose Y ", metersToInches(currentPose.getY()));
-      SmartDashboard.putNumber("Pose angle ", currentPose.getRotation().getDegrees());
+      m_currentPose = m_poseEstimation.update(getPositions());
+      SmartDashboard.putNumber("Pose X ", metersToInches(m_currentPose.getX()));
+      SmartDashboard.putNumber("Pose Y ", metersToInches(m_currentPose.getY()));
+      SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
+      double currentAngle = m_currentPose.getRotation().getDegrees();
+      double currentAngularVelocity = (currentAngle - m_robotAngle) * 2;
+      SmartDashboard.putNumber("Robot Angular Velocity", currentAngularVelocity);
+      m_robotAngle = currentAngle;
     }
   }
 
