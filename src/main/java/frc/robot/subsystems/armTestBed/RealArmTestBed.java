@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
 
 /**
  * 0 angle is poining straight down
@@ -66,6 +67,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   public RealArmTestBed() {
     Config armrotateConfig = Config4905.getConfig4905().getArmTestBedConfig();
+    m_controller.enableContinuousInput(-Math.PI, Math.PI);
     m_motor = new SparkMaxController(armrotateConfig, "motor", false, false);
     m_sysIdRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
         new SysIdRoutine.Mechanism(this::setVoltage, log -> {
@@ -148,7 +150,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     SmartDashboard.putNumber("Arm Test Bed Angle in Rads", getAngleRad());
     SmartDashboard.putNumber("Encoder Position", m_motor.getAbsoluteEncoderPosition());
     SmartDashboard.putNumber("Arm Test Bed Angular Velocity", getAngularVelRad());
-    SmartDashboard.putNumber("Setpoint", m_controller.getSetpoint().position);
+    SmartDashboard.putNumber("position error", m_controller.getPositionError());
   }
 
   @Override
@@ -202,10 +204,13 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   @Override
   public void calculateAndSetVoltageForGoal() {
     double currentAngleRad = getAngleRad();
-    double voltage = m_controller.calculate(currentAngleRad) + 
-    m_feedforward.calculate(currentAngleRad, getAngularVelRad());
+    double pidCalc = m_controller.calculate(currentAngleRad);
+    double feedforwardCalc = m_feedforward.calculate(currentAngleRad, getAngularVelRad());
+    double voltage = pidCalc + feedforwardCalc;
     setVoltage(Volts.mutable(voltage));
     SmartDashboard.putNumber("Voltage: ", voltage);
     SmartDashboard.putNumber("Error", m_controller.getPositionError());
+    SmartDashboard.putNumber("pidCalc", pidCalc);
+    SmartDashboard.putNumber("feedForwardCalc", feedforwardCalc);
   }
 }

@@ -15,13 +15,14 @@ public class TrapezoidProfileCommand extends Command {
   public TrapezoidProfileCommand() {
     m_armTestBed= Robot.getInstance().getSubsystemsContainer().getArmTestBed();
     addRequirements(m_armTestBed.getSubsystemBase());
-    SmartDashboard.putNumber("Arm Test Bed goal", 0);
+    SmartDashboard.putNumber("Arm Test Bed goal degrees", 0);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armTestBed.setGoalDeg(SmartDashboard.getNumber("Arm Test Bed goal", 0));
+    m_armTestBed.setGoalDeg(SmartDashboard.getNumber("Arm Test Bed goal degress", 
+      0));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
