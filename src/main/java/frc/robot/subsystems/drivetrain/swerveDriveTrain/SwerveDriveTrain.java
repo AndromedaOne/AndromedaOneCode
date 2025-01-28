@@ -18,7 +18,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -61,8 +60,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private ChassisSpeeds m_currentChassisSpeeds;
   private SwerveSetpoint m_prevSetpoint;
   private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
-  private static SwerveKinematicLimits m_limits = new SwerveKinematicLimits(5.5, 10.0,
-      Units.rotationsToRadians(10.0));
   private static SwerveSetpointGenerator m_generator;
   private double m_modSpeed = 0;
   private double m_modDistance = 0;
@@ -86,7 +83,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
-    // m_generator = new SwerveSetpointGeneratorOLD(m_swerveKinematics);
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
     if (m_config.getBoolean("useKraken")) {
@@ -160,27 +156,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
-  /*
-   * public void driveRobotRelative(ChassisSpeeds robotRelative, boolean
-   * useSetpointGenerator) { ChassisSpeeds discretized =
-   * ChassisSpeeds.discretize(robotRelative, 0.02); if (useSetpointGenerator) {
-   * m_prevSetpoint = m_generator.generateSetpoint(m_limits, m_prevSetpoint,
-   * discretized, 0.02);
-   * 
-   * } else { m_prevSetpoint = new SwerveSetpointOLD(getCurrentSpeeds(),
-   * getStates());
-   * 
-   * }
-   * 
-   * SwerveModuleState[] swerveModuleStates =
-   * m_swerveKinematics.toSwerveModuleStates(discretized);
-   * 
-   * SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
-   * m_config.getDouble("maxSpeed")); for (SwerveModuleBase mod : m_SwerveMods) {
-   * mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], true, false);
-   * } }
-   */
-
   public void driveRobotRelativeBetter(ChassisSpeeds speeds) {
     // Note: it is important to not discretize speeds before or after
     // using the setpoint generator, as it will discretize them for you
@@ -190,7 +165,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     );
     for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setDesiredState(m_prevSetpoint.moduleStates()[mod.getModuleNumber()], true, false);
-      // this might not work due to moduleStates being a method and an array
     }
   }
 
