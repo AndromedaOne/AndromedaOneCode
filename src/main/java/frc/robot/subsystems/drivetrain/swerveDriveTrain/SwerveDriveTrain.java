@@ -7,6 +7,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.DriveFeedforwards;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -85,8 +86,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
         new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
-    m_generator = new SwerveSetpointGenerator(m_swerveKinematics);
-
+    // m_generator = new SwerveSetpointGeneratorOLD(m_swerveKinematics);
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
     if (m_config.getBoolean("useKraken")) {
@@ -125,9 +125,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         e.printStackTrace();
 
       }
+      m_generator = new SwerveSetpointGenerator(robotConfig,
+          m_config.getDouble("maxAngularVelocity"));
+      m_prevSetpoint = new SwerveSetpoint(m_currentChassisSpeeds, getStates(),
+          DriveFeedforwards.zeros(4));
       // the numbers for the holonomic path are extremely inaccurate.
       AutoBuilder.configure(this::getPoseForPathPlanner, this::resetOdometry,
-          this::getCurrentSpeeds, (speeds, feedforwards) -> driveRobotRelative(speeds, false),
+          this::getCurrentSpeeds, (speeds) -> driveRobotRelativeBetter(speeds),
           m_pathFollowingConfig, robotConfig, () -> false, getSubsystemBase());
     }
   }
@@ -156,21 +160,37 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
-  public void driveRobotRelative(ChassisSpeeds robotRelative, boolean useSetpointGenerator) {
-    ChassisSpeeds discretized = ChassisSpeeds.discretize(robotRelative, 0.02);
-    if (useSetpointGenerator) {
-      m_prevSetpoint = m_generator.generateSetpoint(m_limits, m_prevSetpoint, discretized, 0.02);
+  /*
+   * public void driveRobotRelative(ChassisSpeeds robotRelative, boolean
+   * useSetpointGenerator) { ChassisSpeeds discretized =
+   * ChassisSpeeds.discretize(robotRelative, 0.02); if (useSetpointGenerator) {
+   * m_prevSetpoint = m_generator.generateSetpoint(m_limits, m_prevSetpoint,
+   * discretized, 0.02);
+   * 
+   * } else { m_prevSetpoint = new SwerveSetpointOLD(getCurrentSpeeds(),
+   * getStates());
+   * 
+   * }
+   * 
+   * SwerveModuleState[] swerveModuleStates =
+   * m_swerveKinematics.toSwerveModuleStates(discretized);
+   * 
+   * SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
+   * m_config.getDouble("maxSpeed")); for (SwerveModuleBase mod : m_SwerveMods) {
+   * mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], true, false);
+   * } }
+   */
 
-    } else {
-      m_prevSetpoint = new SwerveSetpoint(getCurrentSpeeds(), getStates());
-
-    }
-
-    SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(discretized);
-
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_config.getDouble("maxSpeed"));
+  public void driveRobotRelativeBetter(ChassisSpeeds speeds) {
+    // Note: it is important to not discretize speeds before or after
+    // using the setpoint generator, as it will discretize them for you
+    m_prevSetpoint = m_generator.generateSetpoint(m_prevSetpoint, // The previous setpoint
+        speeds, // The desired target speeds
+        0.02 // The loop time of the robot code, in seconds
+    );
     for (SwerveModuleBase mod : m_SwerveMods) {
-      mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()], true, false);
+      mod.setDesiredState(m_prevSetpoint.moduleStates()[mod.getModuleNumber()], true, false);
+      // this might not work due to moduleStates being a method and an array
     }
   }
 
