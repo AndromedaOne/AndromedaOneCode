@@ -45,12 +45,12 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private double kDt = 0.02;
   private double kMaxVelocity = 1.75;
   private double kMaxAcceleration = 0.75;
-  private double kP = 1.0;
+  private double kP = 0.0;
   private double kI = 0.0;
   private double kD = 0.0;
-  private double kS = 0.1;
+  private double kS = 0.0;
   private double kG = 0.0;
-  private double kV = 1.5;
+  private double kV = 0.0;
   private final MutVoltage m_appliedVoltage = Volts.mutable(0);
   private final MutAngle m_angle = Radian.mutable(0);
   private final MutAngularVelocity m_velocity = RadiansPerSecond.mutable(0);
@@ -66,6 +66,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
       m_constraints);
 
   public RealArmTestBed() {
+    SmartDashboard.putNumber("kG", 0.5);
     Config armrotateConfig = Config4905.getConfig4905().getArmTestBedConfig();
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
     m_motor = new SparkMaxController(armrotateConfig, "motor", false, false);
@@ -199,13 +200,14 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   public void setGoalDeg(double goal) {
     m_controller.reset(getAngleRad());
     m_controller.setGoal((goal)*Math.PI/180);
+    SmartDashboard.getNumber("kG", 0.5);
   }
 
   @Override
   public void calculateAndSetVoltageForGoal() {
     double currentAngleRad = getAngleRad();
     double pidCalc = m_controller.calculate(currentAngleRad);
-    double feedforwardCalc = m_feedforward.calculate(currentAngleRad, getAngularVelRad());
+    double feedforwardCalc = kG * Math.cos(getAngularVelRad());
     double voltage = pidCalc + feedforwardCalc;
     setVoltage(Volts.mutable(voltage));
     SmartDashboard.putNumber("Voltage: ", voltage);
