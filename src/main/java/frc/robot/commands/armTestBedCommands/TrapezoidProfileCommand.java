@@ -21,7 +21,7 @@ public class TrapezoidProfileCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armTestBed.setGoalDeg(SmartDashboard.getNumber("Arm Test Bed goal degress", 
+    m_armTestBed.setGoalDeg(SmartDashboard.getNumber("Arm Test Bed goal degrees", 
       0));
   }
 

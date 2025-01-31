@@ -33,14 +33,15 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
+import frc.robot.pidcontroller.PIDController4905;
 
 /**
  * 0 angle is poining straight down
  */
 public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private final SparkMaxController m_motor;
-  private final double m_minAngleRad = -Math.PI/4;
-  private final double m_maxAngleRad = 3*Math.PI/4;
+  private final double m_minAngleRad = -Math.PI/4; //-45 degrees
+  private final double m_maxAngleRad = 3*Math.PI/4;// 135 degrees
   private final double m_angleOffset = 1 - 0.28;
   private double kDt = 0.02;
   private double kMaxVelocity = 1.75;
@@ -58,15 +59,11 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private double m_currentAngularVelRad = 0.0;
   private double m_previousTimeAngularVel = 0.0;
   private double m_previousAngleAngularVelRad = m_minAngleRad;
-
-  private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(
-      kMaxVelocity, kMaxAcceleration);
-  private final ArmFeedforward m_feedforward = new ArmFeedforward(kS, kV, kG);
-  private final ProfiledPIDController m_controller = new ProfiledPIDController(kP, kI, kD,
-      m_constraints);
+  private PIDController4905 m_controller = new PIDController4905("Arm Test Bed PID", kP, kI, kD, 0);
 
   public RealArmTestBed() {
-    SmartDashboard.putNumber("kG", 0.5);
+    SmartDashboard.putNumber("kG", 0.1);
+    SmartDashboard.putNumber("kP", 0.0);
     Config armrotateConfig = Config4905.getConfig4905().getArmTestBedConfig();
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
     m_motor = new SparkMaxController(armrotateConfig, "motor", false, false);
@@ -178,7 +175,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   public void setVoltage (Voltage voltage){
     if ((getAngleRad() <= m_minAngleRad) && (voltage.in(Volts) < 0)) {
       stop();
-    } else if ((getAngleRad() >= Math.PI/2) && (voltage.in(Volts) > 0)) {
+    } else if ((getAngleRad() >= m_maxAngleRad) && (voltage.in(Volts) > 0)) {
       stop();
     } else {
       m_motor.setVoltage(voltage);
@@ -198,21 +195,23 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
 
   @Override
   public void setGoalDeg(double goal) {
-    m_controller.reset(getAngleRad());
-    m_controller.setGoal((goal)*Math.PI/180);
-    SmartDashboard.getNumber("kG", 0.5);
+    m_controller.setSetpoint((goal)*Math.PI/180);
+    kG = SmartDashboard.getNumber("kG", 0.1);
+    kP = SmartDashboard.getNumber("kP", 0.0);
+    m_controller.setP(kP);
   }
 
   @Override
   public void calculateAndSetVoltageForGoal() {
     double currentAngleRad = getAngleRad();
     double pidCalc = m_controller.calculate(currentAngleRad);
-    double feedforwardCalc = kG * Math.cos(getAngularVelRad());
-    double voltage = pidCalc + feedforwardCalc;
-    setVoltage(Volts.mutable(voltage));
-    SmartDashboard.putNumber("Voltage: ", voltage);
+    double feedforwardCalc = kG * Math.cos(getAngleRad());
+    double speed = pidCalc + feedforwardCalc;
+    rotate(speed);
+    SmartDashboard.putNumber("Speed: ", speed);
     SmartDashboard.putNumber("Error", m_controller.getPositionError());
     SmartDashboard.putNumber("pidCalc", pidCalc);
     SmartDashboard.putNumber("feedForwardCalc", feedforwardCalc);
+    SmartDashboard.putNumber("Current setpoint:", m_controller.getSetpoint());
   }
 }
