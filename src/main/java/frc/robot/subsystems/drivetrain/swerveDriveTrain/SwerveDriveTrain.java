@@ -172,7 +172,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return m_poseEstimation.getPose();
   }
 
-  public Pose2d getPoseForPathPlanner() { 
+  public Pose2d getPoseForPathPlanner() {
     Pose2d pathPlannerPose = m_poseEstimation.getPose();
     // commented out because we thought it'd fix the rotation error of pathplanner
     // but it didn't
