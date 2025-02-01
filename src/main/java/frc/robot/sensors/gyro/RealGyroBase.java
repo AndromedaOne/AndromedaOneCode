@@ -26,6 +26,20 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
     }
   }
 
+  public void setVisionPoseOffset(double visionAngle) {
+    double correctedAngle = visionAngle;
+    if (visionAngle < 0) {
+      correctedAngle = visionAngle + 360;
+    }
+    correctedAngle = 360 - correctedAngle;
+    if ((Math.abs(getZAngle() - correctedAngle) > 5)) {
+      m_initialZAngleReading = getZAngle() - correctedAngle;
+      if (m_initialZAngleReading < 0) {
+        m_initialZAngleReading += 360;
+      }
+    }
+  }
+
   public double getInitialZAngleReading() {
     return m_initialZAngleReading;
   }

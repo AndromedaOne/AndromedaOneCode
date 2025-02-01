@@ -16,7 +16,8 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   }
 
   @Override
-  public void resetOdometry(Pose2d pose) {
+  public boolean resetOdometry(Pose2d pose) {
+    return true;
   }
 
   @Override

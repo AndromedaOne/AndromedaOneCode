@@ -152,11 +152,12 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
    *
    * @param pose The pose to which to set the odometry.
    */
-  public void resetOdometry(Pose2d pose) {
+  public boolean resetOdometry(Pose2d pose) {
     resetEncoders();
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("ResetOdometryAngle", angle);
     m_odometry.resetPosition(new Rotation2d(angle), 0, 0, pose);
+    return true;
   }
 
   @Override

@@ -23,6 +23,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   private TalonFXConfiguration m_configuration;
   private double m_lastAngle = 0;
   private Config m_config;
+  private double m_driveMotorPositionOffset = 0;
 
   private SimpleMotorFeedforward m_feedForward;
 
@@ -32,8 +33,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     super(moduleNumber);
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getConfig("SwerveDriveConstants");
-    m_feedForward = new SimpleMotorFeedforward(m_config.getDouble("driveKS"),
-        m_config.getDouble("driveKV"), m_config.getDouble("driveKA"));
+    new SimpleMotorFeedforward(m_config.getDouble("driveKS"), m_config.getDouble("driveKV"),
+        m_config.getDouble("driveKA"));
     /* Angle Motor Config */
     m_angleMotor = new SparkMaxController(m_config, "Mod" + getModuleNumber() + ".angleMotorID",
         true, false);
@@ -57,7 +58,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     // The Kraken cannot have a set conversion factor for getPosition and
     // getVelocity
     m_driveMotor.getConfigurator().apply(m_configuration, 0.1);
-    m_driveMotor.setPosition(0.0);
+    m_driveMotorPositionOffset = m_driveMotor.getPosition().getValueAsDouble();
   }
 
   @Override
@@ -98,7 +99,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   public double getDriveEncoderPosition() {
     double positionConversionFactor = m_config.getDouble("wheelDiameter") * Math.PI
         / m_config.getDouble("driveGearRatio");
-    return m_driveMotor.getPosition().getValueAsDouble() * (positionConversionFactor / 39.3701);
+    return (m_driveMotor.getPosition().getValueAsDouble() - m_driveMotorPositionOffset)
+        * (positionConversionFactor / 39.3701);
   }
 
   @Override
