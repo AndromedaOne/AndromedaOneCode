@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.123758561643836,
+        "y": 2.5074058219178084
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.254241137773491,
+        "y": 2.0355635846078246
+      },
+      "isLocked": false,
+      "linkedName": "Reef E"
+    },
+    {
+      "anchor": {
+        "x": 1.6227739726027397,
+        "y": 0.6742722602739729
+      },
+      "prevControl": {
+        "x": 3.097270365198024,
+        "y": 1.6042377821046472
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Bottom Side Pickup"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.2,
+      "rotationDegrees": -59.99999999999999
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 55.0
+  },
+  "reversed": false,
+  "folder": "Auto #2 Paths 2025",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "useDefaultConstraints": true
+}

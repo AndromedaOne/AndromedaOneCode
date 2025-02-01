@@ -318,7 +318,7 @@ public class Trace {
       System.err.println("ERROR: Failed to Flush");
       e.printStackTrace();
     }
-
+    System.out.println("Flushing trace files");
   }
 
   private void redirectOutput() {

@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.6828767123287671,
+        "y": 7.390753424657535
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.462743412960057,
+        "y": 6.527462709600303
+      },
+      "isLocked": false,
+      "linkedName": "Top Side Pickup"
+    },
+    {
+      "anchor": {
+        "x": 3.531035958904109,
+        "y": 5.3773116438356166
+      },
+      "prevControl": {
+        "x": 2.2634839057815874,
+        "y": 6.371787188837228
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Reef L"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 119.99999999999999
+  },
+  "reversed": false,
+  "folder": "Auto #1 Paths 2025",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -55.0
+  },
+  "useDefaultConstraints": true
+}

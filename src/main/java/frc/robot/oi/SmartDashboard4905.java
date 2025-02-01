@@ -7,6 +7,12 @@
 
 package frc.robot.oi;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
+import com.pathplanner.lib.util.FileVersionException;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,9 +29,14 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
+import frc.robot.commands.examplePathCommands.OttoOneTest;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
+import frc.robot.commands.examplePathCommands.Spinner;
+import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
+import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
@@ -47,7 +58,7 @@ public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
-      SensorsContainer sensorsContainer) {
+      SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
@@ -73,6 +84,13 @@ public class SmartDashboard4905 {
           subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
       SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
           subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
+    }
+    if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
+      SmartDashboard.putNumber("Set Pose X", 0);
+      SmartDashboard.putNumber("Set Pose Y", 0);
+      SmartDashboard.putNumber("Set Pose Angle", 0);
+      SmartDashboard.putData("Set Pose",
+          new SetPoseUsingSmartDashboard(subsystemsContainer.getDriveTrain()));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
@@ -100,6 +118,21 @@ public class SmartDashboard4905 {
                 sensorsContainer.getPhotonVision()));
       }
 
+    }
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("OttoOneTest", new OttoOneTest());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("SpinTest", new Spinner());
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {

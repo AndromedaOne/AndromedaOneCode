@@ -6,9 +6,9 @@ package frc.robot.actuators.SwerveModule;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -21,9 +21,9 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   private SparkMaxController m_angleMotor;
   private TalonFX m_driveMotor;
   private TalonFXConfiguration m_configuration;
-  private SparkClosedLoopController m_angleController;
   private double m_lastAngle = 0;
   private Config m_config;
+  private double m_driveMotorPositionOffset = 0;
 
   private SimpleMotorFeedforward m_feedForward;
 
@@ -33,8 +33,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     super(moduleNumber);
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getConfig("SwerveDriveConstants");
-    m_feedForward = new SimpleMotorFeedforward(m_config.getDouble("driveKS"),
-        m_config.getDouble("driveKV"), m_config.getDouble("driveKA"));
+    new SimpleMotorFeedforward(m_config.getDouble("driveKS"), m_config.getDouble("driveKV"),
+        m_config.getDouble("driveKA"));
     /* Angle Motor Config */
     m_angleMotor = new SparkMaxController(m_config, "Mod" + getModuleNumber() + ".angleMotorID",
         true, false);
@@ -47,13 +47,18 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   }
 
   private void configDriveMotor() {
-    m_driveMotor.setInverted(m_config.getBoolean("driveInvert"));
     m_configuration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
         .getDouble("drivekRampRate");
+    if (m_config.getBoolean("driveInvert")) {
+      m_configuration.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    } else {
+      m_configuration.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    }
+
     // The Kraken cannot have a set conversion factor for getPosition and
     // getVelocity
     m_driveMotor.getConfigurator().apply(m_configuration, 0.1);
-    m_driveMotor.setPosition(0.0);
+    m_driveMotorPositionOffset = m_driveMotor.getPosition().getValueAsDouble();
   }
 
   @Override
@@ -77,7 +82,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     if (angle < 0) {
       angle += 360;
     }
-    m_angleController.setReference(angle, ControlType.kPosition);
+    m_angleMotor.getMotorController().getClosedLoopController().setReference(angle,
+        ControlType.kPosition);
   }
 
   @Override
@@ -93,7 +99,8 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   public double getDriveEncoderPosition() {
     double positionConversionFactor = m_config.getDouble("wheelDiameter") * Math.PI
         / m_config.getDouble("driveGearRatio");
-    return m_driveMotor.getPosition().getValueAsDouble() * (positionConversionFactor / 39.3701);
+    return (m_driveMotor.getPosition().getValueAsDouble() - m_driveMotorPositionOffset)
+        * (positionConversionFactor / 39.3701);
   }
 
   @Override
