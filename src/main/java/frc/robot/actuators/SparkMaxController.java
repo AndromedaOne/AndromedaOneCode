@@ -80,6 +80,7 @@ public class SparkMaxController {
       sparkConfig.encoder.velocityConversionFactor(positionConversionFactor * 39.3701 / 60.0);
 
     } else if (isSwerve && !isDrive) {
+      // angle motor
       sparkConfig.smartCurrentLimit(subsystemConfig.getInt("angleContinuousCurrentLimit"));
       sparkConfig.closedLoop.p(subsystemConfig.getDouble("angleKP"));
       sparkConfig.closedLoop.i(subsystemConfig.getDouble("angleKI"));
@@ -97,6 +98,9 @@ public class SparkMaxController {
           .positionConversionFactor(subsystemConfig.getInt("angleDegreesPerRotation")
               / subsystemConfig.getInt("angleGearRatio"));
       sparkConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+    } else {
+      // non swerve drive
+      sparkConfig.inverted(subsystemConfig.getBoolean(configString + ".invert"));
     }
 
     m_sparkMax.configure(sparkConfig, ResetMode.kResetSafeParameters,
