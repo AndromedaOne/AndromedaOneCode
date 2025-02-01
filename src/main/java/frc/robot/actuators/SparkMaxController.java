@@ -100,7 +100,7 @@ public class SparkMaxController {
       sparkConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
     } else {
       // non swerve drive
-      sparkConfig.inverted(subsystemConfig.getBoolean(configString + ".invert"));
+      sparkConfig.inverted(subsystemConfig.getBoolean(configString + ".inverted"));
     }
 
     m_sparkMax.configure(sparkConfig, ResetMode.kResetSafeParameters,
