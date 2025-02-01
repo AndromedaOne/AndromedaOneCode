@@ -24,6 +24,7 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
+import frc.robot.telemetries.Trace;
 
 public class PoseEstimation4905 {
 
@@ -60,7 +61,8 @@ public class PoseEstimation4905 {
         m_poseEstimator.add(new PhotonPoseEstimator(aprilTagFieldLayout,
             PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
         m_posePublisherCamera.add(NetworkTableInstance.getDefault()
-            .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
+            .getStructTopic("/CameraPose" + (i + 1), Pose2d.struct).publish());
+        Trace.getInstance().logInfo(m_robotToCam.get(i).toString());
       }
     }
     m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
@@ -122,7 +124,9 @@ public class PoseEstimation4905 {
               m_swerveOdometry.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
                   estimatedPose.timestampSeconds);
             }
-            m_posePublisherCamera.get(i).set(estimatedPose.estimatedPose.toPose2d());
+            if (usePose) {
+              m_posePublisherCamera.get(i).set(estimatedPose.estimatedPose.toPose2d());
+            }
           }
         }
       }
