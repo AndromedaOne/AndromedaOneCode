@@ -63,19 +63,14 @@ public class MockArmTestBed implements ArmTestBedBase {
 
   @Override
   public void setGoalDeg(double goal) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'setGoal'");
   }
 
   @Override
   public void calculateAndSetVoltageForGoal() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'calculateVoltageForGoal'");
   }
 
   @Override
   public double getAngleRad() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAngleRad'");
+    return 0;
   }
 }

@@ -4,9 +4,6 @@
 
 package frc.robot.commands.armTestBedCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -19,9 +16,9 @@ public class SysIdCommand extends SequentialCommandGroup4905 {
   public SysIdCommand() {
     m_armTestBed = Robot.getInstance().getSubsystemsContainer().getArmTestBed();
     addRequirements(m_armTestBed.getSubsystemBase());
-    addCommands(m_armTestBed.sysIdQuasistatic(SysIdRoutine.Direction.kForward), 
-        m_armTestBed.sysIdQuasistatic(SysIdRoutine.Direction.kReverse), 
-        m_armTestBed.sysIdDynamic(SysIdRoutine.Direction.kForward), 
+    addCommands(m_armTestBed.sysIdQuasistatic(SysIdRoutine.Direction.kForward),
+        m_armTestBed.sysIdQuasistatic(SysIdRoutine.Direction.kReverse),
+        m_armTestBed.sysIdDynamic(SysIdRoutine.Direction.kForward),
         m_armTestBed.sysIdDynamic(SysIdRoutine.Direction.kReverse));
   }
 }

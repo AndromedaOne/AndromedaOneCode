@@ -30,7 +30,7 @@ public interface ArmTestBedBase extends SubsystemInterface {
 
   public abstract Command sysIdDynamic(SysIdRoutine.Direction direction);
 
-  public abstract void setGoalDeg (double goal);
+  public abstract void setGoalDeg(double goal);
 
   public abstract void calculateAndSetVoltageForGoal();
 }
