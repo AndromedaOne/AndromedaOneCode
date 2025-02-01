@@ -157,6 +157,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     } else {
       m_motor.setSpeed(speed);
     }
+    SmartDashboard.putNumber("Speed: ", speed);
   }
 
   public void setVoltage(Voltage voltage) {
@@ -194,7 +195,6 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
     rotate(speed);
-    SmartDashboard.putNumber("Speed: ", speed);
     SmartDashboard.putNumber("Error", m_controller.getPositionError());
     SmartDashboard.putNumber("pidCalc", pidCalc);
     SmartDashboard.putNumber("feedForwardCalc", feedforwardCalc);
