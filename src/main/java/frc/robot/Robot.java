@@ -69,6 +69,7 @@ public class Robot extends TimedRobot {
     } catch (FileVersionException | IOException | ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+      throw new RuntimeException(e);
     }
     m_subsystemContainer.setDefaultCommands();
     m_limelight = m_sensorsContainer.getLimeLight();
