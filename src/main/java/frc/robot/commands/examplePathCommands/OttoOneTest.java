@@ -26,7 +26,7 @@ public class OttoOneTest extends SequentialCommandGroup4905 {
    * @throws FileVersionException
    */
   public OttoOneTest() throws FileVersionException, IOException, ParseException {
-    Command ottoCommand = AutoBuilder.buildAuto("Auto #2");
+    Command ottoCommand = AutoBuilder.buildAuto("Auto #6");
     addCommands(ottoCommand);
     // smh my head
   }
