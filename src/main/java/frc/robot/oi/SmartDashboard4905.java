@@ -21,6 +21,7 @@ import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.armTestBedCommands.ArmControlCommand;
+import frc.robot.commands.armTestBedCommands.ArmSetpoints;
 import frc.robot.commands.armTestBedCommands.Rotate;
 import frc.robot.commands.armTestBedCommands.SysIdCommand;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
@@ -144,6 +145,11 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Arm Rotate", new Rotate());
       SmartDashboard.putData("Run SysId", new SysIdCommand());
       SmartDashboard.putData("Arm Test Bed run setpoint", new ArmControlCommand(-45));
+      SmartDashboard.putData("Coral Load", new ArmControlCommand(ArmSetpoints.CORAL_LOAD));
+      SmartDashboard.putData("Level 1", new ArmControlCommand(ArmSetpoints.LEVEL_1));
+      SmartDashboard.putData("Level 2", new ArmControlCommand(ArmSetpoints.LEVEL_2));
+      SmartDashboard.putData("Level 3", new ArmControlCommand(ArmSetpoints.LEVEL_3));
+      SmartDashboard.putData("Level 4", new ArmControlCommand(ArmSetpoints.LEVEL_4));
     }
   }
 

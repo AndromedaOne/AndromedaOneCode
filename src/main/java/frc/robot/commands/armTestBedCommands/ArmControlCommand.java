@@ -29,6 +29,10 @@ public class ArmControlCommand extends Command {
     m_setpoint = setpoint;
   }
 
+  public ArmControlCommand(ArmSetpoints setpoint) {
+    this(setpoint.getAngleInDeg());
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
