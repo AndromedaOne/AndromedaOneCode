@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
-import frc.robot.commands.armTestBedCommands.StopArm;
+import frc.robot.commands.armTestBedCommands.ArmControlCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
@@ -271,7 +271,7 @@ public class SubsystemsContainer {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
     if (Config4905.getConfig4905().doesArmTestBedExist()) {
-      m_armTestBed.setDefaultCommand(new StopArm());
+      m_armTestBed.setDefaultCommand(new ArmControlCommand(-45));
     }
 
   }

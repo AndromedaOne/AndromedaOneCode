@@ -189,7 +189,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   }
 
   @Override
-  public void calculateAndSetVoltageForGoal() {
+  public void calculateSpeed() {
     double currentAngleRad = getAngleRad();
     double pidCalc = m_controller.calculate(currentAngleRad);
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());

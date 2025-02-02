@@ -32,5 +32,5 @@ public interface ArmTestBedBase extends SubsystemInterface {
 
   public abstract void setGoalDeg(double goal);
 
-  public abstract void calculateAndSetVoltageForGoal();
+  public abstract void calculateSpeed();
 }

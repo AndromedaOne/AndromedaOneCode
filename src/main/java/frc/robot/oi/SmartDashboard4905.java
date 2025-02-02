@@ -143,7 +143,7 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().doesArmTestBedExist()) {
       SmartDashboard.putData("Arm Rotate", new Rotate());
       SmartDashboard.putData("Run SysId", new SysIdCommand());
-      SmartDashboard.putData("Arm Test Bed run setpoint", new ArmControlCommand());
+      SmartDashboard.putData("Arm Test Bed run setpoint", new ArmControlCommand(-45));
     }
   }
 

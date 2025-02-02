@@ -66,7 +66,7 @@ public class MockArmTestBed implements ArmTestBedBase {
   }
 
   @Override
-  public void calculateAndSetVoltageForGoal() {
+  public void calculateSpeed() {
   }
 
   @Override

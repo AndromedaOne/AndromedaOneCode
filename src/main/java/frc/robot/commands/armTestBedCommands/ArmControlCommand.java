@@ -12,23 +12,40 @@ import frc.robot.subsystems.armTestBed.ArmTestBedBase;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ArmControlCommand extends Command {
   private ArmTestBedBase m_armTestBed;
+  private boolean m_useSmartDashboard = false;
+  private double m_setpoint = 0;
 
-  public ArmControlCommand() {
+  public ArmControlCommand(boolean useSmartDashboard) {
+    m_useSmartDashboard = useSmartDashboard;
     m_armTestBed = Robot.getInstance().getSubsystemsContainer().getArmTestBed();
     addRequirements(m_armTestBed.getSubsystemBase());
-    SmartDashboard.putNumber("Arm Test Bed goal degrees", 0);
+    if (m_useSmartDashboard) {
+      SmartDashboard.putNumber("Arm Test Bed goal degrees", 0);
+    }
+  }
+
+  public ArmControlCommand(double setpoint) {
+    this(false);
+    m_setpoint = setpoint;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armTestBed.setGoalDeg(SmartDashboard.getNumber("Arm Test Bed goal degrees", 0));
+    if (m_useSmartDashboard) {
+      m_armTestBed.setGoalDeg(SmartDashboard.getNumber("Arm Test Bed goal degrees", 0));
+    } else {
+      m_armTestBed.setGoalDeg(m_setpoint);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armTestBed.calculateAndSetVoltageForGoal();
+    if (m_useSmartDashboard) {
+      m_armTestBed.setGoalDeg(SmartDashboard.getNumber("Arm Test Bed goal degrees", 0));
+    }
+    m_armTestBed.calculateSpeed();
   }
 
   // Called once the command ends or is interrupted.
