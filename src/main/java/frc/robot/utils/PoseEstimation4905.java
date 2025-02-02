@@ -35,6 +35,7 @@ public class PoseEstimation4905 {
   private ArrayList<PhotonPoseEstimator> m_poseEstimator = new ArrayList<PhotonPoseEstimator>();
   private boolean m_cameraPresent = true;
   private boolean m_useVisionForPose = true;
+  private boolean m_updateGyroOffset = true;
   private ArrayList<StructPublisher<Pose2d>> m_posePublisherCamera = new ArrayList<StructPublisher<Pose2d>>();
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
@@ -131,10 +132,14 @@ public class PoseEstimation4905 {
         }
       }
       localPose = m_swerveOdometry.getEstimatedPosition();
+      if (m_useVisionForPose && usePose && m_updateGyroOffset) {
+        m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
+        Trace.getInstance()
+            .logInfo("Setting vision pose offset: " + localPose.getRotation().getDegrees());
+        m_updateGyroOffset = false;
+      }
     }
-    if (m_useVisionForPose) {
-      m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
-    }
+
     m_posePublisherVision.set(localPose);
     return localPose;
   }

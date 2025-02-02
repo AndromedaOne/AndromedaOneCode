@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.RealSensorBase;
+import frc.robot.telemetries.Trace;
 import frc.robot.utils.AngleConversionUtils;
 
 public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
@@ -28,16 +29,20 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
 
   public void setVisionPoseOffset(double visionAngle) {
     double correctedAngle = visionAngle;
+    // making a -180 - 180 angle into a 0 - 360 angle
     if (visionAngle < 0) {
       correctedAngle = visionAngle + 360;
     }
+    // reversing the angle of the new offset
     correctedAngle = 360 - correctedAngle;
-    if ((Math.abs(getZAngle() - correctedAngle) > 5)) {
-      m_initialZAngleReading = getZAngle() - correctedAngle;
-      if (m_initialZAngleReading < 0) {
-        m_initialZAngleReading += 360;
-      }
+    // setting the offset to the current angle (normally 0) minus the new offset
+    m_initialZAngleReading = getZAngle() - correctedAngle;
+    // making sure the offset is always positive
+    if (m_initialZAngleReading < 0) {
+      m_initialZAngleReading += 360;
     }
+
+    Trace.getInstance().logInfo("Set offset: " + m_initialZAngleReading);
   }
 
   public double getInitialZAngleReading() {
