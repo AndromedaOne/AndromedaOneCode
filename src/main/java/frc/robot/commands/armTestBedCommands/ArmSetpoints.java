@@ -6,19 +6,15 @@ package frc.robot.commands.armTestBedCommands;
 
 /** Add your docs here. */
 public enum ArmSetpoints {
-  CORAL_LOAD(-45),
-  LEVEL_1(-25),
-  LEVEL_2(-8),
-  LEVEL_3(20),
-  LEVEL_4(95);
+  CORAL_LOAD(-42), LEVEL_1(-25), LEVEL_2(-8), LEVEL_3(20), LEVEL_4(95);
 
-private final double angleInDeg;
+  private final double angleInDeg;
 
-  ArmSetpoints(double angleInDeg){
+  ArmSetpoints(double angleInDeg) {
     this.angleInDeg = angleInDeg;
   }
 
-public double getAngleInDeg(){
-  return angleInDeg;
-}
+  public double getAngleInDeg() {
+    return angleInDeg;
+  }
 }

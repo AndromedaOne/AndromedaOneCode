@@ -30,6 +30,10 @@ import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 import frc.robot.sensors.photonvision.MockPhotonVision;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.sensors.photonvision.RealPhotonVision;
+import frc.robot.sensors.powerDistribution4905.MockPowerDistribution;
+import frc.robot.sensors.powerDistribution4905.PowerDistributionBase;
+import frc.robot.sensors.powerDistribution4905.PowerDistributionHub;
+import frc.robot.sensors.powerDistribution4905.PowerDistributionPanel;
 import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
@@ -51,6 +55,7 @@ public class SensorsContainer {
   private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
   private Config m_sensorConfig;
+  private PowerDistributionBase m_powerDistributionBase;
 
   public SensorsContainer() {
     m_sensorConfig = Config4905.getConfig4905().getSensorConfig();
@@ -127,6 +132,17 @@ public class SensorsContainer {
       Trace.getInstance().logInfo("Using mock cannon home switch");
       m_cannonHomeSwitch = new MockLimitSwitchSensor();
     }
+    if (m_sensorConfig.hasPath("sensors.powerDistributionHub")) {
+      int canID = m_sensorConfig.getInt("sensors.powerDistributionHub.canID");
+      Trace.getInstance().logInfo("Using Power Distribution Hub, canID, " + canID);
+      m_powerDistributionBase = new PowerDistributionHub(canID);
+    } else if (m_sensorConfig.hasPath("sensors.powerDistributionPanel")) {
+      Trace.getInstance().logInfo("using Power Distribution Panel");
+      m_powerDistributionBase = new PowerDistributionPanel();
+    } else {
+      Trace.getInstance().logInfo("Using mock Power Distribution");
+      m_powerDistributionBase = new MockPowerDistribution();
+    }
   }
 
   public Gyro4905 getGyro() {
@@ -171,6 +187,10 @@ public class SensorsContainer {
 
   public PhotonVisionBase getPhotonVision() {
     return m_targetPhotonVision;
+  }
+
+  public PowerDistributionBase getPowerDistributionBase() {
+    return m_powerDistributionBase;
   }
 
   public void periodic() {

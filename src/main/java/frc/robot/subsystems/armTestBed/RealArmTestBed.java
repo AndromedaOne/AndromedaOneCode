@@ -23,8 +23,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.sensors.powerDistribution4905.PowerDistributionBase;
 
 /**
  * 0 angle is poining straight down
@@ -39,6 +41,10 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   private double m_kI = 0.0;
   private double m_kD = 0.0;
   private double m_kG = 0.106;
+  private double m_kVoltage = 0.0;
+  private double m_voltageReference = 12.5;
+  private double m_currentVoltage = 0.0;
+  private PowerDistributionBase m_powerDistribution;
   private final MutVoltage m_appliedVoltage = Volts.mutable(0);
   private final MutAngle m_angle = Radian.mutable(0);
   private final MutAngularVelocity m_velocity = RadiansPerSecond.mutable(0);
@@ -52,6 +58,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
   public RealArmTestBed() {
     SmartDashboard.putNumber("kG", m_kG);
     SmartDashboard.putNumber("kP", m_kP);
+    SmartDashboard.putNumber("kVoltage", m_kVoltage);
     Config armrotateConfig = Config4905.getConfig4905().getArmTestBedConfig();
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
     m_motor = new SparkMaxController(armrotateConfig, "motor", false, false);
@@ -62,7 +69,7 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
               .angularPosition(m_angle.mut_replace(getAngleDeg(), Degrees))
               .angularVelocity(m_velocity.mut_replace(getAngularVelRad(), DegreesPerSecond));
         }, this.getSubsystemBase()));
-
+    m_powerDistribution = Robot.getInstance().getSensorsContainer().getPowerDistributionBase();
   }
 
   @Override
@@ -185,19 +192,27 @@ public class RealArmTestBed extends SubsystemBase implements ArmTestBedBase {
     m_controller.setSetpoint((goal) * Math.PI / 180);
     m_kG = SmartDashboard.getNumber("kG", m_kG);
     m_kP = SmartDashboard.getNumber("kP", m_kP);
+    m_kVoltage = SmartDashboard.getNumber("kVoltage", m_kVoltage);
     m_controller.setP(m_kP);
   }
 
   @Override
   public void calculateSpeed() {
+    m_currentVoltage = m_powerDistribution.getVoltage();
+    double voltageCorrection = (m_voltageReference - m_currentVoltage) *m_kVoltage; 
+    if (m_controller.getPositionError()< 0){
+      voltageCorrection = -voltageCorrection;
+    }
     double currentAngleRad = getAngleRad();
     double pidCalc = m_controller.calculate(currentAngleRad);
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
-    double speed = pidCalc + feedforwardCalc;
+    double speed = pidCalc + feedforwardCalc + voltageCorrection;
     rotate(speed);
     SmartDashboard.putNumber("Error", m_controller.getPositionError());
     SmartDashboard.putNumber("pidCalc", pidCalc);
     SmartDashboard.putNumber("feedForwardCalc", feedforwardCalc);
     SmartDashboard.putNumber("Current setpoint:", m_controller.getSetpoint());
+    SmartDashboard.putNumber("Voltage correction", voltageCorrection);
+    SmartDashboard.putNumber("Current voltage", m_currentVoltage);
   }
 }
