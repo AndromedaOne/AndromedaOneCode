@@ -31,6 +31,7 @@ import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
+import frc.robot.commands.examplePathCommands.ThisIsJustASimplePathToReefStationD;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
@@ -118,6 +119,11 @@ public class SmartDashboard4905 {
     }
     if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("ThisIsJustASimplePathToReefStationD",
+          new ThisIsJustASimplePathToReefStationD());
     }
 
     if (Config4905.getConfig4905().isSwerveBot()) {

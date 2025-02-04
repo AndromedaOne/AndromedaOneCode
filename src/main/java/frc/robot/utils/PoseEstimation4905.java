@@ -104,7 +104,7 @@ public class PoseEstimation4905 {
     m_posePublisherOdometry.set(localPose);
 
     if (m_cameraPresent) {
-      boolean usePose = true;
+      boolean usePose = false;
       for (int i = 0; i < m_poseEstimator.size(); i++) {
         // get latest result is deprecated and needs to be replaced with get all unread
         // results which returns a list of results
@@ -117,7 +117,7 @@ public class PoseEstimation4905 {
             final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
             usePose = true;
             for (int j = 0; j < estimatedPose.targetsUsed.size(); j++) {
-              if (estimatedPose.targetsUsed.get(j).getPoseAmbiguity() > 0.2) {
+              if (estimatedPose.targetsUsed.get(j).getPoseAmbiguity() > 0.1) {
                 usePose = false;
               }
             }
@@ -133,15 +133,39 @@ public class PoseEstimation4905 {
       }
       localPose = m_swerveOdometry.getEstimatedPosition();
       if (m_useVisionForPose && usePose && m_updateGyroOffset) {
-        m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
         Trace.getInstance()
             .logInfo("Setting vision pose offset: " + localPose.getRotation().getDegrees());
+        m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
         m_updateGyroOffset = false;
       }
     }
 
     m_posePublisherVision.set(localPose);
     return localPose;
+  }
+
+  public enum RegionsForPose {
+    NORTHEAST, NORTH, NORTHWEST, SOUTHWEST, SOUTH, SOUTHEAST
+  }
+
+  public RegionsForPose getRegion() {
+    double x = m_swerveOdometry.getEstimatedPosition().getX();
+    double y = m_swerveOdometry.getEstimatedPosition().getY();
+    double z = Math.sqrt((x * x) + (y * y));
+    double theta = Math.asin(x / z);
+    if (theta < 60) {
+      return RegionsForPose.NORTHEAST;
+    } else if (theta < 120) {
+      return RegionsForPose.NORTH;
+    } else if (theta < 180) {
+      return RegionsForPose.NORTHWEST;
+    } else if (theta < 240) {
+      return RegionsForPose.SOUTHWEST;
+    } else if (theta < 300) {
+      return RegionsForPose.SOUTH;
+    } else {
+      return RegionsForPose.SOUTHEAST;
+    }
   }
 
 }

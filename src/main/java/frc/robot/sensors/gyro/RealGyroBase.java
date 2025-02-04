@@ -28,20 +28,9 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
   }
 
   public void setVisionPoseOffset(double visionAngle) {
-    double correctedAngle = visionAngle;
-    // making a -180 - 180 angle into a 0 - 360 angle
-    if (visionAngle < 0) {
-      correctedAngle = visionAngle + 360;
-    }
-    // reversing the angle of the new offset
-    correctedAngle = 360 - correctedAngle;
-    // setting the offset to the current angle (normally 0) minus the new offset
-    m_initialZAngleReading = getZAngle() - correctedAngle;
-    // making sure the offset is always positive
-    if (m_initialZAngleReading < 0) {
-      m_initialZAngleReading += 360;
-    }
-
+    // Adding an offset to the angle based on vision - There's already an offset set
+    // somewhere so that's why it's added and not replaced
+    m_initialZAngleReading += visionAngle;
     Trace.getInstance().logInfo("Set offset: " + m_initialZAngleReading);
   }
 
