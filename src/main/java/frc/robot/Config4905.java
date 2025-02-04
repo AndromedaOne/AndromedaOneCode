@@ -61,6 +61,7 @@ public class Config4905 {
   private boolean m_isShowBot = false;
   private boolean m_isTopGun = false;
   private boolean m_isSwerveBot = false;
+  private boolean m_isSBSD = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -74,6 +75,8 @@ public class Config4905 {
         m_isTopGun = true;
       } else if (m_robotName.equals("SwerveBot")) { // Name pending
         m_isSwerveBot = true;
+      } else if (m_robotName.equals("SBSD")) {
+        m_isSBSD = true;
       }
     } else {
       // try to figure out which Romi we're on by looking at the SSID's we're
@@ -408,6 +411,10 @@ public class Config4905 {
 
   public boolean isSwerveBot() {
     return m_isSwerveBot;
+  }
+
+  public boolean isSBSD() {
+    return m_isSBSD;
   }
 
   public String getRobotName() {
