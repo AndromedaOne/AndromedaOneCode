@@ -149,19 +149,19 @@ public class PoseEstimation4905 {
   }
 
   public RegionsForPose getRegion() {
-    double x = m_swerveOdometry.getEstimatedPosition().getX();
-    double y = m_swerveOdometry.getEstimatedPosition().getY();
+    double x = m_swerveOdometry.getEstimatedPosition().getX() - 4.489323;
+    double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
     double z = Math.sqrt((x * x) + (y * y));
     double theta = Math.asin(x / z);
-    if (theta < 60) {
+    if (theta < 60 && y > 0) {
       return RegionsForPose.NORTHEAST;
-    } else if (theta < 120) {
+    } else if (theta < 120 && y > 0) {
       return RegionsForPose.NORTH;
-    } else if (theta < 180) {
+    } else if (theta < 180 && y > 0) {
       return RegionsForPose.NORTHWEST;
-    } else if (theta < 240) {
+    } else if (theta < 60 && y <= 0) {
       return RegionsForPose.SOUTHWEST;
-    } else if (theta < 300) {
+    } else if (theta < 120 && y <= 0) {
       return RegionsForPose.SOUTH;
     } else {
       return RegionsForPose.SOUTHEAST;
