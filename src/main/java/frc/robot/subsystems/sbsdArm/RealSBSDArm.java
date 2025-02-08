@@ -1,0 +1,157 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.subsystems.sbsdArm;
+
+import java.util.function.DoubleSupplier;
+
+import com.typesafe.config.Config;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Config4905;
+import frc.robot.actuators.SparkMaxController;
+import frc.robot.pidcontroller.PIDController4905;
+
+/** Add your docs here. */
+public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
+
+  private SparkMaxController m_leftAngleMotor;
+  private SparkMaxController m_rightAngleMotor;
+  private DoubleSupplier m_absoluteEncoderPosition = () -> m_rightAngleMotor
+      .getAbsoluteEncoderPosition();
+  private double m_minAngleDeg = 0.0;
+  private double m_maxAngleDeg = 0.0;
+  private double m_angleOffset = 0.0;
+  private double m_maxSpeed = 0.0;
+  private double m_kP = 0.0;
+  private double m_kI = 0.0;
+  private double m_kD = 0.0;
+  private double m_kG = 0.106;
+  private PIDController4905 m_controller = new PIDController4905("Arm Test Bed PID", m_kP, m_kI,
+      m_kD, 0);
+
+  public RealSBSDArm() {
+    SmartDashboard.putNumber("kG", m_kG);
+    SmartDashboard.putNumber("kP", m_kP);
+    Config armrotateConfig = Config4905.getConfig4905().getSBSDArmConfig();
+    m_controller.enableContinuousInput(-Math.PI, Math.PI);
+    m_rightAngleMotor = new SparkMaxController(armrotateConfig, "motor", false, false);
+    m_leftAngleMotor = new SparkMaxController(armrotateConfig, "motor", false, false);
+  }
+
+  @Override
+  public SubsystemBase getSubsystemBase() {
+    return this;
+  }
+
+  @Override
+  public void setDefaultCommand(Command command) {
+    super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void setPosition(double angle) {
+
+  }
+
+  @Override
+  public void stop() {
+    m_leftAngleMotor.setSpeed(0);
+    m_rightAngleMotor.setSpeed(0);
+  }
+
+  private double calculateCorrectedEncoder() {
+    double correctedEncoderValue = (1 - m_absoluteEncoderPosition.getAsDouble());
+    if (correctedEncoderValue >= m_angleOffset) {
+      correctedEncoderValue = correctedEncoderValue - m_angleOffset;
+    } else {
+      correctedEncoderValue = correctedEncoderValue + (1 - m_angleOffset);
+    }
+    if (correctedEncoderValue > 0.5) {
+      correctedEncoderValue = correctedEncoderValue - 1;
+    }
+    SmartDashboard.putNumber("Corrected Encoder Value", correctedEncoderValue);
+    return correctedEncoderValue;
+  }
+
+  @Override
+  public double getAngleDeg() {
+    double angle = (calculateCorrectedEncoder() * 360);
+    return angle;
+  }
+
+  @Override
+  public double getAngleRad() {
+    double angle = calculateCorrectedEncoder() * 2 * Math.PI;
+    return angle;
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Arm Test Bed Angle in Degrees", getAngleDeg());
+    SmartDashboard.putNumber("Arm Test Bed Angle in Rads", getAngleRad());
+    SmartDashboard.putNumber("Encoder Position", m_absoluteEncoderPosition.getAsDouble());
+    SmartDashboard.putNumber("position error", m_controller.getPositionError());
+  }
+
+  @Override
+  public void setCoastMode() {
+    m_rightAngleMotor.setCoastMode();
+    m_leftAngleMotor.setCoastMode();
+  }
+
+  @Override
+  public void setBrakeMode() {
+    m_rightAngleMotor.setBrakeMode();
+    m_leftAngleMotor.setBrakeMode();
+  }
+
+  @Override
+  public void rotate(double speed) {
+    MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
+    if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+      stop();
+    } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+      stop();
+    } else {
+      m_rightAngleMotor.setSpeed(speed);
+      m_leftAngleMotor.setSpeed(speed);
+    }
+    SmartDashboard.putNumber("Speed: ", speed);
+  }
+
+  @Override
+  public void setGoalDeg(double goal) {
+    m_controller.setSetpoint((goal) * Math.PI / 180);
+    m_kG = SmartDashboard.getNumber("kG", m_kG);
+    m_kP = SmartDashboard.getNumber("kP", m_kP);
+    m_controller.setP(m_kP);
+  }
+
+  public void calculateSpeed() {
+    double currentAngleRad = getAngleRad();
+    double pidCalc = m_controller.calculate(currentAngleRad);
+    double feedforwardCalc = m_kG * Math.cos(getAngleRad());
+    double speed = pidCalc + feedforwardCalc;
+    rotate(speed);
+    SmartDashboard.putNumber("Error", m_controller.getPositionError());
+    SmartDashboard.putNumber("pidCalc", pidCalc);
+    SmartDashboard.putNumber("feedForwardCalc", feedforwardCalc);
+    SmartDashboard.putNumber("Current setpoint:", m_controller.getSetpoint());
+  }
+
+  @Override
+  public void reloadConfig() {
+    m_minAngleDeg = Config4905.getConfig4905().getSBSDArmConfig().getDouble("minAngleDeg");
+    m_maxAngleDeg = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxAngleDeg");
+    m_angleOffset = Config4905.getConfig4905().getSBSDArmConfig().getDouble("angleOffset");
+    m_maxSpeed = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxSpeed");
+    m_kP = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kP");
+    m_kI = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kI");
+    m_kD = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kD");
+  }
+}

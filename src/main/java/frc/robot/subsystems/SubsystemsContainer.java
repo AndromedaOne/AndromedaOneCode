@@ -26,6 +26,9 @@ import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
+import frc.robot.subsystems.sbsdArm.MockSBSDArm;
+import frc.robot.subsystems.sbsdArm.RealSBSDArm;
+import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 import frc.robot.subsystems.showBotAudio.MockShowBotAudio;
 import frc.robot.subsystems.showBotAudio.RealShowBotAudio;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
@@ -68,6 +71,7 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
+  SBSDArmBase m_sbsdArmBase;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -180,6 +184,13 @@ public class SubsystemsContainer {
     } else {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
+    }
+    if (Config4905.getConfig4905().doesSBSDArmExist()) {
+      Trace.getInstance().logInfo("using real SBSD arm");
+      m_sbsdArmBase = new RealSBSDArm();
+    } else {
+      Trace.getInstance().logInfo("using mock SBSD arm");
+      m_sbsdArmBase = new MockSBSDArm();
     }
 
   }
