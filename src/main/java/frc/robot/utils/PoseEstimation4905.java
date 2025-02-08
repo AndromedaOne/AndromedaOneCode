@@ -13,12 +13,15 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
@@ -37,6 +40,10 @@ public class PoseEstimation4905 {
   private boolean m_useVisionForPose = true;
   private boolean m_updateGyroOffset = true;
   private ArrayList<StructPublisher<Pose2d>> m_posePublisherCamera = new ArrayList<StructPublisher<Pose2d>>();
+  private double m_fieldLength;
+  private double m_fieldWidth;
+  private Alliance m_currentAlliance;
+  private AprilTagFieldLayout m_aprilTagFieldLayout;
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
       .getStructTopic("/OdometryPose", Pose2d.struct).publish();
@@ -48,8 +55,14 @@ public class PoseEstimation4905 {
 
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
     m_photonVision = (Robot.getInstance().getSensorsContainer().getPhotonVisionList());
-    AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2025Reefscape
-        .loadAprilTagLayoutField();
+    m_aprilTagFieldLayout = AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
+    m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
+    m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
+    m_currentAlliance = AllianceConfig.getCurrentAlliance();
+    if (m_currentAlliance == Alliance.Red) {
+      m_aprilTagFieldLayout.setOrigin(
+          new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
+    }
     PhotonVisionBase localCamera;
     if (m_photonVision == null) {
       m_cameraPresent = false;
@@ -59,7 +72,7 @@ public class PoseEstimation4905 {
         localCamera = m_photonVision.get(i);
         m_robotToCam
             .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
-        m_poseEstimator.add(new PhotonPoseEstimator(aprilTagFieldLayout,
+        m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout,
             PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
         m_posePublisherCamera.add(NetworkTableInstance.getDefault()
             .getStructTopic("/CameraPose" + (i + 1), Pose2d.struct).publish());
@@ -98,6 +111,17 @@ public class PoseEstimation4905 {
     // where we collect the camera info
     // get camera info - calculate april tags and where you at
     Pose2d localPose;
+
+    Alliance alliance = AllianceConfig.getCurrentAlliance();
+    if (alliance != m_currentAlliance) {
+      if (alliance == Alliance.Red) {
+        m_aprilTagFieldLayout.setOrigin(
+            new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
+      } else {
+        m_aprilTagFieldLayout.setOrigin(new Pose3d(0, 0, 0, new Rotation3d(0, 0, 0)));
+      }
+      m_currentAlliance = alliance;
+    }
 
     localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
         modulePositions);
