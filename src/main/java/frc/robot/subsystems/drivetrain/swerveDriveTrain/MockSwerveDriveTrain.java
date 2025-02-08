@@ -7,6 +7,8 @@ import frc.robot.subsystems.MockSubsystem;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
+import frc.robot.utils.PoseEstimation4905;
+import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 public class MockSwerveDriveTrain implements DriveTrainBase {
 
@@ -112,6 +114,11 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
       boolean useSquaredInputs, double compassHeading) {
+  }
+
+  @Override
+  public PoseEstimation4905.RegionsForPose getRegion() {
+    return RegionsForPose.UNKNOWN;
   }
 
 }

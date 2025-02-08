@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MockSubsystem;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
+import frc.robot.utils.PoseEstimation4905;
 
 public class MockTankDriveTrain implements TankDriveTrain {
   /**
@@ -150,6 +151,11 @@ public class MockTankDriveTrain implements TankDriveTrain {
 
   public void resetOdometryForCalibration() {
 
+  }
+
+  @Override
+  public PoseEstimation4905.RegionsForPose getRegion() {
+    return PoseEstimation4905.RegionsForPose.UNKNOWN;
   }
 
 }

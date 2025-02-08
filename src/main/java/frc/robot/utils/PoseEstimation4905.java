@@ -145,26 +145,34 @@ public class PoseEstimation4905 {
   }
 
   public enum RegionsForPose {
-    NORTHEAST, NORTH, NORTHWEST, SOUTHWEST, SOUTH, SOUTHEAST
+    NORTHEAST, NORTH, NORTHWEST, SOUTHWEST, SOUTH, SOUTHEAST, UNKNOWN
   }
 
   public RegionsForPose getRegion() {
     double x = m_swerveOdometry.getEstimatedPosition().getX() - 4.489323;
     double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
     double z = Math.sqrt((x * x) + (y * y));
-    double theta = Math.asin(x / z);
-    if (theta < 60 && y > 0) {
-      return RegionsForPose.NORTHEAST;
-    } else if (theta < 120 && y > 0) {
-      return RegionsForPose.NORTH;
-    } else if (theta < 180 && y > 0) {
-      return RegionsForPose.NORTHWEST;
-    } else if (theta < 60 && y <= 0) {
-      return RegionsForPose.SOUTHWEST;
-    } else if (theta < 120 && y <= 0) {
-      return RegionsForPose.SOUTH;
+    double theta = Math.toDegrees(Math.abs(Math.asin(x / z)));
+    if (x < 0.0) {
+      if (theta < 60) {
+        if (y < 0) {
+          return RegionsForPose.SOUTHEAST;
+        } else {
+          return RegionsForPose.SOUTHWEST;
+        }
+      } else {
+        return RegionsForPose.SOUTH;
+      }
     } else {
-      return RegionsForPose.SOUTHEAST;
+      if (theta < 60) {
+        if (y < 0) {
+          return RegionsForPose.NORTHEAST;
+        } else {
+          return RegionsForPose.NORTHWEST;
+        }
+      } else {
+        return RegionsForPose.NORTH;
+      }
     }
   }
 
