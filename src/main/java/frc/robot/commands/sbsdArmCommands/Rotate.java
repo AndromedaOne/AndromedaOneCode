@@ -14,7 +14,7 @@ public class Rotate extends Command {
   private SBSDArmBase m_sbsdArmBase;
 
   public Rotate() {
-    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSbsdArmBase();
+    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase());
     SmartDashboard.putNumber("Arm Speed", 0);
   }

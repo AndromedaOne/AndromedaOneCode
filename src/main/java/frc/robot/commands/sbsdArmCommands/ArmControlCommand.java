@@ -17,7 +17,7 @@ public class ArmControlCommand extends Command {
 
   public ArmControlCommand(boolean useSmartDashboard) {
     m_useSmartDashboard = useSmartDashboard;
-    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSbsdArmBase();
+    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase());
     if (m_useSmartDashboard) {
       SmartDashboard.putNumber("SBSD Arm goal degrees", 0);
