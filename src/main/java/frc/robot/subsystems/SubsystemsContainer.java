@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -235,6 +237,10 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public SBSDArmBase getSbsdArmBase() {
+    return m_sbsdArmBase;
+  }
+
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
@@ -265,6 +271,8 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
-
+    if (Config4905.getConfig4905().doesSBSDArmExist()) {
+      m_sbsdArmBase.setDefaultCommand(new ArmControlCommand(ArmSetpoints.CORAL_LOAD));
+    }
   }
 }
