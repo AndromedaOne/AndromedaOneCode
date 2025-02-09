@@ -34,6 +34,8 @@ import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
+import frc.robot.commands.sbsdArmCommands.Rotate;
+import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
@@ -138,6 +140,11 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
     }
 
+    if (Config4905.getConfig4905().doesSBSDArmExist()) {
+      SmartDashboard.putData("SBSD Arm Brake On", new SetBreakMode(true));
+      SmartDashboard.putData("SBSD Arm Brake Off", new SetBreakMode(false));
+      SmartDashboard.putData("SBSD Rotate Arm", new Rotate());
+    }
   }
 
   public Command getSelectedAutoChooserCommand() {

@@ -30,17 +30,18 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_kI = 0.0;
   private double m_kD = 0.0;
   private double m_kG = 0.106;
-  private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI,
-      m_kD, 0);
+  private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD,
+      0);
 
   public RealSBSDArm() {
     SmartDashboard.putNumber("SBSD Arm kG", m_kG);
     SmartDashboard.putNumber("SBSD Arm kP", m_kP);
     Config armrotateConfig = Config4905.getConfig4905().getSBSDArmConfig();
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
-    m_rightAngleMotor = new SparkMaxController(armrotateConfig, "motor", false, false);
-    m_leftAngleMotor = new SparkMaxController(armrotateConfig, "motor", false, false);
+    m_rightAngleMotor = new SparkMaxController(armrotateConfig, "armAngleRight", false, false);
+    m_leftAngleMotor = new SparkMaxController(armrotateConfig, "armAngleLeft", false, false);
     m_absoluteEncoderPosition = () -> m_rightAngleMotor.getAbsoluteEncoderPosition();
+    m_angleOffset = armrotateConfig.getDouble("angleOffset");
   }
 
   @Override
@@ -65,7 +66,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   }
 
   private double calculateCorrectedEncoder() {
-    double correctedEncoderValue = (1 - m_absoluteEncoderPosition.getAsDouble());
+    double correctedEncoderValue = (m_absoluteEncoderPosition.getAsDouble());
     if (correctedEncoderValue >= m_angleOffset) {
       correctedEncoderValue = correctedEncoderValue - m_angleOffset;
     } else {
@@ -118,8 +119,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
       stop();
     } else {
-      m_rightAngleMotor.setSpeed(speed);
-      m_leftAngleMotor.setSpeed(speed);
+      m_rightAngleMotor.setSpeed(-speed);
+      //m_leftAngleMotor.setSpeed(speed);
     }
     SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
   }

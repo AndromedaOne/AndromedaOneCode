@@ -4,31 +4,36 @@
 
 package frc.robot.commands.sbsdArmCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 
-/** Add your docs here. */
-public class Rotate extends Command {
+/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+public class SetBreakMode extends Command {
   private SBSDArmBase m_sbsdArmBase;
+  private boolean m_breakOn = true;
 
-  public Rotate() {
+  public SetBreakMode(boolean breakOn) {
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSbsdArmBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase());
-    SmartDashboard.putNumber("SBSD Set Arm Speed", 0);
+    m_breakOn = breakOn;
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (m_breakOn) {
+      m_sbsdArmBase.setBrakeMode();
+    } else {
+      m_sbsdArmBase.setCoastMode();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = SmartDashboard.getNumber("SBSD Set Arm Speed", 0);
-    m_sbsdArmBase.rotate(speed);
+
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +44,6 @@ public class Rotate extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
