@@ -75,4 +75,6 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract PoseEstimation4905.RegionsForPose getRegion();
 
+  public abstract boolean isLeftSide();
+
 }

@@ -219,4 +219,9 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
     return PoseEstimation4905.RegionsForPose.UNKNOWN;
   }
 
+  @Override
+  public boolean isLeftSide() {
+    return false;
+  }
+
 }

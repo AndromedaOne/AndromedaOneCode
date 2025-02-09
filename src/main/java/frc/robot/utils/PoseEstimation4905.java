@@ -200,4 +200,12 @@ public class PoseEstimation4905 {
     }
   }
 
+  public boolean isLeftSide() {
+    double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
+    if (y < 00) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

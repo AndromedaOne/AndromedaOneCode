@@ -158,4 +158,9 @@ public class MockTankDriveTrain implements TankDriveTrain {
     return PoseEstimation4905.RegionsForPose.UNKNOWN;
   }
 
+  @Override
+  public boolean isLeftSide() {
+    return false;
+  }
+
 }

@@ -20,6 +20,8 @@ import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootShortSh
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.sbsdTeleOpCommands.teleOpCoralScoring;
+import frc.robot.commands.sbsdTeleOpCommands.teleOpDriverCoralPickup;
+import frc.robot.commands.sbsdTeleOpCommands.teleOpWallCoralPickup;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.PlayNextAudioFile;
 import frc.robot.commands.showBotAudio.StopAudio;
@@ -196,8 +198,9 @@ public class DriveController extends ControllerBase {
   }
 
   private void setupSBSDTeleOpButtons() {
-    getAbutton()
-        .whileTrue(new teleOpCoralScoring(m_subsystemsContainer.getDriveTrain()));
+    getXbutton().whileTrue(new teleOpCoralScoring(m_subsystemsContainer.getDriveTrain()));
+    getPOVeast().whileTrue(new teleOpDriverCoralPickup(m_subsystemsContainer.getDriveTrain()));
+    getPOVwest().whileTrue(new teleOpWallCoralPickup(m_subsystemsContainer.getDriveTrain()));
   }
 
   /*

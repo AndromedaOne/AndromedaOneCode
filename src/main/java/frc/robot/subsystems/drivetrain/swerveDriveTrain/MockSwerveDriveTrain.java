@@ -121,4 +121,9 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     return RegionsForPose.UNKNOWN;
   }
 
+  @Override
+  public boolean isLeftSide() {
+    return false;
+  }
+
 }
