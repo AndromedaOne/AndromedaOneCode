@@ -21,24 +21,54 @@ public class MockCoralEndEffector implements CoralEndEffectorBase {
   }
 
   @Override
-  public void eject() {
+  public void runWheels(double speed) {
   }
 
   @Override
-  public void intake() {
-  }
-
-  @Override
-  public boolean hasCoral() {
-    return false;
-  }
-
-  @Override
-  public void setAngle(double angle) {
+  public void setAngleDeg(double angle) {
   }
 
   @Override
   public void stop() {
   }
 
+  @Override
+  public boolean intakeDetector() {
+    return false;
+  }
+
+  @Override
+  public boolean ejectDetector() {
+    return false;
+  }
+
+  @Override
+  public double getAngleDeg() {
+    return 0;
+  }
+
+  @Override
+  public double getAngleRad() {
+    return 0;
+  }
+
+  @Override
+  public void setCoastMode() {
+  }
+
+  @Override
+  public void setBrakeMode() {
+  }
+
+  @Override
+  public void rotate(double speed) {
+  }
+
+  @Override
+  public void reloadConfig() {
+  }
+
+  @Override
+  public void calculateSpeed() {
+  }
 }

@@ -9,14 +9,27 @@ import frc.robot.subsystems.SubsystemInterface;
 /** Add your docs here. */
 public interface CoralEndEffectorBase extends SubsystemInterface {
 
-  public abstract void eject();
+  public abstract void runWheels(double speed);
 
-  public abstract void intake();
+  public void stop();
 
-  public abstract void stop();
+  public abstract double getAngleDeg();
 
-  public abstract boolean hasCoral();
+  public abstract double getAngleRad();
 
-  public abstract void setAngle(double angle);
+  public abstract void setAngleDeg(double angle);
 
+  public abstract boolean intakeDetector();
+
+  public abstract boolean ejectDetector();
+
+  public abstract void setCoastMode();
+
+  public abstract void setBrakeMode();
+
+  public abstract void rotate(double speed);
+
+  public abstract void reloadConfig();
+
+  public abstract void calculateSpeed();
 }

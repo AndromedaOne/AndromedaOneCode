@@ -8,10 +8,15 @@ import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
+import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 
 /** Add your docs here. */
 public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffectorBase {
@@ -19,12 +24,30 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
   private SparkMaxController m_intakeMotor;
   private SparkMaxController m_angleMotor;
   private DoubleSupplier m_absoluteEncoderPosition;
+  private LimitSwitchSensor m_intakeSideSensor;
+  private LimitSwitchSensor m_ejectSideSensor;
+  private double m_minAngleDeg = 0.0;
+  private double m_maxAngleDeg = 0.0;
+  private double m_angleOffset = 0.0;
+  private double m_maxSpeed = 0.0;
+  private double m_kP = 0.0;
+  private double m_kI = 0.0;
+  private double m_kD = 0.0;
+  private double m_kG = 0.0;
+  private PIDController4905 m_controller = new PIDController4905("Coral PID", m_kP, m_kI, m_kD, 0);;
 
   public RealCoralEndEffector() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
+    Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
     m_intakeMotor = new SparkMaxController(config, "coralDelivery", false, false);
     m_angleMotor = new SparkMaxController(config, "coralAngle", false, false);
     m_absoluteEncoderPosition = () -> m_angleMotor.getAbsoluteEncoderPosition();
+    m_intakeSideSensor = new RealLimitSwitchSensor("endEffectorIntakeSensor");
+    m_ejectSideSensor = new RealLimitSwitchSensor("endEffectorEjectSensor");
+    SmartDashboard.putNumber("Coral kG", m_kG);
+    SmartDashboard.putNumber("Coral kP", m_kP);
+    Config endEffectorRotateConfig = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
+    m_controller.enableContinuousInput(-Math.PI, Math.PI);
   }
 
   @Override
@@ -37,24 +60,120 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
   }
 
   @Override
-  public void eject() {
-  }
-
-  @Override
-  public void intake() {
+  public void runWheels(double speed) {
+    m_intakeMotor.setSpeed(speed);
   }
 
   @Override
   public void stop() {
+    m_intakeMotor.setSpeed(0);
   }
 
   @Override
-  public boolean hasCoral() {
-    return false;
+  public void setAngleDeg(double angle) {
+    m_controller.setSetpoint((angle) * Math.PI / 180);
+    m_kG = SmartDashboard.getNumber("Coral kG", m_kG);
+    m_kP = SmartDashboard.getNumber("Coral kP", m_kP);
+    m_controller.setP(m_kP);
   }
 
   @Override
-  public void setAngle(double angle) {
+  public boolean intakeDetector() {
+    return m_intakeSideSensor.isAtLimit();
+  }
+
+  @Override
+  public boolean ejectDetector() {
+    return m_ejectSideSensor.isAtLimit();
+  }
+
+  private double calculateCorrectedEncoder() {
+    double correctedEncoderValue = (1 - m_absoluteEncoderPosition.getAsDouble());
+    if (correctedEncoderValue >= m_angleOffset) {
+      correctedEncoderValue = correctedEncoderValue - m_angleOffset;
+    } else {
+      correctedEncoderValue = correctedEncoderValue + (1 - m_angleOffset);
+    }
+    if (correctedEncoderValue > 0.5) {
+      correctedEncoderValue = correctedEncoderValue - 1;
+    }
+    SmartDashboard.putNumber("Coral Corrected Encoder Value", correctedEncoderValue);
+    return correctedEncoderValue;
+  }
+
+  @Override
+  public double getAngleDeg() {
+    double angle = (calculateCorrectedEncoder() * 360);
+    return angle;
+  }
+
+  @Override
+  public double getAngleRad() {
+    double angle = calculateCorrectedEncoder() * 2 * Math.PI;
+    return angle;
+  }
+
+  @Override
+  public void setCoastMode() {
+    m_angleMotor.setCoastMode();
+    m_intakeMotor.setCoastMode();
+  }
+
+  @Override
+  public void setBrakeMode() {
+    m_angleMotor.setBrakeMode();
+    m_intakeMotor.setBrakeMode();
+  }
+
+  @Override
+  public void rotate(double speed) {
+    MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
+    if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+      stop();
+    } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+      stop();
+    } else {
+      m_angleMotor.setSpeed(speed);
+      m_intakeMotor.setSpeed(speed);
+    }
+    SmartDashboard.putNumber("Coral Speed: ", speed);
+  }
+
+  @Override
+  public void reloadConfig() {
+    m_minAngleDeg = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
+        .getDouble("Coral minAngleDeg");
+    m_maxAngleDeg = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
+        .getDouble("Coral maxAngleDeg");
+    m_angleOffset = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
+        .getDouble("Coral angleOffset");
+    m_maxSpeed = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
+        .getDouble("Coral maxSpeed");
+    m_kP = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("Coral kP");
+    m_kI = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("Coral kI");
+    m_kD = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("Coral kD");
+  }
+
+  @Override
+  public void calculateSpeed() {
+    double currentAngleRad = getAngleRad();
+    double pidCalc = m_controller.calculate(currentAngleRad);
+    double feedforwardCalc = m_kG * Math.cos(getAngleRad());
+    double speed = pidCalc + feedforwardCalc;
+    rotate(speed);
+    SmartDashboard.putNumber("Coral Error", m_controller.getPositionError());
+    SmartDashboard.putNumber("Coral pidCalc", pidCalc);
+    SmartDashboard.putNumber("Coral feedForwardCalc", feedforwardCalc);
+    SmartDashboard.putNumber("Coral Current setpoint:", m_controller.getSetpoint());
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Coral Angle in Degrees", getAngleDeg());
+    SmartDashboard.putNumber("Coral Angle in Rads", getAngleRad());
+    SmartDashboard.putNumber("Coral Angle Encoder Position",
+        m_absoluteEncoderPosition.getAsDouble());
+    SmartDashboard.putNumber("Coral Angle position error", m_controller.getPositionError());
   }
 
 }
