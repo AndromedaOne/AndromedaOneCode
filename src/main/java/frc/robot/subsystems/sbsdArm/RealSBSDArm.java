@@ -21,8 +21,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   private SparkMaxController m_leftAngleMotor;
   private SparkMaxController m_rightAngleMotor;
-  private DoubleSupplier m_absoluteEncoderPosition = () -> m_rightAngleMotor
-      .getAbsoluteEncoderPosition();
+  private DoubleSupplier m_absoluteEncoderPosition;
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
   private double m_angleOffset = 0.0;
@@ -41,6 +40,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
     m_rightAngleMotor = new SparkMaxController(armrotateConfig, "motor", false, false);
     m_leftAngleMotor = new SparkMaxController(armrotateConfig, "motor", false, false);
+    m_absoluteEncoderPosition = () -> m_rightAngleMotor.getAbsoluteEncoderPosition();
   }
 
   @Override
