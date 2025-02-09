@@ -30,12 +30,12 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_kI = 0.0;
   private double m_kD = 0.0;
   private double m_kG = 0.106;
-  private PIDController4905 m_controller = new PIDController4905("Arm Test Bed PID", m_kP, m_kI,
+  private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI,
       m_kD, 0);
 
   public RealSBSDArm() {
-    SmartDashboard.putNumber("kG", m_kG);
-    SmartDashboard.putNumber("kP", m_kP);
+    SmartDashboard.putNumber("SBSD Arm kG", m_kG);
+    SmartDashboard.putNumber("SBSD Arm kP", m_kP);
     Config armrotateConfig = Config4905.getConfig4905().getSBSDArmConfig();
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
     m_rightAngleMotor = new SparkMaxController(armrotateConfig, "motor", false, false);
@@ -74,7 +74,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     if (correctedEncoderValue > 0.5) {
       correctedEncoderValue = correctedEncoderValue - 1;
     }
-    SmartDashboard.putNumber("Corrected Encoder Value", correctedEncoderValue);
+    SmartDashboard.putNumber("SBSD Arm Corrected Encoder Value", correctedEncoderValue);
     return correctedEncoderValue;
   }
 
@@ -92,10 +92,10 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Arm Test Bed Angle in Degrees", getAngleDeg());
-    SmartDashboard.putNumber("Arm Test Bed Angle in Rads", getAngleRad());
-    SmartDashboard.putNumber("Encoder Position", m_absoluteEncoderPosition.getAsDouble());
-    SmartDashboard.putNumber("position error", m_controller.getPositionError());
+    SmartDashboard.putNumber("SBSD Arm Angle in Degrees", getAngleDeg());
+    SmartDashboard.putNumber("SBSD Arm Angle in Rads", getAngleRad());
+    SmartDashboard.putNumber("SBSD Arm Encoder Position", m_absoluteEncoderPosition.getAsDouble());
+    SmartDashboard.putNumber("SBSD Arm position error", m_controller.getPositionError());
   }
 
   @Override
@@ -121,14 +121,14 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
       m_rightAngleMotor.setSpeed(speed);
       m_leftAngleMotor.setSpeed(speed);
     }
-    SmartDashboard.putNumber("Speed: ", speed);
+    SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
   }
 
   @Override
   public void setGoalDeg(double goal) {
     m_controller.setSetpoint((goal) * Math.PI / 180);
-    m_kG = SmartDashboard.getNumber("kG", m_kG);
-    m_kP = SmartDashboard.getNumber("kP", m_kP);
+    m_kG = SmartDashboard.getNumber("SBSD Arm kG", m_kG);
+    m_kP = SmartDashboard.getNumber("SBSD Arm kP", m_kP);
     m_controller.setP(m_kP);
   }
 
@@ -138,10 +138,10 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
     rotate(speed);
-    SmartDashboard.putNumber("Error", m_controller.getPositionError());
-    SmartDashboard.putNumber("pidCalc", pidCalc);
-    SmartDashboard.putNumber("feedForwardCalc", feedforwardCalc);
-    SmartDashboard.putNumber("Current setpoint:", m_controller.getSetpoint());
+    SmartDashboard.putNumber("SBSD Arm Error", m_controller.getPositionError());
+    SmartDashboard.putNumber("SBSD Arm pidCalc", pidCalc);
+    SmartDashboard.putNumber("SBSD Arm feedForwardCalc", feedforwardCalc);
+    SmartDashboard.putNumber("SBSD Arm Current setpoint:", m_controller.getSetpoint());
   }
 
   @Override

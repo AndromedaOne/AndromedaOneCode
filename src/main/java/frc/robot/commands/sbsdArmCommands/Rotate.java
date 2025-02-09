@@ -16,7 +16,7 @@ public class Rotate extends Command {
   public Rotate() {
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSbsdArmBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase());
-    SmartDashboard.putNumber("Arm Speed", 0);
+    SmartDashboard.putNumber("SBSD Arm Speed", 0);
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +27,7 @@ public class Rotate extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = SmartDashboard.getNumber("Arm Speed", 0);
+    double speed = SmartDashboard.getNumber("SBSD Arm Speed", 0);
     m_sbsdArmBase.rotate(speed);
   }
 
