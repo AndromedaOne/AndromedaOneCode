@@ -77,7 +77,7 @@ public class PoseEstimation4905 {
               PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
           m_posePublisherCamera.add(NetworkTableInstance.getDefault()
               .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
-        Trace.getInstance().logInfo(m_robotToCam.get(i).toString());
+          Trace.getInstance().logInfo(m_robotToCam.get(i).toString());
         }
         m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
             .getBoolean("photonvision.useVisionForPose");
