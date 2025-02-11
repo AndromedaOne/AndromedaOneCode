@@ -35,6 +35,7 @@ import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.Rotate;
 import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -146,6 +147,11 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SBSD Arm Brake Off", new SetBreakMode(false));
       SmartDashboard.putData("SBSD Rotate Arm", new Rotate());
       SmartDashboard.putData("SBSD Arm Set Goal", new ArmControlCommand(true));
+      SmartDashboard.putData("SBSD Arm Level 1", new ArmControlCommand(ArmSetpoints.LEVEL_1));
+      SmartDashboard.putData("SBSD Arm Level 2", new ArmControlCommand(ArmSetpoints.LEVEL_2));
+      SmartDashboard.putData("SBSD Arm Level 3", new ArmControlCommand(ArmSetpoints.LEVEL_3));
+      SmartDashboard.putData("SBSD Arm Level 4", new ArmControlCommand(ArmSetpoints.LEVEL_4));
+      SmartDashboard.putData("SBSD Arm Coral Load", new ArmControlCommand(ArmSetpoints.CORAL_LOAD));
     }
   }
 

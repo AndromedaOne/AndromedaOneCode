@@ -22,14 +22,14 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private SparkMaxController m_leftAngleMotor;
   private SparkMaxController m_rightAngleMotor;
   private DoubleSupplier m_absoluteEncoderPosition;
-  private double m_minAngleDeg =0.0;
-  private double m_maxAngleDeg=0.0;
-  private double m_angleOffset=0.0;
-  private double m_maxSpeed=0.0;
+  private double m_minAngleDeg = 0.0;
+  private double m_maxAngleDeg = 0.0;
+  private double m_angleOffset = 0.0;
+  private double m_maxSpeed = 0.0;
   private double m_kP = 0.0;
   private double m_kI = 0.0;
   private double m_kD = 0.0;
-  private double m_kG =0.0;
+  private double m_kG = 0.0;
   private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD,
       0);
 
@@ -104,7 +104,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     SmartDashboard.putNumber("SBSD Arm Angle in Rads", getAngleRad());
     SmartDashboard.putNumber("SBSD Arm Encoder Position", m_absoluteEncoderPosition.getAsDouble());
     SmartDashboard.putNumber("SBSD Arm position error", m_controller.getPositionError());
-    System.out.println("m_kG =" +m_kG);
   }
 
   @Override
