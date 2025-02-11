@@ -33,8 +33,11 @@ import frc.robot.subsystems.sbsdArm.MockSBSDArm;
 import frc.robot.subsystems.sbsdArm.RealSBSDArm;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 import frc.robot.subsystems.sbsdcoralendeffector.MockCoralEndEffectorRotate;
+import frc.robot.subsystems.sbsdcoralendeffector.MockCoralIntakeEject;
 import frc.robot.subsystems.sbsdcoralendeffector.RealCoralEndEffectorRotate;
+import frc.robot.subsystems.sbsdcoralendeffector.RealCoralIntakeEject;
 import frc.robot.subsystems.showBotAudio.MockShowBotAudio;
 import frc.robot.subsystems.showBotAudio.RealShowBotAudio;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
@@ -79,6 +82,7 @@ public class SubsystemsContainer {
   ShooterAlignmentBase m_shooterAlignment;
   SBSDArmBase m_sbsdArmBase;
   CoralEndEffectorRotateBase m_sbsdCoralEndEffectorBase;
+  CoralIntakeEjectBase m_sbsdCoralIntakeEjectBase;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -202,11 +206,13 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       Trace.getInstance().logInfo("using real SBSD coral end effector");
       m_sbsdCoralEndEffectorBase = new RealCoralEndEffectorRotate();
+      m_sbsdCoralIntakeEjectBase = new RealCoralIntakeEject();
+
     } else {
       Trace.getInstance().logInfo("using mock SBSD end effector");
       m_sbsdCoralEndEffectorBase = new MockCoralEndEffectorRotate();
+      m_sbsdCoralIntakeEjectBase = new MockCoralIntakeEject();
     }
-
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -255,6 +261,10 @@ public class SubsystemsContainer {
 
   public CoralEndEffectorRotateBase getSBSDCoralEndEffectorBase() {
     return m_sbsdCoralEndEffectorBase;
+  }
+
+  public CoralIntakeEjectBase getSBSDCoralIntakeEjectBase() {
+    return m_sbsdCoralIntakeEjectBase;
   }
 
   public LEDs getWs2812LEDs() {

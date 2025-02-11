@@ -22,7 +22,6 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
 
   public RealCoralIntakeEject() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
-    Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
     m_intakeMotor = new SparkMaxController(config, "coralDelivery", false, false);
     m_intakeSideSensor = new RealLimitSwitchSensor("endEffectorIntakeSensor");
     m_ejectSideSensor = new RealLimitSwitchSensor("endEffectorEjectSensor");
