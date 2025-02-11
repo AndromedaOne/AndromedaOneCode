@@ -164,7 +164,7 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
-    m_sbsdArmConfig = load("sbsdArm.conf");
+    m_sbsdArmConfig = load("sbsdarm.conf");
     m_sbsdCoralEndEffectorConfig = load("sbsdCoralEndEffector.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
@@ -371,7 +371,7 @@ public class Config4905 {
   }
 
   public boolean doesSBSDArmExist() {
-    return (m_config.hasPath("subsystem.sbsdarm"));
+    return (m_config.hasPath("subsystems.sbsdarm"));
   }
 
   public Config getSBSDArmConfig() {
