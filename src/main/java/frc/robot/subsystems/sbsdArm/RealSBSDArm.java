@@ -22,14 +22,14 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private SparkMaxController m_leftAngleMotor;
   private SparkMaxController m_rightAngleMotor;
   private DoubleSupplier m_absoluteEncoderPosition;
-  private double m_minAngleDeg = 0.0;
-  private double m_maxAngleDeg = 0.0;
-  private double m_angleOffset = 0.0;
-  private double m_maxSpeed = 0.0;
+  private double m_minAngleDeg =0.0;
+  private double m_maxAngleDeg=0.0;
+  private double m_angleOffset=0.0;
+  private double m_maxSpeed=0.0;
   private double m_kP = 0.0;
   private double m_kI = 0.0;
   private double m_kD = 0.0;
-  private double m_kG = 0.106;
+  private double m_kG =0.0;
   private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD,
       0);
 
@@ -42,6 +42,13 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_leftAngleMotor = new SparkMaxController(armrotateConfig, "armAngleLeft", false, false);
     m_absoluteEncoderPosition = () -> m_rightAngleMotor.getAbsoluteEncoderPosition();
     m_angleOffset = armrotateConfig.getDouble("angleOffset");
+    m_minAngleDeg = armrotateConfig.getDouble("minAngleDeg");
+    m_maxAngleDeg = armrotateConfig.getDouble("maxAngleDeg");
+    m_maxSpeed = armrotateConfig.getDouble("maxSpeed");
+    m_kP = armrotateConfig.getDouble("kP");
+    m_kI = armrotateConfig.getDouble("kI");
+    m_kD = armrotateConfig.getDouble("kD");
+    m_kG = armrotateConfig.getDouble("kG");
   }
 
   @Override
@@ -97,6 +104,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     SmartDashboard.putNumber("SBSD Arm Angle in Rads", getAngleRad());
     SmartDashboard.putNumber("SBSD Arm Encoder Position", m_absoluteEncoderPosition.getAsDouble());
     SmartDashboard.putNumber("SBSD Arm position error", m_controller.getPositionError());
+    System.out.println("m_kG =" +m_kG);
   }
 
   @Override
@@ -119,8 +127,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
       stop();
     } else {
-      m_rightAngleMotor.setSpeed(-speed);
-      //m_leftAngleMotor.setSpeed(speed);
+      m_rightAngleMotor.setSpeed(speed);
+      m_leftAngleMotor.setSpeed(speed);
     }
     SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
   }

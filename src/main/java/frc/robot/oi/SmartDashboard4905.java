@@ -34,6 +34,7 @@ import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
+import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.Rotate;
 import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -144,6 +145,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SBSD Arm Brake On", new SetBreakMode(true));
       SmartDashboard.putData("SBSD Arm Brake Off", new SetBreakMode(false));
       SmartDashboard.putData("SBSD Rotate Arm", new Rotate());
+      SmartDashboard.putData("SBSD Arm Set Goal", new ArmControlCommand(true));
     }
   }
 
