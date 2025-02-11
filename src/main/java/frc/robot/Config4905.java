@@ -165,7 +165,7 @@ public class Config4905 {
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
     m_sbsdArmConfig = load("sbsdarm.conf");
-    m_sbsdCoralEndEffectorConfig = load("sbsdCoralEndEffector.conf");
+    m_sbsdCoralEndEffectorConfig = load("coralendeffector.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
@@ -379,7 +379,7 @@ public class Config4905 {
   }
 
   public boolean doesSBSDCoralEndEffectorExist() {
-    return (m_config.hasPath("subsystem.sbsdcoralendeffector"));
+    return (m_config.hasPath("subsystems.sbsdcoralendeffector"));
   }
 
   public Config getSBSDCoralEndEffectorConfig() {
