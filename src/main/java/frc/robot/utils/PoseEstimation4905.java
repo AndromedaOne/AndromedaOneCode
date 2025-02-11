@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.telemetries.Trace;
@@ -52,35 +53,36 @@ public class PoseEstimation4905 {
 
   public PoseEstimation4905(SwerveDriveKinematics kinematics,
       SwerveModulePosition[] modulePositions) {
-
-    m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
-    m_photonVision = (Robot.getInstance().getSensorsContainer().getPhotonVisionList());
-    m_aprilTagFieldLayout = AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
-    m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
-    m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
+    SensorsContainer sensorsContainer = Robot.getInstance().getSensorsContainer();
+    m_gyro = sensorsContainer.getGyro();
+    if (sensorsContainer.hasPhotonVision()) {
+      m_photonVision = (sensorsContainer.getPhotonVisionList());
+      AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2025Reefscape
+          .loadAprilTagLayoutField();
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
     if (m_currentAlliance == Alliance.Red) {
       m_aprilTagFieldLayout.setOrigin(
           new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
     }
-    PhotonVisionBase localCamera;
-    if (m_photonVision == null) {
-      m_cameraPresent = false;
-    }
-    if (m_cameraPresent) {
-      for (int i = 0; i < m_photonVision.size(); i++) {
-        localCamera = m_photonVision.get(i);
-        m_robotToCam
-            .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
-        m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout,
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
-        m_posePublisherCamera.add(NetworkTableInstance.getDefault()
-            .getStructTopic("/CameraPose" + (i + 1), Pose2d.struct).publish());
+      PhotonVisionBase localCamera;
+      if (m_photonVision.isEmpty()) {
+        m_cameraPresent = false;
+      }
+      if (m_cameraPresent) {
+        for (int i = 0; i < m_photonVision.size(); i++) {
+          localCamera = m_photonVision.get(i);
+          m_robotToCam
+              .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
+          m_poseEstimator.add(new PhotonPoseEstimator(aprilTagFieldLayout,
+              PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
+          m_posePublisherCamera.add(NetworkTableInstance.getDefault()
+              .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
         Trace.getInstance().logInfo(m_robotToCam.get(i).toString());
+        }
+        m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
+            .getBoolean("photonvision.useVisionForPose");
       }
     }
-    m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
-        .getBoolean("photonvision.useVisionForPose");
     m_swerveOdometry = new SwerveDrivePoseEstimator(kinematics,
         Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()), modulePositions, new Pose2d());
   }
