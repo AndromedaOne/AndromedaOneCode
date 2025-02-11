@@ -15,17 +15,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.pidcontroller.PIDController4905;
-import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
-import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 
 /** Add your docs here. */
-public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffectorBase {
+public class RealCoralEndEffectorRotate extends SubsystemBase
+    implements CoralEndEffectorRotateBase {
 
-  private SparkMaxController m_intakeMotor;
   private SparkMaxController m_angleMotor;
   private DoubleSupplier m_absoluteEncoderPosition;
-  private LimitSwitchSensor m_intakeSideSensor;
-  private LimitSwitchSensor m_ejectSideSensor;
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
   private double m_angleOffset = 0.0;
@@ -36,14 +32,11 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
   private double m_kG = 0.0;
   private PIDController4905 m_controller;
 
-  public RealCoralEndEffector() {
+  public RealCoralEndEffectorRotate() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
     Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
-    m_intakeMotor = new SparkMaxController(config, "coralDelivery", false, false);
     m_angleMotor = new SparkMaxController(config, "coralAngle", false, false);
     m_absoluteEncoderPosition = () -> m_angleMotor.getAbsoluteEncoderPosition();
-    m_intakeSideSensor = new RealLimitSwitchSensor("endEffectorIntakeSensor");
-    m_ejectSideSensor = new RealLimitSwitchSensor("endEffectorEjectSensor");
     m_kP = config.getDouble("kP");
     m_kI = config.getDouble("kI");
     m_kD = config.getDouble("kD");
@@ -64,43 +57,11 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
   }
 
   @Override
-  public void runWheels(double speed) {
-    m_intakeMotor.setSpeed(speed);
-  }
-
-  @Override
-  public void runWheelsIntake(double speed) {
-    // not sure whether these are the correct speed polarities
-    if (intakeDetector() && speed > 0) {
-      stop();
-    } else if (ejectDetector() && speed < 0) {
-      stop();
-    } else {
-      m_intakeMotor.setSpeed(speed);
-    }
-  }
-
-  @Override
-  public void stop() {
-    m_intakeMotor.setSpeed(0);
-  }
-
-  @Override
   public void setAngleDeg(double angle) {
     m_controller.setSetpoint((angle) * Math.PI / 180);
     m_kG = SmartDashboard.getNumber("Coral kG", m_kG);
     m_kP = SmartDashboard.getNumber("Coral kP", m_kP);
     m_controller.setP(m_kP);
-  }
-
-  @Override
-  public boolean intakeDetector() {
-    return m_intakeSideSensor.isAtLimit();
-  }
-
-  @Override
-  public boolean ejectDetector() {
-    return m_ejectSideSensor.isAtLimit();
   }
 
   private double calculateCorrectedEncoder() {
@@ -132,13 +93,16 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
   @Override
   public void setCoastMode() {
     m_angleMotor.setCoastMode();
-    m_intakeMotor.setCoastMode();
   }
 
   @Override
   public void setBrakeMode() {
     m_angleMotor.setBrakeMode();
-    m_intakeMotor.setBrakeMode();
+  }
+
+  @Override
+  public void stop() {
+    m_angleMotor.setSpeed(0);
   }
 
   @Override
@@ -150,7 +114,6 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
       stop();
     } else {
       m_angleMotor.setSpeed(speed);
-      m_intakeMotor.setSpeed(speed);
     }
     SmartDashboard.putNumber("Coral Speed: ", speed);
   }
@@ -191,5 +154,4 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
         m_absoluteEncoderPosition.getAsDouble());
     SmartDashboard.putNumber("Coral Angle position error", m_controller.getPositionError());
   }
-
 }

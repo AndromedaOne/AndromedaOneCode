@@ -7,11 +7,7 @@ package frc.robot.subsystems.sbsdcoralendeffector;
 import frc.robot.subsystems.SubsystemInterface;
 
 /** Add your docs here. */
-public interface CoralEndEffectorBase extends SubsystemInterface {
-
-  public abstract void runWheels(double speed);
-
-  public abstract void runWheelsIntake(double speed);
+public interface CoralEndEffectorRotateBase extends SubsystemInterface {
 
   public void stop();
 
@@ -20,10 +16,6 @@ public interface CoralEndEffectorBase extends SubsystemInterface {
   public abstract double getAngleRad();
 
   public abstract void setAngleDeg(double angle);
-
-  public abstract boolean intakeDetector();
-
-  public abstract boolean ejectDetector();
 
   public abstract void setCoastMode();
 

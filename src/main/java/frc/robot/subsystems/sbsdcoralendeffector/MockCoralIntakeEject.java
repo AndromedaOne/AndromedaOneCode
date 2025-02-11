@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MockSubsystem;
 
 /** Add your docs here. */
-public class MockCoralEndEffector implements CoralEndEffectorBase {
+public class MockCoralIntakeEject implements CoralIntakeEjectBase {
 
   @Override
   public SubsystemBase getSubsystemBase() {
@@ -29,10 +29,6 @@ public class MockCoralEndEffector implements CoralEndEffectorBase {
   }
 
   @Override
-  public void setAngleDeg(double angle) {
-  }
-
-  @Override
   public void stop() {
   }
 
@@ -47,16 +43,6 @@ public class MockCoralEndEffector implements CoralEndEffectorBase {
   }
 
   @Override
-  public double getAngleDeg() {
-    return 0;
-  }
-
-  @Override
-  public double getAngleRad() {
-    return 0;
-  }
-
-  @Override
   public void setCoastMode() {
   }
 
@@ -64,15 +50,4 @@ public class MockCoralEndEffector implements CoralEndEffectorBase {
   public void setBrakeMode() {
   }
 
-  @Override
-  public void rotate(double speed) {
-  }
-
-  @Override
-  public void reloadConfig() {
-  }
-
-  @Override
-  public void calculateSpeed() {
-  }
 }

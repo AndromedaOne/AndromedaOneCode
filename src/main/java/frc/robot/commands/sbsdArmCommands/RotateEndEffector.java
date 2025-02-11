@@ -7,11 +7,11 @@ package frc.robot.commands.sbsdArmCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
 public class RotateEndEffector extends Command {
-  private CoralEndEffectorBase m_endEffector;
+  private CoralEndEffectorRotateBase m_endEffector;
 
   public RotateEndEffector() {
     m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
