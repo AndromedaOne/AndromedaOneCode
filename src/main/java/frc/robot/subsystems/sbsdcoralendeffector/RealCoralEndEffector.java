@@ -104,7 +104,7 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
   }
 
   private double calculateCorrectedEncoder() {
-    double correctedEncoderValue = (1 - m_absoluteEncoderPosition.getAsDouble());
+    double correctedEncoderValue = m_absoluteEncoderPosition.getAsDouble();
     if (correctedEncoderValue >= m_angleOffset) {
       correctedEncoderValue = correctedEncoderValue - m_angleOffset;
     } else {
