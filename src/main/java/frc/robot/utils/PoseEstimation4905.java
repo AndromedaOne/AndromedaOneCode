@@ -55,15 +55,15 @@ public class PoseEstimation4905 {
       SwerveModulePosition[] modulePositions) {
     SensorsContainer sensorsContainer = Robot.getInstance().getSensorsContainer();
     m_gyro = sensorsContainer.getGyro();
-    if (sensorsContainer.hasPhotonVision()) {
-      m_photonVision = (sensorsContainer.getPhotonVisionList());
-      AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2025Reefscape
-          .loadAprilTagLayoutField();
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
     if (m_currentAlliance == Alliance.Red) {
       m_aprilTagFieldLayout.setOrigin(
           new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
     }
+    if (sensorsContainer.hasPhotonVision()) {
+      m_photonVision = (sensorsContainer.getPhotonVisionList());
+      AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2025Reefscape
+          .loadAprilTagLayoutField();
       PhotonVisionBase localCamera;
       if (m_photonVision.isEmpty()) {
         m_cameraPresent = false;
