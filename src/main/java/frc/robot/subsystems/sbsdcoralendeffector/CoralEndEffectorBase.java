@@ -11,6 +11,8 @@ public interface CoralEndEffectorBase extends SubsystemInterface {
 
   public abstract void runWheels(double speed);
 
+  public abstract void runWheelsIntake(double speed);
+
   public void stop();
 
   public abstract double getAngleDeg();

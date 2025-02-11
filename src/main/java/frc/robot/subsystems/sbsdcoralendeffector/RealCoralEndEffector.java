@@ -34,7 +34,7 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
   private double m_kI = 0.0;
   private double m_kD = 0.0;
   private double m_kG = 0.0;
-  private PIDController4905 m_controller = new PIDController4905("Coral PID", m_kP, m_kI, m_kD, 0);;
+  private PIDController4905 m_controller;
 
   public RealCoralEndEffector() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
@@ -44,9 +44,13 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
     m_absoluteEncoderPosition = () -> m_angleMotor.getAbsoluteEncoderPosition();
     m_intakeSideSensor = new RealLimitSwitchSensor("endEffectorIntakeSensor");
     m_ejectSideSensor = new RealLimitSwitchSensor("endEffectorEjectSensor");
+    m_kP = config.getDouble("kP");
+    m_kI = config.getDouble("kI");
+    m_kD = config.getDouble("kD");
+    m_kG = config.getDouble("kG");
+    m_controller = new PIDController4905("Coral PID", m_kP, m_kI, m_kD, 0);
     SmartDashboard.putNumber("Coral kG", m_kG);
     SmartDashboard.putNumber("Coral kP", m_kP);
-    Config endEffectorRotateConfig = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
   }
 
@@ -62,6 +66,18 @@ public class RealCoralEndEffector extends SubsystemBase implements CoralEndEffec
   @Override
   public void runWheels(double speed) {
     m_intakeMotor.setSpeed(speed);
+  }
+
+  @Override
+  public void runWheelsIntake(double speed) {
+    // not sure whether these are the correct speed polarities
+    if (intakeDetector() && speed > 0) {
+      stop();
+    } else if (ejectDetector() && speed < 0) {
+      stop();
+    } else {
+      m_intakeMotor.setSpeed(speed);
+    }
   }
 
   @Override

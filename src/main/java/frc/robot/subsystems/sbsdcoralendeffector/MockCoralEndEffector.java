@@ -25,6 +25,10 @@ public class MockCoralEndEffector implements CoralEndEffectorBase {
   }
 
   @Override
+  public void runWheelsIntake(double speed) {
+  }
+
+  @Override
   public void setAngleDeg(double angle) {
   }
 
