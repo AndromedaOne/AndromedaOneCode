@@ -104,7 +104,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     SmartDashboard.putNumber("SBSD Arm Angle in Rads", getAngleRad());
     SmartDashboard.putNumber("SBSD Arm Encoder Position", m_absoluteEncoderPosition.getAsDouble());
     SmartDashboard.putNumber("SBSD Arm position error", m_controller.getPositionError());
-    System.out.println("m_kG =" + m_kG);
   }
 
   @Override
