@@ -14,7 +14,7 @@ public class SetBreakMode extends Command {
   private boolean m_breakOn = true;
 
   public SetBreakMode(boolean breakOn) {
-    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSbsdArmBase();
+    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase());
     m_breakOn = breakOn;
 
