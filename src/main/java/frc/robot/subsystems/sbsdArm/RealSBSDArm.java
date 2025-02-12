@@ -30,6 +30,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_kI = 0.0;
   private double m_kD = 0.0;
   private double m_kG = 0.0;
+  private double m_tolerance = 0.0;
   private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD,
       0);
 
@@ -49,6 +50,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kI = armrotateConfig.getDouble("kI");
     m_kD = armrotateConfig.getDouble("kD");
     m_kG = armrotateConfig.getDouble("kG");
+    m_tolerance = armrotateConfig.getDouble("tolerance");
+    m_controller.setTolerance(m_tolerance);
   }
 
   @Override
@@ -140,6 +143,10 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_controller.setP(m_kP);
   }
 
+  public boolean atSetPoint() {
+    return m_controller.atSetpoint();
+  }
+
   public void calculateSpeed() {
     double currentAngleRad = getAngleRad();
     double pidCalc = m_controller.calculate(currentAngleRad);
@@ -161,5 +168,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kP = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kP");
     m_kI = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kI");
     m_kD = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kD");
+    m_tolerance = Config4905.getConfig4905().getSBSDArmConfig().getDouble("tolerance");
   }
 }
