@@ -36,7 +36,9 @@ import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.Rotate;
+import frc.robot.commands.sbsdArmCommands.RotateEndEffector;
 import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
@@ -152,6 +154,9 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SBSD Arm Level 3", new ArmControlCommand(ArmSetpoints.LEVEL_3));
       SmartDashboard.putData("SBSD Arm Level 4", new ArmControlCommand(ArmSetpoints.LEVEL_4));
       SmartDashboard.putData("SBSD Arm Coral Load", new ArmControlCommand(ArmSetpoints.CORAL_LOAD));
+      SmartDashboard.putData("SBSD End Effector Rotate", new RotateEndEffector());
+      SmartDashboard.putData("SBSD End Effector Control Command",
+          new EndEffectorControlCommand(true));
     }
   }
 

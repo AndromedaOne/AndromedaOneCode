@@ -30,6 +30,8 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   private double m_kI = 0.0;
   private double m_kD = 0.0;
   private double m_kG = 0.0;
+  private double m_maxSpeedCloseToMax = 0.0;
+  private double m_closeToMaxAngle = 0.0;
   private PIDController4905 m_controller;
 
   public RealCoralEndEffectorRotate() {
@@ -41,6 +43,12 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     m_kI = config.getDouble("kI");
     m_kD = config.getDouble("kD");
     m_kG = config.getDouble("kG");
+    m_angleOffset = config.getDouble("angleOffset"); // This is in rotations
+    m_minAngleDeg = config.getDouble("minAngleDeg");
+    m_maxAngleDeg = config.getDouble("maxAngleDeg");
+    m_maxSpeed = config.getDouble("maxSpeed");
+    m_maxSpeedCloseToMax = config.getDouble("maxSpeedCloseToMax");
+    m_closeToMaxAngle = config.getDouble("closeToMaxAngleDeg");
     m_controller = new PIDController4905("Coral PID", m_kP, m_kI, m_kD, 0);
     SmartDashboard.putNumber("Coral kG", m_kG);
     SmartDashboard.putNumber("Coral kP", m_kP);
@@ -107,7 +115,11 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   @Override
   public void rotate(double speed) {
-    MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
+    if (getAngleDeg() >= m_closeToMaxAngle) {
+      MathUtil.clamp(speed, -m_maxSpeedCloseToMax, m_maxSpeedCloseToMax);
+    } else {
+      MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
+    }
     if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
       stop();
     } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
@@ -121,16 +133,20 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   @Override
   public void reloadConfig() {
     m_minAngleDeg = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
-        .getDouble("Coral minAngleDeg");
+        .getDouble("minAngleDeg");
     m_maxAngleDeg = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
-        .getDouble("Coral maxAngleDeg");
+        .getDouble("maxAngleDeg");
     m_angleOffset = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
-        .getDouble("Coral angleOffset");
-    m_maxSpeed = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
-        .getDouble("Coral maxSpeed");
-    m_kP = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("Coral kP");
-    m_kI = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("Coral kI");
-    m_kD = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("Coral kD");
+        .getDouble("angleOffset");
+    m_maxSpeed = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("maxSpeed");
+    m_kP = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("kP");
+    m_kI = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("kI");
+    m_kD = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("kD");
+    m_kG = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("kG");
+    m_maxSpeedCloseToMax = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
+        .getDouble("maxSpeedCloseToMax");
+    m_closeToMaxAngle = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
+        .getDouble("closeToMaxAngleDeg");
   }
 
   @Override
