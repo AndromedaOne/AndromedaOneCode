@@ -21,6 +21,8 @@ public interface CoralEndEffectorRotateBase extends SubsystemInterface {
 
   public abstract void setBrakeMode();
 
+  public abstract boolean isEndEffectorSafe();
+
   public abstract void rotate(double speed);
 
   public abstract void reloadConfig();

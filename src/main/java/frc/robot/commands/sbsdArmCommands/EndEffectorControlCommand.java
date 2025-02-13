@@ -50,6 +50,7 @@ public class EndEffectorControlCommand extends Command {
       m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
     }
     m_endEffector.calculateSpeed();
+    System.out.println("Setpoint: " + m_setpoint);
   }
 
   // Called once the command ends or is interrupted.

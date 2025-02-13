@@ -32,6 +32,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   private double m_kG = 0.0;
   private double m_maxSpeedCloseToMax = 0.0;
   private double m_closeToMaxAngle = 0.0;
+  private double m_safeAngle = 0.0;
   private PIDController4905 m_controller;
 
   public RealCoralEndEffectorRotate() {
@@ -49,6 +50,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     m_maxSpeed = config.getDouble("maxSpeed");
     m_maxSpeedCloseToMax = config.getDouble("maxSpeedCloseToMax");
     m_closeToMaxAngle = config.getDouble("closeToMaxAngleDeg");
+    m_safeAngle = config.getDouble("safeAngleDeg");
     m_controller = new PIDController4905("Coral PID", m_kP, m_kI, m_kD, 0);
     SmartDashboard.putNumber("Coral kG", m_kG);
     SmartDashboard.putNumber("Coral kP", m_kP);
@@ -62,6 +64,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   @Override
   public void setDefaultCommand(Command command) {
+    super.setDefaultCommand(command);
   }
 
   @Override
@@ -106,6 +109,14 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   @Override
   public void setBrakeMode() {
     m_angleMotor.setBrakeMode();
+  }
+
+  @Override
+  public boolean isEndEffectorSafe() {
+    if (getAngleDeg() >= m_safeAngle) {
+      return true;
+    }
+    return false;
   }
 
   @Override

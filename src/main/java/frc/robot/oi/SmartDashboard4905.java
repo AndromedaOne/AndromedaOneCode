@@ -154,6 +154,9 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SBSD Arm Level 3", new ArmControlCommand(ArmSetpoints.LEVEL_3));
       SmartDashboard.putData("SBSD Arm Level 4", new ArmControlCommand(ArmSetpoints.LEVEL_4));
       SmartDashboard.putData("SBSD Arm Coral Load", new ArmControlCommand(ArmSetpoints.CORAL_LOAD));
+    }
+
+    if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       SmartDashboard.putData("SBSD End Effector Rotate", new RotateEndEffector());
       SmartDashboard.putData("SBSD End Effector Control Command",
           new EndEffectorControlCommand(true));
