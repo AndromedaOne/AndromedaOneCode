@@ -7,39 +7,39 @@ package frc.robot.commands.sbsdArmCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.sbsdArm.SBSDArmBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
-public class ArmControlCommand extends Command {
-  private SBSDArmBase m_sbsdArmBase;
+public class EndEffectorControlCommand extends Command {
+  private CoralEndEffectorRotateBase m_endEffector;
   private boolean m_useSmartDashboard = false;
   private double m_setpoint = 0;
 
-  public ArmControlCommand(boolean useSmartDashboard) {
+  public EndEffectorControlCommand(boolean useSmartDashboard) {
     m_useSmartDashboard = useSmartDashboard;
-    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
-    addRequirements(m_sbsdArmBase.getSubsystemBase());
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    addRequirements(m_endEffector.getSubsystemBase());
     if (m_useSmartDashboard) {
-      SmartDashboard.putNumber("SBSD Arm goal degrees", 0);
+      SmartDashboard.putNumber("SBSD End Effector goal degrees", 0);
     }
   }
 
-  public ArmControlCommand(double setpoint) {
+  public EndEffectorControlCommand(double setpoint) {
     this(false);
     m_setpoint = setpoint;
   }
 
-  public ArmControlCommand(ArmSetpoints setpoint) {
-    this(setpoint.getAngleInDeg());
+  public EndEffectorControlCommand(ArmSetpoints setpoint) {
+    this(setpoint.getEndEffectorAngleInDeg());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     if (m_useSmartDashboard) {
-      m_sbsdArmBase.setGoalDeg(SmartDashboard.getNumber("SBSD Arm goal degrees", 0));
+      m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
     } else {
-      m_sbsdArmBase.setGoalDeg(m_setpoint);
+      m_endEffector.setAngleDeg(m_setpoint);
     }
   }
 
@@ -47,9 +47,10 @@ public class ArmControlCommand extends Command {
   @Override
   public void execute() {
     if (m_useSmartDashboard) {
-      m_sbsdArmBase.setGoalDeg(SmartDashboard.getNumber("SBSD Arm goal degrees", 0));
+      m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
     }
-    m_sbsdArmBase.calculateSpeed();
+    m_endEffector.calculateSpeed();
+    System.out.println("Setpoint: " + m_setpoint);
   }
 
   // Called once the command ends or is interrupted.

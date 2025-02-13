@@ -7,16 +7,16 @@ package frc.robot.commands.sbsdArmCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.sbsdArm.SBSDArmBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
-public class Rotate extends Command {
-  private SBSDArmBase m_sbsdArmBase;
+public class RotateEndEffector extends Command {
+  private CoralEndEffectorRotateBase m_endEffector;
 
-  public Rotate() {
-    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
-    addRequirements(m_sbsdArmBase.getSubsystemBase());
-    SmartDashboard.putNumber("SBSD Set Arm Speed", 0);
+  public RotateEndEffector() {
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    addRequirements(m_endEffector.getSubsystemBase());
+    SmartDashboard.putNumber("End Effector Speed", 0);
   }
 
   // Called when the command is initially scheduled.
@@ -27,8 +27,8 @@ public class Rotate extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = SmartDashboard.getNumber("SBSD Set Arm Speed", 0);
-    m_sbsdArmBase.rotate(speed);
+    double speed = SmartDashboard.getNumber("End Effector Speed", 0);
+    m_endEffector.rotate(speed);
   }
 
   // Called once the command ends or is interrupted.
