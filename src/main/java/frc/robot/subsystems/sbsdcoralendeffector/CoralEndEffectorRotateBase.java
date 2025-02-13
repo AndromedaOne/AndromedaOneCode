@@ -9,6 +9,8 @@ import frc.robot.subsystems.SubsystemInterface;
 /** Add your docs here. */
 public interface CoralEndEffectorRotateBase extends SubsystemInterface {
 
+  public static boolean m_inClimberMode = false;
+
   public void stop();
 
   public abstract double getAngleDeg();

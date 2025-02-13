@@ -160,6 +160,16 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SBSD End Effector Rotate", new RotateEndEffector());
       SmartDashboard.putData("SBSD End Effector Control Command",
           new EndEffectorControlCommand(true));
+      SmartDashboard.putData("SBSD End Effector Level 1",
+          new EndEffectorControlCommand(ArmSetpoints.LEVEL_1));
+      SmartDashboard.putData("SBSD End Effector Level 2",
+          new EndEffectorControlCommand(ArmSetpoints.LEVEL_2));
+      SmartDashboard.putData("SBSD End Effector Level 3",
+          new EndEffectorControlCommand(ArmSetpoints.LEVEL_3));
+      SmartDashboard.putData("SBSD End Effector Level 4",
+          new EndEffectorControlCommand(ArmSetpoints.LEVEL_4));
+      SmartDashboard.putData("SBSD End Effector Coral Load",
+          new EndEffectorControlCommand(ArmSetpoints.CORAL_LOAD));
     }
   }
 

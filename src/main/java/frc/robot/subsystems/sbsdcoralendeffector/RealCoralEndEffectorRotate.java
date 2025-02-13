@@ -33,6 +33,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   private double m_maxSpeedCloseToMax = 0.0;
   private double m_closeToMaxAngle = 0.0;
   private double m_safeAngle = 0.0;
+  private static boolean m_inClimberMode = false;
   private PIDController4905 m_controller;
 
   public RealCoralEndEffectorRotate() {
@@ -54,7 +55,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     m_controller = new PIDController4905("Coral PID", m_kP, m_kI, m_kD, 0);
     SmartDashboard.putNumber("Coral kG", m_kG);
     SmartDashboard.putNumber("Coral kP", m_kP);
-    m_controller.enableContinuousInput(-Math.PI, Math.PI);
+    m_controller.disableContinuousInput();
   }
 
   @Override
