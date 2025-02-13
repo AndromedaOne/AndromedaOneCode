@@ -5,9 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drop At G No Vision"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drop At G No Vision"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "sbsdScoreCoral"
           }
         }
       ]

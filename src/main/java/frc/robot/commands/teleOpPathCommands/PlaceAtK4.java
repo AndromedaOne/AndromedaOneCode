@@ -27,7 +27,7 @@ public class PlaceAtK4 extends SequentialCommandGroup4905 {
    * @throws FileVersionException
    */
   public PlaceAtK4() throws FileVersionException, IOException, ParseException {
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Place At K");
+    PathPlannerPath path = PathPlannerPath.fromPathFile("Place At K4");
     Command pathCommand = AutoBuilder.followPath(path);
     addCommands(pathCommand);
   }

@@ -5,15 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drop At J"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drop At J"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "sbsdMoveArmAndEndEffector"
+            "name": "sbsdScoreCoral"
           }
         },
         {
@@ -23,15 +36,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drop At K"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drop At K"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "sbsdMoveArmAndEndEffector"
+            "name": "sbsdScoreCoral"
           }
         },
         {
@@ -41,15 +67,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drop At L"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drop At L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "sbsdMoveArmAndEndEffector"
+            "name": "sbsdScoreCoral"
           }
         },
         {
@@ -59,15 +98,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drop At Low L"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drop At Low L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel2"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "sbsdMoveArmAndEndEffector"
+            "name": "sbsdScoreCoral"
           }
         }
       ]

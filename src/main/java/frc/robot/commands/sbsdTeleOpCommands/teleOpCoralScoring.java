@@ -31,6 +31,7 @@ import frc.robot.commands.teleOpPathCommands.PlaceAtK4;
 import frc.robot.commands.teleOpPathCommands.PlaceAtL;
 import frc.robot.commands.teleOpPathCommands.PlaceAtL4;
 import frc.robot.oi.SubsystemController;
+import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.utils.PoseEstimation4905;
@@ -73,146 +74,146 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
   public teleOpCoralScoring(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     try {
-      m_placeAtA = new SequentialCommandGroup4905(new PlaceAtA(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtA = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtA(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtB = new SequentialCommandGroup4905(new PlaceAtB(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtB = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtB(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtC = new SequentialCommandGroup4905(new PlaceAtC(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtC = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtC(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtD = new SequentialCommandGroup4905(new PlaceAtD(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtD = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtD(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtE = new SequentialCommandGroup4905(new PlaceAtE(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtE = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtE(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtF = new SequentialCommandGroup4905(new PlaceAtF(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtF = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtF(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtG = new SequentialCommandGroup4905(new PlaceAtG(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtG = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtG(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtH = new SequentialCommandGroup4905(new PlaceAtH(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtH = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtH(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtI = new SequentialCommandGroup4905(new PlaceAtI(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtI = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtI(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtJ = new SequentialCommandGroup4905(new PlaceAtJ(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtJ = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtJ(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtK = new SequentialCommandGroup4905(new PlaceAtK(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtK = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtK(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtL = new SequentialCommandGroup4905(new PlaceAtL(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtL = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtL(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtA4 = new SequentialCommandGroup4905(new PlaceAtA4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtA4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtA4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtB4 = new SequentialCommandGroup4905(new PlaceAtB4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtB4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtB4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtC4 = new SequentialCommandGroup4905(new PlaceAtC4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtC4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtC4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtD4 = new SequentialCommandGroup4905(new PlaceAtD4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtD4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtD4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtE4 = new SequentialCommandGroup4905(new PlaceAtE4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtE4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtE4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtF4 = new SequentialCommandGroup4905(new PlaceAtF4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtF4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtF4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtG4 = new SequentialCommandGroup4905(new PlaceAtG4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtG4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtG4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtH4 = new SequentialCommandGroup4905(new PlaceAtH4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtH4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtH4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtI4 = new SequentialCommandGroup4905(new PlaceAtI4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtI4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtI4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtJ4 = new SequentialCommandGroup4905(new PlaceAtJ4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtJ4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtJ4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtK4 = new SequentialCommandGroup4905(new PlaceAtK4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtK4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtK4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtL4 = new SequentialCommandGroup4905(new PlaceAtL4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level));
+      m_placeAtL4 = new SequentialCommandGroup4905(new ParallelCommandGroup4905(new PlaceAtL4(),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }

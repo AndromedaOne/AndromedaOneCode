@@ -84,7 +84,7 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
     }
-    if (Config4905.getConfig4905().isSwerveBot()) {
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
       setupSBSDTeleOpButtons();
     }
   }

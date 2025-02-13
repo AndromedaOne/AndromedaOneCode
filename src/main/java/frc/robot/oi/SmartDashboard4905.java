@@ -151,7 +151,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
     }
 
-    if (Config4905.getConfig4905().isSwerveBot()) {
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
       SmartDashboard.putData("Auto #1 - West Side Scory", new auto1());
       SmartDashboard.putData("Auto #2 - East Side Scory", new auto2());
       SmartDashboard.putData("Auto #6 - 1 North Score And Seven Years Ago", new auto6());

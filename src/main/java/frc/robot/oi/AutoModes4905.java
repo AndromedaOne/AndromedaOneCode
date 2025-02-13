@@ -22,7 +22,7 @@ public class AutoModes4905 {
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
-    if (Config4905.getConfig4905().isSwerveBot()) {
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
       try {
         m_autoChooser.addOption("Auto #1 - West Side Scory", new auto1());
       } catch (Exception e) {
