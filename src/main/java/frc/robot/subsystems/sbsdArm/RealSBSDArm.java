@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
 public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
@@ -34,6 +36,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_tolerance = 0.0;
   private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD,
       0);
+  private CoralEndEffectorRotateBase m_endEffector;
 
   public RealSBSDArm() {
     SmartDashboard.putNumber("SBSD Arm kG", m_kG);
@@ -54,6 +57,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kG = armrotateConfig.getDouble("kG");
     m_tolerance = armrotateConfig.getDouble("tolerance");
     m_controller.setTolerance(m_tolerance);
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
   }
 
   @Override
@@ -126,7 +130,9 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   @Override
   public void rotate(double speed) {
     MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
-    if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+    if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
+      stop();
+    } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
       stop();
     } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
       stop();
