@@ -12,8 +12,11 @@ import frc.robot.actuators.SparkMaxController;
 /** Add your docs here. */
 public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   private SparkMaxController m_climberWinchMotor; 
+  private Config4905 m_climberConfig; 
 
   public RealSBSDClimber(){
+    m_climberConfig = Config4905.getConfig4905().get
+    m_climberWinchMotor = new SparkMaxController(null, getName(), false, false)
 
   }
 
