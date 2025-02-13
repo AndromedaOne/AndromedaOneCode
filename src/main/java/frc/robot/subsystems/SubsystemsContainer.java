@@ -12,6 +12,7 @@ import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
+import frc.robot.commands.sbsdArmCommands.EndEffectorDefaultCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -303,6 +304,10 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       m_sbsdCoralEndEffectorBase
           .setDefaultCommand(new EndEffectorControlCommand(ArmSetpoints.CORAL_LOAD));
+    }
+    if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
+      m_sbsdCoralIntakeEjectBase
+          .setDefaultCommand(new EndEffectorDefaultCommand(ArmSetpoints.CORAL_LOAD));
     }
   }
 }

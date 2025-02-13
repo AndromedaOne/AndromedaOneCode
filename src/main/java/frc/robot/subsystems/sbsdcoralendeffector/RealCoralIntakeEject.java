@@ -19,6 +19,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private SparkMaxController m_intakeMotor;
   private LimitSwitchSensor m_intakeSideSensor;
   private LimitSwitchSensor m_ejectSideSensor;
+  private boolean m_hasCoral = false;
 
   public RealCoralIntakeEject() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
@@ -35,6 +36,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
 
   @Override
   public void setDefaultCommand(Command command) {
+    super.setDefaultCommand(command);
   }
 
   @Override
@@ -44,6 +46,12 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
 
   @Override
   public void runWheelsIntake(double speed) {
+    // coral always goes through the indefector one way
+    // quere sensor for coral > intake until !Intake sensor -> has coral
+    // if has coral > stop
+    // if manual mode & has coral & left trig & arm in position & EE in position ->
+    // eject coral
+    // Called once the command ends or is interrupted.
     // not sure whether these are the correct speed polarities
     if (intakeDetector() && speed > 0) {
       stop();
