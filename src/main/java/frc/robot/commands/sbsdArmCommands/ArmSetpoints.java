@@ -8,6 +8,8 @@ import frc.robot.Config4905;
 
 /** Add your docs here. */
 public enum ArmSetpoints {
+  CLIMBER_POSITION(Config4905.getConfig4905().getSBSDArmConfig().getDouble("climberPosition"),
+      Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("climberPosition")),
   CORAL_LOAD(Config4905.getConfig4905().getSBSDArmConfig().getDouble("coralLoad"),
       Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("coralLoad")),
   LEVEL_1(Config4905.getConfig4905().getSBSDArmConfig().getDouble("level_1"),
