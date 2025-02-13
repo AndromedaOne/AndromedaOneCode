@@ -25,6 +25,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
   private double m_angleOffset = 0.0;
+  private double m_safetyAngle = 0.0;
   private double m_maxSpeed = 0.0;
   private double m_kP = 0.0;
   private double m_kI = 0.0;
@@ -45,6 +46,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_angleOffset = armrotateConfig.getDouble("angleOffset");
     m_minAngleDeg = armrotateConfig.getDouble("minAngleDeg");
     m_maxAngleDeg = armrotateConfig.getDouble("maxAngleDeg");
+    m_safetyAngle = armrotateConfig.getDouble("safetyAngle");
     m_maxSpeed = armrotateConfig.getDouble("maxSpeed");
     m_kP = armrotateConfig.getDouble("kP");
     m_kI = armrotateConfig.getDouble("kI");
