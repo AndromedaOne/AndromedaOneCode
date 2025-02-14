@@ -192,19 +192,20 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
     }
-    if (Config4905.getConfig4905().doesSBSDArmExist()) {
-      Trace.getInstance().logInfo("using real SBSD arm");
-      m_sbsdArmBase = new RealSBSDArm();
-    } else {
-      Trace.getInstance().logInfo("using mock SBSD arm");
-      m_sbsdArmBase = new MockSBSDArm();
-    }
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       Trace.getInstance().logInfo("using real SBSD coral end effector");
       m_sbsdCoralEndEffectorBase = new RealCoralEndEffectorRotate();
     } else {
       Trace.getInstance().logInfo("using mock SBSD end effector");
       m_sbsdCoralEndEffectorBase = new MockCoralEndEffectorRotate();
+    }
+    if (Config4905.getConfig4905().doesSBSDArmExist()) {
+      Trace.getInstance().logInfo("using real SBSD arm");
+      m_sbsdArmBase = new RealSBSDArm();
+      m_sbsdArmBase.setEndEffector(m_sbsdCoralEndEffectorBase);
+    } else {
+      Trace.getInstance().logInfo("using mock SBSD arm");
+      m_sbsdArmBase = new MockSBSDArm();
     }
 
   }

@@ -4,16 +4,20 @@
 
 package frc.robot.commands.sbsdArmCommands;
 
+import java.util.function.IntSupplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class ArmControlCommand extends Command {
   private SBSDArmBase m_sbsdArmBase;
   private boolean m_useSmartDashboard = false;
   private double m_setpoint = 0;
+  private IntSupplier m_level = () -> -1;
 
   public ArmControlCommand(boolean useSmartDashboard) {
     m_useSmartDashboard = useSmartDashboard;
@@ -33,9 +37,28 @@ public class ArmControlCommand extends Command {
     this(setpoint.getAngleInDeg());
   }
 
+  public ArmControlCommand(IntSupplier level) {
+    this(false);
+    m_level = level;
+
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (m_level.getAsInt() != -1) {
+      if (m_level.getAsInt() == 1) {
+        m_setpoint = ArmSetpoints.LEVEL_1.getAngleInDeg();
+      } else if (m_level.getAsInt() == 2) {
+        m_setpoint = ArmSetpoints.LEVEL_2.getAngleInDeg();
+      } else if (m_level.getAsInt() == 3) {
+        m_setpoint = ArmSetpoints.LEVEL_3.getAngleInDeg();
+      } else if (m_level.getAsInt() == 4) {
+        m_setpoint = ArmSetpoints.LEVEL_4.getAngleInDeg();
+      } else {
+        Trace.getInstance().logInfo("UNKNOWN ARM LEVEL!!!!! " + m_level.getAsInt());
+      }
+    }
     if (m_useSmartDashboard) {
       m_sbsdArmBase.setGoalDeg(SmartDashboard.getNumber("SBSD Arm goal degrees", 0));
     } else {
@@ -60,6 +83,6 @@ public class ArmControlCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_sbsdArmBase.limitSwitchActive();
   }
 }

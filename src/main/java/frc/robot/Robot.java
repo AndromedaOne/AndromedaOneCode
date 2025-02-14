@@ -68,11 +68,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     Trace.getInstance().logInfo("robot init started");
-    NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
-    NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     try {
@@ -83,6 +78,11 @@ public class Robot extends TimedRobot {
       throw new RuntimeException(e);
     }
     m_subsystemContainer.setDefaultCommands();
+    NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
+    NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(true);

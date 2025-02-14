@@ -29,5 +29,7 @@ public interface CoralEndEffectorRotateBase extends SubsystemInterface {
 
   public abstract void reloadConfig();
 
+  public abstract boolean atSetPoint();
+
   public abstract void calculateSpeed();
 }

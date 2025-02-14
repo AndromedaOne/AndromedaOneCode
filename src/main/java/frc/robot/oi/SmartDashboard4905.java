@@ -39,12 +39,13 @@ import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.Rotate;
+import frc.robot.commands.sbsdArmCommands.RotateEndEffector;
+import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
 import frc.robot.commands.sbsdAutoCommands.auto6;
 import frc.robot.commands.sbsdAutoCommands.auto7;
-import frc.robot.commands.sbsdArmCommands.RotateEndEffector;
-import frc.robot.commands.sbsdArmCommands.SetBreakMode;
+import frc.robot.commands.sbsdTeleOpCommands.sbsdMoveArmAndEndEffector;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
@@ -190,6 +191,18 @@ public class SmartDashboard4905 {
           new EndEffectorControlCommand(ArmSetpoints.LEVEL_4));
       SmartDashboard.putData("SBSD End Effector Coral Load",
           new EndEffectorControlCommand(ArmSetpoints.CORAL_LOAD));
+    }
+
+    if (Config4905.getConfig4905().doesSBSDArmExist()
+        && Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
+      SmartDashboard.putData("SBSD Arm and End Effector Level 1",
+          new sbsdMoveArmAndEndEffector(() -> 1));
+      SmartDashboard.putData("SBSD Arm and End Effector Level 2",
+          new sbsdMoveArmAndEndEffector(() -> 2));
+      SmartDashboard.putData("SBSD Arm and End Effector Level 3",
+          new sbsdMoveArmAndEndEffector(() -> 3));
+      SmartDashboard.putData("SBSD Arm and End Effector Level 4",
+          new sbsdMoveArmAndEndEffector(() -> 4));
     }
   }
 

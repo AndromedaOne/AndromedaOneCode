@@ -6,6 +6,8 @@ package frc.robot.commands.sbsdTeleOpCommands;
 
 import java.util.function.IntSupplier;
 
+import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
+import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -14,12 +16,12 @@ import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   /** Creates a new sbsdMoveArmAndEndEffector. */
   boolean m_moved;
-  sbsdMoveArm m_moveArm;
-  sbsdMoveEndEffector m_moveEndEffector;
+  ArmControlCommand m_moveArm;
+  EndEffectorControlCommand m_moveEndEffector;
 
   public sbsdMoveArmAndEndEffector(IntSupplier level) {
-    m_moveArm = new sbsdMoveArm(level);
-    m_moveEndEffector = new sbsdMoveEndEffector(level);
+    m_moveArm = new ArmControlCommand(level);
+    m_moveEndEffector = new EndEffectorControlCommand(level);
     addCommands(m_moveArm, m_moveEndEffector);
   }
 

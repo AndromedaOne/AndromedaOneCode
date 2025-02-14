@@ -34,6 +34,7 @@ public class SubsystemController extends ControllerBase {
     getLeftStickButton().whileTrue(new ManualModeCoralScore());
 
   }
+
   public JoystickButton getScoreLevelOne() {
     return getAbutton();
   }
