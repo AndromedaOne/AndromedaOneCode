@@ -21,6 +21,16 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private LimitSwitchSensor m_ejectSideSensor;
   private boolean m_hasCoral = false;
   private double m_intakeSpeed = 0.1;
+  private double m_repositionSpeed = 0.1;
+  private double m_ejectSpeed = 0.1;
+  private enum CoralState {
+    WAIT_FOR_CORAL,
+    INTAKE_CORAL,
+    POSITION_CORAL,
+    HOLD_CORAL,
+    EJECT_CORAL
+  }
+  private CoralState m_currentState = CoralState.WAIT_FOR_CORAL;
 
   public RealCoralIntakeEject() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
@@ -57,24 +67,56 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
      * intaking or scoring or holding. first thimg is to detect that a coral has
      * arrived at the intake and pull it in to the end effector.
      */
-    double speed = 0;
-    if (intakeDetector() && !ejectDetector()) {
+    switch (m_currentState) {
+      // no coral has been detected on either side of the end effector
+      case WAIT_FOR_CORAL:
+        stop();
+        if (intakeDetector() && !ejectDetector()) {
+          m_currentState = CoralState.INTAKE_CORAL;
+        }
+        break;
+
       // a coral has been detected on the intake side but nothing is on the eject
       // side. so pull the coral into the end effector
-      speed = m_intakeSpeed;
-    } else if (intakeDetector() && ejectDetector()) {
+      case INTAKE_CORAL:
+        m_intakeMotor.setSpeed(m_intakeSpeed);
+        if (intakeDetector() && ejectDetector()) {
+          m_currentState = CoralState.POSITION_CORAL;
+        }
+        break;
+
       /*
        * there's a coral in the end effector but it is detected on both the intake and
        * eject detector, we will need to push the coral out of the end effector until
        * only the eject side detector is true. this must be done to get the coral out
        * of the way so the arm can move to a scoring position.
        */
-      stop(); // TODO: right now just stop, will need further logic to pull the coral into the
-      // end effector
-    } else {
-      m_intakeMotor.setSpeed(speed);
+      case POSITION_CORAL:
+        m_intakeMotor.setSpeed(m_repositionSpeed);
+        if (!intakeDetector() && ejectDetector()) {
+          m_currentState = CoralState.HOLD_CORAL;
+        }
+        break;
+
+      // the coral is in the end effector and is in the correct position to be scored
+      case HOLD_CORAL:
+        stop();
+        m_hasCoral = true;
+        break;
+
+      // Eject coral
+      case EJECT_CORAL:
+        m_intakeMotor.setSpeed(m_ejectSpeed);
+        if (!intakeDetector() && !ejectDetector()) {
+          m_currentState = CoralState.WAIT_FOR_CORAL;
+        }
+        break;
+
+      default:
+        stop();
+        break;
+      }
     }
-  }
 
   @Override
   public void stop() {
