@@ -20,6 +20,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private LimitSwitchSensor m_intakeSideSensor;
   private LimitSwitchSensor m_ejectSideSensor;
   private boolean m_hasCoral = false;
+  private double m_intakeSpeed = 0.1;
 
   public RealCoralIntakeEject() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
@@ -45,18 +46,31 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   }
 
   @Override
-  public void runWheelsIntake(double speed) {
-    // coral always goes through the indefector one way
-    // quere sensor for coral > intake until !Intake sensor -> has coral
-    // if has coral > stop
-    // if manual mode & has coral & left trig & arm in position & EE in position ->
-    // eject coral
-    // Called once the command ends or is interrupted.
-    // not sure whether these are the correct speed polarities
-    if (intakeDetector() && speed > 0) {
-      stop();
-    } else if (ejectDetector() && speed < 0) {
-      stop();
+  public void runWheelsIntake() {
+    /*
+     * given that the coral only goes one way through the end effector (intake pulls
+     * it in through the intake side, eject scores out the other end), a positive
+     * speed will send the coral through the end effector. there should be no reason
+     * to go in the opposite direction. also, the speed of the wheels will be
+     * determined by experiment, a command will not tell it the speed, the speed
+     * will depend upon where the coral is within the end effector and whether it is
+     * intaking or scoring or holding. first thimg is to detect that a coral has
+     * arrived at the intake and pull it in to the end effector.
+     */
+    double speed = 0;
+    if (intakeDetector() && !ejectDetector()) {
+      // a coral has been detected on the intake side but nothing is on the eject
+      // side. so pull the coral into the end effector
+      speed = m_intakeSpeed;
+    } else if (intakeDetector() && ejectDetector()) {
+      /*
+       * there's a coral in the end effector but it is detected on both the intake and
+       * eject detector, we will need to push the coral out of the end effector until
+       * only the eject side detector is true. this must be done to get the coral out
+       * of the way so the arm can move to a scoring position.
+       */
+      stop(); // TODO: right now just stop, will need further logic to pull the coral into the
+      // end effector
     } else {
       m_intakeMotor.setSpeed(speed);
     }

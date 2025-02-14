@@ -9,24 +9,24 @@ import frc.robot.Robot;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class EndEffectorDefaultCommand extends Command {
-  private CoralIntakeEjectBase m_CoralIntakeEject;
+public class CoralIntakeEjectDefaultCommand extends Command {
+  private CoralIntakeEjectBase m_coralIntakeEject;
 
-  public EndEffectorDefaultCommand(boolean useSmartDashboard) {
-    m_CoralIntakeEject = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
-    addRequirements(m_CoralIntakeEject.getSubsystemBase());
+  public CoralIntakeEjectDefaultCommand(boolean useSmartDashboard) {
+    m_coralIntakeEject = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
+    addRequirements(m_coralIntakeEject.getSubsystemBase());
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_CoralIntakeEject.runWheelsIntake(.1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_coralIntakeEject.runWheelsIntake();
   }
 
   @Override
