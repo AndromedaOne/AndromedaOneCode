@@ -31,6 +31,7 @@ import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
+import frc.robot.commands.examplePathCommands.ThisIsJustASimplePathToReefStationD;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
@@ -38,6 +39,10 @@ import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.Rotate;
+import frc.robot.commands.sbsdAutoCommands.auto1;
+import frc.robot.commands.sbsdAutoCommands.auto2;
+import frc.robot.commands.sbsdAutoCommands.auto6;
+import frc.robot.commands.sbsdAutoCommands.auto7;
 import frc.robot.commands.sbsdArmCommands.RotateEndEffector;
 import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -62,6 +67,9 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+    }
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
@@ -127,6 +135,11 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("ThisIsJustASimplePathToReefStationD",
+          new ThisIsJustASimplePathToReefStationD());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
     }
 
@@ -142,6 +155,13 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("play audio",
           new PlayAudio(subsystemsContainer.getShowBotAudio(), AudioFiles.CrazyTrain));
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
+      SmartDashboard.putData("Auto #1 - West Side Scory", new auto1());
+      SmartDashboard.putData("Auto #2 - East Side Scory", new auto2());
+      SmartDashboard.putData("Auto #6 - 1 North Score And Seven Years Ago", new auto6());
+      SmartDashboard.putData("Auto #7 - Drive Backwards", new auto7());
     }
 
     if (Config4905.getConfig4905().doesSBSDArmExist()) {
