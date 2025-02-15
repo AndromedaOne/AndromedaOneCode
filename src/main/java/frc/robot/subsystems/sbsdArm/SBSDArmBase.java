@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.sbsdArm;
 
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.subsystems.SubsystemInterface;
 
 /** Add your docs here. */
@@ -25,8 +26,11 @@ public interface SBSDArmBase extends SubsystemInterface {
 
   public abstract void setGoalDeg(double goal);
 
+  public abstract void setGoalDeg(ArmSetpoints setpoint);
+
   public abstract void reloadConfig();
 
   public abstract void calculateSpeed();
 
+  public abstract void runAlgaeRemovalWheels();
 }

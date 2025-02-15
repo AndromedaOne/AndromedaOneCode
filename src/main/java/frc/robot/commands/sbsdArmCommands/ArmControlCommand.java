@@ -14,6 +14,7 @@ public class ArmControlCommand extends Command {
   private SBSDArmBase m_sbsdArmBase;
   private boolean m_useSmartDashboard = false;
   private double m_setpoint = 0;
+  private ArmSetpoints m_setpointsForAlgaeRemoval;
 
   public ArmControlCommand(boolean useSmartDashboard) {
     m_useSmartDashboard = useSmartDashboard;
@@ -27,6 +28,7 @@ public class ArmControlCommand extends Command {
   public ArmControlCommand(double setpoint) {
     this(false);
     m_setpoint = setpoint;
+    m_setpointsForAlgaeRemoval =
   }
 
   public ArmControlCommand(ArmSetpoints setpoint) {
@@ -40,6 +42,7 @@ public class ArmControlCommand extends Command {
       m_sbsdArmBase.setGoalDeg(SmartDashboard.getNumber("SBSD Arm goal degrees", 0));
     } else {
       m_sbsdArmBase.setGoalDeg(m_setpoint);
+      m_sbsdArmBase.setGoalDeg(m_setpointsForAlgaeRemoval);
     }
   }
 

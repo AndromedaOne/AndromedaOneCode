@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
@@ -23,12 +24,14 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   private SparkMaxController m_leftAngleMotor;
   private SparkMaxController m_rightAngleMotor;
+  private SparkMaxController m_algaeRemovalWheels;
   private DoubleSupplier m_absoluteEncoderPosition;
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
   private double m_angleOffset = 0.0;
   private double m_safetyAngle = 0.0;
   private double m_maxSpeed = 0.0;
+  private double m_algaeRemovalWheelsSpeed = 0.0;
   private double m_kP = 0.0;
   private double m_kI = 0.0;
   private double m_kD = 0.0;
@@ -45,12 +48,14 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
     m_rightAngleMotor = new SparkMaxController(armrotateConfig, "armAngleRight", false, false);
     m_leftAngleMotor = new SparkMaxController(armrotateConfig, "armAngleLeft", false, false);
+    m_algaeRemovalWheels = new SparkMaxController(armrotateConfig, "algaeRemovalWheels", false, false);
     m_absoluteEncoderPosition = () -> m_rightAngleMotor.getAbsoluteEncoderPosition();
     m_angleOffset = armrotateConfig.getDouble("angleOffset");
     m_minAngleDeg = armrotateConfig.getDouble("minAngleDeg");
     m_maxAngleDeg = armrotateConfig.getDouble("maxAngleDeg");
     m_safetyAngle = armrotateConfig.getDouble("safetyAngle");
     m_maxSpeed = armrotateConfig.getDouble("maxSpeed");
+    m_algaeRemovalWheelsSpeed = armrotateConfig.getDouble("algaeRemovalWheelsSpeed");
     m_kP = armrotateConfig.getDouble("kP");
     m_kI = armrotateConfig.getDouble("kI");
     m_kD = armrotateConfig.getDouble("kD");
@@ -79,6 +84,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   public void stop() {
     m_leftAngleMotor.setSpeed(0);
     m_rightAngleMotor.setSpeed(0);
+    m_algaeRemovalWheels.setSpeed(0);
   }
 
   private double calculateCorrectedEncoder() {
@@ -119,6 +125,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   public void setCoastMode() {
     m_rightAngleMotor.setCoastMode();
     m_leftAngleMotor.setCoastMode();
+    m_algaeRemovalWheels.setCoastMode();
   }
 
   @Override
@@ -151,6 +158,13 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_controller.setP(m_kP);
   }
 
+  @Override
+  public void setGoalDeg(ArmSetpoints setpoint) {
+    if(setpoint == ArmSetpoints.LEVEL_2 || setpoint == ArmSetpoints.LEVEL_3) {
+      runAlgaeRemovalWheels();
+    }
+  }
+
   public boolean atSetPoint() {
     return m_controller.atSetpoint();
   }
@@ -177,5 +191,10 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kI = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kI");
     m_kD = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kD");
     m_tolerance = Config4905.getConfig4905().getSBSDArmConfig().getDouble("tolerance");
+  }
+
+  @Override
+  public void runAlgaeRemovalWheels() {
+    m_algaeRemovalWheels.setSpeed(m_algaeRemovalWheelsSpeed);
   }
 }
