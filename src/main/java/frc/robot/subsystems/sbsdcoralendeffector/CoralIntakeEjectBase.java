@@ -11,7 +11,13 @@ public interface CoralIntakeEjectBase extends SubsystemInterface {
 
   public abstract void runWheels(double speed);
 
-  public abstract void runWheelsIntake(double speed);
+  public abstract void runWheelsIntake();
+
+  public abstract void runWheelsEject();
+
+  public abstract void setEjectState();
+
+  public abstract boolean getCoralDetected();
 
   public void stop();
 

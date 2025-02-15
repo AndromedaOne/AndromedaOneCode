@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.subsystems.MockSubsystem;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
 public class MockSBSDArm implements SBSDArmBase {
@@ -39,6 +40,20 @@ public class MockSBSDArm implements SBSDArmBase {
 
   @Override
   public void setBrakeMode() {
+  }
+
+  @Override
+  public void setEndEffector(CoralEndEffectorRotateBase endEffector) {
+  }
+
+  @Override
+  public boolean atSetPoint() {
+    return false;
+  }
+
+  @Override
+  public boolean limitSwitchActive() {
+    return false;
   }
 
   @Override

@@ -38,6 +38,7 @@ import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 import frc.robot.utils.PoseEstimation4905;
+import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -66,6 +67,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private double m_robotAngle = 0;
   private int m_count = 0;
   private double m_highestAccel = 0;
+  private PoseEstimation4905.RegionsForPose m_region = RegionsForPose.UNKNOWN;
+  private boolean m_isLeftSide = false;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -247,9 +250,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       }
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
+      m_region = m_poseEstimation.getRegion();
+      m_isLeftSide = m_poseEstimation.isLeftSide();
       SmartDashboard.putNumber("Pose X ", metersToInches(m_currentPose.getX()));
       SmartDashboard.putNumber("Pose Y ", metersToInches(m_currentPose.getY()));
       SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
+      SmartDashboard.putString("PoseRegion", m_region.toString());
+      SmartDashboard.putBoolean("Is Left Side ", m_isLeftSide);
       double currentAngle = m_currentPose.getRotation().getDegrees();
       double currentAngularVelocity = (currentAngle - m_robotAngle) * 2;
       SmartDashboard.putNumber("Robot Angular Velocity", currentAngularVelocity);
@@ -433,6 +440,14 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     for (SwerveModuleBase mod : m_SwerveMods) {
       mod.enableAccelerationLimiting();
     }
+  }
+
+  public PoseEstimation4905.RegionsForPose getRegion() {
+    return m_region;
+  }
+
+  public boolean isLeftSide() {
+    return m_isLeftSide;
   }
 
 }

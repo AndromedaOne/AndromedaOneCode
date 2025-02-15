@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
-import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
@@ -24,7 +23,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   private SparkMaxController m_leftAngleMotor;
   private SparkMaxController m_rightAngleMotor;
-  private SparkMaxController m_algaeRemovalWheels;
+  private SparkMaxController m_algaeRemovalWheels = false;
+  private double m_runAlgaeRemovalWheels;
   private DoubleSupplier m_absoluteEncoderPosition;
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
@@ -37,15 +37,11 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_kD = 0.0;
   private double m_kG = 0.0;
   private double m_tolerance = 0.0;
-  private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD,
-      0);
+  private PIDController4905 m_controller;
   private CoralEndEffectorRotateBase m_endEffector;
 
   public RealSBSDArm() {
-    SmartDashboard.putNumber("SBSD Arm kG", m_kG);
-    SmartDashboard.putNumber("SBSD Arm kP", m_kP);
     Config armrotateConfig = Config4905.getConfig4905().getSBSDArmConfig();
-    m_controller.enableContinuousInput(-Math.PI, Math.PI);
     m_rightAngleMotor = new SparkMaxController(armrotateConfig, "armAngleRight", false, false);
     m_leftAngleMotor = new SparkMaxController(armrotateConfig, "armAngleLeft", false, false);
     m_algaeRemovalWheels = new SparkMaxController(armrotateConfig, "algaeRemovalWheels", false, false);
@@ -60,9 +56,12 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kI = armrotateConfig.getDouble("kI");
     m_kD = armrotateConfig.getDouble("kD");
     m_kG = armrotateConfig.getDouble("kG");
+    SmartDashboard.putNumber("SBSD Arm kG", m_kG);
+    SmartDashboard.putNumber("SBSD Arm kP", m_kP);
     m_tolerance = armrotateConfig.getDouble("tolerance");
-    m_controller.setTolerance(m_tolerance);
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD, 0);
+    m_controller.enableContinuousInput(-Math.PI, Math.PI);
+    m_controller.setTolerance(Math.toRadians(m_tolerance));
   }
 
   @Override
@@ -119,6 +118,15 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     SmartDashboard.putNumber("SBSD Arm Angle in Rads", getAngleRad());
     SmartDashboard.putNumber("SBSD Arm Encoder Position", m_absoluteEncoderPosition.getAsDouble());
     SmartDashboard.putNumber("SBSD Arm position error", m_controller.getPositionError());
+    SmartDashboard.putBoolean("SBSD arm forward limit switch",
+        m_rightAngleMotor.isForwardLimitSwitchOn());
+    SmartDashboard.putBoolean("SBSD arm backward limit switch",
+        m_rightAngleMotor.isReverseLimitSwitchOn());
+  }
+
+  @Override
+  public boolean limitSwitchActive() {
+    return m_rightAngleMotor.isForwardLimitSwitchOn() || m_rightAngleMotor.isReverseLimitSwitchOn();
   }
 
   @Override
@@ -132,6 +140,11 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   public void setBrakeMode() {
     m_rightAngleMotor.setBrakeMode();
     m_leftAngleMotor.setBrakeMode();
+  }
+
+  @Override
+  public void setEndEffector(CoralEndEffectorRotateBase endEffector) {
+    m_endEffector = endEffector;
   }
 
   @Override
@@ -159,9 +172,9 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   }
 
   @Override
-  public void setGoalDeg(ArmSetpoints setpoint) {
-    if(setpoint == ArmSetpoints.LEVEL_2 || setpoint == ArmSetpoints.LEVEL_3) {
-      runAlgaeRemovalWheels();
+  public void setGoalDeg(ArmSetpoints level) {
+    if(level == ArmSetpoints.LEVEL_2 || level == ArmSetpoints.LEVEL_3) {
+      m_runAlgaeRemovalWheels = true;
     }
   }
 
@@ -175,6 +188,10 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
     rotate(speed);
+    if (m_runAlgaeRomovalWheels)
+    {
+      runAlga
+    }
     SmartDashboard.putNumber("SBSD Arm Error", m_controller.getPositionError());
     SmartDashboard.putNumber("SBSD Arm pidCalc", pidCalc);
     SmartDashboard.putNumber("SBSD Arm feedForwardCalc", feedforwardCalc);

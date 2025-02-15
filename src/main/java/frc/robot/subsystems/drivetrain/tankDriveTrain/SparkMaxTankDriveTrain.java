@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.telemetries.Trace;
+import frc.robot.utils.PoseEstimation4905;
 
 @SuppressWarnings("removal")
 public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
@@ -196,6 +197,16 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
 
   @Override
   public void setToAngle(double angle) {
+  }
+
+  @Override
+  public PoseEstimation4905.RegionsForPose getRegion() {
+    return PoseEstimation4905.RegionsForPose.UNKNOWN;
+  }
+
+  @Override
+  public boolean isLeftSide() {
+    return false;
   }
 
 }

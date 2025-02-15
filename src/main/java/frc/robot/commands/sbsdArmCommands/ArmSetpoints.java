@@ -21,19 +21,24 @@ public enum ArmSetpoints {
   LEVEL_4(Config4905.getConfig4905().getSBSDArmConfig().getDouble("level_4"),
       Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("level_4"));
 
-  private final double angleInDeg;
+  private final double armAngleInDeg;
   private final double endEffectorAngleInDeg;
 
-  ArmSetpoints(double angleInDeg, double endEffectorAngleInDeg) {
-    this.angleInDeg = angleInDeg;
+  ArmSetpoints(double armAngleInDeg, double endEffectorAngleInDeg) {
+    this.armAngleInDeg = armAngleInDeg;
     this.endEffectorAngleInDeg = endEffectorAngleInDeg;
   }
 
-  public double getAngleInDeg() {
-    return angleInDeg;
+  public double getArmAngleInDeg() {
+    return armAngleInDeg;
   }
 
   public double getEndEffectorAngleInDeg() {
     return endEffectorAngleInDeg;
+  }
+
+  public interface ArmSetpointsSupplier {
+    public ArmSetpoints getAsArmSetpoints();
+
   }
 }

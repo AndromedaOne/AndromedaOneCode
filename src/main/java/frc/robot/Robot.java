@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -18,6 +19,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel1;
+import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel2;
+import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel3;
+import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel4;
+import frc.robot.commands.sbsdTeleOpCommands.sbsdScoreCoral;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
@@ -67,14 +73,19 @@ public class Robot extends TimedRobot {
     try {
       m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
     } catch (FileVersionException | IOException | ParseException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
       throw new RuntimeException(e);
     }
     m_subsystemContainer.setDefaultCommands();
+    NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
+    NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(true);
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
     LiveWindow.disableAllTelemetry();
     CommandScheduler.getInstance()
         .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));
@@ -119,6 +130,7 @@ public class Robot extends TimedRobot {
     Trace.getInstance().flushTraceFiles();
     m_limelight.disableLED();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
   }
 
   @Override
@@ -151,6 +163,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
     LiveWindow.disableAllTelemetry();
 
     Trace.getInstance().logInfo("autonomousInit finished");
@@ -192,8 +205,8 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
     LiveWindow.disableAllTelemetry();
-
     m_subsystemContainer.getShowBotAudio().playAudio(AudioFiles.DiveAlert);
     Trace.getInstance().logInfo("teleopInit finished");
   }

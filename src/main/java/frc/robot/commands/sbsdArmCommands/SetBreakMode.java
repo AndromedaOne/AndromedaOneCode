@@ -8,16 +8,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SetBreakMode extends Command {
   private SBSDArmBase m_sbsdArmBase;
   private CoralEndEffectorRotateBase m_endEffector;
+  private CoralIntakeEjectBase m_coralIntakeEject;
   private boolean m_brakeOn = true;
 
   public SetBreakMode(boolean brakeOn) {
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_coralIntakeEject = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase(), m_endEffector.getSubsystemBase());
     m_brakeOn = brakeOn;
   }
@@ -28,9 +31,11 @@ public class SetBreakMode extends Command {
     if (m_brakeOn) {
       m_sbsdArmBase.setBrakeMode();
       m_endEffector.setBrakeMode();
+      m_coralIntakeEject.setBrakeMode();
     } else {
       m_sbsdArmBase.setCoastMode();
       m_endEffector.setCoastMode();
+      m_coralIntakeEject.setCoastMode();
     }
   }
 

@@ -386,6 +386,10 @@ public class Config4905 {
     return m_sbsdCoralEndEffectorConfig;
   }
 
+  public boolean doesSBSDCoralIntakeEjectExist() {
+    return (m_config.hasPath("subsystems.sbsdcoralintakeeject"));
+  }
+
   public Config getSensorConfig() {
     return m_sensorConfig;
   }
