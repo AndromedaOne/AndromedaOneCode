@@ -131,9 +131,9 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   @Override
   public void rotate(double speed) {
     if (getAngleDeg() >= m_closeToMaxAngle) {
-      MathUtil.clamp(speed, -m_maxSpeedCloseToMax, m_maxSpeedCloseToMax);
+      speed = MathUtil.clamp(speed, -m_maxSpeedCloseToMax, m_maxSpeedCloseToMax);
     } else {
-      MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
+      speed = MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
     }
     if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
       stop();

@@ -27,7 +27,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_maxAngleDeg = 0.0;
   private double m_angleOffset = 0.0;
   private double m_safetyAngle = 0.0;
-  private double m_maxSpeed = 0.0;
+  private double m_maxSpeedUp = 0.0;
+  private double m_maxSpeedDown = 0.0;
   private double m_kP = 0.0;
   private double m_kI = 0.0;
   private double m_kD = 0.0;
@@ -45,7 +46,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_minAngleDeg = armrotateConfig.getDouble("minAngleDeg");
     m_maxAngleDeg = armrotateConfig.getDouble("maxAngleDeg");
     m_safetyAngle = armrotateConfig.getDouble("safetyAngle");
-    m_maxSpeed = armrotateConfig.getDouble("maxSpeed");
+    m_maxSpeedUp = armrotateConfig.getDouble("maxSpeedUp");
+    m_maxSpeedDown = armrotateConfig.getDouble("maxSpeedDown");
     m_kP = armrotateConfig.getDouble("kP");
     m_kI = armrotateConfig.getDouble("kI");
     m_kD = armrotateConfig.getDouble("kD");
@@ -141,7 +143,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void rotate(double speed) {
-    MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
+    speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
     if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
       stop();
     } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
@@ -185,7 +187,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_minAngleDeg = Config4905.getConfig4905().getSBSDArmConfig().getDouble("minAngleDeg");
     m_maxAngleDeg = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxAngleDeg");
     m_angleOffset = Config4905.getConfig4905().getSBSDArmConfig().getDouble("angleOffset");
-    m_maxSpeed = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxSpeed");
+    m_maxSpeedUp = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxSpeedUp");
+    m_maxSpeedDown = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxSpeedDown");
     m_kP = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kP");
     m_kI = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kI");
     m_kD = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kD");
