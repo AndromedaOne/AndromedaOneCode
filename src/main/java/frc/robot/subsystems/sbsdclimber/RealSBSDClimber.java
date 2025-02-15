@@ -18,7 +18,7 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
 
   public RealSBSDClimber() {
     m_climberConfig = Config4905.getConfig4905().getSBSDClimberConfig();
-    m_climberWinchMotor = new SparkMaxController(null, getName(), false, false);
+    m_climberWinchMotor = new SparkMaxController(m_climberConfig, "winchMotor", false, false);
 
   }
 
@@ -29,14 +29,15 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
 
   @Override
   public void setDefaultCommand(Command command) {
+    super.setDefaultCommand(command);
   }
 
   @Override
-  public void climb(double speed) {
+  public void climb() {
   }
 
   @Override
-  public void reverseClimb(double speed) {
+  public void reverseClimb() {
   }
 
 }

@@ -17,11 +17,11 @@ public class MockSBSDClimber implements SBSDClimberBase {
   }
 
   @Override
-  public void climb(double speed) {
+  public void climb() {
   }
 
   @Override
-  public void reverseClimb(double speed) {
+  public void reverseClimb() {
   }
 
   @Override

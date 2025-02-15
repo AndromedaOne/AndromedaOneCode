@@ -16,6 +16,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.subsystems.sbsdclimber.ClimberMode;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
@@ -152,18 +153,23 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void rotate(double speed) {
-    speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
-    if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
-      stop();
-    } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
-      stop();
-    } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+    if (ClimberMode.getInstance().getInClimberMode()) {
       stop();
     } else {
-      m_rightAngleMotor.setSpeed(speed);
-      m_leftAngleMotor.setSpeed(speed);
+      speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
+      if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
+        stop();
+      } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+        stop();
+      } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+        stop();
+      } else {
+        m_rightAngleMotor.setSpeed(speed);
+        m_leftAngleMotor.setSpeed(speed);
+      }
+      SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
     }
-    SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
+
   }
 
   @Override

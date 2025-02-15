@@ -8,7 +8,7 @@ import frc.robot.subsystems.SubsystemInterface;
 
 /** Add your docs here. */
 public interface SBSDClimberBase extends SubsystemInterface {
-  public abstract void climb(double speed);
+  public abstract void climb();
 
-  public abstract void reverseClimb(double speed);
+  public abstract void reverseClimb();
 }
