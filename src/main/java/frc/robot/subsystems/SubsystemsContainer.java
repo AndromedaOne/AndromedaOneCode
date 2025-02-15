@@ -284,6 +284,10 @@ public class SubsystemsContainer {
     return m_sbsdCoralIntakeEjectBase;
   }
 
+  public SBSDClimberBase getSBSDClimberBase() {
+    return m_sbsdClimber;
+  }
+
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }

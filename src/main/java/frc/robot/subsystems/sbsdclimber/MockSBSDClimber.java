@@ -25,6 +25,10 @@ public class MockSBSDClimber implements SBSDClimberBase {
   }
 
   @Override
+  public void stop() {
+  }
+
+  @Override
   public void setDefaultCommand(Command command) {
   }
 

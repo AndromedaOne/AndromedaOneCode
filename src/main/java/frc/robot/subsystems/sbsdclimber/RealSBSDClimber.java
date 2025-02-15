@@ -15,10 +15,12 @@ import frc.robot.actuators.SparkMaxController;
 public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   private SparkMaxController m_climberWinchMotor;
   private Config m_climberConfig;
+  private double m_climbSpeed = 0.0;
 
   public RealSBSDClimber() {
     m_climberConfig = Config4905.getConfig4905().getSBSDClimberConfig();
     m_climberWinchMotor = new SparkMaxController(m_climberConfig, "winchMotor", false, false);
+    m_climbSpeed = m_climberConfig.getDouble("climbSpeed");
 
   }
 
@@ -34,10 +36,16 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
 
   @Override
   public void climb() {
+    m_climberWinchMotor.setSpeed(m_climbSpeed);
   }
 
   @Override
   public void reverseClimb() {
+  }
+
+  @Override
+  public void stop() {
+    m_climberWinchMotor.setSpeed(0);
   }
 
 }
