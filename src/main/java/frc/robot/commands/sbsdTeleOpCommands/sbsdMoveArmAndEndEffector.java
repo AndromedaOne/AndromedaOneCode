@@ -4,11 +4,10 @@
 
 package frc.robot.commands.sbsdTeleOpCommands;
 
-import java.util.function.IntSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
@@ -26,7 +25,7 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   private CoralEndEffectorRotateBase m_endEffector;
   private IntSupplier m_level;
 
-  public sbsdMoveArmAndEndEffector(IntSupplier level) {
+  public sbsdMoveArmAndEndEffector(ArmSetpointsSupplier level) {
     m_level = level;
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();

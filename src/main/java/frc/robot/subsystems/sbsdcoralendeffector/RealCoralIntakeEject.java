@@ -6,6 +6,7 @@ package frc.robot.subsystems.sbsdcoralendeffector;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
@@ -19,14 +20,26 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private SparkMaxController m_intakeMotor;
   private LimitSwitchSensor m_intakeSideSensor;
   private LimitSwitchSensor m_ejectSideSensor;
+  private boolean m_hasCoral = false;
+  private double m_intakeSpeed = 0.15;
+  private double m_repositionSpeed = 0.1;
+  private double m_ejectSpeed = 0.5;
+  private boolean m_ejectCoral = false;
+  private boolean m_inWaitForCoral = false;
+  private int m_count = 0;
+
+  private enum CoralState {
+    WAIT_FOR_CORAL, INTAKE_CORAL, POSITION_CORAL, HOLD_CORAL, EJECT_CORAL, PAUSE_FOR_EJECT
+  }
+
+  private CoralState m_currentState = CoralState.WAIT_FOR_CORAL;
 
   public RealCoralIntakeEject() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
-    Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
     m_intakeMotor = new SparkMaxController(config, "coralDelivery", false, false);
     m_intakeSideSensor = new RealLimitSwitchSensor("endEffectorIntakeSensor");
     m_ejectSideSensor = new RealLimitSwitchSensor("endEffectorEjectSensor");
-
+    SmartDashboard.putBoolean("Eject coral: ", false);
   }
 
   @Override
@@ -36,6 +49,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
 
   @Override
   public void setDefaultCommand(Command command) {
+    super.setDefaultCommand(command);
   }
 
   @Override
@@ -44,15 +58,102 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   }
 
   @Override
-  public void runWheelsIntake(double speed) {
-    // not sure whether these are the correct speed polarities
-    if (intakeDetector() && speed > 0) {
+  public void runWheelsIntake() {
+    /*
+     * given that the coral only goes one way through the end effector (intake pulls
+     * it in through the intake side, eject scores out the other end), a positive
+     * speed will send the coral through the end effector. there should be no reason
+     * to go in the opposite direction. also, the speed of the wheels will be
+     * determined by experiment, a command will not tell it the speed, the speed
+     * will depend upon where the coral is within the end effector and whether it is
+     * intaking or scoring or holding. first thimg is to detect that a coral has
+     * arrived at the intake and pull it in to the end effector.
+     */
+    switch (m_currentState) {
+    // no coral has been detected on either side of the end effector
+    case WAIT_FOR_CORAL:
       stop();
-    } else if (ejectDetector() && speed < 0) {
+      m_inWaitForCoral = true;
+      if (intakeDetector() && !ejectDetector()) {
+        m_currentState = CoralState.INTAKE_CORAL;
+      } else if (!intakeDetector() && ejectDetector()) {
+        m_currentState = CoralState.HOLD_CORAL;
+      }
+      break;
+
+    // a coral has been detected on the intake side but nothing is on the eject
+    // side. so pull the coral into the end effector
+    case INTAKE_CORAL:
+      m_inWaitForCoral = false;
+      m_intakeMotor.setSpeed(m_intakeSpeed);
+      if (intakeDetector() && ejectDetector()) {
+        m_currentState = CoralState.POSITION_CORAL;
+      }
+      break;
+
+    /*
+     * there's a coral in the end effector but it is detected on both the intake and
+     * eject detector, we will need to push the coral out of the end effector until
+     * only the eject side detector is true. this must be done to get the coral out
+     * of the way so the arm can move to a scoring position.
+     */
+    case POSITION_CORAL:
+      m_intakeMotor.setSpeed(m_repositionSpeed);
+      if (!intakeDetector() && ejectDetector()) {
+        m_currentState = CoralState.HOLD_CORAL;
+      }
+      break;
+
+    // the coral is in the end effector and is in the correct position to be scored
+    case HOLD_CORAL:
       stop();
-    } else {
-      m_intakeMotor.setSpeed(speed);
+      m_hasCoral = true;
+      m_inWaitForCoral = false;
+      if (m_ejectCoral) {
+        m_ejectCoral = false;
+        m_currentState = CoralState.EJECT_CORAL;
+      }
+      if (!ejectDetector()) {
+        m_currentState = CoralState.WAIT_FOR_CORAL;
+      }
+      break;
+
+    // Eject coral
+    case EJECT_CORAL:
+      m_intakeMotor.setSpeed(m_ejectSpeed);
+      if (!intakeDetector() && !ejectDetector()) {
+        m_currentState = CoralState.PAUSE_FOR_EJECT;
+      }
+      break;
+
+    // wait for the coral to be on the reef before moving
+    case PAUSE_FOR_EJECT:
+      m_count++;
+      stop();
+      if (m_count > 5) {
+        m_hasCoral = false;
+        m_currentState = CoralState.WAIT_FOR_CORAL;
+        m_count = 0;
+      }
+      break;
+
+    default:
+      stop();
+      break;
     }
+    SmartDashboard.putString("Coral State: ", m_currentState.toString());
+    m_ejectCoral = SmartDashboard.getBoolean("Eject coral: ", false);
+    SmartDashboard.putBoolean("Is in wait for coral: ", m_inWaitForCoral);
+  }
+
+  @Override
+  public void runWheelsEject() {
+    m_intakeMotor.setSpeed(m_ejectSpeed);
+  }
+
+  @Override
+  public void setEjectState() {
+    m_ejectCoral = true;
   }
 
   @Override
@@ -79,6 +180,16 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   @Override
   public void setBrakeMode() {
     m_intakeMotor.setBrakeMode();
+  }
+
+  @Override
+  public boolean getCoralDetected() {
+    return m_hasCoral;
+  }
+
+  @Override
+  public boolean hasScored() {
+    return m_inWaitForCoral;
   }
 
 }

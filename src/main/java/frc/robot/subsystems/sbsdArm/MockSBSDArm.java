@@ -6,6 +6,7 @@ package frc.robot.subsystems.sbsdArm;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.subsystems.MockSubsystem;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
@@ -64,6 +65,10 @@ public class MockSBSDArm implements SBSDArmBase {
   }
 
   @Override
+  public void setGoalDeg(ArmSetpoints setpoint) {
+  }
+
+  @Override
   public double getAngleRad() {
     return 0;
   }
@@ -74,5 +79,9 @@ public class MockSBSDArm implements SBSDArmBase {
 
   @Override
   public void calculateSpeed() {
+  }
+
+  @Override
+  public void runAlgaeRemovalWheels() {
   }
 }

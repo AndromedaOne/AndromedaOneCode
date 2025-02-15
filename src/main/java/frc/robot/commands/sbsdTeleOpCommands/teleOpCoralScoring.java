@@ -7,6 +7,7 @@ package frc.robot.commands.sbsdTeleOpCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.commands.teleOpPathCommands.GenericCoralPathCommand;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.commands.teleOpPathCommands.PlaceAtA;
 import frc.robot.commands.teleOpPathCommands.PlaceAtA4;
 import frc.robot.commands.teleOpPathCommands.PlaceAtB;
@@ -65,7 +66,7 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
   GenericCoralPathCommand m_placeAtJ4;
   GenericCoralPathCommand m_placeAtK4;
   GenericCoralPathCommand m_placeAtL4;
-  int m_level;
+  ArmSetpoints m_level = ArmSetpoints.CORAL_LOAD;
 
   public enum reefScoringSide {
     LEFT, RIGHT, NOTSELECTED
@@ -230,13 +231,13 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
     currentRegion = m_driveTrain.getRegion();
     // gets axby button from subsystem controller for coral level
     if (m_subsystemController.getScoreLevelOne().getAsBoolean()) {
-      m_level = 1;
+      m_level = ArmSetpoints.LEVEL_1;
     } else if (m_subsystemController.getScoreLevelTwo().getAsBoolean()) {
-      m_level = 2;
+      m_level = ArmSetpoints.LEVEL_2;
     } else if (m_subsystemController.getScoreLevelThree().getAsBoolean()) {
-      m_level = 3;
+      m_level = ArmSetpoints.LEVEL_3;
     } else if (m_subsystemController.getScoreLevelFour().getAsBoolean()) {
-      m_level = 4;
+      m_level = ArmSetpoints.LEVEL_4;
     }
 
     // gets left/right bumper from subsystem controller for left or right placement
@@ -246,15 +247,15 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
     } else if (m_subsystemController.getScoreLeft().getAsBoolean()) {
       scoringSide = reefScoringSide.LEFT;
     }
-    SmartDashboard.putNumber("scoring level", m_level);
+    SmartDashboard.putString("scoring level", m_level.toString());
     SmartDashboard.putString("Scoring Side", scoringSide.toString());
 
     // cancels if button not pressed
-    if (m_level == 0 || scoringSide == reefScoringSide.NOTSELECTED) {
+    if (m_level == ArmSetpoints.CORAL_LOAD || scoringSide == reefScoringSide.NOTSELECTED) {
       return;
     }
     // figures out which path to run
-    if (m_level == 4) {
+    if (m_level == ArmSetpoints.LEVEL_4) {
       if (currentRegion == PoseEstimation4905.RegionsForPose.SOUTH) {
         if (scoringSide == reefScoringSide.LEFT) {
           m_placeAtA4.schedule();

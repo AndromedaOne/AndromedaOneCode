@@ -73,7 +73,6 @@ public class Robot extends TimedRobot {
     try {
       m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
     } catch (FileVersionException | IOException | ParseException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
       throw new RuntimeException(e);
     }
@@ -86,6 +85,7 @@ public class Robot extends TimedRobot {
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(true);
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
     LiveWindow.disableAllTelemetry();
     CommandScheduler.getInstance()
         .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));
@@ -130,6 +130,7 @@ public class Robot extends TimedRobot {
     Trace.getInstance().flushTraceFiles();
     m_limelight.disableLED();
     m_subsystemContainer.getShooterAlignment().setCoastMode();
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
   }
 
   @Override
@@ -162,6 +163,7 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
     LiveWindow.disableAllTelemetry();
 
     Trace.getInstance().logInfo("autonomousInit finished");
@@ -203,8 +205,8 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getShooterAlignment().setBrakeMode();
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
     LiveWindow.disableAllTelemetry();
-
     m_subsystemContainer.getShowBotAudio().playAudio(AudioFiles.DiveAlert);
     Trace.getInstance().logInfo("teleopInit finished");
   }
