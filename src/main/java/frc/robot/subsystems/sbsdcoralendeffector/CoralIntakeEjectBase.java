@@ -19,6 +19,8 @@ public interface CoralIntakeEjectBase extends SubsystemInterface {
 
   public abstract boolean getCoralDetected();
 
+  public abstract boolean hasScored();
+
   public void stop();
 
   public abstract boolean intakeDetector();
