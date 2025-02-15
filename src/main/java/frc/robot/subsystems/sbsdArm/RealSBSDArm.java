@@ -174,6 +174,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void setGoalDeg(ArmSetpoints level) {
+    m_controller.setSetpoint(level.getArmAngleInDeg() * Math.PI / 180);
     if (level == ArmSetpoints.LEVEL_2 || level == ArmSetpoints.LEVEL_3) {
       m_runAlgaeRemovalWheels = true;
     }
