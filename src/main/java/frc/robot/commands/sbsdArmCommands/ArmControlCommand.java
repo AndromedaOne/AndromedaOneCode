@@ -28,11 +28,11 @@ public class ArmControlCommand extends Command {
   public ArmControlCommand(double setpoint) {
     this(false);
     m_setpoint = setpoint;
-    m_setpointsForAlgaeRemoval =
   }
 
   public ArmControlCommand(ArmSetpoints setpoint) {
     this(setpoint.getAngleInDeg());
+    m_setpointsForAlgaeRemoval = setpoint;
   }
 
   // Called when the command is initially scheduled.
