@@ -50,6 +50,7 @@ public class Config4905 {
   private Config m_feederConfig;
   private Config m_sbsdArmConfig;
   private Config m_sbsdCoralEndEffectorConfig;
+  private Config m_sbsdAlgaeManipulatorConfig;
   private Config m_RedAutonomousConfig;
   private Config m_BlueAutonomousConfig;
   private static Config4905 m_config4905 = null;
@@ -166,6 +167,7 @@ public class Config4905 {
     m_feederConfig = load("feeder.conf");
     m_sbsdArmConfig = load("sbsdarm.conf");
     m_sbsdCoralEndEffectorConfig = load("coralendeffector.conf");
+    m_sbsdAlgaeManipulatorConfig = load("sbsdAlgaeManipulator.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
@@ -388,6 +390,14 @@ public class Config4905 {
 
   public boolean doesSBSDCoralIntakeEjectExist() {
     return (m_config.hasPath("subsystems.sbsdcoralintakeeject"));
+  }
+
+  public boolean doesSBSDAlgaeManipulatorExist() {
+    return (m_config.hasPath("subsystems.sbsdAlgaeManipulator"));
+  }
+
+  public Config getSBSDAlgaeManipulatorConfig() {
+    return m_sbsdAlgaeManipulatorConfig;
   }
 
   public Config getSensorConfig() {

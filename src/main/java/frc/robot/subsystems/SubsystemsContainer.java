@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.sbsdAlgaeManipulatorCommands.DefaultAlgaeManipulatorCommand;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.CoralIntakeEjectDefaultCommand;
@@ -30,6 +31,9 @@ import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
+import frc.robot.subsystems.sbsdAlgaeManipulator.MockSBSDAlgaeManipulator;
+import frc.robot.subsystems.sbsdAlgaeManipulator.RealSBSDAlgaeManipulator;
+import frc.robot.subsystems.sbsdAlgaeManipulator.SBSDAlgaeManipulatorBase;
 import frc.robot.subsystems.sbsdArm.MockSBSDArm;
 import frc.robot.subsystems.sbsdArm.RealSBSDArm;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
@@ -84,6 +88,7 @@ public class SubsystemsContainer {
   SBSDArmBase m_sbsdArmBase;
   CoralEndEffectorRotateBase m_sbsdCoralEndEffectorBase;
   CoralIntakeEjectBase m_sbsdCoralIntakeEjectBase;
+  SBSDAlgaeManipulatorBase m_sbsdAlgaeManipulatorBase;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -219,6 +224,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock SBSD coral intake eject");
       m_sbsdCoralIntakeEjectBase = new MockCoralIntakeEject();
     }
+    if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
+      Trace.getInstance().logInfo("using real SBSD algae manipulator");
+      m_sbsdAlgaeManipulatorBase = new RealSBSDAlgaeManipulator();
+    } else {
+      Trace.getInstance().logInfo("using mock SBSD algae manipulator");
+      m_sbsdAlgaeManipulatorBase = new MockSBSDAlgaeManipulator();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -273,6 +285,10 @@ public class SubsystemsContainer {
     return m_sbsdCoralIntakeEjectBase;
   }
 
+  public SBSDAlgaeManipulatorBase getSBSDAlgaeManipulatorBase() {
+    return m_sbsdAlgaeManipulatorBase;
+  }
+
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
@@ -313,6 +329,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesSBSDCoralIntakeEjectExist()) {
       m_sbsdCoralIntakeEjectBase.setDefaultCommand(new CoralIntakeEjectDefaultCommand(false));
+    }
+    if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
+      m_sbsdAlgaeManipulatorBase.setDefaultCommand(new DefaultAlgaeManipulatorCommand());
     }
   }
 }
