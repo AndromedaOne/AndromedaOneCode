@@ -6,9 +6,13 @@ package frc.robot.commands.sbsdTeleOpCommands;
 
 import java.util.function.IntSupplier;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Robot;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
+import frc.robot.subsystems.sbsdArm.SBSDArmBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,8 +22,14 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   boolean m_moved;
   ArmControlCommand m_moveArm;
   EndEffectorControlCommand m_moveEndEffector;
+  private SBSDArmBase m_sbsdArmBase;
+  private CoralEndEffectorRotateBase m_endEffector;
+  private IntSupplier m_level;
 
   public sbsdMoveArmAndEndEffector(IntSupplier level) {
+    m_level = level;
+    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
     m_moveArm = new ArmControlCommand(level);
     m_moveEndEffector = new EndEffectorControlCommand(level);
     addCommands(m_moveArm, m_moveEndEffector);
@@ -27,6 +37,12 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
 
   @Override
   public void additionalInitialize() {
+    CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
+    CommandScheduler.getInstance().removeDefaultCommand(m_sbsdArmBase.getSubsystemBase());
+    CommandScheduler.getInstance().setDefaultCommand(m_endEffector.getSubsystemBase(),
+        new EndEffectorControlCommand(m_level));
+    CommandScheduler.getInstance().setDefaultCommand(m_sbsdArmBase.getSubsystemBase(),
+        new ArmControlCommand(m_level));
 
   }
 
