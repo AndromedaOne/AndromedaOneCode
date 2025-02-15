@@ -197,6 +197,10 @@ public class DriveController extends ControllerBase {
     return getXbutton().getAsBoolean();
   }
 
+  public boolean getCoralScoring() {
+    return getXbutton().getAsBoolean();
+  }
+
   private void setupSBSDTeleOpButtons() {
     getXbutton().whileTrue(new teleOpCoralScoring(m_subsystemsContainer.getDriveTrain()));
     getPOVeast().whileTrue(new teleOpDriverCoralPickup(m_subsystemsContainer.getDriveTrain()));
