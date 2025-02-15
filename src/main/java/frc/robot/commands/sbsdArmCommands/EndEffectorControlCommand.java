@@ -9,6 +9,7 @@ import java.util.function.IntSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 import frc.robot.telemetries.Trace;
 
@@ -17,7 +18,8 @@ public class EndEffectorControlCommand extends Command {
   private CoralEndEffectorRotateBase m_endEffector;
   private boolean m_useSmartDashboard = false;
   private double m_setpoint = 0;
-  private IntSupplier m_level = () -> -1;
+  private boolean m_useLevel = false;
+  private ArmSetpointsSupplier m_level = () -> ArmSetpoints.CORAL_LOAD;
 
   public EndEffectorControlCommand(boolean useSmartDashboard) {
     m_useSmartDashboard = useSmartDashboard;
@@ -33,30 +35,17 @@ public class EndEffectorControlCommand extends Command {
     m_setpoint = setpoint;
   }
 
-  public EndEffectorControlCommand(ArmSetpoints setpoint) {
-    this(setpoint.getEndEffectorAngleInDeg());
-  }
-
-  public EndEffectorControlCommand(IntSupplier level) {
+  public EndEffectorControlCommand(ArmSetpointsSupplier level) {
     this(false);
     m_level = level;
+    m_useLevel = true;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_level.getAsInt() != -1) {
-      if (m_level.getAsInt() == 1) {
-        m_setpoint = ArmSetpoints.LEVEL_1.getEndEffectorAngleInDeg();
-      } else if (m_level.getAsInt() == 2) {
-        m_setpoint = ArmSetpoints.LEVEL_2.getEndEffectorAngleInDeg();
-      } else if (m_level.getAsInt() == 3) {
-        m_setpoint = ArmSetpoints.LEVEL_3.getEndEffectorAngleInDeg();
-      } else if (m_level.getAsInt() == 4) {
-        m_setpoint = ArmSetpoints.LEVEL_4.getEndEffectorAngleInDeg();
-      } else {
-        Trace.getInstance().logInfo("UNKNOWN END EFFECTOR LEVEL!!!!! " + m_level.getAsInt());
-      }
+    if (m_useLevel) {
+      m_setpoint = m_level.getAsArmSetpoints().getEndEffectorAngleInDeg();
     }
     if (m_useSmartDashboard) {
       m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));

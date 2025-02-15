@@ -8,6 +8,7 @@ import java.util.function.IntSupplier;
 
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,7 +20,7 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   ArmControlCommand m_moveArm;
   EndEffectorControlCommand m_moveEndEffector;
 
-  public sbsdMoveArmAndEndEffector(IntSupplier level) {
+  public sbsdMoveArmAndEndEffector(ArmSetpointsSupplier level) {
     m_moveArm = new ArmControlCommand(level);
     m_moveEndEffector = new EndEffectorControlCommand(level);
     addCommands(m_moveArm, m_moveEndEffector);
