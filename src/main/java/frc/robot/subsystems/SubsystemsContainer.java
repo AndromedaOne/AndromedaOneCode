@@ -9,6 +9,10 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.CoralIntakeEjectDefaultCommand;
+import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -29,6 +33,15 @@ import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.subsystems.sbsdclimber.MockSBSDClimber;
 import frc.robot.subsystems.sbsdclimber.RealSBSDClimber;
 import frc.robot.subsystems.sbsdclimber.SBSDClimberBase;
+import frc.robot.subsystems.sbsdArm.MockSBSDArm;
+import frc.robot.subsystems.sbsdArm.RealSBSDArm;
+import frc.robot.subsystems.sbsdArm.SBSDArmBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
+import frc.robot.subsystems.sbsdcoralendeffector.MockCoralEndEffectorRotate;
+import frc.robot.subsystems.sbsdcoralendeffector.MockCoralIntakeEject;
+import frc.robot.subsystems.sbsdcoralendeffector.RealCoralEndEffectorRotate;
+import frc.robot.subsystems.sbsdcoralendeffector.RealCoralIntakeEject;
 import frc.robot.subsystems.showBotAudio.MockShowBotAudio;
 import frc.robot.subsystems.showBotAudio.RealShowBotAudio;
 import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
@@ -72,6 +85,9 @@ public class SubsystemsContainer {
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
   SBSDClimberBase m_sbsdClimber;
+  SBSDArmBase m_sbsdArmBase;
+  CoralEndEffectorRotateBase m_sbsdCoralEndEffectorBase;
+  CoralIntakeEjectBase m_sbsdCoralIntakeEjectBase;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -192,7 +208,28 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock sbsd climber");
       m_sbsdClimber = new MockSBSDClimber();
     }
-
+    if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
+      Trace.getInstance().logInfo("using real SBSD coral end effector");
+      m_sbsdCoralEndEffectorBase = new RealCoralEndEffectorRotate();
+    } else {
+      Trace.getInstance().logInfo("using mock SBSD end effector");
+      m_sbsdCoralEndEffectorBase = new MockCoralEndEffectorRotate();
+    }
+    if (Config4905.getConfig4905().doesSBSDArmExist()) {
+      Trace.getInstance().logInfo("using real SBSD arm");
+      m_sbsdArmBase = new RealSBSDArm();
+      m_sbsdArmBase.setEndEffector(m_sbsdCoralEndEffectorBase);
+    } else {
+      Trace.getInstance().logInfo("using mock SBSD arm");
+      m_sbsdArmBase = new MockSBSDArm();
+    }
+    if (Config4905.getConfig4905().doesSBSDCoralIntakeEjectExist()) {
+      Trace.getInstance().logInfo("using real SBSD coral intake eject");
+      m_sbsdCoralIntakeEjectBase = new RealCoralIntakeEject();
+    } else {
+      Trace.getInstance().logInfo("using mock SBSD coral intake eject");
+      m_sbsdCoralIntakeEjectBase = new MockCoralIntakeEject();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -235,6 +272,18 @@ public class SubsystemsContainer {
     return m_feeder;
   }
 
+  public SBSDArmBase getSBSDArmBase() {
+    return m_sbsdArmBase;
+  }
+
+  public CoralEndEffectorRotateBase getSBSDCoralEndEffectorBase() {
+    return m_sbsdCoralEndEffectorBase;
+  }
+
+  public CoralIntakeEjectBase getSBSDCoralIntakeEjectBase() {
+    return m_sbsdCoralIntakeEjectBase;
+  }
+
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
@@ -265,6 +314,16 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
-
+    if (Config4905.getConfig4905().doesSBSDArmExist()) {
+      m_sbsdArmBase.setDefaultCommand(new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD));
+    }
+    if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
+      System.out.println("Using end effector default command");
+      m_sbsdCoralEndEffectorBase
+          .setDefaultCommand(new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD));
+    }
+    if (Config4905.getConfig4905().doesSBSDCoralIntakeEjectExist()) {
+      m_sbsdCoralIntakeEjectBase.setDefaultCommand(new CoralIntakeEjectDefaultCommand(false));
+    }
   }
 }

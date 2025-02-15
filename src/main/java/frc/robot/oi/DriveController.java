@@ -19,6 +19,9 @@ import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLongSho
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootShortShot;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.sbsdTeleOpCommands.teleOpCoralScoring;
+import frc.robot.commands.sbsdTeleOpCommands.teleOpDriverCoralPickup;
+import frc.robot.commands.sbsdTeleOpCommands.teleOpWallCoralPickup;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.PlayNextAudioFile;
 import frc.robot.commands.showBotAudio.StopAudio;
@@ -80,6 +83,9 @@ public class DriveController extends ControllerBase {
 
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
+    }
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
+      setupSBSDTeleOpButtons();
     }
   }
 
@@ -189,6 +195,12 @@ public class DriveController extends ControllerBase {
 
   public boolean getProtectedMode() {
     return getXbutton().getAsBoolean();
+  }
+
+  private void setupSBSDTeleOpButtons() {
+    getXbutton().whileTrue(new teleOpCoralScoring(m_subsystemsContainer.getDriveTrain()));
+    getPOVeast().whileTrue(new teleOpDriverCoralPickup(m_subsystemsContainer.getDriveTrain()));
+    getPOVwest().whileTrue(new teleOpWallCoralPickup(m_subsystemsContainer.getDriveTrain()));
   }
 
   /*
