@@ -48,6 +48,7 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
+  private Config m_sbsdClimberConfig;
   private Config m_RedAutonomousConfig;
   private Config m_BlueAutonomousConfig;
   private static Config4905 m_config4905 = null;
@@ -162,6 +163,7 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
+    m_sbsdClimberConfig = load("sbsdclimber.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
@@ -353,6 +355,17 @@ public class Config4905 {
 
   public Config getShooterConfig() {
     return m_shooterConfig;
+  }
+
+  public boolean doesSBSDClimberExist() {
+    if (m_config.hasPath("subsystems.sbsdclimber")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSBSDClimberConfig() {
+    return m_sbsdClimberConfig;
   }
 
   public boolean doesFeederExist() {

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.sbsdclimber;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
@@ -11,18 +13,18 @@ import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
 public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
-  private SparkMaxController m_climberWinchMotor; 
-  private Config4905 m_climberConfig; 
+  private SparkMaxController m_climberWinchMotor;
+  private Config m_climberConfig;
 
-  public RealSBSDClimber(){
-    m_climberConfig = Config4905.getConfig4905().get
-    m_climberWinchMotor = new SparkMaxController(null, getName(), false, false)
+  public RealSBSDClimber() {
+    m_climberConfig = Config4905.getConfig4905().getSBSDClimberConfig();
+    m_climberWinchMotor = new SparkMaxController(null, getName(), false, false);
 
   }
 
   @Override
   public SubsystemBase getSubsystemBase() {
-    return this; 
+    return this;
   }
 
   @Override

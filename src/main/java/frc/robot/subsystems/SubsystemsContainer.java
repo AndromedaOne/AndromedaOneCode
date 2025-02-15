@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
-import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -27,6 +26,8 @@ import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
+import frc.robot.subsystems.sbsdclimber.MockSBSDClimber;
+import frc.robot.subsystems.sbsdclimber.RealSBSDClimber;
 import frc.robot.subsystems.sbsdclimber.SBSDClimberBase;
 import frc.robot.subsystems.showBotAudio.MockShowBotAudio;
 import frc.robot.subsystems.showBotAudio.RealShowBotAudio;
@@ -70,7 +71,7 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
-  SBSDClimberBase m_sbsdClimberBase;
+  SBSDClimberBase m_sbsdClimber;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -184,9 +185,12 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
     }
-    if (Config4905.getConfig4905().doesSBSDClimberExist()){
+    if (Config4905.getConfig4905().doesSBSDClimberExist()) {
       Trace.getInstance().logInfo("using real sbsd climber");
-      m_sbsdClimberBase  = new SBSDClimberBase(); 
+      m_sbsdClimber = new RealSBSDClimber();
+    } else {
+      Trace.getInstance().logInfo("using mock sbsd climber");
+      m_sbsdClimber = new MockSBSDClimber();
     }
 
   }
