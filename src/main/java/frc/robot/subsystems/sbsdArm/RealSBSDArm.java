@@ -179,8 +179,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_controller.setSetpoint(level.getArmAngleInDeg() * Math.PI / 180);
     if (level == ArmSetpoints.LEVEL_2 || level == ArmSetpoints.LEVEL_3) {
       m_runAlgaeRemovalWheels = true;
-    }
-    else {
+    } else {
       m_runAlgaeRemovalWheels = false;
     }
   }
@@ -197,8 +196,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     rotate(speed);
     if (m_runAlgaeRemovalWheels) {
       runAlgaeRemovalWheels();
-    }
-    else{
+    } else {
       m_algaeRemovalWheels.setSpeed(0);
     }
     SmartDashboard.putNumber("SBSD Arm Error", m_controller.getPositionError());
