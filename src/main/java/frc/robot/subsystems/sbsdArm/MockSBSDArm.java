@@ -85,4 +85,3 @@ public class MockSBSDArm implements SBSDArmBase {
   public void runAlgaeRemovalWheels() {
   }
 }
-

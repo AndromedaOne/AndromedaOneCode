@@ -23,8 +23,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   private SparkMaxController m_leftAngleMotor;
   private SparkMaxController m_rightAngleMotor;
-  private SparkMaxController m_algaeRemovalWheels = false;
-  private double m_runAlgaeRemovalWheels;
+  private SparkMaxController m_algaeRemovalWheels;
+  private boolean m_runAlgaeRemovalWheels = false;
   private DoubleSupplier m_absoluteEncoderPosition;
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
@@ -44,7 +44,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     Config armrotateConfig = Config4905.getConfig4905().getSBSDArmConfig();
     m_rightAngleMotor = new SparkMaxController(armrotateConfig, "armAngleRight", false, false);
     m_leftAngleMotor = new SparkMaxController(armrotateConfig, "armAngleLeft", false, false);
-    m_algaeRemovalWheels = new SparkMaxController(armrotateConfig, "algaeRemovalWheels", false, false);
+    m_algaeRemovalWheels = new SparkMaxController(armrotateConfig, "algaeRemovalWheels", false,
+        false);
     m_absoluteEncoderPosition = () -> m_rightAngleMotor.getAbsoluteEncoderPosition();
     m_angleOffset = armrotateConfig.getDouble("angleOffset");
     m_minAngleDeg = armrotateConfig.getDouble("minAngleDeg");
@@ -173,7 +174,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void setGoalDeg(ArmSetpoints level) {
-    if(level == ArmSetpoints.LEVEL_2 || level == ArmSetpoints.LEVEL_3) {
+    if (level == ArmSetpoints.LEVEL_2 || level == ArmSetpoints.LEVEL_3) {
       m_runAlgaeRemovalWheels = true;
     }
   }
@@ -188,9 +189,8 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
     rotate(speed);
-    if (m_runAlgaeRomovalWheels)
-    {
-      runAlga
+    if (m_runAlgaeRemovalWheels) {
+      runAlgaeRemovalWheels();
     }
     SmartDashboard.putNumber("SBSD Arm Error", m_controller.getPositionError());
     SmartDashboard.putNumber("SBSD Arm pidCalc", pidCalc);
