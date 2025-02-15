@@ -4,13 +4,10 @@
 
 package frc.robot.commands.sbsdArmCommands;
 
-import java.util.function.IntSupplier;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
-import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class ArmControlCommand extends Command {

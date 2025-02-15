@@ -4,8 +4,6 @@
 
 package frc.robot.commands.sbsdTeleOpCommands;
 
-import java.util.function.IntSupplier;
-
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;

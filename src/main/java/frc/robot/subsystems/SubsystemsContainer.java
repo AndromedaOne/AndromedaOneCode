@@ -289,12 +289,12 @@ public class SubsystemsContainer {
       m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
     if (Config4905.getConfig4905().doesSBSDArmExist()) {
-      m_sbsdArmBase.setDefaultCommand(new ArmControlCommand(ArmSetpoints.CORAL_LOAD));
+      m_sbsdArmBase.setDefaultCommand(new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD));
     }
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       System.out.println("Using end effector default command");
       m_sbsdCoralEndEffectorBase
-          .setDefaultCommand(new EndEffectorControlCommand(ArmSetpoints.CORAL_LOAD));
+          .setDefaultCommand(new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD));
     }
   }
 }
