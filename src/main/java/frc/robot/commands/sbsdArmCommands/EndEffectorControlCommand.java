@@ -16,24 +16,26 @@ public class EndEffectorControlCommand extends Command {
   private boolean m_useSmartDashboard = false;
   private double m_setpoint = 0;
   private boolean m_useLevel = false;
+  private boolean m_doesEnd = false;
   private ArmSetpointsSupplier m_level = () -> ArmSetpoints.CORAL_LOAD;
 
-  public EndEffectorControlCommand(boolean useSmartDashboard) {
+  public EndEffectorControlCommand(boolean useSmartDashboard, boolean doesEnd) {
     m_useSmartDashboard = useSmartDashboard;
     m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
     addRequirements(m_endEffector.getSubsystemBase());
     if (m_useSmartDashboard) {
       SmartDashboard.putNumber("SBSD End Effector goal degrees", 0);
     }
+    m_doesEnd = doesEnd;
   }
 
-  public EndEffectorControlCommand(double setpoint) {
-    this(false);
+  public EndEffectorControlCommand(double setpoint, boolean doesEnd) {
+    this(false, doesEnd);
     m_setpoint = setpoint;
   }
 
-  public EndEffectorControlCommand(ArmSetpointsSupplier level) {
-    this(false);
+  public EndEffectorControlCommand(ArmSetpointsSupplier level, boolean doesEnd) {
+    this(false, doesEnd);
     m_level = level;
     m_useLevel = true;
   }
@@ -68,6 +70,6 @@ public class EndEffectorControlCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_doesEnd && m_endEffector.atSetPoint();
   }
 }

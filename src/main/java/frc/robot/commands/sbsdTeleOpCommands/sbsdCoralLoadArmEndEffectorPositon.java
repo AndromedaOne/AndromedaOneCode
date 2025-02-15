@@ -16,19 +16,18 @@ public class sbsdCoralLoadArmEndEffectorPositon extends ParallelCommandGroup4905
   public sbsdCoralLoadArmEndEffectorPositon() {
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
-    addCommands(new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD),
-        new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD));
+    addCommands(new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD, true),
+        new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD, true));
   }
 
   @Override
   public void additionalInitialize() {
-    CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
     CommandScheduler.getInstance().removeDefaultCommand(m_sbsdArmBase.getSubsystemBase());
-    CommandScheduler.getInstance().setDefaultCommand(m_endEffector.getSubsystemBase(),
-        new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD));
+    CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
     CommandScheduler.getInstance().setDefaultCommand(m_sbsdArmBase.getSubsystemBase(),
-        new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD));
-
+        new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD, false));
+    CommandScheduler.getInstance().setDefaultCommand(m_endEffector.getSubsystemBase(),
+        new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD, false));
   }
 
 }

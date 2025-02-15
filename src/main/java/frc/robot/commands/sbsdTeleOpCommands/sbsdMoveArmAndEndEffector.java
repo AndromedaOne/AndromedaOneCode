@@ -29,20 +29,19 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
     m_level = level;
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
-    m_moveArm = new ArmControlCommand(level);
-    m_moveEndEffector = new EndEffectorControlCommand(level);
+    m_moveArm = new ArmControlCommand(level, true);
+    m_moveEndEffector = new EndEffectorControlCommand(level, true);
     addCommands(m_moveArm, m_moveEndEffector);
   }
 
   @Override
   public void additionalInitialize() {
-    CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
     CommandScheduler.getInstance().removeDefaultCommand(m_sbsdArmBase.getSubsystemBase());
-    CommandScheduler.getInstance().setDefaultCommand(m_endEffector.getSubsystemBase(),
-        new EndEffectorControlCommand(m_level));
+    CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
     CommandScheduler.getInstance().setDefaultCommand(m_sbsdArmBase.getSubsystemBase(),
-        new ArmControlCommand(m_level));
-
+        new ArmControlCommand(m_level, false));
+    CommandScheduler.getInstance().setDefaultCommand(m_endEffector.getSubsystemBase(),
+        new EndEffectorControlCommand(m_level, false));
   }
 
   @Override

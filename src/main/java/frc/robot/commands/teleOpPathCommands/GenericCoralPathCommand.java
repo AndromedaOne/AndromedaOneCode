@@ -7,7 +7,7 @@ import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 
 public class GenericCoralPathCommand extends SequentialCommandGroup4905 {
 
-  DriveController m_DriveController;
+  DriveController m_driveController;
 
   public GenericCoralPathCommand(Command... commands) {
     super(commands);
@@ -15,7 +15,7 @@ public class GenericCoralPathCommand extends SequentialCommandGroup4905 {
 
   @Override
   public void additionalInitialize() {
-    m_DriveController = Robot.getInstance().getOIContainer().getDriveController();
+    m_driveController = Robot.getInstance().getOIContainer().getDriveController();
   }
 
   @Override
@@ -24,6 +24,6 @@ public class GenericCoralPathCommand extends SequentialCommandGroup4905 {
       return true;
     }
     // when x button let go, stop command
-    return !m_DriveController.getCoralScoring();
+    return !m_driveController.getCoralScoring();
   }
 }

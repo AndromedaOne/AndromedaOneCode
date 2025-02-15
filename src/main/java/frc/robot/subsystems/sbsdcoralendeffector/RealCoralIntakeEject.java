@@ -109,12 +109,11 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       stop();
       m_hasCoral = true;
       m_inWaitForCoral = false;
-      if (m_ejectCoral) {
-        m_ejectCoral = false;
-        m_currentState = CoralState.EJECT_CORAL;
-      }
       if (!ejectDetector()) {
         m_currentState = CoralState.WAIT_FOR_CORAL;
+      } else if (m_ejectCoral) {
+        m_ejectCoral = false;
+        m_currentState = CoralState.EJECT_CORAL;
       }
       break;
 
