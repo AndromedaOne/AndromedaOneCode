@@ -7,6 +7,7 @@ package frc.robot.commands.sbsdArmCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 
 /** Add your docs here. */
@@ -14,7 +15,8 @@ public class ArmControlCommand extends Command {
   private SBSDArmBase m_sbsdArmBase;
   private boolean m_useSmartDashboard = false;
   private double m_setpoint = 0;
-  private IntSupplier m_level = () -> -1;
+  private boolean m_useLevel = false;
+  private ArmSetpointsSupplier m_level = () -> ArmSetpoints.CORAL_LOAD;
 
   public ArmControlCommand(boolean useSmartDashboard) {
     m_useSmartDashboard = useSmartDashboard;
@@ -30,31 +32,17 @@ public class ArmControlCommand extends Command {
     m_setpoint = setpoint;
   }
 
-  public ArmControlCommand(ArmSetpoints setpoint) {
-    this(setpoint.getAngleInDeg());
-  }
-
-  public ArmControlCommand(IntSupplier level) {
+  public ArmControlCommand(ArmSetpointsSupplier level) {
     this(false);
     m_level = level;
-
+    m_useLevel = true;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_level.getAsInt() != -1) {
-      if (m_level.getAsInt() == 1) {
-        m_setpoint = ArmSetpoints.LEVEL_1.getAngleInDeg();
-      } else if (m_level.getAsInt() == 2) {
-        m_setpoint = ArmSetpoints.LEVEL_2.getAngleInDeg();
-      } else if (m_level.getAsInt() == 3) {
-        m_setpoint = ArmSetpoints.LEVEL_3.getAngleInDeg();
-      } else if (m_level.getAsInt() == 4) {
-        m_setpoint = ArmSetpoints.LEVEL_4.getAngleInDeg();
-      } else {
-        Trace.getInstance().logInfo("UNKNOWN ARM LEVEL!!!!! " + m_level.getAsInt());
-      }
+    if (m_useLevel) {
+      m_setpoint = m_level.getAsArmSetpoints().getArmAngleInDeg();
     }
     if (m_useSmartDashboard) {
       m_sbsdArmBase.setGoalDeg(SmartDashboard.getNumber("SBSD Arm goal degrees", 0));

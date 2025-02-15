@@ -25,7 +25,20 @@ public class MockCoralIntakeEject implements CoralIntakeEjectBase {
   }
 
   @Override
-  public void runWheelsIntake(double speed) {
+  public void runWheelsIntake() {
+  }
+
+  @Override
+  public void runWheelsEject() {
+  }
+
+  @Override
+  public void setEjectState() {
+  }
+
+  @Override
+  public boolean getCoralDetected() {
+    return false;
   }
 
   @Override

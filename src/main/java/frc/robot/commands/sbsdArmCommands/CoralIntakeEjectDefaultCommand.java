@@ -6,46 +6,29 @@ package frc.robot.commands.sbsdArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.sbsdArm.SBSDArmBase;
-import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetBreakMode extends Command {
-  private SBSDArmBase m_sbsdArmBase;
-  private CoralEndEffectorRotateBase m_endEffector;
+public class CoralIntakeEjectDefaultCommand extends Command {
   private CoralIntakeEjectBase m_coralIntakeEject;
-  private boolean m_brakeOn = true;
 
-  public SetBreakMode(boolean brakeOn) {
-    m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+  public CoralIntakeEjectDefaultCommand(boolean useSmartDashboard) {
     m_coralIntakeEject = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
-    addRequirements(m_sbsdArmBase.getSubsystemBase(), m_endEffector.getSubsystemBase());
-    m_brakeOn = brakeOn;
+    addRequirements(m_coralIntakeEject.getSubsystemBase());
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_brakeOn) {
-      m_sbsdArmBase.setBrakeMode();
-      m_endEffector.setBrakeMode();
-      m_coralIntakeEject.setBrakeMode();
-    } else {
-      m_sbsdArmBase.setCoastMode();
-      m_endEffector.setCoastMode();
-      m_coralIntakeEject.setCoastMode();
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    m_coralIntakeEject.runWheelsIntake();
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
   }
@@ -53,6 +36,6 @@ public class SetBreakMode extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
