@@ -5,6 +5,7 @@
 package frc.robot.subsystems.sbsdArm;
 
 import frc.robot.subsystems.SubsystemInterface;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
 public interface SBSDArmBase extends SubsystemInterface {
@@ -20,6 +21,12 @@ public interface SBSDArmBase extends SubsystemInterface {
   public abstract void setCoastMode();
 
   public abstract void setBrakeMode();
+
+  public abstract boolean atSetPoint();
+
+  public abstract boolean limitSwitchActive();
+
+  public abstract void setEndEffector(CoralEndEffectorRotateBase endEffector);
 
   public abstract void rotate(double speed);
 

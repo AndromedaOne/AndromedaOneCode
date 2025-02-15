@@ -33,6 +33,8 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   private double m_maxSpeedCloseToMax = 0.0;
   private double m_closeToMaxAngle = 0.0;
   private double m_safeAngle = 0.0;
+  private double m_tolerance = 0.0;
+  private static boolean m_inClimberMode = false;
   private PIDController4905 m_controller;
 
   public RealCoralEndEffectorRotate() {
@@ -40,6 +42,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
     m_angleMotor = new SparkMaxController(config, "coralAngle", false, false);
     m_absoluteEncoderPosition = () -> m_angleMotor.getAbsoluteEncoderPosition();
+    m_tolerance = config.getDouble("tolerance");
     m_kP = config.getDouble("kP");
     m_kI = config.getDouble("kI");
     m_kD = config.getDouble("kD");
@@ -54,7 +57,8 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     m_controller = new PIDController4905("Coral PID", m_kP, m_kI, m_kD, 0);
     SmartDashboard.putNumber("Coral kG", m_kG);
     SmartDashboard.putNumber("Coral kP", m_kP);
-    m_controller.enableContinuousInput(-Math.PI, Math.PI);
+    m_controller.disableContinuousInput();
+    m_controller.setTolerance(Math.toRadians(m_tolerance));
   }
 
   @Override
@@ -158,6 +162,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
         .getDouble("maxSpeedCloseToMax");
     m_closeToMaxAngle = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig()
         .getDouble("closeToMaxAngleDeg");
+    m_tolerance = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("tolerance");
   }
 
   @Override
@@ -171,6 +176,11 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     SmartDashboard.putNumber("Coral pidCalc", pidCalc);
     SmartDashboard.putNumber("Coral feedForwardCalc", feedforwardCalc);
     SmartDashboard.putNumber("Coral Current setpoint:", m_controller.getSetpoint());
+  }
+
+  @Override
+  public boolean atSetPoint() {
+    return m_controller.atSetpoint();
   }
 
   @Override

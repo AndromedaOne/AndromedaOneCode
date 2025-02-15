@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
+import frc.robot.utils.PoseEstimation4905;
 
 @SuppressWarnings("removal")
 public class RomiTankDriveTrain extends RealTankDriveTrain {
@@ -211,6 +212,16 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
 
   @Override
   public void setToAngle(double angle) {
+  }
+
+  @Override
+  public PoseEstimation4905.RegionsForPose getRegion() {
+    return PoseEstimation4905.RegionsForPose.UNKNOWN;
+  }
+
+  @Override
+  public boolean isLeftSide() {
+    return false;
   }
 
 }

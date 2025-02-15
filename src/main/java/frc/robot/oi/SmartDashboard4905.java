@@ -31,6 +31,7 @@ import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
+import frc.robot.commands.examplePathCommands.ThisIsJustASimplePathToReefStationD;
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
@@ -40,6 +41,11 @@ import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.Rotate;
 import frc.robot.commands.sbsdArmCommands.RotateEndEffector;
 import frc.robot.commands.sbsdArmCommands.SetBreakMode;
+import frc.robot.commands.sbsdAutoCommands.auto1;
+import frc.robot.commands.sbsdAutoCommands.auto2;
+import frc.robot.commands.sbsdAutoCommands.auto6;
+import frc.robot.commands.sbsdAutoCommands.auto7;
+import frc.robot.commands.sbsdTeleOpCommands.sbsdMoveArmAndEndEffector;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
@@ -62,6 +68,9 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
+    if (Config4905.getConfig4905().isSwerveBot()) {
+      AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
+    }
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
@@ -127,6 +136,11 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putData("ThisIsJustASimplePathToReefStationD",
+          new ThisIsJustASimplePathToReefStationD());
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
     }
 
@@ -142,6 +156,13 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("play audio",
           new PlayAudio(subsystemsContainer.getShowBotAudio(), AudioFiles.CrazyTrain));
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
+    }
+
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
+      SmartDashboard.putData("Auto #1 - West Side Scory", new auto1());
+      SmartDashboard.putData("Auto #2 - East Side Scory", new auto2());
+      SmartDashboard.putData("Auto #6 - 1 North Score And Seven Years Ago", new auto6());
+      SmartDashboard.putData("Auto #7 - Drive Backwards", new auto7());
     }
 
     if (Config4905.getConfig4905().doesSBSDArmExist()) {
@@ -160,6 +181,28 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SBSD End Effector Rotate", new RotateEndEffector());
       SmartDashboard.putData("SBSD End Effector Control Command",
           new EndEffectorControlCommand(true));
+      SmartDashboard.putData("SBSD End Effector Level 1",
+          new EndEffectorControlCommand(ArmSetpoints.LEVEL_1));
+      SmartDashboard.putData("SBSD End Effector Level 2",
+          new EndEffectorControlCommand(ArmSetpoints.LEVEL_2));
+      SmartDashboard.putData("SBSD End Effector Level 3",
+          new EndEffectorControlCommand(ArmSetpoints.LEVEL_3));
+      SmartDashboard.putData("SBSD End Effector Level 4",
+          new EndEffectorControlCommand(ArmSetpoints.LEVEL_4));
+      SmartDashboard.putData("SBSD End Effector Coral Load",
+          new EndEffectorControlCommand(ArmSetpoints.CORAL_LOAD));
+    }
+
+    if (Config4905.getConfig4905().doesSBSDArmExist()
+        && Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
+      SmartDashboard.putData("SBSD Arm and End Effector Level 1",
+          new sbsdMoveArmAndEndEffector(() -> 1));
+      SmartDashboard.putData("SBSD Arm and End Effector Level 2",
+          new sbsdMoveArmAndEndEffector(() -> 2));
+      SmartDashboard.putData("SBSD Arm and End Effector Level 3",
+          new sbsdMoveArmAndEndEffector(() -> 3));
+      SmartDashboard.putData("SBSD Arm and End Effector Level 4",
+          new sbsdMoveArmAndEndEffector(() -> 4));
     }
   }
 
