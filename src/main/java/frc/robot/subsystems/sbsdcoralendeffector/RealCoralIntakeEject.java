@@ -25,6 +25,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private double m_repositionSpeed = 0.1;
   private double m_ejectSpeed = 0.5;
   private boolean m_ejectCoral = false;
+  private boolean m_inWaitForCoral = false;
   private int m_count = 0;
 
   private enum CoralState {
@@ -72,6 +73,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     // no coral has been detected on either side of the end effector
     case WAIT_FOR_CORAL:
       stop();
+      m_inWaitForCoral = true;
       if (intakeDetector() && !ejectDetector()) {
         m_currentState = CoralState.INTAKE_CORAL;
       } else if (!intakeDetector() && ejectDetector()) {
@@ -82,6 +84,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     // a coral has been detected on the intake side but nothing is on the eject
     // side. so pull the coral into the end effector
     case INTAKE_CORAL:
+      m_inWaitForCoral = false;
       m_intakeMotor.setSpeed(m_intakeSpeed);
       if (intakeDetector() && ejectDetector()) {
         m_currentState = CoralState.POSITION_CORAL;
@@ -105,6 +108,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case HOLD_CORAL:
       stop();
       m_hasCoral = true;
+      m_inWaitForCoral = false;
       if (m_ejectCoral) {
         m_ejectCoral = false;
         m_currentState = CoralState.EJECT_CORAL;
@@ -139,6 +143,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     }
     SmartDashboard.putString("Coral State: ", m_currentState.toString());
     m_ejectCoral = SmartDashboard.getBoolean("Eject coral: ", false);
+    SmartDashboard.putBoolean("Is in wait for coral: ", m_inWaitForCoral);
   }
 
   @Override
@@ -180,6 +185,11 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   @Override
   public boolean getCoralDetected() {
     return m_hasCoral;
+  }
+
+  @Override
+  public boolean hasScored() {
+    return m_inWaitForCoral;
   }
 
 }
