@@ -5,8 +5,8 @@
 package frc.robot.commands.sbsdTeleOpCommands;
 
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
-import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
+import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
