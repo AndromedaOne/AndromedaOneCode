@@ -224,4 +224,8 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
     return false;
   }
 
+  @Override
+  public void configurePathPlanner() {
+  }
+
 }

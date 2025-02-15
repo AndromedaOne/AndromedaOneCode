@@ -103,7 +103,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
     m_poseEstimation = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
+  }
 
+  @Override
+  public void configurePathPlanner() {
     if (m_config.getBoolean("usePathPlanning")) {
       PPHolonomicDriveController m_pathFollowingConfig = new PPHolonomicDriveController(
           new PIDConstants(m_config.getDouble("pathplanning.translationConstants.p"),
@@ -120,8 +123,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       try {
         robotConfig = RobotConfig.fromGUISettings();
       } catch (Exception e) {
-        // Handle exception as needed
         e.printStackTrace();
+        throw new RuntimeException(e);
 
       }
       m_generator = new SwerveSetpointGenerator(robotConfig,

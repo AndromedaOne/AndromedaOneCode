@@ -23,7 +23,7 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   EndEffectorControlCommand m_moveEndEffector;
   private SBSDArmBase m_sbsdArmBase;
   private CoralEndEffectorRotateBase m_endEffector;
-  private IntSupplier m_level;
+  private ArmSetpointsSupplier m_level;
 
   public sbsdMoveArmAndEndEffector(ArmSetpointsSupplier level) {
     m_level = level;

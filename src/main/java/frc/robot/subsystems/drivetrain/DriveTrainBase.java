@@ -77,4 +77,6 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract boolean isLeftSide();
 
+  public abstract void configurePathPlanner();
+
 }

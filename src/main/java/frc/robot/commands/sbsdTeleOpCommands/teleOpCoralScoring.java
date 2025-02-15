@@ -6,8 +6,8 @@ package frc.robot.commands.sbsdTeleOpCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.commands.teleOpPathCommands.GenericCoralPathCommand;
 import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.teleOpPathCommands.GenericCoralPathCommand;
 import frc.robot.commands.teleOpPathCommands.PlaceAtA;
 import frc.robot.commands.teleOpPathCommands.PlaceAtA4;
 import frc.robot.commands.teleOpPathCommands.PlaceAtB;
