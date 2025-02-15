@@ -47,6 +47,11 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
   }
 
   @Override
+  public boolean isEndEffectorSafe() {
+    return false;
+  }
+
+  @Override
   public void rotate(double speed) {
   }
 

@@ -306,6 +306,7 @@ public class SubsystemsContainer {
       m_sbsdArmBase.setDefaultCommand(new ArmControlCommand(ArmSetpoints.CORAL_LOAD));
     }
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
+      System.out.println("Using end effector default command");
       m_sbsdCoralEndEffectorBase
           .setDefaultCommand(new EndEffectorControlCommand(ArmSetpoints.CORAL_LOAD));
     }

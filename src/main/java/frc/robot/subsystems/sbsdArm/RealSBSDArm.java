@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
 public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
@@ -25,13 +27,16 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
   private double m_angleOffset = 0.0;
+  private double m_safetyAngle = 0.0;
   private double m_maxSpeed = 0.0;
   private double m_kP = 0.0;
   private double m_kI = 0.0;
   private double m_kD = 0.0;
   private double m_kG = 0.0;
+  private double m_tolerance = 0.0;
   private PIDController4905 m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD,
       0);
+  private CoralEndEffectorRotateBase m_endEffector;
 
   public RealSBSDArm() {
     SmartDashboard.putNumber("SBSD Arm kG", m_kG);
@@ -44,11 +49,15 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_angleOffset = armrotateConfig.getDouble("angleOffset");
     m_minAngleDeg = armrotateConfig.getDouble("minAngleDeg");
     m_maxAngleDeg = armrotateConfig.getDouble("maxAngleDeg");
+    m_safetyAngle = armrotateConfig.getDouble("safetyAngle");
     m_maxSpeed = armrotateConfig.getDouble("maxSpeed");
     m_kP = armrotateConfig.getDouble("kP");
     m_kI = armrotateConfig.getDouble("kI");
     m_kD = armrotateConfig.getDouble("kD");
     m_kG = armrotateConfig.getDouble("kG");
+    m_tolerance = armrotateConfig.getDouble("tolerance");
+    m_controller.setTolerance(m_tolerance);
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
   }
 
   @Override
@@ -121,7 +130,9 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   @Override
   public void rotate(double speed) {
     MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
-    if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+    if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
+      stop();
+    } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
       stop();
     } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
       stop();
@@ -138,6 +149,10 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kG = SmartDashboard.getNumber("SBSD Arm kG", m_kG);
     m_kP = SmartDashboard.getNumber("SBSD Arm kP", m_kP);
     m_controller.setP(m_kP);
+  }
+
+  public boolean atSetPoint() {
+    return m_controller.atSetpoint();
   }
 
   public void calculateSpeed() {
@@ -161,5 +176,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kP = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kP");
     m_kI = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kI");
     m_kD = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kD");
+    m_tolerance = Config4905.getConfig4905().getSBSDArmConfig().getDouble("tolerance");
   }
 }

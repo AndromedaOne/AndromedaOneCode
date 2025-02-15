@@ -37,7 +37,7 @@ public class EndEffectorControlCommand extends Command {
   @Override
   public void initialize() {
     if (m_useSmartDashboard) {
-      m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector Angle degrees", 0));
+      m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
     } else {
       m_endEffector.setAngleDeg(m_setpoint);
     }
@@ -47,9 +47,10 @@ public class EndEffectorControlCommand extends Command {
   @Override
   public void execute() {
     if (m_useSmartDashboard) {
-      m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector Angle degrees", 0));
+      m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
     }
     m_endEffector.calculateSpeed();
+    System.out.println("Setpoint: " + m_setpoint);
   }
 
   // Called once the command ends or is interrupted.
