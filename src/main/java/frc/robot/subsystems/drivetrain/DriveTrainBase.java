@@ -79,4 +79,6 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract void configurePathPlanner();
 
+  public abstract boolean isUnsafeZone();
+
 }

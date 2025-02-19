@@ -131,4 +131,9 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   }
 
+  @Override
+  public boolean isUnsafeZone() {
+    return false;
+  }
+
 }

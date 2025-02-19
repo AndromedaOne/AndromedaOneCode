@@ -65,6 +65,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private double m_modSpeed = 0;
   private double m_modDistance = 0;
   private double m_robotAngle = 0;
+  private boolean m_isInsideUnsafeZone = false;
   private int m_count = 0;
   private double m_highestAccel = 0;
   private PoseEstimation4905.RegionsForPose m_region = RegionsForPose.UNKNOWN;
@@ -255,6 +256,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       m_currentPose = m_poseEstimation.update(getPositions());
       m_region = m_poseEstimation.getRegion();
       m_isLeftSide = m_poseEstimation.isLeftSide();
+      m_isInsideUnsafeZone = m_poseEstimation.getInUnsafeZone();
+      SmartDashboard.putBoolean("Is inside of unsafe zone ", m_isInsideUnsafeZone);
       SmartDashboard.putNumber("Pose X ", metersToInches(m_currentPose.getX()));
       SmartDashboard.putNumber("Pose Y ", metersToInches(m_currentPose.getY()));
       SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
@@ -449,8 +452,14 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return m_region;
   }
 
+  @Override
   public boolean isLeftSide() {
     return m_isLeftSide;
+  }
+
+  @Override
+  public boolean isUnsafeZone() {
+    return m_isInsideUnsafeZone;
   }
 
 }

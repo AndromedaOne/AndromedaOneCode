@@ -228,4 +228,9 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   public void configurePathPlanner() {
   }
 
+  @Override
+  public boolean isUnsafeZone() {
+    return false;
+  }
+
 }
