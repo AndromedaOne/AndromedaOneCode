@@ -77,11 +77,14 @@ public class Robot extends TimedRobot {
       throw new RuntimeException(e);
     }
     m_subsystemContainer.setDefaultCommands();
-    NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
-    NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
+    if (Config4905.getConfig4905().doesSwerveDrivetrainExist()
+        || Config4905.getConfig4905().doesTankDrivetrainExist()) {
+      NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
+      NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
+      NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
+      NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
+      NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
+    }
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(true);

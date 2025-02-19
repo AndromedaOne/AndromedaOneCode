@@ -165,9 +165,9 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
-    m_sbsdClimberConfig = load("sbsdclimber.conf");
     m_sbsdArmConfig = load("sbsdarm.conf");
     m_sbsdCoralEndEffectorConfig = load("coralendeffector.conf");
+    m_sbsdClimberConfig = load("sbsdclimber.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
@@ -361,17 +361,6 @@ public class Config4905 {
     return m_shooterConfig;
   }
 
-  public boolean doesSBSDClimberExist() {
-    if (m_config.hasPath("subsystems.sbsdclimber")) {
-      return true;
-    }
-    return false;
-  }
-
-  public Config getSBSDClimberConfig() {
-    return m_sbsdClimberConfig;
-  }
-
   public boolean doesFeederExist() {
     if (m_config.hasPath("subsystems.feeder")) {
       return true;
@@ -401,6 +390,17 @@ public class Config4905 {
 
   public boolean doesSBSDCoralIntakeEjectExist() {
     return (m_config.hasPath("subsystems.sbsdcoralintakeeject"));
+  }
+
+  public boolean doesSBSDClimberExist() {
+    if (m_config.hasPath("subsystems.sbsdclimber")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSBSDClimberConfig() {
+    return m_sbsdClimberConfig;
   }
 
   public Config getSensorConfig() {

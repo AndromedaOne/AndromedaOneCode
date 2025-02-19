@@ -9,7 +9,6 @@ public class ClimberMode {
   private static ClimberMode m_climberMode = new ClimberMode();
   private boolean m_armInClimberMode = false;
   private boolean m_endEffectorInClimberMode = false;
-  private boolean m_algaeManipulatorInClimberMode = false;
 
   private ClimberMode() {
 
@@ -20,7 +19,7 @@ public class ClimberMode {
   }
 
   public boolean getInClimberMode() {
-    return m_armInClimberMode && m_endEffectorInClimberMode && m_algaeManipulatorInClimberMode;
+    return m_armInClimberMode && m_endEffectorInClimberMode;
   }
 
   public void setArmInClimberMode() {
@@ -30,9 +29,4 @@ public class ClimberMode {
   public void setEndEffectorInClimberMode() {
     m_endEffectorInClimberMode = true;
   }
-
-  public void setAlgaeManipulatorInClimberMode() {
-    m_algaeManipulatorInClimberMode = true;
-  }
-
 }

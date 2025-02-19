@@ -39,6 +39,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_kD = 0.0;
   private double m_kG = 0.0;
   private double m_tolerance = 0.0;
+  private boolean m_doubleKpForClimber = false;
   private PIDController4905 m_controller;
   private CoralEndEffectorRotateBase m_endEffector;
 
@@ -196,6 +197,14 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   public void calculateSpeed() {
     double currentAngleRad = getAngleRad();
+ 
+    if ((getAngleDeg() <= -75) && !m_doubleKpForClimber) {
+      // trying to go climber position but need more power
+      m_kP *= 2;
+      m_controller.setP(m_kP);
+      m_doubleKpForClimber = true;
+    
+    }
     double pidCalc = m_controller.calculate(currentAngleRad);
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
@@ -205,7 +214,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     } else {
       m_algaeRemovalWheels.setSpeed(0);
     }
-    SmartDashboard.putNumber("SBSD Arm Error", m_controller.getPositionError());
     SmartDashboard.putNumber("SBSD Arm pidCalc", pidCalc);
     SmartDashboard.putNumber("SBSD Arm feedForwardCalc", feedforwardCalc);
     SmartDashboard.putNumber("SBSD Arm Current setpoint:", m_controller.getSetpoint());
