@@ -48,7 +48,7 @@ public class MockSBSDArm implements SBSDArmBase {
 
   @Override
   public boolean atSetPoint() {
-    return false;
+    return true;
   }
 
   @Override

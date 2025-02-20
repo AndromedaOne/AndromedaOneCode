@@ -48,7 +48,7 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
 
   @Override
   public boolean atSetPoint() {
-    return false;
+    return true;
   }
 
   @Override

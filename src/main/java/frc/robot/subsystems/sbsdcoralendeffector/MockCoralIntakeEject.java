@@ -38,7 +38,7 @@ public class MockCoralIntakeEject implements CoralIntakeEjectBase {
 
   @Override
   public boolean getCoralDetected() {
-    return false;
+    return true;
   }
 
   @Override
