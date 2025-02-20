@@ -62,8 +62,13 @@ public class PoseEstimation4905 {
     }
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
-      AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2025Reefscape
-          .loadAprilTagLayoutField();
+      AprilTagFieldLayout aprilTagFieldLayout;
+      if (Config4905.getConfig4905().getSensorConfig()
+          .getBoolean("photonvision.useAndyMarkField")) {
+        aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeAndyMark);
+      } else {
+        aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+      }
       PhotonVisionBase localCamera;
       if (m_photonVision.isEmpty()) {
         m_cameraPresent = false;
@@ -202,9 +207,25 @@ public class PoseEstimation4905 {
     }
   }
 
+  public boolean getInUnsafeZone() {
+    double x = m_swerveOdometry.getEstimatedPosition().getX() - 4.489323;
+    double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
+    double z = Math.sqrt((x * x) + (y * y));
+    boolean unsafeZone = false;
+    SmartDashboard.putNumber("Distance from reef center: ", z);
+    // calculated the distance to be 55.75 inches
+    // 32.75 for half the reef
+    // 17 for half the robot with bumpers
+    // 6 for the safety
+    if (z < 1.416) {
+      unsafeZone = true;
+    }
+    return unsafeZone;
+  }
+
   public boolean isLeftSide() {
     double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
-    if (y < 00) {
+    if (y < 0.0) {
       return false;
     } else {
       return true;

@@ -4,9 +4,9 @@
 
 package frc.robot.commands.sbsdTeleOpCommands;
 
+import frc.robot.commands.teleOpPathCommands.GenericCoralPickUpCommand;
 import frc.robot.commands.teleOpPathCommands.LeftDriverCoralStation;
 import frc.robot.commands.teleOpPathCommands.RightDriverCoralStation;
-import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
@@ -15,19 +15,21 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class teleOpDriverCoralPickup extends SequentialCommandGroup4905 {
   DriveTrainBase m_driveTrain;
-  ParallelCommandGroup4905 m_leftDriverCoralStation;
-  ParallelCommandGroup4905 m_rightDriverCoralStation;
+  GenericCoralPickUpCommand m_leftDriverCoralStation;
+  GenericCoralPickUpCommand m_rightDriverCoralStation;
 
   /** Creates a new teleOpDriverCoralPickup. */
   public teleOpDriverCoralPickup(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     try {
-      m_leftDriverCoralStation = new ParallelCommandGroup4905(new LeftDriverCoralStation());
+      m_leftDriverCoralStation = new GenericCoralPickUpCommand(new LeftDriverCoralStation(),
+          new sbsdCoralLoadArmEndEffectorPositon());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_rightDriverCoralStation = new ParallelCommandGroup4905(new RightDriverCoralStation());
+      m_rightDriverCoralStation = new GenericCoralPickUpCommand(new RightDriverCoralStation(),
+          new sbsdCoralLoadArmEndEffectorPositon());
     } catch (Exception e) {
       e.printStackTrace();
     }

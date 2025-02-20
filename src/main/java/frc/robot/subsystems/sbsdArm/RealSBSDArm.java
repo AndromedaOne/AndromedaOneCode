@@ -197,13 +197,13 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   public void calculateSpeed() {
     double currentAngleRad = getAngleRad();
- 
+
     if ((getAngleDeg() <= -75) && !m_doubleKpForClimber) {
       // trying to go climber position but need more power
       m_kP *= 2;
       m_controller.setP(m_kP);
       m_doubleKpForClimber = true;
-    
+
     }
     double pidCalc = m_controller.calculate(currentAngleRad);
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());

@@ -65,6 +65,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private double m_modSpeed = 0;
   private double m_modDistance = 0;
   private double m_robotAngle = 0;
+  private boolean m_isInsideUnsafeZone = false;
   private int m_count = 0;
   private double m_highestAccel = 0;
   private PoseEstimation4905.RegionsForPose m_region = RegionsForPose.UNKNOWN;
@@ -103,7 +104,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
     m_poseEstimation = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
+  }
 
+  @Override
+  public void configurePathPlanner() {
     if (m_config.getBoolean("usePathPlanning")) {
       PPHolonomicDriveController m_pathFollowingConfig = new PPHolonomicDriveController(
           new PIDConstants(m_config.getDouble("pathplanning.translationConstants.p"),
@@ -120,8 +124,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       try {
         robotConfig = RobotConfig.fromGUISettings();
       } catch (Exception e) {
-        // Handle exception as needed
         e.printStackTrace();
+        throw new RuntimeException(e);
 
       }
       m_generator = new SwerveSetpointGenerator(robotConfig,
@@ -252,6 +256,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       m_currentPose = m_poseEstimation.update(getPositions());
       m_region = m_poseEstimation.getRegion();
       m_isLeftSide = m_poseEstimation.isLeftSide();
+      m_isInsideUnsafeZone = m_poseEstimation.getInUnsafeZone();
+      SmartDashboard.putBoolean("Is inside of unsafe zone ", m_isInsideUnsafeZone);
       SmartDashboard.putNumber("Pose X ", metersToInches(m_currentPose.getX()));
       SmartDashboard.putNumber("Pose Y ", metersToInches(m_currentPose.getY()));
       SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
@@ -446,8 +452,14 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return m_region;
   }
 
+  @Override
   public boolean isLeftSide() {
     return m_isLeftSide;
+  }
+
+  @Override
+  public boolean isUnsafeZone() {
+    return m_isInsideUnsafeZone;
   }
 
 }

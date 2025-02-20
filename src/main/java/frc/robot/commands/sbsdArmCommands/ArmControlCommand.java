@@ -14,19 +14,21 @@ import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 public class ArmControlCommand extends Command {
   private SBSDArmBase m_sbsdArmBase;
   private boolean m_useSmartDashboard = false;
+  private boolean m_doesEnd = false;
   private ArmSetpointsSupplier m_level = () -> ArmSetpoints.CORAL_LOAD;
 
-  public ArmControlCommand(boolean useSmartDashboard) {
+  public ArmControlCommand(boolean useSmartDashboard, boolean doesEnd) {
     m_useSmartDashboard = useSmartDashboard;
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase());
     if (m_useSmartDashboard) {
       SmartDashboard.putNumber("SBSD Arm goal degrees", 0);
     }
+    m_doesEnd = doesEnd;
   }
 
-  public ArmControlCommand(ArmSetpointsSupplier level) {
-    this(false);
+  public ArmControlCommand(ArmSetpointsSupplier level, boolean doesEnd) {
+    this(false, doesEnd);
     m_level = level;
   }
 
@@ -57,6 +59,6 @@ public class ArmControlCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_sbsdArmBase.limitSwitchActive();
+    return (m_sbsdArmBase.limitSwitchActive()) || (m_doesEnd && m_sbsdArmBase.atSetPoint());
   }
 }
