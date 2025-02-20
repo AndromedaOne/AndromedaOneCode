@@ -62,8 +62,8 @@ public class PoseEstimation4905 {
     }
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
-      AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2025Reefscape
-          .loadAprilTagLayoutField();
+      AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout
+          .loadField(AprilTagFields.k2025ReefscapeAndyMark);
       PhotonVisionBase localCamera;
       if (m_photonVision.isEmpty()) {
         m_cameraPresent = false;
