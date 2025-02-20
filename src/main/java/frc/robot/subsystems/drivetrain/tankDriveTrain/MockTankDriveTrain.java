@@ -163,4 +163,13 @@ public class MockTankDriveTrain implements TankDriveTrain {
     return false;
   }
 
+  @Override
+  public void configurePathPlanner() {
+  }
+
+  @Override
+  public boolean isUnsafeZone() {
+    return false;
+  }
+
 }

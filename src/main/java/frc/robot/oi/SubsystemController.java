@@ -58,4 +58,11 @@ public class SubsystemController extends ControllerBase {
   public JoystickButton getScoreRight() {
     return getRightBumperButton();
   }
+
+  public boolean getManualEject() {
+    if (getLeftTriggerValue() >= 0.5) {
+      return true;
+    }
+    return false;
+  }
 }

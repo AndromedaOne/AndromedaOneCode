@@ -126,4 +126,14 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     return false;
   }
 
+  @Override
+  public void configurePathPlanner() {
+
+  }
+
+  @Override
+  public boolean isUnsafeZone() {
+    return false;
+  }
+
 }

@@ -19,6 +19,8 @@ import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLongSho
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootShortShot;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.sbsdTeleOpCommands.NotInUnsafeZone;
+import frc.robot.commands.sbsdTeleOpCommands.sbsdCoralLoadArmEndEffectorPositon;
 import frc.robot.commands.sbsdTeleOpCommands.teleOpCoralScoring;
 import frc.robot.commands.sbsdTeleOpCommands.teleOpDriverCoralPickup;
 import frc.robot.commands.sbsdTeleOpCommands.teleOpWallCoralPickup;
@@ -27,6 +29,7 @@ import frc.robot.commands.showBotAudio.PlayNextAudioFile;
 import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
@@ -45,7 +48,10 @@ public class DriveController extends ControllerBase {
     setController(new XboxController(0));
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
-    if (!Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
+    if (Config4905.getConfig4905().getRobotName().equals("SBSD")
+        || Config4905.getConfig4905().getRobotName().equals("SwerveBot")) {
+      setupSBSDTeleOpButtons();
+    } else if (!Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
       getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
       getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
       getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
@@ -83,9 +89,6 @@ public class DriveController extends ControllerBase {
 
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
-    }
-    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
-      setupSBSDTeleOpButtons();
     }
   }
 
@@ -197,10 +200,27 @@ public class DriveController extends ControllerBase {
     return getXbutton().getAsBoolean();
   }
 
+  public boolean getCoralScoring() {
+    return getXbutton().getAsBoolean();
+  }
+
+  public boolean getCoralLoadDriver() {
+    return getPOVeast().getAsBoolean();
+  }
+
+  public boolean getCoralLoadWall() {
+    return getPOVwest().getAsBoolean();
+  }
+
   private void setupSBSDTeleOpButtons() {
-    getXbutton().whileTrue(new teleOpCoralScoring(m_subsystemsContainer.getDriveTrain()));
-    getPOVeast().whileTrue(new teleOpDriverCoralPickup(m_subsystemsContainer.getDriveTrain()));
-    getPOVwest().whileTrue(new teleOpWallCoralPickup(m_subsystemsContainer.getDriveTrain()));
+    getAbutton().onTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
+        new sbsdCoralLoadArmEndEffectorPositon()));
+    getXbutton().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
+        new teleOpCoralScoring(m_subsystemsContainer.getDriveTrain())));
+    getPOVeast().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
+        new teleOpDriverCoralPickup(m_subsystemsContainer.getDriveTrain())));
+    getPOVwest().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
+        new teleOpWallCoralPickup(m_subsystemsContainer.getDriveTrain())));
   }
 
   /*

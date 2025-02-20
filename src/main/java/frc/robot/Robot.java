@@ -70,6 +70,17 @@ public class Robot extends TimedRobot {
     Trace.getInstance().logInfo("robot init started");
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
+    NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
+    NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
+    NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
+    try {
+      m_subsystemContainer.getDriveTrain().configurePathPlanner();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
     try {
       m_oiContainer = new OIContainer(m_subsystemContainer, m_sensorsContainer);
     } catch (FileVersionException | IOException | ParseException e) {
@@ -77,11 +88,6 @@ public class Robot extends TimedRobot {
       throw new RuntimeException(e);
     }
     m_subsystemContainer.setDefaultCommands();
-    NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
-    NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
     m_limelight = m_sensorsContainer.getLimeLight();
     m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(true);

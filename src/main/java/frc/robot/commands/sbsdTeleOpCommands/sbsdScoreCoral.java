@@ -5,11 +5,17 @@
 package frc.robot.commands.sbsdTeleOpCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class sbsdScoreCoral extends Command {
   /** Creates a new sbsdScoreCoral. */
+  private CoralIntakeEjectBase m_endEffector;
+
   public sbsdScoreCoral() {
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
+    addRequirements(m_endEffector.getSubsystemBase());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -17,6 +23,7 @@ public class sbsdScoreCoral extends Command {
   @Override
   public void initialize() {
     System.out.println("Coral Scored!");
+    m_endEffector.setEjectState();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
