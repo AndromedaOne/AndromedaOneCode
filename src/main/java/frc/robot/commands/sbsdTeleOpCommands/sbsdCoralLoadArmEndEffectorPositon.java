@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
@@ -19,8 +19,8 @@ public class sbsdCoralLoadArmEndEffectorPositon extends ParallelCommandGroup4905
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
     m_isSBSD = Config4905.getConfig4905().isSBSD();
-    addCommands(new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD, true),
-        new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD, true));
+    addCommands(new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, true),
+        new EndEffectorControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, true));
   }
 
   @Override
@@ -29,9 +29,9 @@ public class sbsdCoralLoadArmEndEffectorPositon extends ParallelCommandGroup4905
       CommandScheduler.getInstance().removeDefaultCommand(m_sbsdArmBase.getSubsystemBase());
       CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
       CommandScheduler.getInstance().setDefaultCommand(m_sbsdArmBase.getSubsystemBase(),
-          new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD, false));
+          new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, false));
       CommandScheduler.getInstance().setDefaultCommand(m_endEffector.getSubsystemBase(),
-          new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD, false));
+          new EndEffectorControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, false));
     }
 
   }

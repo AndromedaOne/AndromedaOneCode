@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
@@ -175,9 +175,11 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   }
 
   @Override
-  public void setGoalDeg(ArmSetpoints level) {
-    m_controller.setSetpoint(level.getArmAngleInDeg() * Math.PI / 180);
-    if (level == ArmSetpoints.LEVEL_2 || level == ArmSetpoints.LEVEL_3) {
+  public void setGoalDeg(SBSDArmSetpoints.ArmSetpoints level) {
+    m_controller
+        .setSetpoint(SBSDArmSetpoints.getInstance().getArmAngleInDeg(level) * Math.PI / 180);
+    if (level == SBSDArmSetpoints.ArmSetpoints.LEVEL_2
+        || level == SBSDArmSetpoints.ArmSetpoints.LEVEL_3) {
       m_runAlgaeRemovalWheels = true;
     } else {
       m_runAlgaeRemovalWheels = false;

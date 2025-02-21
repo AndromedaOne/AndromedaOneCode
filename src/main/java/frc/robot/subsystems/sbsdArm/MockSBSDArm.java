@@ -6,7 +6,7 @@ package frc.robot.subsystems.sbsdArm;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.subsystems.MockSubsystem;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
@@ -65,7 +65,7 @@ public class MockSBSDArm implements SBSDArmBase {
   }
 
   @Override
-  public void setGoalDeg(ArmSetpoints setpoint) {
+  public void setGoalDeg(SBSDArmSetpoints.ArmSetpoints setpoint) {
   }
 
   @Override

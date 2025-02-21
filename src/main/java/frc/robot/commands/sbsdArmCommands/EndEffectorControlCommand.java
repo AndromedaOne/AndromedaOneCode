@@ -7,7 +7,7 @@ package frc.robot.commands.sbsdArmCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
@@ -17,7 +17,7 @@ public class EndEffectorControlCommand extends Command {
   private double m_setpoint = 0;
   private boolean m_useLevel = false;
   private boolean m_doesEnd = false;
-  private ArmSetpointsSupplier m_level = () -> ArmSetpoints.CORAL_LOAD;
+  private ArmSetpointsSupplier m_level = () -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD;
 
   public EndEffectorControlCommand(boolean useSmartDashboard, boolean doesEnd) {
     m_useSmartDashboard = useSmartDashboard;
@@ -44,7 +44,8 @@ public class EndEffectorControlCommand extends Command {
   @Override
   public void initialize() {
     if (m_useLevel) {
-      m_setpoint = m_level.getAsArmSetpoints().getEndEffectorAngleInDeg();
+      m_setpoint = SBSDArmSetpoints.getInstance()
+          .getEndEffectorAngleInDeg(m_level.getAsArmSetpoints());
     }
     if (m_useSmartDashboard) {
       m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
