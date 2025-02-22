@@ -65,4 +65,13 @@ public class SubsystemController extends ControllerBase {
     }
     return false;
   }
+
+  public void rumbleOn(double value) {
+    setRumble(value);
+  }
+
+  public void rumbleOff() {
+    setRumble(0);
+  }
+
 }

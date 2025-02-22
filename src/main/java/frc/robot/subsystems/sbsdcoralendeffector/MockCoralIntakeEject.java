@@ -6,6 +6,8 @@ package frc.robot.subsystems.sbsdcoralendeffector;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.oi.DriveController;
+import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.MockSubsystem;
 
 /** Add your docs here. */
@@ -69,11 +71,17 @@ public class MockCoralIntakeEject implements CoralIntakeEjectBase {
   }
 
   @Override
+  public void setDriveController(DriveController driveController) {
+  }
+
   public void exitScore() {
   }
 
   @Override
   public void scoreL4() {
+  }
+
+  public void setSubsystemController(SubsystemController subsystemController) {
   }
 
 }

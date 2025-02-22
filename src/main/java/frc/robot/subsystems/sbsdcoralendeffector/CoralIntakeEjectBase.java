@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.sbsdcoralendeffector;
 
+import frc.robot.oi.DriveController;
+import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.SubsystemInterface;
 
 /** Add your docs here. */
@@ -33,5 +35,9 @@ public interface CoralIntakeEjectBase extends SubsystemInterface {
 
   public abstract void exitScore();
 
+  public abstract void setDriveController(DriveController driveController);
+
   public abstract void scoreL4();
+
+  public abstract void setSubsystemController(SubsystemController subsystemController);
 }

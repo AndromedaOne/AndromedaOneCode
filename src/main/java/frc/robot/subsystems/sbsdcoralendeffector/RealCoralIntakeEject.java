@@ -15,6 +15,7 @@ import frc.robot.actuators.SparkMaxController;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.oi.DriveController;
+import frc.robot.oi.SubsystemController;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 
@@ -34,6 +35,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private boolean m_currentRumble = false;
   private double m_rumbleValue = 1.0;
   private DriveController m_driveController;
+  private SubsystemController m_subsystemController;
   private int m_count = 0;
   private int m_rumbleTimer = 0;
   private boolean m_exitScore = false;
@@ -54,7 +56,6 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     m_ejectSideSensor = new RealLimitSwitchSensor("endEffectorEjectSensor");
     m_useTimerForRumble = config.getBoolean("useTimerForRumble");
     m_rumbleValue = config.getDouble("rumbleValue");
-    m_driveController = Robot.getInstance().getOIContainer().getDriveController();
     SmartDashboard.putBoolean("Eject coral: ", false);
   }
 
@@ -266,11 +267,23 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     return m_inWaitForCoral;
   }
 
+  @Override
+  public void setDriveController(DriveController driveController) {
+    m_driveController = driveController;
+  }
+
+  @Override
+  public void setSubsystemController(SubsystemController subsystemController) {
+    m_subsystemController = subsystemController;
+  }
+
   private void runRumble() {
     if (m_currentRumble) {
       m_driveController.rumbleOn(m_rumbleValue);
+      m_subsystemController.rumbleOn(m_rumbleValue);
     } else {
       m_driveController.rumbleOff();
+      m_subsystemController.rumbleOff();
     }
   }
 
