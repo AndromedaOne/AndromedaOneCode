@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.oi.DriveController;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 
@@ -26,7 +28,12 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private double m_ejectSpeed = 0.5;
   private boolean m_ejectCoral = false;
   private boolean m_inWaitForCoral = false;
+  private final boolean m_useTimerForRumble;
+  private boolean m_currentRumble = false;
+  private double m_rumbleValue = 1.0;
+  private DriveController m_driveController;
   private int m_count = 0;
+  private int m_rumbleTimer = 0;
 
   private enum CoralState {
     WAIT_FOR_CORAL, INTAKE_CORAL, POSITION_CORAL, HOLD_CORAL, EJECT_CORAL, PAUSE_FOR_EJECT
@@ -39,6 +46,9 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     m_intakeMotor = new SparkMaxController(config, "coralDelivery", false, false);
     m_intakeSideSensor = new RealLimitSwitchSensor("endEffectorIntakeSensor");
     m_ejectSideSensor = new RealLimitSwitchSensor("endEffectorEjectSensor");
+    m_useTimerForRumble = config.getBoolean("useTimerForRumble");
+    m_rumbleValue = config.getDouble("rumbleValue");
+    m_driveController = Robot.getInstance().getOIContainer().getDriveController();
     SmartDashboard.putBoolean("Eject coral: ", false);
   }
 
@@ -74,6 +84,8 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case WAIT_FOR_CORAL:
       stop();
       m_inWaitForCoral = true;
+      m_currentRumble = false;
+      m_rumbleTimer = 0;
       if (intakeDetector() && !ejectDetector()) {
         m_currentState = CoralState.INTAKE_CORAL;
       } else if (!intakeDetector() && ejectDetector()) {
@@ -109,14 +121,30 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       stop();
       m_hasCoral = true;
       m_inWaitForCoral = false;
+      if (m_useTimerForRumble) {
+        if (m_rumbleTimer < 50) {
+          m_currentRumble = true;
+          m_rumbleTimer++;
+        } else {
+          m_currentRumble = false;
+        }
+      } else {
+        m_currentRumble = true;
+      }
       if (!ejectDetector()) {
         m_hasCoral = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
       } else if (m_ejectCoral) {
         m_ejectCoral = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
         m_currentState = CoralState.EJECT_CORAL;
       } else if (intakeDetector()) {
         m_hasCoral = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
         m_currentState = CoralState.POSITION_CORAL;
       }
       break;
@@ -135,8 +163,8 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       stop();
       if (m_count > 5) {
         m_hasCoral = false;
-        m_currentState = CoralState.WAIT_FOR_CORAL;
         m_count = 0;
+        m_currentState = CoralState.WAIT_FOR_CORAL;
       }
       break;
 
@@ -147,6 +175,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     SmartDashboard.putString("Coral State: ", m_currentState.toString());
     m_ejectCoral = SmartDashboard.getBoolean("Eject coral: ", false);
     SmartDashboard.putBoolean("Is in wait for coral: ", m_inWaitForCoral);
+    runRumble();
   }
 
   @Override
@@ -193,5 +222,13 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   @Override
   public boolean hasScored() {
     return m_inWaitForCoral;
+  }
+
+  private void runRumble() {
+    if (m_currentRumble) {
+      m_driveController.rumbleOn(m_rumbleValue);
+    } else {
+      m_driveController.rumbleOff();
+    }
   }
 }
