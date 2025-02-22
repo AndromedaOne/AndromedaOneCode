@@ -194,5 +194,4 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   public boolean hasScored() {
     return m_inWaitForCoral;
   }
-
 }
