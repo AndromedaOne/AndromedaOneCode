@@ -33,6 +33,7 @@ import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.subsystems.showBotAudio.AudioFiles;
+import frc.robot.telemetries.Trace;
 
 /**
  * All driveController buttons get mapped here with descriptive names so they
@@ -122,6 +123,15 @@ public class DriveController extends ControllerBase {
 
   public double getShowBotElevatorDownTriggerValue() {
     return getRightTriggerValue();
+  }
+
+  public void rumbleOn(double value) {
+    setRumble(value);
+    Trace.getInstance().logInfo("Rumble on ran");
+  }
+
+  public void rumbleOff() {
+    setRumble(0);
   }
 
   private void setUpShooterButtons() {
