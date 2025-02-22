@@ -68,4 +68,12 @@ public class MockCoralIntakeEject implements CoralIntakeEjectBase {
   public void setBrakeMode() {
   }
 
+  @Override
+  public void exitScore() {
+  }
+
+  @Override
+  public void scoreL4() {
+  }
+
 }

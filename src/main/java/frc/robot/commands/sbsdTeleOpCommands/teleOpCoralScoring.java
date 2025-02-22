@@ -6,7 +6,7 @@ package frc.robot.commands.sbsdTeleOpCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.teleOpPathCommands.FinishA;
 import frc.robot.commands.teleOpPathCommands.FinishB;
 import frc.robot.commands.teleOpPathCommands.FinishC;
@@ -78,7 +78,7 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
   GenericCoralPathCommand m_placeAtJ4;
   GenericCoralPathCommand m_placeAtK4;
   GenericCoralPathCommand m_placeAtL4;
-  ArmSetpoints m_level = ArmSetpoints.CORAL_LOAD;
+  SBSDArmSetpoints.ArmSetpoints m_level = SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD;
 
   public enum reefScoringSide {
     LEFT, RIGHT, NOTSELECTED
@@ -243,13 +243,13 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
     currentRegion = m_driveTrain.getRegion();
     // gets axby button from subsystem controller for coral level
     if (m_subsystemController.getScoreLevelOne().getAsBoolean()) {
-      m_level = ArmSetpoints.LEVEL_1;
+      m_level = SBSDArmSetpoints.ArmSetpoints.LEVEL_1;
     } else if (m_subsystemController.getScoreLevelTwo().getAsBoolean()) {
-      m_level = ArmSetpoints.LEVEL_2;
+      m_level = SBSDArmSetpoints.ArmSetpoints.LEVEL_2;
     } else if (m_subsystemController.getScoreLevelThree().getAsBoolean()) {
-      m_level = ArmSetpoints.LEVEL_3;
+      m_level = SBSDArmSetpoints.ArmSetpoints.LEVEL_3;
     } else if (m_subsystemController.getScoreLevelFour().getAsBoolean()) {
-      m_level = ArmSetpoints.LEVEL_4;
+      m_level = SBSDArmSetpoints.ArmSetpoints.LEVEL_4;
     }
 
     // gets left/right bumper from subsystem controller for left or right placement
@@ -263,11 +263,12 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
     SmartDashboard.putString("Scoring Side", scoringSide.toString());
 
     // cancels if button not pressed
-    if (m_level == ArmSetpoints.CORAL_LOAD || scoringSide == reefScoringSide.NOTSELECTED) {
+    if (m_level == SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD
+        || scoringSide == reefScoringSide.NOTSELECTED) {
       return;
     }
     // figures out which path to run
-    if (m_level == ArmSetpoints.LEVEL_4) {
+    if (m_level == SBSDArmSetpoints.ArmSetpoints.LEVEL_4) {
       if (currentRegion == PoseEstimation4905.RegionsForPose.SOUTH) {
         if (scoringSide == reefScoringSide.LEFT) {
           m_placeAtA4.schedule();

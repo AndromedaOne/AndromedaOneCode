@@ -30,4 +30,8 @@ public interface CoralIntakeEjectBase extends SubsystemInterface {
   public abstract void setCoastMode();
 
   public abstract void setBrakeMode();
+
+  public abstract void exitScore();
+
+  public abstract void scoreL4();
 }

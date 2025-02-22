@@ -12,10 +12,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.oi.DriveController;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
-import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 
 /** Add your docs here. */
 public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEjectBase {
@@ -23,7 +24,6 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private SparkMaxController m_intakeMotor;
   private LimitSwitchSensor m_intakeSideSensor;
   private LimitSwitchSensor m_ejectSideSensor;
-  private CoralEndEffectorRotateBase m_eeRotate;
   private boolean m_hasCoral = false;
   private double m_intakeSpeed = 0.15;
   private double m_repositionSpeed = 0.1;
@@ -38,9 +38,11 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private int m_rumbleTimer = 0;
   private boolean m_exitScore = false;
   private boolean m_scoreL4 = false;
+  private double m_L4SafeAngleOffset = 90;
 
   private enum CoralState {
-    WAIT_FOR_CORAL, INTAKE_CORAL, POSITION_CORAL, HOLD_CORAL, EJECT_CORAL, PAUSE_FOR_EJECT, SCORE_L4_WAIT, HOLD_L4_POSITION
+    WAIT_FOR_CORAL, INTAKE_CORAL, POSITION_CORAL, HOLD_CORAL, EJECT_CORAL, PAUSE_FOR_EJECT,
+    SCORE_L4_WAIT, POSITION_L4, HOLD_L4_POSITION
   }
 
   private CoralState m_currentState = CoralState.WAIT_FOR_CORAL;
@@ -50,7 +52,6 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     m_intakeMotor = new SparkMaxController(config, "coralDelivery", false, false);
     m_intakeSideSensor = new RealLimitSwitchSensor("endEffectorIntakeSensor");
     m_ejectSideSensor = new RealLimitSwitchSensor("endEffectorEjectSensor");
-    m_eeRotate = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase();
     m_useTimerForRumble = config.getBoolean("useTimerForRumble");
     m_rumbleValue = config.getDouble("rumbleValue");
     m_driveController = Robot.getInstance().getOIContainer().getDriveController();
@@ -126,17 +127,8 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       stop();
       m_hasCoral = true;
       m_inWaitForCoral = false;
-      if (m_useTimerForRumble) {
-        if (m_rumbleTimer < 50) {
-          m_currentRumble = true;
-          m_rumbleTimer++;
-        } else {
-          m_currentRumble = false;
-        }
-      } else {
-        m_currentRumble = true;
-      }
-      if (m_scoreL4){
+      rumbleController();
+      if (m_scoreL4) {
         m_currentState = CoralState.SCORE_L4_WAIT;
         m_scoreL4 = false;
       }
@@ -177,9 +169,46 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       }
       break;
 
-      case SCORE_L4_WAIT:
-        if (m_eeRotate.getAngleDeg()
+    case SCORE_L4_WAIT:
+      double getSafeAngleToScoreL4 = SBSDArmSetpoints.getInstance()
+          .getEndEffectorAngleInDeg(ArmSetpoints.CORAL_LOAD) - m_L4SafeAngleOffset;
+      if (Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase()
+          .getAngleDeg() <= getSafeAngleToScoreL4) {
+        m_currentState = CoralState.POSITION_L4;
+      }
+      break;
 
+    case POSITION_L4:
+      m_intakeMotor.setSpeed(-m_repositionSpeed);
+      if (intakeDetector() && !ejectDetector()) {
+        m_currentState = CoralState.HOLD_L4_POSITION;
+      }
+      break;
+
+    case HOLD_L4_POSITION:
+      stop();
+      m_hasCoral = true;
+      m_inWaitForCoral = false;
+      rumbleController();
+      if (m_exitScore) {
+        m_exitScore = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
+        m_currentState = CoralState.POSITION_CORAL;
+      }
+      if (m_ejectCoral) {
+        m_ejectCoral = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
+        m_currentState = CoralState.EJECT_CORAL;
+      }
+      if (!intakeDetector()) {
+        m_hasCoral = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
+        m_currentState = CoralState.WAIT_FOR_CORAL;
+      }
+      break;
 
     default:
       stop();
@@ -244,11 +273,26 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_driveController.rumbleOff();
     }
   }
-  public void exitScore(){
+
+  public void exitScore() {
     m_exitScore = true;
   }
 
-  public void scoreL4(){
+  public void scoreL4() {
     m_scoreL4 = true;
+  }
+
+  private void rumbleController() {
+    if (m_useTimerForRumble) {
+      if (m_rumbleTimer < 50) {
+        m_currentRumble = true;
+        m_rumbleTimer++;
+      } else {
+        m_currentRumble = false;
+      }
+    } else {
+      m_currentRumble = true;
+    }
+
   }
 }

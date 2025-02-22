@@ -194,6 +194,6 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   @Override
   public double getSafeAngleToScoreL4() {
-    return 
+    return 0;
   }
 }
