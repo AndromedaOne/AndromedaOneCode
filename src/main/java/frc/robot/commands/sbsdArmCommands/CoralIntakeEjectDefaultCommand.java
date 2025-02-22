@@ -6,16 +6,19 @@ package frc.robot.commands.sbsdArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.oi.DriveController;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralIntakeEjectDefaultCommand extends Command {
   private CoralIntakeEjectBase m_coralIntakeEject;
+  private DriveController m_driveController;
   private SubsystemController m_subsystemController;
 
   public CoralIntakeEjectDefaultCommand(boolean useSmartDashboard) {
     m_coralIntakeEject = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
+    m_driveController = Robot.getInstance().getOIContainer().getDriveController();
     m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
     addRequirements(m_coralIntakeEject.getSubsystemBase());
 
@@ -24,6 +27,8 @@ public class CoralIntakeEjectDefaultCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_coralIntakeEject.setDriveController(m_driveController);
+    m_coralIntakeEject.setSubsystemController(m_subsystemController);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
