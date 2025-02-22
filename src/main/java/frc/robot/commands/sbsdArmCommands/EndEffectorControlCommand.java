@@ -21,7 +21,7 @@ public class EndEffectorControlCommand extends Command {
 
   public EndEffectorControlCommand(boolean useSmartDashboard, boolean doesEnd) {
     m_useSmartDashboard = useSmartDashboard;
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase();
     addRequirements(m_endEffector.getSubsystemBase());
     if (m_useSmartDashboard) {
       SmartDashboard.putNumber("SBSD End Effector goal degrees", 0);

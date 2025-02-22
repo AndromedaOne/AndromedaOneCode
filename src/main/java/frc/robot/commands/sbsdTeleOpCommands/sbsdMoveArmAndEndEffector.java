@@ -30,7 +30,7 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   public sbsdMoveArmAndEndEffector(ArmSetpointsSupplier level) {
     m_level = level;
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase();
     m_moveArm = new ArmControlCommand(level, true);
     m_moveEndEffector = new EndEffectorControlCommand(level, true);
     addCommands(m_moveArm, m_moveEndEffector);

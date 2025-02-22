@@ -17,7 +17,7 @@ public class sbsdCoralLoadArmEndEffectorPositon extends ParallelCommandGroup4905
 
   public sbsdCoralLoadArmEndEffectorPositon() {
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase();
     m_isSBSD = Config4905.getConfig4905().isSBSD();
     addCommands(new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD, true),
         new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD, true));

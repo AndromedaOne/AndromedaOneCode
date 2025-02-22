@@ -191,4 +191,9 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
         m_absoluteEncoderPosition.getAsDouble());
     SmartDashboard.putNumber("Coral Angle position error", m_controller.getPositionError());
   }
+
+  @Override
+  public double getSafeAngleToScoreL4() {
+    return 
+  }
 }

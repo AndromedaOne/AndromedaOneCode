@@ -14,7 +14,7 @@ public class RotateEndEffector extends Command {
   private CoralEndEffectorRotateBase m_endEffector;
 
   public RotateEndEffector() {
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase();
     addRequirements(m_endEffector.getSubsystemBase());
     SmartDashboard.putNumber("End Effector Speed", 0);
   }

@@ -82,7 +82,7 @@ public class SubsystemsContainer {
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
   SBSDArmBase m_sbsdArmBase;
-  CoralEndEffectorRotateBase m_sbsdCoralEndEffectorBase;
+  CoralEndEffectorRotateBase m_sbsdCoralEndEffectorRotateBase;
   CoralIntakeEjectBase m_sbsdCoralIntakeEjectBase;
 
   /**
@@ -199,15 +199,15 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       Trace.getInstance().logInfo("using real SBSD coral end effector");
-      m_sbsdCoralEndEffectorBase = new RealCoralEndEffectorRotate();
+      m_sbsdCoralEndEffectorRotateBase = new RealCoralEndEffectorRotate();
     } else {
       Trace.getInstance().logInfo("using mock SBSD end effector");
-      m_sbsdCoralEndEffectorBase = new MockCoralEndEffectorRotate();
+      m_sbsdCoralEndEffectorRotateBase = new MockCoralEndEffectorRotate();
     }
     if (Config4905.getConfig4905().doesSBSDArmExist()) {
       Trace.getInstance().logInfo("using real SBSD arm");
       m_sbsdArmBase = new RealSBSDArm();
-      m_sbsdArmBase.setEndEffector(m_sbsdCoralEndEffectorBase);
+      m_sbsdArmBase.setEndEffector(m_sbsdCoralEndEffectorRotateBase);
     } else {
       Trace.getInstance().logInfo("using mock SBSD arm");
       m_sbsdArmBase = new MockSBSDArm();
@@ -265,8 +265,8 @@ public class SubsystemsContainer {
     return m_sbsdArmBase;
   }
 
-  public CoralEndEffectorRotateBase getSBSDCoralEndEffectorBase() {
-    return m_sbsdCoralEndEffectorBase;
+  public CoralEndEffectorRotateBase getSBSDCoralEndEffectorRotateBase() {
+    return m_sbsdCoralEndEffectorRotateBase;
   }
 
   public CoralIntakeEjectBase getSBSDCoralIntakeEjectBase() {
@@ -308,7 +308,7 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       System.out.println("Using end effector default command");
-      m_sbsdCoralEndEffectorBase
+      m_sbsdCoralEndEffectorRotateBase
           .setDefaultCommand(new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD, false));
     }
     if (Config4905.getConfig4905().doesSBSDCoralIntakeEjectExist()) {
