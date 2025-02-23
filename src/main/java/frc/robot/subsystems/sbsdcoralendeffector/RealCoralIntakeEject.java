@@ -295,12 +295,13 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   @Override
   public void exitL4ScoringPosition() {
     m_exitL4ScoringPosition = true;
-    m_scoreL4 = false; 
+    m_scoreL4 = false;
   }
 
   @Override
   public void scoreL4() {
     m_scoreL4 = true;
+    m_exitL4ScoringPosition = false;
   }
 
   private void rumbleController() {

@@ -46,16 +46,19 @@ public class EndEffectorControlCommand extends Command {
   @Override
   public void initialize() {
     if (m_useLevel) {
-      Trace.getInstance().logCommandInfo(this, "EE Level: " +
-          SBSDArmSetpoints.getInstance().getEndEffectorAngleInDeg(m_level.getAsArmSetpoints()));
+      Trace.getInstance().logCommandInfo(this, "EE Level: "
+          + SBSDArmSetpoints.getInstance().getEndEffectorAngleInDeg(m_level.getAsArmSetpoints()));
       m_setpoint = SBSDArmSetpoints.getInstance()
           .getEndEffectorAngleInDeg(m_level.getAsArmSetpoints());
       if (m_level.getAsArmSetpoints() == SBSDArmSetpoints.ArmSetpoints.LEVEL_4) {
         Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase().scoreL4();
-        Trace.getInstance().logCommandInfo(this, "Score Level 4, going to Level: "+ m_level.getAsArmSetpoints());
+        Trace.getInstance().logCommandInfo(this,
+            "Score Level 4, going to Level: " + m_level.getAsArmSetpoints());
       } else {
-        Trace.getInstance().logCommandInfo(this, "Exit Score, going to Level: "+ m_level.getAsArmSetpoints());
-        Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase().exitL4ScoringPosition();
+        Trace.getInstance().logCommandInfo(this,
+            "Exit Score, going to Level: " + m_level.getAsArmSetpoints());
+        Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase()
+            .exitL4ScoringPosition();
       }
     }
     if (m_useSmartDashboard) {
