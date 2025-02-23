@@ -43,6 +43,8 @@ public class MoveEndEffectorToClimberMode extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_endEffector.stop();
+    ClimberMode.getInstance().setEndEffectorInClimberMode();
   }
 
   // Returns true when the command should end.
