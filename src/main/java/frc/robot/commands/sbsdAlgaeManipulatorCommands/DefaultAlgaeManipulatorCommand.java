@@ -39,32 +39,50 @@ public class DefaultAlgaeManipulatorCommand extends Command {
   public void execute() {
     switch (m_currentState) {
     case DEFAULT_POSITION:
+      // AM in retract (up)
+      // wheels in stop
+      // no algae
       m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.stopAlgaeManipulatorIntakeWheels();
       if (m_pickupButton.getAsBoolean()) {
+        // sets the AM's setpoint to be deploy (down)
+        // changes state to intake
         m_sbsdAlgaeManipulatorBase.setDeploySetpoint();
         m_currentState = AlgaeManipulatorState.INTAKE_ALGAE;
       }
       break;
     case INTAKE_ALGAE:
+      // AM in deploy (down)
+      // wheels in intake
+      // trying to intake algae
       m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       if (!m_pickupButton.getAsBoolean()) {
+        // sets the AM's setpoint to be retract (up)
+        // changes state to hold
         m_sbsdAlgaeManipulatorBase.setRetractSetpoint();
         m_currentState = AlgaeManipulatorState.HOLD_ALGAE;
       }
       break;
     case HOLD_ALGAE:
+      // AM in retract (up)
+      // wheels in intake
+      // has algae and is moving around with it
       m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       if (m_scoreButton.getAsBoolean()) {
+        // changes state to score
         m_currentState = AlgaeManipulatorState.SCORE_ALGAE;
       }
       break;
     case SCORE_ALGAE:
+      // AM in retract (up)
+      // wheels in eject
+      // ejecting algae
       m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToEject();
       if (!m_scoreButton.getAsBoolean()) {
+        // changes state to default
         m_currentState = AlgaeManipulatorState.DEFAULT_POSITION;
       }
       break;

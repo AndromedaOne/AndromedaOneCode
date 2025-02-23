@@ -49,7 +49,7 @@ public class MockSBSDAlgaeManipulator implements SBSDAlgaeManipulatorBase {
   }
 
   @Override
-  public boolean isAlgaeRotateOnTarget() {
+  public boolean isAlgaeManipulatorOnTarget() {
     return true;
   }
 

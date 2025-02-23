@@ -64,7 +64,7 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
 
   @Override
   public void runWheelsToEject() {
-    m_intakeWheels.setSpeed(m_ejectWheelSpeed);
+    m_intakeWheels.setSpeed(-m_ejectWheelSpeed);
   }
 
   @Override
@@ -86,6 +86,7 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   private void calcSpeed(double speed) {
     SmartDashboard.putNumber("SBSD Unmodified Algae Speed: ", speed);
     speed = MathUtil.clamp(speed, -m_maxRetractSpeed, m_maxDeploySpeed);
+    // the polarities might be wrong
     if ((getEncoderPositionInDegrees() > m_deployAngle) && (speed > 0)) {
       speed = 0.0;
     } else if ((getEncoderPositionInDegrees() < m_retractAngle) && (speed < 0)) {
@@ -120,7 +121,7 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   }
 
   @Override
-  public boolean isAlgaeRotateOnTarget() {
+  public boolean isAlgaeManipulatorOnTarget() {
     return m_pidController.atSetpoint();
   }
 
@@ -146,6 +147,6 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     SmartDashboard.putNumber("SBSD Algae Encoder Position",
         m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks());
     SmartDashboard.putNumber("SBSD Algae position error", m_pidController.getPositionError());
-    SmartDashboard.putBoolean("SBSD Algae On Target", isAlgaeRotateOnTarget());
+    SmartDashboard.putBoolean("SBSD Algae On Target", isAlgaeManipulatorOnTarget());
   }
 }
