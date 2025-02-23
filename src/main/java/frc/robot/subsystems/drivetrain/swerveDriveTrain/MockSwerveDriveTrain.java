@@ -136,4 +136,8 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     return false;
   }
 
+  @Override
+  public void setVelocityToZero() {
+  }
+
 }

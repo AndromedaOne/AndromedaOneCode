@@ -436,6 +436,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
+  @Override
+  public void setVelocityToZero() {
+    for (SwerveModuleBase mod : m_SwerveMods) {
+      mod.setDesiredState(new SwerveModuleState(0, mod.getAngle()), true, true);
+    }
+  }
+
   public void disableAccelerationLimiting() {
     for (SwerveModuleBase mod : m_SwerveMods) {
       mod.disableAccelerationLimiting();
