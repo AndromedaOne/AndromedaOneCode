@@ -7,6 +7,7 @@ package frc.robot.subsystems.sbsdAlgaeManipulator;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
@@ -83,14 +84,15 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   }
 
   private void calcSpeed(double speed) {
+    SmartDashboard.putNumber("SBSD Unmodified Algae Speed: ", speed);
     speed = MathUtil.clamp(speed, -m_maxRetractSpeed, m_maxDeploySpeed);
     if ((getEncoderPositionInDegrees() > m_deployAngle) && (speed > 0)) {
-      m_deployAlgaeManipulator.setSpeed(0);
+      speed = 0.0;
     } else if ((getEncoderPositionInDegrees() < m_retractAngle) && (speed < 0)) {
-      m_deployAlgaeManipulator.setSpeed(0);
-    } else {
-      m_deployAlgaeManipulator.setSpeed(speed);
+      speed = 0.0;
     }
+    m_deployAlgaeManipulator.setSpeed(speed);
+    SmartDashboard.putNumber("SBSD Algae Speed: ", speed);
   }
 
   @Override
@@ -108,17 +110,42 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   @Override
   public void setDeploySetpoint() {
     m_pidController.setSetpoint(m_deployAngle);
-    Trace.getInstance().logInfo("Set algae setpoint to " + m_deployAngle);
+    Trace.getInstance().logInfo("Set algae setpoint to " + m_deployAngle + ", deploy angle");
   }
 
   @Override
   public void setRetractSetpoint() {
     m_pidController.setSetpoint(m_retractAngle);
-    Trace.getInstance().logInfo("Set algae setpoint to " + m_retractAngle);
+    Trace.getInstance().logInfo("Set algae setpoint to " + m_retractAngle + ", retract angle");
   }
 
   @Override
   public boolean isAlgaeRotateOnTarget() {
     return m_pidController.atSetpoint();
+  }
+
+  @Override
+  public void reloadConfig() {
+    Config algaeManipulatorConfig = Config4905.getConfig4905().getSBSDAlgaeManipulatorConfig();
+    m_intakeWheelSpeed = algaeManipulatorConfig.getDouble("intakeWheelSpeed");
+    m_ejectWheelSpeed = algaeManipulatorConfig.getDouble("ejectWheelSpeed");
+    m_maxDeploySpeed = algaeManipulatorConfig.getDouble("deploySpeed");
+    m_maxRetractSpeed = algaeManipulatorConfig.getDouble("retractSpeed");
+    m_deployAngle = algaeManipulatorConfig.getDouble("deployAngle");
+    m_retractAngle = algaeManipulatorConfig.getDouble("retractAngle");
+    m_kP = algaeManipulatorConfig.getDouble("kP");
+    m_kI = algaeManipulatorConfig.getDouble("kI");
+    m_kD = algaeManipulatorConfig.getDouble("kD");
+    m_pidController.setPID(m_kP, m_kI, m_kD);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("SBSD Algae Angle in Degrees", getEncoderPositionInDegrees());
+    SmartDashboard.putNumber("SBSD Algae Angle in Rads", getEncoderPositionInRadians());
+    SmartDashboard.putNumber("SBSD Algae Encoder Position",
+        m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks());
+    SmartDashboard.putNumber("SBSD Algae position error", m_pidController.getPositionError());
+    SmartDashboard.putBoolean("SBSD Algae On Target", isAlgaeRotateOnTarget());
   }
 }

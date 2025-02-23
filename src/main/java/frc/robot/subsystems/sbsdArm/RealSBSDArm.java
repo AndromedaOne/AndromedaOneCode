@@ -214,15 +214,16 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void reloadConfig() {
-    m_minAngleDeg = Config4905.getConfig4905().getSBSDArmConfig().getDouble("minAngleDeg");
-    m_maxAngleDeg = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxAngleDeg");
-    m_angleOffset = Config4905.getConfig4905().getSBSDArmConfig().getDouble("angleOffset");
-    m_maxSpeedUp = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxSpeedUp");
-    m_maxSpeedDown = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxSpeedDown");
-    m_kP = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kP");
-    m_kI = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kI");
-    m_kD = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kD");
-    m_tolerance = Config4905.getConfig4905().getSBSDArmConfig().getDouble("tolerance");
+    Config armrotateConfig = Config4905.getConfig4905().getSBSDArmConfig();
+    m_minAngleDeg = armrotateConfig.getDouble("minAngleDeg");
+    m_maxAngleDeg = armrotateConfig.getDouble("maxAngleDeg");
+    m_angleOffset = armrotateConfig.getDouble("angleOffset");
+    m_maxSpeedUp = armrotateConfig.getDouble("maxSpeedUp");
+    m_maxSpeedDown = armrotateConfig.getDouble("maxSpeedDown");
+    m_kP = armrotateConfig.getDouble("kP");
+    m_kI = armrotateConfig.getDouble("kI");
+    m_kD = armrotateConfig.getDouble("kD");
+    m_tolerance = armrotateConfig.getDouble("tolerance");
   }
 
   @Override

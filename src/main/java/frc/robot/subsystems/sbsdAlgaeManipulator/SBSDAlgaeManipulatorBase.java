@@ -24,4 +24,6 @@ public interface SBSDAlgaeManipulatorBase extends SubsystemInterface {
   public abstract void setRetractSetpoint();
 
   public abstract boolean isAlgaeRotateOnTarget();
+
+  public abstract void reloadConfig();
 }
