@@ -48,7 +48,7 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
 
   @Override
   public boolean atSetPoint() {
-    return false;
+    return true;
   }
 
   @Override
@@ -66,5 +66,10 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
 
   @Override
   public void calculateSpeed() {
+  }
+
+  @Override
+  public double getSafeAngleToScoreL4() {
+    return 0;
   }
 }

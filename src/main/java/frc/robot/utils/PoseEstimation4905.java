@@ -56,14 +56,19 @@ public class PoseEstimation4905 {
     SensorsContainer sensorsContainer = Robot.getInstance().getSensorsContainer();
     m_gyro = sensorsContainer.getGyro();
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
-    if (m_currentAlliance == Alliance.Red) {
-      m_aprilTagFieldLayout.setOrigin(
-          new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
-    }
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
-      AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2025Reefscape
-          .loadAprilTagLayoutField();
+      if (Config4905.getConfig4905().getSensorConfig()
+          .getBoolean("photonvision.useAndyMarkField")) {
+        m_aprilTagFieldLayout = AprilTagFieldLayout
+            .loadField(AprilTagFields.k2025ReefscapeAndyMark);
+      } else {
+        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+      }
+      if (m_currentAlliance == Alliance.Red) {
+        m_aprilTagFieldLayout.setOrigin(
+            new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
+      }
       PhotonVisionBase localCamera;
       if (m_photonVision.isEmpty()) {
         m_cameraPresent = false;
@@ -73,7 +78,7 @@ public class PoseEstimation4905 {
           localCamera = m_photonVision.get(i);
           m_robotToCam
               .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
-          m_poseEstimator.add(new PhotonPoseEstimator(aprilTagFieldLayout,
+          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout,
               PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
           m_posePublisherCamera.add(NetworkTableInstance.getDefault()
               .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
@@ -202,9 +207,25 @@ public class PoseEstimation4905 {
     }
   }
 
+  public boolean getInUnsafeZone() {
+    double x = m_swerveOdometry.getEstimatedPosition().getX() - 4.489323;
+    double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
+    double z = Math.sqrt((x * x) + (y * y));
+    boolean unsafeZone = false;
+    SmartDashboard.putNumber("Distance from reef center: ", z);
+    // calculated the distance to be 55.75 inches
+    // 32.75 for half the reef
+    // 17 for half the robot with bumpers
+    // 6 for the safety
+    if (z < 1.416) {
+      unsafeZone = true;
+    }
+    return unsafeZone;
+  }
+
   public boolean isLeftSide() {
     double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
-    if (y < 00) {
+    if (y < 0.0) {
       return false;
     } else {
       return true;

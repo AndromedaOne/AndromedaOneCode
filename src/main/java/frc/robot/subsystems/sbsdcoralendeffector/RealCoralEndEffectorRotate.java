@@ -172,9 +172,6 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
     rotate(speed);
-    SmartDashboard.putNumber("Coral Error", m_controller.getPositionError());
-    SmartDashboard.putNumber("Coral pidCalc", pidCalc);
-    SmartDashboard.putNumber("Coral feedForwardCalc", feedforwardCalc);
     SmartDashboard.putNumber("Coral Current setpoint:", m_controller.getSetpoint());
   }
 
@@ -189,6 +186,10 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     SmartDashboard.putNumber("Coral Angle in Rads", getAngleRad());
     SmartDashboard.putNumber("Coral Angle Encoder Position",
         m_absoluteEncoderPosition.getAsDouble());
-    SmartDashboard.putNumber("Coral Angle position error", m_controller.getPositionError());
+  }
+
+  @Override
+  public double getSafeAngleToScoreL4() {
+    return 0;
   }
 }

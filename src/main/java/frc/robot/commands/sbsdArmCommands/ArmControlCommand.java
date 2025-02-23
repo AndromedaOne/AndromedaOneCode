@@ -7,26 +7,29 @@ package frc.robot.commands.sbsdArmCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class ArmControlCommand extends Command {
   private SBSDArmBase m_sbsdArmBase;
   private boolean m_useSmartDashboard = false;
-  private ArmSetpointsSupplier m_level = () -> ArmSetpoints.CORAL_LOAD;
+  private boolean m_doesEnd = false;
+  private ArmSetpointsSupplier m_level = () -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD;
 
-  public ArmControlCommand(boolean useSmartDashboard) {
+  public ArmControlCommand(boolean useSmartDashboard, boolean doesEnd) {
     m_useSmartDashboard = useSmartDashboard;
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase());
     if (m_useSmartDashboard) {
       SmartDashboard.putNumber("SBSD Arm goal degrees", 0);
     }
+    m_doesEnd = doesEnd;
   }
 
-  public ArmControlCommand(ArmSetpointsSupplier level) {
-    this(false);
+  public ArmControlCommand(ArmSetpointsSupplier level, boolean doesEnd) {
+    this(false, doesEnd);
     m_level = level;
   }
 
@@ -37,6 +40,8 @@ public class ArmControlCommand extends Command {
       m_sbsdArmBase.setGoalDeg(SmartDashboard.getNumber("SBSD Arm goal degrees", 0));
     } else {
       m_sbsdArmBase.setGoalDeg(m_level.getAsArmSetpoints());
+      Trace.getInstance().logCommandInfo(this, "Arm Set Goal Deg: "
+          + SBSDArmSetpoints.getInstance().getArmAngleInDeg(m_level.getAsArmSetpoints()));
     }
   }
 
@@ -52,11 +57,12 @@ public class ArmControlCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_sbsdArmBase.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_sbsdArmBase.limitSwitchActive();
+    return (m_sbsdArmBase.limitSwitchActive()) || (m_doesEnd && m_sbsdArmBase.atSetPoint());
   }
 }

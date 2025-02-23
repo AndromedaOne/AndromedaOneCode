@@ -209,4 +209,13 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     return false;
   }
 
+  @Override
+  public void configurePathPlanner() {
+  }
+
+  @Override
+  public boolean isUnsafeZone() {
+    return false;
+  }
+
 }

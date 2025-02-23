@@ -7,7 +7,7 @@ package frc.robot.commands.sbsdArmCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
@@ -16,24 +16,27 @@ public class EndEffectorControlCommand extends Command {
   private boolean m_useSmartDashboard = false;
   private double m_setpoint = 0;
   private boolean m_useLevel = false;
-  private ArmSetpointsSupplier m_level = () -> ArmSetpoints.CORAL_LOAD;
+  private boolean m_doesEnd = false;
+  private ArmSetpointsSupplier m_level = () -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD;
 
-  public EndEffectorControlCommand(boolean useSmartDashboard) {
+  public EndEffectorControlCommand(boolean useSmartDashboard, boolean doesEnd) {
     m_useSmartDashboard = useSmartDashboard;
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer()
+        .getSBSDCoralEndEffectorRotateBase();
     addRequirements(m_endEffector.getSubsystemBase());
     if (m_useSmartDashboard) {
       SmartDashboard.putNumber("SBSD End Effector goal degrees", 0);
     }
+    m_doesEnd = doesEnd;
   }
 
-  public EndEffectorControlCommand(double setpoint) {
-    this(false);
+  public EndEffectorControlCommand(double setpoint, boolean doesEnd) {
+    this(false, doesEnd);
     m_setpoint = setpoint;
   }
 
-  public EndEffectorControlCommand(ArmSetpointsSupplier level) {
-    this(false);
+  public EndEffectorControlCommand(ArmSetpointsSupplier level, boolean doesEnd) {
+    this(false, doesEnd);
     m_level = level;
     m_useLevel = true;
   }
@@ -42,7 +45,8 @@ public class EndEffectorControlCommand extends Command {
   @Override
   public void initialize() {
     if (m_useLevel) {
-      m_setpoint = m_level.getAsArmSetpoints().getEndEffectorAngleInDeg();
+      m_setpoint = SBSDArmSetpoints.getInstance()
+          .getEndEffectorAngleInDeg(m_level.getAsArmSetpoints());
     }
     if (m_useSmartDashboard) {
       m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
@@ -63,11 +67,12 @@ public class EndEffectorControlCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_endEffector.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_doesEnd && m_endEffector.atSetPoint();
   }
 }

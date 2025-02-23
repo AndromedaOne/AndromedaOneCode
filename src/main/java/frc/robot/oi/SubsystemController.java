@@ -67,4 +67,20 @@ public class SubsystemController extends ControllerBase {
   public POVButton getScoreButtonAlgae() {
     return getPOVnorth();
   }
+
+  public boolean getManualEject() {
+    if (getLeftTriggerValue() >= 0.5) {
+      return true;
+    }
+    return false;
+  }
+
+  public void rumbleOn(double value) {
+    setRumble(value);
+  }
+
+  public void rumbleOff() {
+    setRumble(0);
+  }
+
 }
