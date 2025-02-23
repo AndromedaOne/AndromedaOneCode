@@ -29,6 +29,10 @@ public class MockSBSDAlgaeManipulator implements SBSDAlgaeManipulatorBase {
   }
 
   @Override
+  public void stopAlgaeManipulatorIntakeWheels() {
+  }
+
+  @Override
   public void deployAlgaeManipulator() {
   }
 
@@ -37,6 +41,15 @@ public class MockSBSDAlgaeManipulator implements SBSDAlgaeManipulatorBase {
   }
 
   @Override
-  public void stopAlgaeManipulatorIntakeWheels() {
+  public void setDeploySetpoint() {
+  }
+
+  @Override
+  public void setRetractSetpoint() {
+  }
+
+  @Override
+  public boolean isAlgaeRotateOnTarget() {
+    return true;
   }
 }

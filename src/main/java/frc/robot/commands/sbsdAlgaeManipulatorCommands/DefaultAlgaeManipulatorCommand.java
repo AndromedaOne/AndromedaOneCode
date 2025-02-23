@@ -31,6 +31,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_sbsdAlgaeManipulatorBase.setRetractSetpoint();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,6 +42,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       m_sbsdAlgaeManipulatorBase.retractAlgaeManipulator();
       m_sbsdAlgaeManipulatorBase.stopAlgaeManipulatorIntakeWheels();
       if (m_pickupButton.getAsBoolean()) {
+        m_sbsdAlgaeManipulatorBase.setDeploySetpoint();
         m_currentState = AlgaeManipulatorState.INTAKE_ALGAE;
       }
       break;
@@ -48,6 +50,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       m_sbsdAlgaeManipulatorBase.deployAlgaeManipulator();
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       if (!m_pickupButton.getAsBoolean()) {
+        m_sbsdAlgaeManipulatorBase.retractAlgaeManipulator();
         m_currentState = AlgaeManipulatorState.HOLD_ALGAE;
       }
       break;
@@ -59,6 +62,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       }
       break;
     case SCORE_ALGAE:
+      m_sbsdAlgaeManipulatorBase.retractAlgaeManipulator();
       m_sbsdAlgaeManipulatorBase.runWheelsToEject();
       if (!m_scoreButton.getAsBoolean()) {
         m_currentState = AlgaeManipulatorState.DEFAULT_POSITION;

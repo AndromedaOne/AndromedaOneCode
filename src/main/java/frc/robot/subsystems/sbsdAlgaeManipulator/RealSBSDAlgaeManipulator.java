@@ -6,6 +6,7 @@ package frc.robot.subsystems.sbsdAlgaeManipulator;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
@@ -18,9 +19,10 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   private SparkMaxController m_deployAlgaeManipulator;
   private double m_intakeWheelSpeed = 0.0;
   private double m_ejectWheelSpeed = 0.0;
-  private double m_deploySpeed = 0.0;
-  private double m_retractSpeed = 0.0;
+  private double m_maxDeploySpeed = 0.0;
+  private double m_maxRetractSpeed = 0.0;
   private double m_deployAngle = 0.0;
+  private double m_retractAngle = 0.0;
   private double m_kP = 0.0;
   private double m_kI = 0.0;
   private double m_kD = 0.0;
@@ -33,9 +35,10 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
         false);
     m_intakeWheelSpeed = algaeManipulatorConfig.getDouble("intakeWheelSpeed");
     m_ejectWheelSpeed = algaeManipulatorConfig.getDouble("ejectWheelSpeed");
-    m_deploySpeed = algaeManipulatorConfig.getDouble("deploySpeed");
-    m_retractSpeed = algaeManipulatorConfig.getDouble("retractSpeed");
+    m_maxDeploySpeed = algaeManipulatorConfig.getDouble("deploySpeed");
+    m_maxRetractSpeed = algaeManipulatorConfig.getDouble("retractSpeed");
     m_deployAngle = algaeManipulatorConfig.getDouble("deployAngle");
+    m_retractAngle = algaeManipulatorConfig.getDouble("retractAngle");
     m_kP = algaeManipulatorConfig.getDouble("kP");
     m_kI = algaeManipulatorConfig.getDouble("kI");
     m_kD = algaeManipulatorConfig.getDouble("kD");
@@ -62,24 +65,61 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     m_intakeWheels.setSpeed(m_ejectWheelSpeed);
   }
 
-  private double calculateCorrectedEncoderPosition() {
+  @Override
+  public void stopAlgaeManipulatorIntakeWheels() {
+    m_intakeWheels.setSpeed(0);
+  }
+
+  private double getEncoderPositionInDegrees() {
     double encoderPosition = (m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() * 360);
     return encoderPosition;
   }
 
-  public void calculateDeploySpeed() {
+  private double getEncoderPositionInRadians() {
+    double encoderPosition = (m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() * 2
+        * Math.PI);
+    return encoderPosition;
+  }
+
+  private double calculateSpeed() {
+    double currentAngleRad = getEncoderPositionInRadians();
+    double pidCalc = m_pidController.calculate(currentAngleRad);
+    pidCalc = MathUtil.clamp(pidCalc, -m_maxRetractSpeed, m_maxDeploySpeed);
+    return pidCalc;
   }
 
   @Override
   public void deployAlgaeManipulator() {
+    double speed = calculateSpeed();
+    if ((getEncoderPositionInDegrees() < m_deployAngle) || (speed < 0)) {
+      m_deployAlgaeManipulator.setSpeed(speed);
+    } else {
+      m_deployAlgaeManipulator.setSpeed(0);
+    }
   }
 
   @Override
   public void retractAlgaeManipulator() {
+    double speed = calculateSpeed();
+    if ((getEncoderPositionInDegrees() > m_retractAngle) || (speed > 0)) {
+      m_deployAlgaeManipulator.setSpeed(speed);
+    } else {
+      m_deployAlgaeManipulator.setSpeed(0);
+    }
   }
 
   @Override
-  public void stopAlgaeManipulatorIntakeWheels() {
-    m_intakeWheels.setSpeed(0);
+  public void setDeploySetpoint() {
+    m_pidController.setSetpoint(m_deployAngle);
+  }
+
+  @Override
+  public void setRetractSetpoint() {
+    m_pidController.setSetpoint(m_retractAngle);
+  }
+
+  @Override
+  public boolean isAlgaeRotateOnTarget() {
+    return m_pidController.atSetpoint();
   }
 }

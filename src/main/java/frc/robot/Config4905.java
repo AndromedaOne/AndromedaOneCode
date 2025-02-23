@@ -167,7 +167,7 @@ public class Config4905 {
     m_feederConfig = load("feeder.conf");
     m_sbsdArmConfig = load("sbsdarm.conf");
     m_sbsdCoralEndEffectorConfig = load("coralendeffector.conf");
-    m_sbsdAlgaeManipulatorConfig = load("sbsdAlgaeManipulator.conf");
+    m_sbsdAlgaeManipulatorConfig = load("algaemanipulator.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
@@ -393,7 +393,7 @@ public class Config4905 {
   }
 
   public boolean doesSBSDAlgaeManipulatorExist() {
-    return (m_config.hasPath("subsystems.sbsdAlgaeManipulator"));
+    return (m_config.hasPath("subsystems.algaemanipulator"));
   }
 
   public Config getSBSDAlgaeManipulatorConfig() {

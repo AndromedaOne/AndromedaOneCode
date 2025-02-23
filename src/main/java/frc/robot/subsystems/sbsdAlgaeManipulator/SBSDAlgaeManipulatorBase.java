@@ -13,9 +13,15 @@ public interface SBSDAlgaeManipulatorBase extends SubsystemInterface {
 
   public abstract void runWheelsToEject();
 
+  public abstract void stopAlgaeManipulatorIntakeWheels();
+
   public abstract void deployAlgaeManipulator();
 
   public abstract void retractAlgaeManipulator();
 
-  public abstract void stopAlgaeManipulatorIntakeWheels();
+  public abstract void setDeploySetpoint();
+
+  public abstract void setRetractSetpoint();
+
+  public abstract boolean isAlgaeRotateOnTarget();
 }
