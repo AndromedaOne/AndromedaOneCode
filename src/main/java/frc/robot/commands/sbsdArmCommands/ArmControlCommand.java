@@ -7,15 +7,16 @@ package frc.robot.commands.sbsdArmCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class ArmControlCommand extends Command {
   private SBSDArmBase m_sbsdArmBase;
   private boolean m_useSmartDashboard = false;
   private boolean m_doesEnd = false;
-  private ArmSetpointsSupplier m_level = () -> ArmSetpoints.CORAL_LOAD;
+  private ArmSetpointsSupplier m_level = () -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD;
 
   public ArmControlCommand(boolean useSmartDashboard, boolean doesEnd) {
     m_useSmartDashboard = useSmartDashboard;
@@ -39,6 +40,8 @@ public class ArmControlCommand extends Command {
       m_sbsdArmBase.setGoalDeg(SmartDashboard.getNumber("SBSD Arm goal degrees", 0));
     } else {
       m_sbsdArmBase.setGoalDeg(m_level.getAsArmSetpoints());
+      Trace.getInstance().logCommandInfo(this, "Arm Set Goal Deg: "
+          + SBSDArmSetpoints.getInstance().getArmAngleInDeg(m_level.getAsArmSetpoints()));
     }
   }
 
@@ -54,6 +57,7 @@ public class ArmControlCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_sbsdArmBase.stop();
   }
 
   // Returns true when the command should end.

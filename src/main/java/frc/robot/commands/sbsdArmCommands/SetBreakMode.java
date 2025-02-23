@@ -19,7 +19,8 @@ public class SetBreakMode extends Command {
 
   public SetBreakMode(boolean brakeOn) {
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer()
+        .getSBSDCoralEndEffectorRotateBase();
     m_coralIntakeEject = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
     addRequirements(m_sbsdArmBase.getSubsystemBase(), m_endEffector.getSubsystemBase());
     m_brakeOn = brakeOn;

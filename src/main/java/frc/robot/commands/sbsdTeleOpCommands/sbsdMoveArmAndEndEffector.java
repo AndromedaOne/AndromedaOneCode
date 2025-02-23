@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
@@ -30,7 +31,8 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   public sbsdMoveArmAndEndEffector(ArmSetpointsSupplier level) {
     m_level = level;
     m_sbsdArmBase = Robot.getInstance().getSubsystemsContainer().getSBSDArmBase();
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer()
+        .getSBSDCoralEndEffectorRotateBase();
     m_moveArm = new ArmControlCommand(level, true);
     m_moveEndEffector = new EndEffectorControlCommand(level, true);
     addCommands(m_moveArm, m_moveEndEffector);
@@ -40,6 +42,9 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   @Override
   public void additionalInitialize() {
     if (m_isSBSD) {
+      if (m_level.getAsArmSetpoints() == ArmSetpoints.LEVEL_4) {
+        Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase().scoreL4();
+      }
       CommandScheduler.getInstance().removeDefaultCommand(m_sbsdArmBase.getSubsystemBase());
       CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
       CommandScheduler.getInstance().setDefaultCommand(m_sbsdArmBase.getSubsystemBase(),

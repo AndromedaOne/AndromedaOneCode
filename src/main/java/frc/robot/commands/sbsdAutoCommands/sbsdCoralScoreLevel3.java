@@ -4,7 +4,7 @@
 
 package frc.robot.commands.sbsdAutoCommands;
 
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdTeleOpCommands.sbsdMoveArmAndEndEffector;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.sbsdcoralendeffector.RealCoralIntakeEject;
@@ -19,7 +19,7 @@ public class sbsdCoralScoreLevel3 extends SequentialCommandGroup4905 {
   public sbsdCoralScoreLevel3() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new sbsdMoveArmAndEndEffector(() -> ArmSetpoints.LEVEL_3));
+    addCommands(new sbsdMoveArmAndEndEffector(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_3));
   }
 
   @Override

@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.oi.DriveController;
 import frc.robot.oi.SubsystemController;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
@@ -35,9 +38,13 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private SubsystemController m_subsystemController;
   private int m_count = 0;
   private int m_rumbleTimer = 0;
+  private boolean m_exitScore = false;
+  private boolean m_scoreL4 = false;
+  private double m_L4SafeAngleOffset = 90;
 
   private enum CoralState {
-    WAIT_FOR_CORAL, INTAKE_CORAL, POSITION_CORAL, HOLD_CORAL, EJECT_CORAL, PAUSE_FOR_EJECT
+    WAIT_FOR_CORAL, INTAKE_CORAL, POSITION_CORAL, HOLD_CORAL, EJECT_CORAL, PAUSE_FOR_EJECT,
+    SCORE_L4_WAIT, POSITION_L4, HOLD_L4_POSITION
   }
 
   private CoralState m_currentState = CoralState.WAIT_FOR_CORAL;
@@ -121,15 +128,10 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       stop();
       m_hasCoral = true;
       m_inWaitForCoral = false;
-      if (m_useTimerForRumble) {
-        if (m_rumbleTimer < 50) {
-          m_currentRumble = true;
-          m_rumbleTimer++;
-        } else {
-          m_currentRumble = false;
-        }
-      } else {
-        m_currentRumble = true;
+      rumbleController();
+      if (m_scoreL4) {
+        m_currentState = CoralState.SCORE_L4_WAIT;
+        m_scoreL4 = false;
       }
       if (!ejectDetector()) {
         m_hasCoral = false;
@@ -164,6 +166,49 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       if (m_count > 5) {
         m_hasCoral = false;
         m_count = 0;
+        m_currentState = CoralState.WAIT_FOR_CORAL;
+      }
+      break;
+
+    case SCORE_L4_WAIT:
+      // always 33
+      double getSafeAngleToScoreL4 = SBSDArmSetpoints.getInstance()
+          .getEndEffectorAngleInDeg(ArmSetpoints.CORAL_LOAD) - m_L4SafeAngleOffset;
+      // if the end effector angle is less than or equal to 33 switch states
+      if (Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase()
+          .getAngleDeg() <= getSafeAngleToScoreL4) {
+        m_currentState = CoralState.POSITION_L4;
+      }
+      break;
+
+    case POSITION_L4:
+      m_intakeMotor.setSpeed(-m_repositionSpeed);
+      if (intakeDetector() && !ejectDetector()) {
+        m_currentState = CoralState.HOLD_L4_POSITION;
+      }
+      break;
+
+    case HOLD_L4_POSITION:
+      stop();
+      m_hasCoral = true;
+      m_inWaitForCoral = false;
+      rumbleController();
+      if (m_exitScore) {
+        m_exitScore = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
+        m_currentState = CoralState.POSITION_CORAL;
+      }
+      if (m_ejectCoral) {
+        m_ejectCoral = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
+        m_currentState = CoralState.EJECT_CORAL;
+      }
+      if (!intakeDetector()) {
+        m_hasCoral = false;
+        m_currentRumble = false;
+        m_rumbleTimer = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
       }
       break;
@@ -242,5 +287,29 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_driveController.rumbleOff();
       m_subsystemController.rumbleOff();
     }
+  }
+
+  @Override
+  public void exitScore() {
+    m_exitScore = true;
+  }
+
+  @Override
+  public void scoreL4() {
+    m_scoreL4 = true;
+  }
+
+  private void rumbleController() {
+    if (m_useTimerForRumble) {
+      if (m_rumbleTimer < 50) {
+        m_currentRumble = true;
+        m_rumbleTimer++;
+      } else {
+        m_currentRumble = false;
+      }
+    } else {
+      m_currentRumble = true;
+    }
+
   }
 }

@@ -33,7 +33,11 @@ public interface CoralIntakeEjectBase extends SubsystemInterface {
 
   public abstract void setBrakeMode();
 
+  public abstract void exitScore();
+
   public abstract void setDriveController(DriveController driveController);
+
+  public abstract void scoreL4();
 
   public abstract void setSubsystemController(SubsystemController subsystemController);
 }

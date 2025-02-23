@@ -75,6 +75,14 @@ public class MockCoralIntakeEject implements CoralIntakeEjectBase {
   }
 
   @Override
+  public void exitScore() {
+  }
+
+  @Override
+  public void scoreL4() {
+  }
+
   public void setSubsystemController(SubsystemController subsystemController) {
   }
+
 }

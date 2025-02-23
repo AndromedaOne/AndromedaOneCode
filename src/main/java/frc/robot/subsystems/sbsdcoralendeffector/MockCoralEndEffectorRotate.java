@@ -67,4 +67,9 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
   @Override
   public void calculateSpeed() {
   }
+
+  @Override
+  public double getSafeAngleToScoreL4() {
+    return 0;
+  }
 }
