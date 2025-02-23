@@ -38,7 +38,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private SubsystemController m_subsystemController;
   private int m_count = 0;
   private int m_rumbleTimer = 0;
-  private boolean m_exitScore = false;
+  private boolean m_exitL4ScoringPosition = false;
   private boolean m_scoreL4 = false;
   private double m_L4SafeAngleOffset = 90;
 
@@ -193,23 +193,26 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_hasCoral = true;
       m_inWaitForCoral = false;
       rumbleController();
-      if (m_exitScore) {
-        m_exitScore = false;
+      if (m_exitL4ScoringPosition) {
+        m_exitL4ScoringPosition = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.POSITION_CORAL;
+        System.out.println("HOLD_L4_POSITION -> m_exitScore = true");
       }
       if (m_ejectCoral) {
         m_ejectCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.EJECT_CORAL;
+        System.out.println("HOLD_L4_POSITION -> m_ejectCoral = true");
       }
-      if (!intakeDetector()) {
+      if (!intakeDetector() && !ejectDetector()) {
         m_hasCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
+        System.out.println("HOLD_L4_POSITION -> !intakeDetector() && !ejectDetector()");
       }
       break;
 
@@ -290,8 +293,9 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   }
 
   @Override
-  public void exitScore() {
-    m_exitScore = true;
+  public void exitL4ScoringPosition() {
+    m_exitL4ScoringPosition = true;
+    m_scoreL4 = false; 
   }
 
   @Override

@@ -42,9 +42,6 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   @Override
   public void additionalInitialize() {
     if (m_isSBSD) {
-      if (m_level.getAsArmSetpoints() == ArmSetpoints.LEVEL_4) {
-        Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase().scoreL4();
-      }
       CommandScheduler.getInstance().removeDefaultCommand(m_sbsdArmBase.getSubsystemBase());
       CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
       CommandScheduler.getInstance().setDefaultCommand(m_sbsdArmBase.getSubsystemBase(),
