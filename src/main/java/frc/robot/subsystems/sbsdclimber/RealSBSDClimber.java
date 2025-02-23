@@ -9,18 +9,25 @@ import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
+import frc.robot.actuators.HitecHS322HDpositionalServoMotor;
 import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
 public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   private SparkMaxController m_climberWinchMotor;
+  private HitecHS322HDpositionalServoMotor m_climberServoMotor;
   private Config m_climberConfig;
   private double m_climbSpeed = 0.0;
+  private double m_reverseClimbSpeed = 0.0;
+  private double m_servoMotorAngle = 0.0;
 
   public RealSBSDClimber() {
     m_climberConfig = Config4905.getConfig4905().getSBSDClimberConfig();
     m_climberWinchMotor = new SparkMaxController(m_climberConfig, "winchMotor", false, false);
+    m_climberServoMotor = new HitecHS322HDpositionalServoMotor(m_climberConfig, "servoMotor");
     m_climbSpeed = m_climberConfig.getDouble("climbSpeed");
+    m_reverseClimbSpeed = m_climberConfig.getDouble("reverseClimbSpeed");
+    m_servoMotorAngle = m_climberConfig.getDouble("servoMotorAngle");
 
   }
 
@@ -37,10 +44,13 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   @Override
   public void climb() {
     m_climberWinchMotor.setSpeed(m_climbSpeed);
+    m_climberServoMotor.setAngle(m_servoMotorAngle);
+
   }
 
   @Override
   public void reverseClimb() {
+    m_climberWinchMotor.setSpeed(m_reverseClimbSpeed);
   }
 
   @Override
