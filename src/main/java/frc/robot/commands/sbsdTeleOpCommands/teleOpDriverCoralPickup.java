@@ -4,6 +4,7 @@
 
 package frc.robot.commands.sbsdTeleOpCommands;
 
+import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.commands.teleOpPathCommands.GenericCoralPickUpCommand;
 import frc.robot.commands.teleOpPathCommands.LeftDriverCoralStation;
 import frc.robot.commands.teleOpPathCommands.RightDriverCoralStation;
@@ -22,13 +23,13 @@ public class teleOpDriverCoralPickup extends SequentialCommandGroup4905 {
   public teleOpDriverCoralPickup(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     try {
-      m_leftDriverCoralStation = new GenericCoralPickUpCommand(new LeftDriverCoralStation(),
+      m_leftDriverCoralStation = new GenericCoralPickUpCommand(new LeftDriverCoralStation().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
           new sbsdCoralLoadArmEndEffectorPositon());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_rightDriverCoralStation = new GenericCoralPickUpCommand(new RightDriverCoralStation(),
+      m_rightDriverCoralStation = new GenericCoralPickUpCommand(new RightDriverCoralStation().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
           new sbsdCoralLoadArmEndEffectorPositon());
     } catch (Exception e) {
       e.printStackTrace();

@@ -14,6 +14,7 @@ import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,6 +27,8 @@ public class RightWallCoralStation extends SequentialCommandGroup4905 {
    * @throws IOException
    * @throws FileVersionException
    */
+  DriveTrainBase m_driveTrainBase;
+
   public RightWallCoralStation() throws FileVersionException, IOException, ParseException {
     PathPlannerPath path = PathPlannerPath.fromPathFile("RightWallCoralStation");
     Command pathCommand = AutoBuilder.followPath(path);

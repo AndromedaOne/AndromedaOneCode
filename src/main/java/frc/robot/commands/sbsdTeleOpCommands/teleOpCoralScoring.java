@@ -7,6 +7,7 @@ package frc.robot.commands.sbsdTeleOpCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.teleOpPathCommands.FinishA;
 import frc.robot.commands.teleOpPathCommands.FinishB;
 import frc.robot.commands.teleOpPathCommands.FinishC;
@@ -128,38 +129,62 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
       e.printStackTrace();
     }
     try {
-      m_placeAtE = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtE(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishE(), new sbsdScoreCoral());
+      m_placeAtE = new GenericCoralPathCommand(
+          new ParallelCommandGroup4905(
+              new PlaceAtE().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+              new sbsdMoveArmAndEndEffector(() -> m_level)),
+          new FinishE().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+          new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtF = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtF(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishF(), new sbsdScoreCoral());
+      m_placeAtF = new GenericCoralPathCommand(
+          new ParallelCommandGroup4905(
+              new PlaceAtF().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+              new sbsdMoveArmAndEndEffector(() -> m_level)),
+          new FinishF().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+          new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtG = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtG(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishG(), new sbsdScoreCoral());
+      m_placeAtG = new GenericCoralPathCommand(
+          new ParallelCommandGroup4905(
+              new PlaceAtG().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+              new sbsdMoveArmAndEndEffector(() -> m_level)),
+          new FinishG().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+          new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtH = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtH(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishH(), new sbsdScoreCoral());
+      m_placeAtH = new GenericCoralPathCommand(
+          new ParallelCommandGroup4905(
+              new PlaceAtH().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+              new sbsdMoveArmAndEndEffector(() -> m_level)),
+          new FinishH().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+          new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtI = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtI(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishI(), new sbsdScoreCoral());
+      m_placeAtI = new GenericCoralPathCommand(
+          new ParallelCommandGroup4905(
+              new PlaceAtI().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+              new sbsdMoveArmAndEndEffector(() -> m_level)),
+          new FinishI().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+          new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_placeAtJ = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtJ(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishJ(), new sbsdScoreCoral());
+      m_placeAtJ = new GenericCoralPathCommand(
+          new ParallelCommandGroup4905(
+              new PlaceAtJ().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+              new sbsdMoveArmAndEndEffector(() -> m_level)),
+          new FinishJ().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+          new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
