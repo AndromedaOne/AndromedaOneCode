@@ -62,12 +62,12 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     m_intakeWheels.setSpeed(m_ejectWheelSpeed);
   }
 
-  private double calculateCorrectedEncoderPosition(){
-    double encoderPosition = (m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks()*360);
+  private double calculateCorrectedEncoderPosition() {
+    double encoderPosition = (m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() * 360);
     return encoderPosition;
   }
 
-  public void calculateDeploySpeed(){
+  public void calculateDeploySpeed() {
   }
 
   @Override
