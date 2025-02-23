@@ -39,7 +39,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
   public void execute() {
     switch (m_currentState) {
     case DEFAULT_POSITION:
-      m_sbsdAlgaeManipulatorBase.retractAlgaeManipulator();
+      m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.stopAlgaeManipulatorIntakeWheels();
       if (m_pickupButton.getAsBoolean()) {
         m_sbsdAlgaeManipulatorBase.setDeploySetpoint();
@@ -47,22 +47,22 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       }
       break;
     case INTAKE_ALGAE:
-      m_sbsdAlgaeManipulatorBase.deployAlgaeManipulator();
+      m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       if (!m_pickupButton.getAsBoolean()) {
-        m_sbsdAlgaeManipulatorBase.retractAlgaeManipulator();
+        m_sbsdAlgaeManipulatorBase.setRetractSetpoint();
         m_currentState = AlgaeManipulatorState.HOLD_ALGAE;
       }
       break;
     case HOLD_ALGAE:
-      m_sbsdAlgaeManipulatorBase.retractAlgaeManipulator();
+      m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       if (m_scoreButton.getAsBoolean()) {
         m_currentState = AlgaeManipulatorState.SCORE_ALGAE;
       }
       break;
     case SCORE_ALGAE:
-      m_sbsdAlgaeManipulatorBase.retractAlgaeManipulator();
+      m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToEject();
       if (!m_scoreButton.getAsBoolean()) {
         m_currentState = AlgaeManipulatorState.DEFAULT_POSITION;

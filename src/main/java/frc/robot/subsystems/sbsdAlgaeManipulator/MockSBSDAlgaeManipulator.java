@@ -33,11 +33,11 @@ public class MockSBSDAlgaeManipulator implements SBSDAlgaeManipulatorBase {
   }
 
   @Override
-  public void deployAlgaeManipulator() {
+  public void moveAlgaeManipulatorUsingPID() {
   }
 
   @Override
-  public void retractAlgaeManipulator() {
+  public void moveUsingSmartDashboard(double speed) {
   }
 
   @Override

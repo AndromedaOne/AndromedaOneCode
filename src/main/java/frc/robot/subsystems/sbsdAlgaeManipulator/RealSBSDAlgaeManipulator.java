@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgaeManipulatorBase {
@@ -81,41 +82,39 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     return encoderPosition;
   }
 
-  private double calculateSpeed() {
+  private void calcSpeed(double speed) {
+    speed = MathUtil.clamp(speed, -m_maxRetractSpeed, m_maxDeploySpeed);
+    if ((getEncoderPositionInDegrees() > m_deployAngle) && (speed > 0)) {
+      m_deployAlgaeManipulator.setSpeed(0);
+    } else if ((getEncoderPositionInDegrees() < m_retractAngle) && (speed < 0)) {
+      m_deployAlgaeManipulator.setSpeed(0);
+    } else {
+      m_deployAlgaeManipulator.setSpeed(speed);
+    }
+  }
+
+  @Override
+  public void moveAlgaeManipulatorUsingPID() {
     double currentAngleRad = getEncoderPositionInRadians();
     double pidCalc = m_pidController.calculate(currentAngleRad);
-    pidCalc = MathUtil.clamp(pidCalc, -m_maxRetractSpeed, m_maxDeploySpeed);
-    return pidCalc;
+    calcSpeed(pidCalc);
   }
 
   @Override
-  public void deployAlgaeManipulator() {
-    double speed = calculateSpeed();
-    if ((getEncoderPositionInDegrees() < m_deployAngle) || (speed < 0)) {
-      m_deployAlgaeManipulator.setSpeed(speed);
-    } else {
-      m_deployAlgaeManipulator.setSpeed(0);
-    }
-  }
-
-  @Override
-  public void retractAlgaeManipulator() {
-    double speed = calculateSpeed();
-    if ((getEncoderPositionInDegrees() > m_retractAngle) || (speed > 0)) {
-      m_deployAlgaeManipulator.setSpeed(speed);
-    } else {
-      m_deployAlgaeManipulator.setSpeed(0);
-    }
+  public void moveUsingSmartDashboard(double speed) {
+    calcSpeed(speed);
   }
 
   @Override
   public void setDeploySetpoint() {
     m_pidController.setSetpoint(m_deployAngle);
+    Trace.getInstance().logInfo("Set algae setpoint to " + m_deployAngle);
   }
 
   @Override
   public void setRetractSetpoint() {
     m_pidController.setSetpoint(m_retractAngle);
+    Trace.getInstance().logInfo("Set algae setpoint to " + m_retractAngle);
   }
 
   @Override
