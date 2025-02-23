@@ -23,13 +23,15 @@ public class teleOpDriverCoralPickup extends SequentialCommandGroup4905 {
   public teleOpDriverCoralPickup(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     try {
-      m_leftDriverCoralStation = new GenericCoralPickUpCommand(new LeftDriverCoralStation().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+      m_leftDriverCoralStation = new GenericCoralPickUpCommand(
+          new LeftDriverCoralStation().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
           new sbsdCoralLoadArmEndEffectorPositon());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
-      m_rightDriverCoralStation = new GenericCoralPickUpCommand(new RightDriverCoralStation().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+      m_rightDriverCoralStation = new GenericCoralPickUpCommand(
+          new RightDriverCoralStation().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
           new sbsdCoralLoadArmEndEffectorPositon());
     } catch (Exception e) {
       e.printStackTrace();

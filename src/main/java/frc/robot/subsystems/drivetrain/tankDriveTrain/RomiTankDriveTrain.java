@@ -237,4 +237,9 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   public void setVelocityToZero() {
   }
 
+  @Override
+  public Pose2d currentPose2d() {
+    return null;
+  }
+
 }

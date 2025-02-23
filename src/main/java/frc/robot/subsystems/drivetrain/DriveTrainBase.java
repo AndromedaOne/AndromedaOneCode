@@ -83,4 +83,6 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract void setVelocityToZero();
 
+  public Pose2d currentPose2d();
+
 }

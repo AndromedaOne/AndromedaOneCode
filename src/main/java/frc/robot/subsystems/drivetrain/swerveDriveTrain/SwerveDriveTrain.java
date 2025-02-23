@@ -469,4 +469,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return m_isInsideUnsafeZone;
   }
 
+  @Override
+  public Pose2d currentPose2d() {
+    return m_currentPose;
+  }
+
 }

@@ -9,6 +9,7 @@ package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
@@ -220,6 +221,11 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
 
   @Override
   public void setVelocityToZero() {
+  }
+
+  @Override
+  public Pose2d currentPose2d() {
+    return null;
   }
 
 }

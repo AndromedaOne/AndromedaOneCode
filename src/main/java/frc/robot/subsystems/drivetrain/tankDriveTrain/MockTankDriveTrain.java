@@ -176,4 +176,9 @@ public class MockTankDriveTrain implements TankDriveTrain {
   public void setVelocityToZero() {
   }
 
+  @Override
+  public Pose2d currentPose2d() {
+    return null;
+  }
+
 }

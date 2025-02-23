@@ -140,4 +140,9 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   public void setVelocityToZero() {
   }
 
+  @Override
+  public Pose2d currentPose2d() {
+    return null;
+  }
+
 }

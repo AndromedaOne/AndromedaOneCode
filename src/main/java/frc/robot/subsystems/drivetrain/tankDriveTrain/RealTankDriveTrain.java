@@ -252,4 +252,9 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
     SmartDashboard.putNumber("Right Wheel Speed", getRightRateMetersPerSecond());
     SmartDashboard.putString("Parking Brake State", getParkingBrakeState().name());
   }
+
+  @Override
+  public Pose2d currentPose2d() {
+    return null;
+  }
 }

@@ -5,15 +5,23 @@
 package frc.robot.commands.teleOpPathCommands;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.util.FileVersionException;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,8 +34,16 @@ public class PlaceAtC extends SequentialCommandGroup4905 {
    * @throws IOException
    * @throws FileVersionException
    */
+  DriveTrainBase m_driveTrainBase;
+
   public PlaceAtC() throws FileVersionException, IOException, ParseException {
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Place At C");
+    m_driveTrainBase = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
+    List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(m_driveTrainBase.currentPose2d(),
+        new Pose2d(3.576, 2.688, Rotation2d.fromDegrees(62.336)));
+    PathConstraints constraints = new PathConstraints(5.0, 3.0, 9.42478, 12.5664);
+    addRequirements(m_driveTrainBase.getSubsystemBase());
+    PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null,
+        new GoalEndState(0.0, Rotation2d.fromDegrees(60)));
     Command pathCommand = AutoBuilder.followPath(path);
     addCommands(pathCommand);
   }
