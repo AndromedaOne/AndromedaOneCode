@@ -30,9 +30,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "E To Pickup"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "E To Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralLoadArmEndEffectorPositon"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitForCoral"
           }
         },
         {
@@ -61,9 +80,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "D To Pickup"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "D To Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralLoadArmEndEffectorPositon"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitForCoral"
           }
         },
         {
@@ -92,25 +130,44 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "C To Pickup"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Drop At Low C"
+                  "pathName": "C To Pickup"
                 }
               },
               {
                 "type": "named",
                 "data": {
+                  "name": "sbsdCoralLoadArmEndEffectorPositon"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitForCoral"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel2"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drop At Low C"
                 }
               }
             ]

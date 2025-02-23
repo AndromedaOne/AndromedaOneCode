@@ -124,6 +124,14 @@ public class DriveController extends ControllerBase {
     return getRightTriggerValue();
   }
 
+  public void rumbleOn(double value) {
+    setRumble(value);
+  }
+
+  public void rumbleOff() {
+    setRumble(0);
+  }
+
   private void setUpShooterButtons() {
     getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
         m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),

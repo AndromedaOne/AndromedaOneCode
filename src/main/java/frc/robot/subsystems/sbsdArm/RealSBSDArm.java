@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.subsystems.sbsdclimber.ClimberMode;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
@@ -160,10 +160,13 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
       speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
       if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
         stop();
+        speed = 0.0;
       } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
         stop();
+        speed = 0.0;
       } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
         stop();
+        speed = 0.0;
       } else {
         m_rightAngleMotor.setSpeed(speed);
         m_leftAngleMotor.setSpeed(speed);
@@ -182,19 +185,23 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   }
 
   @Override
-  public void setGoalDeg(ArmSetpoints level) {
-    m_controller.setSetpoint(level.getArmAngleInDeg() * Math.PI / 180);
-    if (level == ArmSetpoints.LEVEL_2 || level == ArmSetpoints.LEVEL_3) {
+  public void setGoalDeg(SBSDArmSetpoints.ArmSetpoints level) {
+    m_controller
+        .setSetpoint(SBSDArmSetpoints.getInstance().getArmAngleInDeg(level) * Math.PI / 180);
+    if (level == SBSDArmSetpoints.ArmSetpoints.LEVEL_2
+        || level == SBSDArmSetpoints.ArmSetpoints.LEVEL_3) {
       m_runAlgaeRemovalWheels = true;
     } else {
       m_runAlgaeRemovalWheels = false;
     }
   }
 
+  @Override
   public boolean atSetPoint() {
     return m_controller.atSetpoint();
   }
 
+  @Override
   public void calculateSpeed() {
     double currentAngleRad = getAngleRad();
 

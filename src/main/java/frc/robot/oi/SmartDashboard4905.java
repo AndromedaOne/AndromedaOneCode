@@ -36,10 +36,10 @@ import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.Rotate;
 import frc.robot.commands.sbsdArmCommands.RotateEndEffector;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
@@ -173,15 +173,15 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SBSD Rotate Arm", new Rotate());
       SmartDashboard.putData("SBSD Arm Set Goal", new ArmControlCommand(true, false));
       SmartDashboard.putData("SBSD Arm Level 1",
-          new ArmControlCommand(() -> ArmSetpoints.LEVEL_1, false));
+          new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_1, false));
       SmartDashboard.putData("SBSD Arm Level 2",
-          new ArmControlCommand(() -> ArmSetpoints.LEVEL_2, false));
+          new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_2, false));
       SmartDashboard.putData("SBSD Arm Level 3",
-          new ArmControlCommand(() -> ArmSetpoints.LEVEL_3, false));
+          new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_3, false));
       SmartDashboard.putData("SBSD Arm Level 4",
-          new ArmControlCommand(() -> ArmSetpoints.LEVEL_4, false));
+          new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_4, false));
       SmartDashboard.putData("SBSD Arm Coral Load",
-          new ArmControlCommand(() -> ArmSetpoints.CORAL_LOAD, false));
+          new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, false));
     }
 
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
@@ -189,27 +189,27 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SBSD End Effector Control Command",
           new EndEffectorControlCommand(true, false));
       SmartDashboard.putData("SBSD End Effector Level 1",
-          new EndEffectorControlCommand(() -> ArmSetpoints.LEVEL_1, false));
+          new EndEffectorControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_1, false));
       SmartDashboard.putData("SBSD End Effector Level 2",
-          new EndEffectorControlCommand(() -> ArmSetpoints.LEVEL_2, false));
+          new EndEffectorControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_2, false));
       SmartDashboard.putData("SBSD End Effector Level 3",
-          new EndEffectorControlCommand(() -> ArmSetpoints.LEVEL_3, false));
+          new EndEffectorControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_3, false));
       SmartDashboard.putData("SBSD End Effector Level 4",
-          new EndEffectorControlCommand(() -> ArmSetpoints.LEVEL_4, false));
+          new EndEffectorControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_4, false));
       SmartDashboard.putData("SBSD End Effector Coral Load",
-          new EndEffectorControlCommand(() -> ArmSetpoints.CORAL_LOAD, false));
+          new EndEffectorControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, false));
     }
 
     if (Config4905.getConfig4905().doesSBSDArmExist()
         && Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       SmartDashboard.putData("SBSD Arm and End Effector Level 1",
-          new sbsdMoveArmAndEndEffector(() -> ArmSetpoints.LEVEL_1));
+          new sbsdMoveArmAndEndEffector(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_1));
       SmartDashboard.putData("SBSD Arm and End Effector Level 2",
-          new sbsdMoveArmAndEndEffector(() -> ArmSetpoints.LEVEL_2));
+          new sbsdMoveArmAndEndEffector(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_2));
       SmartDashboard.putData("SBSD Arm and End Effector Level 3",
-          new sbsdMoveArmAndEndEffector(() -> ArmSetpoints.LEVEL_3));
+          new sbsdMoveArmAndEndEffector(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_3));
       SmartDashboard.putData("SBSD Arm and End Effector Level 4",
-          new sbsdMoveArmAndEndEffector(() -> ArmSetpoints.LEVEL_4));
+          new sbsdMoveArmAndEndEffector(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_4));
     }
     if (Config4905.getConfig4905().doesSBSDClimberExist()
         && Config4905.getConfig4905().doesSBSDArmExist()

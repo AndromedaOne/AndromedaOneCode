@@ -6,6 +6,7 @@ package frc.robot.commands.sbsdArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.subsystems.sbsdclimber.ClimberMode;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
@@ -15,14 +16,16 @@ public class MoveEndEffectorToClimberMode extends Command {
   private boolean m_isAtSetpoint = false;
 
   public MoveEndEffectorToClimberMode() {
-    m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorBase();
+    m_endEffector = Robot.getInstance().getSubsystemsContainer()
+        .getSBSDCoralEndEffectorRotateBase();
     addRequirements(m_endEffector.getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_endEffector.setAngleDeg(ArmSetpoints.CLIMBER_POSITION.getEndEffectorAngleInDeg());
+    m_endEffector.setAngleDeg(
+        SBSDArmSetpoints.getInstance().getArmAngleInDeg(ArmSetpoints.CLIMBER_POSITION));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

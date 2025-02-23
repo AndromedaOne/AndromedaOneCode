@@ -6,7 +6,19 @@ package frc.robot.commands.sbsdTeleOpCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.commands.sbsdArmCommands.ArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
+import frc.robot.commands.teleOpPathCommands.FinishA;
+import frc.robot.commands.teleOpPathCommands.FinishB;
+import frc.robot.commands.teleOpPathCommands.FinishC;
+import frc.robot.commands.teleOpPathCommands.FinishD;
+import frc.robot.commands.teleOpPathCommands.FinishE;
+import frc.robot.commands.teleOpPathCommands.FinishF;
+import frc.robot.commands.teleOpPathCommands.FinishG;
+import frc.robot.commands.teleOpPathCommands.FinishH;
+import frc.robot.commands.teleOpPathCommands.FinishI;
+import frc.robot.commands.teleOpPathCommands.FinishJ;
+import frc.robot.commands.teleOpPathCommands.FinishK;
+import frc.robot.commands.teleOpPathCommands.FinishL;
 import frc.robot.commands.teleOpPathCommands.GenericCoralPathCommand;
 import frc.robot.commands.teleOpPathCommands.PlaceAtA;
 import frc.robot.commands.teleOpPathCommands.PlaceAtA4;
@@ -66,7 +78,7 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
   GenericCoralPathCommand m_placeAtJ4;
   GenericCoralPathCommand m_placeAtK4;
   GenericCoralPathCommand m_placeAtL4;
-  ArmSetpoints m_level = ArmSetpoints.CORAL_LOAD;
+  SBSDArmSetpoints.ArmSetpoints m_level = SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD;
 
   public enum reefScoringSide {
     LEFT, RIGHT, NOTSELECTED
@@ -77,73 +89,73 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
     m_driveTrain = driveTrain;
     try {
       m_placeAtA = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtA(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishA(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtB = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtB(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishB(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtC = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtC(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishC(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtD = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtD(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishD(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtE = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtE(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishE(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtF = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtF(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishF(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtG = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtG(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishG(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtH = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtH(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishH(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtI = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtI(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishI(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtJ = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtJ(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishJ(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtK = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtK(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishK(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
     try {
       m_placeAtL = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtL(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishL(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -231,13 +243,13 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
     currentRegion = m_driveTrain.getRegion();
     // gets axby button from subsystem controller for coral level
     if (m_subsystemController.getScoreLevelOne().getAsBoolean()) {
-      m_level = ArmSetpoints.LEVEL_1;
+      m_level = SBSDArmSetpoints.ArmSetpoints.LEVEL_1;
     } else if (m_subsystemController.getScoreLevelTwo().getAsBoolean()) {
-      m_level = ArmSetpoints.LEVEL_2;
+      m_level = SBSDArmSetpoints.ArmSetpoints.LEVEL_2;
     } else if (m_subsystemController.getScoreLevelThree().getAsBoolean()) {
-      m_level = ArmSetpoints.LEVEL_3;
+      m_level = SBSDArmSetpoints.ArmSetpoints.LEVEL_3;
     } else if (m_subsystemController.getScoreLevelFour().getAsBoolean()) {
-      m_level = ArmSetpoints.LEVEL_4;
+      m_level = SBSDArmSetpoints.ArmSetpoints.LEVEL_4;
     }
 
     // gets left/right bumper from subsystem controller for left or right placement
@@ -251,11 +263,12 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
     SmartDashboard.putString("Scoring Side", scoringSide.toString());
 
     // cancels if button not pressed
-    if (m_level == ArmSetpoints.CORAL_LOAD || scoringSide == reefScoringSide.NOTSELECTED) {
+    if (m_level == SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD
+        || scoringSide == reefScoringSide.NOTSELECTED) {
       return;
     }
     // figures out which path to run
-    if (m_level == ArmSetpoints.LEVEL_4) {
+    if (m_level == SBSDArmSetpoints.ArmSetpoints.LEVEL_4) {
       if (currentRegion == PoseEstimation4905.RegionsForPose.SOUTH) {
         if (scoringSide == reefScoringSide.LEFT) {
           m_placeAtA4.schedule();

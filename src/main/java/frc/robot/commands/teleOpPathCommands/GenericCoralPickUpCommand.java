@@ -4,10 +4,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 
 public class GenericCoralPickUpCommand extends ParallelCommandGroup4905 {
-
-  DriveController m_DriveController;
+  DriveController m_driveController;
+  CoralIntakeEjectBase m_coralIntake;
 
   public GenericCoralPickUpCommand(Command... commands) {
     super(commands);
@@ -15,14 +16,17 @@ public class GenericCoralPickUpCommand extends ParallelCommandGroup4905 {
 
   @Override
   public void additionalInitialize() {
-    m_DriveController = Robot.getInstance().getOIContainer().getDriveController();
+    m_driveController = Robot.getInstance().getOIContainer().getDriveController();
+    m_coralIntake = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
   }
 
   @Override
   public boolean isFinishedAdditional() {
     // when x button let go, stop command
-    if (m_DriveController.getCoralLoadWall() == false
-        && m_DriveController.getCoralLoadDriver() == false) {
+    if (m_driveController.getCoralLoadWall() == false
+        && m_driveController.getCoralLoadDriver() == false) {
+      return true;
+    } else if (m_coralIntake.getCoralDetected()) {
       return true;
     } else {
       return false;

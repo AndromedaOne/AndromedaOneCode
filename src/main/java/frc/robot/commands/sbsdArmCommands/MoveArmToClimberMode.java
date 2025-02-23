@@ -22,7 +22,7 @@ public class MoveArmToClimberMode extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_sbsdArmBase.setGoalDeg(ArmSetpoints.CLIMBER_POSITION);
+    m_sbsdArmBase.setGoalDeg(SBSDArmSetpoints.ArmSetpoints.CLIMBER_POSITION);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
