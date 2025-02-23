@@ -171,8 +171,10 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       break;
 
     case SCORE_L4_WAIT:
+      // always 33
       double getSafeAngleToScoreL4 = SBSDArmSetpoints.getInstance()
           .getEndEffectorAngleInDeg(ArmSetpoints.CORAL_LOAD) - m_L4SafeAngleOffset;
+      // if the end effector angle is less than or equal to 33 switch states
       if (Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase()
           .getAngleDeg() <= getSafeAngleToScoreL4) {
         m_currentState = CoralState.POSITION_L4;
@@ -287,10 +289,12 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     }
   }
 
+  @Override
   public void exitScore() {
     m_exitScore = true;
   }
 
+  @Override
   public void scoreL4() {
     m_scoreL4 = true;
   }

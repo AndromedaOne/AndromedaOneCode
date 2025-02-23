@@ -74,6 +74,7 @@ public class MockCoralIntakeEject implements CoralIntakeEjectBase {
   public void setDriveController(DriveController driveController) {
   }
 
+  @Override
   public void exitScore() {
   }
 

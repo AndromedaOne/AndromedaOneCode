@@ -155,10 +155,13 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
     if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
       stop();
+      speed = 0.0;
     } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
       stop();
+      speed = 0.0;
     } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
       stop();
+      speed = 0.0;
     } else {
       m_rightAngleMotor.setSpeed(speed);
       m_leftAngleMotor.setSpeed(speed);
@@ -186,10 +189,12 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     }
   }
 
+  @Override
   public boolean atSetPoint() {
     return m_controller.atSetpoint();
   }
 
+  @Override
   public void calculateSpeed() {
     double currentAngleRad = getAngleRad();
     double pidCalc = m_controller.calculate(currentAngleRad);
