@@ -1,0 +1,15 @@
+@startuml EndEffectorIntakeEject
+
+state WAIT_FOR_CORAL
+state INTAKE_CORAL
+state POSITION_CORAL
+state HOLD_CORAL
+state EJECT_CORAL
+state PAUSE_FOR_EJECT
+state SCORE_L4_WAIT
+state POSITION_L4
+state HOLD_L4_POSITION
+
+WAIT_FOR_CORAL --> INTAKE_CORAL : (intakeDetector() && !ejectDetector())
+
+@enduml
