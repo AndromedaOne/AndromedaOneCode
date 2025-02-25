@@ -1,0 +1,113 @@
+@startuml SubsystemStates
+[*]-->DM
+
+State "Driving Modes" as DM{
+  State "Normal Drive Mode" as NDM{
+    NDM: Arm Position: default
+    NDM: End Effector: Retract
+    NDM: Shooter: stop
+    NDM: Feeder: stop
+  }
+  NDM-->PDM: "LBumper" \n When Pressed \t
+  NDM->NDM: Default \n Command \t
+
+  State "Protected Drive Mode" as PDM{
+    PDM: Arm Position: default
+    PDM: End Effector: Retract
+    PDM: Shooter: stop
+    PDM: Feeder: stop
+  }  
+  PDM-->NDM: "LBumper" \n On \n Release \t
+  PDM->PDM: "LBumper" \n While \n Held \t
+}
+DM-right->IM: "LTrig" \n When Pressed \t
+DM-down->PSM: "Y" \n When \n Pressed \t
+DM-down->SSM: "X" \n When \n Pressed \t
+DM-down->MSM: "B" \n When \n Pressed \t
+
+State "Intake Mode" as IM{
+  IM: Arm Position: Floor
+  IM: End Effector: Retract
+  IM: Shooter: stop
+  IM: Feeder: run forward
+}
+IM->IM: "LTrig" \n While \n Held \t
+IM-left->DM: "LTrig" \n On \n Release \t
+IM-left->DM: Note \n Detected \t
+
+
+State "Podium Shooting Modes" as PSM{
+  State "Podium Shooting Low Mode" as PSL{
+    PSL: Arm Position: Podium Low Shooting Position
+    PSL: End Effector: Retract
+    PSL: Shooter: Forward to setpoint
+    PSL: Feeder: Stop
+  }
+  PSL-->PSL: "Y" \n While \n Held \t
+  PSL-->PSH: "+LBumper" \n When \n Pressed \t
+
+  State "Podium Shooting High Mode" as PSH{
+    PSH: Arm Position: Podium High Shooting Position
+    PSH: End Effector: Extend
+    PSH: Shooter: Forward to setpoint
+    PSH: Feeder: Stop
+  }
+  PSH-->PSH: "Y+LBumper" \n While \n Held \t
+  PSH-->PSL: "-LBumper" \n On \n Release \t
+
+}
+PSM -down->Shoot: "RTrig" \n When \n Pressed \t
+PSM-up->DM: "Y" \n On \n Release \t
+
+State "Speaker Shooting Modes" as SSM{
+  State "Speaker Shooting Low Mode" as SSL{
+    SSL: Arm Position: Podium Low Shooting Position
+    SSL: End Effector: Retract
+    SSL: Shooter: Forward to setpoint
+    SSL: Feeder: Stop
+  }
+  SSL-->SSL: "X" \n While \n Held \t
+  SSL-->SSH: "X+LBumper" \n When \n Pressed \t
+
+  State "Speaker Shooting High Mode" as SSH{
+    SSH: Arm Position: Podium High Shooting Position
+    SSH: End Effector: Extend
+    SSH: Shooter: Forward to setpoint
+    SSH: Feeder: Stop
+  }
+  SSH-->SSH: "X+LBumper" \n While \n Held \t
+  SSH-->SSL: "-LBumper" \n On \n Release \t
+
+}
+SSM-down->Shoot: "RTrig" \n When \n Pressed \t
+SSM-up->DM: "X" \n On \n Release \t
+
+State "Mid Shooting Modes" as MSM{
+  State "Mid Shooting Low Mode" as MSL{
+    MSL: Arm Position: Podium Low Shooting Position
+    MSL: End Effector: Retract
+    MSL: Shooter: Forward to setpoint
+    MSL: Feeder: Stop
+  }
+  MSL-->MSL: "B" \n While \n Held \t
+  MSL-->MSH: "B+LBumper" \n When \n Pressed \t
+
+  State "Mid Shooting High Mode" as MSH{
+    MSH: Arm Position: Podium High Shooting Position
+    MSH: End Effector: Extend
+    MSH: Shooter: Forward to setpoint
+    MSH: Feeder: Stop
+  }
+  MSH-->MSH: "B+LBumper" \n While \n Held \t
+  MSH-->MSL: "-LBumper" \n On \n Release \t
+
+}
+MSM -down->Shoot: "RTrig" \n When \n Pressed \t
+MSM-up->DM: "B" \n On \n Release \t
+
+State "Shoot" as Shoot{
+  Shoot: Feeder: Run Forward
+}
+Shoot-up->PSM: When \n Finished \n +"Y" \t
+Shoot-up->SSM: When \n Finished \n +"X" \t
+Shoot-up->MSM: When \n Finished \n +"B" \t
