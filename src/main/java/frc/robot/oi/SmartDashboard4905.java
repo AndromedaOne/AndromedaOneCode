@@ -35,7 +35,7 @@ import frc.robot.commands.examplePathCommands.ThisIsJustASimplePathToReefStation
 import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
-import frc.robot.commands.sbsdAlgaeManipulatorCommands.MoveAlgaeManipulator;
+import frc.robot.commands.sbsdAlgaeManipulatorCommands.AlgaeManipulatorIntake;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.Rotate;
@@ -212,7 +212,7 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
-      SmartDashboard.putData("SBSD Move Algae Manipulator", new MoveAlgaeManipulator());
+      SmartDashboard.putData("SBSD Move Algae Manipulator", new AlgaeManipulatorIntake());
     }
   }
 

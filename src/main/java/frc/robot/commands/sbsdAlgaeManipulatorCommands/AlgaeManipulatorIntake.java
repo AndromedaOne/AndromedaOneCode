@@ -10,10 +10,10 @@ import frc.robot.Robot;
 import frc.robot.subsystems.sbsdAlgaeManipulator.SBSDAlgaeManipulatorBase;
 
 /** Add your docs here. */
-public class MoveAlgaeManipulator extends Command {
+public class AlgaeManipulatorIntake extends Command {
   private SBSDAlgaeManipulatorBase m_algaeManipulator;
 
-  public MoveAlgaeManipulator() {
+  public AlgaeManipulatorIntake() {
     m_algaeManipulator = Robot.getInstance().getSubsystemsContainer().getSBSDAlgaeManipulatorBase();
     addRequirements(m_algaeManipulator.getSubsystemBase());
     SmartDashboard.putNumber("SBSD Set Algae Speed", 0);
