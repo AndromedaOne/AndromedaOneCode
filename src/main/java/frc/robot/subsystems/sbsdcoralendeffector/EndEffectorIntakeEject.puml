@@ -1,15 +1,56 @@
 @startuml EndEffectorIntakeEject
 
-state WAIT_FOR_CORAL
-state INTAKE_CORAL
-state POSITION_CORAL
-state HOLD_CORAL
-state EJECT_CORAL
-state PAUSE_FOR_EJECT
+state WAIT_FOR_CORAL : m_inWaitForCoral = true;
+state WAIT_FOR_CORAL : m_currentRumble = false;
+state WAIT_FOR_CORAL : m_rumbleTimer = 0;
+
+state INTAKE_CORAL : m_inWaitForCoral = false;
+state INTAKE_CORAL : m_intakeMotor.setSpeed(m_intakeSpeed);
+
+state POSITION_CORAL : m_intakeMotor.setSpeed(m_repositionSpeed);
+
+state HOLD_CORAL : stop();
+state HOLD_CORAL : m_hasCoral = true;
+state HOLD_CORAL : m_inWaitForCoral = false;
+
+state EJECT_CORAL : m_intakeMotor.setSpeed(m_ejectSpeed);
+
+state PAUSE_FOR_EJECT : m_count++;
+state PAUSE_FOR_EJECT : stop();
+
 state SCORE_L4_WAIT
-state POSITION_L4
-state HOLD_L4_POSITION
+
+state POSITION_L4 : m_intakeMotor.setSpeed(-m_repositionSpeed);
+
+state HOLD_L4_POSITION : stop();
+state HOLD_L4_POSITION : m_hasCoral = true;
+state HOLD_L4_POSITION : m_inWaitForCoral = false;
+state HOLD_L4_POSITION : rumbleController();
 
 WAIT_FOR_CORAL --> INTAKE_CORAL : (intakeDetector() && !ejectDetector())
+WAIT_FOR_CORAL --> HOLD_CORAL : (!intakeDetector() && ejectDetector())
+
+INTAKE_CORAL --> POSITION_CORAL : (intakeDetector() && ejectDetector())
+
+POSITION_CORAL --> HOLD_CORAL : (!intakeDetector() && ejectDetector())
+
+HOLD_CORAL --> SCORE_L4_WAIT : (m_scoreL4)
+HOLD_CORAL --> WAIT_FOR_CORAL : (!ejectDetector())
+HOLD_CORAL --> EJECT_CORAL : (m_ejectCoral)
+HOLD_CORAL --> POSITION_CORAL : (intakeDetector())
+
+EJECT_CORAL --> PAUSE_FOR_EJECT : (!intakeDetector() && !ejectDetector())
+
+PAUSE_FOR_EJECT --> WAIT_FOR_CORAL : (m_count > 5)
+
+SCORE_L4_WAIT --> POSITION_L4 : (getAngleDeg < getSafeAngleToScoreL4)
+
+POSITION_L4 --> HOLD_L4_POSITION : (intakeDetector() && !ejectDetector())
+
+HOLD_L4_POSITION --> POSITION_CORAL : (m_exitL4ScoringPosition)
+HOLD_L4_POSITION --> EJECT_CORAL : (m_ejectCoral)
+HOLD_L4_POSITION --> POSITION_CORAL : (ejectDetector() && intakeDetector())
+HOLD_L4_POSITION --> WAIT_FOR_CORAL : (!intakeDetector() && !ejectDetector())
+
 
 @enduml
