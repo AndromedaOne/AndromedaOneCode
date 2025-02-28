@@ -63,6 +63,6 @@ public class ArmControlCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_sbsdArmBase.limitSwitchActive()) || (m_doesEnd && m_sbsdArmBase.atSetPoint());
+    return (m_doesEnd && m_sbsdArmBase.atSetPoint());
   }
 }

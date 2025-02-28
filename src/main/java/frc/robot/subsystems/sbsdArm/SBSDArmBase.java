@@ -25,8 +25,6 @@ public interface SBSDArmBase extends SubsystemInterface {
 
   public abstract boolean atSetPoint();
 
-  public abstract boolean limitSwitchActive();
-
   public abstract void setEndEffector(CoralEndEffectorRotateBase endEffector);
 
   public abstract void rotate(double speed);

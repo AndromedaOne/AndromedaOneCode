@@ -128,11 +128,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   }
 
   @Override
-  public boolean limitSwitchActive() {
-    return m_rightAngleMotor.isForwardLimitSwitchOn() || m_rightAngleMotor.isReverseLimitSwitchOn();
-  }
-
-  @Override
   public void setCoastMode() {
     m_rightAngleMotor.setCoastMode();
     m_leftAngleMotor.setCoastMode();
@@ -156,10 +151,12 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
       stop();
       speed = 0.0;
-    } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+    } else if ((getAngleDeg() <= m_minAngleDeg || m_rightAngleMotor.isReverseLimitSwitchOn())
+        && (speed < 0)) {
       stop();
       speed = 0.0;
-    } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+    } else if ((getAngleDeg() >= m_maxAngleDeg || m_rightAngleMotor.isForwardLimitSwitchOn())
+        && (speed > 0)) {
       stop();
       speed = 0.0;
     } else {

@@ -52,11 +52,6 @@ public class MockSBSDArm implements SBSDArmBase {
   }
 
   @Override
-  public boolean limitSwitchActive() {
-    return false;
-  }
-
-  @Override
   public void rotate(double speed) {
   }
 
