@@ -37,7 +37,7 @@ public class OnTheFlyPathTest extends SequentialCommandGroup4905 {
     m_driveTrainBase = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
     addRequirements(m_driveTrainBase.getSubsystemBase());
     // this sends the robot to in front of c on the reef
-    Pose2d targetPose = new Pose2d(3.576, 2.688, Rotation2d.fromDegrees(60));
+    Pose2d targetPose = new Pose2d(3.490, 2.697, Rotation2d.fromDegrees(60));
     PathConstraints constraints = new PathConstraints(5.0, 3.0, Units.degreesToRadians(540),
         Units.degreesToRadians(720));
     Command pathfindingCommand = AutoBuilder.pathfindToPose(targetPose, constraints, 0.0);

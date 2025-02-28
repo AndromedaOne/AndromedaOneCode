@@ -51,6 +51,7 @@ import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
+import frc.robot.commands.teleOpPathCommands.FinishC;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.RunShooterRPM;
 import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
@@ -139,7 +140,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
       SmartDashboard.putData("SpinTest", new Spinner());
-      SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest());
+      SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest().andThen(new FinishC()));
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
