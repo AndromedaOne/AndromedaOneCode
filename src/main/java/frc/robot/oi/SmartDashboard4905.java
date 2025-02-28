@@ -26,6 +26,7 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
+import frc.robot.commands.examplePathCommands.OnTheFlyEnumTest;
 import frc.robot.commands.examplePathCommands.OnTheFlyPathTest;
 import frc.robot.commands.examplePathCommands.OttoOneTest;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
@@ -46,6 +47,7 @@ import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
 import frc.robot.commands.sbsdAutoCommands.auto6;
 import frc.robot.commands.sbsdAutoCommands.auto7;
+import frc.robot.commands.sbsdTeleOpCommands.SBSDReefPositionEnum;
 import frc.robot.commands.sbsdTeleOpCommands.sbsdMoveArmAndEndEffector;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
@@ -140,6 +142,18 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
       SmartDashboard.putData("SpinTest", new Spinner());
       SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest());
+      SmartDashboard.putData("On the fly path enum test to A",
+          new OnTheFlyEnumTest(SBSDReefPositionEnum.A));
+      SmartDashboard.putData("On the fly path enum test to A4",
+          new OnTheFlyEnumTest(SBSDReefPositionEnum.A4));
+      SmartDashboard.putData("On the fly path enum test to B",
+          new OnTheFlyEnumTest(SBSDReefPositionEnum.B));
+      SmartDashboard.putData("On the fly path enum test to B4",
+          new OnTheFlyEnumTest(SBSDReefPositionEnum.B4));
+      SmartDashboard.putData("On the fly path enum test to C",
+          new OnTheFlyEnumTest(SBSDReefPositionEnum.C));
+      SmartDashboard.putData("On the fly path enum test to C4",
+          new OnTheFlyEnumTest(SBSDReefPositionEnum.C4));
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
