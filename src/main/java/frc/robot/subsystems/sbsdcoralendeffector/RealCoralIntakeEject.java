@@ -207,8 +207,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         m_currentState = CoralState.EJECT_CORAL;
         System.out.println("HOLD_L4_POSITION -> m_ejectCoral = true");
       }
-      if (ejectDetector() && intakeDetector())
-      {
+      if (ejectDetector() && intakeDetector()) {
         // when scoring on L4 the coral drifts down due to gravity.
         m_currentState = CoralState.POSITION_L4;
       }
