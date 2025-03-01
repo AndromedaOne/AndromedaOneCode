@@ -51,7 +51,6 @@ public class ArmControlCommand extends Command {
     if (m_useSmartDashboard) {
       m_sbsdArmBase.setGoalDeg(SmartDashboard.getNumber("SBSD Arm goal degrees", 0));
     }
-    m_sbsdArmBase.calculateSpeed();
   }
 
   // Called once the command ends or is interrupted.

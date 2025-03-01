@@ -35,7 +35,5 @@ public interface SBSDArmBase extends SubsystemInterface {
 
   public abstract void reloadConfig();
 
-  public abstract void calculateSpeed();
-
   public abstract void runAlgaeRemovalWheels();
 }

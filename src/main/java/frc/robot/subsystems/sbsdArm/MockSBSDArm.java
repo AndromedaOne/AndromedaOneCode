@@ -73,10 +73,6 @@ public class MockSBSDArm implements SBSDArmBase {
   }
 
   @Override
-  public void calculateSpeed() {
-  }
-
-  @Override
   public void runAlgaeRemovalWheels() {
   }
 }
