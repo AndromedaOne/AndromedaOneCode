@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdAutoCommands.WaitForCoral;
 import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel1;
 import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel2;
@@ -97,6 +98,13 @@ public class Robot extends TimedRobot {
     m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(true);
     m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase()
+        .setDriveController(m_oiContainer.getDriveController());
+    m_subsystemContainer.getSBSDCoralIntakeEjectBase()
+        .setSubsystemController(m_oiContainer.getSubsystemController());
+    m_subsystemContainer.getSBSDArmBase().setGoalDeg(SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD);
+    m_subsystemContainer.getSBSDCoralEndEffectorRotateBase()
+        .setAngleDeg(SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD);
     LiveWindow.disableAllTelemetry();
     CommandScheduler.getInstance()
         .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));

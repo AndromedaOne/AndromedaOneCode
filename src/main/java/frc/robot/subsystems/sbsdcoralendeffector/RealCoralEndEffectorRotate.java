@@ -9,11 +9,14 @@ import java.util.function.DoubleSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
 
 /** Add your docs here. */
@@ -74,9 +77,12 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   @Override
   public void setAngleDeg(double angle) {
     m_controller.setSetpoint((angle) * Math.PI / 180);
-    m_kG = SmartDashboard.getNumber("Coral kG", m_kG);
-    m_kP = SmartDashboard.getNumber("Coral kP", m_kP);
     m_controller.setP(m_kP);
+  }
+
+  @Override
+  public void setAngleDeg(ArmSetpoints level) {
+    setAngleDeg(SBSDArmSetpoints.getInstance().getEndEffectorAngleInDeg(level));
   }
 
   private double calculateCorrectedEncoder() {
@@ -89,7 +95,6 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     if (correctedEncoderValue > 0.5) {
       correctedEncoderValue = correctedEncoderValue - 1;
     }
-    SmartDashboard.putNumber("Coral Corrected Encoder Value", correctedEncoderValue);
     return correctedEncoderValue;
   }
 
@@ -142,7 +147,6 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     } else {
       m_angleMotor.setSpeed(speed);
     }
-    SmartDashboard.putNumber("Coral Speed: ", speed);
   }
 
   @Override
@@ -165,14 +169,12 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     m_tolerance = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig().getDouble("tolerance");
   }
 
-  @Override
-  public void calculateSpeed() {
+  private void calculateSpeed() {
     double currentAngleRad = getAngleRad();
     double pidCalc = m_controller.calculate(currentAngleRad);
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
     rotate(speed);
-    SmartDashboard.putNumber("Coral Current setpoint:", m_controller.getSetpoint());
   }
 
   @Override
@@ -182,10 +184,11 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   @Override
   public void periodic() {
+    if (DriverStation.isEnabled()) {
+      calculateSpeed();
+    }
     SmartDashboard.putNumber("Coral Angle in Degrees", getAngleDeg());
     SmartDashboard.putNumber("Coral Angle in Rads", getAngleRad());
-    SmartDashboard.putNumber("Coral Angle Encoder Position",
-        m_absoluteEncoderPosition.getAsDouble());
   }
 
   @Override

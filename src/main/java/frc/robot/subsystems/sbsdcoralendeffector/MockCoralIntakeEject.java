@@ -27,10 +27,6 @@ public class MockCoralIntakeEject implements CoralIntakeEjectBase {
   }
 
   @Override
-  public void runWheelsIntake() {
-  }
-
-  @Override
   public void runWheelsEject() {
   }
 
