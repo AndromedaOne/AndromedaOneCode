@@ -22,6 +22,7 @@ import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
+import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
@@ -105,6 +106,9 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("Set Pose Angle", 0);
       SmartDashboard.putData("Set Pose",
           new SetPoseUsingSmartDashboard(subsystemsContainer.getDriveTrain()));
+      SmartDashboard.putNumber("Set swerve drive angle for test", 0);
+      SmartDashboard.putData("Run swerve drive angle set for test",
+          new SwerveDriveSetWheelsToAngle(subsystemsContainer.getDriveTrain(), 0, true));
     }
 
     if (Config4905.getConfig4905().isRomi()) {

@@ -62,13 +62,13 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
           // The controller that the command will use
           new PIDController4905SampleStop("MoveUsingEncoder"),
           // This should return the measurement
-          drivetrain::getRobotPositionInches,
+          () -> drivetrain.getRobotPositionInchesBasedOnAngle(angle),
           // This should return the setpoint (can also be a constant)
           () -> 0,
           // This uses the output
           output -> {
             // Use the output here
-            drivetrain.moveUsingGyroStrafe(output, angle, 0, false, heading);
+            drivetrain.moveUsingGyroStrafe(output, angle, false, heading);
           });
       m_distance = distance.getAsDouble();
       m_driveTrain = drivetrain;
@@ -104,20 +104,27 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       if (m_useCurrentHeading) {
         double heading = Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading();
         super.setOutput(output -> {
-          m_driveTrain.moveUsingGyroStrafe(output, m_angle, 0, false, heading);
+          m_driveTrain.moveUsingGyroStrafe(output, m_angle, false, heading);
         });
       }
       Trace.getInstance().logCommandInfo(this,
           "Moving with encoder to position: " + getSetpoint().getAsDouble());
       Trace.getInstance().logCommandInfo(this,
-          "Starting encoder position: " + m_driveTrain.getRobotPositionInches());
+          "Starting encoder position: " + m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle));
       m_driveTrain.disableAccelerationLimiting();
       SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", false);
     }
 
     public void setDistance(double distance) {
       m_distance = distance;
-      m_target = m_driveTrain.getRobotPositionInches() + m_distance;
+      if (m_angle >= 180) {
+        m_angle = m_angle - 180;
+        m_target = m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle) - m_distance;
+      } else {
+        m_target = m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle) + m_distance;
+
+      }
+
     }
 
     // Returns true when the command should end.
@@ -130,7 +137,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       super.end(interrupted);
       m_driveTrain.stop();
       Trace.getInstance().logCommandInfo(this,
-          "Ending position: " + m_driveTrain.getRobotPositionInches());
+          "Ending position: " + m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle));
       m_driveTrain.enableAccelerationLimiting();
       SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", true);
     }

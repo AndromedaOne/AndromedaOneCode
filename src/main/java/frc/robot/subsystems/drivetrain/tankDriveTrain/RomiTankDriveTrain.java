@@ -150,6 +150,11 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   }
 
   @Override
+  public double getRobotPositionInchesBasedOnAngle(double angle) {
+    return 0;
+  }
+
+  @Override
   public double getLeftRateMetersPerSecond() {
     return m_leftMotor.getEncoder().getRate();
   }
@@ -240,6 +245,12 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   @Override
   public Pose2d currentPose2d() {
     return null;
+  }
+
+  @Override
+  public void moveUsingGyroStrafe(double forwardBackward, double strafe, boolean useSquaredInputs,
+      double heading) {
+    throw new UnsupportedOperationException("Unimplemented method 'moveUsingGyroStrafe'");
   }
 
 }

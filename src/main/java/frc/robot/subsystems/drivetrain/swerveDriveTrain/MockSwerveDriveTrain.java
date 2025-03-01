@@ -77,6 +77,11 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   }
 
   @Override
+  public double getRobotPositionInchesBasedOnAngle(double angle) {
+    return 0;
+  }
+
+  @Override
   public double getRobotVelocityInches() {
     return 0;
   }
@@ -112,8 +117,8 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   }
 
-  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
-      boolean useSquaredInputs, double compassHeading) {
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs,
+      double compassHeading) {
   }
 
   @Override

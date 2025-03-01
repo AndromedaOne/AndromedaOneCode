@@ -30,7 +30,7 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract void moveUsingGyro(double forwardBackward, double rotation,
       boolean useSquaredInputs, double heading);
 
-  public abstract void moveUsingGyroStrafe(double forwardBackward, double strafe, double rotation,
+  public abstract void moveUsingGyroStrafe(double forwardBackward, double strafe,
       boolean useSquaredInputs, double heading);
 
   /**
@@ -52,6 +52,8 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract boolean hasParkingBrake();
 
   public abstract double getRobotPositionInches();
+
+  public abstract double getRobotPositionInchesBasedOnAngle(double angle);
 
   public abstract double getRobotVelocityInches();
 

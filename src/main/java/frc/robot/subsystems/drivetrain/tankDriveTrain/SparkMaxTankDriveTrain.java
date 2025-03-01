@@ -86,6 +86,11 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   }
 
   @Override
+  public double getRobotPositionInchesBasedOnAngle(double angle) {
+    return 0;
+  }
+
+  @Override
   public double getRobotVelocityInches() {
     double encoderVelocityAvg = 0;
     int encoders = 0;
@@ -226,6 +231,12 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
   @Override
   public Pose2d currentPose2d() {
     return null;
+  }
+
+  @Override
+  public void moveUsingGyroStrafe(double forwardBackward, double strafe, boolean useSquaredInputs,
+      double heading) {
+    throw new UnsupportedOperationException("Unimplemented method 'moveUsingGyroStrafe'");
   }
 
 }
