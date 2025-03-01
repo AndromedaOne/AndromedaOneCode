@@ -13,7 +13,9 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,7 +28,11 @@ public class PlaceAtK4 extends SequentialCommandGroup4905 {
    * @throws IOException
    * @throws FileVersionException
    */
+  DriveTrainBase m_driveTrainBase;
+
   public PlaceAtK4() throws FileVersionException, IOException, ParseException {
+    m_driveTrainBase = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
+    addRequirements(m_driveTrainBase.getSubsystemBase());
     PathPlannerPath path = PathPlannerPath.fromPathFile("Place At K4");
     Command pathCommand = AutoBuilder.followPath(path);
     addCommands(pathCommand);

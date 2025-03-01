@@ -172,4 +172,8 @@ public class MockTankDriveTrain implements TankDriveTrain {
     return false;
   }
 
+  @Override
+  public void setVelocityToZero() {
+  }
+
 }

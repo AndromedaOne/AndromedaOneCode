@@ -75,7 +75,7 @@ public class MockCoralIntakeEject implements CoralIntakeEjectBase {
   }
 
   @Override
-  public void exitScore() {
+  public void exitL4ScoringPosition() {
   }
 
   @Override
