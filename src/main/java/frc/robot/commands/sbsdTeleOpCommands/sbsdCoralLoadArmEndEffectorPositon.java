@@ -27,7 +27,6 @@ public class sbsdCoralLoadArmEndEffectorPositon extends ParallelCommandGroup4905
   @Override
   public void additionalInitialize() {
     if (m_isSBSD) {
-      Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase().exitScore();
       CommandScheduler.getInstance().removeDefaultCommand(m_sbsdArmBase.getSubsystemBase());
       CommandScheduler.getInstance().removeDefaultCommand(m_endEffector.getSubsystemBase());
       CommandScheduler.getInstance().setDefaultCommand(m_sbsdArmBase.getSubsystemBase(),
