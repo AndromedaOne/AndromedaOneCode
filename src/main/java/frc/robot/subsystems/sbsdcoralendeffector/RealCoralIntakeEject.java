@@ -26,8 +26,8 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private LimitSwitchSensor m_intakeSideSensor;
   private LimitSwitchSensor m_ejectSideSensor;
   private boolean m_hasCoral = false;
-  private double m_intakeSpeed = 0.15;
-  private double m_repositionSpeed = 0.1;
+  private double m_intakeSpeed = 0.1;
+  private double m_repositionSpeed = 0.07;
   private double m_ejectSpeed = 0.5;
   private boolean m_ejectCoral = false;
   private boolean m_inWaitForCoral = false;
@@ -200,18 +200,18 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         m_currentState = CoralState.POSITION_CORAL;
         System.out.println("HOLD_L4_POSITION -> m_exitScore = true");
       }
-      if (m_ejectCoral) {
+      else if (m_ejectCoral) {
         m_ejectCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.EJECT_CORAL;
         System.out.println("HOLD_L4_POSITION -> m_ejectCoral = true");
       }
-      if (ejectDetector() && intakeDetector()) {
+      else if (ejectDetector()) {
         // when scoring on L4 the coral drifts down due to gravity.
         m_currentState = CoralState.POSITION_L4;
       }
-      if (!intakeDetector() && !ejectDetector()) {
+      else if (!intakeDetector() && !ejectDetector()) {
         m_hasCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
