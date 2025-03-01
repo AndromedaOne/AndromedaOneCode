@@ -63,7 +63,7 @@ public class MockTankDriveTrain implements TankDriveTrain {
 
   @Override
   public ParkingBrakeStates getParkingBrakeState() {
-    return ParkingBrakeStates.BRAKESON;
+    return ParkingBrakeStates.BRAKESOFF;
   }
 
   @Override

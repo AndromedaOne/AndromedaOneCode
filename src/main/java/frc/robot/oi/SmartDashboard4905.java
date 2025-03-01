@@ -45,6 +45,7 @@ import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
 import frc.robot.commands.sbsdAutoCommands.auto6;
 import frc.robot.commands.sbsdAutoCommands.auto7;
+import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
 import frc.robot.commands.sbsdTeleOpCommands.GetInClimberModeAndClimb;
 import frc.robot.commands.sbsdTeleOpCommands.sbsdMoveArmAndEndEffector;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -215,6 +216,7 @@ public class SmartDashboard4905 {
         && Config4905.getConfig4905().doesSBSDArmExist()
         && Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       SmartDashboard.putData("Climber mode", new GetInClimberModeAndClimb());
+      SmartDashboard.putData("SBSD Climb", new SBSDClimb());
     }
   }
 
