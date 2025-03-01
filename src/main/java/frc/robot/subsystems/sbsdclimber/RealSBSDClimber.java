@@ -20,6 +20,7 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   private double m_climbSpeed = 0.0;
   private double m_reverseClimbSpeed = 0.0;
   private double m_servoMotorAngle = 0.0;
+  private double m_servoMotorInitialAngle = 0.0;
 
   public RealSBSDClimber() {
     m_climberConfig = Config4905.getConfig4905().getSBSDClimberConfig();
@@ -28,7 +29,7 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
     m_climbSpeed = m_climberConfig.getDouble("climbSpeed");
     m_reverseClimbSpeed = m_climberConfig.getDouble("reverseClimbSpeed");
     m_servoMotorAngle = m_climberConfig.getDouble("servoMotorAngle");
-
+    m_servoMotorInitialAngle = m_climberConfig.getDouble("servoMotorInitialAngle");
   }
 
   @Override
@@ -45,6 +46,12 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   public void climb() {
     m_climberWinchMotor.setSpeed(m_climbSpeed);
     m_climberServoMotor.setAngle(m_servoMotorAngle);
+
+  }
+
+  @Override
+  public void setServoInitialPosition() {
+    m_climberServoMotor.setAngle(m_servoMotorInitialAngle);
 
   }
 

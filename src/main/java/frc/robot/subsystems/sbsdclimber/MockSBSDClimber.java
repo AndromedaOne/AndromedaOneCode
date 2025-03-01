@@ -32,4 +32,8 @@ public class MockSBSDClimber implements SBSDClimberBase {
   public void setDefaultCommand(Command command) {
   }
 
+  @Override
+  public void setServoInitialPosition() {
+
+  }
 }

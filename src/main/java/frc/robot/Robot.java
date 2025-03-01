@@ -165,6 +165,8 @@ public class Robot extends TimedRobot {
     Trace.getInstance().logInfo("autonomousInit called");
     setInitialZangleOffset();
 
+    m_subsystemContainer.getSBSDClimberBase().setServoInitialPosition();
+
     m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
 
     // schedule the autonomous command (example)
@@ -213,6 +215,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_subsystemContainer.getSBSDClimberBase().setServoInitialPosition();
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

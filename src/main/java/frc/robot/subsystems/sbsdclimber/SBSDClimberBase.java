@@ -13,4 +13,7 @@ public interface SBSDClimberBase extends SubsystemInterface {
   public abstract void reverseClimb();
 
   public abstract void stop();
+
+  public abstract void setServoInitialPosition();
+
 }
