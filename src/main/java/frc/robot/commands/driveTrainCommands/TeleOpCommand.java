@@ -115,7 +115,7 @@ public class TeleOpCommand extends Command {
     Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
         new TracePair("savedAngle", m_savedRobotAngle),
         new TracePair("rotateStick", rotateStickValue));
-    double exponent = (m_isStrafe? 1 : 3);
+    double exponent = (m_isStrafe ? 1 : 3);
     forwardBackwardStickValue = Math.pow(forwardBackwardStickValue, exponent);
     // removed strafe for more fine control
     // strafe should be in there, it's not being exponented at the moment and it

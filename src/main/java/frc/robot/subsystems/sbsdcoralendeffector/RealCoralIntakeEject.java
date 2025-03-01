@@ -211,14 +211,17 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         m_rumbleTimer = 0;
         m_currentState = CoralState.POSITION_CORAL;
         System.out.println("HOLD_L4_POSITION -> m_exitScore = true");
+        System.out.println("HOLD_L4_POSITION -> POSITION_CORAL");
       } else if (m_ejectCoral) {
         m_ejectCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.EJECT_CORAL;
         System.out.println("HOLD_L4_POSITION -> m_ejectCoral = true");
+        System.out.println("HOLD_L4_POSITION -> EJECT_CORAL");
       } else if (ejectDetector()) {
         // when scoring on L4 the coral drifts down due to gravity.
+        System.out.println("HOLD_L4_POSITION -> POSITION_L4");
         m_currentState = CoralState.POSITION_L4;
       } else if (!intakeDetector() && !ejectDetector()) {
         m_hasCoral = false;
@@ -226,6 +229,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         m_rumbleTimer = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
         System.out.println("HOLD_L4_POSITION -> !intakeDetector() && !ejectDetector()");
+        System.out.println("HOLD_L4_POSITION -> WAIT_FOR_CORAL");
       }
       break;
 
