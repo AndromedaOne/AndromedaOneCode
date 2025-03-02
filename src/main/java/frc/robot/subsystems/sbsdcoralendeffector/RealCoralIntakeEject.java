@@ -137,8 +137,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         System.out.println("HOLD_CORAL -> SCORE_L4_WAIT");
         m_currentState = CoralState.SCORE_L4_WAIT;
         m_scoreL4 = false;
-      }
-      else if (!ejectDetector()) {
+      } else if (!ejectDetector()) {
         System.out.println("HOLD_CORAL -> WAIT_FOR_CORAL");
         m_hasCoral = false;
         m_currentRumble = false;

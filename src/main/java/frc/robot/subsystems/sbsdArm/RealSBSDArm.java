@@ -232,6 +232,10 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void runAlgaeRemovalWheels() {
-    m_algaeRemovalWheels.setSpeed(m_algaeRemovalWheelsSpeed);
+    if (!ClimberMode.getInstance().getInClimberMode()) {
+      m_algaeRemovalWheels.setSpeed(m_algaeRemovalWheelsSpeed);
+    } else {
+      m_algaeRemovalWheels.setSpeed(0);
+    }
   }
 }
