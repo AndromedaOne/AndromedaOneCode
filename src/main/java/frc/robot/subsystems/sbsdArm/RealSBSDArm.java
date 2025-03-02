@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -61,8 +62,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kI = armrotateConfig.getDouble("kI");
     m_kD = armrotateConfig.getDouble("kD");
     m_kG = armrotateConfig.getDouble("kG");
-    SmartDashboard.putNumber("SBSD Arm kG", m_kG);
-    SmartDashboard.putNumber("SBSD Arm kP", m_kP);
     m_tolerance = armrotateConfig.getDouble("tolerance");
     m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD, 0);
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
@@ -101,7 +100,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     if (correctedEncoderValue > 0.5) {
       correctedEncoderValue = correctedEncoderValue - 1;
     }
-    SmartDashboard.putNumber("SBSD Arm Corrected Encoder Value", correctedEncoderValue);
     return correctedEncoderValue;
   }
 
@@ -119,19 +117,15 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void periodic() {
+    if (DriverStation.isEnabled()) {
+      calculateSpeed();
+    }
     SmartDashboard.putNumber("SBSD Arm Angle in Degrees", getAngleDeg());
     SmartDashboard.putNumber("SBSD Arm Angle in Rads", getAngleRad());
-    SmartDashboard.putNumber("SBSD Arm Encoder Position", m_absoluteEncoderPosition.getAsDouble());
-    SmartDashboard.putNumber("SBSD Arm position error", m_controller.getPositionError());
     SmartDashboard.putBoolean("SBSD arm forward limit switch",
         m_rightAngleMotor.isForwardLimitSwitchOn());
     SmartDashboard.putBoolean("SBSD arm backward limit switch",
         m_rightAngleMotor.isReverseLimitSwitchOn());
-  }
-
-  @Override
-  public boolean limitSwitchActive() {
-    return m_rightAngleMotor.isForwardLimitSwitchOn() || m_rightAngleMotor.isReverseLimitSwitchOn();
   }
 
   @Override
@@ -161,10 +155,12 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
       if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
         stop();
         speed = 0.0;
-      } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+      } else if ((getAngleDeg() <= m_minAngleDeg || m_rightAngleMotor.isReverseLimitSwitchOn())
+          && (speed < 0)) {
         stop();
         speed = 0.0;
-      } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+      } else if ((getAngleDeg() >= m_maxAngleDeg || m_rightAngleMotor.isForwardLimitSwitchOn())
+          && (speed > 0)) {
         stop();
         speed = 0.0;
       } else {
@@ -179,8 +175,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   @Override
   public void setGoalDeg(double goal) {
     m_controller.setSetpoint((goal) * Math.PI / 180);
-    m_kG = SmartDashboard.getNumber("SBSD Arm kG", m_kG);
-    m_kP = SmartDashboard.getNumber("SBSD Arm kP", m_kP);
     m_controller.setP(m_kP);
   }
 
@@ -201,8 +195,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     return m_controller.atSetpoint();
   }
 
-  @Override
-  public void calculateSpeed() {
+  private void calculateSpeed() {
     double currentAngleRad = getAngleRad();
 
     if ((getAngleDeg() <= -75) && !m_doubleKpForClimber) {
@@ -221,8 +214,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     } else {
       m_algaeRemovalWheels.setSpeed(0);
     }
-    SmartDashboard.putNumber("SBSD Arm pidCalc", pidCalc);
-    SmartDashboard.putNumber("SBSD Arm feedForwardCalc", feedforwardCalc);
     SmartDashboard.putNumber("SBSD Arm Current setpoint:", m_controller.getSetpoint());
   }
 

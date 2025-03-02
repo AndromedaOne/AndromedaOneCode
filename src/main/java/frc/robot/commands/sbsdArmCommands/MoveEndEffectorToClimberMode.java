@@ -35,8 +35,6 @@ public class MoveEndEffectorToClimberMode extends Command {
       ClimberMode.getInstance().setEndEffectorInClimberMode();
       m_endEffector.stop();
       m_isAtSetpoint = true;
-    } else {
-      m_endEffector.calculateSpeed();
     }
   }
 

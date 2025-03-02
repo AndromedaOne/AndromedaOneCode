@@ -32,8 +32,6 @@ public class MoveArmToClimberMode extends Command {
       ClimberMode.getInstance().setArmInClimberMode();
       m_sbsdArmBase.stop();
       m_isAtSetpoint = true;
-    } else {
-      m_sbsdArmBase.calculateSpeed();
     }
   }
 
@@ -47,6 +45,6 @@ public class MoveArmToClimberMode extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_sbsdArmBase.limitSwitchActive() || m_isAtSetpoint);
+    return (m_isAtSetpoint);
   }
 }
