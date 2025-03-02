@@ -15,7 +15,10 @@ public class SwerveDriveSetWheelsToAngle extends Command {
   double m_angle = 0;
   boolean m_useSmartDashboard = false;
 
-  /** Creates a new SwerveDriveSetWheelsToAngle. */
+  /**
+   * Creates a new SwerveDriveSetWheelsToAngle. The angle passed in is counter
+   * clockwise positive.
+   */
   public SwerveDriveSetWheelsToAngle(DriveTrainBase drivetrain, double angle,
       boolean useSmartDashboard) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -55,7 +58,7 @@ public class SwerveDriveSetWheelsToAngle extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_count >= 50) {
+    if (m_count >= 25) {
       return true;
     }
     return false;

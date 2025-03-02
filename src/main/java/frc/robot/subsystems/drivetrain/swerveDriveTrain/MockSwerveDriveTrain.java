@@ -150,4 +150,9 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     return null;
   }
 
+  @Override
+  public boolean isAtAngle(double angle) {
+    return false;
+  }
+
 }

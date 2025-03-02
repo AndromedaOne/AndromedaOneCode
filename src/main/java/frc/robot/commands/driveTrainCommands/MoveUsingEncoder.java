@@ -23,7 +23,7 @@ import frc.robot.telemetries.Trace;
 public class MoveUsingEncoder extends SequentialCommandGroup4905 {
   public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double heading,
       double maxOutput, boolean useCurrentHeading, double angle) {
-
+    // COUNTER CLOCKWISE POSITIVE!!!!!
     addCommands(new SwerveDriveSetWheelsToAngle(drivetrain, angle), new MoveUsingEncoderInternal(
         drivetrain, angle, distance, heading, maxOutput, useCurrentHeading));
   }
@@ -36,12 +36,14 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
 
   // Use this constructor to move the robot in the direction it's already pointing
   public MoveUsingEncoder(DriveTrainBase driveTrain, DoubleSupplier distance, double maxOutput) {
+    // COUNTER CLOCKWISE POSITIVE!!!!!
     this(driveTrain, distance, 0, maxOutput, true, 0);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
   public MoveUsingEncoder(DriveTrainBase driveTrain, double angle, DoubleSupplier distance,
       double maxOutput) {
+    // COUNTER CLOCKWISE POSITIVE!!!!!
     this(driveTrain, distance, 0, maxOutput, true, angle);
   }
 
@@ -117,14 +119,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
 
     public void setDistance(double distance) {
       m_distance = distance;
-      if (m_angle >= 180) {
-        m_angle = m_angle - 180;
-        m_target = m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle) - m_distance;
-      } else {
-        m_target = m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle) + m_distance;
-
-      }
-
+      m_target = m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle) + m_distance;
     }
 
     // Returns true when the command should end.

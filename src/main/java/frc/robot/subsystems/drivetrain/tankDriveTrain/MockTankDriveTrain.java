@@ -186,4 +186,9 @@ public class MockTankDriveTrain implements TankDriveTrain {
     return null;
   }
 
+  @Override
+  public boolean isAtAngle(double angle) {
+    throw new UnsupportedOperationException("Unimplemented method 'isAtAngle'");
+  }
+
 }

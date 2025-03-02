@@ -239,4 +239,9 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     throw new UnsupportedOperationException("Unimplemented method 'moveUsingGyroStrafe'");
   }
 
+  @Override
+  public boolean isAtAngle(double angle) {
+    throw new UnsupportedOperationException("Unimplemented method 'isAtAngle'");
+  }
+
 }

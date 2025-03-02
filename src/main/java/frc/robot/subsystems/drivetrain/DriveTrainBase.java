@@ -59,6 +59,8 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract Pose2d getPose();
 
+  public abstract boolean isAtAngle(double angle);
+
   public abstract boolean resetOdometry(Pose2d pose);
 
   public abstract void setCoast(boolean value);
