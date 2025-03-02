@@ -5,9 +5,12 @@
 package frc.robot.commands.sbsdArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
 import frc.robot.subsystems.sbsdclimber.ClimberMode;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class MoveArmToClimberMode extends Command {
@@ -23,6 +26,12 @@ public class MoveArmToClimberMode extends Command {
   @Override
   public void initialize() {
     m_sbsdArmBase.setGoalDeg(SBSDArmSetpoints.ArmSetpoints.CLIMBER_POSITION);
+    CommandScheduler.getInstance().removeDefaultCommand(m_sbsdArmBase.getSubsystemBase());
+    CommandScheduler.getInstance().setDefaultCommand(m_sbsdArmBase.getSubsystemBase(),
+        new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CLIMBER_POSITION, false));
+    Trace.getInstance().logCommandInfo(this, "Arm Angle :"
+        + SBSDArmSetpoints.getInstance().getArmAngleInDeg(ArmSetpoints.CLIMBER_POSITION));
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
