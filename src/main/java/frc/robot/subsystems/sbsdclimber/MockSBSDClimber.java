@@ -36,4 +36,8 @@ public class MockSBSDClimber implements SBSDClimberBase {
   public void setServoInitialPosition() {
 
   }
+
+  @Override
+  public void unlatchTrident() {
+  }
 }

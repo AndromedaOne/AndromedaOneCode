@@ -16,4 +16,6 @@ public interface SBSDClimberBase extends SubsystemInterface {
 
   public abstract void setServoInitialPosition();
 
+  public abstract void unlatchTrident();
+
 }

@@ -6,6 +6,7 @@ package frc.robot.commands.sbsdTeleOpCommands;
 
 import frc.robot.commands.sbsdArmCommands.MoveArmToClimberMode;
 import frc.robot.commands.sbsdArmCommands.MoveEndEffectorToClimberMode;
+import frc.robot.commands.sbsdClimberCommands.UnlatchTrident;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.sbsdclimber.ClimberMode;
@@ -18,7 +19,7 @@ public class GetInClimberMode extends SequentialCommandGroup4905 {
 
   public GetInClimberMode() {
     addCommands(new ParallelCommandGroup4905(new MoveArmToClimberMode(),
-        new MoveEndEffectorToClimberMode()));
+        new MoveEndEffectorToClimberMode(), new UnlatchTrident()));
   }
 
   @Override

@@ -19,7 +19,7 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   private Config m_climberConfig;
   private double m_climbSpeed = 0.0;
   private double m_reverseClimbSpeed = 0.0;
-  private double m_servoMotorAngle = 0.0;
+  private double m_unlatchedServoMotorAngle = 0.0;
   private double m_servoMotorInitialAngle = 0.0;
 
   public RealSBSDClimber() {
@@ -28,7 +28,7 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
     m_climberServoMotor = new HitecHS322HDpositionalServoMotor(m_climberConfig, "servoMotor");
     m_climbSpeed = m_climberConfig.getDouble("climbSpeed");
     m_reverseClimbSpeed = m_climberConfig.getDouble("reverseClimbSpeed");
-    m_servoMotorAngle = m_climberConfig.getDouble("servoMotorAngle");
+    m_unlatchedServoMotorAngle = m_climberConfig.getDouble("unlatchedServoMotorAngle");
     m_servoMotorInitialAngle = m_climberConfig.getDouble("servoMotorInitialAngle");
   }
 
@@ -45,14 +45,11 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   @Override
   public void climb() {
     m_climberWinchMotor.setSpeed(m_climbSpeed);
-    m_climberServoMotor.setAngle(m_servoMotorAngle);
-
   }
 
   @Override
   public void setServoInitialPosition() {
     m_climberServoMotor.setAngle(m_servoMotorInitialAngle);
-
   }
 
   @Override
@@ -63,6 +60,11 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   @Override
   public void stop() {
     m_climberWinchMotor.setSpeed(0);
+  }
+
+  @Override
+  public void unlatchTrident() {
+    m_climberServoMotor.setAngle(m_unlatchedServoMotorAngle);
   }
 
 }

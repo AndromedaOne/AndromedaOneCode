@@ -5,17 +5,20 @@
 package frc.robot.commands.sbsdClimberCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ReverseClimb extends Command {
-  /** Creates a new ReverseClimb. */
-  public ReverseClimb() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class UnlatchTrident extends Command {
+  /** Creates a new UnlatchTrident. */
+  public UnlatchTrident() {
+    addRequirements(
+        Robot.getInstance().getSubsystemsContainer().getSBSDClimberBase().getSubsystemBase());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.getInstance().getSubsystemsContainer().getSBSDClimberBase().unlatchTrident();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,6 +34,6 @@ public class ReverseClimb extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

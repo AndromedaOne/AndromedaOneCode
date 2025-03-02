@@ -13,6 +13,7 @@ import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.CoralIntakeEjectDefaultCommand;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
+import frc.robot.commands.sbsdClimberCommands.ClimberDefaultCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -331,6 +332,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesSBSDCoralIntakeEjectExist()) {
       m_sbsdCoralIntakeEjectBase.setDefaultCommand(new CoralIntakeEjectDefaultCommand(false));
+    }
+    if (Config4905.getConfig4905().doesSBSDClimberExist()) {
+      m_sbsdClimber.setDefaultCommand(new ClimberDefaultCommand());
     }
   }
 }
