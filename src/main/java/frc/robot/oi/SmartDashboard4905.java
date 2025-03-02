@@ -27,6 +27,7 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
+import frc.robot.commands.examplePathCommands.FinishPathTest;
 import frc.robot.commands.examplePathCommands.OnTheFlyPathTest;
 import frc.robot.commands.examplePathCommands.OttoOneTest;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
@@ -145,6 +146,8 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
       SmartDashboard.putData("SpinTest", new Spinner());
       SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest().andThen(new FinishC()));
+      SmartDashboard.putData("Finish Path Test",
+          new FinishPathTest(subsystemsContainer.getDriveTrain()));
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
