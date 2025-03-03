@@ -6,6 +6,7 @@ package frc.robot.subsystems.sbsdcoralendeffector;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,8 +27,8 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private LimitSwitchSensor m_intakeSideSensor;
   private LimitSwitchSensor m_ejectSideSensor;
   private boolean m_hasCoral = false;
-  private double m_intakeSpeed = 0.15;
-  private double m_repositionSpeed = 0.1;
+  private double m_intakeSpeed = 0.1;
+  private double m_repositionSpeed = 0.07;
   private double m_ejectSpeed = 0.5;
   private boolean m_ejectCoral = false;
   private boolean m_inWaitForCoral = false;
@@ -74,8 +75,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     m_intakeMotor.setSpeed(speed);
   }
 
-  @Override
-  public void runWheelsIntake() {
+  private void runWheelsIntake() {
     /*
      * given that the coral only goes one way through the end effector (intake pulls
      * it in through the intake side, eject scores out the other end), a positive
@@ -94,8 +94,10 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_currentRumble = false;
       m_rumbleTimer = 0;
       if (intakeDetector() && !ejectDetector()) {
+        System.out.println("WAIT_FOR_CORAL -> INTAKE_CORAL");
         m_currentState = CoralState.INTAKE_CORAL;
       } else if (!intakeDetector() && ejectDetector()) {
+        System.out.println("WAIT_FOR_CORAL -> HOLD_CORAL");
         m_currentState = CoralState.HOLD_CORAL;
       }
       break;
@@ -106,6 +108,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_inWaitForCoral = false;
       m_intakeMotor.setSpeed(m_intakeSpeed);
       if (intakeDetector() && ejectDetector()) {
+        System.out.println("INTAKE_CORAL -> POSITION_CORAL");
         m_currentState = CoralState.POSITION_CORAL;
       }
       break;
@@ -119,6 +122,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case POSITION_CORAL:
       m_intakeMotor.setSpeed(m_repositionSpeed);
       if (!intakeDetector() && ejectDetector()) {
+        System.out.println("POSITION_CORAL -> HOLD_CORAL");
         m_currentState = CoralState.HOLD_CORAL;
       }
       break;
@@ -130,20 +134,24 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_inWaitForCoral = false;
       rumbleController();
       if (m_scoreL4) {
+        System.out.println("HOLD_CORAL -> SCORE_L4_WAIT");
         m_currentState = CoralState.SCORE_L4_WAIT;
         m_scoreL4 = false;
       }
       if (!ejectDetector()) {
+        System.out.println("HOLD_CORAL -> WAIT_FOR_CORAL");
         m_hasCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
       } else if (m_ejectCoral) {
+        System.out.println("HOLD_CORAL -> EJECT_CORAL");
         m_ejectCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.EJECT_CORAL;
       } else if (intakeDetector()) {
+        System.out.println("HOLD_CORAL -> POSITION_CORAL");
         m_hasCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
@@ -155,6 +163,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case EJECT_CORAL:
       m_intakeMotor.setSpeed(m_ejectSpeed);
       if (!intakeDetector() && !ejectDetector()) {
+        System.out.println("EJECT_CORAL -> PAUSE_FOR_EJECT");
         m_currentState = CoralState.PAUSE_FOR_EJECT;
       }
       break;
@@ -163,7 +172,8 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case PAUSE_FOR_EJECT:
       m_count++;
       stop();
-      if (m_count > 5) {
+      if (m_count > 3) {
+        System.out.println("PAUSE_FOR_EJECT -> WAIT_FOR_CORAL");
         m_hasCoral = false;
         m_count = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
@@ -177,6 +187,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       // if the end effector angle is less than or equal to 33 switch states
       if (Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase()
           .getAngleDeg() <= getSafeAngleToScoreL4) {
+        System.out.println("SCORE_L4_WAIT -> POSITION_L4");
         m_currentState = CoralState.POSITION_L4;
       }
       break;
@@ -184,6 +195,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case POSITION_L4:
       m_intakeMotor.setSpeed(-m_repositionSpeed);
       if (intakeDetector() && !ejectDetector()) {
+        System.out.println("POSITION_L4 -> HOLD_L4_POSITION");
         m_currentState = CoralState.HOLD_L4_POSITION;
       }
       break;
@@ -199,24 +211,25 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         m_rumbleTimer = 0;
         m_currentState = CoralState.POSITION_CORAL;
         System.out.println("HOLD_L4_POSITION -> m_exitScore = true");
-      }
-      if (m_ejectCoral) {
+        System.out.println("HOLD_L4_POSITION -> POSITION_CORAL");
+      } else if (m_ejectCoral) {
         m_ejectCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.EJECT_CORAL;
         System.out.println("HOLD_L4_POSITION -> m_ejectCoral = true");
-      }
-      if (ejectDetector() && intakeDetector()) {
+        System.out.println("HOLD_L4_POSITION -> EJECT_CORAL");
+      } else if (ejectDetector()) {
         // when scoring on L4 the coral drifts down due to gravity.
+        System.out.println("HOLD_L4_POSITION -> POSITION_L4");
         m_currentState = CoralState.POSITION_L4;
-      }
-      if (!intakeDetector() && !ejectDetector()) {
+      } else if (!intakeDetector() && !ejectDetector()) {
         m_hasCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
         System.out.println("HOLD_L4_POSITION -> !intakeDetector() && !ejectDetector()");
+        System.out.println("HOLD_L4_POSITION -> WAIT_FOR_CORAL");
       }
       break;
 
@@ -226,7 +239,6 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     }
     SmartDashboard.putString("Coral State: ", m_currentState.toString());
     m_ejectCoral = SmartDashboard.getBoolean("Eject coral: ", false);
-    SmartDashboard.putBoolean("Is in wait for coral: ", m_inWaitForCoral);
     runRumble();
   }
 
@@ -276,16 +288,6 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     return m_inWaitForCoral;
   }
 
-  @Override
-  public void setDriveController(DriveController driveController) {
-    m_driveController = driveController;
-  }
-
-  @Override
-  public void setSubsystemController(SubsystemController subsystemController) {
-    m_subsystemController = subsystemController;
-  }
-
   private void runRumble() {
     if (m_currentRumble) {
       m_driveController.rumbleOn(m_rumbleValue);
@@ -294,6 +296,16 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_driveController.rumbleOff();
       m_subsystemController.rumbleOff();
     }
+  }
+
+  @Override
+  public void setDriveController(DriveController driveController) {
+    m_driveController = driveController;
+  }
+
+  @Override
+  public void setSubsystemController(SubsystemController subsystemController) {
+    m_subsystemController = subsystemController;
   }
 
   @Override
@@ -320,5 +332,12 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_currentRumble = true;
     }
 
+  }
+
+  @Override
+  public void periodic() {
+    if (DriverStation.isEnabled()) {
+      runWheelsIntake();
+    }
   }
 }
