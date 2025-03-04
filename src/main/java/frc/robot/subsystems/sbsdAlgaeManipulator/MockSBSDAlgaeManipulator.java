@@ -56,4 +56,10 @@ public class MockSBSDAlgaeManipulator implements SBSDAlgaeManipulatorBase {
   @Override
   public void reloadConfig() {
   }
+
+  @Override
+  public void resetAlgaeManipulatorAngle() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'resetAlgaeManipulatorAngle'");
+  }
 }

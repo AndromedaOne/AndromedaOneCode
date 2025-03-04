@@ -26,4 +26,6 @@ public interface SBSDAlgaeManipulatorBase extends SubsystemInterface {
   public abstract boolean isAlgaeManipulatorOnTarget();
 
   public abstract void reloadConfig();
+
+  public abstract void resetAlgaeManipulatorAngle();
 }

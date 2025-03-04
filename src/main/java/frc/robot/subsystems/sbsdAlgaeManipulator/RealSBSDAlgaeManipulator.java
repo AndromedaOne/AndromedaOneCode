@@ -149,4 +149,10 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     SmartDashboard.putNumber("SBSD Algae position error", m_pidController.getPositionError());
     SmartDashboard.putBoolean("SBSD Algae On Target", isAlgaeManipulatorOnTarget());
   }
+
+  @Override
+  public void resetAlgaeManipulatorAngle() {
+    m_deployAlgaeManipulator.resetEncoder();
+    m_pidController.reset();
+  }
 }

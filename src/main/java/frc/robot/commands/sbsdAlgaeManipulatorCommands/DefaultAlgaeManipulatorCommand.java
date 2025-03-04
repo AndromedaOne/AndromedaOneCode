@@ -4,14 +4,19 @@
 
 package frc.robot.commands.sbsdAlgaeManipulatorCommands;
 
+import com.typesafe.config.Config;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.subsystems.sbsdAlgaeManipulator.SBSDAlgaeManipulatorBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DefaultAlgaeManipulatorCommand extends Command {
   private SBSDAlgaeManipulatorBase m_sbsdAlgaeManipulatorBase;
+  private DigitalInput m_resetAngleSwitch;
   private AlgaeManipulatorState m_currentState = AlgaeManipulatorState.DEFAULT_POSITION;
   private POVButton m_pickupButton = Robot.getInstance().getOIContainer().getSubsystemController()
       .getPickupButtonAlgae();
@@ -23,9 +28,11 @@ public class DefaultAlgaeManipulatorCommand extends Command {
   }
 
   public DefaultAlgaeManipulatorCommand() {
+    Config algaeManipulatorConfig = Config4905.getConfig4905().getSBSDAlgaeManipulatorConfig();
     m_sbsdAlgaeManipulatorBase = Robot.getInstance().getSubsystemsContainer()
         .getSBSDAlgaeManipulatorBase();
     addRequirements(m_sbsdAlgaeManipulatorBase.getSubsystemBase());
+    m_resetAngleSwitch = new DigitalInput(algaeManipulatorConfig.getInt("resetAngleSwitchPort"));
   }
 
   // Called when the command is initially scheduled.
@@ -42,6 +49,9 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       // AM in retract (up)
       // wheels in stop
       // no algae
+      if (m_resetAngleSwitch.get()) {
+        m_sbsdAlgaeManipulatorBase.resetAlgaeManipulatorAngle();
+      }
       m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.stopAlgaeManipulatorIntakeWheels();
       if (m_pickupButton.getAsBoolean()) {
