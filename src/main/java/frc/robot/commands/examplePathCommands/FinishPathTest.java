@@ -4,24 +4,35 @@
 
 package frc.robot.commands.examplePathCommands;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.photonvision.PhotonVisionBase;
+import frc.robot.sensors.photonvision.TargetDetectedAndAngle;
+import frc.robot.sensors.photonvision.TargetDetectedAndDistance;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class FinishPathTest extends Command {
   /** Creates a new FinishPathTest. */
-  DriveTrainBase m_drivetrain;
-  SequentialCommandGroup4905 m_command;
-  double m_coralPipeDistanceInInches = 0.0;
+  private DriveTrainBase m_drivetrain;
+  private boolean m_move = false;
+  private SequentialCommandGroup4905 m_command;
+  private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
+  private double m_coralPipeDistanceInInches = 0.0;
 
-  public FinishPathTest(DriveTrainBase drivetrain) {
+  public FinishPathTest(DriveTrainBase drivetrain, boolean move) {
     m_drivetrain = drivetrain;
+    m_move = move;
+    m_photonVision = (Robot.getInstance().getSensorsContainer().getPhotonVisionList());
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -76,10 +87,12 @@ public class FinishPathTest extends Command {
 
     Translation2d currentTranslation = new Translation2d(currentPose.getX() + xTrans,
         currentPose.getY() + yTrans);
-    Translation2d aprilTagTranslation = new Translation2d(3.6576, 4.02);
+    // Translation2d aprilTagTranslation = new Translation2d(3.6576, 4.02); tag 18
+    Translation2d aprilTagTranslation = new Translation2d(4.0739, 3.3012);
     Translation2d coralPipeTranslation = new Translation2d(3.6576, 4.1859);
     double aprilTagDistance = currentTranslation.getDistance(aprilTagTranslation); // c
     double coralPipeDistance = currentTranslation.getDistance(coralPipeTranslation); // a
+    double aprilTagDistanceInInches = aprilTagDistance * 39.3701;
     m_coralPipeDistanceInInches = coralPipeDistance * 39.3701;
     // should always be 6.5 inches / 0.1651 meters
     double aprilTagToCoralPipe = aprilTagTranslation.getDistance(coralPipeTranslation); // b
@@ -96,10 +109,21 @@ public class FinishPathTest extends Command {
     travelAngle = Math.toDegrees(travelAngle);
     Trace.getInstance().logInfo("Travel angle: " + travelAngle);
     Trace.getInstance()
+        .logInfo("Robot to april tag distance in inches: " + aprilTagDistanceInInches);
+    Trace.getInstance()
         .logInfo("Robot to coral pipe distance in inches: " + m_coralPipeDistanceInInches);
+    TargetDetectedAndDistance targetDistance = m_photonVision.get(0)
+        .getTargetDetectedAndDistance(17);
+    TargetDetectedAndAngle targetAngle = m_photonVision.get(0).getTargetDetectedAndAngle(17, 0);
+    Trace.getInstance().logInfo("Target distance: " + targetDistance.getDistance());
+    Trace.getInstance().logInfo("Target distance detected: " + targetDistance.getDetected());
+    Trace.getInstance().logInfo("Target angle: " + targetAngle.getAngle());
+    Trace.getInstance().logInfo("Target angle detected: " + targetAngle.getDetected());
     m_command = new MoveUsingEncoder(m_drivetrain, travelAngle, () -> m_coralPipeDistanceInInches,
         1.0);
-    CommandScheduler.getInstance().schedule(m_command);
+    if (m_move) {
+      CommandScheduler.getInstance().schedule(m_command);
+    }
 
   }
 
@@ -116,6 +140,9 @@ public class FinishPathTest extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_command.isFinished();
+    if (m_move) {
+      return m_command.isFinished();
+    }
+    return true;
   }
 }

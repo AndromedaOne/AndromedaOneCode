@@ -146,8 +146,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
       SmartDashboard.putData("SpinTest", new Spinner());
       SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest().andThen(new FinishC()));
-      SmartDashboard.putData("Finish Path Test",
-          new FinishPathTest(subsystemsContainer.getDriveTrain()));
+      SmartDashboard.putData("Finish Path Test Using Move",
+          new FinishPathTest(subsystemsContainer.getDriveTrain(), true));
+      SmartDashboard.putData("Finish Path Test Without Move",
+          new FinishPathTest(subsystemsContainer.getDriveTrain(), false));
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
