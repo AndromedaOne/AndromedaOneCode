@@ -32,6 +32,7 @@ public class SBSDClimb extends Command {
   public void execute() {
     if (ClimberMode.getInstance().getInClimberMode()) {
       if (!m_inReverse) {
+        
         m_climber.climb();
       } else {
         m_climber.reverseClimb();
