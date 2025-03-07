@@ -7,18 +7,21 @@ package frc.robot.subsystems.sbsdAlgaeManipulator;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgaeManipulatorBase {
   private SparkMaxController m_intakeWheels;
   private SparkMaxController m_deployAlgaeManipulator;
+  private RealLimitSwitchSensor m_algaeManipMaxAngleLimitSwitch;
   private double m_intakeWheelSpeed = 0.0;
   private double m_ejectWheelSpeed = 0.0;
   private double m_maxDeploySpeed = 0.0;
@@ -35,6 +38,7 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     m_intakeWheels = new SparkMaxController(algaeManipulatorConfig, "intakeWheels", false, false);
     m_deployAlgaeManipulator = new SparkMaxController(algaeManipulatorConfig, "pickupMotor", false,
         false);
+    m_algaeManipMaxAngleLimitSwitch = new RealLimitSwitchSensor("algaeManipMaxAngleLimitSwitchPort");
     m_intakeWheelSpeed = algaeManipulatorConfig.getDouble("intakeWheelSpeed");
     m_ejectWheelSpeed = algaeManipulatorConfig.getDouble("ejectWheelSpeed");
     m_maxDeploySpeed = algaeManipulatorConfig.getDouble("deploySpeed");
@@ -45,6 +49,7 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     m_kI = algaeManipulatorConfig.getDouble("kI");
     m_kD = algaeManipulatorConfig.getDouble("kD");
     m_pidController.setPID(m_kP, m_kI, m_kD);
+    m_pidController.setSetpoint(0);
   }
 
   @Override
@@ -84,7 +89,6 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   }
 
   private void calcSpeed(double speed) {
-    SmartDashboard.putNumber("SBSD Unmodified Algae Speed: ", speed);
     speed = MathUtil.clamp(speed, -m_maxRetractSpeed, m_maxDeploySpeed);
     // the polarities might be wrong
     if ((getEncoderPositionInDegrees() > m_deployAngle) && (speed > 0)) {
@@ -93,31 +97,17 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
       speed = 0.0;
     }
     m_deployAlgaeManipulator.setSpeed(speed);
-    SmartDashboard.putNumber("SBSD Algae Speed: ", speed);
   }
 
-  @Override
-  public void moveAlgaeManipulatorUsingPID() {
-    double currentAngleRad = getEncoderPositionInRadians();
-    double pidCalc = m_pidController.calculate(currentAngleRad);
+  private void moveAlgaeManipulatorUsingPID() {
+    double currentAngleDeg = getEncoderPositionInDegrees();
+    double pidCalc = m_pidController.calculate(currentAngleDeg);
     calcSpeed(pidCalc);
   }
 
   @Override
   public void moveUsingSmartDashboard(double speed) {
     calcSpeed(speed);
-  }
-
-  @Override
-  public void setDeploySetpoint() {
-    m_pidController.setSetpoint(m_deployAngle);
-    Trace.getInstance().logInfo("Set algae setpoint to " + m_deployAngle + ", deploy angle");
-  }
-
-  @Override
-  public void setRetractSetpoint() {
-    m_pidController.setSetpoint(m_retractAngle);
-    Trace.getInstance().logInfo("Set algae setpoint to " + m_retractAngle + ", retract angle");
   }
 
   @Override
@@ -143,16 +133,25 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   @Override
   public void periodic() {
     SmartDashboard.putNumber("SBSD Algae Angle in Degrees", getEncoderPositionInDegrees());
-    SmartDashboard.putNumber("SBSD Algae Angle in Rads", getEncoderPositionInRadians());
-    SmartDashboard.putNumber("SBSD Algae Encoder Position",
-        m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks());
-    SmartDashboard.putNumber("SBSD Algae position error", m_pidController.getPositionError());
-    SmartDashboard.putBoolean("SBSD Algae On Target", isAlgaeManipulatorOnTarget());
+    SmartDashboard.putNumber("Algae Manip Encoder Ticks", m_deployAlgaeManipulator.
+      getBuiltInEncoderPositionTicks());
+    moveAlgaeManipulatorUsingPID();
+    SmartDashboard.putBoolean("Algae Manip Max Angle Limit Switch", 
+      m_algaeManipMaxAngleLimitSwitch.isAtLimit());
   }
 
   @Override
   public void resetAlgaeManipulatorAngle() {
     m_deployAlgaeManipulator.resetEncoder();
     m_pidController.reset();
+  }
+
+  @Override
+  public void setAlgaeManipulatorAngleSetpoint(double angle) {
+    m_pidController.setSetpoint(angle);
+  }
+
+  @Override
+  public void initializeSpeed() {
   }
 }

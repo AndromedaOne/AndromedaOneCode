@@ -33,19 +33,7 @@ public class MockSBSDAlgaeManipulator implements SBSDAlgaeManipulatorBase {
   }
 
   @Override
-  public void moveAlgaeManipulatorUsingPID() {
-  }
-
-  @Override
   public void moveUsingSmartDashboard(double speed) {
-  }
-
-  @Override
-  public void setDeploySetpoint() {
-  }
-
-  @Override
-  public void setRetractSetpoint() {
   }
 
   @Override
@@ -59,7 +47,13 @@ public class MockSBSDAlgaeManipulator implements SBSDAlgaeManipulatorBase {
 
   @Override
   public void resetAlgaeManipulatorAngle() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'resetAlgaeManipulatorAngle'");
+  }
+
+  @Override
+  public void setAlgaeManipulatorAngleSetpoint(double angle) {
+  }
+
+  @Override
+  public void initializeSpeed() {
   }
 }

@@ -17,14 +17,14 @@ import frc.robot.subsystems.sbsdAlgaeManipulator.SBSDAlgaeManipulatorBase;
 public class DefaultAlgaeManipulatorCommand extends Command {
   private SBSDAlgaeManipulatorBase m_sbsdAlgaeManipulatorBase;
   private DigitalInput m_resetAngleSwitch;
-  private AlgaeManipulatorState m_currentState = AlgaeManipulatorState.DEFAULT_POSITION;
+  private AlgaeManipulatorState m_currentState = AlgaeManipulatorState.STOW_POSITION;
   private POVButton m_pickupButton = Robot.getInstance().getOIContainer().getSubsystemController()
       .getPickupButtonAlgae();
   private POVButton m_scoreButton = Robot.getInstance().getOIContainer().getSubsystemController()
       .getScoreButtonAlgae();
 
   private enum AlgaeManipulatorState {
-    DEFAULT_POSITION, INTAKE_ALGAE, HOLD_ALGAE, SCORE_ALGAE
+    INITIALIZE, STOW_POSITION, INTAKE_ALGAE, HOLD_ALGAE, SCORE_ALGAE
   }
 
   public DefaultAlgaeManipulatorCommand() {
@@ -32,32 +32,32 @@ public class DefaultAlgaeManipulatorCommand extends Command {
     m_sbsdAlgaeManipulatorBase = Robot.getInstance().getSubsystemsContainer()
         .getSBSDAlgaeManipulatorBase();
     addRequirements(m_sbsdAlgaeManipulatorBase.getSubsystemBase());
-    m_resetAngleSwitch = new DigitalInput(algaeManipulatorConfig.getInt("resetAngleSwitchPort"));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_sbsdAlgaeManipulatorBase.setRetractSetpoint();
-  }
+    m_currentState = AlgaeManipulatorState.INITIALIZE;
+
+    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     switch (m_currentState) {
-    case DEFAULT_POSITION:
+    case INITIALIZE:
+      
+    case STOW_POSITION:
       // AM in retract (up)
       // wheels in stop
       // no algae
       if (m_resetAngleSwitch.get()) {
         m_sbsdAlgaeManipulatorBase.resetAlgaeManipulatorAngle();
       }
-      m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.stopAlgaeManipulatorIntakeWheels();
       if (m_pickupButton.getAsBoolean()) {
         // sets the AM's setpoint to be deploy (down)
         // changes state to intake
-        m_sbsdAlgaeManipulatorBase.setDeploySetpoint();
         m_currentState = AlgaeManipulatorState.INTAKE_ALGAE;
       }
       break;
@@ -65,12 +65,10 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       // AM in deploy (down)
       // wheels in intake
       // trying to intake algae
-      m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       if (!m_pickupButton.getAsBoolean()) {
         // sets the AM's setpoint to be retract (up)
         // changes state to hold
-        m_sbsdAlgaeManipulatorBase.setRetractSetpoint();
         m_currentState = AlgaeManipulatorState.HOLD_ALGAE;
       }
       break;
@@ -78,7 +76,6 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       // AM in retract (up)
       // wheels in intake
       // has algae and is moving around with it
-      m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       if (m_scoreButton.getAsBoolean()) {
         // changes state to score
@@ -89,11 +86,10 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       // AM in retract (up)
       // wheels in eject
       // ejecting algae
-      m_sbsdAlgaeManipulatorBase.moveAlgaeManipulatorUsingPID();
       m_sbsdAlgaeManipulatorBase.runWheelsToEject();
       if (!m_scoreButton.getAsBoolean()) {
         // changes state to default
-        m_currentState = AlgaeManipulatorState.DEFAULT_POSITION;
+        m_currentState = AlgaeManipulatorState.STOW_POSITION;
       }
       break;
     }
