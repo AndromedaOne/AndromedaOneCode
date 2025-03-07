@@ -19,6 +19,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
@@ -147,7 +148,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
         SmartDashboard.putNumber("Vision Pitch", target.getPitch());
       }
     }
-    return (range / 0.0254) - m_offsetToSwerveModInches;
+    return range / 0.0254;
   }
 
   @Override
@@ -203,5 +204,86 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   @Override
   public PhotonCamera getPhotonCamera() {
     return m_camera;
+  }
+
+  public void computeDistanceAndAngle(int wantedID) {
+    // refer to the piece of paper
+    List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
+
+    // 6.5 is the distance between the april tag and the pipe
+
+    // m_offsetToSwerveModInches is c - distance from camera to bumpers
+    // m_cameraOffsetToCenterInches is 11.69
+
+    // getting b - the distance from the camera to the reef
+    // getting alpha - the angle from the camera to the april tag
+    double b = 0;
+    double alpha = 0;
+
+    for (PhotonTrackedTarget target : targets) {
+      if (target.getFiducialId() == wantedID) {
+        b = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeightInMeters,
+            m_targetHeightInMeters, m_cameraPitchInRadians,
+            Units.degreesToRadians(target.getPitch()));
+        // changing b to be in inches
+        b = b / 0.0254;
+        SmartDashboard.putNumber("Vision Pitch", target.getPitch());
+        double offsetAngle = Units.radiansToDegrees(Math.asin(m_offset / b));
+        double yaw = target.getYaw();
+        SmartDashboard.putNumber("Yaw", yaw);
+        SmartDashboard.putNumber("Photon Offset", offsetAngle);
+        alpha = yaw + offsetAngle;
+      }
+    }
+
+    // getting d - the hypotenuse of the alpha-b triangle
+    double d = 0;
+    d = b / (Math.sin(alpha));
+
+    // getting e - the adjacent of the alpha-b triangle
+    double e = 0;
+    e = Math.sqrt((Math.pow(d, 2)) - (Math.pow(b, 2)));
+
+    // getting g - the distance between the camera and the pipe
+    double g = 0;
+    g = e + 6.5;
+
+    // getting h - the distance between the bumpers and the reef
+    double h = 0;
+    h = b - m_offsetToSwerveModInches; // b - c
+
+    // getting j - the horizontal distance between the center of the robot and the
+    // pipe
+    // if j is negative it will trigger some logic to invert theta
+    double j = 0;
+    boolean reverseTheta = false;
+    j = 11.69 - g;
+    if (j < 0) {
+      j = Math.abs(j);
+      reverseTheta = true;
+    }
+
+    // getting x - the actual distance between the center of the robot and the pipe
+    double x = 0;
+    x = Math.sqrt((Math.pow(h, 2)) + (Math.pow(j, 2)));
+
+    // getting theta - the angle between the center of the robot and the pipe
+    // if j was less than 0 theta will be reversed
+    double theta = 0;
+    if (reverseTheta) {
+      theta = 360 - (Math.asin(h / x));
+    } else {
+      theta = Math.asin(h / x);
+    }
+
+    Trace.getInstance().logInfo("b: " + b);
+    Trace.getInstance().logInfo("alpha: " + alpha);
+    Trace.getInstance().logInfo("d: " + d);
+    Trace.getInstance().logInfo("e: " + e);
+    Trace.getInstance().logInfo("g: " + g);
+    Trace.getInstance().logInfo("h: " + h);
+    Trace.getInstance().logInfo("j: " + j);
+    Trace.getInstance().logInfo("x: " + x);
+    Trace.getInstance().logInfo("theta: " + theta);
   }
 }

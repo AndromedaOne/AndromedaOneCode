@@ -87,8 +87,8 @@ public class FinishPathTest extends Command {
 
     Translation2d currentTranslation = new Translation2d(currentPose.getX() + xTrans,
         currentPose.getY() + yTrans);
-    // Translation2d aprilTagTranslation = new Translation2d(3.6576, 4.02); tag 18
-    Translation2d aprilTagTranslation = new Translation2d(4.0739, 3.3012);
+    Translation2d aprilTagTranslation = new Translation2d(3.6576, 4.02); // tag 18
+    // Translation2d aprilTagTranslation = new Translation2d(4.0739, 3.3012); tag 17
     Translation2d coralPipeTranslation = new Translation2d(3.6576, 4.1859);
     double aprilTagDistance = currentTranslation.getDistance(aprilTagTranslation); // c
     double coralPipeDistance = currentTranslation.getDistance(coralPipeTranslation); // a
@@ -113,7 +113,7 @@ public class FinishPathTest extends Command {
     Trace.getInstance()
         .logInfo("Robot to coral pipe distance in inches: " + m_coralPipeDistanceInInches);
     TargetDetectedAndDistance targetDistance = m_photonVision.get(0)
-        .getTargetDetectedAndDistance(17);
+        .getTargetDetectedAndDistance(18);
     TargetDetectedAndAngle targetAngle = m_photonVision.get(0).getTargetDetectedAndAngle(17, 0);
     Trace.getInstance().logInfo("Target distance: " + targetDistance.getDistance());
     Trace.getInstance().logInfo("Target distance detected: " + targetDistance.getDetected());
