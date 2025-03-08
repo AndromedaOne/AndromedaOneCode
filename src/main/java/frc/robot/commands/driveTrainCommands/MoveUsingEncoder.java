@@ -70,7 +70,15 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
             // Use the output here
             drivetrain.moveUsingGyroStrafe(output, angle, 0, false, heading);
           });
-      m_distance = distance.getAsDouble();
+      if (distance.getAsDouble() > 0)
+      {
+        m_distance = distance.getAsDouble()*7/6;
+      }
+      else
+      {
+        m_distance = distance.getAsDouble();
+      }
+      Trace.getInstance().logCommandInfo(this, "New Distance: " + m_distance);
       m_driveTrain = drivetrain;
       m_maxOutput = maxOutput;
       // the setpoint can be changed on the fly by updating m_target
