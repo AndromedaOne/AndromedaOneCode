@@ -2,22 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.teleOpPathCommands;
+package frc.robot.commands.examplePathCommands;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -26,7 +23,7 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PlaceAtC extends SequentialCommandGroup4905 {
+public class OnTheFlyPathTest extends SequentialCommandGroup4905 {
   /**
    * Creates a new SwervePathPlanningPath.
    * 
@@ -36,15 +33,19 @@ public class PlaceAtC extends SequentialCommandGroup4905 {
    */
   DriveTrainBase m_driveTrainBase;
 
-  public PlaceAtC() throws FileVersionException, IOException, ParseException {
+  public OnTheFlyPathTest() throws FileVersionException, IOException, ParseException {
     m_driveTrainBase = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
-    List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(m_driveTrainBase.currentPose2d(),
-        new Pose2d(3.576, 2.688, Rotation2d.fromDegrees(62.336)));
-    PathConstraints constraints = new PathConstraints(5.0, 3.0, 9.42478, 12.5664);
     addRequirements(m_driveTrainBase.getSubsystemBase());
-    PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null,
-        new GoalEndState(0.0, Rotation2d.fromDegrees(60)));
-    Command pathCommand = AutoBuilder.followPath(path);
-    addCommands(pathCommand);
+    // this sends the robot to in front of c on the reef
+    Pose2d targetPose = new Pose2d(3.490, 2.697, Rotation2d.fromDegrees(60));
+    PathConstraints constraints = new PathConstraints(5.0, 3.0, Units.degreesToRadians(540),
+        Units.degreesToRadians(720));
+    Command pathfindingCommand = AutoBuilder.pathfindToPose(targetPose, constraints, 0.0);
+    addCommands(pathfindingCommand);
+  }
+
+  @Override
+  public void additionalInitialize() {
+
   }
 }

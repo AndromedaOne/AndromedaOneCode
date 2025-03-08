@@ -30,7 +30,7 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract void moveUsingGyro(double forwardBackward, double rotation,
       boolean useSquaredInputs, double heading);
 
-  public abstract void moveUsingGyroStrafe(double forwardBackward, double strafe, double rotation,
+  public abstract void moveUsingGyroStrafe(double forwardBackward, double strafe,
       boolean useSquaredInputs, double heading);
 
   /**
@@ -53,9 +53,13 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract double getRobotPositionInches();
 
+  public abstract double getRobotPositionInchesBasedOnAngle(double angle);
+
   public abstract double getRobotVelocityInches();
 
   public abstract Pose2d getPose();
+
+  public abstract boolean isAtAngle(double angle);
 
   public abstract boolean resetOdometry(Pose2d pose);
 
@@ -82,5 +86,7 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract boolean isUnsafeZone();
 
   public abstract void setVelocityToZero();
+
+  public Pose2d currentPose2d();
 
 }

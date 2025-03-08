@@ -22,10 +22,12 @@ import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
+import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
 import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
+import frc.robot.commands.examplePathCommands.OnTheFlyPathTest;
 import frc.robot.commands.examplePathCommands.OttoOneTest;
 import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.Spinner;
@@ -50,6 +52,7 @@ import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
 import frc.robot.commands.showBotCannon.PressurizeCannon;
 import frc.robot.commands.showBotCannon.ShootCannon;
+import frc.robot.commands.teleOpPathCommands.FinishC;
 import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
 import frc.robot.commands.topGunShooterCommands.RunShooterRPM;
 import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
@@ -103,6 +106,9 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("Set Pose Angle", 0);
       SmartDashboard.putData("Set Pose",
           new SetPoseUsingSmartDashboard(subsystemsContainer.getDriveTrain()));
+      SmartDashboard.putNumber("Set swerve drive angle for test", 0);
+      SmartDashboard.putData("Run swerve drive angle set for test",
+          new SwerveDriveSetWheelsToAngle(subsystemsContainer.getDriveTrain(), 0, true));
     }
 
     if (Config4905.getConfig4905().isRomi()) {
@@ -133,23 +139,12 @@ public class SmartDashboard4905 {
     }
     if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
-    }
-
-    if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("ThisIsJustASimplePathToReefStationD",
           new ThisIsJustASimplePathToReefStationD());
-    }
-
-    if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
-    }
-
-    if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
-    }
-
-    if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SpinTest", new Spinner());
+      SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest().andThen(new FinishC()));
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
