@@ -43,6 +43,7 @@ public interface PhotonVisionBase {
 
   public PhotonCamera getPhotonCamera();
 
-  public void computeDistanceAndAngle(int wantedID, boolean useTrace);
+  public TargetDistanceAndAngle computeDistanceAndAngle(int wantedID, boolean useTrace,
+      boolean useLeft);
 
 }

@@ -146,10 +146,13 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
       SmartDashboard.putData("SpinTest", new Spinner());
       SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest().andThen(new FinishC()));
-      SmartDashboard.putData("Finish Path Test Using Move",
-          new FinishPathTest(subsystemsContainer.getDriveTrain(), true));
+      SmartDashboard.putData("Finish Path Test Using Move Left",
+          new FinishPathTest(subsystemsContainer.getDriveTrain(), true, true));
+      SmartDashboard.putData("Finish Path Test Using Move Right",
+          new FinishPathTest(subsystemsContainer.getDriveTrain(), true, false));
       SmartDashboard.putData("Finish Path Test Without Move",
-          new FinishPathTest(subsystemsContainer.getDriveTrain(), false));
+          new FinishPathTest(subsystemsContainer.getDriveTrain(), false, false));
+      SmartDashboard.putNumber("Camera index to use", 0);
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {

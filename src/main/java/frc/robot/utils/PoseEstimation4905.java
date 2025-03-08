@@ -170,7 +170,8 @@ public class PoseEstimation4905 {
         m_updateGyroOffset = false;
       }
     }
-    m_photonVision.get(0).computeDistanceAndAngle(18, false);
+    int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
+    m_photonVision.get(index).computeDistanceAndAngle(18, false, true);
 
     m_posePublisherVision.set(localPose);
     return localPose;

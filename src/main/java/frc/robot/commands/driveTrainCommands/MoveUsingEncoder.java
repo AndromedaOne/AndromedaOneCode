@@ -22,26 +22,27 @@ import frc.robot.telemetries.Trace;
 
 public class MoveUsingEncoder extends SequentialCommandGroup4905 {
   public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double heading,
-      double maxOutput, boolean useCurrentHeading, double angle) {
+      double maxOutput, boolean useCurrentHeading, DoubleSupplier angle) {
     // COUNTER CLOCKWISE POSITIVE!!!!!
-    addCommands(new SwerveDriveSetWheelsToAngle(drivetrain, angle), new MoveUsingEncoderInternal(
-        drivetrain, angle, distance, heading, maxOutput, useCurrentHeading));
+    addCommands(new SwerveDriveSetWheelsToAngle(drivetrain, angle.getAsDouble()),
+        new MoveUsingEncoderInternal(drivetrain, angle, distance, heading, maxOutput,
+            useCurrentHeading));
   }
 
   // Use this constructor to move the robot in the heading passed in
   public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double heading,
       double maxOutput) {
-    this(drivetrain, distance, heading, maxOutput, false, 0);
+    this(drivetrain, distance, heading, maxOutput, false, () -> 0);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
   public MoveUsingEncoder(DriveTrainBase driveTrain, DoubleSupplier distance, double maxOutput) {
     // COUNTER CLOCKWISE POSITIVE!!!!!
-    this(driveTrain, distance, 0, maxOutput, true, 0);
+    this(driveTrain, distance, 0, maxOutput, true, () -> 0);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
-  public MoveUsingEncoder(DriveTrainBase driveTrain, double angle, DoubleSupplier distance,
+  public MoveUsingEncoder(DriveTrainBase driveTrain, DoubleSupplier angle, DoubleSupplier distance,
       double maxOutput) {
     // COUNTER CLOCKWISE POSITIVE!!!!!
     this(driveTrain, distance, 0, maxOutput, true, angle);
@@ -58,19 +59,19 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     /**
      * Creates a new MoveUsingEncoder.
      */
-    public MoveUsingEncoderInternal(DriveTrainBase drivetrain, double angle,
+    public MoveUsingEncoderInternal(DriveTrainBase drivetrain, DoubleSupplier angle,
         DoubleSupplier distance, double heading, double maxOutput, boolean useCurrentHeading) {
       super(
           // The controller that the command will use
           new PIDController4905SampleStop("MoveUsingEncoder"),
           // This should return the measurement
-          () -> drivetrain.getRobotPositionInchesBasedOnAngle(angle),
+          () -> drivetrain.getRobotPositionInchesBasedOnAngle(angle.getAsDouble()),
           // This should return the setpoint (can also be a constant)
           () -> 0,
           // This uses the output
           output -> {
             // Use the output here
-            drivetrain.moveUsingGyroStrafe(output, angle, false, heading);
+            drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false, heading);
           });
       m_distance = distance.getAsDouble();
       m_driveTrain = drivetrain;
@@ -78,7 +79,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       // the setpoint can be changed on the fly by updating m_target
       setSetpoint(() -> m_target);
       m_useCurrentHeading = useCurrentHeading;
-      m_angle = angle;
+      m_angle = angle.getAsDouble();
       // Configure additional PID options by calling `getController` here.
       addRequirements(drivetrain.getSubsystemBase());
     }
