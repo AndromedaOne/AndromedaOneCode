@@ -41,7 +41,6 @@ public class SBSDClimb extends Command {
   @Override
   public void execute() {
     if (ClimberMode.getInstance().getInClimberMode() || m_usingSmartDashboard) {
-      Trace.getInstance().logCommandInfo(this, "Using SmartDashboard to Climb");
       if (!m_inReverse) {
         m_climber.climb();
       } else {
