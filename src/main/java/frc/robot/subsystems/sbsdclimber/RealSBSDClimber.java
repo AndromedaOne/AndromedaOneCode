@@ -70,7 +70,7 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
     m_climberServoMotor.setAngle(m_unlatchedServoMotorAngle);
   }
 
-  private double getCurrentClimberRotation(){
+  private double getCurrentClimberRotation() {
     return m_climberWinchMotor.getBuiltInEncoderPositionTicks() - m_climberOffset;
   }
 

@@ -45,6 +45,7 @@ import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
 import frc.robot.commands.sbsdAutoCommands.auto6;
 import frc.robot.commands.sbsdAutoCommands.auto7;
+import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
 import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
 import frc.robot.commands.sbsdTeleOpCommands.sbsdMoveArmAndEndEffector;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -182,6 +183,10 @@ public class SmartDashboard4905 {
           new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_4, false));
       SmartDashboard.putData("SBSD Arm Coral Load",
           new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, false));
+      SmartDashboard.putData("Run Climber Winch", 
+          new SBSDClimb(true, false));
+      SmartDashboard.putData("Run Reverse Climb", 
+          new SBSDClimb(true, true));
     }
 
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
