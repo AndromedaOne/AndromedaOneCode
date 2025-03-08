@@ -262,8 +262,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       SmartDashboard.putNumber("Robot Acceleration ", (currentVelocity - m_modSpeed) * 2);
       m_modSpeed = currentVelocity;
       m_modDistance = currentPosition;
-      m_count = 0;
       SmartDashboard.putNumber("Max Acceleration ", m_highestAccel);
+      m_count = 0;
     }
     m_count++;
     if (needToReset) {

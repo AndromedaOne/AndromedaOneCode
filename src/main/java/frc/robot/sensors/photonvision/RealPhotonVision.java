@@ -40,7 +40,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private double m_cameraPitchInRadians = 0;
   private double m_cameraYawInDegrees = 0;
   private double m_cameraYawInRadians = 0;
-  private double m_offset = 0;
 
   /*
    * public class AprilTagInfo { int aprilTagID; double distanceToTarget; double
@@ -72,7 +71,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     m_cameraPitchInRadians = Units.degreesToRadians(m_cameraPitchInDegrees);
     m_cameraYawInDegrees = m_config.getDouble("photonvision." + cameraName + ".cameraYawInDegrees");
     m_cameraYawInRadians = Units.degreesToRadians(m_cameraYawInDegrees);
-    m_offset = m_config.getDouble("photonvision." + cameraName + ".cameraOffsetToCenterInInches");
     SmartDashboard.putBoolean("lost target", false);
   }
 
@@ -168,8 +166,8 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
       if (target.getFiducialId() == wantedID) {
         SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
         SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
-        double offsetAngle = Units
-            .radiansToDegrees(Math.asin(m_offset / getDistanceToTargetInInches(wantedID)));
+        double offsetAngle = Units.radiansToDegrees(
+            Math.asin(m_offsetToCenterInInches / getDistanceToTargetInInches(wantedID)));
         double yaw = target.getYaw();
         SmartDashboard.putNumber("Yaw", yaw);
         SmartDashboard.putNumber("Photon Offset", offsetAngle);
@@ -184,7 +182,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
     SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
     double offsetAngle = Units.radiansToDegrees(
-        Math.asin(m_offset / getDistanceToTargetInInches(target.getFiducialId())));
+        Math.asin(m_offsetToCenterInInches / getDistanceToTargetInInches(target.getFiducialId())));
     double yaw = target.getYaw();
     SmartDashboard.putNumber("Yaw", yaw);
     SmartDashboard.putNumber("Photon Offset", offsetAngle);
@@ -206,7 +204,8 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     return m_camera;
   }
 
-  public void computeDistanceAndAngle(int wantedID) {
+  @Override
+  public void computeDistanceAndAngle(int wantedID, boolean useTrace) {
     // refer to the piece of paper
     List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
 
@@ -217,6 +216,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
 
     // getting b - the distance from the camera to the reef
     // getting alpha - the angle from the camera to the april tag
+    // alpha is in radians for calculations
     double b = 0;
     double alpha = 0;
 
@@ -228,8 +228,8 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
         // changing b to be in inches
         b = b / 0.0254;
         SmartDashboard.putNumber("Vision Pitch", target.getPitch());
-        double offsetAngle = Units.radiansToDegrees(Math.asin(m_offset / b));
-        double yaw = target.getYaw();
+        double offsetAngle = m_cameraYawInRadians;
+        double yaw = Units.degreesToRadians(target.getYaw());
         SmartDashboard.putNumber("Yaw", yaw);
         SmartDashboard.putNumber("Photon Offset", offsetAngle);
         alpha = yaw + offsetAngle;
@@ -271,19 +271,34 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     // if j was less than 0 theta will be reversed
     double theta = 0;
     if (reverseTheta) {
-      theta = 360 - (Math.asin(h / x));
+      theta = 360 - (Units.radiansToDegrees(Math.asin(h / x)));
     } else {
-      theta = Math.asin(h / x);
+      theta = Units.radiansToDegrees(Math.asin(h / x));
     }
 
-    Trace.getInstance().logInfo("b: " + b);
-    Trace.getInstance().logInfo("alpha: " + alpha);
-    Trace.getInstance().logInfo("d: " + d);
-    Trace.getInstance().logInfo("e: " + e);
-    Trace.getInstance().logInfo("g: " + g);
-    Trace.getInstance().logInfo("h: " + h);
-    Trace.getInstance().logInfo("j: " + j);
-    Trace.getInstance().logInfo("x: " + x);
-    Trace.getInstance().logInfo("theta: " + theta);
+    if (useTrace) {
+      Trace.getInstance().logInfo("b: " + b);
+      Trace.getInstance().logInfo("alpha: " + alpha);
+      Trace.getInstance().logInfo("alpha in degrees: " + Units.radiansToDegrees(alpha));
+      Trace.getInstance().logInfo("d: " + d);
+      Trace.getInstance().logInfo("e: " + e);
+      Trace.getInstance().logInfo("g: " + g);
+      Trace.getInstance().logInfo("h: " + h);
+      Trace.getInstance().logInfo("j: " + j);
+      Trace.getInstance().logInfo("reverse theta: " + reverseTheta);
+      Trace.getInstance().logInfo("x: " + x);
+      Trace.getInstance().logInfo("theta: " + theta);
+    }
+    SmartDashboard.putNumber("b value", b);
+    SmartDashboard.putNumber("alpha", alpha);
+    SmartDashboard.putNumber("alpha in degrees", Units.radiansToDegrees(alpha));
+    SmartDashboard.putNumber("d value", d);
+    SmartDashboard.putNumber("e value", e);
+    SmartDashboard.putNumber("g value", g);
+    SmartDashboard.putNumber("h value", h);
+    SmartDashboard.putNumber("j value", j);
+    SmartDashboard.putBoolean("reverseTheta", reverseTheta);
+    SmartDashboard.putNumber("x value", x);
+    SmartDashboard.putNumber("theta", theta);
   }
 }

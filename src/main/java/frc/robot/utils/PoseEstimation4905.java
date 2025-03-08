@@ -170,6 +170,7 @@ public class PoseEstimation4905 {
         m_updateGyroOffset = false;
       }
     }
+    m_photonVision.get(0).computeDistanceAndAngle(18, false);
 
     m_posePublisherVision.set(localPose);
     return localPose;
