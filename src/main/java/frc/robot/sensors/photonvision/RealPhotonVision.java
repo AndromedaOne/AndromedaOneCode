@@ -248,6 +248,9 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     double h = 0;
     h = b - m_offsetToSwerveModInches; // b - c
 
+    // subtracting 1 from h so the pid is happy
+    // h -= 1;
+
     // getting j - the horizontal distance between the center of the robot and the
     // pipe
     // if j is negative it will trigger some logic to invert theta
