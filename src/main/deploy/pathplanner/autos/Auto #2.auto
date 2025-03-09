@@ -26,6 +26,12 @@
         {
           "type": "named",
           "data": {
+            "name": "autoFinishLeft4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "sbsdScoreCoral"
           }
         },
@@ -71,6 +77,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinishRight4"
           }
         },
         {
@@ -126,6 +138,12 @@
         {
           "type": "named",
           "data": {
+            "name": "autoFinishLeft4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "sbsdScoreCoral"
           }
         },
@@ -171,6 +189,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinishLeft123"
           }
         },
         {
