@@ -48,6 +48,7 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
+  private Config m_sbsdClimberConfig;
   private Config m_sbsdArmConfig;
   private Config m_sbsdCoralEndEffectorConfig;
   private Config m_sbsdAlgaeManipulatorConfig;
@@ -168,6 +169,7 @@ public class Config4905 {
     m_sbsdArmConfig = load("sbsdarm.conf");
     m_sbsdCoralEndEffectorConfig = load("coralendeffector.conf");
     m_sbsdAlgaeManipulatorConfig = load("algaemanipulator.conf");
+    m_sbsdClimberConfig = load("sbsdclimber.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
@@ -398,6 +400,17 @@ public class Config4905 {
 
   public Config getSBSDAlgaeManipulatorConfig() {
     return m_sbsdAlgaeManipulatorConfig;
+  }
+
+  public boolean doesSBSDClimberExist() {
+    if (m_config.hasPath("subsystems.sbsdclimber")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSBSDClimberConfig() {
+    return m_sbsdClimberConfig;
   }
 
   public Config getSensorConfig() {

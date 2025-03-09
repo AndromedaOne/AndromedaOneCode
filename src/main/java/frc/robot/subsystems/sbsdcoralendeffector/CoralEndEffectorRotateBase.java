@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.sbsdcoralendeffector;
 
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.subsystems.SubsystemInterface;
 
 /** Add your docs here. */
@@ -19,6 +20,8 @@ public interface CoralEndEffectorRotateBase extends SubsystemInterface {
 
   public abstract void setAngleDeg(double angle);
 
+  public abstract void setAngleDeg(ArmSetpoints level);
+
   public abstract void setCoastMode();
 
   public abstract void setBrakeMode();
@@ -30,8 +33,6 @@ public interface CoralEndEffectorRotateBase extends SubsystemInterface {
   public abstract void reloadConfig();
 
   public abstract boolean atSetPoint();
-
-  public abstract void calculateSpeed();
 
   public abstract double getSafeAngleToScoreL4();
 }

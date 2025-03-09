@@ -13,7 +13,9 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,8 +28,11 @@ public class FinishA extends SequentialCommandGroup4905 {
    * @throws IOException
    * @throws FileVersionException
    */
+  DriveTrainBase m_driveTrainBase;
 
   public FinishA() throws FileVersionException, IOException, ParseException {
+    m_driveTrainBase = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
+    addRequirements(m_driveTrainBase.getSubsystemBase());
     PathPlannerPath path = PathPlannerPath.fromPathFile("Finish A");
     Command pathCommand = AutoBuilder.followPath(path);
     addCommands(pathCommand);

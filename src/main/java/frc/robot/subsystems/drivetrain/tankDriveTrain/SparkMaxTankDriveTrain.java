@@ -218,4 +218,8 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
     return false;
   }
 
+  @Override
+  public void setVelocityToZero() {
+  }
+
 }

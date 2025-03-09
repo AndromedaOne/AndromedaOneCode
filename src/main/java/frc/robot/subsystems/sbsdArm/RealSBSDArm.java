@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,6 +17,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.subsystems.sbsdclimber.ClimberMode;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
@@ -38,6 +40,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_kD = 0.0;
   private double m_kG = 0.0;
   private double m_tolerance = 0.0;
+  private boolean m_doubleKpForClimber = false;
   private PIDController4905 m_controller;
   private CoralEndEffectorRotateBase m_endEffector;
 
@@ -59,8 +62,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kI = armrotateConfig.getDouble("kI");
     m_kD = armrotateConfig.getDouble("kD");
     m_kG = armrotateConfig.getDouble("kG");
-    SmartDashboard.putNumber("SBSD Arm kG", m_kG);
-    SmartDashboard.putNumber("SBSD Arm kP", m_kP);
     m_tolerance = armrotateConfig.getDouble("tolerance");
     m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD, 0);
     m_controller.enableContinuousInput(-Math.PI, Math.PI);
@@ -99,7 +100,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     if (correctedEncoderValue > 0.5) {
       correctedEncoderValue = correctedEncoderValue - 1;
     }
-    SmartDashboard.putNumber("SBSD Arm Corrected Encoder Value", correctedEncoderValue);
     return correctedEncoderValue;
   }
 
@@ -117,19 +117,15 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void periodic() {
+    if (DriverStation.isEnabled()) {
+      calculateSpeed();
+    }
     SmartDashboard.putNumber("SBSD Arm Angle in Degrees", getAngleDeg());
     SmartDashboard.putNumber("SBSD Arm Angle in Rads", getAngleRad());
-    SmartDashboard.putNumber("SBSD Arm Encoder Position", m_absoluteEncoderPosition.getAsDouble());
-    SmartDashboard.putNumber("SBSD Arm position error", m_controller.getPositionError());
     SmartDashboard.putBoolean("SBSD arm forward limit switch",
         m_rightAngleMotor.isForwardLimitSwitchOn());
     SmartDashboard.putBoolean("SBSD arm backward limit switch",
         m_rightAngleMotor.isReverseLimitSwitchOn());
-  }
-
-  @Override
-  public boolean limitSwitchActive() {
-    return m_rightAngleMotor.isForwardLimitSwitchOn() || m_rightAngleMotor.isReverseLimitSwitchOn();
   }
 
   @Override
@@ -152,28 +148,33 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void rotate(double speed) {
-    speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
-    if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
+    if (ClimberMode.getInstance().getInClimberMode()) {
       stop();
-      speed = 0.0;
-    } else if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
-      stop();
-      speed = 0.0;
-    } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
-      stop();
-      speed = 0.0;
     } else {
-      m_rightAngleMotor.setSpeed(speed);
-      m_leftAngleMotor.setSpeed(speed);
+      speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
+      if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
+        stop();
+        speed = 0.0;
+      } else if ((getAngleDeg() <= m_minAngleDeg || m_rightAngleMotor.isReverseLimitSwitchOn())
+          && (speed < 0)) {
+        stop();
+        speed = 0.0;
+      } else if ((getAngleDeg() >= m_maxAngleDeg || m_rightAngleMotor.isForwardLimitSwitchOn())
+          && (speed > 0)) {
+        stop();
+        speed = 0.0;
+      } else {
+        m_rightAngleMotor.setSpeed(speed);
+        m_leftAngleMotor.setSpeed(speed);
+      }
+      SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
     }
-    SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
+
   }
 
   @Override
   public void setGoalDeg(double goal) {
     m_controller.setSetpoint((goal) * Math.PI / 180);
-    m_kG = SmartDashboard.getNumber("SBSD Arm kG", m_kG);
-    m_kP = SmartDashboard.getNumber("SBSD Arm kP", m_kP);
     m_controller.setP(m_kP);
   }
 
@@ -194,9 +195,16 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     return m_controller.atSetpoint();
   }
 
-  @Override
-  public void calculateSpeed() {
+  private void calculateSpeed() {
     double currentAngleRad = getAngleRad();
+
+    if ((getAngleDeg() <= -75) && !m_doubleKpForClimber) {
+      // trying to go climber position but need more power
+      m_kP *= 2;
+      m_controller.setP(m_kP);
+      m_doubleKpForClimber = true;
+
+    }
     double pidCalc = m_controller.calculate(currentAngleRad);
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
@@ -206,9 +214,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     } else {
       m_algaeRemovalWheels.setSpeed(0);
     }
-    SmartDashboard.putNumber("SBSD Arm Error", m_controller.getPositionError());
-    SmartDashboard.putNumber("SBSD Arm pidCalc", pidCalc);
-    SmartDashboard.putNumber("SBSD Arm feedForwardCalc", feedforwardCalc);
     SmartDashboard.putNumber("SBSD Arm Current setpoint:", m_controller.getSetpoint());
   }
 
@@ -228,6 +233,10 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void runAlgaeRemovalWheels() {
-    m_algaeRemovalWheels.setSpeed(m_algaeRemovalWheelsSpeed);
+    if (!ClimberMode.getInstance().getInClimberMode()) {
+      m_algaeRemovalWheels.setSpeed(m_algaeRemovalWheelsSpeed);
+    } else {
+      m_algaeRemovalWheels.setSpeed(0);
+    }
   }
 }

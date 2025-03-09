@@ -63,7 +63,7 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   @Override
   public ParkingBrakeStates getParkingBrakeState() {
-    return null;
+    return ParkingBrakeStates.BRAKESOFF;
   }
 
   @Override
@@ -134,6 +134,10 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   @Override
   public boolean isUnsafeZone() {
     return false;
+  }
+
+  @Override
+  public void setVelocityToZero() {
   }
 
 }

@@ -81,4 +81,6 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract boolean isUnsafeZone();
 
+  public abstract void setVelocityToZero();
+
 }

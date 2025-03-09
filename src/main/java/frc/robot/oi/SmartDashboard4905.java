@@ -46,6 +46,8 @@ import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
 import frc.robot.commands.sbsdAutoCommands.auto6;
 import frc.robot.commands.sbsdAutoCommands.auto7;
+import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
+import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
 import frc.robot.commands.sbsdTeleOpCommands.sbsdMoveArmAndEndEffector;
 import frc.robot.commands.showBotAudio.PlayAudio;
 import frc.robot.commands.showBotAudio.StopAudio;
@@ -159,7 +161,8 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
     }
 
-    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
+    if ((Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD())
+        && Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       SmartDashboard.putData("Auto #1 - West Side Scory", new auto1());
       SmartDashboard.putData("Auto #2 - East Side Scory", new auto2());
       SmartDashboard.putData("Auto #6 - 1 North Score And Seven Years Ago", new auto6());
@@ -181,6 +184,8 @@ public class SmartDashboard4905 {
           new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_4, false));
       SmartDashboard.putData("SBSD Arm Coral Load",
           new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, false));
+      SmartDashboard.putData("Run Climber Winch", new SBSDClimb(true, false));
+      SmartDashboard.putData("Run Reverse Climb", new SBSDClimb(true, true));
     }
 
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
@@ -213,6 +218,11 @@ public class SmartDashboard4905 {
 
     if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
       SmartDashboard.putData("SBSD Move Algae Manipulator", new AlgaeManipulatorIntake());
+    }
+    if (Config4905.getConfig4905().doesSBSDClimberExist()
+        && Config4905.getConfig4905().doesSBSDArmExist()
+        && Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
+      SmartDashboard.putData("Climber mode", new GetInClimberMode());
     }
   }
 

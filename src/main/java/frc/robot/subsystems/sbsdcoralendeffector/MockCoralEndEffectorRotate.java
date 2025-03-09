@@ -6,6 +6,7 @@ package frc.robot.subsystems.sbsdcoralendeffector;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.subsystems.MockSubsystem;
 
 /** Add your docs here. */
@@ -65,11 +66,11 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
   }
 
   @Override
-  public void calculateSpeed() {
+  public double getSafeAngleToScoreL4() {
+    return 0;
   }
 
   @Override
-  public double getSafeAngleToScoreL4() {
-    return 0;
+  public void setAngleDeg(ArmSetpoints level) {
   }
 }
