@@ -6,7 +6,6 @@ package frc.robot.commands.sbsdAlgaeManipulatorCommands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
@@ -16,7 +15,7 @@ import frc.robot.subsystems.sbsdAlgaeManipulator.SBSDAlgaeManipulatorBase;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DefaultAlgaeManipulatorCommand extends Command {
   private SBSDAlgaeManipulatorBase m_sbsdAlgaeManipulatorBase;
-  private DigitalInput m_resetAngleSwitch;
+  private Config m_algaeManipulatorConfig;
   private AlgaeManipulatorState m_currentState = AlgaeManipulatorState.STOW_POSITION;
   private POVButton m_pickupButton = Robot.getInstance().getOIContainer().getSubsystemController()
       .getPickupButtonAlgae();
@@ -28,7 +27,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
   }
 
   public DefaultAlgaeManipulatorCommand() {
-    Config algaeManipulatorConfig = Config4905.getConfig4905().getSBSDAlgaeManipulatorConfig();
+    m_algaeManipulatorConfig = Config4905.getConfig4905().getSBSDAlgaeManipulatorConfig();
     m_sbsdAlgaeManipulatorBase = Robot.getInstance().getSubsystemsContainer()
         .getSBSDAlgaeManipulatorBase();
     addRequirements(m_sbsdAlgaeManipulatorBase.getSubsystemBase());
@@ -45,49 +44,49 @@ public class DefaultAlgaeManipulatorCommand extends Command {
   public void execute() {
     switch (m_currentState) {
     case INITIALIZE:
+      if (!m_sbsdAlgaeManipulatorBase.getAlgaeManipMaxAngleLimitSwitchState()) {
+        m_sbsdAlgaeManipulatorBase
+            .rotateForInitialize(m_algaeManipulatorConfig.getDouble("initiaizeSpeed"));
+      } else {
+        m_sbsdAlgaeManipulatorBase.resetAlgaeManipulatorAngle();
+        m_currentState = AlgaeManipulatorState.STOW_POSITION;
+        m_sbsdAlgaeManipulatorBase.setInitialized();
+      }
 
     case STOW_POSITION:
-      // AM in retract (up)
-      // wheels in stop
-      // no algae
-      if (m_resetAngleSwitch.get()) {
-        m_sbsdAlgaeManipulatorBase.resetAlgaeManipulatorAngle();
-      }
       m_sbsdAlgaeManipulatorBase.stopAlgaeManipulatorIntakeWheels();
+      m_sbsdAlgaeManipulatorBase
+          .setAlgaeManipulatorAngleSetpoint(m_algaeManipulatorConfig.getDouble("stowAngle"));
       if (m_pickupButton.getAsBoolean()) {
-        // sets the AM's setpoint to be deploy (down)
-        // changes state to intake
         m_currentState = AlgaeManipulatorState.INTAKE_ALGAE;
       }
       break;
+
     case INTAKE_ALGAE:
-      // AM in deploy (down)
-      // wheels in intake
-      // trying to intake algae
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
+      m_sbsdAlgaeManipulatorBase
+          .setAlgaeManipulatorAngleSetpoint(m_algaeManipulatorConfig.getDouble("intakeAngle"));
       if (!m_pickupButton.getAsBoolean()) {
-        // sets the AM's setpoint to be retract (up)
-        // changes state to hold
         m_currentState = AlgaeManipulatorState.HOLD_ALGAE;
       }
       break;
+
     case HOLD_ALGAE:
-      // AM in retract (up)
-      // wheels in intake
-      // has algae and is moving around with it
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
+      m_sbsdAlgaeManipulatorBase
+          .setAlgaeManipulatorAngleSetpoint(m_algaeManipulatorConfig.getDouble("holdAngle"));
       if (m_scoreButton.getAsBoolean()) {
-        // changes state to score
         m_currentState = AlgaeManipulatorState.SCORE_ALGAE;
       }
       break;
+
     case SCORE_ALGAE:
-      // AM in retract (up)
-      // wheels in eject
-      // ejecting algae
-      m_sbsdAlgaeManipulatorBase.runWheelsToEject();
+      m_sbsdAlgaeManipulatorBase
+          .setAlgaeManipulatorAngleSetpoint(m_algaeManipulatorConfig.getDouble("scoreAngle"));
+      if (m_sbsdAlgaeManipulatorBase.isAlgaeManipulatorOnTarget()) {
+        m_sbsdAlgaeManipulatorBase.runWheelsToEject();
+      }
       if (!m_scoreButton.getAsBoolean()) {
-        // changes state to default
         m_currentState = AlgaeManipulatorState.STOW_POSITION;
       }
       break;

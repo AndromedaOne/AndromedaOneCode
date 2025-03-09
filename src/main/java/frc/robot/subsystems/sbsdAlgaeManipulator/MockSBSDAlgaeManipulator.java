@@ -56,4 +56,17 @@ public class MockSBSDAlgaeManipulator implements SBSDAlgaeManipulatorBase {
   @Override
   public void initializeSpeed() {
   }
+
+  @Override
+  public void rotateForInitialize(double speed) {
+  }
+
+  @Override
+  public void setInitialized() {
+  }
+
+  @Override
+  public boolean getAlgaeManipMaxAngleLimitSwitchState() {
+    return false;
+  }
 }

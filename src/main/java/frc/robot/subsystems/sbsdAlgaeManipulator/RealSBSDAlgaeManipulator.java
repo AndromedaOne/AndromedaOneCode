@@ -29,6 +29,7 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   private double m_kP = 0.0;
   private double m_kI = 0.0;
   private double m_kD = 0.0;
+  private boolean m_isInitialized = false;
   private PIDController4905 m_pidController = new PIDController4905("AlgaeManipulatorPID");
 
   public RealSBSDAlgaeManipulator() {
@@ -49,6 +50,7 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     m_kD = algaeManipulatorConfig.getDouble("kD");
     m_pidController.setPID(m_kP, m_kI, m_kD);
     m_pidController.setSetpoint(0);
+    m_pidController.setTolerance(algaeManipulatorConfig.getInt("tolerance"));
   }
 
   @Override
@@ -87,26 +89,29 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     return encoderPosition;
   }
 
-  private void calcSpeed(double speed) {
+  private void rotateWithPID(double speed) {
     speed = MathUtil.clamp(speed, -m_maxRetractSpeed, m_maxDeploySpeed);
-    // the polarities might be wrong
-    if ((getEncoderPositionInDegrees() > m_deployAngle) && (speed > 0)) {
+    if (((m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() > m_retractAngle)
+        || m_algaeManipMaxAngleLimitSwitch.isAtLimit()) && (speed > 0)) {
       speed = 0.0;
-    } else if ((getEncoderPositionInDegrees() < m_retractAngle) && (speed < 0)) {
+    } else if ((m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() < m_deployAngle)
+        && (speed < 0)) {
       speed = 0.0;
     }
     m_deployAlgaeManipulator.setSpeed(speed);
   }
 
-  private void moveAlgaeManipulatorUsingPID() {
-    double currentAngleDeg = getEncoderPositionInDegrees();
-    double pidCalc = m_pidController.calculate(currentAngleDeg);
-    calcSpeed(pidCalc);
+  private void calculateSpeed() {
+    if (m_isInitialized) {
+      double pidCalc = m_pidController
+          .calculate(m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks());
+      rotateWithPID(pidCalc);
+    }
   }
 
   @Override
   public void moveUsingSmartDashboard(double speed) {
-    calcSpeed(speed);
+    rotateWithPID(speed);
   }
 
   @Override
@@ -131,12 +136,11 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("SBSD Algae Angle in Degrees", getEncoderPositionInDegrees());
     SmartDashboard.putNumber("Algae Manip Encoder Ticks",
         m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks());
-    moveAlgaeManipulatorUsingPID();
     SmartDashboard.putBoolean("Algae Manip Max Angle Limit Switch",
         m_algaeManipMaxAngleLimitSwitch.isAtLimit());
+    calculateSpeed();
   }
 
   @Override
@@ -152,5 +156,24 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
 
   @Override
   public void initializeSpeed() {
+  }
+
+  @Override
+  public void rotateForInitialize(double speed) {
+    if (!getAlgaeManipMaxAngleLimitSwitchState()) {
+      m_deployAlgaeManipulator.setSpeed(speed);
+    } else {
+      m_deployAlgaeManipulator.setSpeed(0);
+    }
+  }
+
+  @Override
+  public void setInitialized() {
+    m_isInitialized = true;
+  }
+
+  @Override
+  public boolean getAlgaeManipMaxAngleLimitSwitchState() {
+    return m_algaeManipMaxAngleLimitSwitch.isAtLimit();
   }
 }

@@ -9,6 +9,8 @@ import frc.robot.subsystems.SubsystemInterface;
 /** Add your docs here. */
 public interface SBSDAlgaeManipulatorBase extends SubsystemInterface {
 
+  Object m_deployAlgaeManipulator = null;
+
   public abstract void runWheelsToIntake();
 
   public abstract void runWheelsToEject();
@@ -26,4 +28,10 @@ public interface SBSDAlgaeManipulatorBase extends SubsystemInterface {
   public abstract void setAlgaeManipulatorAngleSetpoint(double angle);
 
   public abstract void initializeSpeed();
+
+  public abstract void rotateForInitialize(double speed);
+
+  public abstract void setInitialized();
+
+  public abstract boolean getAlgaeManipMaxAngleLimitSwitchState();
 }
