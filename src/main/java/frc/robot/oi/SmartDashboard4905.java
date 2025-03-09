@@ -153,6 +153,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Finish Path Test Without Move",
           new FinishPathTest(subsystemsContainer.getDriveTrain(), false, false));
       SmartDashboard.putNumber("Camera index to use", 0);
+      SmartDashboard.putBoolean("Use left for camera", false);
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {

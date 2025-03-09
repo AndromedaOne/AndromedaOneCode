@@ -41,6 +41,9 @@ public class FinishPathTest extends Command {
     int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
     m_wantedDistanceAndAngle = m_photonVision.get(index).computeDistanceAndAngle(18, true,
         m_useLeft);
+    if (index == 3) {
+      m_wantedDistanceAndAngle.setDistance(-m_wantedDistanceAndAngle.getDistance());
+    }
     m_command = new MoveUsingEncoder(m_drivetrain, () -> m_wantedDistanceAndAngle.getAngle(),
         () -> m_wantedDistanceAndAngle.getDistance(), 1.0);
     if (m_move && m_wantedDistanceAndAngle.getDetected()) {
