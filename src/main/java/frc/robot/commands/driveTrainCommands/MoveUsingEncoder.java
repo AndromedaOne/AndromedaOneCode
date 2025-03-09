@@ -73,7 +73,21 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
             // Use the output here
             drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false, heading);
           });
-      m_distance = distance.getAsDouble();
+      double correctedAngle;
+      correctedAngle = angle;
+      if (distance.getAsDouble() < 0)
+      {
+        correctedAngle = angle + 360;
+      }
+      if ((correctedAngle >= 0 && correctedAngle < 180 && distance.getAsDouble() > 0) || (correctedAngle <= 180 && distance.getAsDouble() < 0))
+      {
+        m_distance = distance.getAsDouble()*7/6;
+      }
+      else
+      {
+        m_distance = distance.getAsDouble();
+      }
+      Trace.getInstance().logCommandInfo(this, "New Distance: " + m_distance);
       m_driveTrain = drivetrain;
       m_maxOutput = maxOutput;
       // the setpoint can be changed on the fly by updating m_target
