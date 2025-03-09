@@ -22,8 +22,6 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   private RealLimitSwitchSensor m_algaeManipMaxAngleLimitSwitch;
   private double m_intakeWheelSpeed = 0.0;
   private double m_ejectWheelSpeed = 0.0;
-  private double m_maxDeploySpeed = 0.0;
-  private double m_maxRetractSpeed = 0.0;
   private double m_deployAngle = 0.0;
   private double m_retractAngle = 0.0;
   private double m_kP = 0.0;
@@ -41,16 +39,15 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
         "algaeManipMaxAngleLimitSwitchPort");
     m_intakeWheelSpeed = algaeManipulatorConfig.getDouble("intakeWheelSpeed");
     m_ejectWheelSpeed = algaeManipulatorConfig.getDouble("ejectWheelSpeed");
-    m_maxDeploySpeed = algaeManipulatorConfig.getDouble("deploySpeed");
-    m_maxRetractSpeed = algaeManipulatorConfig.getDouble("retractSpeed");
-    m_deployAngle = algaeManipulatorConfig.getDouble("deployAngle");
-    m_retractAngle = algaeManipulatorConfig.getDouble("retractAngle");
+    m_deployAngle = algaeManipulatorConfig.getDouble("intakeAngle");
+    m_retractAngle = algaeManipulatorConfig.getDouble("stowAngle");
     m_kP = algaeManipulatorConfig.getDouble("kP");
     m_kI = algaeManipulatorConfig.getDouble("kI");
     m_kD = algaeManipulatorConfig.getDouble("kD");
     m_pidController.setPID(m_kP, m_kI, m_kD);
     m_pidController.setSetpoint(0);
     m_pidController.setTolerance(algaeManipulatorConfig.getInt("tolerance"));
+    m_pidController.setMaxOutput(algaeManipulatorConfig.getDouble("angleMaxSpeed"));
   }
 
   @Override
@@ -90,7 +87,6 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   }
 
   private void rotateWithPID(double speed) {
-    speed = MathUtil.clamp(speed, -m_maxRetractSpeed, m_maxDeploySpeed);
     if (((m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() > m_retractAngle)
         || m_algaeManipMaxAngleLimitSwitch.isAtLimit()) && (speed > 0)) {
       speed = 0.0;
@@ -98,6 +94,7 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
         && (speed < 0)) {
       speed = 0.0;
     }
+    SmartDashboard.putNumber("Algae Manip Speed", speed);
     m_deployAlgaeManipulator.setSpeed(speed);
   }
 
@@ -124,8 +121,6 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     Config algaeManipulatorConfig = Config4905.getConfig4905().getSBSDAlgaeManipulatorConfig();
     m_intakeWheelSpeed = algaeManipulatorConfig.getDouble("intakeWheelSpeed");
     m_ejectWheelSpeed = algaeManipulatorConfig.getDouble("ejectWheelSpeed");
-    m_maxDeploySpeed = algaeManipulatorConfig.getDouble("deploySpeed");
-    m_maxRetractSpeed = algaeManipulatorConfig.getDouble("retractSpeed");
     m_deployAngle = algaeManipulatorConfig.getDouble("deployAngle");
     m_retractAngle = algaeManipulatorConfig.getDouble("retractAngle");
     m_kP = algaeManipulatorConfig.getDouble("kP");

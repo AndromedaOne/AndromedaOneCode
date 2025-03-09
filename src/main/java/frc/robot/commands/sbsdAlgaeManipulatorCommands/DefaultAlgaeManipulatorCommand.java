@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.subsystems.sbsdAlgaeManipulator.SBSDAlgaeManipulatorBase;
+import frc.robot.telemetries.Trace;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DefaultAlgaeManipulatorCommand extends Command {
@@ -44,11 +45,13 @@ public class DefaultAlgaeManipulatorCommand extends Command {
   public void execute() {
     switch (m_currentState) {
     case INITIALIZE:
+      Trace.getInstance().logCommandInfo(this, "Algae Manip State -> INITIALIZE");
       if (!m_sbsdAlgaeManipulatorBase.getAlgaeManipMaxAngleLimitSwitchState()) {
         m_sbsdAlgaeManipulatorBase
             .rotateForInitialize(m_algaeManipulatorConfig.getDouble("initiaizeSpeed"));
       } else {
         m_sbsdAlgaeManipulatorBase.resetAlgaeManipulatorAngle();
+        Trace.getInstance().logCommandInfo(this, "Algae Manip State INIT-> STOW");
         m_currentState = AlgaeManipulatorState.STOW_POSITION;
         m_sbsdAlgaeManipulatorBase.setInitialized();
       }
@@ -58,15 +61,18 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       m_sbsdAlgaeManipulatorBase
           .setAlgaeManipulatorAngleSetpoint(m_algaeManipulatorConfig.getDouble("stowAngle"));
       if (m_pickupButton.getAsBoolean()) {
+        Trace.getInstance().logCommandInfo(this, "Algae Manip State Stow to  -> INTAKE");
         m_currentState = AlgaeManipulatorState.INTAKE_ALGAE;
       }
       break;
 
     case INTAKE_ALGAE:
+      
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       m_sbsdAlgaeManipulatorBase
           .setAlgaeManipulatorAngleSetpoint(m_algaeManipulatorConfig.getDouble("intakeAngle"));
       if (!m_pickupButton.getAsBoolean()) {
+        Trace.getInstance().logCommandInfo(this, "Algae Manip State INTAKE -> HOLD");
         m_currentState = AlgaeManipulatorState.HOLD_ALGAE;
       }
       break;
@@ -76,6 +82,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       m_sbsdAlgaeManipulatorBase
           .setAlgaeManipulatorAngleSetpoint(m_algaeManipulatorConfig.getDouble("holdAngle"));
       if (m_scoreButton.getAsBoolean()) {
+        Trace.getInstance().logCommandInfo(this, "Algae Manip State HOLD -> SCORE");
         m_currentState = AlgaeManipulatorState.SCORE_ALGAE;
       }
       break;
@@ -87,6 +94,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
         m_sbsdAlgaeManipulatorBase.runWheelsToEject();
       }
       if (!m_scoreButton.getAsBoolean()) {
+        Trace.getInstance().logCommandInfo(this, "Algae Manip State SCORE -> STOW");
         m_currentState = AlgaeManipulatorState.STOW_POSITION;
       }
       break;
