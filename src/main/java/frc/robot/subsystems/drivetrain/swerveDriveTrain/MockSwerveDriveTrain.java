@@ -155,4 +155,14 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     return false;
   }
 
+  @Override
+  public int regionToAprilTag(RegionsForPose region) {
+    return -1;
+  }
+
+  @Override
+  public double getModZeroAngle() {
+    throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
+  }
+
 }

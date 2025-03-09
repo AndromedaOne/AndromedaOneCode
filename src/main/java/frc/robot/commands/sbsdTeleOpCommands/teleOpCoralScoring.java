@@ -89,12 +89,9 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
   public teleOpCoralScoring(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     try {
-      m_placeAtA = new GenericCoralPathCommand(
-          new ParallelCommandGroup4905(
-              new PlaceAtA().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
-              new sbsdMoveArmAndEndEffector(() -> m_level)),
-          new FinishA().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
-          new sbsdScoreCoral());
+      m_placeAtA = new GenericCoralPathCommand(new ParallelCommandGroup4905(
+          new PlaceAtA().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishA(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }

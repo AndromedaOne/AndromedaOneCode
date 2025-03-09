@@ -79,6 +79,8 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract PoseEstimation4905.RegionsForPose getRegion();
 
+  public abstract int regionToAprilTag(PoseEstimation4905.RegionsForPose region);
+
   public abstract boolean isLeftSide();
 
   public abstract void configurePathPlanner();
@@ -86,6 +88,8 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract boolean isUnsafeZone();
 
   public abstract void setVelocityToZero();
+
+  public abstract double getModZeroAngle();
 
   public Pose2d currentPose2d();
 

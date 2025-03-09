@@ -4,6 +4,8 @@
 
 package frc.robot.sensors.photonvision;
 
+import java.util.function.DoubleSupplier;
+
 /** Add your docs here. */
 public class TargetDistanceAndAngle {
   private double m_x = 0;
@@ -38,5 +40,31 @@ public class TargetDistanceAndAngle {
 
   public void setDetected(boolean value) {
     m_detected = value;
+  }
+
+  public TargetDistanceSupplier getTargetDistanceSupplier() {
+    return new TargetDistanceSupplier();
+  }
+
+  public TargetAngleSupplier getTargetAngleSupplier() {
+    return new TargetAngleSupplier();
+  }
+
+  public class TargetDistanceSupplier implements DoubleSupplier {
+
+    @Override
+    public double getAsDouble() {
+      return m_x;
+    }
+
+  }
+
+  public class TargetAngleSupplier implements DoubleSupplier {
+
+    @Override
+    public double getAsDouble() {
+      return m_theta;
+    }
+
   }
 }

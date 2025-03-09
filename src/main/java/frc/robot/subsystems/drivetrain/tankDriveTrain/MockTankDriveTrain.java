@@ -16,6 +16,7 @@ import frc.robot.subsystems.MockSubsystem;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.utils.PoseEstimation4905;
+import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 public class MockTankDriveTrain implements TankDriveTrain {
   /**
@@ -189,6 +190,16 @@ public class MockTankDriveTrain implements TankDriveTrain {
   @Override
   public boolean isAtAngle(double angle) {
     throw new UnsupportedOperationException("Unimplemented method 'isAtAngle'");
+  }
+
+  @Override
+  public int regionToAprilTag(RegionsForPose region) {
+    throw new UnsupportedOperationException("Unimplemented method 'regionToAprilTag'");
+  }
+
+  @Override
+  public double getModZeroAngle() {
+    throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
   }
 
 }

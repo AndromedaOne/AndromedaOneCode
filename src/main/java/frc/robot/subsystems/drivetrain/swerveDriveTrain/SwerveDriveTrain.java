@@ -444,6 +444,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
+  @Override
   public void setToAngle(double angle) {
     for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), true, true);
@@ -492,6 +493,16 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public Pose2d currentPose2d() {
     return m_currentPose;
+  }
+
+  @Override
+  public int regionToAprilTag(RegionsForPose region) {
+    return m_poseEstimation.regionToAprilTag(region);
+  }
+
+  @Override
+  public double getModZeroAngle() {
+    return m_SwerveMods[0].getAngle().getDegrees();
   }
 
 }

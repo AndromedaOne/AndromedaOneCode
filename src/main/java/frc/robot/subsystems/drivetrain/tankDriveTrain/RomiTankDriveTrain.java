@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
 import frc.robot.utils.PoseEstimation4905;
+import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 @SuppressWarnings("removal")
 public class RomiTankDriveTrain extends RealTankDriveTrain {
@@ -256,6 +257,16 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   @Override
   public boolean isAtAngle(double angle) {
     throw new UnsupportedOperationException("Unimplemented method 'isAtAngle'");
+  }
+
+  @Override
+  public int regionToAprilTag(RegionsForPose region) {
+    throw new UnsupportedOperationException("Unimplemented method 'regionToAprilTag'");
+  }
+
+  @Override
+  public double getModZeroAngle() {
+    throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
   }
 
 }
