@@ -25,5 +25,5 @@ public interface SBSDAlgaeManipulatorBase extends SubsystemInterface {
 
   public abstract void setAlgaeManipulatorAngleSetpoint(double angle);
 
-  public abstract void initializeSpeed(); 
+  public abstract void initializeSpeed();
 }

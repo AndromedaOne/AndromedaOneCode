@@ -7,7 +7,6 @@ package frc.robot.subsystems.sbsdAlgaeManipulator;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,7 +14,6 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.pidcontroller.PIDController4905;
 import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
-import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgaeManipulatorBase {
@@ -38,7 +36,8 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     m_intakeWheels = new SparkMaxController(algaeManipulatorConfig, "intakeWheels", false, false);
     m_deployAlgaeManipulator = new SparkMaxController(algaeManipulatorConfig, "pickupMotor", false,
         false);
-    m_algaeManipMaxAngleLimitSwitch = new RealLimitSwitchSensor("algaeManipMaxAngleLimitSwitchPort");
+    m_algaeManipMaxAngleLimitSwitch = new RealLimitSwitchSensor(
+        "algaeManipMaxAngleLimitSwitchPort");
     m_intakeWheelSpeed = algaeManipulatorConfig.getDouble("intakeWheelSpeed");
     m_ejectWheelSpeed = algaeManipulatorConfig.getDouble("ejectWheelSpeed");
     m_maxDeploySpeed = algaeManipulatorConfig.getDouble("deploySpeed");
@@ -133,11 +132,11 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
   @Override
   public void periodic() {
     SmartDashboard.putNumber("SBSD Algae Angle in Degrees", getEncoderPositionInDegrees());
-    SmartDashboard.putNumber("Algae Manip Encoder Ticks", m_deployAlgaeManipulator.
-      getBuiltInEncoderPositionTicks());
+    SmartDashboard.putNumber("Algae Manip Encoder Ticks",
+        m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks());
     moveAlgaeManipulatorUsingPID();
-    SmartDashboard.putBoolean("Algae Manip Max Angle Limit Switch", 
-      m_algaeManipMaxAngleLimitSwitch.isAtLimit());
+    SmartDashboard.putBoolean("Algae Manip Max Angle Limit Switch",
+        m_algaeManipMaxAngleLimitSwitch.isAtLimit());
   }
 
   @Override
