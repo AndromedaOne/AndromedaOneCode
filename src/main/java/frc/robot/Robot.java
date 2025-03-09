@@ -20,6 +20,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
+import frc.robot.commands.sbsdAutoCommands.AutoFinishLeft123;
+import frc.robot.commands.sbsdAutoCommands.AutoFinishLeft4;
+import frc.robot.commands.sbsdAutoCommands.AutoFinishRight123;
+import frc.robot.commands.sbsdAutoCommands.AutoFinishRight4;
 import frc.robot.commands.sbsdAutoCommands.WaitForCoral;
 import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel1;
 import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel2;
@@ -81,6 +85,10 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("sbsdCoralLoadArmEndEffectorPositon",
         new sbsdCoralLoadArmEndEffectorPositon());
     NamedCommands.registerCommand("WaitForCoral", new WaitForCoral());
+    NamedCommands.registerCommand("autoFinishRight4", new AutoFinishRight4());
+    NamedCommands.registerCommand("autoFinishRight123", new AutoFinishRight123());
+    NamedCommands.registerCommand("autoFinishLeft4", new AutoFinishLeft4());
+    NamedCommands.registerCommand("autoFinishLeft123", new AutoFinishLeft123());
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
