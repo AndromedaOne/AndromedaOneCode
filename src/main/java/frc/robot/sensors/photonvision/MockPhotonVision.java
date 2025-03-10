@@ -69,4 +69,10 @@ public class MockPhotonVision implements PhotonVisionBase {
   public PhotonCamera getPhotonCamera() {
     return null;
   }
+
+  @Override
+  public TargetDistanceAndAngle computeDistanceAndAngle(int wantedID, boolean useTrace,
+      boolean useLeft) {
+    return new TargetDistanceAndAngle(0, 0, false);
+  }
 }

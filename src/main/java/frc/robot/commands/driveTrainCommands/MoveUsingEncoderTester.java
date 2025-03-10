@@ -18,8 +18,8 @@ public class MoveUsingEncoderTester extends Command {
   public void initialize() {
     double distance = SmartDashboard.getNumber("MoveUsingEncoderTester Distance To Move", 24);
     double angle = SmartDashboard.getNumber("MoveUsingEncoderTester Angle To Move", 0);
-    CommandScheduler.getInstance().schedule(
-        new SequentialCommandGroup(new MoveUsingEncoder(m_driveTrain, angle, () -> distance, 1)));
+    CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+        new MoveUsingEncoder(m_driveTrain, () -> angle, () -> distance, 1)));
     Trace.getInstance().logCommandInfo(this, "Moving distance: " + distance);
   }
 
