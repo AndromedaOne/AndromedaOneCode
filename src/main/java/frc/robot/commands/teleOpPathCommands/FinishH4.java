@@ -17,7 +17,7 @@ import frc.robot.utils.PoseEstimation4905;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FinishG extends SequentialCommandGroup4905 {
+public class FinishH4 extends SequentialCommandGroup4905 {
   /**
    * Creates a new SwervePathPlanningPath.
    * 
@@ -26,8 +26,8 @@ public class FinishG extends SequentialCommandGroup4905 {
    * @throws FileVersionException
    */
 
-  public FinishG() throws FileVersionException, IOException, ParseException {
-    addCommands(new FinishPath(true, PoseEstimation4905.RegionsForPose.NORTH, true));
+  public FinishH4() throws FileVersionException, IOException, ParseException {
+    addCommands(new FinishPath(false, PoseEstimation4905.RegionsForPose.NORTH, false));
   }
 
 }
