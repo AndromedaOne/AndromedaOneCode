@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "autoFinishLeft4"
+            "name": "autoFinish4E"
           }
         },
         {
@@ -82,7 +82,7 @@
         {
           "type": "named",
           "data": {
-            "name": "autoFinishRight4"
+            "name": "autoFinish4D"
           }
         },
         {
@@ -138,7 +138,7 @@
         {
           "type": "named",
           "data": {
-            "name": "autoFinishLeft4"
+            "name": "autoFinish4C"
           }
         },
         {
@@ -194,7 +194,7 @@
         {
           "type": "named",
           "data": {
-            "name": "autoFinishLeft123"
+            "name": "autoFinish123C"
           }
         },
         {

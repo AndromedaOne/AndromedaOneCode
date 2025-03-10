@@ -4,16 +4,18 @@
 
 package frc.robot.commands.sbsdAutoCommands;
 
+import frc.robot.commands.sbsdTeleOpCommands.FinishPath;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoFinishRight123 extends SequentialCommandGroup4905 {
+public class AutoFinish4J extends SequentialCommandGroup4905 {
   /** Creates a new AutoFinishLeft4. */
-  public AutoFinishRight123() {
+  public AutoFinish4J() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(new FinishPath(false, RegionsForPose.NORTHWEST, false));
   }
 }
