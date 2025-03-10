@@ -20,6 +20,14 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish123C;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish123L;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish4C;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish4D;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish4E;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish4J;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish4K;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish4L;
 import frc.robot.commands.sbsdAutoCommands.WaitForCoral;
 import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel1;
 import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel2;
@@ -81,6 +89,15 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("sbsdCoralLoadArmEndEffectorPositon",
         new sbsdCoralLoadArmEndEffectorPositon());
     NamedCommands.registerCommand("WaitForCoral", new WaitForCoral());
+    NamedCommands.registerCommand("autoFinish4C", new AutoFinish4C());
+    NamedCommands.registerCommand("autoFinish4D", new AutoFinish4D());
+    NamedCommands.registerCommand("autoFinish4E", new AutoFinish4E());
+    NamedCommands.registerCommand("autoFinish4J", new AutoFinish4J());
+    NamedCommands.registerCommand("autoFinish4K", new AutoFinish4K());
+    NamedCommands.registerCommand("autoFinish4L", new AutoFinish4L());
+    NamedCommands.registerCommand("autoFinish123C", new AutoFinish123C());
+    NamedCommands.registerCommand("autoFinish123L", new AutoFinish123L());
+
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
