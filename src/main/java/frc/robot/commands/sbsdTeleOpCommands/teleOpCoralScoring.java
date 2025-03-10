@@ -9,6 +9,7 @@ import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.teleOpPathCommands.FinishA;
+import frc.robot.commands.teleOpPathCommands.FinishA4;
 import frc.robot.commands.teleOpPathCommands.FinishB;
 import frc.robot.commands.teleOpPathCommands.FinishC;
 import frc.robot.commands.teleOpPathCommands.FinishD;
@@ -206,8 +207,9 @@ public class teleOpCoralScoring extends SequentialCommandGroup4905 {
       e.printStackTrace();
     }
     try {
-      m_placeAtA4 = new GenericCoralPathCommand(new ParallelCommandGroup4905(new PlaceAtA4(),
-          new sbsdMoveArmAndEndEffector(() -> m_level)), new sbsdScoreCoral());
+      m_placeAtA4 = new GenericCoralPathCommand(new ParallelCommandGroup4905(
+          new PlaceAtA4().andThen(new SwerveDriveSetVelocityToZero(driveTrain)),
+          new sbsdMoveArmAndEndEffector(() -> m_level)), new FinishA4(), new sbsdScoreCoral());
     } catch (Exception e) {
       e.printStackTrace();
     }
