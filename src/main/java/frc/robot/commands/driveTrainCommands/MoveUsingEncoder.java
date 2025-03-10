@@ -24,9 +24,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
   public MoveUsingEncoder(DriveTrainBase drivetrain, DoubleSupplier distance, double heading,
       double maxOutput, boolean useCurrentHeading, DoubleSupplier angle) {
     // COUNTER CLOCKWISE POSITIVE!!!!!
-    addCommands(new SwerveDriveSetWheelsToAngle(drivetrain, angle.getAsDouble()),
-        new MoveUsingEncoderInternal(drivetrain, angle, distance, heading, maxOutput,
-            useCurrentHeading));
+    addCommands(new SwerveDriveSetWheelsToAngle(drivetrain, angle), new MoveUsingEncoderInternal(
+        drivetrain, angle, distance, heading, maxOutput, useCurrentHeading));
   }
 
   // Use this constructor to move the robot in the heading passed in
@@ -50,9 +49,9 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
 
   private class MoveUsingEncoderInternal extends PIDCommand4905 {
     private DriveTrainBase m_driveTrain;
-    private double m_distance = 0;
+    private DoubleSupplier m_distance = () -> 0;
     private double m_maxOutput = 0;
-    private double m_angle = 0;
+    private DoubleSupplier m_angle = () -> 0;
     private double m_target = 0;
     private boolean m_useCurrentHeading = false;
 
@@ -79,21 +78,21 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
         correctedAngle = angle.getAsDouble() + 360;
       }
 
-      if ((correctedAngle >= 0 && correctedAngle < 180 && distance.getAsDouble() > 0)
-          || (correctedAngle <= 180 && distance.getAsDouble() < 0)) {
-        m_distance = distance.getAsDouble() * 7 / 6;
-      } else {
-        m_distance = distance.getAsDouble();
-      }
+      /*
+       * if ((correctedAngle >= 0 && correctedAngle < 180 && distance.getAsDouble() >
+       * 0) || (correctedAngle <= 180 && distance.getAsDouble() < 0)) { m_distance =
+       * () -> (distance.getAsDouble() * 7 / 6); } else { m_distance = distance; }
+       */
+      m_distance = distance;
 
       // m_distance = distance.getAsDouble();
-      Trace.getInstance().logCommandInfo(this, "New Distance: " + m_distance);
+      Trace.getInstance().logCommandInfo(this, "New Distance: " + m_distance.getAsDouble());
       m_driveTrain = drivetrain;
       m_maxOutput = maxOutput;
       // the setpoint can be changed on the fly by updating m_target
       setSetpoint(() -> m_target);
       m_useCurrentHeading = useCurrentHeading;
-      m_angle = angle.getAsDouble();
+      m_angle = angle;
       // Configure additional PID options by calling `getController` here.
       addRequirements(drivetrain.getSubsystemBase());
     }
@@ -102,7 +101,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
       super.initialize();
       setDistance(m_distance);
-      Trace.getInstance().logCommandInfo(this, "Distance: " + m_distance);
+      Trace.getInstance().logCommandInfo(this, "Distance: " + m_distance.getAsDouble());
+      Trace.getInstance().logCommandInfo(this, "Angle: " + m_angle.getAsDouble());
       getController().setP(pidConstantsConfig.getDouble("MoveUsingEncoder.Kp"));
       getController().setI(pidConstantsConfig.getDouble("MoveUsingEncoder.Ki"));
       getController().setD(pidConstantsConfig.getDouble("MoveUsingEncoder.Kd"));
@@ -121,20 +121,22 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       if (m_useCurrentHeading) {
         double heading = Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading();
         super.setOutput(output -> {
-          m_driveTrain.moveUsingGyroStrafe(output, m_angle, false, heading);
+          m_driveTrain.moveUsingGyroStrafe(output, m_angle.getAsDouble(), false, heading);
         });
       }
+      setSetpoint(() -> m_target);
       Trace.getInstance().logCommandInfo(this,
           "Moving with encoder to position: " + getSetpoint().getAsDouble());
-      Trace.getInstance().logCommandInfo(this,
-          "Starting encoder position: " + m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle));
+      Trace.getInstance().logCommandInfo(this, "Starting encoder position: "
+          + m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle.getAsDouble()));
       m_driveTrain.disableAccelerationLimiting();
       SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", false);
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(DoubleSupplier distance) {
       m_distance = distance;
-      m_target = m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle) + m_distance;
+      m_target = m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle.getAsDouble())
+          + m_distance.getAsDouble();
     }
 
     // Returns true when the command should end.
@@ -146,8 +148,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     public void end(boolean interrupted) {
       super.end(interrupted);
       m_driveTrain.stop();
-      Trace.getInstance().logCommandInfo(this,
-          "Ending position: " + m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle));
+      Trace.getInstance().logCommandInfo(this, "Ending position: "
+          + m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle.getAsDouble()));
       m_driveTrain.enableAccelerationLimiting();
       SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", true);
     }

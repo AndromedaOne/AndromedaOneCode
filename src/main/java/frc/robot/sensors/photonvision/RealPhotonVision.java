@@ -206,8 +206,8 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   }
 
   @Override
-  public TargetDistanceAndAngle computeDistanceAndAngle(int wantedID, boolean useTrace,
-      boolean useLeft) {
+  public void computeDistanceAndAngle(int wantedID, boolean useTrace, boolean useLeft,
+      TargetDistanceAndAngle targetDistanceAngle) {
     // refer to the piece of paper
     List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
 
@@ -286,6 +286,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
       Trace.getInstance().logInfo("reverse theta: " + reverseTheta);
       Trace.getInstance().logInfo("x: " + x);
       Trace.getInstance().logInfo("theta: " + theta);
+      Trace.getInstance().logInfo("has target: " + hasTarget);
     }
     SmartDashboard.putNumber("b value", b);
     SmartDashboard.putNumber("e value", e);
@@ -295,7 +296,9 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     SmartDashboard.putBoolean("reverseTheta", reverseTheta);
     SmartDashboard.putNumber("x value", x);
     SmartDashboard.putNumber("theta", theta);
-    return new TargetDistanceAndAngle(x, theta, hasTarget);
+    targetDistanceAngle.setDistance(x);
+    targetDistanceAngle.setAngle(theta);
+    targetDistanceAngle.setDetected(hasTarget);
   }
 
 }

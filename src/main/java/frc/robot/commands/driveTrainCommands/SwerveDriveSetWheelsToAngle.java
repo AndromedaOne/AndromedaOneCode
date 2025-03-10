@@ -5,6 +5,8 @@
 
 package frc.robot.commands.driveTrainCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
@@ -12,20 +14,30 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 public class SwerveDriveSetWheelsToAngle extends Command {
   DriveTrainBase m_driveTrainBase;
   int m_count = 0;
-  double m_angle = 0;
+  DoubleSupplier m_angle = () -> 0;
   boolean m_useSmartDashboard = false;
 
   /**
    * Creates a new SwerveDriveSetWheelsToAngle. The angle passed in is counter
    * clockwise positive.
    */
-  public SwerveDriveSetWheelsToAngle(DriveTrainBase drivetrain, double angle,
+  public SwerveDriveSetWheelsToAngle(DriveTrainBase drivetrain, DoubleSupplier angle,
       boolean useSmartDashboard) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain.getSubsystemBase());
     m_driveTrainBase = drivetrain;
     m_angle = angle;
     m_useSmartDashboard = useSmartDashboard;
+  }
+
+  public SwerveDriveSetWheelsToAngle(DriveTrainBase drivetrain, double angle,
+      boolean useSmartDashboard) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this(drivetrain, () -> angle, useSmartDashboard);
+  }
+
+  public SwerveDriveSetWheelsToAngle(DriveTrainBase drivetrain, DoubleSupplier angle) {
+    this(drivetrain, angle, false);
   }
 
   public SwerveDriveSetWheelsToAngle(DriveTrainBase drivetrain, double angle) {
@@ -35,12 +47,12 @@ public class SwerveDriveSetWheelsToAngle extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_count = 0;
     if (m_useSmartDashboard) {
       m_driveTrainBase.setToAngle(SmartDashboard.getNumber("Set swerve drive angle for test", 0));
     } else {
-      m_driveTrainBase.setToAngle(m_angle);
+      m_driveTrainBase.setToAngle(m_angle.getAsDouble());
     }
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.

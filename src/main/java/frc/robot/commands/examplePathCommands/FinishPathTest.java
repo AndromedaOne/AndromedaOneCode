@@ -24,7 +24,7 @@ public class FinishPathTest extends Command {
   private boolean m_useLeft = false;
   private SequentialCommandGroup4905 m_command;
   private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
-  private TargetDistanceAndAngle m_wantedDistanceAndAngle;
+  private TargetDistanceAndAngle m_wantedDistanceAndAngle = new TargetDistanceAndAngle(0, 0, false);
 
   public FinishPathTest(DriveTrainBase drivetrain, boolean move, boolean useLeft) {
     m_drivetrain = drivetrain;
@@ -39,8 +39,8 @@ public class FinishPathTest extends Command {
   @Override
   public void initialize() {
     int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
-    m_wantedDistanceAndAngle = m_photonVision.get(index).computeDistanceAndAngle(18, true,
-        m_useLeft);
+    m_photonVision.get(index).computeDistanceAndAngle(18, true, m_useLeft,
+        m_wantedDistanceAndAngle);
     // m_wantedDistanceAndAngle.setDistance(m_wantedDistanceAndAngle.getDistance() -
     // 1);
     if (index == 3) {
