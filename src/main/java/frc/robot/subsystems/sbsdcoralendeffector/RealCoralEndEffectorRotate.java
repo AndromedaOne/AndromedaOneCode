@@ -18,6 +18,7 @@ import frc.robot.actuators.SparkMaxController;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.subsystems.sbsdclimber.ClimberMode;
 
 /** Add your docs here. */
 public class RealCoralEndEffectorRotate extends SubsystemBase
@@ -135,18 +136,23 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   @Override
   public void rotate(double speed) {
-    if (getAngleDeg() >= m_closeToMaxAngle) {
-      speed = MathUtil.clamp(speed, -m_maxSpeedCloseToMax, m_maxSpeedCloseToMax);
-    } else {
-      speed = MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
-    }
-    if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
-      stop();
-    } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+    if (ClimberMode.getInstance().getInClimberMode()) {
       stop();
     } else {
-      m_angleMotor.setSpeed(speed);
+      if (getAngleDeg() >= m_closeToMaxAngle) {
+        speed = MathUtil.clamp(speed, -m_maxSpeedCloseToMax, m_maxSpeedCloseToMax);
+      } else {
+        speed = MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
+      }
+      if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+        stop();
+      } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+        stop();
+      } else {
+        m_angleMotor.setSpeed(speed);
+      }
     }
+
   }
 
   @Override

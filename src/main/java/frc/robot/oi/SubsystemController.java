@@ -9,6 +9,7 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
 import frc.robot.commands.sbsdArmCommands.ManualModeCoralScore;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -57,6 +58,14 @@ public class SubsystemController extends ControllerBase {
 
   public JoystickButton getScoreRight() {
     return getRightBumperButton();
+  }
+
+  public POVButton getPickupButtonAlgae() {
+    return getPOVsouth();
+  }
+
+  public POVButton getScoreButtonAlgae() {
+    return getPOVnorth();
   }
 
   public boolean getManualEject() {

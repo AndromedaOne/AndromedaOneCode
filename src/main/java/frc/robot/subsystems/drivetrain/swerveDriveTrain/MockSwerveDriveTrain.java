@@ -63,7 +63,7 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   @Override
   public ParkingBrakeStates getParkingBrakeState() {
-    return null;
+    return ParkingBrakeStates.BRAKESOFF;
   }
 
   @Override

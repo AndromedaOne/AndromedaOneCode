@@ -19,6 +19,8 @@ import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLongSho
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootShortShot;
 import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
+import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
+import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
 import frc.robot.commands.sbsdTeleOpCommands.NotInUnsafeZone;
 import frc.robot.commands.sbsdTeleOpCommands.sbsdCoralLoadArmEndEffectorPositon;
 import frc.robot.commands.sbsdTeleOpCommands.teleOpCoralScoring;
@@ -229,10 +231,8 @@ public class DriveController extends ControllerBase {
         new teleOpDriverCoralPickup(m_subsystemsContainer.getDriveTrain())));
     getPOVwest().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
         new teleOpWallCoralPickup(m_subsystemsContainer.getDriveTrain())));
+    getBbutton().onTrue(new GetInClimberMode());
+    getPOVsouth().whileTrue(new SBSDClimb(false));
+    getPOVnorth().whileTrue(new SBSDClimb(true));
   }
-
-  /*
-   * private void setUpPhotonVision() { getAbutton().onTrue(new TurnToTarget(() ->
-   * -1, () -> 0)); }
-   */
 }
