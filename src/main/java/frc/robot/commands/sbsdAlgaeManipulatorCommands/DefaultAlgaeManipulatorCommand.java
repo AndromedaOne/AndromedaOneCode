@@ -67,7 +67,7 @@ public class DefaultAlgaeManipulatorCommand extends Command {
       break;
 
     case INTAKE_ALGAE:
-      
+
       m_sbsdAlgaeManipulatorBase.runWheelsToIntake();
       m_sbsdAlgaeManipulatorBase
           .setAlgaeManipulatorAngleSetpoint(m_algaeManipulatorConfig.getDouble("intakeAngle"));
