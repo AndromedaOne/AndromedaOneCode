@@ -67,6 +67,8 @@ public class PoseEstimation4905 {
       } else {
         m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
       }
+      m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
+      m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
       if (m_currentAlliance == Alliance.Red) {
         m_aprilTagFieldLayout.setOrigin(
             new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
