@@ -45,7 +45,7 @@
     "rotation": -59.998999999999995
   },
   "reversed": false,
-  "folder": "TeleOp Paths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -59.71390757565361

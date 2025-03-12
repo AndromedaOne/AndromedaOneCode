@@ -45,13 +45,13 @@ public class DefaultAlgaeManipulatorCommand extends Command {
   public void execute() {
     switch (m_currentState) {
     case INITIALIZE:
-      Trace.getInstance().logCommandInfo(this, "Algae Manip State -> INITIALIZE");
+      // Trace.getInstance().logCommandInfo(this, "Algae Manip State -> INITIALIZE");
       if (!m_sbsdAlgaeManipulatorBase.getAlgaeManipMaxAngleLimitSwitchState()) {
         m_sbsdAlgaeManipulatorBase
             .rotateForInitialize(m_algaeManipulatorConfig.getDouble("initiaizeSpeed"));
       } else {
         m_sbsdAlgaeManipulatorBase.resetAlgaeManipulatorAngle();
-        Trace.getInstance().logCommandInfo(this, "Algae Manip State INIT-> STOW");
+        // Trace.getInstance().logCommandInfo(this, "Algae Manip State INIT-> STOW");
         m_currentState = AlgaeManipulatorState.STOW_POSITION;
         m_sbsdAlgaeManipulatorBase.setInitialized();
       }
