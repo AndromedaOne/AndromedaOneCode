@@ -36,6 +36,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "E Backup"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -92,6 +98,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "D Backup"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -145,6 +157,12 @@
           "type": "named",
           "data": {
             "name": "sbsdScoreCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C Backup"
           }
         },
         {
