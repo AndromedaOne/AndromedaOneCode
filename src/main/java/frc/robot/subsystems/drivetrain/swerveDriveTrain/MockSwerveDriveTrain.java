@@ -77,6 +77,11 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   }
 
   @Override
+  public double getRobotPositionInchesBasedOnAngle(double angle) {
+    return 0;
+  }
+
+  @Override
   public double getRobotVelocityInches() {
     return 0;
   }
@@ -112,8 +117,8 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   }
 
-  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
-      boolean useSquaredInputs, double compassHeading) {
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs,
+      double compassHeading) {
   }
 
   @Override
@@ -138,6 +143,26 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   @Override
   public void setVelocityToZero() {
+  }
+
+  @Override
+  public Pose2d currentPose2d() {
+    return null;
+  }
+
+  @Override
+  public boolean isAtAngle(double angle) {
+    return false;
+  }
+
+  @Override
+  public int regionToAprilTag(RegionsForPose region) {
+    return -1;
+  }
+
+  @Override
+  public double getModZeroAngle() {
+    throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
   }
 
 }

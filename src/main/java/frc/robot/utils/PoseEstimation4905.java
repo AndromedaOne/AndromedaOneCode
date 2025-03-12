@@ -28,6 +28,7 @@ import frc.robot.Robot;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
+import frc.robot.sensors.photonvision.TargetDistanceAndAngle;
 import frc.robot.telemetries.Trace;
 
 public class PoseEstimation4905 {
@@ -45,6 +46,7 @@ public class PoseEstimation4905 {
   private double m_fieldWidth;
   private Alliance m_currentAlliance;
   private AprilTagFieldLayout m_aprilTagFieldLayout;
+  private TargetDistanceAndAngle m_mock = new TargetDistanceAndAngle(0, 0, false);
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
       .getStructTopic("/OdometryPose", Pose2d.struct).publish();
@@ -65,6 +67,8 @@ public class PoseEstimation4905 {
       } else {
         m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
       }
+      m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
+      m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
       if (m_currentAlliance == Alliance.Red) {
         m_aprilTagFieldLayout.setOrigin(
             new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
@@ -170,6 +174,10 @@ public class PoseEstimation4905 {
         m_updateGyroOffset = false;
       }
     }
+    int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
+    boolean useLeft = SmartDashboard.getBoolean("Use left for camera", false);
+    int april = (int) SmartDashboard.getNumber("April tag to use", 0);
+    m_photonVision.get(index).computeDistanceAndAngle(april, false, useLeft, m_mock);
 
     m_posePublisherVision.set(localPose);
     return localPose;
@@ -204,6 +212,50 @@ public class PoseEstimation4905 {
       } else {
         return RegionsForPose.NORTH;
       }
+    }
+  }
+
+  public int regionToAprilTag(RegionsForPose region) {
+    Alliance alliance = AllianceConfig.getCurrentAlliance();
+    if (alliance == Alliance.Blue) {
+      switch (region) {
+      case SOUTHEAST:
+        return 17;
+      case SOUTH:
+        return 18;
+      case SOUTHWEST:
+        return 19;
+      case NORTHWEST:
+        return 20;
+      case NORTH:
+        return 21;
+      case NORTHEAST:
+        return 22;
+      case UNKNOWN:
+        throw new RuntimeException();
+      default:
+        throw new RuntimeException();
+      }
+    } else {
+      switch (region) {
+      case SOUTHEAST:
+        return 8;
+      case SOUTH:
+        return 7;
+      case SOUTHWEST:
+        return 6;
+      case NORTHWEST:
+        return 11;
+      case NORTH:
+        return 10;
+      case NORTHEAST:
+        return 9;
+      case UNKNOWN:
+        throw new RuntimeException();
+      default:
+        throw new RuntimeException();
+      }
+
     }
   }
 

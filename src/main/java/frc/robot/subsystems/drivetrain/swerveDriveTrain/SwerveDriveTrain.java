@@ -211,6 +211,24 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return states;
   }
 
+  @Override
+  public boolean isAtAngle(double angle) {
+    boolean returnValue = true;
+    for (SwerveModuleBase mod : m_SwerveMods) {
+      double modAngle = mod.getAngle().getDegrees();
+      double reverseModAngle = 180 + modAngle;
+      if (reverseModAngle > 360) {
+        reverseModAngle -= 360;
+      }
+      if (!((Math.abs(modAngle - angle) < 1) || (Math.abs(modAngle - angle) > 359)
+          || (Math.abs(reverseModAngle - angle) < 1)
+          || (Math.abs(reverseModAngle - angle) > 359))) {
+        returnValue = false;
+      }
+    }
+    return returnValue;
+  }
+
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
     for (SwerveModuleBase mod : m_SwerveMods) {
@@ -244,8 +262,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       SmartDashboard.putNumber("Robot Acceleration ", (currentVelocity - m_modSpeed) * 2);
       m_modSpeed = currentVelocity;
       m_modDistance = currentPosition;
-      m_count = 0;
       SmartDashboard.putNumber("Max Acceleration ", m_highestAccel);
+      m_count = 0;
     }
     m_count++;
     if (needToReset) {
@@ -330,25 +348,17 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     move(forwardBackward, 0, rotation, false, true);
   }
 
-  public void moveUsingGyroStrafe(double forwardBackward, double angle, double rotation,
-      boolean useSquaredInputs, double compassHeading) {
-    if (rotation == 0.0) {
-      double robotDeltaAngle = AngleConversionUtils
-          .calculateMinimalCompassHeadingDifference(m_gyro.getCompassHeading(), compassHeading);
-      rotation = robotDeltaAngle
-          * Config4905.getConfig4905().getCommandConstantsConfig().getDouble("moveUsingGyroP");
-      Trace.getInstance().addTrace(true, "MoveUsingGyro",
-          new TracePair("CompassHeading", compassHeading),
-          new TracePair("GyroCompassHeading", m_gyro.getCompassHeading()),
-          new TracePair("robotDeltaAngle", robotDeltaAngle), new TracePair("rotation", rotation),
-          new TracePair("ForwardBackward", forwardBackward));
-    }
+  /**
+   * The angle passed in is counter clockwise positive
+   */
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs,
+      double compassHeading) {
     double angleInRadians = Math.toRadians(angle);
     double forwardBackwardValue = forwardBackward * Math.cos(angleInRadians);
-    double strafeValue = -1 * forwardBackward * Math.sin(angleInRadians);
-    // this is where you want to put debugging for fowardBackward, angleInRadians,
-    // fowardBackwardValue, strafeValue,m_SwerveMods[0].getAngle().getDefrees()
-    move(forwardBackwardValue, strafeValue, rotation, false, true);
+    double strafeValue = forwardBackward * Math.sin(angleInRadians);
+    // this is where you want to put debugging for forwardBackward, angleInRadians,
+    // forwardBackwardValue, strafeValue, m_SwerveMods[0].getAngle().getDegrees()
+    move(forwardBackwardValue, strafeValue, 0.0, false, true);
   }
 
   @Override
@@ -392,6 +402,16 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   @Override
+  public double getRobotPositionInchesBasedOnAngle(double angle) {
+    double modDistance = m_SwerveMods[0].getPosition().distanceMeters;
+    double calcAngle = m_SwerveMods[0].getAngle().getDegrees();
+    if ((Math.abs(angle - calcAngle) > 170) && (Math.abs(angle - calcAngle) < 350)) {
+      modDistance = -modDistance;
+    }
+    return modDistance * 39.3701;
+  }
+
+  @Override
   public double getRobotVelocityInches() {
     throw new RuntimeException(
         "ERROR: " + getClass().getSimpleName() + " does not implement getRobotVelocityInches");
@@ -424,6 +444,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
+  @Override
   public void setToAngle(double angle) {
     for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), true, true);
@@ -467,6 +488,21 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public boolean isUnsafeZone() {
     return m_isInsideUnsafeZone;
+  }
+
+  @Override
+  public Pose2d currentPose2d() {
+    return m_currentPose;
+  }
+
+  @Override
+  public int regionToAprilTag(RegionsForPose region) {
+    return m_poseEstimation.regionToAprilTag(region);
+  }
+
+  @Override
+  public double getModZeroAngle() {
+    return m_SwerveMods[0].getAngle().getDegrees();
   }
 
 }

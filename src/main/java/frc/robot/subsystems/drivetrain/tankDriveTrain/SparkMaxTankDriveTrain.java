@@ -9,11 +9,13 @@ package frc.robot.subsystems.drivetrain.tankDriveTrain;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.PoseEstimation4905;
+import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 @SuppressWarnings("removal")
 public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
@@ -82,6 +84,11 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
       encoderPositionAvg = encoderPositionAvg / (ticksPerInch * encoders);
     }
     return encoderPositionAvg;
+  }
+
+  @Override
+  public double getRobotPositionInchesBasedOnAngle(double angle) {
+    return 0;
   }
 
   @Override
@@ -220,6 +227,32 @@ public class SparkMaxTankDriveTrain extends RealTankDriveTrain {
 
   @Override
   public void setVelocityToZero() {
+  }
+
+  @Override
+  public Pose2d currentPose2d() {
+    return null;
+  }
+
+  @Override
+  public void moveUsingGyroStrafe(double forwardBackward, double strafe, boolean useSquaredInputs,
+      double heading) {
+    throw new UnsupportedOperationException("Unimplemented method 'moveUsingGyroStrafe'");
+  }
+
+  @Override
+  public boolean isAtAngle(double angle) {
+    throw new UnsupportedOperationException("Unimplemented method 'isAtAngle'");
+  }
+
+  @Override
+  public int regionToAprilTag(RegionsForPose region) {
+    throw new UnsupportedOperationException("Unimplemented method 'regionToAprilTag'");
+  }
+
+  @Override
+  public double getModZeroAngle() {
+    throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
   }
 
 }

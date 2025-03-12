@@ -5,7 +5,7 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -21,6 +21,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish4E"
           }
         },
         {
@@ -55,7 +61,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -71,6 +77,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish4D"
           }
         },
         {
@@ -105,7 +117,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -121,6 +133,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish4C"
           }
         },
         {
@@ -171,6 +189,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish123C"
           }
         },
         {
