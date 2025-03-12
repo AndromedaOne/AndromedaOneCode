@@ -48,8 +48,10 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
+  private Config m_sbsdClimberConfig;
   private Config m_sbsdArmConfig;
   private Config m_sbsdCoralEndEffectorConfig;
+  private Config m_sbsdAlgaeManipulatorConfig;
   private Config m_RedAutonomousConfig;
   private Config m_BlueAutonomousConfig;
   private static Config4905 m_config4905 = null;
@@ -166,6 +168,8 @@ public class Config4905 {
     m_feederConfig = load("feeder.conf");
     m_sbsdArmConfig = load("sbsdarm.conf");
     m_sbsdCoralEndEffectorConfig = load("coralendeffector.conf");
+    m_sbsdAlgaeManipulatorConfig = load("algaemanipulator.conf");
+    m_sbsdClimberConfig = load("sbsdclimber.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
@@ -388,6 +392,25 @@ public class Config4905 {
 
   public boolean doesSBSDCoralIntakeEjectExist() {
     return (m_config.hasPath("subsystems.sbsdcoralintakeeject"));
+  }
+
+  public boolean doesSBSDAlgaeManipulatorExist() {
+    return (m_config.hasPath("subsystems.algaemanipulator"));
+  }
+
+  public Config getSBSDAlgaeManipulatorConfig() {
+    return m_sbsdAlgaeManipulatorConfig;
+  }
+
+  public boolean doesSBSDClimberExist() {
+    if (m_config.hasPath("subsystems.sbsdclimber")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSBSDClimberConfig() {
+    return m_sbsdClimberConfig;
   }
 
   public Config getSensorConfig() {

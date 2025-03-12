@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.398359683982706,
-        "y": 4.010727389772035
+        "x": 6.41045215789456,
+        "y": 4.077280042241384
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.145632531964053,
-        "y": 4.014192840450735
+        "x": 6.175556506849315,
+        "y": 4.100128424657534
       },
       "prevControl": {
-        "x": 6.66696338360484,
-        "y": 3.986632115911789
+        "x": 6.642280359638718,
+        "y": 4.044324472600316
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "TeleOp Paths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

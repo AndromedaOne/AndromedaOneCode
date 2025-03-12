@@ -9,10 +9,12 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.sbsdAlgaeManipulatorCommands.DefaultAlgaeManipulatorCommand;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.CoralIntakeEjectDefaultCommand;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
+import frc.robot.commands.sbsdClimberCommands.ClimberDefaultCommand;
 import frc.robot.commands.showBotCannon.AdjustElevation;
 import frc.robot.commands.showBotCannon.ResetCannon;
 import frc.robot.commands.topGunFeederCommands.StopFeeder;
@@ -30,9 +32,15 @@ import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
 import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
+import frc.robot.subsystems.sbsdAlgaeManipulator.MockSBSDAlgaeManipulator;
+import frc.robot.subsystems.sbsdAlgaeManipulator.RealSBSDAlgaeManipulator;
+import frc.robot.subsystems.sbsdAlgaeManipulator.SBSDAlgaeManipulatorBase;
 import frc.robot.subsystems.sbsdArm.MockSBSDArm;
 import frc.robot.subsystems.sbsdArm.RealSBSDArm;
 import frc.robot.subsystems.sbsdArm.SBSDArmBase;
+import frc.robot.subsystems.sbsdclimber.MockSBSDClimber;
+import frc.robot.subsystems.sbsdclimber.RealSBSDClimber;
+import frc.robot.subsystems.sbsdclimber.SBSDClimberBase;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 import frc.robot.subsystems.sbsdcoralendeffector.MockCoralEndEffectorRotate;
@@ -81,9 +89,11 @@ public class SubsystemsContainer {
   IntakeBase m_intake;
   FeederBase m_feeder;
   ShooterAlignmentBase m_shooterAlignment;
+  SBSDClimberBase m_sbsdClimber;
   SBSDArmBase m_sbsdArmBase;
   CoralEndEffectorRotateBase m_sbsdCoralEndEffectorRotateBase;
   CoralIntakeEjectBase m_sbsdCoralIntakeEjectBase;
+  SBSDAlgaeManipulatorBase m_sbsdAlgaeManipulatorBase;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -197,6 +207,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("using mock feeder");
       m_feeder = new MockFeeder();
     }
+    if (Config4905.getConfig4905().doesSBSDClimberExist()) {
+      Trace.getInstance().logInfo("using real sbsd climber");
+      m_sbsdClimber = new RealSBSDClimber();
+    } else {
+      Trace.getInstance().logInfo("using mock sbsd climber");
+      m_sbsdClimber = new MockSBSDClimber();
+    }
     if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
       Trace.getInstance().logInfo("using real SBSD coral end effector");
       m_sbsdCoralEndEffectorRotateBase = new RealCoralEndEffectorRotate();
@@ -220,6 +237,13 @@ public class SubsystemsContainer {
     } else {
       Trace.getInstance().logInfo("using mock SBSD coral intake eject");
       m_sbsdCoralIntakeEjectBase = new MockCoralIntakeEject();
+    }
+    if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
+      Trace.getInstance().logInfo("using real SBSD algae manipulator");
+      m_sbsdAlgaeManipulatorBase = new RealSBSDAlgaeManipulator();
+    } else {
+      Trace.getInstance().logInfo("using mock SBSD algae manipulator");
+      m_sbsdAlgaeManipulatorBase = new MockSBSDAlgaeManipulator();
     }
   }
 
@@ -275,6 +299,14 @@ public class SubsystemsContainer {
     return m_sbsdCoralIntakeEjectBase;
   }
 
+  public SBSDAlgaeManipulatorBase getSBSDAlgaeManipulatorBase() {
+    return m_sbsdAlgaeManipulatorBase;
+  }
+
+  public SBSDClimberBase getSBSDClimberBase() {
+    return m_sbsdClimber;
+  }
+
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
@@ -316,6 +348,12 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesSBSDCoralIntakeEjectExist()) {
       m_sbsdCoralIntakeEjectBase.setDefaultCommand(new CoralIntakeEjectDefaultCommand(false));
+    }
+    if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
+      m_sbsdAlgaeManipulatorBase.setDefaultCommand(new DefaultAlgaeManipulatorCommand());
+    }
+    if (Config4905.getConfig4905().doesSBSDClimberExist()) {
+      m_sbsdClimber.setDefaultCommand(new ClimberDefaultCommand());
     }
   }
 }

@@ -67,6 +67,8 @@ public class PoseEstimation4905 {
       } else {
         m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
       }
+      m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
+      m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
       if (m_currentAlliance == Alliance.Red) {
         m_aprilTagFieldLayout.setOrigin(
             new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
@@ -174,7 +176,8 @@ public class PoseEstimation4905 {
     }
     int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
     boolean useLeft = SmartDashboard.getBoolean("Use left for camera", false);
-    m_photonVision.get(index).computeDistanceAndAngle(18, false, useLeft, m_mock);
+    int april = (int) SmartDashboard.getNumber("April tag to use", 0);
+    m_photonVision.get(index).computeDistanceAndAngle(april, false, useLeft, m_mock);
 
     m_posePublisherVision.set(localPose);
     return localPose;

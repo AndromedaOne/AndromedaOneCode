@@ -55,14 +55,21 @@ public class FinishPath extends SequentialCommandGroup4905 {
         m_wantedDistanceAndAngle);
     // m_wantedDistanceAndAngle.setDistance(m_wantedDistanceAndAngle.getDistance() -
     // 1);
-    if (!m_isForward) {
-      m_wantedDistanceAndAngle.setDistance(-(m_wantedDistanceAndAngle.getDistance() - 1));
+    if (m_wantedDistanceAndAngle.getDetected()) {
+      if (!m_isForward) {
+        m_wantedDistanceAndAngle.setDistance(-(m_wantedDistanceAndAngle.getDistance() - 1));
+      }
+      m_angle = m_wantedDistanceAndAngle.getTargetAngleSupplier();
+      m_distance = m_wantedDistanceAndAngle.getTargetDistanceSupplier();
+      Trace.getInstance().logInfo("angle value: " + m_angle.getAsDouble());
+      Trace.getInstance().logInfo("distance value: " + m_distance.getAsDouble());
+      Trace.getInstance().logInfo("april tag: " + aprilTag);
+    } else {
+      m_wantedDistanceAndAngle.setDistance(0);
+      m_wantedDistanceAndAngle.setAngle(0);
+      Trace.getInstance().logInfo("april tag not detected!");
     }
-    m_angle = m_wantedDistanceAndAngle.getTargetAngleSupplier();
-    m_distance = m_wantedDistanceAndAngle.getTargetDistanceSupplier();
-    Trace.getInstance().logInfo("angle value: " + m_angle.getAsDouble());
-    Trace.getInstance().logInfo("distance value: " + m_distance.getAsDouble());
-    Trace.getInstance().logInfo("april tag: " + aprilTag);
+
     // m_command = new MoveUsingEncoder(m_drivetrain, m_angle, m_distance, 1.0);
     // m_command.schedule();
   }

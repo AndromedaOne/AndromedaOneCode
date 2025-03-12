@@ -66,7 +66,7 @@
     "rotation": -55.0
   },
   "reversed": false,
-  "folder": "Auto #3 Paths 2025",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

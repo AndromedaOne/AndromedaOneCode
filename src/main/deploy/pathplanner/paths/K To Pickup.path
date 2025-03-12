@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.68298532014121,
-        "y": 5.465191462585492
+        "x": 3.4559075342465753,
+        "y": 5.332234589041096
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.671485622469083,
-        "y": 5.988085711927079
+        "x": 2.4444078365744484,
+        "y": 5.855128838382683
       },
       "isLocked": false,
       "linkedName": "Reef K"
@@ -45,7 +45,7 @@
     "rotation": -55.0
   },
   "reversed": false,
-  "folder": "Auto #1 Paths 2025",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 119.99999999999999

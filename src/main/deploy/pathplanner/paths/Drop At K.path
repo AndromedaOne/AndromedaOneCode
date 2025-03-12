@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.47301221046385,
-        "y": 6.352319333577245
+        "x": 2.4388291282995174,
+        "y": 6.424768278669143
       },
       "isLocked": false,
       "linkedName": "Top Side Pickup"
     },
     {
       "anchor": {
-        "x": 3.68298532014121,
-        "y": 5.465191462585492
+        "x": 3.4559075342465753,
+        "y": 5.332234589041096
       },
       "prevControl": {
-        "x": 1.8088008524376225,
-        "y": 6.092994961552534
+        "x": 1.5254827762402137,
+        "y": 6.357541907266761
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 119.99999999999999
   },
   "reversed": false,
-  "folder": "Auto #1 Paths 2025",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -55.0

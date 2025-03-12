@@ -17,6 +17,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.subsystems.sbsdclimber.ClimberMode;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 
 /** Add your docs here. */
@@ -39,6 +40,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
   private double m_kD = 0.0;
   private double m_kG = 0.0;
   private double m_tolerance = 0.0;
+  private boolean m_doubleKpForClimber = false;
   private PIDController4905 m_controller;
   private CoralEndEffectorRotateBase m_endEffector;
 
@@ -146,23 +148,28 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void rotate(double speed) {
-    speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
-    if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
+    if (ClimberMode.getInstance().getInClimberMode()) {
       stop();
-      speed = 0.0;
-    } else if ((getAngleDeg() <= m_minAngleDeg || m_rightAngleMotor.isReverseLimitSwitchOn())
-        && (speed < 0)) {
-      stop();
-      speed = 0.0;
-    } else if ((getAngleDeg() >= m_maxAngleDeg || m_rightAngleMotor.isForwardLimitSwitchOn())
-        && (speed > 0)) {
-      stop();
-      speed = 0.0;
     } else {
-      m_rightAngleMotor.setSpeed(speed);
-      m_leftAngleMotor.setSpeed(speed);
+      speed = MathUtil.clamp(speed, -m_maxSpeedDown, m_maxSpeedUp);
+      if (!m_endEffector.isEndEffectorSafe() && (getAngleDeg() <= m_safetyAngle) && (speed < 0)) {
+        stop();
+        speed = 0.0;
+      } else if ((getAngleDeg() <= m_minAngleDeg || m_rightAngleMotor.isReverseLimitSwitchOn())
+          && (speed < 0)) {
+        stop();
+        speed = 0.0;
+      } else if ((getAngleDeg() >= m_maxAngleDeg || m_rightAngleMotor.isForwardLimitSwitchOn())
+          && (speed > 0)) {
+        stop();
+        speed = 0.0;
+      } else {
+        m_rightAngleMotor.setSpeed(speed);
+        m_leftAngleMotor.setSpeed(speed);
+      }
+      SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
     }
-    SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
+
   }
 
   @Override
@@ -190,6 +197,14 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   private void calculateSpeed() {
     double currentAngleRad = getAngleRad();
+
+    if ((getAngleDeg() <= -75) && !m_doubleKpForClimber) {
+      // trying to go climber position but need more power
+      m_kP *= 2;
+      m_controller.setP(m_kP);
+      m_doubleKpForClimber = true;
+
+    }
     double pidCalc = m_controller.calculate(currentAngleRad);
     double feedforwardCalc = m_kG * Math.cos(getAngleRad());
     double speed = pidCalc + feedforwardCalc;
@@ -204,19 +219,24 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
 
   @Override
   public void reloadConfig() {
-    m_minAngleDeg = Config4905.getConfig4905().getSBSDArmConfig().getDouble("minAngleDeg");
-    m_maxAngleDeg = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxAngleDeg");
-    m_angleOffset = Config4905.getConfig4905().getSBSDArmConfig().getDouble("angleOffset");
-    m_maxSpeedUp = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxSpeedUp");
-    m_maxSpeedDown = Config4905.getConfig4905().getSBSDArmConfig().getDouble("maxSpeedDown");
-    m_kP = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kP");
-    m_kI = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kI");
-    m_kD = Config4905.getConfig4905().getSBSDArmConfig().getDouble("kD");
-    m_tolerance = Config4905.getConfig4905().getSBSDArmConfig().getDouble("tolerance");
+    Config armrotateConfig = Config4905.getConfig4905().getSBSDArmConfig();
+    m_minAngleDeg = armrotateConfig.getDouble("minAngleDeg");
+    m_maxAngleDeg = armrotateConfig.getDouble("maxAngleDeg");
+    m_angleOffset = armrotateConfig.getDouble("angleOffset");
+    m_maxSpeedUp = armrotateConfig.getDouble("maxSpeedUp");
+    m_maxSpeedDown = armrotateConfig.getDouble("maxSpeedDown");
+    m_kP = armrotateConfig.getDouble("kP");
+    m_kI = armrotateConfig.getDouble("kI");
+    m_kD = armrotateConfig.getDouble("kD");
+    m_tolerance = armrotateConfig.getDouble("tolerance");
   }
 
   @Override
   public void runAlgaeRemovalWheels() {
-    m_algaeRemovalWheels.setSpeed(m_algaeRemovalWheelsSpeed);
+    if (!ClimberMode.getInstance().getInClimberMode()) {
+      m_algaeRemovalWheels.setSpeed(m_algaeRemovalWheelsSpeed);
+    } else {
+      m_algaeRemovalWheels.setSpeed(0);
+    }
   }
 }
