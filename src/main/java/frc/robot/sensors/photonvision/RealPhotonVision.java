@@ -247,6 +247,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     // getting h - the distance between the bumpers and the reef
     double h = 0;
     h = b - m_offsetToSwerveModInches; // b - c
+    h = h - 4;
 
     // subtracting 1 from h so the pid is happy
     // h -= 1;

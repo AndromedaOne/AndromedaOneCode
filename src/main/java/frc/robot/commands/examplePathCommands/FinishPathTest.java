@@ -39,7 +39,8 @@ public class FinishPathTest extends Command {
   @Override
   public void initialize() {
     int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
-    m_photonVision.get(index).computeDistanceAndAngle(18, true, m_useLeft,
+    int april = (int) SmartDashboard.getNumber("April tag to use", 0);
+    m_photonVision.get(index).computeDistanceAndAngle(april, true, m_useLeft,
         m_wantedDistanceAndAngle);
     // m_wantedDistanceAndAngle.setDistance(m_wantedDistanceAndAngle.getDistance() -
     // 1);
