@@ -195,9 +195,10 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     }
     SmartDashboard.putNumber("Coral Angle in Degrees", getAngleDeg());
     SmartDashboard.putNumber("Coral Angle in Rads", getAngleRad());
-    SmartDashboard.putNumber("Raw EE rotate encoder value", m_absoluteEncoderPosition.getAsDouble());
-    SmartDashboard.putNumber("Raw EE rotate encoder value in degrees", m_absoluteEncoderPosition.
-      getAsDouble()*360);
+    SmartDashboard.putNumber("Raw EE rotate encoder value",
+        m_absoluteEncoderPosition.getAsDouble());
+    SmartDashboard.putNumber("Raw EE rotate encoder value in degrees",
+        m_absoluteEncoderPosition.getAsDouble() * 360);
   }
 
   @Override
