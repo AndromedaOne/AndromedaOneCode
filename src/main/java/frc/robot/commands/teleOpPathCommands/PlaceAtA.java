@@ -9,9 +9,12 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.FileVersionException;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -32,10 +35,11 @@ public class PlaceAtA extends SequentialCommandGroup4905 {
 
   public PlaceAtA() throws FileVersionException, IOException, ParseException {
     m_driveTrainBase = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
-    addRequirements(m_driveTrainBase.getSubsystemBase());
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Place At A");
-    Command pathCommand = AutoBuilder.followPath(path);
-    addCommands(pathCommand);
+    Pose2d targetPose = new Pose2d(2.771, 3.845, Rotation2d.fromDegrees(0));
+    PathConstraints constraints = new PathConstraints(5.0, 3.0, Units.degreesToRadians(540),
+        Units.degreesToRadians(720));
+    Command pathFindingCommand = AutoBuilder.pathfindToPose(targetPose, constraints, 0.0);
+    addCommands(pathFindingCommand);
   }
 
 }

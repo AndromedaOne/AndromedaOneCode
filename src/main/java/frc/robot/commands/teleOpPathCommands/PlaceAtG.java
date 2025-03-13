@@ -9,9 +9,12 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.FileVersionException;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -32,9 +35,10 @@ public class PlaceAtG extends SequentialCommandGroup4905 {
 
   public PlaceAtG() throws FileVersionException, IOException, ParseException {
     m_driveTrainBase = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
-    addRequirements(m_driveTrainBase.getSubsystemBase());
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Place At G");
-    Command pathCommand = AutoBuilder.followPath(path);
-    addCommands(pathCommand);
+    Pose2d targetPose = new Pose2d(6.202, 4.222, Rotation2d.fromDegrees(180));
+    PathConstraints constraints = new PathConstraints(5.0, 3.0, Units.degreesToRadians(540),
+        Units.degreesToRadians(720));
+    Command pathFindingCommand = AutoBuilder.pathfindToPose(targetPose, constraints, 0.0);
+    addCommands(pathFindingCommand);
   }
 }
