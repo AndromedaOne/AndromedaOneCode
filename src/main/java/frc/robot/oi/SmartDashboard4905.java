@@ -48,7 +48,7 @@ import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
 import frc.robot.commands.sbsdAutoCommands.auto6;
-import frc.robot.commands.sbsdAutoCommands.auto7;
+import frc.robot.commands.sbsdAutoCommands.auto8;
 import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
 import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
 import frc.robot.commands.sbsdTeleOpCommands.sbsdMoveArmAndEndEffector;
@@ -75,7 +75,7 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
-    if (Config4905.getConfig4905().isSwerveBot()) {
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
       AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     }
     SmartDashboard.putNumber("Auto Delay", 0);
@@ -171,7 +171,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Auto #1 - West Side Scory", new auto1());
       SmartDashboard.putData("Auto #2 - East Side Scory", new auto2());
       SmartDashboard.putData("Auto #6 - 1 North Score And Seven Years Ago", new auto6());
-      SmartDashboard.putData("Auto #7 - Drive Backwards", new auto7());
+      SmartDashboard.putData("Auto #7 - Drive Backwards", new auto8());
     }
 
     if (Config4905.getConfig4905().doesSBSDArmExist()) {

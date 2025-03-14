@@ -8,7 +8,7 @@ import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
 import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
 import frc.robot.commands.sbsdAutoCommands.auto6;
-import frc.robot.commands.sbsdAutoCommands.auto7;
+import frc.robot.commands.sbsdAutoCommands.auto8;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -38,7 +38,12 @@ public class AutoModes4905 {
       } catch (Exception e) {
         e.printStackTrace();
       }
-      m_autoChooser.addOption("Auto #7 - Drive Backwards", new auto7());
+      try {
+        m_autoChooser.addOption("Auto #7 - Score North Side Level 2", new auto8());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      m_autoChooser.addOption("Auto #8 - Drive Backwards", new auto8());
     }
 
     SmartDashboard.putData("autoModes", m_autoChooser);

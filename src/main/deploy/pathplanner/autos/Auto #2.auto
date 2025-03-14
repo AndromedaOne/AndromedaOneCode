@@ -17,6 +17,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -33,6 +39,12 @@
           "type": "named",
           "data": {
             "name": "sbsdScoreCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E Backup"
           }
         },
         {
@@ -73,6 +85,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -89,6 +107,12 @@
           "type": "named",
           "data": {
             "name": "sbsdScoreCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D Backup"
           }
         },
         {
@@ -129,6 +153,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -145,6 +175,12 @@
           "type": "named",
           "data": {
             "name": "sbsdScoreCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C Backup"
           }
         },
         {

@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "sbsdCoralScoreLevel2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score Level 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "sbsdScoreCoral"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "2025 Autos",
+  "choreoAuto": false
+}

@@ -5,6 +5,7 @@
 package frc.robot.commands.driveTrainCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -15,6 +16,10 @@ public class SwerveDriveSetVelocityToZero extends Command {
   public SwerveDriveSetVelocityToZero(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  public SwerveDriveSetVelocityToZero() {
+    m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
   }
 
   // Called when the command is initially scheduled.

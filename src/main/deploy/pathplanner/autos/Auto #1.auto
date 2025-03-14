@@ -17,6 +17,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -33,6 +39,12 @@
           "type": "named",
           "data": {
             "name": "sbsdScoreCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "J Backup"
           }
         },
         {
@@ -73,6 +85,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -89,6 +107,12 @@
           "type": "named",
           "data": {
             "name": "sbsdScoreCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "K Backup"
           }
         },
         {
@@ -129,6 +153,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -145,6 +175,12 @@
           "type": "named",
           "data": {
             "name": "sbsdScoreCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "L Backup"
           }
         },
         {
@@ -176,6 +212,12 @@
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
               {
                 "type": "named",
                 "data": {

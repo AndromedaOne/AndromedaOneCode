@@ -4,24 +4,29 @@
 
 package frc.robot.commands.sbsdAutoCommands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
-import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
-import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.FileVersionException;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class auto7 extends SequentialCommandGroup {
-  /** Creates a new auto7. */
-  DriveTrainBase m_driveTrain;
-
-  public auto7() {
-    SubsystemsContainer subsystemsContainer = Robot.getInstance().getSubsystemsContainer();
-    m_driveTrain = subsystemsContainer.getDriveTrain();
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new MoveUsingEncoder(m_driveTrain, () -> -12, 1));
+public class auto7 extends SequentialCommandGroup4905 {
+  /**
+   * Creates a new SwervePathPlanningPath.
+   * 
+   * @throws ParseException
+   * @throws IOException
+   * @throws FileVersionException
+   */
+  public auto7() throws FileVersionException, IOException, ParseException {
+    Command ottoCommand = AutoBuilder.buildAuto("Auto #7");
+    addCommands(ottoCommand);
   }
 }
