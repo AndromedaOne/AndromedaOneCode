@@ -20,17 +20,12 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
-import frc.robot.commands.driveTrainCommands.DriveBackwardTimed;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
-import frc.robot.commands.driveTrainCommands.TurnToTargetUsingGyro;
-import frc.robot.commands.examplePathCommands.DriveTrainDiagonalPath;
-import frc.robot.commands.examplePathCommands.DriveTrainRectangularPath;
 import frc.robot.commands.examplePathCommands.FinishPathTest;
 import frc.robot.commands.examplePathCommands.OnTheFlyPathTest;
 import frc.robot.commands.examplePathCommands.OttoOneTest;
-import frc.robot.commands.examplePathCommands.SimpleDriveTrainDiagonalPath;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
@@ -82,8 +77,6 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
         new CalibrateGyro(sensorsContainer.getGyro(), subsystemsContainer.getDriveTrain()));
-    SmartDashboard.putData("Simple Diagonal Path Gen",
-        new SimpleDriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
     if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
       SmartDashboard.putData("Enable Limelight LEDs",
           new ToggleLimelightLED(true, sensorsContainer));
@@ -124,22 +117,10 @@ public class SmartDashboard4905 {
           new ToggleBrakes(subsystemsContainer.getDriveTrain()));
     }
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
-      SmartDashboard.putData("DriveBackward",
-          new DriveBackwardTimed(1, subsystemsContainer.getDriveTrain()));
       SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
       SmartDashboard.putNumber("MoveUsingEncoderTester Angle To Move", 0);
       SmartDashboard.putData("MoveUsingEncoderTester",
           new MoveUsingEncoderTester(subsystemsContainer.getDriveTrain()));
-      SmartDashboard.putData("DriveTrainRectangularPathExample",
-          new DriveTrainRectangularPath(subsystemsContainer.getDriveTrain()));
-      SmartDashboard.putData("DriveTrainDiagonalPathExample",
-          new DriveTrainDiagonalPath(subsystemsContainer.getDriveTrain()));
-      if (Robot.getInstance().getSensorsContainer().getPhotonVision().doesPhotonVisionExist()) {
-        SmartDashboard.putData("Turn to target",
-            new TurnToTargetUsingGyro(subsystemsContainer.getDriveTrain(), () -> 4, () -> 0, true,
-                sensorsContainer.getPhotonVision()));
-      }
-
     }
     if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
@@ -149,15 +130,6 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
       SmartDashboard.putData("SpinTest", new Spinner());
       SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest().andThen(new FinishC()));
-      SmartDashboard.putData("Finish Path Test Using Move Left",
-          new FinishPathTest(subsystemsContainer.getDriveTrain(), true, true));
-      SmartDashboard.putData("Finish Path Test Using Move Right",
-          new FinishPathTest(subsystemsContainer.getDriveTrain(), true, false));
-      SmartDashboard.putData("Finish Path Test Without Move",
-          new FinishPathTest(subsystemsContainer.getDriveTrain(), false, false));
-      SmartDashboard.putNumber("Camera index to use", 0);
-      SmartDashboard.putNumber("April tag to use", 0);
-      SmartDashboard.putBoolean("Use left for camera", false);
     }
 
     if (Config4905.getConfig4905().doesShowBotAudioExist()) {
@@ -172,6 +144,15 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Auto #2 - East Side Scory", new auto2());
       SmartDashboard.putData("Auto #6 - 1 North Score And Seven Years Ago", new auto6());
       SmartDashboard.putData("Auto #7 - Drive Backwards", new auto8());
+      SmartDashboard.putNumber("Camera index to use", 0);
+      SmartDashboard.putNumber("April tag to use", 0);
+      SmartDashboard.putBoolean("Use left for camera", false);
+      SmartDashboard.putData("Finish Path Test Using Move Left",
+          new FinishPathTest(subsystemsContainer.getDriveTrain(), true, true));
+      SmartDashboard.putData("Finish Path Test Using Move Right",
+          new FinishPathTest(subsystemsContainer.getDriveTrain(), true, false));
+      SmartDashboard.putData("Finish Path Test Without Move",
+          new FinishPathTest(subsystemsContainer.getDriveTrain(), false, false));
     }
 
     if (Config4905.getConfig4905().doesSBSDArmExist()) {
