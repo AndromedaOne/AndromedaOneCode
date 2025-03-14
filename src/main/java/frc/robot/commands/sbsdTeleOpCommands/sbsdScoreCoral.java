@@ -7,6 +7,7 @@ package frc.robot.commands.sbsdTeleOpCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
+import frc.robot.telemetries.Trace;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class sbsdScoreCoral extends Command {
@@ -22,8 +23,11 @@ public class sbsdScoreCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Coral Scored!");
-    m_endEffector.setEjectState();
+    Trace.getInstance().logInfo("Coral Scored!");
+    if (Robot.getInstance().isAutonomous()) {
+      m_endEffector.setEjectState();
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,6 +43,9 @@ public class sbsdScoreCoral extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_endEffector.hasScored();
+    if (Robot.getInstance().isAutonomous()) {
+      return m_endEffector.hasScored();
+    }
+    return true;
   }
 }
