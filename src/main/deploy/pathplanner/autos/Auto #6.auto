@@ -5,22 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Drop At G No Vision"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "sbsdCoralScoreLevel4"
-                }
-              }
-            ]
+            "name": "sbsdCoralScoreLevel4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop At G No Vision"
           }
         },
         {
@@ -32,7 +25,7 @@
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": "2025 Autos",
   "choreoAuto": false
 }

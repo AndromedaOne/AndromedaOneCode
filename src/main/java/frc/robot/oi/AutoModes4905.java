@@ -8,6 +8,7 @@ import frc.robot.commands.groupCommands.topGunAutonomousCommands.DoNothingAuto;
 import frc.robot.commands.sbsdAutoCommands.auto1;
 import frc.robot.commands.sbsdAutoCommands.auto2;
 import frc.robot.commands.sbsdAutoCommands.auto6;
+import frc.robot.commands.sbsdAutoCommands.auto7;
 import frc.robot.commands.sbsdAutoCommands.auto8;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -39,7 +40,7 @@ public class AutoModes4905 {
         e.printStackTrace();
       }
       try {
-        m_autoChooser.addOption("Auto #7 - Score North Side Level 2", new auto8());
+        m_autoChooser.addOption("Auto #7 - Score North Side Level 1", new auto7());
       } catch (Exception e) {
         e.printStackTrace();
       }
