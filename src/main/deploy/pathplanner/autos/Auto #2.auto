@@ -17,6 +17,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -79,6 +85,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -136,6 +148,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Drop At C"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "setVelocityToZero"
                 }
               },
               {

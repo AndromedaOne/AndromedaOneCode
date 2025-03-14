@@ -19,6 +19,7 @@ import frc.robot.oi.DriveController;
 import frc.robot.oi.SubsystemController;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEjectBase {
@@ -29,6 +30,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private boolean m_hasCoral = false;
   private double m_intakeSpeed = 0.1;
   private double m_repositionSpeed = 0.07;
+  private double m_l4RepositionSpeed = 0.1;
   private double m_ejectSpeed = 0.5;
   private boolean m_ejectCoral = false;
   private boolean m_inWaitForCoral = false;
@@ -94,7 +96,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_currentRumble = false;
       m_rumbleTimer = 0;
       if (intakeDetector() && !ejectDetector()) {
-        System.out.println("WAIT_FOR_CORAL -> INTAKE_CORAL");
+        Trace.getInstance().logInfo("WAIT_FOR_CORAL -> INTAKE_CORAL");
         m_currentState = CoralState.INTAKE_CORAL;
       } else if (!intakeDetector() && ejectDetector()) {
         System.out.println("WAIT_FOR_CORAL -> HOLD_CORAL");
@@ -192,7 +194,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       break;
 
     case POSITION_L4:
-      m_intakeMotor.setSpeed(-m_repositionSpeed);
+      m_intakeMotor.setSpeed(-m_l4RepositionSpeed);
       if (intakeDetector() && !ejectDetector()) {
         System.out.println("POSITION_L4 -> HOLD_L4_POSITION");
         m_currentState = CoralState.HOLD_L4_POSITION;
@@ -238,7 +240,6 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       break;
     }
     SmartDashboard.putString("Coral State: ", m_currentState.toString());
-    m_ejectCoral = SmartDashboard.getBoolean("Eject coral: ", false);
     runRumble();
   }
 

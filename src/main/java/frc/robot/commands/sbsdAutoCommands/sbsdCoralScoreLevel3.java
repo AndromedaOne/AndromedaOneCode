@@ -31,11 +31,8 @@ public class sbsdCoralScoreLevel3 extends SequentialCommandGroup4905 {
 
   @Override
   public boolean isFinished() {
-    if (super.isFinished()) {
-      return true;
-    }
     // checking state of the coral intake (state machine thingy) use wait for coral
     // state
-    return true;
+    return super.isFinished();
   }
 }

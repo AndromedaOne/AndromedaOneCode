@@ -17,6 +17,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -74,6 +80,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Drop At K"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "setVelocityToZero"
                 }
               },
               {
@@ -141,6 +153,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "sbsdCoralScoreLevel4"
                 }
               }
@@ -194,6 +212,12 @@
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "setVelocityToZero"
+                }
+              },
               {
                 "type": "named",
                 "data": {
