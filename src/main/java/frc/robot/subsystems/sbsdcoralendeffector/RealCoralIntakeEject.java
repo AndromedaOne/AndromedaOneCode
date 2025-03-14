@@ -99,7 +99,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         Trace.getInstance().logInfo("WAIT_FOR_CORAL -> INTAKE_CORAL");
         m_currentState = CoralState.INTAKE_CORAL;
       } else if (!intakeDetector() && ejectDetector()) {
-        System.out.println("WAIT_FOR_CORAL -> HOLD_CORAL");
+        Trace.getInstance().logInfo("WAIT_FOR_CORAL -> HOLD_CORAL");
         m_currentState = CoralState.HOLD_CORAL;
       }
       break;
@@ -110,7 +110,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_inWaitForCoral = false;
       m_intakeMotor.setSpeed(m_intakeSpeed);
       if (intakeDetector() && ejectDetector()) {
-        System.out.println("INTAKE_CORAL -> POSITION_CORAL");
+        Trace.getInstance().logInfo("INTAKE_CORAL -> POSITION_CORAL");
         m_currentState = CoralState.POSITION_CORAL;
       }
       break;
@@ -124,7 +124,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case POSITION_CORAL:
       m_intakeMotor.setSpeed(m_repositionSpeed);
       if (!intakeDetector() && ejectDetector()) {
-        System.out.println("POSITION_CORAL -> HOLD_CORAL");
+        Trace.getInstance().logInfo("POSITION_CORAL -> HOLD_CORAL");
         m_currentState = CoralState.HOLD_CORAL;
       }
       break;
@@ -136,23 +136,23 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_inWaitForCoral = false;
       rumbleController();
       if (m_scoreL4) {
-        System.out.println("HOLD_CORAL -> SCORE_L4_WAIT");
+        Trace.getInstance().logInfo("HOLD_CORAL -> SCORE_L4_WAIT");
         m_currentState = CoralState.SCORE_L4_WAIT;
         m_scoreL4 = false;
       } else if (!ejectDetector()) {
-        System.out.println("HOLD_CORAL -> WAIT_FOR_CORAL");
+        Trace.getInstance().logInfo("HOLD_CORAL -> WAIT_FOR_CORAL");
         m_hasCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
       } else if (m_ejectCoral) {
-        System.out.println("HOLD_CORAL -> EJECT_CORAL");
+        Trace.getInstance().logInfo("HOLD_CORAL -> EJECT_CORAL");
         m_ejectCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.EJECT_CORAL;
       } else if (intakeDetector()) {
-        System.out.println("HOLD_CORAL -> POSITION_CORAL");
+        Trace.getInstance().logInfo("HOLD_CORAL -> POSITION_CORAL");
         m_hasCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
@@ -164,7 +164,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case EJECT_CORAL:
       m_intakeMotor.setSpeed(m_ejectSpeed);
       if (!intakeDetector() && !ejectDetector()) {
-        System.out.println("EJECT_CORAL -> PAUSE_FOR_EJECT");
+        Trace.getInstance().logInfo("EJECT_CORAL -> PAUSE_FOR_EJECT");
         m_currentState = CoralState.PAUSE_FOR_EJECT;
       }
       break;
@@ -174,7 +174,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       m_count++;
       stop();
       if (m_count > 3) {
-        System.out.println("PAUSE_FOR_EJECT -> WAIT_FOR_CORAL");
+        Trace.getInstance().logInfo("PAUSE_FOR_EJECT -> WAIT_FOR_CORAL");
         m_hasCoral = false;
         m_count = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
@@ -188,7 +188,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       // if the end effector angle is less than or equal to 33 switch states
       if (Robot.getInstance().getSubsystemsContainer().getSBSDCoralEndEffectorRotateBase()
           .getAngleDeg() <= getSafeAngleToScoreL4) {
-        System.out.println("SCORE_L4_WAIT -> POSITION_L4");
+        Trace.getInstance().logInfo("SCORE_L4_WAIT -> POSITION_L4");
         m_currentState = CoralState.POSITION_L4;
       }
       break;
@@ -196,7 +196,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
     case POSITION_L4:
       m_intakeMotor.setSpeed(-m_l4RepositionSpeed);
       if (intakeDetector() && !ejectDetector()) {
-        System.out.println("POSITION_L4 -> HOLD_L4_POSITION");
+        Trace.getInstance().logInfo("POSITION_L4 -> HOLD_L4_POSITION");
         m_currentState = CoralState.HOLD_L4_POSITION;
       }
       break;
@@ -211,27 +211,27 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.POSITION_CORAL;
-        System.out.println("HOLD_L4_POSITION -> m_exitScore = true");
-        System.out.println("HOLD_L4_POSITION -> POSITION_CORAL");
+        Trace.getInstance().logInfo("HOLD_L4_POSITION -> m_exitScore = true");
+        Trace.getInstance().logInfo("HOLD_L4_POSITION -> POSITION_CORAL");
       } else if (m_ejectCoral) {
         m_scoreL4 = false;
         m_ejectCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.EJECT_CORAL;
-        System.out.println("HOLD_L4_POSITION -> m_ejectCoral = true");
-        System.out.println("HOLD_L4_POSITION -> EJECT_CORAL");
+        Trace.getInstance().logInfo("HOLD_L4_POSITION -> m_ejectCoral = true");
+        Trace.getInstance().logInfo("HOLD_L4_POSITION -> EJECT_CORAL");
       } else if (ejectDetector()) {
         // when scoring on L4 the coral drifts down due to gravity.
-        System.out.println("HOLD_L4_POSITION -> POSITION_L4");
+        Trace.getInstance().logInfo("HOLD_L4_POSITION -> POSITION_L4");
         m_currentState = CoralState.POSITION_L4;
       } else if (!intakeDetector() && !ejectDetector()) {
         m_hasCoral = false;
         m_currentRumble = false;
         m_rumbleTimer = 0;
         m_currentState = CoralState.WAIT_FOR_CORAL;
-        System.out.println("HOLD_L4_POSITION -> !intakeDetector() && !ejectDetector()");
-        System.out.println("HOLD_L4_POSITION -> WAIT_FOR_CORAL");
+        Trace.getInstance().logInfo("HOLD_L4_POSITION -> !intakeDetector() && !ejectDetector()");
+        Trace.getInstance().logInfo("HOLD_L4_POSITION -> WAIT_FOR_CORAL");
       }
       break;
 
