@@ -253,16 +253,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     if (m_count == 25) {
       double currentPosition = m_SwerveMods[0].getPosition().distanceMeters;
       double currentVelocity = (currentPosition - m_modDistance) * 2;
-      SmartDashboard.putNumber("Mod Distance ", m_modDistance);
-      SmartDashboard.putNumber("Current Position ", currentPosition);
-      SmartDashboard.putNumber("Robot Velocity   ", currentVelocity);
       if (m_highestAccel < Math.abs(currentVelocity - m_modSpeed) * 2) {
         m_highestAccel = Math.abs(currentVelocity - m_modSpeed) * 2;
       }
-      SmartDashboard.putNumber("Robot Acceleration ", (currentVelocity - m_modSpeed) * 2);
       m_modSpeed = currentVelocity;
       m_modDistance = currentPosition;
-      SmartDashboard.putNumber("Max Acceleration ", m_highestAccel);
       m_count = 0;
     }
     m_count++;
@@ -283,7 +278,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       SmartDashboard.putBoolean("Is Left Side ", m_isLeftSide);
       double currentAngle = m_currentPose.getRotation().getDegrees();
       double currentAngularVelocity = (currentAngle - m_robotAngle) * 2;
-      SmartDashboard.putNumber("Robot Angular Velocity", currentAngularVelocity);
       m_robotAngle = currentAngle;
     }
   }
