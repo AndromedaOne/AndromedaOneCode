@@ -64,7 +64,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kG = armrotateConfig.getDouble("kG");
     m_tolerance = armrotateConfig.getDouble("tolerance");
     m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD, 0);
-    m_controller.enableContinuousInput(-Math.PI, Math.PI);
+    m_controller.disableContinuousInput();
     m_controller.setTolerance(Math.toRadians(m_tolerance));
   }
 
