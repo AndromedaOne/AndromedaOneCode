@@ -7,7 +7,6 @@ package frc.robot.commands.sbsdTeleOpCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
-import frc.robot.telemetries.Trace;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class sbsdScoreCoral extends Command {

@@ -122,6 +122,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
      * of the way so the arm can move to a scoring position.
      */
     case POSITION_CORAL:
+      m_ejectCoral = false;
       m_intakeMotor.setSpeed(m_repositionSpeed);
       if (!intakeDetector() && ejectDetector()) {
         Trace.getInstance().logInfo("POSITION_CORAL -> HOLD_CORAL");
@@ -166,6 +167,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
       if (!intakeDetector() && !ejectDetector()) {
         Trace.getInstance().logInfo("EJECT_CORAL -> PAUSE_FOR_EJECT");
         m_currentState = CoralState.PAUSE_FOR_EJECT;
+        m_ejectCoral = false;
       }
       break;
 
