@@ -36,7 +36,7 @@ public class SubsystemController extends ControllerBase {
   public void setUpSBSDButtons() {
     getLeftStickButton().whileTrue(new ManualModeCoralScore());
     getStartButton()
-        .onTrue(new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_3, false));
+        .whileTrue(new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_3, false));
 
   }
 
