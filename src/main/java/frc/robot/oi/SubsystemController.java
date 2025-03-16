@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
+import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.ManualModeCoralScore;
+import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -33,6 +35,8 @@ public class SubsystemController extends ControllerBase {
 
   public void setUpSBSDButtons() {
     getLeftStickButton().whileTrue(new ManualModeCoralScore());
+    getStartButton()
+        .onTrue(new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.LEVEL_3, false));
 
   }
 
