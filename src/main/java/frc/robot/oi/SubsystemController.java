@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
 import frc.robot.commands.sbsdArmCommands.ManualModeCoralScore;
+import frc.robot.commands.sbsdArmCommands.ToggleEEAngles;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -33,7 +34,7 @@ public class SubsystemController extends ControllerBase {
 
   public void setUpSBSDButtons() {
     getLeftStickButton().whileTrue(new ManualModeCoralScore());
-
+    getToggleEEAngles().whileTrue(new ToggleEEAngles());
   }
 
   public JoystickButton getScoreLevelOne() {
@@ -81,6 +82,10 @@ public class SubsystemController extends ControllerBase {
 
   public void rumbleOff() {
     setRumble(0);
+  }
+
+  public JoystickButton getToggleEEAngles() {
+    return getStartButton();
   }
 
 }
