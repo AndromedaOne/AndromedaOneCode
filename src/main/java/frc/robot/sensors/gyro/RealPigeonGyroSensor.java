@@ -58,6 +58,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
       m_pigeon = pigeon;
     }
 
+    @SuppressWarnings("removal")
     @Override
     public void run() {
       System.out.println("Setting Initial Gyro Angle");
@@ -80,6 +81,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
     m_controlLoop.schedule(task, kInitializeDelay, kDefaultPeriod);
   }
 
+  @SuppressWarnings("removal")
   @Override
   public double getRawZAngle() {
     if (!m_calibrated && (Duration.between(m_start, Instant.now()).toMillis() > 5000)) {
@@ -118,6 +120,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
     return getZAngle();
   }
 
+  @SuppressWarnings("removal")
   @Override
   public double getRate() {
     return m_gyro.getRate();

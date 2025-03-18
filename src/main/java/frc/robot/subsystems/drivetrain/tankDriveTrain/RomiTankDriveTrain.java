@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkController;
+import frc.robot.utils.PoseEstimation4905;
+import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 @SuppressWarnings("removal")
 public class RomiTankDriveTrain extends RealTankDriveTrain {
@@ -149,6 +151,11 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   }
 
   @Override
+  public double getRobotPositionInchesBasedOnAngle(double angle) {
+    return 0;
+  }
+
+  @Override
   public double getLeftRateMetersPerSecond() {
     return m_leftMotor.getEncoder().getRate();
   }
@@ -186,8 +193,8 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
   }
 
   @Override
-  public void resetOdometry(Pose2d pose) {
-
+  public boolean resetOdometry(Pose2d pose) {
+    return true;
   }
 
   @Override
@@ -211,6 +218,55 @@ public class RomiTankDriveTrain extends RealTankDriveTrain {
 
   @Override
   public void setToAngle(double angle) {
+  }
+
+  @Override
+  public PoseEstimation4905.RegionsForPose getRegion() {
+    return PoseEstimation4905.RegionsForPose.UNKNOWN;
+  }
+
+  @Override
+  public boolean isLeftSide() {
+    return false;
+  }
+
+  @Override
+  public void configurePathPlanner() {
+  }
+
+  @Override
+  public boolean isUnsafeZone() {
+    return false;
+  }
+
+  @Override
+  public void setVelocityToZero() {
+  }
+
+  @Override
+  public Pose2d currentPose2d() {
+    return null;
+  }
+
+  @Override
+  public void moveUsingGyroStrafe(double forwardBackward, double strafe, boolean useSquaredInputs,
+      double heading) {
+    throw new UnsupportedOperationException("Unimplemented method 'moveUsingGyroStrafe'");
+  }
+
+  @Override
+  public boolean isAtAngle(double angle) {
+    throw new UnsupportedOperationException("Unimplemented method 'isAtAngle'");
+  }
+
+  @Override
+  public int regionToAprilTag(RegionsForPose region) {
+    throw new UnsupportedOperationException("Unimplemented method 'regionToAprilTag'");
+  }
+
+  @Override
+  public double getModZeroAngle() {
+    throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
   }
 
 }

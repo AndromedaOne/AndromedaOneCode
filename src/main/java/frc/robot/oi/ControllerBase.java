@@ -4,6 +4,7 @@
 
 package frc.robot.oi;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -144,11 +145,11 @@ public class ControllerBase {
   }
 
   protected boolean getLeftBumperPressed() {
-    return m_controller.getLeftBumper();
+    return m_controller.getLeftBumperButton();
   }
 
   protected boolean getLeftBumperReleased() {
-    return !m_controller.getLeftBumper();
+    return !m_controller.getLeftBumperButton();
   }
 
   protected JoystickButton getLeftBumperButton() {
@@ -156,11 +157,11 @@ public class ControllerBase {
   }
 
   protected boolean getRightBumperPressed() {
-    return m_controller.getRightBumper();
+    return m_controller.getRightBumperButton();
   }
 
   protected boolean getRightBumperReleased() {
-    return !m_controller.getRightBumper();
+    return !m_controller.getRightBumperButton();
   }
 
   protected JoystickButton getRightBumperButton() {
@@ -197,6 +198,10 @@ public class ControllerBase {
 
   protected boolean getPOVnorthWestPressed() {
     return (m_controller.getPOV() == POVDirectionNames.NORTHWEST.getValue());
+  }
+
+  protected void setRumble(double value) {
+    m_controller.setRumble(RumbleType.kBothRumble, value);
   }
 
   private double deadband(double stickValue) {

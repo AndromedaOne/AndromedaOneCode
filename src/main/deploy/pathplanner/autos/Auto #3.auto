@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop At A"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A To Pickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop At B"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "2025 Autos",
+  "choreoAuto": false
+}

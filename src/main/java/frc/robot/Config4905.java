@@ -48,6 +48,10 @@ public class Config4905 {
   private Config m_climberConfig;
   private Config m_intakeConfig;
   private Config m_feederConfig;
+  private Config m_sbsdClimberConfig;
+  private Config m_sbsdArmConfig;
+  private Config m_sbsdCoralEndEffectorConfig;
+  private Config m_sbsdAlgaeManipulatorConfig;
   private Config m_RedAutonomousConfig;
   private Config m_BlueAutonomousConfig;
   private static Config4905 m_config4905 = null;
@@ -61,6 +65,7 @@ public class Config4905 {
   private boolean m_isShowBot = false;
   private boolean m_isTopGun = false;
   private boolean m_isSwerveBot = false;
+  private boolean m_isSBSD = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -74,6 +79,8 @@ public class Config4905 {
         m_isTopGun = true;
       } else if (m_robotName.equals("SwerveBot")) { // Name pending
         m_isSwerveBot = true;
+      } else if (m_robotName.equals("SBSD")) {
+        m_isSBSD = true;
       }
     } else {
       // try to figure out which Romi we're on by looking at the SSID's we're
@@ -159,6 +166,10 @@ public class Config4905 {
     m_shooterConfig = load("shooter.conf");
     m_intakeConfig = load("intake.conf");
     m_feederConfig = load("feeder.conf");
+    m_sbsdArmConfig = load("sbsdarm.conf");
+    m_sbsdCoralEndEffectorConfig = load("coralendeffector.conf");
+    m_sbsdAlgaeManipulatorConfig = load("algaemanipulator.conf");
+    m_sbsdClimberConfig = load("sbsdclimber.conf");
     m_RedAutonomousConfig = load("RedAutonomous.conf");
     m_BlueAutonomousConfig = load("BlueAutonomous.conf");
   }
@@ -363,6 +374,45 @@ public class Config4905 {
     return m_feederConfig;
   }
 
+  public boolean doesSBSDArmExist() {
+    return (m_config.hasPath("subsystems.sbsdarm"));
+  }
+
+  public Config getSBSDArmConfig() {
+    return m_sbsdArmConfig;
+  }
+
+  public boolean doesSBSDCoralEndEffectorExist() {
+    return (m_config.hasPath("subsystems.sbsdcoralendeffector"));
+  }
+
+  public Config getSBSDCoralEndEffectorConfig() {
+    return m_sbsdCoralEndEffectorConfig;
+  }
+
+  public boolean doesSBSDCoralIntakeEjectExist() {
+    return (m_config.hasPath("subsystems.sbsdcoralintakeeject"));
+  }
+
+  public boolean doesSBSDAlgaeManipulatorExist() {
+    return (m_config.hasPath("subsystems.algaemanipulator"));
+  }
+
+  public Config getSBSDAlgaeManipulatorConfig() {
+    return m_sbsdAlgaeManipulatorConfig;
+  }
+
+  public boolean doesSBSDClimberExist() {
+    if (m_config.hasPath("subsystems.sbsdclimber")) {
+      return true;
+    }
+    return false;
+  }
+
+  public Config getSBSDClimberConfig() {
+    return m_sbsdClimberConfig;
+  }
+
   public Config getSensorConfig() {
     return m_sensorConfig;
   }
@@ -408,6 +458,10 @@ public class Config4905 {
 
   public boolean isSwerveBot() {
     return m_isSwerveBot;
+  }
+
+  public boolean isSBSD() {
+    return m_isSBSD;
   }
 
   public String getRobotName() {

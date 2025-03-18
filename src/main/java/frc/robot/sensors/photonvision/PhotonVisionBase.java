@@ -4,6 +4,13 @@
 
 package frc.robot.sensors.photonvision;
 
+import java.util.List;
+
+import org.photonvision.PhotonCamera;
+
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
+
 /** Add your docs here. */
 public interface PhotonVisionBase {
 
@@ -20,5 +27,23 @@ public interface PhotonVisionBase {
   public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint);
 
   public TargetDetectedAndDistance getTargetDetectedAndDistance(int wantedID);
+
+  public Rotation3d getRotation3d();
+
+  public Translation3d getTranslation3d();
+
+  public class AprilTagInfo {
+    public int aprilTagID;
+    public double distanceToTarget;
+    public double angleToTarget;
+    public double ambiguity;
+  }
+
+  public List<AprilTagInfo> getAprilTagInfo();
+
+  public PhotonCamera getPhotonCamera();
+
+  public void computeDistanceAndAngle(int wantedID, boolean useTrace, boolean useLeft,
+      TargetDistanceAndAngle targetDistanceAngle);
 
 }

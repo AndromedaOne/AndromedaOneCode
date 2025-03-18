@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop At G"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Algae At F"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Algae At I"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "2025 Autos",
+  "choreoAuto": false
+}

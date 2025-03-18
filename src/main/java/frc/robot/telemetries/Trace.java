@@ -318,7 +318,16 @@ public class Trace {
       System.err.println("ERROR: Failed to Flush");
       e.printStackTrace();
     }
+    System.out.println("Flushing trace files");
+  }
 
+  public synchronized void flushCommandTraceFile() {
+    try {
+      m_commandTraceWriter.flush();
+    } catch (IOException e) {
+      System.err.println("ERROR: failed to flush command trace file");
+      e.printStackTrace();
+    }
   }
 
   private void redirectOutput() {
