@@ -50,6 +50,7 @@ public class FinishPath extends SequentialCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
+    Trace.getInstance().logCommandInfo(this, "Starting pose "+ m_drivetrain.getPose());
     int aprilTag = m_drivetrain.regionToAprilTag(m_region);
     m_photonVision.get(m_index).computeDistanceAndAngle(aprilTag, true, m_useLeft,
         m_wantedDistanceAndAngle);
@@ -77,5 +78,10 @@ public class FinishPath extends SequentialCommandGroup4905 {
   @Override
   public boolean isFinished() {
     return super.isFinished();
+  }
+  @Override
+  public void additionalEnd(boolean interrupted){
+    super.end(interrupted);
+    Trace.getInstance().logCommandInfo(this, "Ending pose "+ m_drivetrain.getPose());
   }
 }
