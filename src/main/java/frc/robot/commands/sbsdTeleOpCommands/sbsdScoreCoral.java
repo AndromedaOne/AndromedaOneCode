@@ -22,8 +22,10 @@ public class sbsdScoreCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Coral Scored!");
-    m_endEffector.setEjectState();
+    if (Robot.getInstance().isAutonomous()) {
+      m_endEffector.setEjectState();
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,6 +41,9 @@ public class sbsdScoreCoral extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_endEffector.hasScored();
+    if (Robot.getInstance().isAutonomous()) {
+      return m_endEffector.hasScored();
+    }
+    return true;
   }
 }

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.668618763296445,
-        "y": 2.5855185855516005
+        "x": 3.666267123287671,
+        "y": 2.9732020547945206
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9393726837844207,
-        "y": 1.8085020584981415
+        "x": 3.671612406397427,
+        "y": 2.4825703219491557
       },
       "isLocked": false,
-      "linkedName": "Reef C"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.096875,
-        "y": 0.9146832191780823
+        "x": 3.668618763296445,
+        "y": 2.5855185855516005
       },
       "prevControl": {
-        "x": 1.6287645450967554,
-        "y": 3.0327984269060484
+        "x": 3.666456243824146,
+        "y": 3.0436551585338036
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Bottom Side Pickup"
+      "linkedName": "Reef C"
     }
   ],
   "rotationTargets": [],
@@ -42,12 +42,12 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 55.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Auto #2 Paths 2025",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true

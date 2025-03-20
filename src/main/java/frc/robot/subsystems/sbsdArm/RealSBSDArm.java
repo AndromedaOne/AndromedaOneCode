@@ -64,7 +64,7 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     m_kG = armrotateConfig.getDouble("kG");
     m_tolerance = armrotateConfig.getDouble("tolerance");
     m_controller = new PIDController4905("SBSD Arm PID", m_kP, m_kI, m_kD, 0);
-    m_controller.enableContinuousInput(-Math.PI, Math.PI);
+    m_controller.disableContinuousInput();
     m_controller.setTolerance(Math.toRadians(m_tolerance));
   }
 
@@ -121,7 +121,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
       calculateSpeed();
     }
     SmartDashboard.putNumber("SBSD Arm Angle in Degrees", getAngleDeg());
-    SmartDashboard.putNumber("SBSD Arm Angle in Rads", getAngleRad());
     SmartDashboard.putBoolean("SBSD arm forward limit switch",
         m_rightAngleMotor.isForwardLimitSwitchOn());
     SmartDashboard.putBoolean("SBSD arm backward limit switch",
@@ -167,7 +166,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
         m_rightAngleMotor.setSpeed(speed);
         m_leftAngleMotor.setSpeed(speed);
       }
-      SmartDashboard.putNumber("SBSD Arm Speed: ", speed);
     }
 
   }
@@ -214,7 +212,6 @@ public class RealSBSDArm extends SubsystemBase implements SBSDArmBase {
     } else {
       m_algaeRemovalWheels.setSpeed(0);
     }
-    SmartDashboard.putNumber("SBSD Arm Current setpoint:", m_controller.getSetpoint());
   }
 
   @Override

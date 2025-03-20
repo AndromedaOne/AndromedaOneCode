@@ -15,6 +15,7 @@ public class CoralIntakeEjectDefaultCommand extends Command {
   private CoralIntakeEjectBase m_coralIntakeEject;
   private DriveController m_driveController;
   private SubsystemController m_subsystemController;
+  private boolean m_hasEjected = false;
 
   public CoralIntakeEjectDefaultCommand(boolean useSmartDashboard) {
     m_coralIntakeEject = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
@@ -33,7 +34,12 @@ public class CoralIntakeEjectDefaultCommand extends Command {
   @Override
   public void execute() {
     if (m_subsystemController.getManualEject()) {
-      m_coralIntakeEject.setEjectState();
+      if (!m_hasEjected) {
+        m_coralIntakeEject.setEjectState();
+        m_hasEjected = true;
+      }
+    } else {
+      m_hasEjected = false;
     }
   }
 

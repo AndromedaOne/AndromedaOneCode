@@ -7,13 +7,13 @@
         {
           "type": "named",
           "data": {
-            "name": "sbsdCoralScoreLevel4"
+            "name": "sbsdCoralScoreLevel2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Drop At G No Vision"
+            "pathName": "Score Level 1"
           }
         },
         {

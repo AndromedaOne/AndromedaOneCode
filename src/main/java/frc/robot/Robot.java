@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdAutoCommands.AutoFinish123C;
 import frc.robot.commands.sbsdAutoCommands.AutoFinish123L;
@@ -97,6 +98,7 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("autoFinish4L", new AutoFinish4L());
     NamedCommands.registerCommand("autoFinish123C", new AutoFinish123C());
     NamedCommands.registerCommand("autoFinish123L", new AutoFinish123L());
+    NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
 
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
@@ -159,6 +161,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
+    Trace.getInstance().flushCommandTraceFile();
   }
 
   /**
