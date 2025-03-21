@@ -82,7 +82,6 @@ public class FinishPath extends SequentialCommandGroup4905 {
 
   @Override
   public void additionalEnd(boolean interrupted) {
-    super.end(interrupted);
     Trace.getInstance().logCommandInfo(this, "Ending pose " + m_drivetrain.getPose());
   }
 }
