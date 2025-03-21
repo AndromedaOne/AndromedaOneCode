@@ -73,4 +73,22 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
   @Override
   public void setAngleDeg(ArmSetpoints level) {
   }
+
+  @Override
+  public boolean getEEAngleFixerSensor() {
+    return false;
+  }
+
+  @Override
+  public void setInitialized() {
+  }
+
+  @Override
+  public void setAngleOffset() {
+  }
+
+  @Override
+  public boolean isInitialized() {
+    return false;
+  }
 }

@@ -35,4 +35,12 @@ public interface CoralEndEffectorRotateBase extends SubsystemInterface {
   public abstract boolean atSetPoint();
 
   public abstract double getSafeAngleToScoreL4();
+
+  public abstract boolean getEEAngleFixerSensor();
+
+  public abstract void setInitialized();
+
+  public abstract boolean isInitialized();
+
+  public abstract void setAngleOffset();
 }
