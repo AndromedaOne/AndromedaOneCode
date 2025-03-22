@@ -194,6 +194,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
       calculateSpeed();
     }
     SmartDashboard.putNumber("Coral Angle in Degrees", getAngleDeg());
+    SmartDashboard.putNumber("Coral Angle Raw", m_absoluteEncoderPosition.getAsDouble());
   }
 
   @Override

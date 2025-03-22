@@ -9,11 +9,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpointsSupplier;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
+import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
 import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class EndEffectorControlCommand extends Command {
   private CoralEndEffectorRotateBase m_endEffector;
+  private CoralIntakeEjectBase m_coralIntake;
   private boolean m_useSmartDashboard = false;
   private double m_setpoint = 0;
   private boolean m_useLevel = false;
@@ -64,6 +66,7 @@ public class EndEffectorControlCommand extends Command {
     if (m_useSmartDashboard) {
       m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
     } else {
+
       m_endEffector.setAngleDeg(m_setpoint);
     }
   }
