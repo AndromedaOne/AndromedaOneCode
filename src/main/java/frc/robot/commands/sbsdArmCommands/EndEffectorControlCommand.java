@@ -50,6 +50,7 @@ public class EndEffectorControlCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_hasSetLevel = false;
     if (m_useLevel) {
       Trace.getInstance().logCommandInfo(this, "EE Level: "
           + SBSDArmSetpoints.getInstance().getEndEffectorAngleInDeg(m_level.getAsArmSetpoints()));
