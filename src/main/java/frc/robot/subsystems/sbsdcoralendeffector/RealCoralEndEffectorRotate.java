@@ -19,6 +19,7 @@ import frc.robot.actuators.SparkMaxController;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 import frc.robot.subsystems.sbsdclimber.ClimberMode;
 
 /** Add your docs here. */
@@ -27,7 +28,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   private SparkMaxController m_angleMotor;
   private DoubleSupplier m_absoluteEncoderPosition;
-  private DigitalInput m_endEffectorAngleFixerSensor;
+  private RealLimitSwitchSensor m_endEffectorAngleFixerSensor;
   private boolean m_isInitialized = false;
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
@@ -49,8 +50,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
     m_angleMotor = new SparkMaxController(config, "coralAngle", false, false);
     m_absoluteEncoderPosition = () -> m_angleMotor.getAbsoluteEncoderPosition();
-    m_endEffectorAngleFixerSensor = new DigitalInput(
-        sensorConfig.getInt("endEffectorAngleFixerSensor"));
+    m_endEffectorAngleFixerSensor = new RealLimitSwitchSensor("endEffectorAngleFixerSensor");
     m_tolerance = config.getDouble("tolerance");
     m_kP = config.getDouble("kP");
     m_kI = config.getDouble("kI");
@@ -199,6 +199,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
       calculateSpeed();
     }
     SmartDashboard.putNumber("Coral Angle in Degrees", getAngleDeg());
+    SmartDashboard.putBoolean("EE angle fixer sensor", getEEAngleFixerSensor());
   }
 
   @Override
@@ -208,7 +209,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   @Override
   public boolean getEEAngleFixerSensor() {
-    return m_endEffectorAngleFixerSensor.get();
+    return m_endEffectorAngleFixerSensor.isAtLimit();
   }
 
   @Override

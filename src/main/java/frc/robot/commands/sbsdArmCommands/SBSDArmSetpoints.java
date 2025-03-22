@@ -124,6 +124,25 @@ public class SBSDArmSetpoints {
         new ArmAndEndEffectorSetpoints(ArmSetpoints.LEVEL_4, fromConfig));
   }
 
+  public void toggleEndEffectorSetpoint() {
+    final double offset = 6;
+    if (getEndEffectorAngleInDeg(ArmSetpoints.CORAL_LOAD) == 123) {
+      setEnfEffectorAngleDeg(ArmSetpoints.CLIMBER_POSITION, 117);
+      setEnfEffectorAngleDeg(ArmSetpoints.CORAL_LOAD, 117);
+      setEnfEffectorAngleDeg(ArmSetpoints.LEVEL_1, 117);
+      setEnfEffectorAngleDeg(ArmSetpoints.LEVEL_2, 91);
+      setEnfEffectorAngleDeg(ArmSetpoints.LEVEL_3, 61);
+      setEnfEffectorAngleDeg(ArmSetpoints.LEVEL_4, -112);
+    } else {
+      setEnfEffectorAngleDeg(ArmSetpoints.CLIMBER_POSITION, 117 + offset);
+      setEnfEffectorAngleDeg(ArmSetpoints.CORAL_LOAD, 117 + offset);
+      setEnfEffectorAngleDeg(ArmSetpoints.LEVEL_1, 117 + offset);
+      setEnfEffectorAngleDeg(ArmSetpoints.LEVEL_2, 91 + offset);
+      setEnfEffectorAngleDeg(ArmSetpoints.LEVEL_3, 61 + offset);
+      setEnfEffectorAngleDeg(ArmSetpoints.LEVEL_4, -112 + offset);
+    }
+  }
+
   public static void setUpSetpointsFromConfig() {
     if (!m_hasLoadedConfig) {
       m_hasLoadedConfig = true;
@@ -137,6 +156,10 @@ public class SBSDArmSetpoints {
 
   public double getEndEffectorAngleInDeg(ArmSetpoints level) {
     return m_setpointsMap.get(level).endEffectorAngleInDeg;
+  }
+
+  private void setEnfEffectorAngleDeg(ArmSetpoints level, double angle) {
+    m_setpointsMap.get(level).endEffectorAngleInDeg = angle;
   }
 
   public interface ArmSetpointsSupplier {
