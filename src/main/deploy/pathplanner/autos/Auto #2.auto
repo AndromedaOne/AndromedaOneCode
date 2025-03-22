@@ -5,19 +5,26 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Drop At E"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "setVelocityToZero"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Drop At E"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setVelocityToZero"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -73,19 +80,26 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Drop At D"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "setVelocityToZero"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Drop At D"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setVelocityToZero"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -141,19 +155,26 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Drop At C"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "setVelocityToZero"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Drop At C"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setVelocityToZero"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -209,7 +230,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
