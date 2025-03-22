@@ -15,7 +15,6 @@ public class WaitForCoral extends Command {
 
   public WaitForCoral() {
     m_coralIntakeEject = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
-    addRequirements(m_coralIntakeEject.getSubsystemBase());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
