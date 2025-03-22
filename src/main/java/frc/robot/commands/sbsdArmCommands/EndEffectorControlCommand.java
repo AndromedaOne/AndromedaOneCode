@@ -50,6 +50,7 @@ public class EndEffectorControlCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_hasSetLevel = false;
     if (m_useLevel) {
       Trace.getInstance().logCommandInfo(this, "EE Level: "
           + SBSDArmSetpoints.getInstance().getEndEffectorAngleInDeg(m_level.getAsArmSetpoints()));
@@ -76,8 +77,7 @@ public class EndEffectorControlCommand extends Command {
         m_endEffector.setAngleDeg(SmartDashboard.getNumber("SBSD End Effector goal degrees", 0));
         m_hasSetLevel = true;
       } else if (m_endEffector.getLastSavedLevel() != ArmSetpoints.CORAL_LOAD
-          || !m_intakeEject.intakeDetector()
-          || m_level.getAsArmSetpoints() == ArmSetpoints.CLIMBER_POSITION) {
+          || !m_intakeEject.intakeDetector()) {
         m_endEffector.setAngleDeg(m_level.getAsArmSetpoints());
         m_hasSetLevel = true;
       }
