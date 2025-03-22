@@ -35,4 +35,6 @@ public interface CoralEndEffectorRotateBase extends SubsystemInterface {
   public abstract boolean atSetPoint();
 
   public abstract double getSafeAngleToScoreL4();
+
+  public abstract ArmSetpoints getLastSavedLevel();
 }
