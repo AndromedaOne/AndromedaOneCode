@@ -193,7 +193,8 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     if (DriverStation.isEnabled()) {
       calculateSpeed();
     }
-    SmartDashboard.putNumber("Coral Angle in Degrees", getAngleDeg());
+    SmartDashboard.putNumber("Coral EE Angle in Degrees", getAngleDeg());
+    SmartDashboard.putNumber("Coral EE Raw angle", m_absoluteEncoderPosition.getAsDouble());
   }
 
   @Override
