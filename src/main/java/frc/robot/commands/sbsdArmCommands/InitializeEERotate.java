@@ -29,7 +29,7 @@ public class InitializeEERotate extends Command {
   @Override
   public void execute() {
     if (m_eeAngleFixerInitialState) {
-      if (!m_eeAngleFixerInitialState) {
+      if (!m_endEffector.getEEAngleFixerSensor()) {
         // found edge
         m_endEffector.setAngleOffset();
         m_endEffector.stop();
@@ -38,7 +38,7 @@ public class InitializeEERotate extends Command {
         m_endEffector.rotate(0.01);
       }
     } else {
-      if (m_eeAngleFixerInitialState) {
+      if (m_endEffector.getEEAngleFixerSensor()) {
         // found edge
         m_endEffector.setAngleOffset();
         m_endEffector.stop();
