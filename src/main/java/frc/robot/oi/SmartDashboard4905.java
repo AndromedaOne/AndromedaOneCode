@@ -37,6 +37,7 @@ import frc.robot.commands.sbsdAlgaeManipulatorCommands.AlgaeManipulatorIntake;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.SetBreakMode;
+import frc.robot.commands.sbsdAutoCommands.AprilTagSnapshot;
 import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
 import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
 import frc.robot.commands.showBotAudio.PlayAudio;
@@ -98,6 +99,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("Set swerve drive angle for test", 0);
       SmartDashboard.putData("Run swerve drive angle set for test",
           new SwerveDriveSetWheelsToAngle(subsystemsContainer.getDriveTrain(), 0, true));
+      SmartDashboard.putData("AprilTagSnapshot", new AprilTagSnapshot());
     }
 
     if (Config4905.getConfig4905().isRomi()) {

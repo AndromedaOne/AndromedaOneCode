@@ -73,4 +73,9 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
   @Override
   public void setAngleDeg(ArmSetpoints level) {
   }
+
+  @Override
+  public ArmSetpoints getLastSavedLevel() {
+    return ArmSetpoints.CORAL_LOAD;
+  }
 }

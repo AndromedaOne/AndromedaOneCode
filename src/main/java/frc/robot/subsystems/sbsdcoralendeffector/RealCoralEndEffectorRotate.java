@@ -40,6 +40,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   private double m_tolerance = 0.0;
   private static boolean m_inClimberMode = false;
   private PIDController4905 m_controller;
+  private ArmSetpoints m_lastSavedLevel = ArmSetpoints.CORAL_LOAD;
 
   public RealCoralEndEffectorRotate() {
     Config config = Config4905.getConfig4905().getSBSDCoralEndEffectorConfig();
@@ -84,6 +85,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   @Override
   public void setAngleDeg(ArmSetpoints level) {
     setAngleDeg(SBSDArmSetpoints.getInstance().getEndEffectorAngleInDeg(level));
+    m_lastSavedLevel = level;
   }
 
   private double calculateCorrectedEncoder() {
@@ -193,11 +195,18 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     if (DriverStation.isEnabled()) {
       calculateSpeed();
     }
-    SmartDashboard.putNumber("Coral Angle in Degrees", getAngleDeg());
+    SmartDashboard.putNumber("Coral EE Angle in Degrees", getAngleDeg());
+    SmartDashboard.putNumber("Coral EE Raw angle", m_absoluteEncoderPosition.getAsDouble());
   }
 
   @Override
   public double getSafeAngleToScoreL4() {
     return 0;
   }
+
+  @Override
+  public ArmSetpoints getLastSavedLevel() {
+    return m_lastSavedLevel;
+  }
+
 }
