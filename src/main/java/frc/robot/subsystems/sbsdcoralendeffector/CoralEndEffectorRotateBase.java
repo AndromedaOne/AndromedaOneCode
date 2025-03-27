@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.sbsdcoralendeffector;
 
-import java.lang.reflect.AnnotatedArrayType;
-
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.subsystems.SubsystemInterface;
 
