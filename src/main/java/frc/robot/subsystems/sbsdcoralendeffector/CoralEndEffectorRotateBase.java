@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.sbsdcoralendeffector;
 
+import java.lang.reflect.AnnotatedArrayType;
+
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints.ArmSetpoints;
 import frc.robot.subsystems.SubsystemInterface;
 
@@ -37,4 +39,6 @@ public interface CoralEndEffectorRotateBase extends SubsystemInterface {
   public abstract double getSafeAngleToScoreL4();
 
   public abstract ArmSetpoints getLastSavedLevel();
+
+  public abstract void resetAngleOffset();
 }

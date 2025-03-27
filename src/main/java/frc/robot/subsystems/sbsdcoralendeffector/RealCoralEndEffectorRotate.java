@@ -197,6 +197,7 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     }
     SmartDashboard.putNumber("Coral EE Angle in Degrees", getAngleDeg());
     SmartDashboard.putNumber("Coral EE Raw angle", m_absoluteEncoderPosition.getAsDouble());
+    SmartDashboard.putBoolean("Coral EE Angle Limit Switch", m_angleMotor.isForwardLimitSwitchOn());
   }
 
   @Override
@@ -207,6 +208,10 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   @Override
   public ArmSetpoints getLastSavedLevel() {
     return m_lastSavedLevel;
+  }
+
+  @Override
+  public void resetAngleOffset() {
   }
 
 }
