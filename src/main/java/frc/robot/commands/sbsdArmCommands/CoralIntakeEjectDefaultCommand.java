@@ -9,6 +9,7 @@ import frc.robot.Robot;
 import frc.robot.oi.DriveController;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
+import frc.robot.telemetries.Trace;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralIntakeEjectDefaultCommand extends Command {
@@ -34,9 +35,11 @@ public class CoralIntakeEjectDefaultCommand extends Command {
   @Override
   public void execute() {
     if (m_subsystemController.getManualEject()) {
+      Trace.getInstance().logCommandInfo(this, "Eject button pressed");
       if (!m_hasEjected) {
         m_coralIntakeEject.setEjectState();
         m_hasEjected = true;
+        Trace.getInstance().logCommandInfo(this, "Ejected");
       }
     } else {
       m_hasEjected = false;
