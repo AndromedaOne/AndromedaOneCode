@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
+import frc.robot.telemetries.Trace;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AprilTagSnapshot extends Command {
@@ -24,6 +25,7 @@ public class AprilTagSnapshot extends Command {
   @Override
   public void initialize() {
     m_cameraList.get(3).getPhotonCamera().takeOutputSnapshot();
+    Trace.getInstance().logCommandInfo(this, "Output snapshot taken");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
