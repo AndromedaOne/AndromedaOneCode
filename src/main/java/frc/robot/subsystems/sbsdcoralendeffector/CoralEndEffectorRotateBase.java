@@ -39,4 +39,9 @@ public interface CoralEndEffectorRotateBase extends SubsystemInterface {
   public abstract ArmSetpoints getLastSavedLevel();
 
   public abstract void resetAngleOffset();
+  public abstract void setInitialized();
+
+  public abstract boolean isInitialized();
+
+  public abstract void setAngleOffset();
 }

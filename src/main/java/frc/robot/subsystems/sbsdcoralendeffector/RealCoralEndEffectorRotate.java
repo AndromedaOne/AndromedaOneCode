@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +27,8 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   private SparkMaxController m_angleMotor;
   private DoubleSupplier m_absoluteEncoderPosition;
+  private DigitalInput m_endEffectorAngleFixerSensor;
+  private boolean m_isInitialized = false;
   private double m_minAngleDeg = 0.0;
   private double m_maxAngleDeg = 0.0;
   private double m_angleOffset = 0.0;
@@ -47,6 +50,8 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
     Config sensorConfig = Config4905.getConfig4905().getSensorConfig();
     m_angleMotor = new SparkMaxController(config, "coralAngle", false, false);
     m_absoluteEncoderPosition = () -> m_angleMotor.getAbsoluteEncoderPosition();
+    m_endEffectorAngleFixerSensor = new DigitalInput(
+        sensorConfig.getInt("endEffectorAngleFixerSensor"));
     m_tolerance = config.getDouble("tolerance");
     m_kP = config.getDouble("kP");
     m_kI = config.getDouble("kI");
@@ -203,6 +208,25 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   @Override
   public double getSafeAngleToScoreL4() {
     return 0;
+  }
+
+  @Override
+  public boolean getEEAngleFixerSensor() {
+    return m_endEffectorAngleFixerSensor.get();
+  }
+
+  @Override
+  public void setInitialized() {
+    m_isInitialized = true;
+  }
+
+  @Override
+  public void setAngleOffset() {
+  }
+
+  @Override
+  public boolean isInitialized() {
+    return m_isInitialized;
   }
 
   @Override

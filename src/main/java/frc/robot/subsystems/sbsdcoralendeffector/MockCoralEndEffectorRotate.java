@@ -82,4 +82,17 @@ public class MockCoralEndEffectorRotate implements CoralEndEffectorRotateBase {
   @Override
   public void resetAngleOffset() {
   }
+  
+  @Override
+  public void setInitialized() {
+  }
+
+  @Override
+  public void setAngleOffset() {
+  }
+
+  @Override
+  public boolean isInitialized() {
+    return false;
+  }
 }
