@@ -26,6 +26,7 @@ import frc.robot.commands.sbsdAutoCommands.AutoFinish123L;
 import frc.robot.commands.sbsdAutoCommands.AutoFinish4C;
 import frc.robot.commands.sbsdAutoCommands.AutoFinish4D;
 import frc.robot.commands.sbsdAutoCommands.AutoFinish4E;
+import frc.robot.commands.sbsdAutoCommands.AutoFinish4G;
 import frc.robot.commands.sbsdAutoCommands.AutoFinish4J;
 import frc.robot.commands.sbsdAutoCommands.AutoFinish4K;
 import frc.robot.commands.sbsdAutoCommands.AutoFinish4L;
@@ -93,6 +94,7 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("autoFinish4C", new AutoFinish4C());
     NamedCommands.registerCommand("autoFinish4D", new AutoFinish4D());
     NamedCommands.registerCommand("autoFinish4E", new AutoFinish4E());
+    NamedCommands.registerCommand("autoFinish4G", new AutoFinish4G());
     NamedCommands.registerCommand("autoFinish4J", new AutoFinish4J());
     NamedCommands.registerCommand("autoFinish4K", new AutoFinish4K());
     NamedCommands.registerCommand("autoFinish4L", new AutoFinish4L());
