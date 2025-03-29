@@ -56,6 +56,7 @@ public class FinishPath extends SequentialCommandGroup4905 {
         m_wantedDistanceAndAngle);
     // m_wantedDistanceAndAngle.setDistance(m_wantedDistanceAndAngle.getDistance() -
     // 1);
+    Trace.getInstance().logInfo("april tag: " + aprilTag);
     if (m_wantedDistanceAndAngle.getDetected()) {
       if (!m_isForward) {
         m_wantedDistanceAndAngle.setDistance(-(m_wantedDistanceAndAngle.getDistance() - 1));
@@ -64,7 +65,6 @@ public class FinishPath extends SequentialCommandGroup4905 {
       m_distance = m_wantedDistanceAndAngle.getTargetDistanceSupplier();
       Trace.getInstance().logInfo("angle value: " + m_angle.getAsDouble());
       Trace.getInstance().logInfo("distance value: " + m_distance.getAsDouble());
-      Trace.getInstance().logInfo("april tag: " + aprilTag);
     } else {
       m_wantedDistanceAndAngle.setDistance(0);
       m_wantedDistanceAndAngle.setAngle(0);
