@@ -15,7 +15,6 @@ public class sbsdScoreCoral extends Command {
 
   public sbsdScoreCoral() {
     m_endEffector = Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
-    addRequirements(m_endEffector.getSubsystemBase());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
