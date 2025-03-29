@@ -16,6 +16,7 @@ public class AutoFinish4J extends SequentialCommandGroup4905 {
   public AutoFinish4J() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new FinishPath(false, RegionsForPose.NORTHWEST, false));
+    addCommands(new WaitForTag(RegionsForPose.NORTHWEST, false),
+        new FinishPath(false, RegionsForPose.NORTHWEST, false));
   }
 }
