@@ -19,6 +19,9 @@ public abstract class RealLEDs extends LEDs {
 
   @Override
   public void periodic() {
+    if (Robot.getInstance().isAutonomous()) {
+      return;
+    }
     super.periodic();
     if (!Robot.getInstance().getSensorsContainer().getGyro().getIsCalibrated()) {
       setWhite(1);

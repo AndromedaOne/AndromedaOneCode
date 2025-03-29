@@ -2,6 +2,7 @@ package frc.robot.subsystems.ledlights;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
 public abstract class LEDs extends SubsystemBase {
 
@@ -41,6 +42,9 @@ public abstract class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (Robot.getInstance().isAutonomous()) {
+      return;
+    }
     Color color;
     switch (m_mode) {
 
