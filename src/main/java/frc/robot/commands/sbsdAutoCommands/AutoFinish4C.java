@@ -16,6 +16,7 @@ public class AutoFinish4C extends SequentialCommandGroup4905 {
   public AutoFinish4C() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new FinishPath(false, RegionsForPose.SOUTHEAST, true));
+    addCommands(new WaitForTag(RegionsForPose.SOUTHEAST, false),
+        new FinishPath(false, RegionsForPose.SOUTHEAST, true));
   }
 }

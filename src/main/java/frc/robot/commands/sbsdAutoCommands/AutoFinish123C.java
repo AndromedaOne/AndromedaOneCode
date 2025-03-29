@@ -16,6 +16,7 @@ public class AutoFinish123C extends SequentialCommandGroup4905 {
   public AutoFinish123C() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new FinishPath(true, RegionsForPose.SOUTHEAST, true));
+    addCommands(new WaitForTag(RegionsForPose.SOUTHEAST, true),
+        new FinishPath(true, RegionsForPose.SOUTHEAST, true));
   }
 }
