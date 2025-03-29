@@ -5,15 +5,41 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "sbsdCoralScoreLevel4"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Drop At G No Vision"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setVelocityToZero"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Drop At G No Vision"
+            "name": "autoFinish4G"
           }
         },
         {

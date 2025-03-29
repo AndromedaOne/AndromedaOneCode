@@ -31,7 +31,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private double m_intakeSpeed = 0.1;
   private double m_repositionSpeed = 0.07;
   private double m_l4RepositionSpeed = 0.1;
-  private double m_ejectSpeed = 0.5;
+  private double m_ejectSpeed = 0.75;
   private boolean m_ejectCoral = false;
   private boolean m_inWaitForCoral = false;
   private final boolean m_useTimerForRumble;
