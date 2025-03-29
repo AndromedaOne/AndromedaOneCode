@@ -44,6 +44,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
   private boolean m_exitL4ScoringPosition = false;
   private boolean m_scoreL4 = false;
   private double m_L4SafeAngleOffset = 90;
+  private int m_loopOverrunCount = 0;
 
   private enum CoralState {
     WAIT_FOR_CORAL, INTAKE_CORAL, POSITION_CORAL, HOLD_CORAL, EJECT_CORAL, PAUSE_FOR_EJECT,
@@ -228,12 +229,20 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         Trace.getInstance().logInfo("HOLD_L4_POSITION -> POSITION_L4");
         m_currentState = CoralState.POSITION_L4;
       } else if (!intakeDetector() && !ejectDetector()) {
-        m_hasCoral = false;
-        m_currentRumble = false;
-        m_rumbleTimer = 0;
-        m_currentState = CoralState.WAIT_FOR_CORAL;
-        Trace.getInstance().logInfo("HOLD_L4_POSITION -> !intakeDetector() && !ejectDetector()");
-        Trace.getInstance().logInfo("HOLD_L4_POSITION -> WAIT_FOR_CORAL");
+        if (m_loopOverrunCount >= 2) {
+          m_hasCoral = false;
+          m_currentRumble = false;
+          m_rumbleTimer = 0;
+          m_loopOverrunCount = 0;
+          m_currentState = CoralState.WAIT_FOR_CORAL;
+          Trace.getInstance().logInfo("HOLD_L4_POSITION -> !intakeDetector() && !ejectDetector()");
+          Trace.getInstance().logInfo("HOLD_L4_POSITION -> WAIT_FOR_CORAL");
+        } else {
+          m_loopOverrunCount++;
+          Trace.getInstance().logInfo("Intake sensor false but not changing states");
+        }
+      } else {
+        m_loopOverrunCount = 0;
       }
       break;
 
