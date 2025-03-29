@@ -68,6 +68,7 @@ public abstract class LEDs extends SubsystemBase {
 
     default:
       color = new Color(1.0, .8, .8); // Pink
+      break;
     }
     updateRGBcolor(color);
   }
