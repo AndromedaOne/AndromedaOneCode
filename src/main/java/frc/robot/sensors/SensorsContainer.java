@@ -20,10 +20,6 @@ import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
 import frc.robot.sensors.gyro.RealPigeonGyroSensor;
-import frc.robot.sensors.gyro.RomiGyro;
-import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
-import frc.robot.sensors.limelightcamera.MockLimeLightCamera;
-import frc.robot.sensors.limelightcamera.RealLimelightCamera;
 import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.MockLimitSwitchSensor;
 import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
@@ -42,7 +38,6 @@ import frc.robot.telemetries.Trace;
 public class SensorsContainer {
   private Camera m_camera0;
   private Camera m_camera1;
-  private LimeLightCameraBase m_limelightCameraBase;
   private Gyro4905 m_gyro;
   private UltrasonicSensor m_cannonSafetyUltrasonic;
   private EncoderBase m_cannonElevatorEncoder;
@@ -61,9 +56,6 @@ public class SensorsContainer {
     } else if (m_sensorConfig.hasPath("pigeon")) {
       Trace.getInstance().logInfo("Using real Pigeon Gyro sensor");
       m_gyro = new RealPigeonGyroSensor();
-    } else if (m_sensorConfig.hasPath("RomiGyro")) {
-      Trace.getInstance().logInfo("Using RomiGyro");
-      m_gyro = new RomiGyro();
     } else {
       Trace.getInstance().logInfo("Using mock Navx Gyro sensor");
       m_gyro = new MockGyro();
@@ -84,14 +76,6 @@ public class SensorsContainer {
       Trace.getInstance().logInfo("Using fake cameras");
       m_camera0 = new MockCamera();
       m_camera1 = new MockCamera();
-    }
-
-    if (m_sensorConfig.hasPath("limelight")) {
-      Trace.getInstance().logInfo("Using real LimeLight");
-      m_limelightCameraBase = new RealLimelightCamera();
-    } else {
-      Trace.getInstance().logInfo("Using fake LimeLight");
-      m_limelightCameraBase = new MockLimeLightCamera();
     }
     if (m_sensorConfig.hasPath("photonvision")) {
       Trace.getInstance().logInfo("Using real Photon Vision");
@@ -147,10 +131,6 @@ public class SensorsContainer {
 
   public boolean hasPhotonVision() {
     return m_hasPhotonVision;
-  }
-
-  public LimeLightCameraBase getLimeLight() {
-    return m_limelightCameraBase;
   }
 
   public UltrasonicSensor getCannonSafetyUltrasonic() {

@@ -39,7 +39,6 @@ import frc.robot.commands.sbsdTeleOpCommands.sbsdCoralLoadArmEndEffectorPositon;
 import frc.robot.commands.sbsdTeleOpCommands.sbsdScoreCoral;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
-import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
 
@@ -55,7 +54,6 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
-  private LimeLightCameraBase m_limelight;
 
   private Robot() {
   }
@@ -122,8 +120,6 @@ public class Robot extends TimedRobot {
       NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
       NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
     }
-    m_limelight = m_sensorsContainer.getLimeLight();
-    m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(true);
     m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
     m_subsystemContainer.getSBSDCoralIntakeEjectBase()
@@ -176,7 +172,6 @@ public class Robot extends TimedRobot {
     }
     m_subsystemContainer.getDriveTrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
-    m_limelight.disableLED();
     m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
   }
 
@@ -207,7 +202,6 @@ public class Robot extends TimedRobot {
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
-    m_limelight.enableLED();
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
     m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
@@ -250,7 +244,6 @@ public class Robot extends TimedRobot {
     if (DriverStation.isFMSAttached()) {
       Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
     }
-    m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
     m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();

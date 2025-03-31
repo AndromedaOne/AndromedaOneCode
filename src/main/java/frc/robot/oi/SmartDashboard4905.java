@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
-import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
@@ -30,7 +29,6 @@ import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.examplePathCommands.ThisIsJustASimplePathToReefStationD;
-import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.commands.sbsdAlgaeManipulatorCommands.AlgaeManipulatorIntake;
 import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
@@ -61,12 +59,6 @@ public class SmartDashboard4905 {
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
         new CalibrateGyro(sensorsContainer.getGyro(), subsystemsContainer.getDriveTrain()));
-    if (Robot.getInstance().getSensorsContainer().getLimeLight().doesLimeLightExist()) {
-      SmartDashboard.putData("Enable Limelight LEDs",
-          new ToggleLimelightLED(true, sensorsContainer));
-      SmartDashboard.putData("Disable Limelight LEDs",
-          new ToggleLimelightLED(false, sensorsContainer));
-    }
     if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       SmartDashboard.putNumber("Set Pose X", 0);
       SmartDashboard.putNumber("Set Pose Y", 0);

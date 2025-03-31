@@ -29,9 +29,6 @@ public class Config4905 {
   private Config m_swervedrivetrainConfig;
   private Config m_sensorConfig;
   private Config m_commandConstantsConfig;
-  private Config m_ledConfig;
-  private Config m_leftLedConfig;
-  private Config m_rightLedConfig;
   private Config m_ws2812LEDsConfig;
   private Config m_compressorConfig;
   private Config m_sbsdClimberConfig;
@@ -92,9 +89,6 @@ public class Config4905 {
     m_sensorConfig = load("sensors.conf");
     m_drivetrainConfig = load("drivetrain.conf");
     m_swervedrivetrainConfig = load("swervedrivetrain.conf");
-    m_ledConfig = load("LED.conf");
-    m_leftLedConfig = load("leftLED.conf");
-    m_rightLedConfig = load("rightLED.conf");
     m_ws2812LEDsConfig = load("ws2812LEDs.conf");
     m_compressorConfig = load("compressor.conf");
     m_sbsdArmConfig = load("sbsdarm.conf");
@@ -112,11 +106,7 @@ public class Config4905 {
   }
 
   public boolean doesTankDrivetrainExist() {
-    if (m_config.hasPath("subsystems.driveTrain")) {
-      return true;
-    } else {
-      return false;
-    }
+    return m_config.hasPath("subsystems.driveTrain");
   }
 
   public boolean doesDrivetrainExist() {
@@ -129,66 +119,19 @@ public class Config4905 {
   }
 
   public boolean doesSwerveDrivetrainExist() {
-    if (m_config.hasPath("subsystems.swervedrivetrain")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public Config getLEDConfig() {
-    return m_ledConfig;
-  }
-
-  public Config getLeftLEDConfig() {
-    return m_leftLedConfig;
-  }
-
-  public Config getRightLEDConfig() {
-    return m_rightLedConfig;
+    return m_config.hasPath("subsystems.swervedrivetrain");
   }
 
   public Config getWS2812LEDsConfig() {
     return m_ws2812LEDsConfig;
   }
 
-  public boolean doesLEDExist() {
-    if (m_config.hasPath("subsystems.LED")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public boolean doesLeftLEDExist() {
-    if (m_config.hasPath("subsystems.leftLED")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public boolean doesRightLEDExist() {
-    if (m_config.hasPath("subsystems.rightLED")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   public boolean doesWS2812LEDsExist() {
-    if (m_config.hasPath("subsystems.WS2812LEDs")) {
-      return true;
-    }
-    return false;
+    return m_config.hasPath("subsystems.WS2812LEDs");
   }
 
   public boolean doesCompressorExist() {
-    if (m_config.hasPath("subsystems.compressor")) {
-      return true;
-    } else {
-      return false;
-    }
+    return m_config.hasPath("subsystems.compressor");
   }
 
   public Config getCompressorConfig() {
@@ -196,7 +139,7 @@ public class Config4905 {
   }
 
   public boolean doesSBSDArmExist() {
-    return (m_config.hasPath("subsystems.sbsdarm"));
+    return m_config.hasPath("subsystems.sbsdarm");
   }
 
   public Config getSBSDArmConfig() {
@@ -204,7 +147,7 @@ public class Config4905 {
   }
 
   public boolean doesSBSDCoralEndEffectorExist() {
-    return (m_config.hasPath("subsystems.sbsdcoralendeffector"));
+    return m_config.hasPath("subsystems.sbsdcoralendeffector");
   }
 
   public Config getSBSDCoralEndEffectorConfig() {
@@ -212,11 +155,11 @@ public class Config4905 {
   }
 
   public boolean doesSBSDCoralIntakeEjectExist() {
-    return (m_config.hasPath("subsystems.sbsdcoralintakeeject"));
+    return m_config.hasPath("subsystems.sbsdcoralintakeeject");
   }
 
   public boolean doesSBSDAlgaeManipulatorExist() {
-    return (m_config.hasPath("subsystems.algaemanipulator"));
+    return m_config.hasPath("subsystems.algaemanipulator");
   }
 
   public Config getSBSDAlgaeManipulatorConfig() {
@@ -224,10 +167,7 @@ public class Config4905 {
   }
 
   public boolean doesSBSDClimberExist() {
-    if (m_config.hasPath("subsystems.sbsdclimber")) {
-      return true;
-    }
-    return false;
+    return m_config.hasPath("subsystems.sbsdclimber");
   }
 
   public Config getSBSDClimberConfig() {
@@ -240,13 +180,6 @@ public class Config4905 {
 
   public Config getCommandConstantsConfig() {
     return m_commandConstantsConfig;
-  }
-
-  public boolean doesIntakeExist() {
-    if (m_config.hasPath("subsystems.intake")) {
-      return true;
-    }
-    return false;
   }
 
   public boolean isSwerveBot() {

@@ -8,13 +8,11 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
-import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
 import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
 import frc.robot.commands.sbsdTeleOpCommands.NotInUnsafeZone;
@@ -31,7 +29,6 @@ import frc.robot.subsystems.SubsystemsContainer;
  * are easier to find.
  */
 public class DriveController extends ControllerBase {
-  private JoystickButton m_turnOffLimelight;
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
 
@@ -52,9 +49,6 @@ public class DriveController extends ControllerBase {
     getLeftStickButton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
     getStartButton().onTrue(
         new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
-    if (sensorsContainer.hasLimeLight()) {
-      limeLightButtons();
-    }
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")
         || Config4905.getConfig4905().getSwerveDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
@@ -88,29 +82,12 @@ public class DriveController extends ControllerBase {
     return getRightBumperReleased();
   }
 
-  public double getShowBotElevatorUpTriggerValue() {
-    return getLeftTriggerValue();
-  }
-
-  public double getShowBotElevatorDownTriggerValue() {
-    return getRightTriggerValue();
-  }
-
   public void rumbleOn(double value) {
     setRumble(value);
   }
 
   public void rumbleOff() {
     setRumble(0);
-  }
-
-  public boolean getTopGunEjectCargoButton() {
-    return getBbutton().getAsBoolean();
-  }
-
-  protected void limeLightButtons() {
-    m_turnOffLimelight = getStartButton();
-    m_turnOffLimelight.onTrue(new ToggleLimelightLED(false, m_sensorsContainer));
   }
 
   private void setUpParkingBrake() {

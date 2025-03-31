@@ -22,13 +22,8 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class SubsystemController extends ControllerBase {
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
     setController(new XboxController(1));
-
-    if (Config4905.getConfig4905().doesRightLEDExist()
-        || Config4905.getConfig4905().doesLeftLEDExist()) {
-    }
     if (Config4905.getConfig4905().isSBSD()) {
       setUpSBSDButtons();
-
     }
   }
 

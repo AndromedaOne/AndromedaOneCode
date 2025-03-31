@@ -16,14 +16,12 @@ public class AllianceConfig {
         }
       }
     } else {
-
       Optional<Alliance> currentAlliance = DriverStation.getAlliance();
       if (currentAlliance.isPresent()) {
         if (currentAlliance.get() == Alliance.Blue) {
           alliance = Alliance.Blue;
         }
       }
-
     }
     return alliance;
   }

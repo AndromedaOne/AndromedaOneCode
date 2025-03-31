@@ -21,9 +21,7 @@ import frc.robot.subsystems.compressor.RealCompressor;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.MockTankDriveTrain;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.RomiTankDriveTrain;
 import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
-import frc.robot.subsystems.ledlights.BillsLEDs;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.subsystems.sbsdAlgaeManipulator.MockSBSDAlgaeManipulator;
@@ -77,10 +75,6 @@ public class SubsystemsContainer {
           .equals("sparkMax")) {
         Trace.getInstance().logInfo("Using real sparkMax Drive Train");
         m_driveTrain = new SparkMaxTankDriveTrain();
-      } else if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
-          .equals("romiDrive")) {
-        Trace.getInstance().logInfo("Using Romi drive train");
-        m_driveTrain = new RomiTankDriveTrain();
       } else {
         String drivetrainType = Config4905.getConfig4905().getDrivetrainConfig()
             .getString("motorController");
@@ -98,19 +92,6 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock Drive Train.");
       m_driveTrain = new MockTankDriveTrain();
       m_driveTrain.init();
-    }
-
-    if (Config4905.getConfig4905().doesLeftLEDExist()) {
-      Trace.getInstance().logInfo("Using Real Left LEDs");
-      m_leftLeds = new BillsLEDs(Config4905.getConfig4905().getLeftLEDConfig(), m_driveTrain);
-    }
-    if (Config4905.getConfig4905().doesRightLEDExist()) {
-      Trace.getInstance().logInfo("Using Real Right LEDs");
-      m_rightLeds = new BillsLEDs(Config4905.getConfig4905().getRightLEDConfig(), m_driveTrain);
-    }
-    if (Config4905.getConfig4905().doesLEDExist()) {
-      Trace.getInstance().logInfo("Using Real LEDs");
-      m_leds = new BillsLEDs(Config4905.getConfig4905().getLEDConfig(), m_driveTrain);
     }
     if (Config4905.getConfig4905().doesWS2812LEDsExist()) {
       Trace.getInstance().logInfo("Using WS2812 LEDs");

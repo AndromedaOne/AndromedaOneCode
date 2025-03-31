@@ -9,7 +9,6 @@ public abstract class RealLEDs extends LEDs {
 
   private DriveTrainBase m_driveTrain;
   private double m_intakeBlinkRate = 0.1;
-  private LEDRobotInformation m_ledRobotInfo = LEDRobotInformation.getInstance();
 
   public RealLEDs(DriveTrainBase driveTrain) {
     setPurple(1.0);
@@ -25,9 +24,6 @@ public abstract class RealLEDs extends LEDs {
     super.periodic();
     if (!Robot.getInstance().getSensorsContainer().getGyro().getIsCalibrated()) {
       setWhite(1);
-      setBlinking(0.25);
-    } else if (m_ledRobotInfo.getCannonIsPressurized()) {
-      setRed(1);
       setBlinking(0.25);
     } else if (m_driveTrain.getParkingBrakeState() == ParkingBrakeStates.BRAKESON) {
       setYellow(1);
