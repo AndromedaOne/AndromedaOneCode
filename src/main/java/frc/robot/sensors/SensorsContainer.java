@@ -13,22 +13,13 @@ import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
-import frc.robot.sensors.encoder.EncoderBase;
-import frc.robot.sensors.encoder.MockEncoder;
-import frc.robot.sensors.encoder.RealEncoder;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
 import frc.robot.sensors.gyro.RealPigeonGyroSensor;
-import frc.robot.sensors.limitswitchsensor.LimitSwitchSensor;
-import frc.robot.sensors.limitswitchsensor.MockLimitSwitchSensor;
-import frc.robot.sensors.limitswitchsensor.RealLimitSwitchSensor;
 import frc.robot.sensors.photonvision.MockPhotonVision;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.sensors.photonvision.RealPhotonVision;
-import frc.robot.sensors.ultrasonicsensor.MockUltrasonicSensor;
-import frc.robot.sensors.ultrasonicsensor.RealUltrasonicSensor;
-import frc.robot.sensors.ultrasonicsensor.UltrasonicSensor;
 import frc.robot.telemetries.Trace;
 
 /**
@@ -39,9 +30,6 @@ public class SensorsContainer {
   private Camera m_camera0;
   private Camera m_camera1;
   private Gyro4905 m_gyro;
-  private UltrasonicSensor m_cannonSafetyUltrasonic;
-  private EncoderBase m_cannonElevatorEncoder;
-  private LimitSwitchSensor m_cannonHomeSwitch;
   private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
   private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
@@ -91,26 +79,6 @@ public class SensorsContainer {
       m_photonVision.add(new MockPhotonVision());
       m_targetPhotonVision = new MockPhotonVision();
     }
-    if (m_sensorConfig.hasPath("sensors.cannonSafetyUltrasonic")) {
-      m_cannonSafetyUltrasonic = new RealUltrasonicSensor("cannonSafetyUltrasonic");
-      Trace.getInstance().logInfo("Using Real Cannon Safety Ultrasonic");
-    } else {
-      m_cannonSafetyUltrasonic = new MockUltrasonicSensor();
-    }
-    if (m_sensorConfig.hasPath("sensors.cannonElevationEncoder")) {
-      Trace.getInstance().logInfo("Using real cannon elevator encoder");
-      m_cannonElevatorEncoder = new RealEncoder("cannonElevationEncoder");
-    } else {
-      Trace.getInstance().logInfo("Using mock cannon elevator encoder");
-      m_cannonElevatorEncoder = new MockEncoder();
-    }
-    if (m_sensorConfig.hasPath("sensors.cannonHomeSwitch")) {
-      Trace.getInstance().logInfo("Using real cannon home switch");
-      m_cannonHomeSwitch = new RealLimitSwitchSensor("cannonHomeSwitch");
-    } else {
-      Trace.getInstance().logInfo("Using mock cannon home switch");
-      m_cannonHomeSwitch = new MockLimitSwitchSensor();
-    }
   }
 
   public Gyro4905 getGyro() {
@@ -125,24 +93,8 @@ public class SensorsContainer {
     return m_camera1;
   }
 
-  public boolean hasLimeLight() {
-    return false;
-  }
-
   public boolean hasPhotonVision() {
     return m_hasPhotonVision;
-  }
-
-  public UltrasonicSensor getCannonSafetyUltrasonic() {
-    return m_cannonSafetyUltrasonic;
-  }
-
-  public EncoderBase getCannonElevatorEncoder() {
-    return m_cannonElevatorEncoder;
-  }
-
-  public LimitSwitchSensor getCannonHomeSwitch() {
-    return m_cannonHomeSwitch;
   }
 
   public ArrayList<PhotonVisionBase> getPhotonVisionList() {

@@ -19,9 +19,8 @@ import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
+import frc.robot.subsystems.drivetrain.swerveDriveTrain.MockSwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.MockTankDriveTrain;
-import frc.robot.subsystems.drivetrain.tankDriveTrain.SparkMaxTankDriveTrain;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.subsystems.sbsdAlgaeManipulator.MockSBSDAlgaeManipulator;
@@ -69,28 +68,14 @@ public class SubsystemsContainer {
      * The settings will be printed to the console.
      *
      */
-    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
-      Trace.getInstance().logInfo("Using real Drive Train.");
-      if (Config4905.getConfig4905().getDrivetrainConfig().getString("motorController")
-          .equals("sparkMax")) {
-        Trace.getInstance().logInfo("Using real sparkMax Drive Train");
-        m_driveTrain = new SparkMaxTankDriveTrain();
-      } else {
-        String drivetrainType = Config4905.getConfig4905().getDrivetrainConfig()
-            .getString("motorController");
-        throw (new RuntimeException(
-            "ERROR: Unknown drivetrain type: " + drivetrainType + " in drivetrain.conf"));
-      }
-      m_driveTrain.init();
-
-    } else if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
+    if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       Trace.getInstance().logInfo("Using swerve drive train.");
       m_driveTrain = new SwerveDriveTrain();
       m_driveTrain.init();
 
     } else {
-      Trace.getInstance().logInfo("Using mock Drive Train.");
-      m_driveTrain = new MockTankDriveTrain();
+      Trace.getInstance().logInfo("Using mock swerve drive Train.");
+      m_driveTrain = new MockSwerveDriveTrain();
       m_driveTrain.init();
     }
     if (Config4905.getConfig4905().doesWS2812LEDsExist()) {
@@ -178,12 +163,8 @@ public class SubsystemsContainer {
   }
 
   public void setDefaultCommands() {
-    if (Config4905.getConfig4905().doesTankDrivetrainExist()) {
-      m_driveTrain.setDefaultCommand(new TeleOpCommand());
-    } else {
-      if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
-        m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
-      }
+    if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
+      m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
     }
     if (Config4905.getConfig4905().doesSBSDArmExist()) {
       m_sbsdArmBase.setDefaultCommand(

@@ -284,7 +284,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   // @Override
   public SubsystemBase getSubsystemBase() {
-    return (this);
+    return this;
   }
 
   // @Override
@@ -403,12 +403,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       modDistance = -modDistance;
     }
     return modDistance * 39.3701;
-  }
-
-  @Override
-  public double getRobotVelocityInches() {
-    throw new RuntimeException(
-        "ERROR: " + getClass().getSimpleName() + " does not implement getRobotVelocityInches");
   }
 
   @Override

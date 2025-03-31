@@ -98,7 +98,7 @@ public class Config4905 {
   }
 
   public Config getControllersConfig() {
-    return (m_controllers);
+    return m_controllers;
   }
 
   public Config getDrivetrainConfig() {

@@ -55,8 +55,6 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract double getRobotPositionInchesBasedOnAngle(double angle);
 
-  public abstract double getRobotVelocityInches();
-
   public abstract Pose2d getPose();
 
   public abstract boolean isAtAngle(double angle);

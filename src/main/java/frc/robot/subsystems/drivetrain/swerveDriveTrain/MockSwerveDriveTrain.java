@@ -82,11 +82,6 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   }
 
   @Override
-  public double getRobotVelocityInches() {
-    return 0;
-  }
-
-  @Override
   public void setCoast(boolean value) {
   }
 
