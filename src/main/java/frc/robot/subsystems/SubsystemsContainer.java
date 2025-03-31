@@ -15,12 +15,6 @@ import frc.robot.commands.sbsdArmCommands.CoralIntakeEjectDefaultCommand;
 import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
 import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
 import frc.robot.commands.sbsdClimberCommands.ClimberDefaultCommand;
-import frc.robot.commands.showBotCannon.AdjustElevation;
-import frc.robot.commands.showBotCannon.ResetCannon;
-import frc.robot.commands.topGunFeederCommands.StopFeeder;
-import frc.robot.commands.topGunIntakeCommands.RetractAndStopIntake;
-import frc.robot.commands.topGunShooterCommands.DefaultShooterAlignment;
-import frc.robot.commands.topGunShooterCommands.StopShooter;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -47,29 +41,6 @@ import frc.robot.subsystems.sbsdcoralendeffector.MockCoralEndEffectorRotate;
 import frc.robot.subsystems.sbsdcoralendeffector.MockCoralIntakeEject;
 import frc.robot.subsystems.sbsdcoralendeffector.RealCoralEndEffectorRotate;
 import frc.robot.subsystems.sbsdcoralendeffector.RealCoralIntakeEject;
-import frc.robot.subsystems.showBotAudio.MockShowBotAudio;
-import frc.robot.subsystems.showBotAudio.RealShowBotAudio;
-import frc.robot.subsystems.showBotAudio.ShowBotAudioBase;
-import frc.robot.subsystems.showBotCannon.CannonBase;
-import frc.robot.subsystems.showBotCannon.MockCannon;
-import frc.robot.subsystems.showBotCannon.RealCannon;
-import frc.robot.subsystems.showBotCannonElevator.CannonElevatorBase;
-import frc.robot.subsystems.showBotCannonElevator.MockCannonElevator;
-import frc.robot.subsystems.showBotCannonElevator.RealCannonElevator;
-import frc.robot.subsystems.topGunFeeder.FeederBase;
-import frc.robot.subsystems.topGunFeeder.MockFeeder;
-import frc.robot.subsystems.topGunFeeder.RealFeeder;
-import frc.robot.subsystems.topGunIntake.IntakeBase;
-import frc.robot.subsystems.topGunIntake.MockIntake;
-import frc.robot.subsystems.topGunIntake.RealIntake;
-import frc.robot.subsystems.topGunShooter.BottomShooterWheel;
-import frc.robot.subsystems.topGunShooter.MockBottomShooter;
-import frc.robot.subsystems.topGunShooter.MockShooterAlignment;
-import frc.robot.subsystems.topGunShooter.MockTopShooter;
-import frc.robot.subsystems.topGunShooter.ShooterAlignment;
-import frc.robot.subsystems.topGunShooter.ShooterAlignmentBase;
-import frc.robot.subsystems.topGunShooter.ShooterWheelBase;
-import frc.robot.subsystems.topGunShooter.TopShooterWheel;
 import frc.robot.telemetries.Trace;
 
 public class SubsystemsContainer {
@@ -81,14 +52,6 @@ public class SubsystemsContainer {
   LEDs m_rightLeds;
   LEDs m_ws2812LEDs;
   CompressorBase m_compressor;
-  CannonBase m_showBotCannon;
-  CannonElevatorBase m_showBotCannonElevator;
-  ShowBotAudioBase m_showBotAudio;
-  ShooterWheelBase m_topShooterWheel;
-  ShooterWheelBase m_bottomShooterWheel;
-  IntakeBase m_intake;
-  FeederBase m_feeder;
-  ShooterAlignmentBase m_shooterAlignment;
   SBSDClimberBase m_sbsdClimber;
   SBSDArmBase m_sbsdArmBase;
   CoralEndEffectorRotateBase m_sbsdCoralEndEffectorRotateBase;
@@ -161,52 +124,6 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock Compressor");
       m_compressor = new MockCompressor();
     }
-    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
-      Trace.getInstance().logInfo("using real showBotCannon.");
-      m_showBotCannon = new RealCannon(m_compressor);
-    } else {
-      Trace.getInstance().logInfo("Using mock showBotCannon");
-      m_showBotCannon = new MockCannon();
-    }
-    if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
-      Trace.getInstance().logInfo("using real Cannon elevator.");
-      m_showBotCannonElevator = new RealCannonElevator();
-    } else {
-      Trace.getInstance().logInfo("Using mock Cannon elevator");
-      m_showBotCannonElevator = new MockCannonElevator();
-    }
-    if (Config4905.getConfig4905().doesShowBotAudioExist()) {
-      Trace.getInstance().logInfo("Using real showBotAudio");
-      m_showBotAudio = new RealShowBotAudio();
-    } else {
-      Trace.getInstance().logInfo("Using mock showBotAudio");
-      m_showBotAudio = new MockShowBotAudio();
-    }
-    if (Config4905.getConfig4905().doesShooterExist()) {
-      Trace.getInstance().logInfo("using real shooters");
-      m_topShooterWheel = new TopShooterWheel();
-      m_bottomShooterWheel = new BottomShooterWheel();
-      m_shooterAlignment = new ShooterAlignment();
-    } else {
-      Trace.getInstance().logInfo("using mock shooters");
-      m_topShooterWheel = new MockTopShooter();
-      m_bottomShooterWheel = new MockBottomShooter();
-      m_shooterAlignment = new MockShooterAlignment();
-    }
-    if (Config4905.getConfig4905().doesIntakeExist()) {
-      Trace.getInstance().logInfo("using real intake");
-      m_intake = new RealIntake();
-    } else {
-      Trace.getInstance().logInfo("using mock Intake");
-      m_intake = new MockIntake();
-    }
-    if (Config4905.getConfig4905().doesFeederExist()) {
-      Trace.getInstance().logInfo("using real feeder");
-      m_feeder = new RealFeeder();
-    } else {
-      Trace.getInstance().logInfo("using mock feeder");
-      m_feeder = new MockFeeder();
-    }
     if (Config4905.getConfig4905().doesSBSDClimberExist()) {
       Trace.getInstance().logInfo("using real sbsd climber");
       m_sbsdClimber = new RealSBSDClimber();
@@ -255,38 +172,6 @@ public class SubsystemsContainer {
     return m_compressor;
   }
 
-  public CannonBase getShowBotCannon() {
-    return m_showBotCannon;
-  }
-
-  public CannonElevatorBase getShowBotCannonElevator() {
-    return m_showBotCannonElevator;
-  }
-
-  public ShowBotAudioBase getShowBotAudio() {
-    return m_showBotAudio;
-  }
-
-  public ShooterWheelBase getTopShooterWheel() {
-    return m_topShooterWheel;
-  }
-
-  public ShooterWheelBase getBottomShooterWheel() {
-    return m_bottomShooterWheel;
-  }
-
-  public ShooterAlignmentBase getShooterAlignment() {
-    return m_shooterAlignment;
-  }
-
-  public IntakeBase getIntake() {
-    return m_intake;
-  }
-
-  public FeederBase getFeeder() {
-    return m_feeder;
-  }
-
   public SBSDArmBase getSBSDArmBase() {
     return m_sbsdArmBase;
   }
@@ -318,24 +203,6 @@ public class SubsystemsContainer {
       if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
         m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
       }
-    }
-    if (Config4905.getConfig4905().doesIntakeExist()) {
-      m_intake.setDefaultCommand(new RetractAndStopIntake(m_intake));
-    }
-    if (Config4905.getConfig4905().doesFeederExist()) {
-      m_feeder.setDefaultCommand(new StopFeeder(m_feeder));
-    }
-    if (Config4905.getConfig4905().doesShooterExist()) {
-      m_topShooterWheel.setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
-      m_bottomShooterWheel
-          .setDefaultCommand(new StopShooter(m_topShooterWheel, m_bottomShooterWheel));
-      m_shooterAlignment.setDefaultCommand(new DefaultShooterAlignment(m_shooterAlignment));
-    }
-    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
-      m_showBotCannon.setDefaultCommand(new ResetCannon());
-    }
-    if (Config4905.getConfig4905().doesShowBotCannonElevatorExist()) {
-      m_showBotCannonElevator.setDefaultCommand(new AdjustElevation(m_showBotCannonElevator));
     }
     if (Config4905.getConfig4905().doesSBSDArmExist()) {
       m_sbsdArmBase.setDefaultCommand(

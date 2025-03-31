@@ -49,9 +49,6 @@ public class TeleOpCommand extends Command {
 
     m_kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
     m_kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
-    if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
-      m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
-    }
     m_robotCentricSup = robotCentricSup;
   }
 

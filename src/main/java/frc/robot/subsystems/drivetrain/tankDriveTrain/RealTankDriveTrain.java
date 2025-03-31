@@ -66,9 +66,6 @@ public abstract class RealTankDriveTrain extends SubsystemBase implements TankDr
       m_hasParkingBrake = false;
       m_parkingBrakeStates = ParkingBrakeStates.BRAKESOFF;
     }
-    if (Config4905.getConfig4905().isShowBot() || Config4905.getConfig4905().isTopGun()) {
-      setDriveTrainMode(DriveTrainModeEnum.SLOW);
-    }
   }
 
   public void init() {

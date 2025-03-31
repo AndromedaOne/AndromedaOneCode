@@ -30,7 +30,6 @@ import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.examplePathCommands.ThisIsJustASimplePathToReefStationD;
-import frc.robot.commands.groupCommands.romiCommands.AllianceAnticsSimple;
 import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.commands.sbsdAlgaeManipulatorCommands.AlgaeManipulatorIntake;
@@ -40,17 +39,9 @@ import frc.robot.commands.sbsdArmCommands.SetBreakMode;
 import frc.robot.commands.sbsdAutoCommands.AprilTagSnapshot;
 import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
 import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
-import frc.robot.commands.showBotAudio.PlayAudio;
-import frc.robot.commands.showBotAudio.StopAudio;
-import frc.robot.commands.showBotCannon.PressurizeCannon;
-import frc.robot.commands.showBotCannon.ShootCannon;
 import frc.robot.commands.teleOpPathCommands.FinishC;
-import frc.robot.commands.topGunShooterCommands.MoveShooterAlignment;
-import frc.robot.commands.topGunShooterCommands.RunShooterRPM;
-import frc.robot.commands.topGunShooterCommands.TuneShooterFeedForward;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.showBotAudio.AudioFiles;
 
 /**
  * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
@@ -76,20 +67,6 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Disable Limelight LEDs",
           new ToggleLimelightLED(false, sensorsContainer));
     }
-    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
-      SmartDashboard.putData("PressurizeCannon", new PressurizeCannon());
-      SmartDashboard.putData("Shoot Cannon", new ShootCannon());
-    }
-    if (Config4905.getConfig4905().doesShooterExist()) {
-      SmartDashboard.putData("Tune Shooter Feed Forward",
-          new TuneShooterFeedForward(subsystemsContainer.getTopShooterWheel(),
-              subsystemsContainer.getBottomShooterWheel(), subsystemsContainer.getFeeder()));
-      SmartDashboard.putNumber("Set Shooter RPM", 1000);
-      SmartDashboard.putData("Run Shooter RPM", new RunShooterRPM(
-          subsystemsContainer.getTopShooterWheel(), subsystemsContainer.getBottomShooterWheel()));
-      SmartDashboard.putData("Tune Shooter Angle", new MoveShooterAlignment(
-          subsystemsContainer.getShooterAlignment(), () -> 57, true, 0.1, 0.1, 0.5));
-    }
     if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       SmartDashboard.putNumber("Set Pose X", 0);
       SmartDashboard.putNumber("Set Pose Y", 0);
@@ -100,10 +77,6 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Run swerve drive angle set for test",
           new SwerveDriveSetWheelsToAngle(subsystemsContainer.getDriveTrain(), 0, true));
       SmartDashboard.putData("AprilTagSnapshot", new AprilTagSnapshot());
-    }
-
-    if (Config4905.getConfig4905().isRomi()) {
-      romiCommands(subsystemsContainer);
     }
 
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
@@ -124,12 +97,6 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("OttoOneTest", new OttoOneTest());
       SmartDashboard.putData("SpinTest", new Spinner());
       SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest().andThen(new FinishC()));
-    }
-
-    if (Config4905.getConfig4905().doesShowBotAudioExist()) {
-      SmartDashboard.putData("play audio",
-          new PlayAudio(subsystemsContainer.getShowBotAudio(), AudioFiles.CrazyTrain));
-      SmartDashboard.putData("stop audio", new StopAudio(subsystemsContainer.getShowBotAudio()));
     }
 
     if ((Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD())
@@ -174,11 +141,6 @@ public class SmartDashboard4905 {
 
   public Command getSelectedAutoChooserCommand() {
     return m_autoChooser.getSelected();
-  }
-
-  private void romiCommands(SubsystemsContainer subsystemsContainer) {
-    SmartDashboard.putData("AllianceAnticsSimple",
-        new AllianceAnticsSimple(subsystemsContainer.getDriveTrain()));
   }
 
 }

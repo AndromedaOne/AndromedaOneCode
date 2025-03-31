@@ -41,7 +41,6 @@ import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.limelightcamera.LimeLightCameraBase;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.showBotAudio.AudioFiles;
 import frc.robot.telemetries.Trace;
 
 /**
@@ -178,7 +177,6 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.getDriveTrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
     m_limelight.disableLED();
-    m_subsystemContainer.getShooterAlignment().setCoastMode();
     m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
   }
 
@@ -211,8 +209,6 @@ public class Robot extends TimedRobot {
     }
     m_limelight.enableLED();
     m_subsystemContainer.getDriveTrain().setCoast(false);
-    m_subsystemContainer.getShooterAlignment().setBrakeMode();
-    System.out.println("Shooter Allignment set to brake");
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
     m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
     LiveWindow.disableAllTelemetry();
@@ -256,11 +252,9 @@ public class Robot extends TimedRobot {
     }
     m_limelight.disableLED();
     m_subsystemContainer.getDriveTrain().setCoast(false);
-    m_subsystemContainer.getShooterAlignment().setBrakeMode();
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
     m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
     LiveWindow.disableAllTelemetry();
-    m_subsystemContainer.getShowBotAudio().playAudio(AudioFiles.DiveAlert);
     Trace.getInstance().logInfo("teleopInit finished");
   }
 
