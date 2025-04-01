@@ -141,8 +141,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance()
         .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
     Trace.getInstance().logInfo("robot init finished");
-    Trace.getInstance().logInfo("Main Thread Priority: " + Thread.currentThread().getPriority());
-    Thread.currentThread().setPriority(8);
     FollowPathCommand.warmupCommand().schedule();
   }
 
