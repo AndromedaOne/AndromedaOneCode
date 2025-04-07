@@ -12,6 +12,7 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -135,6 +136,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance()
         .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
     Trace.getInstance().logInfo("robot init finished");
+    FollowPathCommand.warmupCommand().schedule();
   }
 
   /**
