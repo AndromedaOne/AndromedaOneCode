@@ -138,23 +138,26 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
 
   @Override
   public void rotate(double speed) {
+    rotateInternal(speed, getAngleDeg());
+  }
+
+  private void rotateInternal(double speed, double angle) {
     if (ClimberMode.getInstance().getInClimberMode()) {
       stop();
     } else {
-      if (getAngleDeg() >= m_closeToMaxAngle) {
+      if (angle >= m_closeToMaxAngle) {
         speed = MathUtil.clamp(speed, -m_maxSpeedCloseToMax, m_maxSpeedCloseToMax);
       } else {
         speed = MathUtil.clamp(speed, -m_maxSpeed, m_maxSpeed);
       }
-      if ((getAngleDeg() <= m_minAngleDeg) && (speed < 0)) {
+      if ((angle <= m_minAngleDeg) && (speed < 0)) {
         stop();
-      } else if ((getAngleDeg() >= m_maxAngleDeg) && (speed > 0)) {
+      } else if ((angle >= m_maxAngleDeg) && (speed > 0)) {
         stop();
       } else {
         m_angleMotor.setSpeed(speed);
       }
     }
-
   }
 
   @Override
@@ -180,9 +183,9 @@ public class RealCoralEndEffectorRotate extends SubsystemBase
   private void calculateSpeed() {
     double currentAngleRad = getAngleRad();
     double pidCalc = m_controller.calculate(currentAngleRad);
-    double feedforwardCalc = m_kG * Math.cos(getAngleRad());
+    double feedforwardCalc = m_kG * Math.cos(currentAngleRad);
     double speed = pidCalc + feedforwardCalc;
-    rotate(speed);
+    rotateInternal(speed, Math.toDegrees(currentAngleRad));
   }
 
   @Override
