@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-
+    Trace.getInstance().setTracePairsEnable(false);
     Trace.getInstance().logInfo("robot init started");
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();

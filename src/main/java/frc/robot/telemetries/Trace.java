@@ -74,6 +74,7 @@ public class Trace {
   private static String m_commandTraceFname = "CommandTrace";
   private BufferedWriter m_commandTraceWriter;
   private static int m_dirNumb = 0;
+  private boolean m_enableTracePairs = false;
 
   private class TraceEntry {
     private BufferedWriter m_file;
@@ -218,9 +219,17 @@ public class Trace {
     }
   }
 
+  private boolean getTracePairsEnabled() {
+    return m_enableTracePairs;
+  }
+
+  public void setTracePairsEnable(boolean enable) {
+    m_enableTracePairs = enable;
+  }
+
   @SafeVarargs
-  public final <T> void addTrace(boolean enable, String fileName, TracePair... header) {
-    if (!enable) {
+  public final void addTrace(boolean enable, String fileName, TracePair... header) {
+    if (!enable || !getTracePairsEnabled()) {
       return;
     }
     if (m_pathOfTraceDir == null) {
