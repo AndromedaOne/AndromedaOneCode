@@ -10,7 +10,6 @@ public class PIDController4905 extends PIDControllerProposed {
   private String m_controllerName;
   private double m_maxOutput = 1.0;
   private FeedForward m_feedForward;
-  private boolean m_false = false;
 
   public PIDController4905(String controllerName, double Kp, double Ki, double Kd,
       double minOutputToMove, FeedForward feedForward) {
@@ -40,16 +39,13 @@ public class PIDController4905 extends PIDControllerProposed {
       output = m_minOutputToMove;
     }
     output = MathUtil.clamp(output, -m_maxOutput, m_maxOutput);
-    if (m_false) {
-      Trace.getInstance().addTrace(true, m_controllerName,
-          new TracePair("pError x10", super.getPError() * 10),
-          new TracePair("iError x10", super.getIError() * 10),
-          new TracePair("dError * 10", super.getDError() * 10),
-          new TracePair("FeedForward * 10", feedForward), new TracePair("Output", output * 10),
-          new TracePair("preCalculationOutput * 10", preCalculationOutput * 10),
-          new TracePair("Measurement", measurement),
-          new TracePair("Setpoint", super.getSetpoint()));
-    }
+    Trace.getInstance().addTrace(true, m_controllerName,
+        new TracePair("pError x10", super.getPError() * 10),
+        new TracePair("iError x10", super.getIError() * 10),
+        new TracePair("dError * 10", super.getDError() * 10),
+        new TracePair("FeedForward * 10", feedForward), new TracePair("Output", output * 10),
+        new TracePair("preCalculationOutput * 10", preCalculationOutput * 10),
+        new TracePair("Measurement", measurement), new TracePair("Setpoint", super.getSetpoint()));
 
     return output;
   }

@@ -271,7 +271,7 @@ public class Trace {
   }
 
   @SafeVarargs
-  private final <T> void addEntry(TraceEntry traceEntry, TracePair... values) {
+  private final void addEntry(TraceEntry traceEntry, TracePair... values) {
     try {
       if (!Robot.getInstance().isEnabled()) {
         return;
