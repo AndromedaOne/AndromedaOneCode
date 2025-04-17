@@ -265,6 +265,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
       Trace.getInstance().logInfo("x: " + x);
       Trace.getInstance().logInfo("theta: " + theta);
       Trace.getInstance().logInfo("has target: " + hasTarget);
+      Trace.getInstance().logInfo("use left: " + useLeft);
     }
     SmartDashboard.putNumber("h value", h);
     SmartDashboard.putNumber("x value", x);

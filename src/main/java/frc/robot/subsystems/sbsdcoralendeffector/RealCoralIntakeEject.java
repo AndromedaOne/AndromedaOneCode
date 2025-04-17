@@ -229,7 +229,7 @@ public class RealCoralIntakeEject extends SubsystemBase implements CoralIntakeEj
         Trace.getInstance().logInfo("HOLD_L4_POSITION -> POSITION_L4");
         m_currentState = CoralState.POSITION_L4;
       } else if (!intakeDetector() && !ejectDetector()) {
-        if (m_loopOverrunCount >= 2) {
+        if (m_loopOverrunCount >= 10) {
           m_hasCoral = false;
           m_currentRumble = false;
           m_rumbleTimer = 0;

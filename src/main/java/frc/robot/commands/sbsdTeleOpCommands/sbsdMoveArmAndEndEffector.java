@@ -19,9 +19,8 @@ import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
   /** Creates a new sbsdMoveArmAndEndEffector. */
-  boolean m_moved;
-  ArmControlCommand m_moveArm;
-  EndEffectorControlCommand m_moveEndEffector;
+  private ArmControlCommand m_moveArm;
+  private EndEffectorControlCommand m_moveEndEffector;
   private SBSDArmBase m_sbsdArmBase;
   private CoralEndEffectorRotateBase m_endEffector;
   private ArmSetpointsSupplier m_level;
@@ -49,12 +48,5 @@ public class sbsdMoveArmAndEndEffector extends ParallelCommandGroup4905 {
           new EndEffectorControlCommand(m_level, false));
     }
 
-  }
-
-  @Override
-  public void additionalEnd(boolean moved) {
-    moved = true;
-    m_moved = moved;
-    System.out.println("moved: " + moved);
   }
 }
