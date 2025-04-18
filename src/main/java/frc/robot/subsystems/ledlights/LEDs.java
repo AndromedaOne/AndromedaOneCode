@@ -41,9 +41,6 @@ public abstract class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (Robot.getInstance().isAutonomous()) {
-      return;
-    }
     Color color;
     switch (m_mode) {
 
