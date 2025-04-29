@@ -83,24 +83,6 @@ public class Robot extends TimedRobot {
     Trace.getInstance().logInfo("robot init started");
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
-    NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
-    NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
-    NamedCommands.registerCommand("sbsdCoralLoadArmEndEffectorPositon",
-        new sbsdCoralLoadArmEndEffectorPositon());
-    NamedCommands.registerCommand("WaitForCoral", new WaitForCoral());
-    NamedCommands.registerCommand("autoFinish4C", new AutoFinish4C());
-    NamedCommands.registerCommand("autoFinish4D", new AutoFinish4D());
-    NamedCommands.registerCommand("autoFinish4E", new AutoFinish4E());
-    NamedCommands.registerCommand("autoFinish4G", new AutoFinish4G());
-    NamedCommands.registerCommand("autoFinish4J", new AutoFinish4J());
-    NamedCommands.registerCommand("autoFinish4K", new AutoFinish4K());
-    NamedCommands.registerCommand("autoFinish4L", new AutoFinish4L());
-    NamedCommands.registerCommand("autoFinish123C", new AutoFinish123C());
-    NamedCommands.registerCommand("autoFinish123L", new AutoFinish123L());
-    NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
 
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
