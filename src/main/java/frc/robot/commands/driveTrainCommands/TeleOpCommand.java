@@ -148,13 +148,14 @@ public class TeleOpCommand extends Command {
     // it's here now
     // when the strafe is exponented while the forwardback isn't zero, it screws up
     // it can't be zero but it needs to be low
-    rotateStickValue = Math.pow(rotateStickValue, exponent);
+    rotateStickValue = MathUtil.clamp(
+        getExponential(Math.hypot(strafeStickValue, forwardBackwardStickValue), 4.3, 0.7, .1), -1,
+        1) * 1;
     // do not use moveWithGyro here as we're providing the drive straight correction
     if (m_isStrafe) {
-      m_driveTrain.move(forwardBackwardStickValue, strafeStickValue,
-      rotateStickValue,
-      !m_robotCentricSup.getAsBoolean(), true);
-      } else {
+      m_driveTrain.move(forwardBackwardStickValue, strafeStickValue, rotateStickValue,
+          !m_robotCentricSup.getAsBoolean(), true);
+    } else {
       m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, false);
     }
 
