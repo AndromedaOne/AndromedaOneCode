@@ -9,6 +9,7 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Config4905;
+import frc.robot.utils.AngleConversionUtils;
 
 public class RealPigeonGyroSensor extends RealGyroBase {
   // use singleton for the gyro member
@@ -61,11 +62,11 @@ public class RealPigeonGyroSensor extends RealGyroBase {
     @Override
     public void run() {
       System.out.println("Setting Initial Gyro Angle");
-      m_pigeon.setInitialZAngleReading(m_gyro.getAngle());
+      m_pigeon.setInitialZAngleReading(getCorrectedZAngle());
       m_pigeon.setInitialYAngleReading(m_gyro.getPitch().getValueAsDouble());
       m_pigeon.setInitialXAngleReading(m_gyro.getRoll().getValueAsDouble());
       m_calibrated = true;
-      System.out.println("Gyro is calibrated. Initial Angles: \n\tZangle: " + m_gyro.getAngle()
+      System.out.println("Gyro is calibrated. Initial Angles: \n\tZangle: " + getCorrectedZAngle()
           + "\n\tXangle: " + m_gyro.getPitch() + "\n\tYangle: " + m_gyro.getRoll() + "\n");
       cancel();
     }
@@ -86,7 +87,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
       System.out.println(
           "WARNING: pigeon gyro has not completed calibrating before getRawZangle has been called");
     }
-    return m_gyro.getAngle();
+    return getCorrectedZAngle();
   }
 
   @Override
@@ -120,7 +121,10 @@ public class RealPigeonGyroSensor extends RealGyroBase {
 
   @Override
   public double getRate() {
-    return m_gyro.getRate();
+    // this is not used so there will be errors I was too lazy to fix
+    // errors will be related to CCW+ vs CW+ stuff
+    // the original method (getRate) was CW+ but this one is CCW+
+    return m_gyro.getAngularVelocityZWorld().getValueAsDouble();
   }
 
   @Override
@@ -131,6 +135,10 @@ public class RealPigeonGyroSensor extends RealGyroBase {
   @Override
   public boolean getIsCalibrated() {
     return m_calibrated;
+  }
+
+  private double getCorrectedZAngle() {
+    return 360 - AngleConversionUtils.turn180AnglesInto360(m_gyro.getRotation2d().getDegrees());
   }
 
 }

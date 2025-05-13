@@ -47,4 +47,13 @@ public class AngleConversionUtils {
       return 360 - angle;
     }
   }
+
+  public static double turn180AnglesInto360(double angle) {
+    if (angle >= 0) {
+      return angle;
+    } else {
+      return 360 + angle;
+    }
+  }
+
 }
