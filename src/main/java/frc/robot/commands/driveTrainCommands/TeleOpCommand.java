@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
@@ -63,6 +64,22 @@ public class TeleOpCommand extends Command {
     m_savedRobotAngle = m_gyro.getZAngle();
   }
 
+  public static double getExponential(final double input, final double exponent,
+      final double weight, final double deadband) {
+    if (Math.abs(input) < deadband) {
+      return 0;
+    }
+    double sign = Math.signum(input);
+    double v = Math.abs(input);
+
+    double a = weight * Math.pow(v, exponent) + (1 - weight) * v;
+    double b = weight * Math.pow(deadband, exponent) + (1 - weight) * deadband;
+    v = (a - 1 * b) / (1 - b);
+
+    v *= sign;
+    return v;
+  }
+
   @Override
   public void execute() {
     double forwardBackwardStickValue = m_driveController.getDriveTrainForwardBackwardStick();
@@ -117,18 +134,27 @@ public class TeleOpCommand extends Command {
     // removed strafe for more fine control
     // strafe should be in there, it's not being exponented at the moment and it
     // needs to be
-    if (forwardBackwardStickValue == 0) {
-      strafeStickValue = Math.pow(strafeStickValue, exponent);
-    }
+
+    double magnitude = MathUtil.clamp(
+        getExponential(Math.hypot(strafeStickValue, forwardBackwardStickValue), 3.6, 0.75, .1), -1,
+        1) * 1;
+    double angle = Math.atan2(forwardBackwardStickValue, strafeStickValue);
+    strafeStickValue = Math.cos(angle) * magnitude;
+    forwardBackwardStickValue = Math.sin(angle) * magnitude;
+
+    // if (forwardBackwardStickValue == 0) {
+    // strafeStickValue = Math.pow(strafeStickValue, exponent);
+    // }
     // it's here now
     // when the strafe is exponented while the forwardback isn't zero, it screws up
     // it can't be zero but it needs to be low
     rotateStickValue = Math.pow(rotateStickValue, exponent);
     // do not use moveWithGyro here as we're providing the drive straight correction
     if (m_isStrafe) {
-      m_driveTrain.move(forwardBackwardStickValue, strafeStickValue, rotateStickValue,
-          !m_robotCentricSup.getAsBoolean(), true);
-    } else {
+      m_driveTrain.move(forwardBackwardStickValue, strafeStickValue,
+      rotateStickValue,
+      !m_robotCentricSup.getAsBoolean(), true);
+      } else {
       m_driveTrain.move(forwardBackwardStickValue, -rotateStickValue, false);
     }
 
