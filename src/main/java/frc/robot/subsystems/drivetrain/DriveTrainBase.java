@@ -14,7 +14,7 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract void init();
 
-  public abstract void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput);
+  public abstract void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput);
 
   public abstract void move(double forwardBackward, double strafe, double rotation,
       boolean fieldRelative, boolean isOpenLoop);

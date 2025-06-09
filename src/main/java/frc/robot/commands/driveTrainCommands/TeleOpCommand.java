@@ -109,20 +109,20 @@ public class TeleOpCommand extends Command {
     }
     if ((m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
+      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodefowardbackscale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.SLOW);
     } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
+      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.midmodefowardbackscale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.MID);
     } else {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
+      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodefowardbackscale");
+      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.FAST);
     }
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
@@ -137,20 +137,15 @@ public class TeleOpCommand extends Command {
 
     double magnitude = MathUtil.clamp(
         getExponential(Math.hypot(strafeStickValue, forwardBackwardStickValue), 3.6, 0.75, .1), -1,
-        1) * 1;
+        1);
     double angle = Math.atan2(forwardBackwardStickValue, strafeStickValue);
     strafeStickValue = Math.cos(angle) * magnitude;
     forwardBackwardStickValue = Math.sin(angle) * magnitude;
 
-    // if (forwardBackwardStickValue == 0) {
-    // strafeStickValue = Math.pow(strafeStickValue, exponent);
-    // }
     // it's here now
     // when the strafe is exponented while the forwardback isn't zero, it screws up
     // it can't be zero but it needs to be low
-    rotateStickValue = MathUtil.clamp(
-        getExponential(rotateStickValue, 4.3, 0.7, .1), -1,
-        1) * 1;
+    rotateStickValue = MathUtil.clamp(getExponential(rotateStickValue, 4.3, 0.7, .1), -1, 1);
     // do not use moveWithGyro here as we're providing the drive straight correction
     if (m_isStrafe) {
       m_driveTrain.move(forwardBackwardStickValue, strafeStickValue, rotateStickValue,

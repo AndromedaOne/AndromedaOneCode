@@ -36,7 +36,7 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   }
 
   @Override
-  public void move(double fowardBackSpeed, double rotateAmount, boolean squaredInput) {
+  public void move(double forwardBackSpeed, double rotateAmount, boolean squaredInput) {
   }
 
   @Override
