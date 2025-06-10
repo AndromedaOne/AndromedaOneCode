@@ -7,6 +7,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.typesafe.config.Config;
 
@@ -39,6 +40,7 @@ import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 import frc.robot.utils.PoseEstimation4905;
 import frc.robot.utils.PoseEstimation4905.RegionsForPose;
+import frc.robot.utils.RemoteADStar;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -109,6 +111,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public void configurePathPlanner() {
     if (m_config.getBoolean("usePathPlanning")) {
+      Pathfinding.setPathfinder(new RemoteADStar());
       PPHolonomicDriveController m_pathFollowingConfig = new PPHolonomicDriveController(
           new PIDConstants(m_config.getDouble("pathplanning.translationConstants.p"),
               m_config.getDouble("pathplanning.translationConstants.i"),

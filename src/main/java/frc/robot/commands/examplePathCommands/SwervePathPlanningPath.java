@@ -22,7 +22,7 @@ public class SwervePathPlanningPath extends SequentialCommandGroup4905 {
   /**
    * Creates a new SwervePathPlanningPath.
    * 
-   * @throws ParseException
+   * @throws `
    * @throws IOException
    * @throws FileVersionException
    */
