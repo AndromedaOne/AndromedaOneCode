@@ -34,10 +34,17 @@ public class SequentialCommandGroup4905 extends Command {
    *
    * @param commands the commands to include in this composition.
    */
+  @SuppressWarnings("this-escape")
   public SequentialCommandGroup4905(Command... commands) {
     addCommands(commands);
   }
 
+  /**
+   * Adds the given commands to the group.
+   *
+   * @param commands Commands to add, in order of execution.
+   */
+  @SuppressWarnings("PMD.UseArraysAsList")
   public final void addCommands(Command... commands) {
     if (m_currentCommandIndex != -1) {
       throw new IllegalStateException(
@@ -48,7 +55,7 @@ public class SequentialCommandGroup4905 extends Command {
 
     for (Command command : commands) {
       m_commands.add(command);
-      getRequirements().addAll(command.getRequirements());
+      addRequirements(command.getRequirements());
       m_runWhenDisabled &= command.runsWhenDisabled();
       if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
         m_interruptBehavior = InterruptionBehavior.kCancelSelf;
@@ -102,7 +109,7 @@ public class SequentialCommandGroup4905 extends Command {
   }
 
   @Override
-  public final boolean isFinished() {
+  public boolean isFinished() {
     return m_currentCommandIndex == m_commands.size();
   }
 

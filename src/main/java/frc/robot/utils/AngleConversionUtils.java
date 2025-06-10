@@ -35,4 +35,25 @@ public class AngleConversionUtils {
       return (nonZeroCrossingDiff < 0) ? zeroCrossingDiff : -zeroCrossingDiff;
     }
   }
+
+  public static double getReferenceAngle(double angle) {
+    if (angle <= 90) {
+      return angle;
+    } else if (angle <= 180) {
+      return 180 - angle;
+    } else if (angle <= 270) {
+      return angle - 180;
+    } else {
+      return 360 - angle;
+    }
+  }
+
+  public static double turn180AnglesInto360(double angle) {
+    if (angle >= 0) {
+      return angle;
+    } else {
+      return 360 + angle;
+    }
+  }
+
 }

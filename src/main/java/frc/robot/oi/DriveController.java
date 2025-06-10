@@ -8,32 +8,27 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.PickUpCargo;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootLongShot;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.ShootShortShot;
-import frc.robot.commands.groupCommands.topGunShooterFeederCommands.UnstickCargo;
-import frc.robot.commands.limeLightCommands.ToggleLimelightLED;
-import frc.robot.commands.showBotAudio.PlayAudio;
-import frc.robot.commands.showBotAudio.PlayNextAudioFile;
-import frc.robot.commands.showBotAudio.StopAudio;
-import frc.robot.commands.showBotCannon.PressurizeCannon;
-import frc.robot.commands.showBotCannon.ShootCannon;
+import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
+import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
+import frc.robot.commands.sbsdTeleOpCommands.NotInUnsafeZone;
+import frc.robot.commands.sbsdTeleOpCommands.sbsdCoralLoadArmEndEffectorPositon;
+import frc.robot.commands.sbsdTeleOpCommands.teleOpCoralScoring;
+import frc.robot.commands.sbsdTeleOpCommands.teleOpDriverCoralPickup;
+import frc.robot.commands.sbsdTeleOpCommands.teleOpWallCoralPickup;
+import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
-import frc.robot.subsystems.showBotAudio.AudioFiles;
 
 /**
  * All driveController buttons get mapped here with descriptive names so they
  * are easier to find.
  */
 public class DriveController extends ControllerBase {
-  private JoystickButton m_turnOffLimelight;
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
 
@@ -42,7 +37,10 @@ public class DriveController extends ControllerBase {
     setController(new XboxController(0));
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
-    if (!Config4905.getConfig4905().getRobotName().equals("4905_Romi4")) {
+    if (Config4905.getConfig4905().getRobotName().equals("SBSD")
+        || Config4905.getConfig4905().getRobotName().equals("SwerveBot")) {
+      setupSBSDTeleOpButtons();
+    } else {
       getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
       getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
       getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
@@ -51,33 +49,10 @@ public class DriveController extends ControllerBase {
     getLeftStickButton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
     getStartButton().onTrue(
         new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
-    if (sensorsContainer.hasLimeLight()) {
-      limeLightButtons();
-    }
-    if (Config4905.getConfig4905().isRomi()) {
-      setupRomiButtons();
-    }
-    if (Config4905.getConfig4905().isTopGun()) {
-      if (Config4905.getConfig4905().doesShooterExist()) {
-        setUpShooterButtons();
-      }
-      if (Config4905.getConfig4905().doesIntakeExist()) {
-        setUpIntakeButtons();
-      }
-
-    }
-    if (Config4905.getConfig4905().doesShowBotCannonExist()) {
-      setUpCannonButtons();
-    }
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")
         || Config4905.getConfig4905().getSwerveDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
     }
-
-    if (Config4905.getConfig4905().doesShowBotAudioExist()) {
-      setupShowBotAudioButtons();
-    }
-
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
     }
@@ -107,69 +82,16 @@ public class DriveController extends ControllerBase {
     return getRightBumperReleased();
   }
 
-  public double getShowBotElevatorUpTriggerValue() {
-    return getLeftTriggerValue();
+  public void rumbleOn(double value) {
+    setRumble(value);
   }
 
-  public double getShowBotElevatorDownTriggerValue() {
-    return getRightTriggerValue();
-  }
-
-  private void setUpShooterButtons() {
-    getBackButton().whileTrue(new UnstickCargo(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake()));
-    getXbutton().whileTrue(new ShootLongShot(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-    getYbutton().whileTrue(new ShootShortShot(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment()));
-  }
-
-  private void setUpIntakeButtons() {
-    // A button = pick up cargo
-    getAbutton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), false));
-    // B button = eject cargo
-    getBbutton().whileTrue(new PickUpCargo(m_subsystemsContainer.getFeeder(),
-        m_subsystemsContainer.getTopShooterWheel(), m_subsystemsContainer.getBottomShooterWheel(),
-        m_subsystemsContainer.getShooterAlignment(), m_subsystemsContainer.getIntake(), true));
-  }
-
-  public boolean getTopGunEjectCargoButton() {
-    return getBbutton().getAsBoolean();
-  }
-
-  protected void limeLightButtons() {
-    m_turnOffLimelight = getStartButton();
-    m_turnOffLimelight.onTrue(new ToggleLimelightLED(false, m_sensorsContainer));
+  public void rumbleOff() {
+    setRumble(0);
   }
 
   private void setUpParkingBrake() {
     getBackButton().onTrue(new ToggleBrakes(m_subsystemsContainer.getDriveTrain()));
-  }
-
-  private void setUpCannonButtons() {
-    getAbutton().onTrue(new PressurizeCannon());
-    // the driver must hold down the shoot button while the count down is played. if
-    // the driver
-    // releases the button before the count down finishes, the cannon will not
-    // shoot.
-    getBbutton().whileTrue(new ShootCannon());
-  }
-
-  private void setupShowBotAudioButtons() {
-    getBackButton()
-        .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), AudioFiles.MeepMeep));
-    getStartButton()
-        .onTrue(new PlayAudio(m_subsystemsContainer.getShowBotAudio(), AudioFiles.TruckHorn));
-    getXbutton().onTrue(new PlayNextAudioFile(m_subsystemsContainer.getShowBotAudio()));
-    getYbutton().onTrue(new StopAudio(m_subsystemsContainer.getShowBotAudio()));
-  }
-
-  private void setupRomiButtons() {
   }
 
   public double getSwerveDriveTrainTranslationAxis() {
@@ -191,8 +113,29 @@ public class DriveController extends ControllerBase {
     return getXbutton().getAsBoolean();
   }
 
-  /*
-   * private void setUpPhotonVision() { getAbutton().onTrue(new TurnToTarget(() ->
-   * -1, () -> 0)); }
-   */
+  public boolean getCoralScoring() {
+    return getXbutton().getAsBoolean();
+  }
+
+  public boolean getCoralLoadDriver() {
+    return getPOVeast().getAsBoolean();
+  }
+
+  public boolean getCoralLoadWall() {
+    return getPOVwest().getAsBoolean();
+  }
+
+  private void setupSBSDTeleOpButtons() {
+    getAbutton().onTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
+        new sbsdCoralLoadArmEndEffectorPositon()));
+    getXbutton().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
+        new teleOpCoralScoring(m_subsystemsContainer.getDriveTrain())));
+    getPOVeast().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
+        new teleOpDriverCoralPickup(m_subsystemsContainer.getDriveTrain())));
+    getPOVwest().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
+        new teleOpWallCoralPickup(m_subsystemsContainer.getDriveTrain())));
+    getBbutton().onTrue(new GetInClimberMode());
+    getPOVsouth().whileTrue(new SBSDClimb(false));
+    getPOVnorth().whileTrue(new SBSDClimb(true));
+  }
 }

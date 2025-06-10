@@ -8,7 +8,11 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Config4905;
+import frc.robot.commands.sbsdArmCommands.ManualModeCoralScore;
+import frc.robot.commands.sbsdArmCommands.ToggleEEAngles;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -18,11 +22,65 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class SubsystemController extends ControllerBase {
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
     setController(new XboxController(1));
-
-    if (Config4905.getConfig4905().doesRightLEDExist()
-        || Config4905.getConfig4905().doesLeftLEDExist()) {
+    if (Config4905.getConfig4905().isSBSD()) {
+      setUpSBSDButtons();
     }
+  }
 
+  public void setUpSBSDButtons() {
+    getLeftStickButton().whileTrue(new ManualModeCoralScore());
+    getToggleEEAngles().whileTrue(new ToggleEEAngles());
+  }
+
+  public JoystickButton getScoreLevelOne() {
+    return getAbutton();
+  }
+
+  public JoystickButton getScoreLevelTwo() {
+    return getXbutton();
+  }
+
+  public JoystickButton getScoreLevelThree() {
+    return getBbutton();
+  }
+
+  public JoystickButton getScoreLevelFour() {
+    return getYbutton();
+  }
+
+  public JoystickButton getScoreLeft() {
+    return getLeftBumperButton();
+  }
+
+  public JoystickButton getScoreRight() {
+    return getRightBumperButton();
+  }
+
+  public POVButton getPickupButtonAlgae() {
+    return getPOVsouth();
+  }
+
+  public POVButton getScoreButtonAlgae() {
+    return getPOVnorth();
+  }
+
+  public boolean getManualEject() {
+    if (getLeftTriggerValue() >= 0.5) {
+      return true;
+    }
+    return false;
+  }
+
+  public void rumbleOn(double value) {
+    setRumble(value);
+  }
+
+  public void rumbleOff() {
+    setRumble(0);
+  }
+
+  public JoystickButton getToggleEEAngles() {
+    return getStartButton();
   }
 
 }

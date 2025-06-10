@@ -5,7 +5,7 @@
 package frc.robot.rewrittenWPIclasses;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj2.command.*;
@@ -25,7 +25,10 @@ import frc.robot.telemetries.Trace;
  */
 public class ParallelCommandGroup4905 extends Command {
   // maps commands in this composition to whether they are still running
-  private final Map<Command, Boolean> m_commands = new HashMap<>();
+  // LinkedHashMap guarantees we iterate over commands in the order they were
+  // added (Note that
+  // changing the value associated with a command does NOT change the order)
+  private final Map<Command, Boolean> m_commands = new LinkedHashMap<>();
   private boolean m_runWhenDisabled = true;
   private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.kCancelIncoming;
 
@@ -37,11 +40,17 @@ public class ParallelCommandGroup4905 extends Command {
    *
    * @param commands the commands to include in this composition.
    */
+  @SuppressWarnings("this-escape")
   public ParallelCommandGroup4905(Command... commands) {
 
     addCommands(commands);
   }
 
+  /**
+   * Adds the given commands to the group.
+   *
+   * @param commands Commands to add to the group.
+   */
   public final void addCommands(Command... commands) {
     if (m_commands.containsValue(true)) {
       throw new IllegalStateException(
@@ -56,7 +65,7 @@ public class ParallelCommandGroup4905 extends Command {
             "Multiple commands in a parallel composition cannot require the same subsystems");
       }
       m_commands.put(command, false);
-      getRequirements().addAll(command.getRequirements());
+      addRequirements(command.getRequirements());
       m_runWhenDisabled &= command.runsWhenDisabled();
       if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
         m_interruptBehavior = InterruptionBehavior.kCancelSelf;

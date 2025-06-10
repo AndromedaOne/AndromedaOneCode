@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.123758561643836,
-        "y": 5.572645547945205
+        "x": 5.149239743502809,
+        "y": 5.573
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9165373563450334,
-        "y": 6.013130444031283
+        "x": 4.690089554724319,
+        "y": 5.758919775271442
       },
       "isLocked": false,
       "linkedName": "Reef J"
     },
     {
       "anchor": {
-        "x": 1.6828767123287671,
-        "y": 7.390753424657535
+        "x": 1.1569777397260272,
+        "y": 7.1503424657534245
       },
       "prevControl": {
-        "x": 1.4707444514201309,
-        "y": 7.523040626917581
+        "x": 0.8508493715226824,
+        "y": 7.255240648546327
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,21 @@
       "rotationDegrees": 59.99999999999999
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.0,
+      "maxWaypointRelativePos": 0.6644067796610165,
+      "constraints": {
+        "maxVelocity": 3.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -50,7 +64,7 @@
     "rotation": -55.0
   },
   "reversed": false,
-  "folder": "Auto #1 Paths 2025",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 59.99999999999999

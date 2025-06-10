@@ -5,45 +5,259 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drop At E"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Drop At E"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setVelocityToZero"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish4E"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "sbsdScoreCoral"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "E To Pickup"
+            "pathName": "E Backup"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "E To Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralLoadArmEndEffectorPositon"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitForCoral"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Drop At D"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setVelocityToZero"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish4D"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "sbsdScoreCoral"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Drop At D"
+            "pathName": "D Backup"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "D To Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralLoadArmEndEffectorPositon"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitForCoral"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Drop At C"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setVelocityToZero"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish4C"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "sbsdScoreCoral"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "D To Pickup"
+            "pathName": "C Backup"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drop At C"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "C To Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralLoadArmEndEffectorPositon"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "C To Pickup"
+            "name": "WaitForCoral"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drop At Low C"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel2"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drop At Low C"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish123C"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "sbsdScoreCoral"
           }
         }
       ]

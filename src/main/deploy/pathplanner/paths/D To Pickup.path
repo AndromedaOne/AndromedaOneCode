@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.846575342465753,
-        "y": 2.5074058219178084
+        "x": 3.8871250682079137,
+        "y": 2.5212726796613767
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.886738030790954,
-        "y": 1.9015535396595786
+        "x": 3.048121880173068,
+        "y": 1.8825784964476182
       },
       "isLocked": false,
       "linkedName": "Reef D"
     },
     {
       "anchor": {
-        "x": 1.6227739726027397,
-        "y": 0.6742722602739729
+        "x": 1.096875,
+        "y": 0.9146832191780823
       },
       "prevControl": {
-        "x": 2.727138870479142,
-        "y": 1.7721091763106727
+        "x": 1.8782244581008514,
+        "y": 2.964374544181301
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 55.0
   },
   "reversed": false,
-  "folder": "Auto #2 Paths 2025",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -119.99999999999999

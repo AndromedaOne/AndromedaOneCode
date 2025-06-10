@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.531035958904109,
-        "y": 2.702739726027397
+        "x": 3.8486842105263155,
+        "y": 2.4951480263157895
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.606933853409118,
-        "y": 1.9271477332977969
+        "x": 3.119438131014291,
+        "y": 1.7181314992623302
       },
       "isLocked": false,
       "linkedName": "Reef C"
     },
     {
       "anchor": {
-        "x": 1.6227739726027397,
-        "y": 0.6742722602739729
+        "x": 1.096875,
+        "y": 0.9146832191780823
       },
       "prevControl": {
-        "x": 2.4168818528567835,
-        "y": 1.7494765085450372
+        "x": 1.6287645450967554,
+        "y": 3.032798426906048
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 55.0
   },
   "reversed": false,
-  "folder": "Auto #2 Paths 2025",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -119.99999999999999

@@ -46,6 +46,7 @@ public class PIDController4905 extends PIDControllerProposed {
         new TracePair("FeedForward * 10", feedForward), new TracePair("Output", output * 10),
         new TracePair("preCalculationOutput * 10", preCalculationOutput * 10),
         new TracePair("Measurement", measurement), new TracePair("Setpoint", super.getSetpoint()));
+
     return output;
   }
 

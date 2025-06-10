@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6227739726027397,
-        "y": 0.6742722602739729
+        "x": 1.096875,
+        "y": 0.9146832191780823
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4200794456414045,
-        "y": 1.534734011552246
+        "x": 2.5208881578947366,
+        "y": 2.3989309210526315
       },
       "isLocked": false,
       "linkedName": "Bottom Side Pickup"
     },
     {
       "anchor": {
-        "x": 3.531035958904109,
-        "y": 2.702739726027397
+        "x": 3.8486842105263155,
+        "y": 2.4951480263157895
       },
       "prevControl": {
-        "x": 2.171386204472796,
-        "y": 1.6388623270250868
+        "x": 3.4290629370959596,
+        "y": 2.1709793076951747
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": "Auto #2 Paths 2025",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 55.0

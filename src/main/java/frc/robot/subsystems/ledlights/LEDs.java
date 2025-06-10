@@ -14,7 +14,6 @@ public abstract class LEDs extends SubsystemBase {
   private double m_blueValue = 0;
   private boolean m_ledsOn = false;
   private int m_rainbowCounter = 0;
-  private boolean m_noteState = false;
   private boolean m_targetFound = true;
 
   enum Mode {
@@ -64,6 +63,7 @@ public abstract class LEDs extends SubsystemBase {
 
     default:
       color = new Color(1.0, .8, .8); // Pink
+      break;
     }
     updateRGBcolor(color);
   }
@@ -240,14 +240,6 @@ public abstract class LEDs extends SubsystemBase {
   }
 
   protected abstract void updateRGBcolor(Color color);
-
-  public void setNoteState(boolean noteState) {
-    m_noteState = noteState;
-  }
-
-  public boolean getNoteState() {
-    return m_noteState;
-  }
 
   public void setTargetFound(boolean targetFound) {
     m_targetFound = targetFound;

@@ -1,0 +1,57 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Drop At G No Vision"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setVelocityToZero"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "sbsdCoralScoreLevel4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFinish4G"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "sbsdScoreCoral"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "2025 Autos",
+  "choreoAuto": false
+}

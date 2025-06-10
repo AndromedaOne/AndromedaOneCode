@@ -14,11 +14,13 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase {
@@ -39,7 +41,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private double m_cameraPitchInRadians = 0;
   private double m_cameraYawInDegrees = 0;
   private double m_cameraYawInRadians = 0;
-  private double m_offset = 0;
 
   /*
    * public class AprilTagInfo { int aprilTagID; double distanceToTarget; double
@@ -71,8 +72,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     m_cameraPitchInRadians = Units.degreesToRadians(m_cameraPitchInDegrees);
     m_cameraYawInDegrees = m_config.getDouble("photonvision." + cameraName + ".cameraYawInDegrees");
     m_cameraYawInRadians = Units.degreesToRadians(m_cameraYawInDegrees);
-    m_offset = m_config.getDouble("photonvision." + cameraName + ".cameraOffsetToCenterInInches");
-    SmartDashboard.putBoolean("lost target", false);
   }
 
   @Override
@@ -106,16 +105,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
 
   @Override
   protected void updateSmartDashboard() {
-    ArrayList<Double> iDArrayList = new ArrayList<>();
 
-    for (PhotonTrackedTarget target : m_camera.getLatestResult().getTargets()) {
-      iDArrayList.add((double) target.getFiducialId());
-    }
-    Double[] iDArray = new Double[iDArrayList.size()];
-    iDArray = iDArrayList.toArray(iDArray);
-    SmartDashboard.putNumberArray("Target IDs", iDArray);
-    int tagID = (int) SmartDashboard.getNumber("PhotonVisionTagID For Distance", 4);
-    SmartDashboard.putNumber("Photon Vision Range", getDistanceToTargetInInches(tagID));
   }
 
   @Override
@@ -144,10 +134,9 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
         range = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeightInMeters,
             m_targetHeightInMeters, m_cameraPitchInRadians,
             Units.degreesToRadians(target.getPitch()));
-        SmartDashboard.putNumber("Vision Pitch", target.getPitch());
       }
     }
-    return (range / 0.0254) - m_offsetToSwerveModInches;
+    return range / 0.0254;
   }
 
   @Override
@@ -165,13 +154,9 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
     for (PhotonTrackedTarget target : targets) {
       if (target.getFiducialId() == wantedID) {
-        SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
-        SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
-        double offsetAngle = Units
-            .radiansToDegrees(Math.asin(m_offset / getDistanceToTargetInInches(wantedID)));
+        double offsetAngle = Units.radiansToDegrees(
+            Math.asin(m_offsetToCenterInInches / getDistanceToTargetInInches(wantedID)));
         double yaw = target.getYaw();
-        SmartDashboard.putNumber("Yaw", yaw);
-        SmartDashboard.putNumber("Photon Offset", offsetAngle);
         return new TargetDetectedAndAngle(yaw + offsetAngle, true);
       }
     }
@@ -179,14 +164,9 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   }
 
   public double getTargetAngle(PhotonTrackedTarget target) {
-
-    SmartDashboard.putNumber("Photon Camera Yaw", target.getYaw());
-    SmartDashboard.putNumber("Photon Camera ID", target.getFiducialId());
     double offsetAngle = Units.radiansToDegrees(
-        Math.asin(m_offset / getDistanceToTargetInInches(target.getFiducialId())));
+        Math.asin(m_offsetToCenterInInches / getDistanceToTargetInInches(target.getFiducialId())));
     double yaw = target.getYaw();
-    SmartDashboard.putNumber("Yaw", yaw);
-    SmartDashboard.putNumber("Photon Offset", offsetAngle);
     return yaw + offsetAngle;
 
   }
@@ -204,4 +184,95 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   public PhotonCamera getPhotonCamera() {
     return m_camera;
   }
+
+  @Override
+  public void computeDistanceAndAngle(int wantedID, boolean useTrace, boolean useLeft,
+      TargetDistanceAndAngle targetDistanceAngle) {
+    // refer to the piece of paper
+    List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
+
+    // 6.5 is the distance between the april tag and the pipe
+
+    // m_offsetToSwerveModInches is c - distance from camera to bumpers
+    // m_cameraOffsetToCenterInches is 11.69
+
+    // getting b - the distance from the camera to the reef
+    // getting e - the horizontal distance from the camera to the april tag
+    double b = 0;
+    double e = 0;
+
+    boolean hasTarget = false;
+
+    for (PhotonTrackedTarget target : targets) {
+      if (target.getFiducialId() == wantedID) {
+        Transform3d wantedCamera = target.getBestCameraToTarget();
+        b = wantedCamera.getX() / Math.cos(m_cameraPitchInRadians);
+        e = -wantedCamera.getY();
+        // changing b and e to be in inches
+        b = b / 0.0254;
+        e = e / 0.0254;
+
+        hasTarget = true;
+
+      }
+    }
+
+    // getting g - the distance between the camera and the pipe
+    double g = 0;
+    g = e + 6.5;
+
+    // getting h - the distance between the bumpers and the reef
+    double h = 0;
+    h = b - m_offsetToSwerveModInches; // b - c
+    h = h - 4;
+
+    // subtracting 1 from h so the pid is happy
+    // h -= 1;
+
+    // getting j - the horizontal distance between the center of the robot and the
+    // pipe
+    // if j is negative it will trigger some logic to invert theta
+    double j = 0;
+    boolean reverseTheta = false;
+    j = Math.abs(m_offsetToCenterInInches) - g;
+    if (useLeft) {
+      j += 13;
+    }
+    if (j < 0) {
+      reverseTheta = true;
+    }
+
+    // getting x - the actual distance between the center of the robot and the pipe
+    double x = 0;
+    x = Math.sqrt((Math.pow(h, 2)) + (Math.pow(j, 2)));
+
+    // getting theta - the angle between the center of the robot and the pipe
+    // if j was less than 0 theta will be reversed
+    double theta = 0;
+    if (reverseTheta) {
+      theta = 360 - (90 - Units.radiansToDegrees(Math.asin(h / x)));
+    } else {
+      theta = 90 - Units.radiansToDegrees(Math.asin(h / x));
+    }
+
+    if (useTrace) {
+      Trace.getInstance().logInfo("b: " + b);
+      Trace.getInstance().logInfo("e: " + e);
+      Trace.getInstance().logInfo("g: " + g);
+      Trace.getInstance().logInfo("h: " + h);
+      Trace.getInstance().logInfo("j: " + j);
+      Trace.getInstance().logInfo("reverse theta: " + reverseTheta);
+      Trace.getInstance().logInfo("x: " + x);
+      Trace.getInstance().logInfo("theta: " + theta);
+      Trace.getInstance().logInfo("has target: " + hasTarget);
+      Trace.getInstance().logInfo("use left: " + useLeft);
+    }
+    SmartDashboard.putNumber("h value", h);
+    SmartDashboard.putNumber("x value", x);
+    SmartDashboard.putNumber("theta", theta);
+    targetDistanceAngle.setDistance(x);
+    targetDistanceAngle.setAngle(theta);
+    targetDistanceAngle.setDetected(hasTarget);
+  }
+
 }

@@ -74,6 +74,7 @@ public class Trace {
   private static String m_commandTraceFname = "CommandTrace";
   private BufferedWriter m_commandTraceWriter;
   private static int m_dirNumb = 0;
+  private boolean m_enableTracePairs = false;
 
   private class TraceEntry {
     private BufferedWriter m_file;
@@ -218,9 +219,17 @@ public class Trace {
     }
   }
 
+  private boolean getTracePairsEnabled() {
+    return m_enableTracePairs;
+  }
+
+  public void setTracePairsEnable(boolean enable) {
+    m_enableTracePairs = enable;
+  }
+
   @SafeVarargs
-  public final <T> void addTrace(boolean enable, String fileName, TracePair... header) {
-    if (!enable) {
+  public final void addTrace(boolean enable, String fileName, TracePair... header) {
+    if (!enable || !getTracePairsEnabled()) {
       return;
     }
     if (m_pathOfTraceDir == null) {
@@ -262,7 +271,7 @@ public class Trace {
   }
 
   @SafeVarargs
-  private final <T> void addEntry(TraceEntry traceEntry, TracePair... values) {
+  private final void addEntry(TraceEntry traceEntry, TracePair... values) {
     try {
       if (!Robot.getInstance().isEnabled()) {
         return;
@@ -319,6 +328,15 @@ public class Trace {
       e.printStackTrace();
     }
     System.out.println("Flushing trace files");
+  }
+
+  public synchronized void flushCommandTraceFile() {
+    try {
+      m_commandTraceWriter.flush();
+    } catch (IOException e) {
+      System.err.println("ERROR: failed to flush command trace file");
+      e.printStackTrace();
+    }
   }
 
   private void redirectOutput() {
