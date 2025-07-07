@@ -126,18 +126,6 @@ public abstract class LEDs extends SubsystemBase {
   }
 
   /**
-   * this method is for Seth's request for HIS red color
-   * 
-   * @param brightness
-   */
-  public void setSethRed(double brightness) {
-    clearColor();
-    m_redValue = brightness;
-    m_greenValue = 0;
-    m_blueValue = 0.2;
-  }
-
-  /**
    * This method takes a brightness value from 0 - 1 for yellow
    */
   public void setYellow(double brightness) {
