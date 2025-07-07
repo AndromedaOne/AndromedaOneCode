@@ -13,12 +13,21 @@ import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.util.FileVersionException;
 
+import edu.wpi.first.networktables.BooleanPublisher;
+import edu.wpi.first.networktables.BooleanSubscriber;
+import edu.wpi.first.networktables.BooleanTopic;
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.DoubleTopic;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.NetworkTablesTest;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
@@ -49,9 +58,28 @@ import frc.robot.subsystems.SubsystemsContainer;
  */
 public class SmartDashboard4905 {
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
+  private NetworkTableInstance inst;
+  private NetworkTable table;
+  private DoubleTopic topic;
+  private DoublePublisher pub;
+  private BooleanTopic topic2;
+  private BooleanPublisher pub2;
+  private BooleanSubscriber sub2;
+  private Trigger trigger;
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
+    inst = NetworkTableInstance.getDefault();
+    table = inst.getTable("datatable");
+    topic = table.getDoubleTopic("x");
+    pub = topic.publish();
+    pub.set(0.0);
+    topic2 = table.getBooleanTopic("on or off");
+    pub2 = topic2.publish();
+    pub2.set(false);
+    sub2 = topic2.subscribe(false);
+    trigger = new Trigger(() -> sub2.get());
+    trigger.toggleOnTrue(new NetworkTablesTest(pub));
     if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
       AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     }
