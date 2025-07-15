@@ -38,6 +38,9 @@ import frc.robot.commands.sbsdAutoCommands.AprilTagSnapshot;
 import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
 import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
 import frc.robot.commands.teleOpPathCommands.FinishC;
+import frc.robot.commands.teleOpPathCommands.StraightLineHalfMeter;
+import frc.robot.commands.teleOpPathCommands.StraightLineOneMeter;
+import frc.robot.commands.teleOpPathCommands.StraightLineThreeMeter;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -102,6 +105,9 @@ public class SmartDashboard4905 {
           new FinishPathTest(subsystemsContainer.getDriveTrain(), true, false));
       SmartDashboard.putData("Finish Path Test Without Move",
           new FinishPathTest(subsystemsContainer.getDriveTrain(), false, false));
+      SmartDashboard.putData("Straight line .5", new StraightLineHalfMeter());
+      SmartDashboard.putData("Straight line 1", new StraightLineOneMeter());
+      SmartDashboard.putData("Straight line 3", new StraightLineThreeMeter());
     }
 
     if (Config4905.getConfig4905().doesSBSDArmExist()) {
