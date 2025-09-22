@@ -31,11 +31,10 @@ public class TeleOpCommand extends Command {
   private boolean m_isStrafe = true;
 
   private enum SlowMidFastModeStates {
-    FASTMODEBUTTONRELEASED, FASTMODEBUTTONPRESSED, MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED,
-    SLOWMODEBUTTONRELEASED, SLOWMODEBUTTONPRESSED,
+    MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED, SLOWMODEBUTTONRELEASED, SLOWMODEBUTTONPRESSED,
   }
 
-  private SlowMidFastModeStates m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONRELEASED;
+  private SlowMidFastModeStates m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONRELEASED;
 
   private BooleanSupplier m_robotCentricSup;
 
@@ -113,17 +112,11 @@ public class TeleOpCommand extends Command {
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
       strafeStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.SLOW);
-    } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
-        || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
+    } else {
       forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
       rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
       strafeStickValue *= m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.MID);
-    } else {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
-      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
-      m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.FAST);
     }
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
     Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
@@ -167,27 +160,11 @@ public class TeleOpCommand extends Command {
 
   private void calculateSlowMidFastMode() {
     switch (m_slowMidFastMode) {
-    case FASTMODEBUTTONRELEASED:
-      if (m_driveController.getDownShiftPressed()) {
-        m_slowMidFastMode = SlowMidFastModeStates.MIDMODEBUTTONPRESSED;
-        Trace.getInstance().logCommandInfo(this, "DownShiftPressed, Entering MidMode");
-      }
-      break;
-
-    case FASTMODEBUTTONPRESSED:
-      if (m_driveController.getUpShiftReleased() && m_driveController.getDownShiftReleased()) {
-        m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONRELEASED;
-        Trace.getInstance().logCommandInfo(this, "UpShiftReleased, Entering FastMode");
-      }
-      break;
 
     case MIDMODEBUTTONRELEASED:
       if (m_driveController.getDownShiftPressed()) {
         m_slowMidFastMode = SlowMidFastModeStates.SLOWMODEBUTTONPRESSED;
         Trace.getInstance().logCommandInfo(this, "DownShiftPressed, Entering SlowMode");
-      } else if (m_driveController.getUpShiftPressed()) {
-        m_slowMidFastMode = SlowMidFastModeStates.FASTMODEBUTTONPRESSED;
-        Trace.getInstance().logCommandInfo(this, "UpShiftPressed, Entering FastMode");
       }
       break;
 
