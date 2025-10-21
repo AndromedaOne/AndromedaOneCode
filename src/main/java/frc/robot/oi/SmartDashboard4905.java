@@ -72,7 +72,7 @@ public class SmartDashboard4905 {
     inst = NetworkTableInstance.getDefault();
     table = inst.getTable("datatable");
     topic = table.getDoubleTopic("x");
-    table.getTopic("b").genericPublish(boolean.class().toString(), null);
+    // table.getTopic("b").genericPublish(boolean.class().toString(), null);
     pub = topic.publish();
     pub.set(0.0);
     topic2 = table.getBooleanTopic("on or off");
