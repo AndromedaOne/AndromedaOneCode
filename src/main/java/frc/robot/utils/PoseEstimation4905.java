@@ -122,6 +122,7 @@ public class PoseEstimation4905 {
     // where we collect the camera info
     // get camera info - calculate april tags and where you at
     Pose2d localPose;
+    Pose2d previousPose;
 
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     if (alliance != m_currentAlliance) {
@@ -134,11 +135,23 @@ public class PoseEstimation4905 {
       m_currentAlliance = alliance;
     }
 
+    previousPose = m_swerveOdometry.getEstimatedPosition();
     localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
         modulePositions);
     m_posePublisherOdometry.set(localPose);
+    double xprime = localPose.getX() - previousPose.getX();
+    double yprime = localPose.getY() - previousPose.getY();
+    double z = Math.sqrt((xprime * xprime) + (yprime * yprime));
+    // putting z into meters per second
+    z = z / 0.02;
+    double degree = Math
+        .abs(localPose.getRotation().getDegrees() - previousPose.getRotation().getDegrees());
+    // putting degree into degrees per second
+    degree = degree / 0.02;
 
-    if (m_cameraPresent) {
+    // 1.5 is an arbitrary number btw
+    // so is 30
+    if (m_cameraPresent && z <= 1.5 && degree <= 30) {
       boolean usePose = false;
       for (int i = 0; i < m_poseEstimator.size(); i++) {
         // get latest result is deprecated and needs to be replaced with get all unread
