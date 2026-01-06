@@ -5,6 +5,7 @@
 package frc.robot.actuators.SwerveModule;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -15,6 +16,7 @@ import frc.robot.Config4905;
 
 /** Add your docs here. */
 public class KrakenSwerveModule extends SwerveModuleBase {
+  private CANcoder m_angleMotorEncoder;
   private TalonFX m_angleMotor;
   private TalonFX m_driveMotor;
   private TalonFXConfiguration m_driveConfiguration;
@@ -30,8 +32,12 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getConfig("SwerveDriveConstants");
     /* Angle Motor Config */
+    m_angleMotorEncoder = new CANcoder(
+        m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID"), "rio");
+
     m_angleMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorID"),
         "rio");
+
     m_angleConfiguration = new TalonFXConfiguration();
     configAngleMotor();
 
@@ -97,7 +103,7 @@ public class KrakenSwerveModule extends SwerveModuleBase {
 
   @Override
   protected double getAngleMotorRawAngle() {
-    double angle = m_angleMotor.getPosition().getValueAsDouble();
+    double angle = m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble();
     if (angle < 0) {
       angle += 360;
     }
