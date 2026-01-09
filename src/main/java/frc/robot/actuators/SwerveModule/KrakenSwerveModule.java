@@ -4,7 +4,10 @@
 
 package frc.robot.actuators.SwerveModule;
 
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -12,6 +15,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 
 /** Add your docs here. */
@@ -24,11 +29,15 @@ public class KrakenSwerveModule extends SwerveModuleBase {
   private double m_lastAngle = 0;
   private Config m_config;
   private double m_driveMotorPositionOffset = 0;
+  private int m_moduleNumber;
+  private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
+      new PositionTorqueCurrentFOC(0.0).withUpdateFreqHz(0);
 
   // The drive motor code is different because it uses the krakens
   // The angle motor code is the same because it uses the SparkMaxes
   public KrakenSwerveModule(int moduleNumber) {
     super(moduleNumber);
+    m_moduleNumber = moduleNumber;
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getConfig("SwerveDriveConstants");
     /* Angle Motor Config */
@@ -61,6 +70,7 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     // getVelocity
     m_driveMotor.getConfigurator().apply(m_driveConfiguration, 0.1);
     m_driveMotorPositionOffset = m_driveMotor.getPosition().getValueAsDouble();
+    
   }
 
   private void configAngleMotor() {
@@ -74,7 +84,9 @@ public class KrakenSwerveModule extends SwerveModuleBase {
 
     // The Kraken cannot have a set conversion factor for getPosition and
     // getVelocity
+    m_angleConfiguration.Slot0 = new Slot0Configs().withKP(4000).withKI(0.0).withKD(50);
     m_angleMotor.getConfigurator().apply(m_angleConfiguration, 0.1);
+    
   }
 
   @Override
@@ -87,7 +99,7 @@ public class KrakenSwerveModule extends SwerveModuleBase {
 
   @Override
   protected void setAngle(SwerveModuleState desiredState, boolean override) {
-    double angle = desiredState.angle.getDegrees();
+    double angle = desiredState.angle.getRotations();
     if (!override
         && Math.abs(desiredState.speedMetersPerSecond) <= (m_config.getDouble("maxSpeed") * 0.01)) {
       angle = m_lastAngle;
@@ -95,15 +107,15 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     m_lastAngle = angle;
     // need to invert the angle because inverting the motor through the motor
     // controller causes issues with the onboard pidcontroller
-    if (angle < 0) {
-      angle += 360;
-    }
-    m_angleMotor.setPosition(angle);
+    
+    m_angleMotor.setControl(positionTorqueCurrentRequest.withPosition(angle));
+    m_angleMotor.getConfigurator().apply(m_angleConfiguration, 0.25);
   }
 
   @Override
   protected double getAngleMotorRawAngle() {
-    double angle = m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble();
+        double angle = m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble() * 360;
+    SmartDashboard.putNumber("CanCoder " + m_moduleNumber, angle);
     if (angle < 0) {
       angle += 360;
     }
