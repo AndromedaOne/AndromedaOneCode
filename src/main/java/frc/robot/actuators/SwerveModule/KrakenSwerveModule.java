@@ -8,8 +8,10 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.typesafe.config.Config;
@@ -30,8 +32,7 @@ public class KrakenSwerveModule extends SwerveModuleBase {
   private Config m_config;
   private double m_driveMotorPositionOffset = 0;
   private int m_moduleNumber;
-  private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
-      new PositionTorqueCurrentFOC(0.0).withUpdateFreqHz(0);
+  private PositionVoltage m_angleSetter;
 
   // The drive motor code is different because it uses the krakens
   // The angle motor code is the same because it uses the SparkMaxes
@@ -84,7 +85,11 @@ public class KrakenSwerveModule extends SwerveModuleBase {
 
     // The Kraken cannot have a set conversion factor for getPosition and
     // getVelocity
-    m_angleConfiguration.Slot0 = new Slot0Configs().withKP(4000).withKI(0.0).withKD(50);
+    m_angleSetter = new PositionVoltage(0.0).withSlot(0).withUpdateFreqHz(0);
+    m_angleConfiguration.Slot0 = new Slot0Configs().withKP(1).withKI(0.0).withKD(0);
+    m_angleConfiguration.ClosedLoopGeneral.ContinuousWrap = true;
+    m_angleConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    m_angleConfiguration.Feedback.FeedbackRemoteSensorID = m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID");
     m_angleMotor.getConfigurator().apply(m_angleConfiguration, 0.1);
     
   }
@@ -107,15 +112,14 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     m_lastAngle = angle;
     // need to invert the angle because inverting the motor through the motor
     // controller causes issues with the onboard pidcontroller
-    
-    m_angleMotor.setControl(positionTorqueCurrentRequest.withPosition(angle));
-    m_angleMotor.getConfigurator().apply(m_angleConfiguration, 0.25);
+    SmartDashboard.putNumber("swervedrive/steerangle/" + m_moduleNumber, angle);
+    m_angleMotor.setControl(m_angleSetter.withPosition(angle));
   }
 
   @Override
   protected double getAngleMotorRawAngle() {
-        double angle = m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble() * 360;
-    SmartDashboard.putNumber("CanCoder " + m_moduleNumber, angle);
+    double angle = m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble() * 360;
+    SmartDashboard.putNumber("CanCoder " + m_moduleNumber, m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble());
     if (angle < 0) {
       angle += 360;
     }

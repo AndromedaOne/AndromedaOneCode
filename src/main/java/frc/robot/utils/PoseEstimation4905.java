@@ -91,6 +91,8 @@ public class PoseEstimation4905 {
         m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
             .getBoolean("photonvision.useVisionForPose");
       }
+    } else {
+      m_cameraPresent = false;
     }
     m_swerveOdometry = new SwerveDrivePoseEstimator(kinematics,
         Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()), modulePositions, new Pose2d());
@@ -173,11 +175,12 @@ public class PoseEstimation4905 {
         m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
         m_updateGyroOffset = false;
       }
+      int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
+      boolean useLeft = SmartDashboard.getBoolean("Use left for camera", false);
+      int april = (int) SmartDashboard.getNumber("April tag to use", 0);
+      m_photonVision.get(index).computeDistanceAndAngle(april, false, useLeft, m_mock);
     }
-    int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
-    boolean useLeft = SmartDashboard.getBoolean("Use left for camera", false);
-    int april = (int) SmartDashboard.getNumber("April tag to use", 0);
-    m_photonVision.get(index).computeDistanceAndAngle(april, false, useLeft, m_mock);
+    
 
     m_posePublisherVision.set(localPose);
     return localPose;

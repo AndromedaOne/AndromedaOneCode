@@ -380,7 +380,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public void disableParkingBrakes() {
     m_ParkingBrakeState = ParkingBrakeStates.BRAKESOFF;
-    setToZero();
+    //setToZero();
+    setToAngle(90);
     Trace.getInstance().logInfo("Parking Brakes Disabled");
   }
 
