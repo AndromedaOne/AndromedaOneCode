@@ -75,8 +75,6 @@ public class KrakenSwerveModule extends SwerveModuleBase {
   }
 
   private void configAngleMotor() {
-    m_angleConfiguration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
-        .getDouble("anglekRampRate");
     if (m_config.getBoolean("angleInvert")) {
       m_angleConfiguration.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     } else {
@@ -85,13 +83,13 @@ public class KrakenSwerveModule extends SwerveModuleBase {
 
     // The Kraken cannot have a set conversion factor for getPosition and
     // getVelocity
-    m_angleSetter = new PositionVoltage(0.0).withSlot(0).withUpdateFreqHz(0);
-    m_angleConfiguration.Slot0 = new Slot0Configs().withKP(1).withKI(0.0).withKD(0);
+    m_angleConfiguration.Slot0 = new Slot0Configs().withKP(100).withKI(0.0).withKD(0);
     m_angleConfiguration.ClosedLoopGeneral.ContinuousWrap = true;
     m_angleConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     m_angleConfiguration.Feedback.FeedbackRemoteSensorID = m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID");
     m_angleMotor.getConfigurator().apply(m_angleConfiguration, 0.1);
-    
+    m_angleSetter = new PositionVoltage(0.0).withSlot(0).withUpdateFreqHz(50);
+    m_angleSetter.FeedForward = 0;
   }
 
   @Override
