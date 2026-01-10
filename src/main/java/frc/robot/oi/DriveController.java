@@ -13,14 +13,6 @@ import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
-import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
-import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
-import frc.robot.commands.sbsdTeleOpCommands.NotInUnsafeZone;
-import frc.robot.commands.sbsdTeleOpCommands.sbsdCoralLoadArmEndEffectorPositon;
-import frc.robot.commands.sbsdTeleOpCommands.teleOpCoralScoring;
-import frc.robot.commands.sbsdTeleOpCommands.teleOpDriverCoralPickup;
-import frc.robot.commands.sbsdTeleOpCommands.teleOpWallCoralPickup;
-import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -37,15 +29,10 @@ public class DriveController extends ControllerBase {
     setController(new XboxController(0));
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
-    if (Config4905.getConfig4905().getRobotName().equals("SBSD")
-        || Config4905.getConfig4905().getRobotName().equals("SwerveBot")) {
-      setupSBSDTeleOpButtons();
-    } else {
-      getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
-      getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
-      getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
-      getPOVwest().onTrue(new TurnToCompassHeading(() -> 270));
-    }
+    getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
+    getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
+    getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
+    getPOVwest().onTrue(new TurnToCompassHeading(() -> 270));
     getLeftStickButton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
     getStartButton().onTrue(
         new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
@@ -123,19 +110,5 @@ public class DriveController extends ControllerBase {
 
   public boolean getCoralLoadWall() {
     return getPOVwest().getAsBoolean();
-  }
-
-  private void setupSBSDTeleOpButtons() {
-    getAbutton().onTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
-        new sbsdCoralLoadArmEndEffectorPositon()));
-    getXbutton().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
-        new teleOpCoralScoring(m_subsystemsContainer.getDriveTrain())));
-    getPOVeast().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
-        new teleOpDriverCoralPickup(m_subsystemsContainer.getDriveTrain())));
-    getPOVwest().whileTrue(new SequentialCommandGroup4905(new NotInUnsafeZone(),
-        new teleOpWallCoralPickup(m_subsystemsContainer.getDriveTrain())));
-    getBbutton().onTrue(new GetInClimberMode());
-    getPOVsouth().whileTrue(new SBSDClimb(false));
-    getPOVnorth().whileTrue(new SBSDClimb(true));
   }
 }

@@ -23,21 +23,10 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.FinishPathTest;
-import frc.robot.commands.examplePathCommands.OnTheFlyPathTest;
-import frc.robot.commands.examplePathCommands.OttoOneTest;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
-import frc.robot.commands.examplePathCommands.ThisIsJustASimplePathToReefStationD;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
-import frc.robot.commands.sbsdAlgaeManipulatorCommands.AlgaeManipulatorIntake;
-import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
-import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
-import frc.robot.commands.sbsdArmCommands.SetBreakMode;
-import frc.robot.commands.sbsdAutoCommands.AprilTagSnapshot;
-import frc.robot.commands.sbsdClimberCommands.SBSDClimb;
-import frc.robot.commands.sbsdTeleOpCommands.GetInClimberMode;
-import frc.robot.commands.teleOpPathCommands.FinishC;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -52,7 +41,7 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
-    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
+    if (Config4905.getConfig4905().isSwerveBot()) {
       AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     }
     SmartDashboard.putNumber("Auto Delay", 0);
@@ -68,7 +57,6 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("Set swerve drive angle for test", 0);
       SmartDashboard.putData("Run swerve drive angle set for test",
           new SwerveDriveSetWheelsToAngle(subsystemsContainer.getDriveTrain(), 0, true));
-      SmartDashboard.putData("AprilTagSnapshot", new AprilTagSnapshot());
     }
 
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")) {
@@ -83,15 +71,11 @@ public class SmartDashboard4905 {
     }
     if (Config4905.getConfig4905().isSwerveBot()) {
       SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
-      SmartDashboard.putData("ThisIsJustASimplePathToReefStationD",
-          new ThisIsJustASimplePathToReefStationD());
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
-      SmartDashboard.putData("OttoOneTest", new OttoOneTest());
       SmartDashboard.putData("SpinTest", new Spinner());
-      SmartDashboard.putData("On the fly path test", new OnTheFlyPathTest().andThen(new FinishC()));
     }
 
-    if ((Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD())
+    if (Config4905.getConfig4905().isSwerveBot()
         && Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       SmartDashboard.putNumber("Camera index to use", 0);
       SmartDashboard.putNumber("April tag to use", 0);
@@ -102,32 +86,6 @@ public class SmartDashboard4905 {
           new FinishPathTest(subsystemsContainer.getDriveTrain(), true, false));
       SmartDashboard.putData("Finish Path Test Without Move",
           new FinishPathTest(subsystemsContainer.getDriveTrain(), false, false));
-    }
-
-    if (Config4905.getConfig4905().doesSBSDArmExist()) {
-      SmartDashboard.putData("SBSD Arm Brake On", new SetBreakMode(true));
-      SmartDashboard.putData("SBSD Arm Brake Off", new SetBreakMode(false));
-      SmartDashboard.putData("SBSD Arm Set Goal", new ArmControlCommand(true, false));
-    }
-
-    if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
-      SmartDashboard.putData("SBSD End Effector Control Command",
-          new EndEffectorControlCommand(true, false));
-    }
-
-    if (Config4905.getConfig4905().doesSBSDArmExist()
-        && Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
-    }
-
-    if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
-      SmartDashboard.putData("SBSD Move Algae Manipulator", new AlgaeManipulatorIntake());
-    }
-    if (Config4905.getConfig4905().doesSBSDClimberExist()
-        && Config4905.getConfig4905().doesSBSDArmExist()
-        && Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
-      SmartDashboard.putData("Climber mode", new GetInClimberMode());
-      SmartDashboard.putData("Run Climber Winch", new SBSDClimb(true, false));
-      SmartDashboard.putData("Run Reverse Climb", new SBSDClimb(true, true));
     }
   }
 

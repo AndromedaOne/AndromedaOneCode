@@ -31,10 +31,6 @@ public class Config4905 {
   private Config m_commandConstantsConfig;
   private Config m_ws2812LEDsConfig;
   private Config m_compressorConfig;
-  private Config m_sbsdClimberConfig;
-  private Config m_sbsdArmConfig;
-  private Config m_sbsdCoralEndEffectorConfig;
-  private Config m_sbsdAlgaeManipulatorConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -43,7 +39,6 @@ public class Config4905 {
   private String m_baseDir;
   private String m_robotName;
   private boolean m_isSwerveBot = false;
-  private boolean m_isSBSD = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -51,10 +46,8 @@ public class Config4905 {
       m_baseDir = m_linuxPathToHomeStr;
       m_nameConfig = ConfigFactory.parseFile(new File(m_linuxPathToHomeStr + "name.conf"));
       m_robotName = m_nameConfig.getString("robot.name");
-      if (m_robotName.equals("SwerveBot")) { // Name pending
+      if (m_robotName.equals("SwerveBot")) {
         m_isSwerveBot = true;
-      } else if (m_robotName.equals("SBSD")) {
-        m_isSBSD = true;
       }
     }
     if ((m_robotName == null) || m_robotName.isEmpty()) {
@@ -91,10 +84,6 @@ public class Config4905 {
     m_swervedrivetrainConfig = load("swervedrivetrain.conf");
     m_ws2812LEDsConfig = load("ws2812LEDs.conf");
     m_compressorConfig = load("compressor.conf");
-    m_sbsdArmConfig = load("sbsdarm.conf");
-    m_sbsdCoralEndEffectorConfig = load("coralendeffector.conf");
-    m_sbsdAlgaeManipulatorConfig = load("algaemanipulator.conf");
-    m_sbsdClimberConfig = load("sbsdclimber.conf");
   }
 
   public Config getControllersConfig() {
@@ -138,42 +127,6 @@ public class Config4905 {
     return m_compressorConfig;
   }
 
-  public boolean doesSBSDArmExist() {
-    return m_config.hasPath("subsystems.sbsdarm");
-  }
-
-  public Config getSBSDArmConfig() {
-    return m_sbsdArmConfig;
-  }
-
-  public boolean doesSBSDCoralEndEffectorExist() {
-    return m_config.hasPath("subsystems.sbsdcoralendeffector");
-  }
-
-  public Config getSBSDCoralEndEffectorConfig() {
-    return m_sbsdCoralEndEffectorConfig;
-  }
-
-  public boolean doesSBSDCoralIntakeEjectExist() {
-    return m_config.hasPath("subsystems.sbsdcoralintakeeject");
-  }
-
-  public boolean doesSBSDAlgaeManipulatorExist() {
-    return m_config.hasPath("subsystems.algaemanipulator");
-  }
-
-  public Config getSBSDAlgaeManipulatorConfig() {
-    return m_sbsdAlgaeManipulatorConfig;
-  }
-
-  public boolean doesSBSDClimberExist() {
-    return m_config.hasPath("subsystems.sbsdclimber");
-  }
-
-  public Config getSBSDClimberConfig() {
-    return m_sbsdClimberConfig;
-  }
-
   public Config getSensorConfig() {
     return m_sensorConfig;
   }
@@ -184,10 +137,6 @@ public class Config4905 {
 
   public boolean isSwerveBot() {
     return m_isSwerveBot;
-  }
-
-  public boolean isSBSD() {
-    return m_isSBSD;
   }
 
   public String getRobotName() {

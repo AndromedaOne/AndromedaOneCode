@@ -3,17 +3,10 @@
   "robotLength": 0.9017,
   "holonomicMode": true,
   "pathFolders": [
-    "Auto #1 Paths 2025",
-    "Auto #2 Paths 2025",
-    "Auto #3 Paths 2025",
-    "Auto #5 Paths 2025",
-    "Auto #6 Paths 2025",
-    "Auto #7 Paths 2025",
     "Practice Paths",
     "TeleOp Paths"
   ],
   "autoFolders": [
-    "2025 Autos",
     "Practice Autos"
   ],
   "defaultMaxVel": 5.0,
