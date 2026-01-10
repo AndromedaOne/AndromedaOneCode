@@ -21,7 +21,6 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   private double m_reverseClimbSpeed = 0.0;
   private double m_unlatchedServoMotorAngle = 0.0;
   private double m_servoMotorInitialAngle = 0.0;
-  private double m_climberOffset = 0.0;
 
   public RealSBSDClimber() {
     m_climberConfig = Config4905.getConfig4905().getSBSDClimberConfig();
@@ -31,7 +30,6 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
     m_reverseClimbSpeed = m_climberConfig.getDouble("reverseClimbSpeed");
     m_unlatchedServoMotorAngle = m_climberConfig.getDouble("unlatchedServoMotorAngle");
     m_servoMotorInitialAngle = m_climberConfig.getDouble("servoMotorInitialAngle");
-    m_climberOffset = m_climberWinchMotor.getBuiltInEncoderPositionTicks();
   }
 
   @Override
@@ -67,10 +65,6 @@ public class RealSBSDClimber extends SubsystemBase implements SBSDClimberBase {
   @Override
   public void unlatchTrident() {
     m_climberServoMotor.setAngle(m_unlatchedServoMotorAngle);
-  }
-
-  private double getCurrentClimberRotation() {
-    return m_climberWinchMotor.getBuiltInEncoderPositionTicks() - m_climberOffset;
   }
 
   @Override

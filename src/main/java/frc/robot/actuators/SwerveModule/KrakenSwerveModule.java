@@ -4,10 +4,8 @@
 
 package frc.robot.actuators.SwerveModule;
 
-import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -17,7 +15,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 
@@ -71,7 +68,7 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     // getVelocity
     m_driveMotor.getConfigurator().apply(m_driveConfiguration, 0.1);
     m_driveMotorPositionOffset = m_driveMotor.getPosition().getValueAsDouble();
-    
+
   }
 
   private void configAngleMotor() {
@@ -86,7 +83,8 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     m_angleConfiguration.Slot0 = new Slot0Configs().withKP(100).withKI(0.0).withKD(0);
     m_angleConfiguration.ClosedLoopGeneral.ContinuousWrap = true;
     m_angleConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    m_angleConfiguration.Feedback.FeedbackRemoteSensorID = m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID");
+    m_angleConfiguration.Feedback.FeedbackRemoteSensorID = m_config
+        .getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID");
     m_angleMotor.getConfigurator().apply(m_angleConfiguration, 0.1);
     m_angleSetter = new PositionVoltage(0.0).withSlot(0).withUpdateFreqHz(50);
     m_angleSetter.FeedForward = 0;
@@ -117,7 +115,8 @@ public class KrakenSwerveModule extends SwerveModuleBase {
   @Override
   protected double getAngleMotorRawAngle() {
     double angle = m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble() * 360;
-    SmartDashboard.putNumber("CanCoder " + m_moduleNumber, m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble());
+    SmartDashboard.putNumber("CanCoder " + m_moduleNumber,
+        m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble());
     if (angle < 0) {
       angle += 360;
     }

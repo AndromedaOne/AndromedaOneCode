@@ -74,17 +74,6 @@ public class RealSBSDAlgaeManipulator extends SubsystemBase implements SBSDAlgae
     m_intakeWheels.setSpeed(0);
   }
 
-  private double getEncoderPositionInDegrees() {
-    double encoderPosition = (m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() * 360);
-    return encoderPosition;
-  }
-
-  private double getEncoderPositionInRadians() {
-    double encoderPosition = (m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() * 2
-        * Math.PI);
-    return encoderPosition;
-  }
-
   private void rotateWithPID(double speed) {
     if (((m_deployAlgaeManipulator.getBuiltInEncoderPositionTicks() > m_retractAngle)
         || m_algaeManipMaxAngleLimitSwitch.isAtLimit()) && (speed > 0)) {

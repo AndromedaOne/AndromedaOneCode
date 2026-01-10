@@ -18,7 +18,6 @@ public class EndEffectorControlCommand extends Command {
   private CoralEndEffectorRotateBase m_endEffector;
   private CoralIntakeEjectBase m_intakeEject;
   private boolean m_useSmartDashboard = false;
-  private double m_setpoint = 0;
   private boolean m_useLevel = false;
   private boolean m_doesEnd = false;
   private boolean m_hasSetLevel = false;
@@ -36,11 +35,6 @@ public class EndEffectorControlCommand extends Command {
     m_doesEnd = doesEnd;
   }
 
-  public EndEffectorControlCommand(double setpoint, boolean doesEnd) {
-    this(false, doesEnd);
-    m_setpoint = setpoint;
-  }
-
   public EndEffectorControlCommand(ArmSetpointsSupplier level, boolean doesEnd) {
     this(false, doesEnd);
     m_level = level;
@@ -54,8 +48,6 @@ public class EndEffectorControlCommand extends Command {
     if (m_useLevel) {
       Trace.getInstance().logCommandInfo(this, "EE Level: "
           + SBSDArmSetpoints.getInstance().getEndEffectorAngleInDeg(m_level.getAsArmSetpoints()));
-      m_setpoint = SBSDArmSetpoints.getInstance()
-          .getEndEffectorAngleInDeg(m_level.getAsArmSetpoints());
       if (m_level.getAsArmSetpoints() == SBSDArmSetpoints.ArmSetpoints.LEVEL_4) {
         Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase().scoreL4();
         Trace.getInstance().logCommandInfo(this,

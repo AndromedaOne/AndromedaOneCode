@@ -180,7 +180,6 @@ public class PoseEstimation4905 {
       int april = (int) SmartDashboard.getNumber("April tag to use", 0);
       m_photonVision.get(index).computeDistanceAndAngle(april, false, useLeft, m_mock);
     }
-    
 
     m_posePublisherVision.set(localPose);
     return localPose;

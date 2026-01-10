@@ -7,7 +7,6 @@ package frc.robot.commands.sbsdTeleOpCommands;
 import java.util.ArrayList;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoder;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -30,7 +29,6 @@ public class FinishPath extends SequentialCommandGroup4905 {
   private TargetDistanceAndAngle m_wantedDistanceAndAngle = new TargetDistanceAndAngle(0, 0, false);
   private DoubleSupplier m_distance = m_wantedDistanceAndAngle.getTargetDistanceSupplier();
   private DoubleSupplier m_angle = m_wantedDistanceAndAngle.getTargetAngleSupplier();
-  private Command m_command;
 
   public FinishPath(boolean isForward, PoseEstimation4905.RegionsForPose region, boolean useLeft) {
     m_drivetrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();

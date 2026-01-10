@@ -24,9 +24,6 @@ public class sbsdCoralScoreLevel1 extends SequentialCommandGroup4905 {
 
   @Override
   public void additionalInitialize() {
-    // TODO: reinstate this after the merge party
-    // m_CoralIntakeEject =
-    // Robot.getInstance().getSubsystemsContainer().getSBSDCoralIntakeEjectBase();
   }
 
   @Override
