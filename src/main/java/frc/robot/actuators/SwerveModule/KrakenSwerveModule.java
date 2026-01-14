@@ -4,6 +4,7 @@
 
 package frc.robot.actuators.SwerveModule;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -40,17 +41,18 @@ public class KrakenSwerveModule extends SwerveModuleBase {
         .getConfig("SwerveDriveConstants");
     /* Angle Motor Config */
     m_angleMotorEncoder = new CANcoder(
-        m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID"), "rio");
+        m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID"),
+        new CANBus("rio"));
 
     m_angleMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorID"),
-        "rio");
+        new CANBus("rio"));
 
     m_angleConfiguration = new TalonFXConfiguration();
     configAngleMotor();
 
     /* drive motor config */
     m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
-        "rio");
+        new CANBus("rio"));
     m_driveConfiguration = new TalonFXConfiguration();
     configDriveMotor();
   }

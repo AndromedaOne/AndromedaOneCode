@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance()
         .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
     Trace.getInstance().logInfo("robot init finished");
-    FollowPathCommand.warmupCommand().schedule();
+    CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
   }
 
   /**

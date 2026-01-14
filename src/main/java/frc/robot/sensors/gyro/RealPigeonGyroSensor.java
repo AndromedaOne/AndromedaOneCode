@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.TimerTask;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.typesafe.config.Config;
 
@@ -42,7 +43,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
         int pigeonId = pigeonConfig.getInt("id");
         System.out.println("Creating a pigeon Gyro on port: " + pigeonId);
         /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
-        m_gyro = new Pigeon2(pigeonId, "rio");
+        m_gyro = new Pigeon2(pigeonId, new CANBus("rio"));
         System.out.println("Created pigeon instance");
         calibrate();
       } catch (RuntimeException ex) {

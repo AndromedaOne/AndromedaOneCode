@@ -50,7 +50,7 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
       double percentOutput = desiredState.speedMetersPerSecond / m_config.getDouble("maxSpeed");
       m_driveMotor.getMotorController().set(percentOutput);
     } else {
-      m_driveController.setReference(desiredState.speedMetersPerSecond, ControlType.kVelocity,
+      m_driveController.setSetpoint(desiredState.speedMetersPerSecond, ControlType.kVelocity,
           ClosedLoopSlot.kSlot0, m_feedForward.calculate(desiredState.speedMetersPerSecond));
     }
   }
@@ -67,7 +67,7 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
     if (angle < 0) {
       angle += 360;
     }
-    m_angleController.setReference(angle, ControlType.kPosition);
+    m_angleController.setSetpoint(angle, ControlType.kPosition);
   }
 
   @Override
