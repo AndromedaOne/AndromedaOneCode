@@ -179,10 +179,10 @@ public class RamseteCommand4905 extends Command {
     double rightOutput;
 
     if (m_usePID) {
-      double leftFeedforward = m_feedforward.calculate(leftSpeedSetpoint,
+      double leftFeedforward = m_feedforward.calculateWithVelocities(leftSpeedSetpoint,
           (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
 
-      double rightFeedforward = m_feedforward.calculate(rightSpeedSetpoint,
+      double rightFeedforward = m_feedforward.calculateWithVelocities(rightSpeedSetpoint,
           (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
       leftOutput = leftFeedforward
