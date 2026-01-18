@@ -479,8 +479,11 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
       m_totalError = MathUtil.clamp(m_totalError + m_error * m_period, m_minimumIntegral / m_ki,
           m_maximumIntegral / m_ki);
     }
+    m_pError = m_kp * m_error;
+    m_iError = m_ki * m_totalError;
+    m_dError = m_kd * m_errorDerivative;
 
-    return m_kp * m_error + m_ki * m_totalError + m_kd * m_errorDerivative;
+    return m_pError + m_iError + m_dError;
   }
 
   /** Resets the previous error and the integral term. */
