@@ -14,10 +14,14 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
+import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
@@ -38,6 +42,8 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
+  private TimeOfFlight m_tof;
+  private LinearFilter m_linearFilter = LinearFilter.movingAverage(20);
 
   private Robot() {
   }
@@ -62,6 +68,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     Trace.getInstance().setTracePairsEnable(false);
     Trace.getInstance().logInfo("robot init started");
+    m_tof = new TimeOfFlight(15);
+    m_tof.setRangingMode(RangingMode.Short, 20);
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
@@ -114,6 +122,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
     Trace.getInstance().flushCommandTraceFile();
+    SmartDashboard.putNumber("tof distance", m_linearFilter.calculate(m_tof.getRange()) / 25.4);
   }
 
   /**
