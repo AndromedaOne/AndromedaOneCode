@@ -14,8 +14,6 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
-import com.playingwithfusion.TimeOfFlight;
-import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -27,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
+import frc.robot.sensors.tofsensor.RealPwfTofDistanceSensor;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
 
@@ -42,8 +41,10 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
-  private TimeOfFlight m_tof;
-  private LinearFilter m_linearFilter = LinearFilter.movingAverage(20);
+  private RealPwfTofDistanceSensor m_tof15;
+  private LinearFilter m_linearFilter15 = LinearFilter.movingAverage(20);
+  private RealPwfTofDistanceSensor m_tof16;
+  private LinearFilter m_linearFilter16 = LinearFilter.movingAverage(20);
 
   private Robot() {
   }
@@ -68,8 +69,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     Trace.getInstance().setTracePairsEnable(false);
     Trace.getInstance().logInfo("robot init started");
-    m_tof = new TimeOfFlight(15);
-    m_tof.setRangingMode(RangingMode.Short, 20);
+    m_tof15 = new RealPwfTofDistanceSensor("tof15");
+    m_tof16 = new RealPwfTofDistanceSensor("tof16");
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
@@ -122,7 +123,10 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
     Trace.getInstance().flushCommandTraceFile();
-    SmartDashboard.putNumber("tof distance", m_linearFilter.calculate(m_tof.getRange()) / 25.4);
+    SmartDashboard.putNumber("tof 15 distance",
+        m_linearFilter15.calculate(m_tof15.getDistance_Inches()));
+    SmartDashboard.putNumber("tof 16 distance",
+        m_linearFilter16.calculate(m_tof16.getDistance_Inches()));
   }
 
   /**

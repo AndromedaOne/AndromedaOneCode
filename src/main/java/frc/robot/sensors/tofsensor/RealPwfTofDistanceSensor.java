@@ -12,6 +12,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase {
   private TimeOfFlight m_tof;
   private Config m_sensorConfig = Config4905.getConfig4905().getSensorConfig();
   private String m_sensorName;
+  private double m_offset;
 
   public RealPwfTofDistanceSensor(String sensorName) {
     m_sensorName = sensorName;
@@ -44,6 +45,8 @@ public class RealPwfTofDistanceSensor extends RealSensorBase {
      */
     m_tof.setRangingMode(rangingMode,
         m_sensorConfig.getInt("sensors." + sensorName + ".sampleTime"));
+
+    m_offset = m_sensorConfig.getInt("sensors." + m_sensorName + ".sensorOffset_inches");
     /*
      * The range of interest rows and columns must be greater or equal to zero and
      * less than or equal to fifteen. The top left corner row/column must be smaller
@@ -69,13 +72,11 @@ public class RealPwfTofDistanceSensor extends RealSensorBase {
   }
 
   public double getDistance_mm() {
-    return m_tof.getRange()
-        + (m_sensorConfig.getInt("sensors." + m_sensorName + ".sensorOffset_inches") * 25.4);
+    return m_tof.getRange() + (m_offset * 25.4);
   }
 
   public double getDistance_Inches() {
-    return (m_tof.getRange() / 25.4)
-        + (m_sensorConfig.getInt("sensors." + m_sensorName + ".sensorOffset_inches"));
+    return (m_tof.getRange() / 25.4) + m_offset;
   }
 
   /*
