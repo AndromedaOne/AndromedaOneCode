@@ -4,15 +4,17 @@ import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 
-public class RealPwfTofDistanceSensor extends RealSensorBase {
+public class RealPwfTofDistanceSensor extends RealSensorBase implements ToFSensorBase {
   private TimeOfFlight m_tof;
   private Config m_sensorConfig = Config4905.getConfig4905().getSensorConfig();
   private String m_sensorName;
   private double m_offset;
+  private LinearFilter m_linearFilter;
 
   public RealPwfTofDistanceSensor(String sensorName) {
     m_sensorName = sensorName;
@@ -58,25 +60,47 @@ public class RealPwfTofDistanceSensor extends RealSensorBase {
         m_sensorConfig.getInt("sensors." + sensorName + ".rangeOfInterest.topLeftY"),
         m_sensorConfig.getInt("sensors." + sensorName + ".rangeOfInterest.bottomRightX"),
         m_sensorConfig.getInt("sensors." + sensorName + ".rangeOfInterest.bottomRightY"));
+    m_linearFilter = LinearFilter
+        .movingAverage(m_sensorConfig.getInt("sensors." + sensorName + ".numberOfTaps"));
   }
 
   @Override
-  protected void updateSmartDashboard() {
-    SmartDashboard.putNumber("TOF Distance mm", getDistance_mm());
-    SmartDashboard.putNumber("TOF Dintance Inches", getDistance_Inches());
-    SmartDashboard.putNumber("TOF Standad Deviation Inches", getRangeSigma_inches());
-    SmartDashboard.putNumber("TOF Ambient Light Level", getAmbientLightLevel());
-    SmartDashboard.putBoolean("TOF Is Range Valid", isRangeValid());
-    SmartDashboard.putString("TOF Status", getStatus().toString());
-    SmartDashboard.putString("TOF Ranging Mode", getRangingMode().toString());
+  public void updateSmartDashboard() {
+    SmartDashboard.putNumber(m_sensorName + "/TOF Raw Distance mm", getRawDistance_mm());
+    SmartDashboard.putNumber(m_sensorName + "/TOF Raw Distance Inches", getRawDistance_Inches());
+    SmartDashboard.putNumber(m_sensorName + "/TOF Standard Deviation Inches",
+        getRangeSigma_inches());
+    SmartDashboard.putNumber(m_sensorName + "/TOF Ambient Light Level", getAmbientLightLevel());
+    SmartDashboard.putBoolean(m_sensorName + "/TOF Is Range Valid", isRangeValid());
+    SmartDashboard.putString(m_sensorName + "/TOF Status", getStatus().toString());
+    SmartDashboard.putString(m_sensorName + "/TOF Ranging Mode", getRangingMode().toString());
+    SmartDashboard.putNumber(m_sensorName + "/TOF linear filtered distance",
+        getLinearFilterValue());
   }
 
-  public double getDistance_mm() {
+  public double getRawDistance_mm() {
     return m_tof.getRange() + (m_offset * 25.4);
   }
 
-  public double getDistance_Inches() {
+  public double getRawDistance_Inches() {
     return (m_tof.getRange() / 25.4) + m_offset;
+  }
+
+  public double getDistance_mm() {
+    return getLinearFilterValue() * 25.4;
+  }
+
+  public double getDistance_Inches() {
+    return getLinearFilterValue();
+  }
+
+  public double getLinearFilterValue() {
+    return m_linearFilter.lastValue();
+  }
+
+  @Override
+  public void update() {
+    m_linearFilter.calculate(getRawDistance_Inches());
   }
 
   /*

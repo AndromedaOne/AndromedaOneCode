@@ -15,17 +15,14 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
 
-import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
-import frc.robot.sensors.tofsensor.RealPwfTofDistanceSensor;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
 
@@ -41,10 +38,6 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
-  private RealPwfTofDistanceSensor m_tof15;
-  private LinearFilter m_linearFilter15 = LinearFilter.movingAverage(20);
-  private RealPwfTofDistanceSensor m_tof16;
-  private LinearFilter m_linearFilter16 = LinearFilter.movingAverage(20);
 
   private Robot() {
   }
@@ -69,8 +62,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     Trace.getInstance().setTracePairsEnable(false);
     Trace.getInstance().logInfo("robot init started");
-    m_tof15 = new RealPwfTofDistanceSensor("tof15");
-    m_tof16 = new RealPwfTofDistanceSensor("tof16");
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
@@ -123,10 +114,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
     Trace.getInstance().flushCommandTraceFile();
-    SmartDashboard.putNumber("tof 15 distance",
-        m_linearFilter15.calculate(m_tof15.getDistance_Inches()));
-    SmartDashboard.putNumber("tof 16 distance",
-        m_linearFilter16.calculate(m_tof16.getDistance_Inches()));
   }
 
   /**
