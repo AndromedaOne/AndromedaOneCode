@@ -22,8 +22,16 @@ public abstract class RealSensorBase {
   protected abstract void updateSmartDashboard();
 
   public static void periodic() {
+
     for (RealSensorBase sensor : m_realSensors) {
+      sensor.update();
       sensor.updateSmartDashboard();
+
     }
+
+  }
+
+  protected void update() {
+
   }
 }
