@@ -21,7 +21,6 @@ import frc.robot.sensors.gyro.RealPigeonGyroSensor;
 import frc.robot.sensors.photonvision.MockPhotonVision;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.sensors.photonvision.RealPhotonVision;
-import frc.robot.sensors.tofsensor.ToFSensorBase;
 import frc.robot.telemetries.Trace;
 
 /**
@@ -32,8 +31,6 @@ public class SensorsContainer {
   private Camera m_camera0;
   private Camera m_camera1;
   private Gyro4905 m_gyro;
-  private ToFSensorBase m_tof0;
-  private ToFSensorBase m_tof1;
   private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
   private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
@@ -101,14 +98,6 @@ public class SensorsContainer {
 
   public boolean hasPhotonVision() {
     return m_hasPhotonVision;
-  }
-
-  public ToFSensorBase getToF0() {
-    return m_tof0;
-  }
-
-  public ToFSensorBase getToF1() {
-    return m_tof1;
   }
 
   public ArrayList<PhotonVisionBase> getPhotonVisionList() {
