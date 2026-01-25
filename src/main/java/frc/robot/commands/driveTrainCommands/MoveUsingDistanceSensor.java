@@ -107,8 +107,8 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
           "Starting DistanceSensor position: " + m_sensorDistanceValue.getAsDouble());
     }
 
-    public double getSetpoint() {
-      return m_targetDistance;
+    public DoubleSupplier getSetpoint() {
+      return () -> m_targetDistance;
     }
 
     // Returns true when the command should end.
