@@ -4,8 +4,6 @@
 
 package frc.robot.sensors.tofsensor;
 
-import com.playingwithfusion.TimeOfFlight;
-
 /** Add your docs here. */
 public interface ToFSensorBase {
   public void updateSmartDashboard();
@@ -15,15 +13,4 @@ public interface ToFSensorBase {
   public double getDistance_Inches();
 
   public boolean isRangeValid();
-
-  public double getAmbientLightLevel();
-
-  public double getRangeSigma_mm();
-
-  public double getRangeSigma_inches();
-
-  public TimeOfFlight.Status getStatus();
-
-  public TimeOfFlight.RangingMode getRangingMode();
-
 }

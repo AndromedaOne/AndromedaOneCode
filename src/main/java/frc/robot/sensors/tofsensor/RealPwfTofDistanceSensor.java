@@ -15,6 +15,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements ToFSenso
   private String m_sensorName;
   private double m_offset;
   private LinearFilter m_linearFilter;
+  private static final double m_conversionFromInchesToCm = 25.4;
 
   public RealPwfTofDistanceSensor(String sensorName) {
     m_sensorName = sensorName;
@@ -79,15 +80,15 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements ToFSenso
   }
 
   public double getRawDistance_mm() {
-    return m_tof.getRange() + (m_offset * 25.4);
+    return m_tof.getRange() + (m_offset * m_conversionFromInchesToCm);
   }
 
   public double getRawDistance_Inches() {
-    return (m_tof.getRange() / 25.4) + m_offset;
+    return (m_tof.getRange() / m_conversionFromInchesToCm) + m_offset;
   }
 
   public double getDistance_mm() {
-    return getLinearFilterValue() * 25.4;
+    return getLinearFilterValue() * m_conversionFromInchesToCm;
   }
 
   public double getDistance_Inches() {
@@ -128,7 +129,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements ToFSenso
    * Get the standard deviation of the distance measurment in inches
    */
   public double getRangeSigma_inches() {
-    return m_tof.getRangeSigma() / 25.4;
+    return m_tof.getRangeSigma() / m_conversionFromInchesToCm;
   }
 
   public TimeOfFlight.Status getStatus() {

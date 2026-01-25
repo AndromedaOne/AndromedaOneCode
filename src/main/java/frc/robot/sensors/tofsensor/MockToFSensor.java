@@ -4,8 +4,6 @@
 
 package frc.robot.sensors.tofsensor;
 
-import com.playingwithfusion.TimeOfFlight;
-
 /** Add your docs here. */
 public class MockToFSensor implements ToFSensorBase {
   @Override
@@ -27,30 +25,4 @@ public class MockToFSensor implements ToFSensorBase {
   public boolean isRangeValid() {
     return false;
   }
-
-  @Override
-  public double getAmbientLightLevel() {
-    return 0;
-  }
-
-  @Override
-  public double getRangeSigma_mm() {
-    return 0;
-  }
-
-  @Override
-  public double getRangeSigma_inches() {
-    return 0;
-  }
-
-  @Override
-  public TimeOfFlight.Status getStatus() {
-    return TimeOfFlight.Status.Invalid;
-  }
-
-  @Override
-  public TimeOfFlight.RangingMode getRangingMode() {
-    return TimeOfFlight.RangingMode.Long;
-  }
-
 }
