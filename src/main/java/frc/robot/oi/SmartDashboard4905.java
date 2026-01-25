@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
@@ -68,10 +69,12 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("MoveUsingEncoderTester Angle To Move", 0);
       SmartDashboard.putData("MoveUsingEncoderTester",
           new MoveUsingEncoderTester(subsystemsContainer.getDriveTrain()));
-    }
-    if (Config4905.getConfig4905().isSwerveBot()) {
+      SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
+      SmartDashboard.putData("MoveUsingDistanceSensor",
+          new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(),
+              () -> Robot.getInstance().getSensorsContainer().getRearTof().getDistance_Inches()));
       SmartDashboard.putData("SpinTest", new Spinner());
     }
 

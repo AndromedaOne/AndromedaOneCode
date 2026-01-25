@@ -13,6 +13,11 @@ import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
+import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.MockpwfTofDistanceSensor;
+import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.RealPwfTofDistanceSensor;
+import frc.robot.sensors.distanceSensor.ultrasonicsensor.MockUltrasonicSensor;
+import frc.robot.sensors.distanceSensor.ultrasonicsensor.RealUltrasonicSensor;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
@@ -38,6 +43,8 @@ public class SensorsContainer {
   private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
   private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
+  private DistanceSensorBase m_rearTof;
+  private DistanceSensorBase m_frontTof;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -84,20 +91,6 @@ public class SensorsContainer {
       m_photonVision.add(new MockPhotonVision());
       m_targetPhotonVision = new MockPhotonVision();
     }
-    if (m_sensorConfig.hasPath("sensors.tof0")) {
-      Trace.getInstance().logInfo("Using real ToF 0");
-      m_tof0 = new RealPwfTofDistanceSensor("tof0");
-    } else {
-      Trace.getInstance().logInfo("Using mock ToF 0");
-      m_tof0 = new MockToFSensor();
-    }
-    if (m_sensorConfig.hasPath("sensors.tof1")) {
-      Trace.getInstance().logInfo("Using real ToF 1");
-      m_tof1 = new RealPwfTofDistanceSensor("tof1");
-    } else {
-      Trace.getInstance().logInfo("Using mock ToF 1");
-      m_tof1 = new MockToFSensor();
-    }
   }
 
   public Gyro4905 getGyro() {
@@ -130,6 +123,14 @@ public class SensorsContainer {
 
   public PhotonVisionBase getPhotonVision() {
     return m_targetPhotonVision;
+  }
+
+  public DistanceSensorBase getRearTof() {
+    return m_rearTof;
+  }
+
+  public DistanceSensorBase getFrontTof() {
+    return m_frontTof;
   }
 
   public void periodic() {
