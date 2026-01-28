@@ -31,7 +31,7 @@ public class RealAnalogSensor extends RealSensorBase implements AnalogSensor {
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
     SmartDashboard.putNumber(m_name, getAngle());
   }
 }

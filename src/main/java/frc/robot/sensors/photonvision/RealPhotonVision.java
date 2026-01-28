@@ -104,7 +104,7 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
 
   }
 

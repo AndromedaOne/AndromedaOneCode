@@ -1,9 +1,12 @@
 package frc.robot.sensors.distanceSensor.pwfTofDistanceSensor;
 
+import java.util.function.DoubleSupplier;
+
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
@@ -13,6 +16,9 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
   private TimeOfFlight m_tof;
   private Config m_sensorConfig = Config4905.getConfig4905().getSensorConfig();
   private String m_sensorName;
+  private LinearFilter m_linearFilter;
+  private boolean m_useLF = false;
+  private double m_offsetInches = 0.0;
 
   public RealPwfTofDistanceSensor(String sensorName) {
     m_sensorName = sensorName;
@@ -56,29 +62,63 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
         m_sensorConfig.getInt("sensors." + sensorName + ".rangeOfInterest.topLeftY"),
         m_sensorConfig.getInt("sensors." + sensorName + ".rangeOfInterest.bottomRightX"),
         m_sensorConfig.getInt("sensors." + sensorName + ".rangeOfInterest.bottomRightY"));
+    m_useLF = m_sensorConfig.getBoolean("sensors." + sensorName + ".useLinearFilter");
+    if (m_sensorConfig.getInt("sensors." + sensorName + ".numberOfTaps") == 0) {
+      m_useLF = false;
+    }
+    if (m_useLF) {
+      m_linearFilter = LinearFilter
+          .movingAverage(m_sensorConfig.getInt("sensors." + sensorName + ".numberOfTaps"));
+    }
+    m_offsetInches = m_sensorConfig.getInt("sensors." + m_sensorName + ".sensorOffset_inches");
   }
 
   @Override
-  protected void updateSmartDashboard() {
-    SmartDashboard.putNumber("TOF Distance mm", getDistance_mm());
-    SmartDashboard.putNumber("TOF Dintance Inches", getDistance_Inches());
-    SmartDashboard.putNumber("TOF Standad Deviation Inches", getRangeSigma_inches());
-    SmartDashboard.putNumber("TOF Ambient Light Level", getAmbientLightLevel());
-    SmartDashboard.putBoolean("TOF Is Range Valid", isRangeValid());
-    SmartDashboard.putString("TOF Status", getStatus().toString());
-    SmartDashboard.putString("TOF Ranging Mode", getRangingMode().toString());
+  protected void periodicUpdate() {
+    if (m_useLF) {
+      m_linearFilter.calculate(getUnfilteredDistance_Inches());
+      SmartDashboard.putNumber(m_sensorName + "/TOF Filtered Distance mm", getDistance_mm());
+      SmartDashboard.putNumber(m_sensorName + "/TOF Filtered Distance Inches",
+          getDistance_Inches());
+    }
+    SmartDashboard.putNumber(m_sensorName + "/TOF Distance mm", getUnfilteredDistance_mm());
+    SmartDashboard.putNumber(m_sensorName + "/TOF Distance Inches", getUnfilteredDistance_Inches());
+    SmartDashboard.putNumber(m_sensorName + "/TOF Standard Deviation Inches",
+        getRangeSigma_inches());
+    SmartDashboard.putNumber(m_sensorName + "/TOF Ambient Light Level", getAmbientLightLevel());
+    SmartDashboard.putBoolean(m_sensorName + "/TOF Is Range Valid", isRangeValid());
+    SmartDashboard.putString(m_sensorName + "/TOF Status", getStatus().toString());
+    SmartDashboard.putString(m_sensorName + "/TOF Ranging Mode", getRangingMode().toString());
+  }
+
+  public double getUnfilteredDistance_mm() {
+    return m_tof.getRange() + (m_offsetInches * 25.4);
+  }
+
+  public double getUnfilteredDistance_Inches() {
+    return (m_tof.getRange() / 25.4) + m_offsetInches;
   }
 
   @Override
   public double getDistance_mm() {
-    return m_tof.getRange()
-        + (m_sensorConfig.getInt("sensors." + m_sensorName + ".sensorOffset_inches") * 25.4);
+    return getLastFilteredValue() * 25.4;
   }
 
   @Override
   public double getDistance_Inches() {
-    return (m_tof.getRange() / 25.4)
-        + (m_sensorConfig.getInt("sensors." + m_sensorName + ".sensorOffset_inches"));
+    return getLastFilteredValue();
+  }
+
+  private double getLastFilteredValue() {
+    if (m_useLF) {
+      return m_linearFilter.lastValue();
+    }
+    return getUnfilteredDistance_Inches();
+  }
+
+  @Override
+  public DoubleSupplier getDistanceInchesAsSupplier() {
+    return () -> getDistance_Inches();
   }
 
   /*

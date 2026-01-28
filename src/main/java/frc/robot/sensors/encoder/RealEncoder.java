@@ -33,7 +33,7 @@ public class RealEncoder extends RealSensorBase implements EncoderBase {
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
     SmartDashboard.putNumber(m_name, getEncoderValue());
   }
 }

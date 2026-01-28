@@ -1,5 +1,7 @@
 package frc.robot.sensors.distanceSensor.ultrasonicsensor;
 
+import java.util.function.DoubleSupplier;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -39,7 +41,13 @@ public class RealUltrasonicSensor extends RealSensorBase implements DistanceSens
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
     SmartDashboard.putNumber(m_sensorName, getDistance_Inches());
+  }
+
+  @Override
+  public DoubleSupplier getDistanceInchesAsSupplier() {
+    return () -> getDistance_Inches();
+
   }
 }

@@ -4,10 +4,14 @@
 
 package frc.robot.sensors.distanceSensor;
 
+import java.util.function.DoubleSupplier;
+
 /** Add your docs here. */
 public interface DistanceSensorBase {
 
   public double getDistance_mm();
 
   public double getDistance_Inches();
+
+  public DoubleSupplier getDistanceInchesAsSupplier();
 }

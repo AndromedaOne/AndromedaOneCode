@@ -73,7 +73,8 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
       SmartDashboard.putData("MoveUsingDistanceSensor",
-          new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(), () -> 0));
+          new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(),
+              sensorsContainer.getTof0().getDistanceInchesAsSupplier()));
       SmartDashboard.putData("SpinTest", new Spinner());
     }
 

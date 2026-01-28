@@ -20,7 +20,7 @@ public class RealInfraredDistanceSensor extends RealSensorBase implements Infrar
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
     SmartDashboard.putNumber(m_name, getInfraredDistance());
   }
 }

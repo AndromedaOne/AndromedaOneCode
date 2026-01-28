@@ -64,7 +64,7 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
           // This uses the output
           output -> {
             // Use the output here
-            drivetrain.moveUsingGyro(output, 0, false, heading);
+            drivetrain.moveUsingGyroStrafe(output, 270, false, heading);
           });
       m_targetDistance = targetDistance;
       m_sensorDistanceValue = distanceSensorValue;
@@ -102,7 +102,7 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
         });
       }
       Trace.getInstance().logCommandInfo(this,
-          "Moving with DistanceSensor to position: " + getSetpoint());
+          "Moving with DistanceSensor to position: " + getSetpoint().getAsDouble());
       Trace.getInstance().logCommandInfo(this,
           "Starting DistanceSensor position: " + m_sensorDistanceValue.getAsDouble());
     }

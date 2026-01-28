@@ -1,5 +1,7 @@
 package frc.robot.sensors.distanceSensor.ultrasonicsensor;
 
+import java.util.function.DoubleSupplier;
+
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 
 public class MockUltrasonicSensor implements DistanceSensorBase {
@@ -12,5 +14,10 @@ public class MockUltrasonicSensor implements DistanceSensorBase {
   @Override
   public double getDistance_mm() {
     return 0;
+  }
+
+  @Override
+  public DoubleSupplier getDistanceInchesAsSupplier() {
+    return () -> 0;
   }
 }
