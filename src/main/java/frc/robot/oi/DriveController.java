@@ -28,11 +28,6 @@ public class DriveController extends ControllerBase {
     setController(new XboxController(0));
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
-    // getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
-    // getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
-    // getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
-    // getPOVwest().onTrue(new TurnToCompassHeading(() -> 270));
-    // getBbutton().onTrue(new TurnToCompassHeading(() -> 45));
     getLeftStickButton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
     getStartButton().onTrue(
         new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
