@@ -372,8 +372,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     double strafeValue = forwardBackward * Math.sin(angleInRadians);
     // this is where you want to put debugging for forwardBackward, angleInRadians,
     // forwardBackwardValue, strafeValue, m_SwerveMods[0].getAngle().getDegrees()
-    Trace.getInstance().logInfo("forward backward value: " + forwardBackwardValue);
-    Trace.getInstance().logInfo("strafe value: " + strafeValue);
     move(forwardBackwardValue, strafeValue, 0.0, false, true);
   }
 
