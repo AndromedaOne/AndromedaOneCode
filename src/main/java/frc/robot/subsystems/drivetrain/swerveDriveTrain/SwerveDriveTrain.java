@@ -363,10 +363,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   /**
-   * The angle passed in is counter clockwise positive
+   * The angle passed in is counter clockwise positive compassheading does
+   * absolulely nothing why is it here
    */
-  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs,
-      double compassHeading) {
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs) {
     double angleInRadians = Math.toRadians(angle);
     double forwardBackwardValue = forwardBackward * Math.cos(angleInRadians);
     double strafeValue = forwardBackward * Math.sin(angleInRadians);

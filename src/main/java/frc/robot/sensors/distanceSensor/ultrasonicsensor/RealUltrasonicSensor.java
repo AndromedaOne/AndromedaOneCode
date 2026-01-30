@@ -50,4 +50,9 @@ public class RealUltrasonicSensor extends RealSensorBase implements DistanceSens
     return () -> getDistance_Inches();
 
   }
+
+  @Override
+  public DoubleSupplier getFacingAngle() {
+    return () -> 0;
+  }
 }

@@ -70,7 +70,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
           // This uses the output
           output -> {
             // Use the output here
-            drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false, heading);
+            drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false);
           });
 
       /*
@@ -116,7 +116,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       if (m_useCurrentHeading) {
         double heading = Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading();
         super.setOutput(output -> {
-          m_driveTrain.moveUsingGyroStrafe(output, m_angle.getAsDouble(), false, heading);
+          m_driveTrain.moveUsingGyroStrafe(output, m_angle.getAsDouble(), false);
         });
       }
       setSetpoint(() -> m_target);

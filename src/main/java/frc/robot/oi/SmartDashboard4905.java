@@ -69,12 +69,15 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("MoveUsingEncoderTester Angle To Move", 0);
       SmartDashboard.putData("MoveUsingEncoderTester",
           new MoveUsingEncoderTester(subsystemsContainer.getDriveTrain()));
-      SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
+
       SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
       SmartDashboard.putData("MoveUsingDistanceSensor",
           new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(),
-              sensorsContainer.getTof0().getDistanceInchesAsSupplier()));
+              sensorsContainer.getTof0().getDistanceInchesAsSupplier(),
+              sensorsContainer.getTof0().getFacingAngle()));
+      SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
+      // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
       SmartDashboard.putData("SpinTest", new Spinner());
     }
 

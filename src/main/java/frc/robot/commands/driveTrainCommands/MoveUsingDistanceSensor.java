@@ -22,22 +22,22 @@ import frc.robot.telemetries.Trace;
 public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
   // move the robot until the distance sensor is at the targetDistance
   public MoveUsingDistanceSensor(DriveTrainBase drivetrain, DoubleSupplier distanceSensorValue,
-      double targetDistance, double heading, double maxOutput, boolean useCurrentHeading) {
+      double targetDistance, DoubleSupplier angle, double maxOutput, boolean useCurrentHeading) {
     addCommands(new SwerveDriveSetWheelsToZeroDegrees(drivetrain),
-        new MoveUsingDistanceSensorInternal(drivetrain, distanceSensorValue, targetDistance,
-            heading, maxOutput, useCurrentHeading));
+        new MoveUsingDistanceSensorInternal(drivetrain, distanceSensorValue, targetDistance, angle,
+            maxOutput, useCurrentHeading));
   }
 
   // Use this constructor to move the robot in the heading passed in
   public MoveUsingDistanceSensor(DriveTrainBase drivetrain, DoubleSupplier distanceSensorValue,
-      double targetDistance, double heading, double maxOutput) {
-    this(drivetrain, distanceSensorValue, targetDistance, heading, maxOutput, false);
+      double targetDistance, DoubleSupplier angle, double maxOutput) {
+    this(drivetrain, distanceSensorValue, targetDistance, angle, maxOutput, false);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
   public MoveUsingDistanceSensor(DriveTrainBase driveTrain, DoubleSupplier distanceSensorValue,
       double targetDistance, double maxOutput) {
-    this(driveTrain, distanceSensorValue, targetDistance, 0, maxOutput, true);
+    this(driveTrain, distanceSensorValue, targetDistance, () -> 0, maxOutput, true);
   }
 
   // this is the actual PID loop command
@@ -52,8 +52,8 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
      * Creates a new MoveUsingDistanceSensor.
      */
     public MoveUsingDistanceSensorInternal(DriveTrainBase drivetrain,
-        DoubleSupplier distanceSensorValue, double targetDistance, double heading, double maxOutput,
-        boolean useCurrentHeading) {
+        DoubleSupplier distanceSensorValue, double targetDistance, DoubleSupplier angle,
+        double maxOutput, boolean useCurrentHeading) {
       super(
           // The controller that the command will use
           new PIDController4905SampleStop("MoveUsingDistanceSensor"),
@@ -64,7 +64,7 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
           // This uses the output
           output -> {
             // Use the output here
-            drivetrain.moveUsingGyroStrafe(output, 270, false, heading);
+            drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false);
           });
       m_targetDistance = targetDistance;
       m_sensorDistanceValue = distanceSensorValue;

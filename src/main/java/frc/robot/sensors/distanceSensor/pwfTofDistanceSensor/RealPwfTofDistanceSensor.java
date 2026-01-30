@@ -19,6 +19,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
   private LinearFilter m_linearFilter;
   private boolean m_useLF = false;
   private double m_offsetInches = 0.0;
+  private double m_facingAngle = 0.0;
 
   public RealPwfTofDistanceSensor(String sensorName) {
     m_sensorName = sensorName;
@@ -71,6 +72,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
           .movingAverage(m_sensorConfig.getInt("sensors." + sensorName + ".numberOfTaps"));
     }
     m_offsetInches = m_sensorConfig.getInt("sensors." + m_sensorName + ".sensorOffset_inches");
+    m_facingAngle = m_sensorConfig.getDouble("sensors." + m_sensorName + ".facingAngle");
   }
 
   @Override
@@ -155,5 +157,10 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
 
   public TimeOfFlight.RangingMode getRangingMode() {
     return m_tof.getRangingMode();
+  }
+
+  @Override
+  public DoubleSupplier getFacingAngle() {
+    return () -> m_facingAngle;
   }
 }

@@ -12,19 +12,24 @@ import frc.robot.telemetries.Trace;
 public class MoveUsingDistanceSensorTester extends Command {
   private DriveTrainBase m_driveTrain;
   private DoubleSupplier m_distanceValueSupplier;
+  private DoubleSupplier m_angle;
 
   public MoveUsingDistanceSensorTester(DriveTrainBase drivetrain,
-      DoubleSupplier distanceSensorSupplier) {
+      DoubleSupplier distanceSensorSupplier, DoubleSupplier angle) {
     m_driveTrain = drivetrain;
     m_distanceValueSupplier = distanceSensorSupplier;
+    m_angle = angle;
+
   }
 
   @Override
   public void initialize() {
     double distance = SmartDashboard.getNumber("MoveUsingDistanceSensorTester Distance To Move", 6);
-    CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-        new MoveUsingDistanceSensor(m_driveTrain, m_distanceValueSupplier, distance, 270, 0.3)));
+    CommandScheduler.getInstance()
+        .schedule(new SequentialCommandGroup(new MoveUsingDistanceSensor(m_driveTrain,
+            m_distanceValueSupplier, distance, m_angle, 0.3)));
     Trace.getInstance().logCommandInfo(this, "Moving to distance sensor value: " + distance);
+    Trace.getInstance().logCommandInfo(this, "Moving to angle: " + m_angle.getAsDouble());
   }
 
   @Override

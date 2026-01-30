@@ -20,4 +20,9 @@ public class MockUltrasonicSensor implements DistanceSensorBase {
   public DoubleSupplier getDistanceInchesAsSupplier() {
     return () -> 0;
   }
+
+  @Override
+  public DoubleSupplier getFacingAngle() {
+    return () -> 0;
+  }
 }
