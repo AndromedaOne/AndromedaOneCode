@@ -12,7 +12,6 @@ import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
-import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -29,11 +28,6 @@ public class DriveController extends ControllerBase {
     setController(new XboxController(0));
     m_sensorsContainer = sensorsContainer;
     m_subsystemsContainer = subsystemsContainer;
-    getPOVnorth().onTrue(new TurnToCompassHeading(() -> 0));
-    getPOVeast().onTrue(new TurnToCompassHeading(() -> 90));
-    getPOVsouth().onTrue(new TurnToCompassHeading(() -> 180));
-    getPOVwest().onTrue(new TurnToCompassHeading(() -> 270));
-    getBbutton().onTrue(new TurnToCompassHeading(() -> 45));
     getLeftStickButton().onTrue(new PauseRobot(1, m_subsystemsContainer.getDriveTrain()));
     getStartButton().onTrue(
         new CalibrateGyro(m_sensorsContainer.getGyro(), m_subsystemsContainer.getDriveTrain()));
@@ -44,6 +38,26 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
     }
+  }
+
+  public boolean getBButtonPressed() {
+    return getBbutton().getAsBoolean();
+  }
+
+  public boolean getUpArrowPressed() {
+    return getPOVnorthPressed();
+  }
+
+  public boolean getLeftArrowPressed() {
+    return getPOVwestPressed();
+  }
+
+  public boolean getDownArrowPressed() {
+    return getPOVsouthPressed();
+  }
+
+  public boolean getRightArrowPressed() {
+    return getPOVeastPressed();
   }
 
   public double getDriveTrainForwardBackwardStick() {
