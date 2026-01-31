@@ -32,6 +32,7 @@ public class Config4905 {
   private Config m_ws2812LEDsConfig;
   private Config m_compressorConfig;
   private Config m_ejectBeltConfig;
+  private Config m_hopperBeltsConfig;
   private Config m_AHIConfig;
   private Config m_intakerollersConfig;
   private static Config4905 m_config4905 = null;
@@ -88,6 +89,7 @@ public class Config4905 {
     m_ws2812LEDsConfig = load("ws2812LEDs.conf");
     m_compressorConfig = load("compressor.conf");
     m_ejectBeltConfig = load("ejectbelt.conf");
+    m_hopperBeltsConfig = load("hopperbelts.conf");
     m_AHIConfig = load("ahi.conf");
     m_intakerollersConfig = load("intakerollers.conf");
   }
@@ -131,6 +133,14 @@ public class Config4905 {
 
   public Config getCompressorConfig() {
     return m_compressorConfig;
+  }
+
+  public boolean doesHopperBeltsExist() {
+    return m_config.hasPath("subsystems.hopperbelts");
+  }
+
+  public Config getHopperBeltsConfig() {
+    return m_hopperBeltsConfig;
   }
 
   public boolean doesAHIExist() {
