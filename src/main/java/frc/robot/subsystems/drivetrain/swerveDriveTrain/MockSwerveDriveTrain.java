@@ -112,8 +112,7 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   }
 
-  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs,
-      double compassHeading) {
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs) {
   }
 
   @Override

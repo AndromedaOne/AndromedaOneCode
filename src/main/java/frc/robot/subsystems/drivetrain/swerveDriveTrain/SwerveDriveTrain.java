@@ -2,6 +2,10 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import static edu.wpi.first.math.util.Units.*;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -131,13 +135,22 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       DCMotor dcMotor = new DCMotor(0, 0, 0, 0, 0, 0);
       ModuleConfig modConfig = new ModuleConfig(0.0, 0.0, 0.0, dcMotor, 0.0, 0.0, 0);
       RobotConfig robotConfig = new RobotConfig(0.0, 0.0, modConfig, 0.0);
-      try {
-        robotConfig = RobotConfig.fromGUISettings();
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new RuntimeException(e);
-
+      if (m_config.getBoolean("pathplanning.usePathGUI")) {
+        try {
+          robotConfig = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new RuntimeException(e);
+        }
+      } else {
+        try {
+          robotConfig = getFromConfig();
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new RuntimeException(e);
+        }
       }
+
       m_generator = new SwerveSetpointGenerator(robotConfig,
           m_config.getDouble("maxAngularVelocity"));
       m_prevSetpoint = new SwerveSetpoint(m_currentChassisSpeeds, getStates(),
@@ -350,10 +363,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   /**
-   * The angle passed in is counter clockwise positive
+   * The angle passed in is counter clockwise positive compassheading does
+   * absolulely nothing why is it here
    */
-  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs,
-      double compassHeading) {
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs) {
     double angleInRadians = Math.toRadians(angle);
     double forwardBackwardValue = forwardBackward * Math.cos(angleInRadians);
     double strafeValue = forwardBackward * Math.sin(angleInRadians);
@@ -500,4 +513,51 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return m_SwerveMods[0].getAngle().getDegrees();
   }
 
+  public RobotConfig getFromConfig() throws IOException, ParseException {
+    boolean isHolonomic = m_config.getBoolean("pathplanning.holonomic");
+    double massKG = m_config.getDouble("pathplanning.mass");
+    double MOI = m_config.getDouble("pathplanning.MOI");
+    // converting from inches to meters
+    double wheelRadius = (m_config.getDouble("wheelDiameter") / 2) / 39.37;
+    double gearing = m_config.getDouble("driveGearRatio");
+    double maxDriveSpeed = m_config.getDouble("maxSpeed");
+    double wheelCOF = m_config.getDouble("pathplanning.wheelCOF");
+    String driveMotor = m_config.getString("pathplanning.driveMotorType");
+    double driveCurrentLimit = m_config.getDouble("driveContinuousCurrentLimit");
+
+    int numMotors = isHolonomic ? 1 : 2;
+    DCMotor gearbox = switch (driveMotor) {
+    case "krakenX60" -> DCMotor.getKrakenX60(numMotors);
+    case "krakenX60FOC" -> DCMotor.getKrakenX60Foc(numMotors);
+    case "falcon500" -> DCMotor.getFalcon500(numMotors);
+    case "falcon500FOC" -> DCMotor.getFalcon500Foc(numMotors);
+    case "vortex" -> DCMotor.getNeoVortex(numMotors);
+    case "NEO" -> DCMotor.getNEO(numMotors);
+    case "CIM" -> DCMotor.getCIM(numMotors);
+    case "miniCIM" -> DCMotor.getMiniCIM(numMotors);
+    default -> throw new IllegalArgumentException("Invalid motor type: " + driveMotor);
+    };
+    gearbox = gearbox.withReduction(gearing);
+
+    ModuleConfig moduleConfig = new ModuleConfig(wheelRadius, maxDriveSpeed, wheelCOF, gearbox,
+        driveCurrentLimit, numMotors);
+
+    if (isHolonomic) {
+      Translation2d[] moduleOffsets = new Translation2d[] {
+          new Translation2d(m_config.getDouble("pathplanning.FLX"),
+              m_config.getDouble("pathplanning.FLY")),
+          new Translation2d(m_config.getDouble("pathplanning.FRX"),
+              m_config.getDouble("pathplanning.FRY")),
+          new Translation2d(m_config.getDouble("pathplanning.BLX"),
+              m_config.getDouble("pathplanning.BLY")),
+          new Translation2d(m_config.getDouble("pathplanning.BRX"),
+              m_config.getDouble("pathplanning.BRY")) };
+
+      return new RobotConfig(massKG, MOI, moduleConfig, moduleOffsets);
+    } else {
+      double trackwidth = m_config.getDouble("pathplanning.driveBaseRadiusInMeters");
+
+      return new RobotConfig(massKG, MOI, moduleConfig, trackwidth);
+    }
+  }
 }

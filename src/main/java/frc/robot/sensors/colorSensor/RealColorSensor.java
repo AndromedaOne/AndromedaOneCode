@@ -20,7 +20,7 @@ public class RealColorSensor extends RealSensorBase implements ColorSensorBase {
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
     SmartDashboard.putNumber(m_name, getReflectedLightIntensity());
   }
 }

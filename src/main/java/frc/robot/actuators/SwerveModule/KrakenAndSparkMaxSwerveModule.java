@@ -4,6 +4,7 @@
 
 package frc.robot.actuators.SwerveModule;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -36,7 +37,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
 
     /* drive motor config */
     m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
-        "rio");
+        new CANBus("rio"));
     m_configuration = new TalonFXConfiguration();
     configDriveMotor();
   }
@@ -77,7 +78,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     if (angle < 0) {
       angle += 360;
     }
-    m_angleMotor.getMotorController().getClosedLoopController().setReference(angle,
+    m_angleMotor.getMotorController().getClosedLoopController().setSetpoint(angle,
         ControlType.kPosition);
   }
 

@@ -13,6 +13,9 @@ import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
+import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.MockpwfTofDistanceSensor;
+import frc.robot.sensors.distanceSensor.pwfTofDistanceSensor.RealPwfTofDistanceSensor;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.gyro.MockGyro;
 import frc.robot.sensors.gyro.RealNavXGyroSensor;
@@ -33,6 +36,8 @@ public class SensorsContainer {
   private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
   private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
+  private DistanceSensorBase m_tof0;
+  private DistanceSensorBase m_tof1;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -79,6 +84,20 @@ public class SensorsContainer {
       m_photonVision.add(new MockPhotonVision());
       m_targetPhotonVision = new MockPhotonVision();
     }
+    if (m_sensorConfig.hasPath("sensors.tof0")) {
+      Trace.getInstance().logInfo("Using real tof sensor 0");
+      m_tof0 = new RealPwfTofDistanceSensor("tof0");
+    } else {
+      Trace.getInstance().logInfo("Using mock tof sensor 0");
+      m_tof0 = new MockpwfTofDistanceSensor();
+    }
+    if (m_sensorConfig.hasPath("sensors.tof1")) {
+      Trace.getInstance().logInfo("Using real tof sensor 1");
+      m_tof1 = new RealPwfTofDistanceSensor("tof1");
+    } else {
+      Trace.getInstance().logInfo("Using mock tof sensor 1");
+      m_tof1 = new MockpwfTofDistanceSensor();
+    }
   }
 
   public Gyro4905 getGyro() {
@@ -103,6 +122,14 @@ public class SensorsContainer {
 
   public PhotonVisionBase getPhotonVision() {
     return m_targetPhotonVision;
+  }
+
+  public DistanceSensorBase getTof0() {
+    return m_tof0;
+  }
+
+  public DistanceSensorBase getTof1() {
+    return m_tof1;
   }
 
   public void periodic() {

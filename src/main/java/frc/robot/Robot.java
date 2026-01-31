@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
@@ -21,23 +22,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
-import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish123C;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish123L;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish4C;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish4D;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish4E;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish4G;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish4J;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish4K;
-import frc.robot.commands.sbsdAutoCommands.AutoFinish4L;
-import frc.robot.commands.sbsdAutoCommands.WaitForCoral;
-import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel1;
-import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel2;
-import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel3;
-import frc.robot.commands.sbsdAutoCommands.sbsdCoralScoreLevel4;
-import frc.robot.commands.sbsdTeleOpCommands.sbsdCoralLoadArmEndEffectorPositon;
-import frc.robot.commands.sbsdTeleOpCommands.sbsdScoreCoral;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -81,23 +65,6 @@ public class Robot extends TimedRobot {
     Trace.getInstance().logInfo("robot init started");
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
-    NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
-    NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
-    NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
-    NamedCommands.registerCommand("sbsdCoralLoadArmEndEffectorPositon",
-        new sbsdCoralLoadArmEndEffectorPositon());
-    NamedCommands.registerCommand("WaitForCoral", new WaitForCoral());
-    NamedCommands.registerCommand("autoFinish4C", new AutoFinish4C());
-    NamedCommands.registerCommand("autoFinish4D", new AutoFinish4D());
-    NamedCommands.registerCommand("autoFinish4E", new AutoFinish4E());
-    NamedCommands.registerCommand("autoFinish4G", new AutoFinish4G());
-    NamedCommands.registerCommand("autoFinish4J", new AutoFinish4J());
-    NamedCommands.registerCommand("autoFinish4K", new AutoFinish4K());
-    NamedCommands.registerCommand("autoFinish4L", new AutoFinish4L());
-    NamedCommands.registerCommand("autoFinish123C", new AutoFinish123C());
-    NamedCommands.registerCommand("autoFinish123L", new AutoFinish123L());
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
 
     try {
@@ -115,28 +82,16 @@ public class Robot extends TimedRobot {
     m_subsystemContainer.setDefaultCommands();
     if (Config4905.getConfig4905().doesSwerveDrivetrainExist()
         || Config4905.getConfig4905().doesTankDrivetrainExist()) {
-      NamedCommands.registerCommand("sbsdCoralScoreLevel4", new sbsdCoralScoreLevel4());
-      NamedCommands.registerCommand("sbsdCoralScoreLevel2", new sbsdCoralScoreLevel2());
-      NamedCommands.registerCommand("sbsdCoralScoreLevel3", new sbsdCoralScoreLevel3());
-      NamedCommands.registerCommand("sbsdCoralScoreLevel1", new sbsdCoralScoreLevel1());
-      NamedCommands.registerCommand("sbsdScoreCoral", new sbsdScoreCoral());
     }
     m_subsystemContainer.getDriveTrain().setCoast(true);
-    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
-    m_subsystemContainer.getSBSDCoralIntakeEjectBase()
-        .setDriveController(m_oiContainer.getDriveController());
-    m_subsystemContainer.getSBSDCoralIntakeEjectBase()
-        .setSubsystemController(m_oiContainer.getSubsystemController());
-    m_subsystemContainer.getSBSDArmBase().setGoalDeg(SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD);
-    m_subsystemContainer.getSBSDCoralEndEffectorRotateBase()
-        .setAngleDeg(SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD);
     LiveWindow.disableAllTelemetry();
     CommandScheduler.getInstance()
         .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));
     CommandScheduler.getInstance()
         .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
+    SignalLogger.enableAutoLogging(false);
+    CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     Trace.getInstance().logInfo("robot init finished");
-    FollowPathCommand.warmupCommand().schedule();
   }
 
   /**
@@ -174,7 +129,6 @@ public class Robot extends TimedRobot {
     }
     m_subsystemContainer.getDriveTrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
-    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setCoastMode();
   }
 
   @Override
@@ -189,11 +143,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     Trace.getInstance().logInfo("autonomousInit called");
     setInitialZangleOffset();
-
-    m_subsystemContainer.getSBSDClimberBase().setServoInitialPosition();
-
     m_autonomousCommand = m_oiContainer.getSmartDashboard().getSelectedAutoChooserCommand();
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
@@ -206,7 +156,6 @@ public class Robot extends TimedRobot {
     }
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
-    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
     LiveWindow.disableAllTelemetry();
 
     Trace.getInstance().logInfo("autonomousInit finished");
@@ -237,8 +186,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    m_subsystemContainer.getSBSDClimberBase().setServoInitialPosition();
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -248,7 +195,6 @@ public class Robot extends TimedRobot {
     }
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
-    m_subsystemContainer.getSBSDCoralIntakeEjectBase().setBrakeMode();
     LiveWindow.disableAllTelemetry();
     Trace.getInstance().logInfo("teleopInit finished");
   }

@@ -27,28 +27,14 @@ public abstract class RealLEDs extends LEDs {
     } else if (Robot.getInstance().isDisabled()) {
       setRainbow();
     } else if (Robot.getInstance().isTeleop()) {
-      switch (m_driveTrain.getRegion()) {
-      case NORTH:
-      case SOUTH:
-        setGreen(1);
-        break;
-      case NORTHEAST:
-      case SOUTHWEST:
-        setRed(1);
-        break;
-      case NORTHWEST:
-      case SOUTHEAST:
-        setBlue(1);
-        break;
-      default:
-        setOrange(1);
-        break;
-      }
       if (m_driveTrain.getDriveTrainMode() == DriveTrainModeEnum.FAST) {
-        setBlinking(0.1);
+        setRed(1);
+      } else if (m_driveTrain.getDriveTrainMode() == DriveTrainModeEnum.MID) {
+        setGreen(1);
       } else {
-        setBlinking(0.5);
+        setBlue(1);
       }
+      setSolid();
 
     } else if (Robot.getInstance().isAutonomous()) {
       if (!getTargetFound()) {

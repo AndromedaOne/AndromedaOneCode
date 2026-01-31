@@ -31,7 +31,7 @@ public interface DriveTrainBase extends SubsystemInterface {
       boolean useSquaredInputs, double heading);
 
   public abstract void moveUsingGyroStrafe(double forwardBackward, double strafe,
-      boolean useSquaredInputs, double heading);
+      boolean useSquaredInputs);
 
   /**
    * This moves the robot and corrects for any rotation using the gyro

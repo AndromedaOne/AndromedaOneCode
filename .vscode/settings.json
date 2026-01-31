@@ -35,7 +35,6 @@
     },
   ],
   "java.test.defaultConfig": "WPIlibUnitTests",
-  "extensions.ignoreRecommendations": true,
   "java.import.gradle.annotationProcessing.enabled": false,
   "java.completion.favoriteStaticMembers": [
     "org.junit.Assert.*",
@@ -67,6 +66,5 @@
     "edu.wpi.first.math.**.proto.*",
     "edu.wpi.first.math.**.struct.*",
   ],
-  "plantuml.render": "PlantUMLServer",
-  "plantuml.server": "https://www.plantuml.com/plantuml"
+  "java.dependency.enableDependencyCheckup": false
 }

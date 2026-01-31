@@ -34,7 +34,7 @@ public class RealLimitSwitchSensor extends RealSensorBase implements LimitSwitch
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
     SmartDashboard.putBoolean(m_name, isAtLimit());
   }
 }
