@@ -4,19 +4,24 @@
 
 package frc.robot.subsystems.intakerollers;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
 public class RealIntakeRollers extends SubsystemBase implements IntakeRollersBase {
   private SparkMaxController m_roller;
+  private Config m_intakeRollersConfig = Config4905.getConfig4905().getIntakeRollersConfig();
 
   // need to make a config for intake
   public RealIntakeRollers() {
     // we need to set the rollers
     // it is assumed pos is intake and neg is eject
     // all values are arbitrary
+    m_roller = new SparkMaxController(m_intakeRollersConfig, "intakeRollersMotor", false, false);
   }
 
   @Override

@@ -15,6 +15,9 @@ import frc.robot.subsystems.compressor.RealCompressor;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.MockSwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
+import frc.robot.subsystems.intakerollers.IntakeRollersBase;
+import frc.robot.subsystems.intakerollers.MockIntakeRollers;
+import frc.robot.subsystems.intakerollers.RealIntakeRollers;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.telemetries.Trace;
@@ -28,6 +31,7 @@ public class SubsystemsContainer {
   LEDs m_rightLeds;
   LEDs m_ws2812LEDs;
   CompressorBase m_compressor;
+  IntakeRollersBase m_intakeRollers;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -64,6 +68,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock Compressor");
       m_compressor = new MockCompressor();
     }
+    if (Config4905.getConfig4905().doesIntakeRollersExist()) {
+      Trace.getInstance().logInfo("using real intake rollers.");
+      m_intakeRollers = new RealIntakeRollers();
+    } else {
+      Trace.getInstance().logInfo("Using mock intake rollers");
+      m_intakeRollers = new MockIntakeRollers();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -76,6 +87,10 @@ public class SubsystemsContainer {
 
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
+  }
+
+  public IntakeRollersBase getIntakeRollersBase() {
+    return m_intakeRollers;
   }
 
   public void setDefaultCommands() {
