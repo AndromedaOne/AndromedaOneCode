@@ -32,6 +32,7 @@ public class Config4905 {
   private Config m_ws2812LEDsConfig;
   private Config m_compressorConfig;
   private Config m_ejectBeltConfig;
+  private Config m_intakerollersConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -86,6 +87,7 @@ public class Config4905 {
     m_ws2812LEDsConfig = load("ws2812LEDs.conf");
     m_compressorConfig = load("compressor.conf");
     m_ejectBeltConfig = load("ejectbelt.conf");
+    m_intakerollersConfig = load("intakerollers.conf");
   }
 
   public Config getControllersConfig() {
@@ -127,6 +129,14 @@ public class Config4905 {
 
   public Config getCompressorConfig() {
     return m_compressorConfig;
+  }
+
+  public boolean doesIntakeRollersExist() {
+    return m_config.hasPath("subsystem.intakerollers");
+  }
+
+  public Config getIntakeRollersConfig() {
+    return m_intakerollersConfig;
   }
 
   public Config getSensorConfig() {
