@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
@@ -88,8 +89,9 @@ public class Robot extends TimedRobot {
         .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));
     CommandScheduler.getInstance()
         .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
-    Trace.getInstance().logInfo("robot init finished");
+    SignalLogger.enableAutoLogging(false);
     CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
+    Trace.getInstance().logInfo("robot init finished");
   }
 
   /**
