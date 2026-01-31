@@ -15,6 +15,9 @@ import frc.robot.subsystems.compressor.RealCompressor;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.MockSwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
+import frc.robot.subsystems.ejectbelt.EjectBeltBase;
+import frc.robot.subsystems.ejectbelt.MockEjectBelt;
+import frc.robot.subsystems.ejectbelt.RealEjectBelt;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.telemetries.Trace;
@@ -28,6 +31,7 @@ public class SubsystemsContainer {
   LEDs m_rightLeds;
   LEDs m_ws2812LEDs;
   CompressorBase m_compressor;
+  EjectBeltBase m_ejectBelt;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -64,6 +68,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock Compressor");
       m_compressor = new MockCompressor();
     }
+    if (Config4905.getConfig4905().doesEjectBeltExist()) {
+      Trace.getInstance().logInfo("using real eject belt.");
+      m_ejectBelt = new RealEjectBelt();
+    } else {
+      Trace.getInstance().logInfo("Using mock eject belt");
+      m_ejectBelt = new MockEjectBelt();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -76,6 +87,10 @@ public class SubsystemsContainer {
 
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
+  }
+
+  public EjectBeltBase getEjectBeltBase() {
+    return m_ejectBelt;
   }
 
   public void setDefaultCommands() {
