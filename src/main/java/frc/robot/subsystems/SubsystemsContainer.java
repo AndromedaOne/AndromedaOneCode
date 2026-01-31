@@ -9,6 +9,9 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.subsystems.armhopperintake.AHIBase;
+import frc.robot.subsystems.armhopperintake.MockAHI;
+import frc.robot.subsystems.armhopperintake.RealAHI;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -28,6 +31,7 @@ public class SubsystemsContainer {
   LEDs m_rightLeds;
   LEDs m_ws2812LEDs;
   CompressorBase m_compressor;
+  AHIBase m_AHI;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -64,6 +68,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock Compressor");
       m_compressor = new MockCompressor();
     }
+    if (Config4905.getConfig4905().doesAHIExist()) {
+      Trace.getInstance().logInfo("using real AHI.");
+      m_AHI = new RealAHI();
+    } else {
+      Trace.getInstance().logInfo("Using mock AHI");
+      m_AHI = new MockAHI();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -76,6 +87,10 @@ public class SubsystemsContainer {
 
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
+  }
+
+  public AHIBase getAHI() {
+    return m_AHI;
   }
 
   public void setDefaultCommands() {

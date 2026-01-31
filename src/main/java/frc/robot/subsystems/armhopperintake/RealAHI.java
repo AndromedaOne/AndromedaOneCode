@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems.armhopperintake;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
@@ -13,8 +16,6 @@ public class RealAHI extends SubsystemBase implements AHIBase {
 
   private SparkMaxController m_armMotor;
   private SparkMaxController m_hopperMotor;
-  // needs config member
-  // get these from config
   // these are for safety reasons and represent the min/max angles able to be
   // safely reached
   // these would require the arm to have an absolute encoder (maybe?), which we
@@ -25,12 +26,13 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   // these may not require an absolute encoder, assuming the hopper starts in the
   // same position every time
   // are these even angles????? whatever
+  // 99% chance these are actually in rotations... shouldnt be too bad tbh
   private double m_minHopperAngle;
   private double m_maxHopperAngle;
+  private Config m_AHIConfig = Config4905.getConfig4905().getAHIConfig();
 
   public RealAHI() {
-    // needs configs
-    // also both of these are gonna need PID commands :D
+    // both of these are gonna need PID commands :D
     // basically, there will be one command which calls two methods
     // one method moves the arm, the other moves the hopper
     // these will happen simultaniously
@@ -45,6 +47,12 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     // arm - pos is down, neg is up -- hopper - pos is extend, neg is retract
     // arm - higher angles are down, lower angles are up
     // hopper - higher angles are extend, lower angles are retract
+    m_armMotor = new SparkMaxController(m_AHIConfig, "intakeArmMotor", false, false);
+    m_hopperMotor = new SparkMaxController(m_AHIConfig, "hopperExtensionMotor", false, false);
+    m_minArmAngle = m_AHIConfig.getDouble("intakeArmMotor.minArmAngle");
+    m_maxArmAngle = m_AHIConfig.getDouble("intakeArmMotor.maxArmAngle");
+    m_minHopperAngle = m_AHIConfig.getDouble("hopperExtensionMotor.minHopperAngle");
+    m_maxHopperAngle = m_AHIConfig.getDouble("hopperExtensionMotor.maxHopperAngle");
   }
 
   @Override
@@ -60,6 +68,7 @@ public class RealAHI extends SubsystemBase implements AHIBase {
 
   @Override
   public void moveHopper(double speed) {
+    // IS THIS IN ROTATIONS OR ANGLES????
     if ((speed > 0) && (getHopperAngle() >= m_maxHopperAngle)) {
       m_hopperMotor.setSpeed(0);
     } else if ((speed < 0) && (getHopperAngle() <= m_minHopperAngle)) {
