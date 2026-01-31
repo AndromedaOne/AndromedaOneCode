@@ -31,6 +31,7 @@ public class Config4905 {
   private Config m_commandConstantsConfig;
   private Config m_ws2812LEDsConfig;
   private Config m_compressorConfig;
+  private Config m_hopperBeltsConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -84,6 +85,7 @@ public class Config4905 {
     m_swervedrivetrainConfig = load("swervedrivetrain.conf");
     m_ws2812LEDsConfig = load("ws2812LEDs.conf");
     m_compressorConfig = load("compressor.conf");
+    m_hopperBeltsConfig = load("hopperbelts.conf");
   }
 
   public Config getControllersConfig() {
@@ -125,6 +127,14 @@ public class Config4905 {
 
   public Config getCompressorConfig() {
     return m_compressorConfig;
+  }
+
+  public boolean doesHopperBeltsExist() {
+    return m_config.hasPath("subsystems.hopperbelts");
+  }
+
+  public Config getHopperBeltsConfig() {
+    return m_hopperBeltsConfig;
   }
 
   public Config getSensorConfig() {

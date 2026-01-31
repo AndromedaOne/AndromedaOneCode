@@ -4,25 +4,26 @@
 
 package frc.robot.subsystems.hopperbelts;
 
+import com.typesafe.config.Config;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
 public class RealHopperBelts extends SubsystemBase implements HopperBeltsBase {
-  // need to get a config member of the subsystem
-  // this will let us get config settings/ports for the belts
   private SparkMaxController m_frontBelts;
   private SparkMaxController m_backBelts;
+  private Config m_beltConfig = Config4905.getConfig4905().getHopperBeltsConfig();
 
   public RealHopperBelts() {
-    // will need to set the belts here using
-    // new SparkMaxController(config, name)
-    // we dont have configs yet though
     // this is all assuming:
     // front belts - pos is towards middle, neg is away from middle
     // back belts - pos is away from middle, neg is towards middle
     // all speeds are arbitrary
+    m_frontBelts = new SparkMaxController(m_beltConfig, "hopperFrontBeltsMotor", false, false);
+    m_backBelts = new SparkMaxController(m_beltConfig, "hopperBackBeltsMotor", false, false);
   }
 
   @Override

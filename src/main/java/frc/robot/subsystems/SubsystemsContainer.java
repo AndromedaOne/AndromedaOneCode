@@ -15,6 +15,9 @@ import frc.robot.subsystems.compressor.RealCompressor;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.MockSwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
+import frc.robot.subsystems.hopperbelts.HopperBeltsBase;
+import frc.robot.subsystems.hopperbelts.MockHopperBelts;
+import frc.robot.subsystems.hopperbelts.RealHopperBelts;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.telemetries.Trace;
@@ -28,6 +31,7 @@ public class SubsystemsContainer {
   LEDs m_rightLeds;
   LEDs m_ws2812LEDs;
   CompressorBase m_compressor;
+  HopperBeltsBase m_hopperBelts;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -64,6 +68,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock Compressor");
       m_compressor = new MockCompressor();
     }
+    if (Config4905.getConfig4905().doesHopperBeltsExist()) {
+      Trace.getInstance().logInfo("using real hopper belts.");
+      m_hopperBelts = new RealHopperBelts();
+    } else {
+      Trace.getInstance().logInfo("Using mock hopper belts");
+      m_hopperBelts = new MockHopperBelts();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -72,6 +83,10 @@ public class SubsystemsContainer {
 
   public CompressorBase getCompressor() {
     return m_compressor;
+  }
+
+  public HopperBeltsBase getHopperBelts() {
+    return m_hopperBelts;
   }
 
   public LEDs getWs2812LEDs() {
