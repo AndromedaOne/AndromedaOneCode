@@ -31,7 +31,7 @@ public class Config4905 {
   private Config m_commandConstantsConfig;
   private Config m_ws2812LEDsConfig;
   private Config m_compressorConfig;
-  private Config m_ejectbeltConfig;
+  private Config m_ejectBeltConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -85,7 +85,7 @@ public class Config4905 {
     m_swervedrivetrainConfig = load("swervedrivetrain.conf");
     m_ws2812LEDsConfig = load("ws2812LEDs.conf");
     m_compressorConfig = load("compressor.conf");
-    m_ejectbeltConfig = load("ejectbelt.conf");
+    m_ejectBeltConfig = load("ejectbelt.conf");
   }
 
   public Config getControllersConfig() {
@@ -142,7 +142,7 @@ public class Config4905 {
   }
 
   public Config getEjectBeltConfig() {
-    return m_ejectbeltConfig;
+    return m_ejectBeltConfig;
   }
 
   public boolean isSwerveBot() {

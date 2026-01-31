@@ -89,7 +89,7 @@ public class SubsystemsContainer {
     return m_ws2812LEDs;
   }
 
-  public EjectBeltBase getEjectBeltBase() {
+  public EjectBeltBase getEjectBelt() {
     return m_ejectBelt;
   }
 

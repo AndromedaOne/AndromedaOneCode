@@ -12,7 +12,7 @@ public class RealEjectBelt extends SubsystemBase implements EjectBeltBase {
   private Config m_ejectBeltConfig = Config4905.getConfig4905().getEjectBeltConfig();
 
   public RealEjectBelt() {
-    m_eject = new SparkMaxController(m_ejectBeltConfig, getName(), false, false);
+    m_eject = new SparkMaxController(m_ejectBeltConfig, "ejectBeltMotor", false, false);
   }
 
   @Override
