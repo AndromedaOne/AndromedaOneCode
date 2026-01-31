@@ -35,6 +35,7 @@ public class Config4905 {
   private Config m_hopperBeltsConfig;
   private Config m_AHIConfig;
   private Config m_intakerollersConfig;
+  private Config m_climberConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -92,6 +93,7 @@ public class Config4905 {
     m_hopperBeltsConfig = load("hopperbelts.conf");
     m_AHIConfig = load("ahi.conf");
     m_intakerollersConfig = load("intakerollers.conf");
+    m_climberConfig = load("climber.conf");
   }
 
   public Config getControllersConfig() {
@@ -152,11 +154,19 @@ public class Config4905 {
   }
 
   public boolean doesIntakeRollersExist() {
-    return m_config.hasPath("subsystem.intakerollers");
+    return m_config.hasPath("subsystems.intakerollers");
   }
 
   public Config getIntakeRollersConfig() {
     return m_intakerollersConfig;
+  }
+
+  public boolean doesClimberExist() {
+    return m_config.hasPath("subsystems.climber");
+  }
+
+  public Config getClimberConfig() {
+    return m_climberConfig;
   }
 
   public Config getSensorConfig() {
@@ -168,7 +178,7 @@ public class Config4905 {
   }
 
   public boolean doesEjectBeltExist() {
-    return m_config.hasPath("subsystem.ejectbelt");
+    return m_config.hasPath("subsystems.ejectbelt");
   }
 
   public Config getEjectBeltConfig() {
