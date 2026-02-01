@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.pidcontroller.PIDController4905;
 
 /** Add your docs here. */
 public class RealAHI extends SubsystemBase implements AHIBase {
@@ -30,6 +31,23 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   private double m_minHopperAngle;
   private double m_maxHopperAngle;
   private Config m_AHIConfig = Config4905.getConfig4905().getAHIConfig();
+  private PIDController4905 m_armController = new PIDController4905("armControllerPID");
+  private PIDController4905 m_hopperController = new PIDController4905("hopperControllerPID");
+
+  private double m_KpA = 0.0;
+  private double m_KiA = 0.0;
+  private double m_KdA = 0.0;
+  private double m_KpH = 0.0;
+  private double m_KiH = 0.0;
+  private double m_KdH = 0.0;
+
+  // ahi does not know what state it is in. uh. not sure if that's a problem.
+  // okay now it does
+  private State m_state = State.RETRACTEDSTART;
+
+  public enum State {
+    EXTENDED, RETRACTED, EXTENDEDSTART, RETRACTEDSTART
+  }
 
   public RealAHI() {
     // both of these are gonna need PID commands :D
@@ -53,8 +71,18 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     m_maxArmAngle = m_AHIConfig.getDouble("intakeArmMotor.maxArmAngle");
     m_minHopperAngle = m_AHIConfig.getDouble("hopperExtensionMotor.minHopperAngle");
     m_maxHopperAngle = m_AHIConfig.getDouble("hopperExtensionMotor.maxHopperAngle");
+
+    m_KpA = m_AHIConfig.getDouble("kpa");
+    m_KiA = m_AHIConfig.getDouble("kia");
+    m_KdA = m_AHIConfig.getDouble("kda");
+    m_KpH = m_AHIConfig.getDouble("kph");
+    m_KiH = m_AHIConfig.getDouble("kih");
+    m_KdH = m_AHIConfig.getDouble("kdh");
+    m_armController.setPID(m_KpA, m_KiA, m_KdA);
+    m_hopperController.setPID(m_KpH, m_KiH, m_KdH);
   }
 
+  // may want to consider making this private
   @Override
   public void rotateArm(double speed) {
     if ((speed > 0) && (getArmAngle() >= m_maxArmAngle)) {
@@ -107,6 +135,51 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   public void setCoastMode() {
     m_armMotor.setCoastMode();
     m_hopperMotor.setCoastMode();
+  }
+
+  @Override
+  public void periodic() {
+
+  }
+
+  // private to ensure this only gets run in periodic
+  // yknow what? its probably fine, just ONLY RUN THIS IN DEFAULT COMMAND
+  /**
+   * ONLY RUN THIS IN AHI DEFAULT COMMAND!!!! I think??? it controls the PID so
+   * please just. use rotate arm if you want to do silly things.
+   */
+  @Override
+  public void rotateArmPID() {
+    double pidCalc = m_armController.calculate(getArmAngle());
+    rotateArm(pidCalc);
+  }
+
+  @Override
+  public void setArmSetpoint(double setpoint) {
+    m_armController.setSetpoint(setpoint);
+  }
+
+  /**
+   * ONLY RUN THIS IN AHI DEFAULT COMMAND!!!! I think??? it controls the PID so
+   * please just. use move hopper if you want to do silly things.
+   */
+  @Override
+  public void moveHopperPID() {
+    double pidCalc = m_hopperController.calculate(getHopperAngle());
+    moveHopper(pidCalc);
+  }
+
+  @Override
+  public void setHopperSetpoint(double setpoint) {
+    m_hopperController.setSetpoint(setpoint);
+  }
+
+  public void setState(State state) {
+    m_state = state;
+  }
+
+  public State getState() {
+    return m_state;
   }
 
   @Override

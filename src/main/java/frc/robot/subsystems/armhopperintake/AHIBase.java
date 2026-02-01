@@ -5,6 +5,7 @@
 package frc.robot.subsystems.armhopperintake;
 
 import frc.robot.subsystems.SubsystemInterface;
+import frc.robot.subsystems.armhopperintake.RealAHI.State;
 
 /** Add your docs here. */
 public interface AHIBase extends SubsystemInterface {
@@ -18,6 +19,18 @@ public interface AHIBase extends SubsystemInterface {
   public double getHopperAngle();
 
   public void stop();
+
+  public void rotateArmPID();
+
+  public void setArmSetpoint(double setpoint);
+
+  public void moveHopperPID();
+
+  public void setHopperSetpoint(double setpoint);
+
+  public void setState(State state);
+
+  public State getState();
 
   public void setBrakeMode();
 
