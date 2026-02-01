@@ -12,6 +12,9 @@ import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.subsystems.armhopperintake.AHIBase;
 import frc.robot.subsystems.armhopperintake.MockAHI;
 import frc.robot.subsystems.armhopperintake.RealAHI;
+import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.subsystems.climber.MockClimber;
+import frc.robot.subsystems.climber.RealClimber;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -44,6 +47,7 @@ public class SubsystemsContainer {
   HopperBeltsBase m_hopperBelts;
   AHIBase m_AHI;
   IntakeRollersBase m_intakeRollers;
+  ClimberBase m_climber;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -108,6 +112,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock AHI");
       m_AHI = new MockAHI();
     }
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      Trace.getInstance().logInfo("using real climber.");
+      m_climber = new RealClimber();
+    } else {
+      Trace.getInstance().logInfo("Using mock climber");
+      m_climber = new MockClimber();
+    }
 
   }
 
@@ -133,6 +144,10 @@ public class SubsystemsContainer {
 
   public AHIBase getAHI() {
     return m_AHI;
+  }
+
+  public ClimberBase getClimber() {
+    return m_climber;
   }
 
   public IntakeRollersBase getIntakeRollersBase() {
