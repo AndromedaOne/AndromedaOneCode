@@ -87,7 +87,7 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock eject belt");
       m_ejectBelt = new MockEjectBelt();
     }
-     if (Config4905.getConfig4905().doesHopperBeltsExist()) {
+    if (Config4905.getConfig4905().doesHopperBeltsExist()) {
       Trace.getInstance().logInfo("using real hopper belts.");
       m_hopperBelts = new RealHopperBelts();
     } else {

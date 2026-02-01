@@ -23,7 +23,6 @@ import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
-import frc.robot.commands.examplePathCommands.FinishPathTest;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
@@ -81,18 +80,6 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SpinTest", new Spinner());
     }
 
-    if (Config4905.getConfig4905().isSwerveBot()
-        && Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
-      SmartDashboard.putNumber("Camera index to use", 0);
-      SmartDashboard.putNumber("April tag to use", 0);
-      SmartDashboard.putBoolean("Use left for camera", false);
-      SmartDashboard.putData("Finish Path Test Using Move Left",
-          new FinishPathTest(subsystemsContainer.getDriveTrain(), true, true));
-      SmartDashboard.putData("Finish Path Test Using Move Right",
-          new FinishPathTest(subsystemsContainer.getDriveTrain(), true, false));
-      SmartDashboard.putData("Finish Path Test Without Move",
-          new FinishPathTest(subsystemsContainer.getDriveTrain(), false, false));
-    }
   }
 
   public Command getSelectedAutoChooserCommand() {

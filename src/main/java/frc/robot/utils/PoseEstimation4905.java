@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -28,7 +27,6 @@ import frc.robot.Robot;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
-import frc.robot.sensors.photonvision.TargetDistanceAndAngle;
 import frc.robot.telemetries.Trace;
 
 public class PoseEstimation4905 {
@@ -46,7 +44,6 @@ public class PoseEstimation4905 {
   private double m_fieldWidth;
   private Alliance m_currentAlliance;
   private AprilTagFieldLayout m_aprilTagFieldLayout;
-  private TargetDistanceAndAngle m_mock = new TargetDistanceAndAngle(0, 0, false);
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
       .getStructTopic("/OdometryPose", Pose2d.struct).publish();
@@ -60,6 +57,7 @@ public class PoseEstimation4905 {
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
+      // TODO: when the 2026 field comes out, remember to change this
       if (Config4905.getConfig4905().getSensorConfig()
           .getBoolean("photonvision.useAndyMarkField")) {
         m_aprilTagFieldLayout = AprilTagFieldLayout
@@ -82,8 +80,7 @@ public class PoseEstimation4905 {
           localCamera = m_photonVision.get(i);
           m_robotToCam
               .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
-          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout,
-              PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
+          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout, m_robotToCam.get(i)));
           m_posePublisherCamera.add(NetworkTableInstance.getDefault()
               .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
           Trace.getInstance().logInfo(m_robotToCam.get(i).toString());
@@ -143,13 +140,11 @@ public class PoseEstimation4905 {
     if (m_cameraPresent) {
       boolean usePose = false;
       for (int i = 0; i < m_poseEstimator.size(); i++) {
-        // get latest result is deprecated and needs to be replaced with get all unread
-        // results which returns a list of results
         List<PhotonPipelineResult> pipelineResults = m_photonVision.get(i).getPhotonCamera()
             .getAllUnreadResults();
         for (int results = 0; results < pipelineResults.size(); results++) {
           final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
-              .update(pipelineResults.get(results));
+              .estimateCoprocMultiTagPose(pipelineResults.get(results));
           if (optionalEstimatedPose.isPresent()) {
             final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
             usePose = true;
@@ -175,114 +170,9 @@ public class PoseEstimation4905 {
         m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
         m_updateGyroOffset = false;
       }
-      int index = (int) SmartDashboard.getNumber("Camera index to use", 0);
-      boolean useLeft = SmartDashboard.getBoolean("Use left for camera", false);
-      int april = (int) SmartDashboard.getNumber("April tag to use", 0);
-      m_photonVision.get(index).computeDistanceAndAngle(april, false, useLeft, m_mock);
     }
 
     m_posePublisherVision.set(localPose);
     return localPose;
-  }
-
-  public enum RegionsForPose {
-    NORTHEAST, NORTH, NORTHWEST, SOUTHWEST, SOUTH, SOUTHEAST, UNKNOWN
-  }
-
-  public RegionsForPose getRegion() {
-    double x = m_swerveOdometry.getEstimatedPosition().getX() - 4.489323;
-    double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
-    double z = Math.sqrt((x * x) + (y * y));
-    double theta = Math.toDegrees(Math.abs(Math.asin(x / z)));
-    if (x < 0.0) {
-      if (theta < 60) {
-        if (y < 0) {
-          return RegionsForPose.SOUTHEAST;
-        } else {
-          return RegionsForPose.SOUTHWEST;
-        }
-      } else {
-        return RegionsForPose.SOUTH;
-      }
-    } else {
-      if (theta < 60) {
-        if (y < 0) {
-          return RegionsForPose.NORTHEAST;
-        } else {
-          return RegionsForPose.NORTHWEST;
-        }
-      } else {
-        return RegionsForPose.NORTH;
-      }
-    }
-  }
-
-  public int regionToAprilTag(RegionsForPose region) {
-    Alliance alliance = AllianceConfig.getCurrentAlliance();
-    if (alliance == Alliance.Blue) {
-      switch (region) {
-      case SOUTHEAST:
-        return 17;
-      case SOUTH:
-        return 18;
-      case SOUTHWEST:
-        return 19;
-      case NORTHWEST:
-        return 20;
-      case NORTH:
-        return 21;
-      case NORTHEAST:
-        return 22;
-      case UNKNOWN:
-        throw new RuntimeException();
-      default:
-        throw new RuntimeException();
-      }
-    } else {
-      switch (region) {
-      case SOUTHEAST:
-        return 8;
-      case SOUTH:
-        return 7;
-      case SOUTHWEST:
-        return 6;
-      case NORTHWEST:
-        return 11;
-      case NORTH:
-        return 10;
-      case NORTHEAST:
-        return 9;
-      case UNKNOWN:
-        throw new RuntimeException();
-      default:
-        throw new RuntimeException();
-      }
-
-    }
-  }
-
-  public boolean getInUnsafeZone() {
-    double x = m_swerveOdometry.getEstimatedPosition().getX() - 4.489323;
-    double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
-    double z = Math.sqrt((x * x) + (y * y));
-    boolean unsafeZone = false;
-    SmartDashboard.putNumber("Distance from reef center: ", z);
-    // calculated the distance to be 55.75 inches
-    // 32.75 for half the reef
-    // 17 for half the robot with bumpers
-    // 6 for the safety
-    if (z < 1.416) {
-      unsafeZone = true;
-    }
-    return unsafeZone;
-  }
-
-  public boolean isLeftSide() {
-    double y = m_swerveOdometry.getEstimatedPosition().getY() - 4.0259127;
-    if (y < 0.0) {
-      return false;
-    } else {
-      return true;
-    }
   }
 }
