@@ -17,11 +17,9 @@ import frc.robot.subsystems.armhopperintake.RealAHI.State;
 public class AHIDefaultCommand extends Command {
   /** Creates a new AHIDefaultCommand. */
   private AHIBase m_ahi = Robot.getInstance().getSubsystemsContainer().getAHI();
-  private State m_currentState = State.RETRACTEDSTART;
+  private State m_currentState = State.LIMITSWITCHSET;
   private double m_retractArmAngle = 0.0;
   private double m_extendArmAngle = 0.0;
-  private double m_retractHopperAngle = 0.0;
-  private double m_extendHopperAngle = 0.0;
   private Config m_ahiConfig;
   private SubsystemController m_subsystemController;
   private boolean m_isPressed = false;
@@ -30,8 +28,6 @@ public class AHIDefaultCommand extends Command {
     m_ahiConfig = Config4905.getConfig4905().getAHIConfig();
     m_retractArmAngle = m_ahiConfig.getDouble("retractArm");
     m_extendArmAngle = m_ahiConfig.getDouble("extendArm");
-    m_retractHopperAngle = m_ahiConfig.getDouble("retractHopper");
-    m_extendHopperAngle = m_ahiConfig.getDouble("extendHopper");
     m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
     addRequirements(m_ahi.getSubsystemBase());
   }
@@ -40,12 +36,12 @@ public class AHIDefaultCommand extends Command {
   @Override
   public void initialize() {
     m_ahi.setArmSetpoint(m_retractArmAngle);
-    m_ahi.setHopperSetpoint(m_retractHopperAngle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    boolean usePID = true;
     if ((m_subsystemController.getAButtonPressed()) && !m_isPressed) {
       m_isPressed = true;
       if (m_currentState == State.EXTENDED) {
@@ -74,29 +70,37 @@ public class AHIDefaultCommand extends Command {
       }
     }
     switch (m_currentState) {
+    case LIMITSWITCHSET:
+      if (m_ahi.isLimitSwitchSet()) {
+        m_ahi.stop();
+        m_ahi.setOffset();
+        m_currentState = State.RETRACTEDSTART;
+        m_ahi.setState(m_currentState);
+      } else {
+        // arbitrary value
+        m_ahi.rotateArm(-0.1, true);
+      }
+      usePID = false;
+      break;
     case RETRACTED:
       break;
     case EXTENDED:
       break;
     case RETRACTEDSTART:
       m_ahi.setArmSetpoint(m_retractArmAngle);
-      m_ahi.setHopperSetpoint(m_retractHopperAngle);
       break;
     case EXTENDEDSTART:
       m_ahi.setArmSetpoint(m_extendArmAngle);
-      m_ahi.setHopperSetpoint(m_extendHopperAngle);
       break;
     default:
       break;
 
     }
-    // at some point, when we find out how the arm and hopper move together,
-    // these might have to get put into the individual states. :O
-    // whether they move or not will be toggled by "if angle is safe"
     // later on, we might need to have separate move and hold states.
     // TODO: do we set brake mode or keep PID'ing?
-    m_ahi.rotateArmPID();
-    m_ahi.moveHopperPID();
+    if (usePID) {
+      m_ahi.rotateArmPID();
+    }
   }
 
   // Called once the command ends or is interrupted.

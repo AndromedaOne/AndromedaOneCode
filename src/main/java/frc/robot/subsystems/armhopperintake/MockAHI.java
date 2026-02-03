@@ -22,20 +22,11 @@ public class MockAHI implements AHIBase {
   }
 
   @Override
-  public void rotateArm(double speed) {
-  }
-
-  @Override
-  public void moveHopper(double speed) {
+  public void rotateArm(double speed, boolean override) {
   }
 
   @Override
   public double getArmAngle() {
-    return 0;
-  }
-
-  @Override
-  public double getHopperAngle() {
     return 0;
   }
 
@@ -60,20 +51,26 @@ public class MockAHI implements AHIBase {
   }
 
   @Override
-  public void moveHopperPID() {
-  }
-
-  @Override
-  public void setHopperSetpoint(double setpoint) {
-  }
-
-  @Override
   public void setState(State state) {
   }
 
   @Override
   public State getState() {
     return State.RETRACTED;
+  }
+
+  @Override
+  public boolean isLimitSwitchSet() {
+    return false;
+  }
+
+  @Override
+  public void setOffset() {
+  }
+
+  @Override
+  public boolean atSetpoint() {
+    return false;
   }
 
 }
