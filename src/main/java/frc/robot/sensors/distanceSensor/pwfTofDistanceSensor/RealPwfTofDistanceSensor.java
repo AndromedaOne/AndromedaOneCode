@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
+import com.playingwithfusion.TimeOfFlight.Status;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.filter.LinearFilter;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;
+import frc.robot.telemetries.Trace;
 
 public class RealPwfTofDistanceSensor extends RealSensorBase implements DistanceSensorBase {
   private TimeOfFlight m_tof;
@@ -119,10 +121,23 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
     return getUnfilteredDistance_Inches();
   }
 
+  // returns in millimeters
   private double getLastValidValue() {
-    if (m_tof.isRangeValid()) {
+    TimeOfFlight.Status status = m_tof.getStatus();
+    if (status == Status.Valid) {
       m_lastValidValue = m_tof.getRange();
+      return m_lastValidValue;
+    } else if (status == Status.Invalid) {
+      return (getLastFilteredValue() * 25.4) - (m_offsetInches * 25.4);
+    } else if (status == Status.ReturnSignalLow) {
+      // 50 (max value sensor can read in inches) * 25.4 (conversion #)
+      return 1270;
+    } else if (status == Status.ReturnPhaseBad || status == Status.WrappedTarget
+        || status == Status.SigmaHigh) {
+      return m_lastValidValue;
     }
+    Trace.getInstance()
+        .logInfo("Non-expected status off " + m_sensorName + ", status = " + status.toString());
     return m_lastValidValue;
   }
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;
@@ -146,5 +147,7 @@ public class SensorsContainer {
 
   public void periodic() {
     RealSensorBase.periodic();
+    SmartDashboard.putNumber("tof 2 - tof 0",
+        m_tof2.getDistance_Inches() - m_tof0.getDistance_Inches());
   }
 }
