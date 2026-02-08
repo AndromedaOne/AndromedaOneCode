@@ -26,6 +26,8 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
+import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -78,6 +80,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
       SmartDashboard.putData("SpinTest", new Spinner());
+    }
+    if (Config4905.getConfig4905().doesIntakeRollersExist()) {
+      SmartDashboard.putData("Intake roller intake", new IntakeRollerIntakeCommand());
+      SmartDashboard.putData("Intake roller eject", new IntakeRollerEjectCommand());
     }
 
   }
