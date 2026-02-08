@@ -43,7 +43,6 @@ import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 import frc.robot.utils.PoseEstimation4905;
-import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -72,7 +71,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private boolean m_isInsideUnsafeZone = false;
   private int m_count = 0;
   private double m_highestAccel = 0;
-  private PoseEstimation4905.RegionsForPose m_region = RegionsForPose.UNKNOWN;
   private boolean m_isLeftSide = false;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
@@ -290,15 +288,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       }
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
-      m_region = m_poseEstimation.getRegion();
-      m_isLeftSide = m_poseEstimation.isLeftSide();
-      m_isInsideUnsafeZone = m_poseEstimation.getInUnsafeZone();
-      SmartDashboard.putBoolean("Is inside of unsafe zone ", m_isInsideUnsafeZone);
       SmartDashboard.putNumber("Pose X ", metersToInches(m_currentPose.getX()));
       SmartDashboard.putNumber("Pose Y ", metersToInches(m_currentPose.getY()));
       SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
-      SmartDashboard.putString("PoseRegion", m_region.toString());
-      SmartDashboard.putBoolean("Is Left Side ", m_isLeftSide);
     }
   }
 
@@ -484,10 +476,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
-  public PoseEstimation4905.RegionsForPose getRegion() {
-    return m_region;
-  }
-
   @Override
   public boolean isLeftSide() {
     return m_isLeftSide;
@@ -501,11 +489,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public Pose2d currentPose2d() {
     return m_currentPose;
-  }
-
-  @Override
-  public int regionToAprilTag(RegionsForPose region) {
-    return m_poseEstimation.regionToAprilTag(region);
   }
 
   @Override
