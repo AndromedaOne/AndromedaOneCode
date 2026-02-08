@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
+import frc.robot.commands.ejectBeltCommands.DefaultEjectBeltCommand;
 import frc.robot.subsystems.armhopperintake.AHIBase;
 import frc.robot.subsystems.armhopperintake.MockAHI;
 import frc.robot.subsystems.armhopperintake.RealAHI;
@@ -157,6 +158,9 @@ public class SubsystemsContainer {
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
+    }
+    if (Config4905.getConfig4905().doesEjectBeltExist()) {
+      m_ejectBelt.setDefaultCommand(new DefaultEjectBeltCommand());
     }
   }
 }

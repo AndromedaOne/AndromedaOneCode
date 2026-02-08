@@ -23,6 +23,8 @@ import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
+import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
@@ -78,6 +80,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
       SmartDashboard.putData("SpinTest", new Spinner());
+    }
+    if (Config4905.getConfig4905().doesEjectBeltExist()) {
+      SmartDashboard.putData("Run eject belt left", new EjectBeltLeft());
+      SmartDashboard.putData("Run eject belt right", new EjectBeltRight());
     }
 
   }
