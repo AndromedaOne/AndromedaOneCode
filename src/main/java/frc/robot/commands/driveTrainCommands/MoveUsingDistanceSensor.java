@@ -23,7 +23,7 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
   // move the robot until the distance sensor is at the targetDistance
   public MoveUsingDistanceSensor(DriveTrainBase drivetrain, DoubleSupplier distanceSensorValue,
       double targetDistance, DoubleSupplier angle, double maxOutput, boolean useCurrentHeading) {
-    addCommands(new SwerveDriveSetWheelsToZeroDegrees(drivetrain),
+    addCommands(new SwerveDriveSetWheelsToNinetyDegrees(drivetrain),
         new MoveUsingDistanceSensorInternal(drivetrain, distanceSensorValue, targetDistance, angle,
             maxOutput, useCurrentHeading));
   }

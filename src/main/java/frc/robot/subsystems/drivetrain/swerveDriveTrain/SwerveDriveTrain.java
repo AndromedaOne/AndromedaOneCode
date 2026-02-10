@@ -457,6 +457,22 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
+  /*
+   * This method sets the swerve modules in the same heading (90 degress) but
+   * different angles to mitigate robot shift when the wheels turn to face the
+   * direction that it is going to drive to approach the tower (2026 game
+   * Rebuilt). Swerves modules 0 and 3 turn clockwise while swerve modules 1 and 2
+   * turn counterclockwise. From our tests it did reduce our shifting.
+   */
+  public void setToNinety() {
+    double[] angles = { 90.0, 270.0, 270.0, 90.0 };
+    for (int i = 0; i < m_SwerveMods.length; i++) {
+      m_SwerveMods[i].setDesiredStateNoOptimize(
+          new SwerveModuleState(0, Rotation2d.fromDegrees(angles[i])), true, true);
+    }
+
+  }
+
   @Override
   public void setVelocityToZero() {
     for (SwerveModuleBase mod : m_SwerveMods) {

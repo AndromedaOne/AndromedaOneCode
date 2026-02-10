@@ -70,6 +70,8 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract void setToZero();
 
+  public abstract void setToNinety();
+
   public abstract void enableAccelerationLimiting();
 
   public abstract void disableAccelerationLimiting();
