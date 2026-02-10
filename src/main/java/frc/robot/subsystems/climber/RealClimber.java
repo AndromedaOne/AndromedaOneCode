@@ -52,6 +52,17 @@ public class RealClimber extends SubsystemBase implements ClimberBase {
   }
 
   @Override
+  public double getExtenderPosition() {
+    return m_extender.getAbsoluteEncoderPosition();
+  }
+
+  @Override
+  public void stop() {
+    m_extender.setSpeed(0);
+    m_rotator.setSpeed(0);
+  }
+
+  @Override
   public void setBrakeMode() {
     m_extender.setBrakeMode();
     m_rotator.setBrakeMode();
