@@ -34,7 +34,6 @@ public class SensorsContainer {
   private Camera m_camera1;
   private Gyro4905 m_gyro;
   private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
-  private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
   private DistanceSensorBase m_tof0;
   private DistanceSensorBase m_tof1;
@@ -73,16 +72,13 @@ public class SensorsContainer {
     if (m_sensorConfig.hasPath("photonvision")) {
       Trace.getInstance().logInfo("Using real Photon Vision");
       for (int i = 1; i <= m_sensorConfig.getInt("photonvision.numberOfCameras"); i++) {
-        m_photonVision
-            .add(new RealPhotonVision(m_sensorConfig.getString("photonvision.cameraName" + i)));
+        String cameraName = m_sensorConfig.getString("photonvision.cameraName" + i);
+        m_photonVision.add(new RealPhotonVision(cameraName));
       }
-      m_targetPhotonVision = new RealPhotonVision(
-          m_sensorConfig.getString("photonvision.targetCameraName"));
       m_hasPhotonVision = true;
     } else {
       Trace.getInstance().logInfo("Using mock Photon Vision");
       m_photonVision.add(new MockPhotonVision());
-      m_targetPhotonVision = new MockPhotonVision();
     }
     if (m_sensorConfig.hasPath("sensors.tof0")) {
       Trace.getInstance().logInfo("Using real tof sensor 0");
@@ -118,10 +114,6 @@ public class SensorsContainer {
 
   public ArrayList<PhotonVisionBase> getPhotonVisionList() {
     return m_photonVision;
-  }
-
-  public PhotonVisionBase getPhotonVision() {
-    return m_targetPhotonVision;
   }
 
   public DistanceSensorBase getTof0() {

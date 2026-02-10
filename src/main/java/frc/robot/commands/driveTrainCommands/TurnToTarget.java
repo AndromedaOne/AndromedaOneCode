@@ -25,8 +25,8 @@ public class TurnToTarget extends PIDCommand4905 {
   private int m_wantedID = -1;
   private Config m_pidConfig = Config4905.getConfig4905().getCommandConstantsConfig();
   private boolean m_useSmartDashboard = false;
-  private PhotonVisionBase m_photonVision = Robot.getInstance().getSensorsContainer()
-      .getPhotonVision();
+  // m_targettingCamera will be set in the constructor.
+  private PhotonVisionBase m_targettingCamera;
 
   public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint, boolean useSmartDashboard) {
     super(
@@ -52,6 +52,9 @@ public class TurnToTarget extends PIDCommand4905 {
     getController().setMaxOutput(0.25);
     m_useSmartDashboard = useSmartDashboard;
     SmartDashboard.putNumber("Turn To Target ID", -1);
+    // you need to set m_targettingCamera to the camera you want to use
+    // example: 
+    //     m_targettingCamera = Robot.getInstance().getSensorsContainer().getTargettingCamera();
   }
 
   public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint) {
@@ -72,7 +75,7 @@ public class TurnToTarget extends PIDCommand4905 {
       m_wantedID = (int) SmartDashboard.getNumber("Turn To Target ID", -1);
     }
     setMeasurementSource(
-        new PhotonVisionYawSupplier(() -> m_wantedID, getSetpoint(), m_photonVision));
+        new PhotonVisionYawSupplier(() -> m_wantedID, getSetpoint(), m_targettingCamera));
     Trace.getInstance().logCommandInfo(this, "Wanted ID:" + m_wantedID);
     Trace.getInstance().logCommandInfo(this, "Setpoint:" + getSetpoint().getAsDouble());
   }
@@ -81,7 +84,7 @@ public class TurnToTarget extends PIDCommand4905 {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Trace.getInstance().logCommandInfo(this, "Finish turn angle: " + m_photonVision
+    Trace.getInstance().logCommandInfo(this, "Finish turn angle: " + m_targettingCamera
         .getTargetDetectedAndAngle(m_wantedID, getSetpoint().getAsDouble()).getAngle());
   }
 

@@ -30,7 +30,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private double m_offsetToCenterInMetersY = 0;
   private double m_cameraHeightInInches = 0;
   private double m_cameraHeightInMeters = 0;
-  private double m_targetHeightInInches = 0;
   private double m_targetHeightInMeters = 0;
   private double m_cameraRollInDegrees = 0;
   private double m_cameraRollInRadians = 0;
@@ -38,11 +37,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private double m_cameraPitchInRadians = 0;
   private double m_cameraYawInDegrees = 0;
   private double m_cameraYawInRadians = 0;
-
-  /*
-   * public class AprilTagInfo { int aprilTagID; double distanceToTarget; double
-   * angleToTarget; double ambiguity; }
-   */
 
   public RealPhotonVision(String cameraName) {
     // pass the name of the camera in
@@ -57,8 +51,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     m_cameraHeightInInches = m_config
         .getDouble("photonvision." + cameraName + ".cameraHeightInInches");
     m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
-    m_targetHeightInInches = m_config.getDouble("photonvision.targetHeightInInches");
-    m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
     m_cameraRollInDegrees = m_config
         .getDouble("photonvision." + cameraName + ".cameraRollInDegrees");
     m_cameraRollInRadians = Units.degreesToRadians(m_cameraRollInDegrees);

@@ -61,9 +61,9 @@ public class PoseEstimation4905 {
       if (Config4905.getConfig4905().getSensorConfig()
           .getBoolean("photonvision.useAndyMarkField")) {
         m_aprilTagFieldLayout = AprilTagFieldLayout
-            .loadField(AprilTagFields.k2025ReefscapeAndyMark);
+            .loadField(AprilTagFields.k2026RebuiltAndymark);
       } else {
-        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
       }
       m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
       m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
@@ -87,6 +87,7 @@ public class PoseEstimation4905 {
         }
         m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
             .getBoolean("photonvision.useVisionForPose");
+        Trace.getInstance().logInfo("Using Camera For Pose");
       }
     } else {
       m_cameraPresent = false;
