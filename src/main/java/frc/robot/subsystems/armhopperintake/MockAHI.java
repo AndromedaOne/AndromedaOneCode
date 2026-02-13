@@ -7,6 +7,7 @@ package frc.robot.subsystems.armhopperintake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MockSubsystem;
+import frc.robot.subsystems.armhopperintake.RealAHI.State;
 
 /** Add your docs here. */
 public class MockAHI implements AHIBase {
@@ -21,20 +22,11 @@ public class MockAHI implements AHIBase {
   }
 
   @Override
-  public void rotateArm(double speed) {
-  }
-
-  @Override
-  public void moveHopper(double speed) {
+  public void rotateArm(double speed, boolean override) {
   }
 
   @Override
   public double getArmAngle() {
-    return 0;
-  }
-
-  @Override
-  public double getHopperAngle() {
     return 0;
   }
 
@@ -48,6 +40,37 @@ public class MockAHI implements AHIBase {
 
   @Override
   public void setCoastMode() {
+  }
+
+  @Override
+  public void rotateArmPID() {
+  }
+
+  @Override
+  public void setArmSetpoint(double setpoint) {
+  }
+
+  @Override
+  public void setState(State state) {
+  }
+
+  @Override
+  public State getState() {
+    return State.RETRACTED;
+  }
+
+  @Override
+  public boolean isLimitSwitchSet() {
+    return false;
+  }
+
+  @Override
+  public void setOffset() {
+  }
+
+  @Override
+  public boolean atSetpoint() {
+    return false;
   }
 
 }

@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
+import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
 import frc.robot.commands.climberCommands.DefaultClimberCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.ejectBeltCommands.DefaultEjectBeltCommand;
@@ -163,6 +164,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesClimberExist()) {
       m_climber.setDefaultCommand(new DefaultClimberCommand());
+    }
+    if (Config4905.getConfig4905().doesAHIExist()) {
+      m_AHI.setDefaultCommand(new AHIDefaultCommand());
     }
     if (Config4905.getConfig4905().doesIntakeRollersExist()) {
       m_intakeRollers.setDefaultCommand(new DefaultIntakeRollerCommand());
