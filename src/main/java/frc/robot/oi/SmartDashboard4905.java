@@ -30,6 +30,8 @@ import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
+import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -86,6 +88,10 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       SmartDashboard.putData("Run eject belt left", new EjectBeltLeft());
       SmartDashboard.putData("Run eject belt right", new EjectBeltRight());
+    }
+    if (Config4905.getConfig4905().doesIntakeRollersExist()) {
+      SmartDashboard.putData("Intake roller intake", new IntakeRollerIntakeCommand());
+      SmartDashboard.putData("Intake roller eject", new IntakeRollerEjectCommand());
     }
 
     if (Config4905.getConfig4905().doesClimberExist()) {

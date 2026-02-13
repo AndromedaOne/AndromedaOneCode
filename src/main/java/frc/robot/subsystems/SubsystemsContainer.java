@@ -11,6 +11,7 @@ import frc.robot.Config4905;
 import frc.robot.commands.climberCommands.DefaultClimberCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.ejectBeltCommands.DefaultEjectBeltCommand;
+import frc.robot.commands.intakeCommands.DefaultIntakeRollerCommand;
 import frc.robot.subsystems.armhopperintake.AHIBase;
 import frc.robot.subsystems.armhopperintake.MockAHI;
 import frc.robot.subsystems.armhopperintake.RealAHI;
@@ -152,7 +153,7 @@ public class SubsystemsContainer {
     return m_climber;
   }
 
-  public IntakeRollersBase getIntakeRollersBase() {
+  public IntakeRollersBase getIntakeRollers() {
     return m_intakeRollers;
   }
 
@@ -162,6 +163,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesClimberExist()) {
       m_climber.setDefaultCommand(new DefaultClimberCommand());
+    }
+    if (Config4905.getConfig4905().doesIntakeRollersExist()) {
+      m_intakeRollers.setDefaultCommand(new DefaultIntakeRollerCommand());
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       m_ejectBelt.setDefaultCommand(new DefaultEjectBeltCommand());
