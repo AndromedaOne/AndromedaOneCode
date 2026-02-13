@@ -74,6 +74,7 @@ public class SensorsContainer {
       for (int i = 1; i <= m_sensorConfig.getInt("photonvision.numberOfCameras"); i++) {
         String cameraName = m_sensorConfig.getString("photonvision.cameraName" + i);
         m_photonVision.add(new RealPhotonVision(cameraName));
+        Trace.getInstance().logInfo("added camera: " + cameraName);
       }
       m_hasPhotonVision = true;
     } else {

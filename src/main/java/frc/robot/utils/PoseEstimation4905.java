@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -57,7 +58,7 @@ public class PoseEstimation4905 {
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
-      // TODO: when the 2026 field comes out, remember to change this
+      //  when the new field comes out, remember to change this
       if (Config4905.getConfig4905().getSensorConfig()
           .getBoolean("photonvision.useAndyMarkField")) {
         m_aprilTagFieldLayout = AprilTagFieldLayout
@@ -80,14 +81,15 @@ public class PoseEstimation4905 {
           localCamera = m_photonVision.get(i);
           m_robotToCam
               .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
-          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout, m_robotToCam.get(i)));
+          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout,
+              PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
           m_posePublisherCamera.add(NetworkTableInstance.getDefault()
               .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
-          Trace.getInstance().logInfo(m_robotToCam.get(i).toString());
+          Trace.getInstance().logInfo("Using Camera " + String.valueOf(i) + "For Pose");
         }
         m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
             .getBoolean("photonvision.useVisionForPose");
-        Trace.getInstance().logInfo("Using Camera For Pose");
+
       }
     } else {
       m_cameraPresent = false;
@@ -145,7 +147,7 @@ public class PoseEstimation4905 {
             .getAllUnreadResults();
         for (int results = 0; results < pipelineResults.size(); results++) {
           final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
-              .estimateCoprocMultiTagPose(pipelineResults.get(results));
+              .update(pipelineResults.get(results));
           if (optionalEstimatedPose.isPresent()) {
             final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
             usePose = true;
