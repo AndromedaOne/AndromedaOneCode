@@ -6,7 +6,7 @@ public interface EjectBeltBase extends SubsystemInterface {
 
   public void stop();
 
-  public void intake();
+  public void ejectLeft();
 
-  public void eject();
+  public void ejectRight();
 }
