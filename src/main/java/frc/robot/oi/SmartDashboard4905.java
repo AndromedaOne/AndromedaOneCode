@@ -20,6 +20,7 @@ import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.climberCommands.ClimberExtensionCommand;
+import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorDifferenceTester;
 import frc.robot.commands.climberCommands.ClimberRotationCommand;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
@@ -79,9 +80,12 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
       SmartDashboard.putData("MoveUsingDistanceSensor",
           new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(),
-              sensorsContainer.getTof0().getDistanceInchesAsSupplier(),
-              sensorsContainer.getTof0().getFacingAngle()));
+              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
+              sensorsContainer.getTof1().getFacingAngle()));
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
+      SmartDashboard.putNumber("SensorDifferenceTesterAngle", 0);
+      SmartDashboard.putData("MoveUsingDistanceSensorDifferenceTester",
+          new MoveUsingDistanceSensorDifferenceTester(subsystemsContainer.getDriveTrain()));
       // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
       SmartDashboard.putData("SpinTest", new Spinner());
     }
