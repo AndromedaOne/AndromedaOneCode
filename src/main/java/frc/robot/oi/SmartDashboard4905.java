@@ -26,6 +26,7 @@ import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
+import frc.robot.commands.examplePathCommands.TestPath;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -78,6 +79,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
       SmartDashboard.putData("SpinTest", new Spinner());
+      SmartDashboard.putData("test path", new TestPath());
     }
 
   }

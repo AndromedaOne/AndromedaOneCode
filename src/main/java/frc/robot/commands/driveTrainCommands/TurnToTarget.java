@@ -53,8 +53,9 @@ public class TurnToTarget extends PIDCommand4905 {
     m_useSmartDashboard = useSmartDashboard;
     SmartDashboard.putNumber("Turn To Target ID", -1);
     // you need to set m_targettingCamera to the camera you want to use
-    // example: 
-    //     m_targettingCamera = Robot.getInstance().getSensorsContainer().getTargettingCamera();
+    // example:
+    // m_targettingCamera =
+    // Robot.getInstance().getSensorsContainer().getTargettingCamera();
   }
 
   public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint) {

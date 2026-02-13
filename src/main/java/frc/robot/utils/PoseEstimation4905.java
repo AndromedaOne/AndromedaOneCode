@@ -58,11 +58,10 @@ public class PoseEstimation4905 {
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
-      //  when the new field comes out, remember to change this
+      // when the new field comes out, remember to change this
       if (Config4905.getConfig4905().getSensorConfig()
           .getBoolean("photonvision.useAndyMarkField")) {
-        m_aprilTagFieldLayout = AprilTagFieldLayout
-            .loadField(AprilTagFields.k2026RebuiltAndymark);
+        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
       } else {
         m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
       }

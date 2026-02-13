@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "A To Pickup"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "L To Pickup"
+            "pathName": null
           }
         }
       ]
