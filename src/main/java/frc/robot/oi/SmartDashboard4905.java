@@ -19,11 +19,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
-import frc.robot.commands.climberCommands.ClimbDown;
-import frc.robot.commands.climberCommands.ClimbUp;
-import frc.robot.commands.climberCommands.ClimberRetract;
-import frc.robot.commands.climberCommands.LongClimberExtend;
-import frc.robot.commands.climberCommands.ShortClimberExtend;
+import frc.robot.commands.climberCommands.ClimberExtensionCommand;
+import frc.robot.commands.climberCommands.ClimberRotationCommand;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
@@ -86,11 +83,13 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().doesClimberExist()) {
-      SmartDashboard.putData("Short climber extend", new ShortClimberExtend());
-      SmartDashboard.putData("Long climber extend", new LongClimberExtend());
-      SmartDashboard.putData("Climber retract", new ClimberRetract());
-      SmartDashboard.putData("Climb up", new ClimbUp());
-      SmartDashboard.putData("Climb down", new ClimbDown());
+      SmartDashboard.putData("Short climber extend",
+          new ClimberExtensionCommand("ShortClimberExtend"));
+      SmartDashboard.putData("Long climber extend",
+          new ClimberExtensionCommand("LongClimberExtend"));
+      SmartDashboard.putData("Climber retract", new ClimberExtensionCommand("ClimberRetract"));
+      SmartDashboard.putData("Climb up", new ClimberRotationCommand("ClimbUp"));
+      SmartDashboard.putData("Climb down", new ClimberRotationCommand("ClimbDown"));
     }
 
   }
