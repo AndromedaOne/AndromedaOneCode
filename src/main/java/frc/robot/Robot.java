@@ -21,7 +21,12 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.climberCommands.ClimberExtensionCommand;
+import frc.robot.commands.climberCommands.ClimberRotationCommand;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
+import frc.robot.commands.driveTrainCommands.TowerAlignment;
+import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
+import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -66,6 +71,15 @@ public class Robot extends TimedRobot {
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
+    NamedCommands.registerCommand("eject fuel left", new EjectBeltLeft());
+    NamedCommands.registerCommand("eject fuel right", new EjectBeltRight());
+    NamedCommands.registerCommand("tower alignment",
+        new TowerAlignment(m_subsystemContainer.getDriveTrain(), 0.3,
+            m_sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
+            m_sensorsContainer.getTof1().getFacingAngle()));
+    NamedCommands.registerCommand("extend climber",
+        new ClimberExtensionCommand("LongClimberExtend"));
+    NamedCommands.registerCommand("rotate climber", new ClimberRotationCommand("ClimbUp"));
 
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();

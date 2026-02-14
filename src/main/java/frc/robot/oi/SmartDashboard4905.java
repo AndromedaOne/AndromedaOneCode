@@ -19,6 +19,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.autoCommands.LeftBump;
+import frc.robot.commands.autoCommands.LeftHub;
+import frc.robot.commands.autoCommands.RightBump;
+import frc.robot.commands.autoCommands.RightHub;
 import frc.robot.commands.climberCommands.ClimberExtensionCommand;
 import frc.robot.commands.climberCommands.ClimberRotationCommand;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorDifferenceTester;
@@ -116,6 +120,13 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Climber retract", new ClimberExtensionCommand("ClimberRetract"));
       SmartDashboard.putData("Climb up", new ClimberRotationCommand("ClimbUp"));
       SmartDashboard.putData("Climb down", new ClimberRotationCommand("ClimbDown"));
+    }
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRadar());
+    {
+      SmartDashboard.putData("Right Bump", new RightBump());
+      SmartDashboard.putData("Left Bump", new LeftBump());
+      SmartDashboard.putData("Right Hub", new RightHub());
+      SmartDashboard.putData("Left Hub", new LeftHub());
     }
 
   }
