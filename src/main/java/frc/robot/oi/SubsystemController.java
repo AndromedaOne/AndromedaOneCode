@@ -8,6 +8,13 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Config4905;
+import frc.robot.commands.climberCommands.ClimberExtensionCommand;
+import frc.robot.commands.climberCommands.ClimberRotationCommand;
+import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
+import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
+import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -17,6 +24,27 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class SubsystemController extends ControllerBase {
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
     setController(new XboxController(1));
+    if (Config4905.getConfig4905().isFuelRaider()) {
+      setUpFuelRaiderButtons();
+    }
+  }
+
+  public void setUpFuelRaiderButtons() {
+    // back is left, start is right
+    // do note AHI gets its buttons in the command directly
+    // intake roller buttons
+    getBbutton().whileTrue(new IntakeRollerIntakeCommand());
+    getYbutton().whileTrue(new IntakeRollerEjectCommand());
+    // climber buttons
+    getXbutton().whileTrue(new ClimberExtensionCommand("ClimberRetract", true));
+    getStartButton().whileTrue(new ClimberExtensionCommand("ShortClimberExtend", true));
+    getBackButton().whileTrue(new ClimberExtensionCommand("LongClimberExtend", true));
+    getLeftBumperButton().whileTrue(new ClimberRotationCommand("ClimbDown"));
+    getRightBumperButton().whileTrue(new ClimberRotationCommand("ClimbUp"));
+
+    // eject belt buttons
+    getPOVwest().whileTrue(new EjectBeltLeft());
+    getPOVeast().whileTrue(new EjectBeltRight());
   }
 
   public void rumbleOn(double value) {
