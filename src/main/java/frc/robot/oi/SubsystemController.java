@@ -26,4 +26,8 @@ public class SubsystemController extends ControllerBase {
   public void rumbleOff() {
     setRumble(0);
   }
+
+  public boolean getAButtonPressed() {
+    return getAbutton().getAsBoolean();
+  }
 }

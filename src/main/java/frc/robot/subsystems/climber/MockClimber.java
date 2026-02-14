@@ -41,4 +41,13 @@ public class MockClimber implements ClimberBase {
   public void setCoastMode() {
   }
 
+  @Override
+  public double getExtenderPosition() {
+    return 0;
+  }
+
+  @Override
+  public void stop() {
+  }
+
 }

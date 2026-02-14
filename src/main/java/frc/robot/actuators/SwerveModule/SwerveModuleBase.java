@@ -24,6 +24,12 @@ public abstract class SwerveModuleBase {
     setSpeed(desiredState, isOpenLoop);
   }
 
+  public void setDesiredStateNoOptimize(SwerveModuleState desiredState, boolean isOpenLoop,
+      boolean overRide) {
+    setAngle(desiredState, overRide);
+    setSpeed(desiredState, isOpenLoop);
+  }
+
   protected abstract void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop);
 
   protected abstract void setAngle(SwerveModuleState desiredState, boolean overRide);

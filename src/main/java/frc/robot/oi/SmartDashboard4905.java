@@ -19,14 +19,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.climberCommands.ClimberExtensionCommand;
+import frc.robot.commands.climberCommands.ClimberRotationCommand;
+import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorDifferenceTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.driveTrainCommands.TowerAlignment;
+import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
+import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
 import frc.robot.commands.examplePathCommands.TestPath;
+import frc.robot.commands.groupCommands.MoveAndAlignTower;
+import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -74,12 +83,41 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
       SmartDashboard.putData("MoveUsingDistanceSensor",
           new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(),
-              sensorsContainer.getTof0().getDistanceInchesAsSupplier(),
-              sensorsContainer.getTof0().getFacingAngle()));
+              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
+              sensorsContainer.getTof1().getFacingAngle()));
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
+      SmartDashboard.putNumber("SensorDifferenceTesterAngle", 0);
+      SmartDashboard.putData("MoveUsingDistanceSensorDifferenceTester",
+          new MoveUsingDistanceSensorDifferenceTester(subsystemsContainer.getDriveTrain()));
       // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
+      SmartDashboard.putData("Tower Alignment",
+          new TowerAlignment(subsystemsContainer.getDriveTrain(), 0.3,
+              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
+              sensorsContainer.getTof1().getFacingAngle()));
+      SmartDashboard.putData("Move and align tower",
+          new MoveAndAlignTower(subsystemsContainer.getDriveTrain(), 0.3,
+              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
+              sensorsContainer.getTof1().getFacingAngle()));
       SmartDashboard.putData("SpinTest", new Spinner());
       SmartDashboard.putData("test path", new TestPath());
+    }
+    if (Config4905.getConfig4905().doesEjectBeltExist()) {
+      SmartDashboard.putData("Run eject belt left", new EjectBeltLeft());
+      SmartDashboard.putData("Run eject belt right", new EjectBeltRight());
+    }
+    if (Config4905.getConfig4905().doesIntakeRollersExist()) {
+      SmartDashboard.putData("Intake roller intake", new IntakeRollerIntakeCommand());
+      SmartDashboard.putData("Intake roller eject", new IntakeRollerEjectCommand());
+    }
+
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      SmartDashboard.putData("Short climber extend",
+          new ClimberExtensionCommand("ShortClimberExtend"));
+      SmartDashboard.putData("Long climber extend",
+          new ClimberExtensionCommand("LongClimberExtend"));
+      SmartDashboard.putData("Climber retract", new ClimberExtensionCommand("ClimberRetract"));
+      SmartDashboard.putData("Climb up", new ClimberRotationCommand("ClimbUp"));
+      SmartDashboard.putData("Climb down", new ClimberRotationCommand("ClimbDown"));
     }
 
   }

@@ -8,26 +8,32 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
 public class RealEjectBelt extends SubsystemBase implements EjectBeltBase {
-  private SparkMaxController m_eject;
+  private SparkMaxController m_leaderMotor;
+  private SparkMaxController m_followerMotor;
   private Config m_ejectBeltConfig = Config4905.getConfig4905().getEjectBeltConfig();
 
   public RealEjectBelt() {
-    m_eject = new SparkMaxController(m_ejectBeltConfig, "ejectBeltMotor", false, false);
+    m_leaderMotor = new SparkMaxController(m_ejectBeltConfig, "leaderMotor", false, false);
+    m_followerMotor = new SparkMaxController(m_ejectBeltConfig, "followerMotor", false, false);
   }
 
   @Override
   public void stop() {
-    m_eject.setSpeed(0);
+    m_leaderMotor.setSpeed(0);
+    m_followerMotor.setSpeed(0);
+  }
+
+  // not sure which way this will actually go...
+  @Override
+  public void ejectLeft() {
+    m_leaderMotor.setSpeed(-0.5);
+    m_followerMotor.setSpeed(-0.5);
   }
 
   @Override
-  public void intake() {
-    m_eject.setSpeed(-0.5);
-  }
-
-  @Override
-  public void eject() {
-    m_eject.setSpeed(0.5);
+  public void ejectRight() {
+    m_leaderMotor.setSpeed(0.5);
+    m_followerMotor.setSpeed(0.5);
   }
 
   @Override

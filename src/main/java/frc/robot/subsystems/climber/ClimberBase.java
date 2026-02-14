@@ -15,6 +15,10 @@ public interface ClimberBase extends SubsystemInterface {
 
   public void moveExtender(double speed);
 
+  public double getExtenderPosition();
+
+  public void stop();
+
   public void setBrakeMode();
 
   public void setCoastMode();

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.camera.*;
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;
@@ -37,6 +38,7 @@ public class SensorsContainer {
   private boolean m_hasPhotonVision = false;
   private DistanceSensorBase m_tof0;
   private DistanceSensorBase m_tof1;
+  private DistanceSensorBase m_tof2;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -95,6 +97,13 @@ public class SensorsContainer {
       Trace.getInstance().logInfo("Using mock tof sensor 1");
       m_tof1 = new MockpwfTofDistanceSensor();
     }
+    if (m_sensorConfig.hasPath("sensors.tof2")) {
+      Trace.getInstance().logInfo("Using real tof sensor 2");
+      m_tof2 = new RealPwfTofDistanceSensor("tof2");
+    } else {
+      Trace.getInstance().logInfo("Using mock tof sensor 2");
+      m_tof2 = new MockpwfTofDistanceSensor();
+    }
   }
 
   public Gyro4905 getGyro() {
@@ -125,7 +134,13 @@ public class SensorsContainer {
     return m_tof1;
   }
 
+  public DistanceSensorBase getTof2() {
+    return m_tof2;
+  }
+
   public void periodic() {
     RealSensorBase.periodic();
+    SmartDashboard.putNumber("tof 2 - tof 0",
+        m_tof2.getDistance_Inches() - m_tof0.getDistance_Inches());
   }
 }
