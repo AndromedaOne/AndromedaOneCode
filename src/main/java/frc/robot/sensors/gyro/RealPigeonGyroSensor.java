@@ -97,7 +97,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
       System.out.println(
           "WARNING: pigeon gyro has not completed calibrating before getRawXangle has been called");
     }
-    return m_gyro.getPitch().getValueAsDouble();
+    return m_gyro.getRoll().getValueAsDouble();
   }
 
   @Override
@@ -106,7 +106,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
       System.out.println(
           "WARNING: pigeon gyro has not completed calibrating before getRawYangle has been called");
     }
-    return m_gyro.getRoll().getValueAsDouble();
+    return m_gyro.getPitch().getValueAsDouble();
   }
 
   @Override
