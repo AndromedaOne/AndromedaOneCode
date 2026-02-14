@@ -1,5 +1,7 @@
 package frc.robot.utils;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +47,7 @@ public class PoseEstimation4905 {
   private double m_fieldWidth;
   private Alliance m_currentAlliance;
   private AprilTagFieldLayout m_aprilTagFieldLayout;
+  private int m_poseAngleDelayCounter = 0;
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
       .getStructTopic("/OdometryPose", Pose2d.struct).publish();
@@ -166,10 +169,17 @@ public class PoseEstimation4905 {
         }
       }
       localPose = m_swerveOdometry.getEstimatedPosition();
-      if (m_useVisionForPose && usePose && m_updateGyroOffset) {
+      SmartDashboard.putNumber("localpose", localPose.getRotation().getDegrees());
+      SmartDashboard.putBoolean("UsePose", usePose);
+      if (m_updateGyroOffset) {
+        m_poseAngleDelayCounter++;
+      }
+      if (m_useVisionForPose && usePose && m_updateGyroOffset && (m_poseAngleDelayCounter > 40)) {
+        double poseAngle = localPose.getRotation().getDegrees();
         Trace.getInstance()
-            .logInfo("Setting vision pose offset: " + localPose.getRotation().getDegrees());
-        m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
+            .logInfo("Setting vision pose offset: " + poseAngle);
+        m_gyro.setVisionPoseOffset(poseAngle);
+        SmartDashboard.putNumber("visionposeoffset", poseAngle);
         m_updateGyroOffset = false;
       }
     }
