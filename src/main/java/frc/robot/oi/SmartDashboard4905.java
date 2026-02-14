@@ -26,11 +26,13 @@ import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.driveTrainCommands.TowerAlignment;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
+import frc.robot.commands.groupCommands.MoveAndAlignTower;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
@@ -87,6 +89,14 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("MoveUsingDistanceSensorDifferenceTester",
           new MoveUsingDistanceSensorDifferenceTester(subsystemsContainer.getDriveTrain()));
       // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
+      SmartDashboard.putData("Tower Alignment",
+          new TowerAlignment(subsystemsContainer.getDriveTrain(), 0.3,
+              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
+              sensorsContainer.getTof1().getFacingAngle()));
+      SmartDashboard.putData("Move and align tower",
+          new MoveAndAlignTower(subsystemsContainer.getDriveTrain(), 0.3,
+              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
+              sensorsContainer.getTof1().getFacingAngle()));
       SmartDashboard.putData("SpinTest", new Spinner());
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
