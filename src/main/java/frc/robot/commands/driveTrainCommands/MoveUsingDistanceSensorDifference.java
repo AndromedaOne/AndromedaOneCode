@@ -135,6 +135,8 @@ public class MoveUsingDistanceSensorDifference extends SequentialCommandGroup490
       m_driveTrain.stop();
       Trace.getInstance().logCommandInfo(this,
           "Ending Distance Sensor Difference Reading: " + m_sensorDistanceValue.getAsDouble());
+      Trace.getInstance().logCommandInfo(this, "End of move command.tof2 distance: "
+          + m_tof2.getDistance_Inches() + ", tof 0 distance: " + m_tof0.getDistance_Inches());
     }
   }
 }
