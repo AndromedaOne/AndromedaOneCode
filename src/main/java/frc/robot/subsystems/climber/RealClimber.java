@@ -22,7 +22,6 @@ public class RealClimber extends SubsystemBase implements ClimberBase {
   private Config m_config = Config4905.getConfig4905().getClimberConfig();
 
   public RealClimber() {
-
     m_extender = new SparkMaxController(m_config, "extender", false, false);
     m_rotator = new SparkMaxController(m_config, "rotator", false, false);
     m_minRotation = m_config.getDouble("rotator.minAngle");

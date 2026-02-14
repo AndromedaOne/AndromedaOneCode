@@ -26,7 +26,6 @@ public class ClimberExtensionCommand extends SequentialCommandGroup4905 {
         || position.contentEquals("ClimberRetract"))) {
       throw new Error("Error: Unknown climber position: " + position);
     }
-
     addCommands(new ClimberExtensionInternal(climber,
         climberPIDConfig.getDouble(position + ".wantedPosition"),
         climberPIDConfig.getDouble(position + ".maxOutput"), climberPIDConfig, position));
