@@ -126,7 +126,7 @@ public abstract class RealGyroBase extends RealSensorBase implements Gyro4905 {
     SmartDashboard.putNumber(tableName + "Robot Compass Angle", getCompassHeading());
     SmartDashboard.putNumber(tableName + "CurrentGyroOffset", m_initialZAngleReading);
     SmartDashboard.putNumber(tableName + "Raw Z Value", getRawZAngle());
-    SmartDashboard.putNumber(tableName + "Roll", getYAngle());
-    SmartDashboard.putNumber(tableName + "Pitch", getXAngle());
+    SmartDashboard.putNumber(tableName + "Roll", getXAngle());
+    SmartDashboard.putNumber(tableName + "Pitch", getYAngle());
   }
 }
