@@ -22,7 +22,8 @@ public class ClimberRotationCommand extends SequentialCommandGroup4905 {
     ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
     Config climberPIDConfig = Config4905.getConfig4905().getClimberConfig();
 
-    if (!(position.contentEquals("ClimbUp") || position.contentEquals("ClimbDown"))) {
+    if (!(position.contentEquals("ClimbUp") || position.contentEquals("ClimbDown")
+        || position.contentEquals("ClimbUpAutoPosition"))) {
       throw new Error("Error: Unknown climber rotation position: " + position);
     }
 

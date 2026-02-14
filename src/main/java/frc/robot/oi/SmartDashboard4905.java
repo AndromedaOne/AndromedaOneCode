@@ -99,13 +99,16 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().doesClimberExist()) {
-      SmartDashboard.putData("Short climber extend",
+      SmartDashboard.putData("climberCommand/Short climber extend",
           new ClimberExtensionCommand("ShortClimberExtend"));
-      SmartDashboard.putData("Long climber extend",
+      SmartDashboard.putData("climberCommand/Long climber extend",
           new ClimberExtensionCommand("LongClimberExtend"));
-      SmartDashboard.putData("Climber retract", new ClimberExtensionCommand("ClimberRetract"));
-      SmartDashboard.putData("Climb up", new ClimberRotationCommand("ClimbUp"));
-      SmartDashboard.putData("Climb down", new ClimberRotationCommand("ClimbDown"));
+      SmartDashboard.putData("climberCommand/Climber retract",
+          new ClimberExtensionCommand("ClimberRetract"));
+      SmartDashboard.putData("climberCommand/Climb up", new ClimberRotationCommand("ClimbUp"));
+      SmartDashboard.putData("Climb up auto position",
+          new ClimberRotationCommand("ClimbUpAutoPosition"));
+      SmartDashboard.putData("climberCommand/Climb down", new ClimberRotationCommand("ClimbDown"));
     }
 
   }
