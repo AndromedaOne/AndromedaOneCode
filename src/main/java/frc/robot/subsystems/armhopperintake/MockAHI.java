@@ -60,15 +60,6 @@ public class MockAHI implements AHIBase {
   }
 
   @Override
-  public boolean isLimitSwitchSet() {
-    return false;
-  }
-
-  @Override
-  public void setOffset() {
-  }
-
-  @Override
   public boolean atSetpoint() {
     return false;
   }

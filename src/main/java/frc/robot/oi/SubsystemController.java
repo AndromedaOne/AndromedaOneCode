@@ -30,15 +30,15 @@ public class SubsystemController extends ControllerBase {
   }
 
   public void setUpFuelRaiderButtons() {
-    // back is left, start is right
+    // back is RIGHT, start is LEFT
     // do note AHI gets its buttons in the command directly
     // intake roller buttons
     getBbutton().whileTrue(new IntakeRollerIntakeCommand());
     getYbutton().whileTrue(new IntakeRollerEjectCommand());
     // climber buttons
     getXbutton().whileTrue(new ClimberExtensionCommand("ClimberRetract", true));
-    getStartButton().whileTrue(new ClimberExtensionCommand("ShortClimberExtend", true));
-    getBackButton().whileTrue(new ClimberExtensionCommand("LongClimberExtend", true));
+    getBackButton().whileTrue(new ClimberExtensionCommand("ShortClimberExtend", true));
+    getStartButton().whileTrue(new ClimberExtensionCommand("LongClimberExtend", true));
     getLeftBumperButton().whileTrue(new ClimberRotationCommand("ClimbDown"));
     getRightBumperButton().whileTrue(new ClimberRotationCommand("ClimbUp"));
 

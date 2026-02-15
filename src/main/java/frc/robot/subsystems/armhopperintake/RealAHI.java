@@ -20,10 +20,7 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   // safely reached
   // these would require the arm to have an absolute encoder (maybe?), which we
   // are assuming
-  // arm does NOT have abs encoder BUT it has a limit switch!
-  // the arm will go back until it hits the switch, where it will reset to a known
-  // value.
-  // look at topgun/showbot for code examples when we implement this.
+  // ahi has absolute encoder woo hoo
   // make sure angle 0 can't be reached! this will make our lives much easier :D
   private double m_minArmAngle;
   private double m_maxArmAngle;
@@ -34,19 +31,15 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   private double m_KiA = 0.0;
   private double m_KdA = 0.0;
 
-  // gets set after the arm moves up
+  // gets set in the config if you want
   private double m_offset = 0.0;
-
-  // base offset will end up being the angle at the limit switch.
-  // should probably be set in the config.
-  private double m_baseOffset = 0.0;
 
   // ahi does not know what state it is in. uh. not sure if that's a problem.
   // okay now it does
-  private State m_state = State.LIMITSWITCHSET;
+  private State m_state = State.RETRACTEDSTART;
 
   public enum State {
-    EXTENDED, RETRACTED, EXTENDEDSTART, RETRACTEDSTART, LIMITSWITCHSET
+    EXTENDED, RETRACTED, EXTENDEDSTART, RETRACTEDSTART
   }
 
   public RealAHI() {
@@ -58,6 +51,8 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     m_minArmAngle = m_AHIConfig.getDouble("intakeArmMotor.minArmAngle");
     m_maxArmAngle = m_AHIConfig.getDouble("intakeArmMotor.maxArmAngle");
 
+    m_offset = m_AHIConfig.getDouble("offset");
+
     m_KpA = m_AHIConfig.getDouble("kpa");
     m_KiA = m_AHIConfig.getDouble("kia");
     m_KdA = m_AHIConfig.getDouble("kda");
@@ -67,7 +62,7 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   // may want to consider making this private
   @Override
   public void rotateArm(double speed, boolean override) {
-    // override allows you to disable the code stops if needbe
+    // override allows you to disable the code stops if need be
     if (!override) {
       if ((speed > 0) && (getArmAngle() >= m_maxArmAngle)) {
         m_armMotor.setSpeed(0);
@@ -89,7 +84,11 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   @Override
   public double getArmAngle() {
     // may want to add an offset
-    return (m_armMotor.getBuiltInEncoderPositionTicks() * 360) + m_offset;
+    double angle = (m_armMotor.getAbsoluteEncoderPosition() * 360) + m_offset;
+    if (angle > 360) {
+      angle -= 360;
+    }
+    return angle;
   }
 
   @Override
@@ -137,19 +136,6 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   @Override
   public State getState() {
     return m_state;
-  }
-
-  @Override
-  public boolean isLimitSwitchSet() {
-    return m_armMotor.isReverseLimitSwitchOn();
-  }
-
-  /**
-   * this should only ever be run ONCE. it is run ONLY in AHIdefaultcommand.
-   */
-  @Override
-  public void setOffset() {
-    m_offset = m_baseOffset - (m_armMotor.getBuiltInEncoderPositionTicks() * 360);
   }
 
   public boolean atSetpoint() {
