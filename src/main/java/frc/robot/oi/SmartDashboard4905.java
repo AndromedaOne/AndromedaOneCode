@@ -21,8 +21,10 @@ import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.autoCommands.LeftBump;
 import frc.robot.commands.autoCommands.LeftHub;
+import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
 import frc.robot.commands.autoCommands.RightBump;
 import frc.robot.commands.autoCommands.RightHub;
+import frc.robot.commands.autoCommands.RightHubSetPoseManually;
 import frc.robot.commands.climberCommands.ClimberExtensionCommand;
 import frc.robot.commands.climberCommands.ClimberRotationCommand;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorDifferenceTester;
@@ -36,7 +38,6 @@ import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
-
 import frc.robot.commands.groupCommands.MoveAndAlignTower;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
@@ -132,6 +133,8 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Left Bump", new LeftBump());
       SmartDashboard.putData("Right Hub", new RightHub());
       SmartDashboard.putData("Left Hub", new LeftHub());
+      SmartDashboard.putData("Set Left Pose", new LeftHubSetPoseManually());
+      SmartDashboard.putData("Set Right Pose", new RightHubSetPoseManually());
     }
 
   }
