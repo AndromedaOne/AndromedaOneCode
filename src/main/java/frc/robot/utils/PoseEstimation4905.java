@@ -1,7 +1,5 @@
 package frc.robot.utils;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -176,8 +174,7 @@ public class PoseEstimation4905 {
       }
       if (m_useVisionForPose && usePose && m_updateGyroOffset && (m_poseAngleDelayCounter > 40)) {
         double poseAngle = localPose.getRotation().getDegrees();
-        Trace.getInstance()
-            .logInfo("Setting vision pose offset: " + poseAngle);
+        Trace.getInstance().logInfo("Setting vision pose offset: " + poseAngle);
         m_gyro.setVisionPoseOffset(poseAngle);
         SmartDashboard.putNumber("visionposeoffset", poseAngle);
         m_updateGyroOffset = false;
