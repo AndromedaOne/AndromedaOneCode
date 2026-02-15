@@ -19,6 +19,6 @@ public class RealCamera extends RealSensorBase implements Camera {
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
   }
 }

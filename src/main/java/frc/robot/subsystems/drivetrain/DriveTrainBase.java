@@ -7,7 +7,6 @@ package frc.robot.subsystems.drivetrain;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.subsystems.SubsystemInterface;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
-import frc.robot.utils.PoseEstimation4905;
 
 /** Add your docs here. */
 public interface DriveTrainBase extends SubsystemInterface {
@@ -31,7 +30,7 @@ public interface DriveTrainBase extends SubsystemInterface {
       boolean useSquaredInputs, double heading);
 
   public abstract void moveUsingGyroStrafe(double forwardBackward, double strafe,
-      boolean useSquaredInputs, double heading);
+      boolean useSquaredInputs);
 
   /**
    * This moves the robot and corrects for any rotation using the gyro
@@ -71,13 +70,11 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract void setToZero();
 
+  public abstract void setToNinety();
+
   public abstract void enableAccelerationLimiting();
 
   public abstract void disableAccelerationLimiting();
-
-  public abstract PoseEstimation4905.RegionsForPose getRegion();
-
-  public abstract int regionToAprilTag(PoseEstimation4905.RegionsForPose region);
 
   public abstract boolean isLeftSide();
 

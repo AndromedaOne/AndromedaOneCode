@@ -13,7 +13,6 @@ import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
-import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -70,13 +69,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
           // This uses the output
           output -> {
             // Use the output here
-            drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false, heading);
+            drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false);
           });
-      double correctedAngle;
-      correctedAngle = angle.getAsDouble();
-      if (distance.getAsDouble() < 0) {
-        correctedAngle = angle.getAsDouble() + 360;
-      }
 
       /*
        * if ((correctedAngle >= 0 && correctedAngle < 180 && distance.getAsDouble() >
@@ -119,9 +113,8 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
         getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingEncoder.maxOutput"));
       }
       if (m_useCurrentHeading) {
-        double heading = Robot.getInstance().getSensorsContainer().getGyro().getCompassHeading();
         super.setOutput(output -> {
-          m_driveTrain.moveUsingGyroStrafe(output, m_angle.getAsDouble(), false, heading);
+          m_driveTrain.moveUsingGyroStrafe(output, m_angle.getAsDouble(), false);
         });
       }
       setSetpoint(() -> m_target);

@@ -26,11 +26,6 @@ public class MockPhotonVision implements PhotonVisionBase {
   }
 
   @Override
-  public double getTargetID() {
-    return 0;
-  }
-
-  @Override
   public boolean doesPhotonVisionExist() {
     return false;
   }
@@ -68,11 +63,5 @@ public class MockPhotonVision implements PhotonVisionBase {
   @Override
   public PhotonCamera getPhotonCamera() {
     return null;
-  }
-
-  @Override
-  public void computeDistanceAndAngle(int wantedID, boolean useTrace, boolean useLeft,
-      TargetDistanceAndAngle targetDistanceAngle) {
-
   }
 }

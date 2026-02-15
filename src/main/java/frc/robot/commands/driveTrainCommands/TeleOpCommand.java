@@ -29,6 +29,8 @@ public class TeleOpCommand extends Command {
   private double m_savedRobotAngle = 0.0;
   private double m_kProportion = 0.0;
   private boolean m_isStrafe = true;
+  private double m_angleKP = 0.0;
+  private final double m_bumpAngle = 45;
 
   private enum SlowMidFastModeStates {
     FASTMODEBUTTONRELEASED, FASTMODEBUTTONPRESSED, MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED,
@@ -51,6 +53,7 @@ public class TeleOpCommand extends Command {
     m_kDelay = m_drivetrainConfig.getInt("teleop.kdelay");
     m_kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
     m_robotCentricSup = robotCentricSup;
+    m_angleKP = m_drivetrainConfig.getDouble("SwerveDriveConstants.turningAngleKP");
   }
 
   // use this constructor for TankDrive
@@ -147,6 +150,43 @@ public class TeleOpCommand extends Command {
     // it can't be zero but it needs to be low
     rotateStickValue = MathUtil.clamp(getExponential(rotateStickValue, 4.3, 0.7, .1), -1, 1);
     // do not use moveWithGyro here as we're providing the drive straight correction
+    // PoV button changing to angle without stopping the drivetrain
+    if (m_driveController.getBButtonPressed() || m_driveController.getUpArrowPressed()
+        || m_driveController.getLeftArrowPressed() || m_driveController.getDownArrowPressed()
+        || m_driveController.getRightArrowPressed()) {
+      double targetAngle = 0.0;
+      // b button is season specific to 26
+      // will change/get removed based on seasonal needs
+      if (m_driveController.getBButtonPressed()) {
+        targetAngle = m_bumpAngle;
+      } else if (m_driveController.getUpArrowPressed()) {
+        targetAngle = 0;
+      } else if (m_driveController.getLeftArrowPressed()) {
+        targetAngle = 270;
+      } else if (m_driveController.getDownArrowPressed()) {
+        targetAngle = 180;
+      } else if (m_driveController.getRightArrowPressed()) {
+        targetAngle = 90;
+      }
+      double error = targetAngle - m_gyro.getAngle();
+      // this code makes sure the robot always turns the shortest path
+      if (error > 180) {
+        error -= 360;
+      } else if (error < -180) {
+        error += 360;
+      }
+      SmartDashboard.putNumber("error before kp", error);
+      if (Math.abs(error) <= 2) {
+        error = 0;
+      }
+      error *= m_angleKP;
+      SmartDashboard.putNumber("error after kp", error);
+      rotateStickValue = -MathUtil.clamp(error, -1, 1);
+      // without this, if the robot is moving both before AND after the button is
+      // pressed, the robot will go to the saved angle
+      m_savedRobotAngle = m_gyro.getAngle();
+    }
+    SmartDashboard.putNumber("rotatestickvalue", rotateStickValue);
     if (m_isStrafe) {
       m_driveTrain.move(forwardBackwardStickValue, strafeStickValue, rotateStickValue,
           !m_robotCentricSup.getAsBoolean(), true);

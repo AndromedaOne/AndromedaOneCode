@@ -7,8 +7,6 @@ import frc.robot.subsystems.MockSubsystem;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
-import frc.robot.utils.PoseEstimation4905;
-import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 public class MockSwerveDriveTrain implements DriveTrainBase {
 
@@ -100,7 +98,11 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   @Override
   public void setToZero() {
-  };
+  }
+
+  @Override
+  public void setToNinety() {
+  }
 
   @Override
   public void enableAccelerationLimiting() {
@@ -112,13 +114,7 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   }
 
-  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs,
-      double compassHeading) {
-  }
-
-  @Override
-  public PoseEstimation4905.RegionsForPose getRegion() {
-    return RegionsForPose.UNKNOWN;
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs) {
   }
 
   @Override
@@ -148,11 +144,6 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   @Override
   public boolean isAtAngle(double angle) {
     return false;
-  }
-
-  @Override
-  public int regionToAprilTag(RegionsForPose region) {
-    return -1;
   }
 
   @Override

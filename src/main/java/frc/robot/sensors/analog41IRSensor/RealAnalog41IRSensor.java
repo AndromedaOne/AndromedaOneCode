@@ -36,7 +36,7 @@ public class RealAnalog41IRSensor extends RealSensorBase implements Analog41IRSe
   }
 
   @Override
-  protected void updateSmartDashboard() {
+  protected void periodicUpdate() {
     SmartDashboard.putNumber("analog41IRsensor", getDistance());
   }
 

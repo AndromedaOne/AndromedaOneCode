@@ -4,12 +4,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
+import frc.robot.commands.autoCommands.LeftBump;
+import frc.robot.commands.autoCommands.LeftHub;
+import frc.robot.commands.autoCommands.RightBump;
+import frc.robot.commands.autoCommands.RightHub;
 import frc.robot.commands.driveTrainCommands.DoNothingAuto;
-import frc.robot.commands.sbsdAutoCommands.auto1;
-import frc.robot.commands.sbsdAutoCommands.auto2;
-import frc.robot.commands.sbsdAutoCommands.auto6;
-import frc.robot.commands.sbsdAutoCommands.auto7;
-import frc.robot.commands.sbsdAutoCommands.auto8;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -23,30 +22,28 @@ public class AutoModes4905 {
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
-    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isSBSD()) {
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
       try {
-        m_autoChooser.addOption("Auto #1 - West Side Scory", new auto1());
+        m_autoChooser.addOption("Right Bump", new RightBump());
       } catch (Exception e) {
         e.printStackTrace();
       }
       try {
-        m_autoChooser.addOption("Auto #2 - East Side Scory", new auto2());
+        m_autoChooser.addOption("Left Bump", new LeftBump());
       } catch (Exception e) {
         e.printStackTrace();
       }
       try {
-        m_autoChooser.addOption("Auto #6 - 1 North Score And Seven Years Ago", new auto6());
+        m_autoChooser.addOption("Right Hub", new RightHub());
       } catch (Exception e) {
         e.printStackTrace();
       }
       try {
-        m_autoChooser.addOption("Auto #7 - Score North Side Level 1", new auto7());
+        m_autoChooser.addOption("Left Hub", new LeftHub());
       } catch (Exception e) {
         e.printStackTrace();
       }
-      m_autoChooser.addOption("Auto #8 - Drive Backwards", new auto8());
     }
-
     SmartDashboard.putData("autoModes", m_autoChooser);
   }
 }

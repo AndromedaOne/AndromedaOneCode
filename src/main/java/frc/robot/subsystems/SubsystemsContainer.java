@@ -8,36 +8,34 @@
 package frc.robot.subsystems;
 
 import frc.robot.Config4905;
+import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
+import frc.robot.commands.climberCommands.DefaultClimberCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
-import frc.robot.commands.sbsdAlgaeManipulatorCommands.DefaultAlgaeManipulatorCommand;
-import frc.robot.commands.sbsdArmCommands.ArmControlCommand;
-import frc.robot.commands.sbsdArmCommands.CoralIntakeEjectDefaultCommand;
-import frc.robot.commands.sbsdArmCommands.EndEffectorControlCommand;
-import frc.robot.commands.sbsdArmCommands.SBSDArmSetpoints;
-import frc.robot.commands.sbsdClimberCommands.ClimberDefaultCommand;
+import frc.robot.commands.ejectBeltCommands.DefaultEjectBeltCommand;
+import frc.robot.commands.intakeCommands.DefaultIntakeRollerCommand;
+import frc.robot.subsystems.armhopperintake.AHIBase;
+import frc.robot.subsystems.armhopperintake.MockAHI;
+import frc.robot.subsystems.armhopperintake.RealAHI;
+import frc.robot.subsystems.climber.ClimberBase;
+import frc.robot.subsystems.climber.MockClimber;
+import frc.robot.subsystems.climber.RealClimber;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.MockSwerveDriveTrain;
 import frc.robot.subsystems.drivetrain.swerveDriveTrain.SwerveDriveTrain;
+import frc.robot.subsystems.ejectbelt.EjectBeltBase;
+import frc.robot.subsystems.ejectbelt.MockEjectBelt;
+import frc.robot.subsystems.ejectbelt.RealEjectBelt;
+import frc.robot.subsystems.hopperbelts.HopperBeltsBase;
+import frc.robot.subsystems.hopperbelts.MockHopperBelts;
+import frc.robot.subsystems.hopperbelts.RealHopperBelts;
+import frc.robot.subsystems.intakerollers.IntakeRollersBase;
+import frc.robot.subsystems.intakerollers.MockIntakeRollers;
+import frc.robot.subsystems.intakerollers.RealIntakeRollers;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
-import frc.robot.subsystems.sbsdAlgaeManipulator.MockSBSDAlgaeManipulator;
-import frc.robot.subsystems.sbsdAlgaeManipulator.RealSBSDAlgaeManipulator;
-import frc.robot.subsystems.sbsdAlgaeManipulator.SBSDAlgaeManipulatorBase;
-import frc.robot.subsystems.sbsdArm.MockSBSDArm;
-import frc.robot.subsystems.sbsdArm.RealSBSDArm;
-import frc.robot.subsystems.sbsdArm.SBSDArmBase;
-import frc.robot.subsystems.sbsdclimber.MockSBSDClimber;
-import frc.robot.subsystems.sbsdclimber.RealSBSDClimber;
-import frc.robot.subsystems.sbsdclimber.SBSDClimberBase;
-import frc.robot.subsystems.sbsdcoralendeffector.CoralEndEffectorRotateBase;
-import frc.robot.subsystems.sbsdcoralendeffector.CoralIntakeEjectBase;
-import frc.robot.subsystems.sbsdcoralendeffector.MockCoralEndEffectorRotate;
-import frc.robot.subsystems.sbsdcoralendeffector.MockCoralIntakeEject;
-import frc.robot.subsystems.sbsdcoralendeffector.RealCoralEndEffectorRotate;
-import frc.robot.subsystems.sbsdcoralendeffector.RealCoralIntakeEject;
 import frc.robot.telemetries.Trace;
 
 public class SubsystemsContainer {
@@ -49,11 +47,11 @@ public class SubsystemsContainer {
   LEDs m_rightLeds;
   LEDs m_ws2812LEDs;
   CompressorBase m_compressor;
-  SBSDClimberBase m_sbsdClimber;
-  SBSDArmBase m_sbsdArmBase;
-  CoralEndEffectorRotateBase m_sbsdCoralEndEffectorRotateBase;
-  CoralIntakeEjectBase m_sbsdCoralIntakeEjectBase;
-  SBSDAlgaeManipulatorBase m_sbsdAlgaeManipulatorBase;
+  EjectBeltBase m_ejectBelt;
+  HopperBeltsBase m_hopperBelts;
+  AHIBase m_AHI;
+  IntakeRollersBase m_intakeRollers;
+  ClimberBase m_climber;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -90,44 +88,42 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock Compressor");
       m_compressor = new MockCompressor();
     }
-    if (Config4905.getConfig4905().doesSBSDClimberExist()) {
-      Trace.getInstance().logInfo("using real sbsd climber");
-      m_sbsdClimber = new RealSBSDClimber();
+    if (Config4905.getConfig4905().doesEjectBeltExist()) {
+      Trace.getInstance().logInfo("using real eject belt.");
+      m_ejectBelt = new RealEjectBelt();
     } else {
-      Trace.getInstance().logInfo("using mock sbsd climber");
-      m_sbsdClimber = new MockSBSDClimber();
+      Trace.getInstance().logInfo("Using mock eject belt");
+      m_ejectBelt = new MockEjectBelt();
     }
-    if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
-      Trace.getInstance().logInfo("using real SBSD coral end effector");
-      m_sbsdCoralEndEffectorRotateBase = new RealCoralEndEffectorRotate();
-      SBSDArmSetpoints.setUpSetpointsFromConfig();
+    if (Config4905.getConfig4905().doesHopperBeltsExist()) {
+      Trace.getInstance().logInfo("using real hopper belts.");
+      m_hopperBelts = new RealHopperBelts();
     } else {
-      Trace.getInstance().logInfo("using mock SBSD end effector");
-      m_sbsdCoralEndEffectorRotateBase = new MockCoralEndEffectorRotate();
+      Trace.getInstance().logInfo("Using mock hopper belts");
+      m_hopperBelts = new MockHopperBelts();
     }
-    if (Config4905.getConfig4905().doesSBSDArmExist()) {
-      Trace.getInstance().logInfo("using real SBSD arm");
-      m_sbsdArmBase = new RealSBSDArm();
-      m_sbsdArmBase.setEndEffector(m_sbsdCoralEndEffectorRotateBase);
-      SBSDArmSetpoints.setUpSetpointsFromConfig();
+    if (Config4905.getConfig4905().doesIntakeRollersExist()) {
+      Trace.getInstance().logInfo("using real intake rollers.");
+      m_intakeRollers = new RealIntakeRollers();
     } else {
-      Trace.getInstance().logInfo("using mock SBSD arm");
-      m_sbsdArmBase = new MockSBSDArm();
+      Trace.getInstance().logInfo("Using mock intake rollers");
+      m_intakeRollers = new MockIntakeRollers();
     }
-    if (Config4905.getConfig4905().doesSBSDCoralIntakeEjectExist()) {
-      Trace.getInstance().logInfo("using real SBSD coral intake eject");
-      m_sbsdCoralIntakeEjectBase = new RealCoralIntakeEject();
+    if (Config4905.getConfig4905().doesAHIExist()) {
+      Trace.getInstance().logInfo("using real AHI.");
+      m_AHI = new RealAHI();
     } else {
-      Trace.getInstance().logInfo("using mock SBSD coral intake eject");
-      m_sbsdCoralIntakeEjectBase = new MockCoralIntakeEject();
+      Trace.getInstance().logInfo("Using mock AHI");
+      m_AHI = new MockAHI();
     }
-    if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
-      Trace.getInstance().logInfo("using real SBSD algae manipulator");
-      m_sbsdAlgaeManipulatorBase = new RealSBSDAlgaeManipulator();
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      Trace.getInstance().logInfo("using real climber.");
+      m_climber = new RealClimber();
     } else {
-      Trace.getInstance().logInfo("using mock SBSD algae manipulator");
-      m_sbsdAlgaeManipulatorBase = new MockSBSDAlgaeManipulator();
+      Trace.getInstance().logInfo("Using mock climber");
+      m_climber = new MockClimber();
     }
+
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -138,51 +134,45 @@ public class SubsystemsContainer {
     return m_compressor;
   }
 
-  public SBSDArmBase getSBSDArmBase() {
-    return m_sbsdArmBase;
-  }
-
-  public CoralEndEffectorRotateBase getSBSDCoralEndEffectorRotateBase() {
-    return m_sbsdCoralEndEffectorRotateBase;
-  }
-
-  public CoralIntakeEjectBase getSBSDCoralIntakeEjectBase() {
-    return m_sbsdCoralIntakeEjectBase;
-  }
-
-  public SBSDAlgaeManipulatorBase getSBSDAlgaeManipulatorBase() {
-    return m_sbsdAlgaeManipulatorBase;
-  }
-
-  public SBSDClimberBase getSBSDClimberBase() {
-    return m_sbsdClimber;
+  public HopperBeltsBase getHopperBelts() {
+    return m_hopperBelts;
   }
 
   public LEDs getWs2812LEDs() {
     return m_ws2812LEDs;
   }
 
+  public EjectBeltBase getEjectBelt() {
+    return m_ejectBelt;
+  }
+
+  public AHIBase getAHI() {
+    return m_AHI;
+  }
+
+  public ClimberBase getClimber() {
+    return m_climber;
+  }
+
+  public IntakeRollersBase getIntakeRollers() {
+    return m_intakeRollers;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
     }
-    if (Config4905.getConfig4905().doesSBSDArmExist()) {
-      m_sbsdArmBase.setDefaultCommand(
-          new ArmControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, false));
+    if (Config4905.getConfig4905().doesClimberExist()) {
+      m_climber.setDefaultCommand(new DefaultClimberCommand());
     }
-    if (Config4905.getConfig4905().doesSBSDCoralEndEffectorExist()) {
-      System.out.println("Using end effector default command");
-      m_sbsdCoralEndEffectorRotateBase.setDefaultCommand(
-          new EndEffectorControlCommand(() -> SBSDArmSetpoints.ArmSetpoints.CORAL_LOAD, false));
+    if (Config4905.getConfig4905().doesAHIExist()) {
+      m_AHI.setDefaultCommand(new AHIDefaultCommand());
     }
-    if (Config4905.getConfig4905().doesSBSDCoralIntakeEjectExist()) {
-      m_sbsdCoralIntakeEjectBase.setDefaultCommand(new CoralIntakeEjectDefaultCommand(false));
+    if (Config4905.getConfig4905().doesIntakeRollersExist()) {
+      m_intakeRollers.setDefaultCommand(new DefaultIntakeRollerCommand());
     }
-    if (Config4905.getConfig4905().doesSBSDAlgaeManipulatorExist()) {
-      m_sbsdAlgaeManipulatorBase.setDefaultCommand(new DefaultAlgaeManipulatorCommand());
-    }
-    if (Config4905.getConfig4905().doesSBSDClimberExist()) {
-      m_sbsdClimber.setDefaultCommand(new ClimberDefaultCommand());
+    if (Config4905.getConfig4905().doesEjectBeltExist()) {
+      m_ejectBelt.setDefaultCommand(new DefaultEjectBeltCommand());
     }
   }
 }

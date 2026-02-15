@@ -2,6 +2,10 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import static edu.wpi.first.math.util.Units.*;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -27,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule.KrakenAndSparkMaxSwerveModule;
+import frc.robot.actuators.SwerveModule.KrakenSwerveModule;
 import frc.robot.actuators.SwerveModule.SparkMaxSwerveModule;
 import frc.robot.actuators.SwerveModule.SwerveModuleBase;
 import frc.robot.sensors.gyro.Gyro4905;
@@ -38,7 +43,6 @@ import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
 import frc.robot.utils.PoseEstimation4905;
-import frc.robot.utils.PoseEstimation4905.RegionsForPose;
 
 /**
  * The swervedrive code is based on FRC3512 implementation. the repo for this is
@@ -64,11 +68,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private static SwerveSetpointGenerator m_generator;
   private double m_modSpeed = 0;
   private double m_modDistance = 0;
-  private double m_robotAngle = 0;
   private boolean m_isInsideUnsafeZone = false;
   private int m_count = 0;
   private double m_highestAccel = 0;
-  private PoseEstimation4905.RegionsForPose m_region = RegionsForPose.UNKNOWN;
   private boolean m_isLeftSide = false;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
@@ -89,10 +91,20 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
     m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
 
-    if (m_config.getBoolean("useKraken")) {
+    if (m_config.getBoolean("useKrakenAndSpark") && m_config.getBoolean("useKrakenOnly")) {
+      throw new IllegalArgumentException(
+          "Cannot use both KrakenAndSpark and KrakenOnly swerve modules at the same time");
+    }
+
+    if (m_config.getBoolean("useKrakenAndSpark")) {
       m_SwerveMods = new KrakenAndSparkMaxSwerveModule[] { new KrakenAndSparkMaxSwerveModule(0),
           new KrakenAndSparkMaxSwerveModule(1), new KrakenAndSparkMaxSwerveModule(2),
           new KrakenAndSparkMaxSwerveModule(3) };
+    } else if (m_config.getBoolean("useKrakenOnly")) {
+      // use kraken swerve modules
+      m_SwerveMods = new KrakenSwerveModule[] { new KrakenSwerveModule(0),
+          new KrakenSwerveModule(1), new KrakenSwerveModule(2), new KrakenSwerveModule(3) };
+
     } else {
       m_SwerveMods = new SparkMaxSwerveModule[] { new SparkMaxSwerveModule(0),
           new SparkMaxSwerveModule(1), new SparkMaxSwerveModule(2), new SparkMaxSwerveModule(3) };
@@ -121,13 +133,22 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       DCMotor dcMotor = new DCMotor(0, 0, 0, 0, 0, 0);
       ModuleConfig modConfig = new ModuleConfig(0.0, 0.0, 0.0, dcMotor, 0.0, 0.0, 0);
       RobotConfig robotConfig = new RobotConfig(0.0, 0.0, modConfig, 0.0);
-      try {
-        robotConfig = RobotConfig.fromGUISettings();
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new RuntimeException(e);
-
+      if (m_config.getBoolean("pathplanning.usePathGUI")) {
+        try {
+          robotConfig = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new RuntimeException(e);
+        }
+      } else {
+        try {
+          robotConfig = getFromConfig();
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new RuntimeException(e);
+        }
       }
+
       m_generator = new SwerveSetpointGenerator(robotConfig,
           m_config.getDouble("maxAngularVelocity"));
       m_prevSetpoint = new SwerveSetpoint(m_currentChassisSpeeds, getStates(),
@@ -267,18 +288,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       }
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
-      m_region = m_poseEstimation.getRegion();
-      m_isLeftSide = m_poseEstimation.isLeftSide();
-      m_isInsideUnsafeZone = m_poseEstimation.getInUnsafeZone();
-      SmartDashboard.putBoolean("Is inside of unsafe zone ", m_isInsideUnsafeZone);
       SmartDashboard.putNumber("Pose X ", metersToInches(m_currentPose.getX()));
       SmartDashboard.putNumber("Pose Y ", metersToInches(m_currentPose.getY()));
       SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
-      SmartDashboard.putString("PoseRegion", m_region.toString());
-      SmartDashboard.putBoolean("Is Left Side ", m_isLeftSide);
-      double currentAngle = m_currentPose.getRotation().getDegrees();
-      double currentAngularVelocity = (currentAngle - m_robotAngle) * 2;
-      m_robotAngle = currentAngle;
     }
   }
 
@@ -343,10 +355,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   /**
-   * The angle passed in is counter clockwise positive
+   * The angle passed in is counter clockwise positive compassheading does
+   * absolulely nothing why is it here
    */
-  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs,
-      double compassHeading) {
+  public void moveUsingGyroStrafe(double forwardBackward, double angle, boolean useSquaredInputs) {
     double angleInRadians = Math.toRadians(angle);
     double forwardBackwardValue = forwardBackward * Math.cos(angleInRadians);
     double strafeValue = forwardBackward * Math.sin(angleInRadians);
@@ -445,6 +457,22 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
+  /*
+   * This method sets the swerve modules in the same heading (90 degress) but
+   * different angles to mitigate robot shift when the wheels turn to face the
+   * direction that it is going to drive to approach the tower (2026 game
+   * Rebuilt). Swerves modules 0 and 3 turn clockwise while swerve modules 1 and 2
+   * turn counterclockwise. From our tests it did reduce our shifting.
+   */
+  public void setToNinety() {
+    double[] angles = { 90.0, 270.0, 270.0, 90.0 };
+    for (int i = 0; i < m_SwerveMods.length; i++) {
+      m_SwerveMods[i].setDesiredStateNoOptimize(
+          new SwerveModuleState(0, Rotation2d.fromDegrees(angles[i])), true, true);
+    }
+
+  }
+
   @Override
   public void setVelocityToZero() {
     for (SwerveModuleBase mod : m_SwerveMods) {
@@ -464,10 +492,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
-  public PoseEstimation4905.RegionsForPose getRegion() {
-    return m_region;
-  }
-
   @Override
   public boolean isLeftSide() {
     return m_isLeftSide;
@@ -484,13 +508,55 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   }
 
   @Override
-  public int regionToAprilTag(RegionsForPose region) {
-    return m_poseEstimation.regionToAprilTag(region);
-  }
-
-  @Override
   public double getModZeroAngle() {
     return m_SwerveMods[0].getAngle().getDegrees();
   }
 
+  public RobotConfig getFromConfig() throws IOException, ParseException {
+    boolean isHolonomic = m_config.getBoolean("pathplanning.holonomic");
+    double massKG = m_config.getDouble("pathplanning.mass");
+    double MOI = m_config.getDouble("pathplanning.MOI");
+    // converting from inches to meters
+    double wheelRadius = (m_config.getDouble("wheelDiameter") / 2) / 39.37;
+    double gearing = m_config.getDouble("driveGearRatio");
+    double maxDriveSpeed = m_config.getDouble("maxSpeed");
+    double wheelCOF = m_config.getDouble("pathplanning.wheelCOF");
+    String driveMotor = m_config.getString("pathplanning.driveMotorType");
+    double driveCurrentLimit = m_config.getDouble("driveContinuousCurrentLimit");
+
+    int numMotors = isHolonomic ? 1 : 2;
+    DCMotor gearbox = switch (driveMotor) {
+    case "krakenX60" -> DCMotor.getKrakenX60(numMotors);
+    case "krakenX60FOC" -> DCMotor.getKrakenX60Foc(numMotors);
+    case "falcon500" -> DCMotor.getFalcon500(numMotors);
+    case "falcon500FOC" -> DCMotor.getFalcon500Foc(numMotors);
+    case "vortex" -> DCMotor.getNeoVortex(numMotors);
+    case "NEO" -> DCMotor.getNEO(numMotors);
+    case "CIM" -> DCMotor.getCIM(numMotors);
+    case "miniCIM" -> DCMotor.getMiniCIM(numMotors);
+    default -> throw new IllegalArgumentException("Invalid motor type: " + driveMotor);
+    };
+    gearbox = gearbox.withReduction(gearing);
+
+    ModuleConfig moduleConfig = new ModuleConfig(wheelRadius, maxDriveSpeed, wheelCOF, gearbox,
+        driveCurrentLimit, numMotors);
+
+    if (isHolonomic) {
+      Translation2d[] moduleOffsets = new Translation2d[] {
+          new Translation2d(m_config.getDouble("pathplanning.FLX"),
+              m_config.getDouble("pathplanning.FLY")),
+          new Translation2d(m_config.getDouble("pathplanning.FRX"),
+              m_config.getDouble("pathplanning.FRY")),
+          new Translation2d(m_config.getDouble("pathplanning.BLX"),
+              m_config.getDouble("pathplanning.BLY")),
+          new Translation2d(m_config.getDouble("pathplanning.BRX"),
+              m_config.getDouble("pathplanning.BRY")) };
+
+      return new RobotConfig(massKG, MOI, moduleConfig, moduleOffsets);
+    } else {
+      double trackwidth = m_config.getDouble("pathplanning.driveBaseRadiusInMeters");
+
+      return new RobotConfig(massKG, MOI, moduleConfig, trackwidth);
+    }
+  }
 }
