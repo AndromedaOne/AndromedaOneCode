@@ -36,6 +36,7 @@ import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
+import frc.robot.commands.examplePathCommands.TestPath;
 import frc.robot.commands.groupCommands.MoveAndAlignTower;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
@@ -102,6 +103,7 @@ public class SmartDashboard4905 {
               sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
               sensorsContainer.getTof1().getFacingAngle()));
       SmartDashboard.putData("SpinTest", new Spinner());
+      SmartDashboard.putData("test path", new TestPath());
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       SmartDashboard.putData("Run eject belt left", new EjectBeltLeft());
@@ -113,15 +115,19 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().doesClimberExist()) {
-      SmartDashboard.putData("Short climber extend",
+      SmartDashboard.putData("climberCommand/Short climber extend",
           new ClimberExtensionCommand("ShortClimberExtend"));
-      SmartDashboard.putData("Long climber extend",
+      SmartDashboard.putData("climberCommand/Long climber extend",
           new ClimberExtensionCommand("LongClimberExtend"));
-      SmartDashboard.putData("Climber retract", new ClimberExtensionCommand("ClimberRetract"));
-      SmartDashboard.putData("Climb up", new ClimberRotationCommand("ClimbUp"));
-      SmartDashboard.putData("Climb down", new ClimberRotationCommand("ClimbDown"));
+      SmartDashboard.putData("climberCommand/Climber retract",
+          new ClimberExtensionCommand("ClimberRetract"));
+      SmartDashboard.putData("climberCommand/Climb up", new ClimberRotationCommand("ClimbUp"));
+      SmartDashboard.putData("Climb up auto position",
+          new ClimberRotationCommand("ClimbUpAutoPosition"));
+      SmartDashboard.putData("climberCommand/Climb down", new ClimberRotationCommand("ClimbDown"));
     }
-    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRadar());
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider())
+      ;
     {
       SmartDashboard.putData("Right Bump", new RightBump());
       SmartDashboard.putData("Left Bump", new LeftBump());

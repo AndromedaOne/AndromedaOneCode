@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -44,6 +45,7 @@ public class PoseEstimation4905 {
   private double m_fieldWidth;
   private Alliance m_currentAlliance;
   private AprilTagFieldLayout m_aprilTagFieldLayout;
+  private int m_poseAngleDelayCounter = 0;
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
       .getStructTopic("/OdometryPose", Pose2d.struct).publish();
@@ -57,13 +59,12 @@ public class PoseEstimation4905 {
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
-      // TODO: when the 2026 field comes out, remember to change this
+      // when the new field comes out, remember to change this
       if (Config4905.getConfig4905().getSensorConfig()
           .getBoolean("photonvision.useAndyMarkField")) {
-        m_aprilTagFieldLayout = AprilTagFieldLayout
-            .loadField(AprilTagFields.k2025ReefscapeAndyMark);
+        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
       } else {
-        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
       }
       m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
       m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
@@ -80,13 +81,15 @@ public class PoseEstimation4905 {
           localCamera = m_photonVision.get(i);
           m_robotToCam
               .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
-          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout, m_robotToCam.get(i)));
+          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout,
+              PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
           m_posePublisherCamera.add(NetworkTableInstance.getDefault()
               .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
-          Trace.getInstance().logInfo(m_robotToCam.get(i).toString());
+          Trace.getInstance().logInfo("Using Camera " + String.valueOf(i) + "For Pose");
         }
         m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
             .getBoolean("photonvision.useVisionForPose");
+
       }
     } else {
       m_cameraPresent = false;
@@ -144,7 +147,7 @@ public class PoseEstimation4905 {
             .getAllUnreadResults();
         for (int results = 0; results < pipelineResults.size(); results++) {
           final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
-              .estimateCoprocMultiTagPose(pipelineResults.get(results));
+              .update(pipelineResults.get(results));
           if (optionalEstimatedPose.isPresent()) {
             final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
             usePose = true;
@@ -164,10 +167,16 @@ public class PoseEstimation4905 {
         }
       }
       localPose = m_swerveOdometry.getEstimatedPosition();
-      if (m_useVisionForPose && usePose && m_updateGyroOffset) {
-        Trace.getInstance()
-            .logInfo("Setting vision pose offset: " + localPose.getRotation().getDegrees());
-        m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
+      SmartDashboard.putNumber("localpose", localPose.getRotation().getDegrees());
+      SmartDashboard.putBoolean("UsePose", usePose);
+      if (m_updateGyroOffset) {
+        m_poseAngleDelayCounter++;
+      }
+      if (m_useVisionForPose && usePose && m_updateGyroOffset && (m_poseAngleDelayCounter > 40)) {
+        double poseAngle = localPose.getRotation().getDegrees();
+        Trace.getInstance().logInfo("Setting vision pose offset: " + poseAngle);
+        m_gyro.setVisionPoseOffset(poseAngle);
+        SmartDashboard.putNumber("visionposeoffset", poseAngle);
         m_updateGyroOffset = false;
       }
     }

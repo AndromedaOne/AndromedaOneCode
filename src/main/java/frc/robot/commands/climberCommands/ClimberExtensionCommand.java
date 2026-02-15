@@ -11,6 +11,7 @@ import com.typesafe.config.Config;
 
 import frc.robot.Config4905;
 import frc.robot.Robot;
+import frc.robot.commands.RumbleBasedOnCounter;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
@@ -18,7 +19,7 @@ import frc.robot.subsystems.climber.ClimberBase;
 import frc.robot.telemetries.Trace;
 
 public class ClimberExtensionCommand extends SequentialCommandGroup4905 {
-  public ClimberExtensionCommand(String position) {
+  public ClimberExtensionCommand(String position, boolean useRumble) {
     ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
     Config climberPIDConfig = Config4905.getConfig4905().getClimberConfig();
     if (!(position.contentEquals("ShortClimberExtend")
@@ -26,10 +27,22 @@ public class ClimberExtensionCommand extends SequentialCommandGroup4905 {
         || position.contentEquals("ClimberRetract"))) {
       throw new Error("Error: Unknown climber position: " + position);
     }
+    if (useRumble) {
+      addCommands(
+          new ClimberExtensionInternal(climber,
+              climberPIDConfig.getDouble(position + ".wantedPosition"),
+              climberPIDConfig.getDouble(position + ".maxOutput"), climberPIDConfig, position),
+          new RumbleBasedOnCounter(0.5, 0.5));
+    } else {
+      addCommands(new ClimberExtensionInternal(climber,
+          climberPIDConfig.getDouble(position + ".wantedPosition"),
+          climberPIDConfig.getDouble(position + ".maxOutput"), climberPIDConfig, position));
+    }
 
-    addCommands(new ClimberExtensionInternal(climber,
-        climberPIDConfig.getDouble(position + ".wantedPosition"),
-        climberPIDConfig.getDouble(position + ".maxOutput"), climberPIDConfig, position));
+  }
+
+  public ClimberExtensionCommand(String position) {
+    this(position, false);
   }
 
   private class ClimberExtensionInternal extends PIDCommand4905 {

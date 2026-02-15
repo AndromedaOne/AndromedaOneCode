@@ -50,4 +50,14 @@ public class MockClimber implements ClimberBase {
   public void stop() {
   }
 
+  @Override
+  public double getRotatorInRotations() {
+    return 0;
+  }
+
+  @Override
+  public double getRotatorWithOffset() {
+    return 0;
+  }
+
 }

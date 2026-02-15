@@ -30,7 +30,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private double m_offsetToCenterInMetersY = 0;
   private double m_cameraHeightInInches = 0;
   private double m_cameraHeightInMeters = 0;
-  private double m_targetHeightInInches = 0;
   private double m_targetHeightInMeters = 0;
   private double m_cameraRollInDegrees = 0;
   private double m_cameraRollInRadians = 0;
@@ -38,11 +37,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   private double m_cameraPitchInRadians = 0;
   private double m_cameraYawInDegrees = 0;
   private double m_cameraYawInRadians = 0;
-
-  /*
-   * public class AprilTagInfo { int aprilTagID; double distanceToTarget; double
-   * angleToTarget; double ambiguity; }
-   */
 
   public RealPhotonVision(String cameraName) {
     // pass the name of the camera in
@@ -57,8 +51,6 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
     m_cameraHeightInInches = m_config
         .getDouble("photonvision." + cameraName + ".cameraHeightInInches");
     m_cameraHeightInMeters = m_cameraHeightInInches * 0.0254;
-    m_targetHeightInInches = m_config.getDouble("photonvision.targetHeightInInches");
-    m_targetHeightInMeters = m_targetHeightInInches * 0.0254;
     m_cameraRollInDegrees = m_config
         .getDouble("photonvision." + cameraName + ".cameraRollInDegrees");
     m_cameraRollInRadians = Units.degreesToRadians(m_cameraRollInDegrees);
@@ -113,10 +105,12 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
 
   @Override
   public boolean doesTargetExist(int wantedID) {
-    List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
-    for (PhotonTrackedTarget target : targets) {
-      if (target.getFiducialId() == wantedID) {
-        return true;
+    for (PhotonPipelineResult result : m_camera.getAllUnreadResults()) {
+      List<PhotonTrackedTarget> targets = result.getTargets();
+      for (PhotonTrackedTarget target : targets) {
+        if (target.getFiducialId() == wantedID) {
+          return true;
+        }
       }
     }
     return false;
@@ -131,20 +125,16 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
   public double getDistanceToTargetInInches(int wantedID) {
     double range = 0;
 
-    List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
-    for (PhotonTrackedTarget target : targets) {
-      if (target.getFiducialId() == wantedID) {
-        range = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeightInMeters,
-            m_targetHeightInMeters, m_cameraPitchInRadians,
-            Units.degreesToRadians(target.getPitch()));
+    for (PhotonPipelineResult result : m_camera.getAllUnreadResults()) {
+      for (PhotonTrackedTarget target : result.getTargets()) {
+        if (target.getFiducialId() == wantedID) {
+          range = PhotonUtils.calculateDistanceToTargetMeters(m_cameraHeightInMeters,
+              m_targetHeightInMeters, m_cameraPitchInRadians,
+              Units.degreesToRadians(target.getPitch()));
+        }
       }
     }
     return range / 0.0254;
-  }
-
-  @Override
-  public double getTargetID() {
-    return m_camera.getLatestResult().getBestTarget().getFiducialId();
   }
 
   @Override
@@ -154,13 +144,14 @@ public class RealPhotonVision extends RealSensorBase implements PhotonVisionBase
 
   @Override
   public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint) {
-    List<PhotonTrackedTarget> targets = m_camera.getLatestResult().getTargets();
-    for (PhotonTrackedTarget target : targets) {
-      if (target.getFiducialId() == wantedID) {
-        double offsetAngle = Units.radiansToDegrees(
-            Math.asin(m_offsetToCenterInInches / getDistanceToTargetInInches(wantedID)));
-        double yaw = target.getYaw();
-        return new TargetDetectedAndAngle(yaw + offsetAngle, true);
+    for (PhotonPipelineResult result : m_camera.getAllUnreadResults()) {
+      for (PhotonTrackedTarget target : result.getTargets()) {
+        if (target.getFiducialId() == wantedID) {
+          double offsetAngle = Units.radiansToDegrees(
+              Math.asin(m_offsetToCenterInInches / getDistanceToTargetInInches(wantedID)));
+          double yaw = target.getYaw();
+          return new TargetDetectedAndAngle(yaw + offsetAngle, true);
+        }
       }
     }
     return new TargetDetectedAndAngle(setPoint, false);

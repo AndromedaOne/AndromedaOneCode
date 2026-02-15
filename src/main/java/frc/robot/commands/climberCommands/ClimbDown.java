@@ -7,83 +7,13 @@
 
 package frc.robot.commands.climberCommands;
 
-import com.typesafe.config.Config;
-
-import frc.robot.Config4905;
-import frc.robot.Robot;
-import frc.robot.pidcontroller.PIDCommand4905;
-import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
-import frc.robot.subsystems.climber.ClimberBase;
-import frc.robot.telemetries.Trace;
 
 public class ClimbDown extends SequentialCommandGroup4905 {
+  // for autos
+  // pathplanner cannot call commands with parameters.
   public ClimbDown() {
-    ClimberBase climber = Robot.getInstance().getSubsystemsContainer().getClimber();
-    Config climberPIDConfig = Config4905.getConfig4905().getClimberConfig();
-
-    addCommands(
-        new ClimbDownInternal(climber, climberPIDConfig.getDouble("ClimbDown.wantedPosition"),
-            climberPIDConfig.getDouble("ClimbDown.maxOutput"), climberPIDConfig));
+    addCommands(new ClimberRotationCommand("ClimbDown"));
   }
 
-  private class ClimbDownInternal extends PIDCommand4905 {
-    private ClimberBase m_climber;
-    private double m_wantedPosition;
-    private double m_maxOutput;
-    private Config m_config;
-
-    /**
-     * Creates a new MoveUsingEncoder.
-     */
-    public ClimbDownInternal(ClimberBase climber, double wantedPosition, double maxOutput,
-        Config config) {
-      super(
-          // The controller that the command will use
-          new PIDController4905SampleStop("ClimbDown"),
-          // This should return the measurement
-          () -> climber.getRotatorAngle(),
-          // This should return the setpoint (can also be a constant)
-          () -> wantedPosition,
-          // This uses the output
-          output -> {
-            // Use the output here
-            climber.rotateRotator(output);
-            ;
-          });
-      m_climber = climber;
-      m_wantedPosition = wantedPosition;
-      m_config = config;
-      addRequirements(m_climber.getSubsystemBase());
-    }
-
-    public void initialize() {
-      super.initialize();
-      getController().setP(m_config.getDouble("ClimbDown.Kp"));
-      getController().setI(m_config.getDouble("ClimbDown.Ki"));
-      getController().setD(m_config.getDouble("ClimbDown.Kd"));
-      getController().setMinOutputToMove(m_config.getDouble("ClimbDown.minOutputToMove"));
-      getController().setTolerance(m_config.getDouble("ClimbDown.positionTolerance"));
-      getController().setIZone(m_config.getDouble("ClimbDown.iZone"));
-      if (m_maxOutput != 0) {
-        getController().setMaxOutput(m_maxOutput);
-      } else if (m_config.hasPath("ClimbDown.maxOutput")) {
-        getController().setMaxOutput(m_config.getDouble("ClimbDown.maxOutput"));
-      }
-      Trace.getInstance().logInfo("Going to position " + m_wantedPosition);
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      // may want to make this finish if climber extender is not
-      // in the extended position for safety reasons.
-      return getController().atSetpoint();
-    }
-
-    public void end(boolean interrupted) {
-      super.end(interrupted);
-      m_climber.stop();
-    }
-  }
 }

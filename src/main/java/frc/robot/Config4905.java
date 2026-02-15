@@ -44,7 +44,7 @@ public class Config4905 {
   private String m_baseDir;
   private String m_robotName;
   private boolean m_isSwerveBot = false;
-  private boolean m_isFuelRadar = false;
+  private boolean m_isFuelRaider = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -54,9 +54,8 @@ public class Config4905 {
       m_robotName = m_nameConfig.getString("robot.name");
       if (m_robotName.equals("SwerveBot")) {
         m_isSwerveBot = true;
-      }
-      if (m_robotName.equals("FuelRadar")) {
-        m_isFuelRadar = true;
+      } else if (m_robotName.equalsIgnoreCase("FuelRaider")) {
+        m_isFuelRaider = true;
       }
     }
     if ((m_robotName == null) || m_robotName.isEmpty()) {
@@ -193,8 +192,8 @@ public class Config4905 {
     return m_isSwerveBot;
   }
 
-  public boolean isFuelRadar() {
-    return m_isFuelRadar;
+  public boolean isFuelRaider() {
+    return m_isFuelRaider;
   }
 
   public String getRobotName() {

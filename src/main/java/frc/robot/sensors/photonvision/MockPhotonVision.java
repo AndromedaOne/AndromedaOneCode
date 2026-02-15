@@ -26,11 +26,6 @@ public class MockPhotonVision implements PhotonVisionBase {
   }
 
   @Override
-  public double getTargetID() {
-    return 0;
-  }
-
-  @Override
   public boolean doesPhotonVisionExist() {
     return false;
   }

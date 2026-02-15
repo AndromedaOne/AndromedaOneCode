@@ -20,8 +20,6 @@ public interface PhotonVisionBase {
 
   public double getDistanceToTargetInMeters(int wantedID);
 
-  public double getTargetID();
-
   public boolean doesPhotonVisionExist();
 
   public TargetDetectedAndAngle getTargetDetectedAndAngle(int wantedID, double setPoint);
