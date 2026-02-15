@@ -12,6 +12,7 @@ import frc.robot.utils.AngleConversionUtils;
 public class RealPigeonGyroSensor extends RealGyroBase {
   // use singleton for the gyro member
   static private Pigeon2 m_gyro = null;
+  private boolean m_calibrated = false;
 
   /**
    * Trys creating the gyro and if it can not then it reports an error to the
@@ -43,6 +44,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
         Trace.getInstance()
             .logInfo("Gyro is calibrated. Initial Angles: \n\tZangle: " + getCorrectedZAngle()
                 + "\n\tXangle: " + m_gyro.getPitch() + "\n\tYangle: " + m_gyro.getRoll() + "\n");
+        m_calibrated = true;
       } catch (RuntimeException ex) {
         DriverStation.reportError("Error instantiating pigeon: " + ex.getMessage(), true);
       }
@@ -90,7 +92,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
 
   @Override
   public boolean getIsCalibrated() {
-    return true;
+    return m_calibrated;
   }
 
   private double getCorrectedZAngle() {
@@ -99,6 +101,12 @@ public class RealPigeonGyroSensor extends RealGyroBase {
 
   @Override
   public void calibrate() {
+    m_calibrated = false;
+    setInitialXAngleReading(m_gyro.getRoll().getValueAsDouble());
+    setInitialYAngleReading(m_gyro.getPitch().getValueAsDouble());
+    setInitialZAngleReading(getCorrectedZAngle());
+    Trace.getInstance().logInfo("calibration done!");
+    m_calibrated = true;
   }
 
 }
