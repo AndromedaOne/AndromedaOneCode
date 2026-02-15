@@ -9,11 +9,11 @@ package frc.robot.commands.climberCommands;
 
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 
-public class LongClimberExtend extends SequentialCommandGroup4905 {
+public class ClimbUpAutoPosition extends SequentialCommandGroup4905 {
   // for autos
   // pathplanner cannot call commands with parameters.
-  public LongClimberExtend() {
-    addCommands(new ClimberExtensionCommand("LongClimberExtend"));
+  public ClimbUpAutoPosition() {
+    addCommands(new ClimberRotationCommand("ClimbUpAutoPosition"));
   }
 
 }

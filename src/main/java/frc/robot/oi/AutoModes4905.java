@@ -22,7 +22,7 @@ public class AutoModes4905 {
 
     m_autoChooser.setDefaultOption("DoNothing", new DoNothingAuto());
 
-    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRadar()) {
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
       try {
         m_autoChooser.addOption("Right Bump", new RightBump());
       } catch (Exception e) {
