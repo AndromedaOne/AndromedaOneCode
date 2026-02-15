@@ -13,6 +13,10 @@ public interface ClimberBase extends SubsystemInterface {
 
   public double getRotatorAngle();
 
+  public double getRotatorInRotations();
+
+  public double getRotatorWithOffset();
+
   public void moveExtender(double speed);
 
   public double getExtenderPosition();

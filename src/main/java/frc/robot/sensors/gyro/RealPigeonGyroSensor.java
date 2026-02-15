@@ -56,12 +56,12 @@ public class RealPigeonGyroSensor extends RealGyroBase {
 
   @Override
   public double getRawXAngle() {
-    return m_gyro.getPitch().getValueAsDouble();
+    return m_gyro.getRoll().getValueAsDouble();
   }
 
   @Override
   public double getRawYAngle() {
-    return m_gyro.getRoll().getValueAsDouble();
+    return m_gyro.getPitch().getValueAsDouble();
   }
 
   @Override
