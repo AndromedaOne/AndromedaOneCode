@@ -73,8 +73,8 @@ public class Robot extends TimedRobot {
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
-    NamedCommands.registerCommand("eject fuel left", new EjectBeltLeft());
-    NamedCommands.registerCommand("eject fuel right", new EjectBeltRight());
+    NamedCommands.registerCommand("eject belt left", new EjectBeltLeft());
+    NamedCommands.registerCommand("eject belt right", new EjectBeltRight());
     NamedCommands.registerCommand("tower alignment",
         new TowerAlignment(m_subsystemContainer.getDriveTrain(), 0.3,
             m_sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
