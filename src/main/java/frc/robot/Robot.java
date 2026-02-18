@@ -27,6 +27,7 @@ import frc.robot.commands.climberCommands.ClimberExtensionCommand;
 import frc.robot.commands.climberCommands.ClimberRotationCommand;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.commands.driveTrainCommands.TowerAlignment;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.oi.OIContainer;
@@ -84,6 +85,8 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("rotate climber", new ClimberRotationCommand("ClimbUp"));
     NamedCommands.registerCommand("right hub set pose", new RightHubSetPoseManually());
     NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());
+    NamedCommands.registerCommand("turn to 0", new TurnToCompassHeading(() -> 0));
+    NamedCommands.registerCommand("turn to 180", new TurnToCompassHeading(() -> 180));
 
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();

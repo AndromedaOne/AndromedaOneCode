@@ -26,6 +26,12 @@
         {
           "type": "named",
           "data": {
+            "name": "turn to 180"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "tower alignment"
           }
         },
