@@ -7,6 +7,7 @@ package frc.robot.commands.driveTrainCommands;
 import java.util.function.DoubleSupplier;
 
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
@@ -21,8 +22,8 @@ public class TowerAlignment extends SequentialCommandGroup4905 {
   // basically the value of tof1
   // we could stop passing it in and get it here... maybe????
   // angle is the rotation of tof1 in relation to the robot, only used for MUDS
-  public TowerAlignment(DriveTrainBase drivetrain, double maxOutput,
-      DoubleSupplier distanceSensorValue, DoubleSupplier angle) {
+  public TowerAlignment(DriveTrainBase drivetrain, double maxOutput, DoubleSupplier angle,
+      DistanceSensorBase tof) {
 
     // target distance for MUDS is a magic number! woaw
     // maybe put it in the config?
@@ -31,7 +32,7 @@ public class TowerAlignment extends SequentialCommandGroup4905 {
     // tof2 and tof0 - maybe change the name?
     // the angle passed in is the angle the robot should move in I think?
     addCommands(new MoveUsingDistanceSensorDifference(drivetrain, 0.0, () -> 0, maxOutput),
-        new MoveUsingDistanceSensor(drivetrain, distanceSensorValue, 5, angle, maxOutput));
+        new MoveUsingDistanceSensor(drivetrain, 5, angle, maxOutput, tof));
   }
 
   @Override

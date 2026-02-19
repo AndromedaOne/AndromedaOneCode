@@ -88,8 +88,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
       SmartDashboard.putData("MoveUsingDistanceSensor",
           new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(),
-              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
-              sensorsContainer.getTof1().getFacingAngle()));
+              sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       SmartDashboard.putNumber("SensorDifferenceTesterAngle", 0);
       SmartDashboard.putData("MoveUsingDistanceSensorDifferenceTester",
@@ -97,12 +96,10 @@ public class SmartDashboard4905 {
       // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
       SmartDashboard.putData("Tower Alignment",
           new TowerAlignment(subsystemsContainer.getDriveTrain(), 0.3,
-              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
-              sensorsContainer.getTof1().getFacingAngle()));
+              sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
       SmartDashboard.putData("Move and align tower",
           new MoveAndAlignTower(subsystemsContainer.getDriveTrain(), 0.3,
-              sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
-              sensorsContainer.getTof1().getFacingAngle()));
+              sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
       SmartDashboard.putData("SpinTest", new Spinner());
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {

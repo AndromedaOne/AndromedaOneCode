@@ -15,6 +15,7 @@ import frc.robot.commands.driveTrainCommands.TowerAlignment;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.examplePathCommands.TowerPath;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -26,12 +27,11 @@ public class MoveAndAlignTower extends SequentialCommandGroup4905 {
    * @throws IOException
    * @throws FileVersionException
    */
-  public MoveAndAlignTower(DriveTrainBase drivetrain, double maxOutput,
-      DoubleSupplier distanceSensorValue, DoubleSupplier angle)
-      throws FileVersionException, IOException, ParseException {
+  public MoveAndAlignTower(DriveTrainBase drivetrain, double maxOutput, DoubleSupplier angle,
+      DistanceSensorBase tof) throws FileVersionException, IOException, ParseException {
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands(new TowerPath(), new TurnToCompassHeading(() -> 0),
-        new TowerAlignment(drivetrain, maxOutput, distanceSensorValue, angle));
+        new TowerAlignment(drivetrain, maxOutput, angle, tof));
   }
 
   // Returns true when the command should end.

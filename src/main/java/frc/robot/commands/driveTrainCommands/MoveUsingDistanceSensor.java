@@ -16,49 +16,50 @@ import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
   // move the robot until the distance sensor is at the targetDistance
-  public MoveUsingDistanceSensor(DriveTrainBase drivetrain, DoubleSupplier distanceSensorValue,
-      double targetDistance, DoubleSupplier angle, double maxOutput, boolean useCurrentHeading) {
+  public MoveUsingDistanceSensor(DriveTrainBase drivetrain, double targetDistance,
+      DoubleSupplier angle, double maxOutput, boolean useCurrentHeading, DistanceSensorBase tof1) {
     addCommands(new SwerveDriveSetWheelsToNinetyDegrees(drivetrain),
-        new MoveUsingDistanceSensorInternal(drivetrain, distanceSensorValue, targetDistance, angle,
-            maxOutput, useCurrentHeading));
+        new MoveUsingDistanceSensorInternal(drivetrain, targetDistance, angle, maxOutput,
+            useCurrentHeading, tof1));
   }
 
   // Use this constructor to move the robot in the heading passed in
-  public MoveUsingDistanceSensor(DriveTrainBase drivetrain, DoubleSupplier distanceSensorValue,
-      double targetDistance, DoubleSupplier angle, double maxOutput) {
-    this(drivetrain, distanceSensorValue, targetDistance, angle, maxOutput, false);
+  public MoveUsingDistanceSensor(DriveTrainBase drivetrain, double targetDistance,
+      DoubleSupplier angle, double maxOutput, DistanceSensorBase tof1) {
+    this(drivetrain, targetDistance, angle, maxOutput, false, tof1);
   }
 
   // Use this constructor to move the robot in the direction it's already pointing
-  public MoveUsingDistanceSensor(DriveTrainBase driveTrain, DoubleSupplier distanceSensorValue,
-      double targetDistance, double maxOutput) {
-    this(driveTrain, distanceSensorValue, targetDistance, () -> 0, maxOutput, true);
+  public MoveUsingDistanceSensor(DriveTrainBase driveTrain, double targetDistance, double maxOutput,
+      DistanceSensorBase tof1) {
+    this(driveTrain, targetDistance, () -> 0, maxOutput, true, tof1);
   }
 
   // this is the actual PID loop command
   private class MoveUsingDistanceSensorInternal extends PIDCommand4905 {
     private DriveTrainBase m_driveTrain;
-    private DoubleSupplier m_sensorDistanceValue;
     private double m_targetDistance = 0;
     private double m_maxOutput = 0;
     private boolean m_useCurrentHeading = false;
+    private DistanceSensorBase m_tof1;
 
     /**
      * Creates a new MoveUsingDistanceSensor.
      */
-    public MoveUsingDistanceSensorInternal(DriveTrainBase drivetrain,
-        DoubleSupplier distanceSensorValue, double targetDistance, DoubleSupplier angle,
-        double maxOutput, boolean useCurrentHeading) {
+    public MoveUsingDistanceSensorInternal(DriveTrainBase drivetrain, double targetDistance,
+        DoubleSupplier angle, double maxOutput, boolean useCurrentHeading,
+        DistanceSensorBase tof1) {
       super(
           // The controller that the command will use
           new PIDController4905SampleStop("MoveUsingDistanceSensor"),
           // This should return the measurement
-          distanceSensorValue,
+          tof1.getDistanceInchesAsSupplier(),
           // This should return the setpoint (can also be a constant)
           () -> targetDistance,
           // This uses the output
@@ -67,10 +68,10 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
             drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false);
           });
       m_targetDistance = targetDistance;
-      m_sensorDistanceValue = distanceSensorValue;
       m_driveTrain = drivetrain;
       m_maxOutput = maxOutput;
       m_useCurrentHeading = useCurrentHeading;
+      m_tof1 = tof1;
       // Configure additional PID options by calling `getController` here.
       addRequirements(drivetrain.getSubsystemBase());
     }
@@ -104,7 +105,7 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandInfo(this,
           "Moving with DistanceSensor to position: " + getSetpoint().getAsDouble());
       Trace.getInstance().logCommandInfo(this,
-          "Starting DistanceSensor position: " + m_sensorDistanceValue.getAsDouble());
+          "Starting DistanceSensor position: " + m_tof1.getDistance_Inches());
     }
 
     public DoubleSupplier getSetpoint() {
@@ -114,14 +115,14 @@ public class MoveUsingDistanceSensor extends SequentialCommandGroup4905 {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return getController().atSetpoint();
+      return (getController().atSetpoint()) || (!m_tof1.isSensorDetecting());
     }
 
     public void end(boolean interrupted) {
       super.end(interrupted);
       m_driveTrain.stop();
       Trace.getInstance().logCommandInfo(this,
-          "Ending Distance Sensor Reading: " + m_sensorDistanceValue.getAsDouble());
+          "Ending Distance Sensor Reading: " + m_tof1.getDistance_Inches());
     }
   }
 }
