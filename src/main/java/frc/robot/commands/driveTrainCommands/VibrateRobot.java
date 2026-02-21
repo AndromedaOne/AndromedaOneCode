@@ -9,8 +9,13 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class VibrateRobot extends Command {
+  private enum Direction {
+    FORWARD,
+    BACKWARD
+  }
   private DriveTrainBase m_driveTrain;
-
+  private Direction m_direction = Direction.FORWARD;
+  
   public VibrateRobot(DriveTrainBase driveTrain) {
     m_driveTrain = driveTrain;
     addRequirements(driveTrain.getSubsystemBase());
@@ -23,12 +28,20 @@ public class VibrateRobot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveTrain.move(0, 0, false);
+    if (m_direction == Direction.FORWARD) {
+      m_driveTrain.move(0.25,0,false);
+      m_direction = Direction.BACKWARD;
+    } else {
+       m_driveTrain.move(-0.25, 0, false);
+       m_direction = Direction.FORWARD;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_driveTrain.stop();
+  }
 
   // Returns true when the command should end.
   @Override

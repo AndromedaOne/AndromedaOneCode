@@ -37,6 +37,7 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TowerAlignment;
+import frc.robot.commands.driveTrainCommands.VibrateRobot;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
@@ -83,28 +84,29 @@ public class SmartDashboard4905 {
           new ToggleBrakes(subsystemsContainer.getDriveTrain()));
     }
     if (Config4905.getConfig4905().doesDrivetrainExist()) {
-      SmartDashboard.putNumber("MoveUsingEncoderTester Distance To Move", 24);
-      SmartDashboard.putNumber("MoveUsingEncoderTester Angle To Move", 0);
-      SmartDashboard.putData("MoveUsingEncoderTester",
+      String name = "Drive train commands/";
+      SmartDashboard.putNumber(name +"MoveUsingEncoderTester Distance To Move", 24);
+      SmartDashboard.putNumber(name +"MoveUsingEncoderTester Angle To Move", 0);
+      SmartDashboard.putData(name +"MoveUsingEncoderTester",
           new MoveUsingEncoderTester(subsystemsContainer.getDriveTrain()));
 
-      SmartDashboard.putData("SwervePathPlanningPath", new SwervePathPlanningPath());
-      SmartDashboard.putData("SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
-      SmartDashboard.putData("MoveUsingDistanceSensor",
+      SmartDashboard.putData(name +"SwervePathPlanningPath", new SwervePathPlanningPath());
+      SmartDashboard.putData(name +"SwervePathPlanningPathReturn", new SwervePathPlanningPathReturn());
+      SmartDashboard.putData(name +"MoveUsingDistanceSensor",
           new MoveUsingDistanceSensorTester(subsystemsContainer.getDriveTrain(),
               sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
-      SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
-      SmartDashboard.putNumber("SensorDifferenceTesterAngle", 0);
-      SmartDashboard.putData("MoveUsingDistanceSensorDifferenceTester",
+      SmartDashboard.putNumber(name +"MoveUsingDistanceSensorTester Distance To Move", 24);
+      SmartDashboard.putNumber(name +"SensorDifferenceTesterAngle", 0);
+      SmartDashboard.putData(name +"MoveUsingDistanceSensorDifferenceTester",
           new MoveUsingDistanceSensorDifferenceTester(subsystemsContainer.getDriveTrain()));
-      // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
-      SmartDashboard.putData("Tower Alignment",
+      SmartDashboard.putData(name +"Tower Alignment",
           new TowerAlignment(subsystemsContainer.getDriveTrain(), 0.3,
               sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
-      SmartDashboard.putData("Move and align tower",
+      SmartDashboard.putData(name +"Move and align tower",
           new MoveAndAlignTower(subsystemsContainer.getDriveTrain(), 0.3,
               sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
-      SmartDashboard.putData("SpinTest", new Spinner());
+      SmartDashboard.putData(name +"SpinTest", new Spinner());
+      SmartDashboard.putData(name +"Vibrate Robot", new VibrateRobot(subsystemsContainer.getDriveTrain()));
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       SmartDashboard.putData("Run eject belt left", new EjectBeltLeft());
