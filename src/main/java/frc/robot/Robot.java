@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
+import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
 import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
 import frc.robot.commands.autoCommands.RightHubSetPoseManually;
 import frc.robot.commands.climberCommands.ClimberExtensionCommand;
@@ -30,6 +32,8 @@ import frc.robot.commands.driveTrainCommands.TowerAlignment;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
+import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -86,6 +90,11 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());
     NamedCommands.registerCommand("turn to 0", new TurnToCompassHeading(() -> 0));
     NamedCommands.registerCommand("turn to 180", new TurnToCompassHeading(() -> 180));
+    NamedCommands.registerCommand("AHI extend", new SmartDashboardExtend());
+    NamedCommands.registerCommand("AHI retract", new SmartDashboardRetract());
+    NamedCommands.registerCommand("intake", new IntakeRollerIntakeCommand());
+    NamedCommands.registerCommand("eject using intake", new IntakeRollerEjectCommand());
+
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
