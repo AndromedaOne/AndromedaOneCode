@@ -17,7 +17,7 @@ import frc.robot.subsystems.armhopperintake.RealAHI.State;
 public class AHIDefaultCommand extends Command {
   /** Creates a new AHIDefaultCommand. */
   private AHIBase m_ahi = Robot.getInstance().getSubsystemsContainer().getAHI();
-  private State m_currentState = State.LIMITSWITCHSET;
+  private State m_currentState = State.RETRACTEDSTART;
   private double m_retractArmAngle = 0.0;
   private double m_extendArmAngle = 0.0;
   private Config m_ahiConfig;
@@ -41,7 +41,6 @@ public class AHIDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean usePID = true;
     if (m_ahi.isRetracting()) {
       m_currentState = State.RETRACTEDSTART;
       m_ahi.setState(m_currentState);
@@ -76,18 +75,6 @@ public class AHIDefaultCommand extends Command {
       }
     }
     switch (m_currentState) {
-    case LIMITSWITCHSET:
-      if (m_ahi.isLimitSwitchSet()) {
-        m_ahi.stop();
-        m_ahi.setOffset();
-        m_currentState = State.RETRACTEDSTART;
-        m_ahi.setState(m_currentState);
-      } else {
-        // arbitrary value
-        m_ahi.rotateArm(-0.1, true);
-      }
-      usePID = false;
-      break;
     case RETRACTED:
       break;
     case EXTENDED:
@@ -104,9 +91,7 @@ public class AHIDefaultCommand extends Command {
     }
     // later on, we might need to have separate move and hold states.
     // TODO: do we set brake mode or keep PID'ing?
-    if (usePID) {
-      m_ahi.rotateArmPID();
-    }
+    m_ahi.rotateArmPID();
   }
 
   // Called once the command ends or is interrupted.

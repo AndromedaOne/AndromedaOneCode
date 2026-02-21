@@ -22,7 +22,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
   private boolean m_useLF = false;
   private double m_offsetInches = 0.0;
   private double m_facingAngle = 0.0;
-  private double m_lastValidValue = -1;
+  private double m_lastValidValue = 50 * 25.4;
 
   public RealPwfTofDistanceSensor(String sensorName) {
     m_sensorName = sensorName;
@@ -76,6 +76,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
     }
     m_offsetInches = m_sensorConfig.getDouble("sensors." + m_sensorName + ".sensorOffset_inches");
     m_facingAngle = m_sensorConfig.getDouble("sensors." + m_sensorName + ".facingAngle");
+    m_lastValidValue -= (m_offsetInches * 25.4);
   }
 
   @Override
@@ -131,7 +132,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
       return (getLastFilteredValue() * 25.4) - (m_offsetInches * 25.4);
     } else if (status == Status.ReturnSignalLow) {
       // 50 (max value sensor can read in inches) * 25.4 (conversion #)
-      return 1270;
+      return 1270 - (m_offsetInches * 25.4);
     } else if (status == Status.ReturnPhaseBad || status == Status.WrappedTarget
         || status == Status.SigmaHigh) {
       return m_lastValidValue;
@@ -185,5 +186,10 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
   @Override
   public DoubleSupplier getFacingAngle() {
     return () -> m_facingAngle;
+  }
+
+  @Override
+  public boolean isSensorDetecting() {
+    return !(m_tof.getStatus() == Status.ReturnSignalLow);
   }
 }

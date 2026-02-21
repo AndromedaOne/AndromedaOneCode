@@ -12,6 +12,7 @@ import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.driveTrainCommands.TowerAlignment;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -34,9 +35,13 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")
         || Config4905.getConfig4905().getSwerveDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
+      setUpFRButtons();
     }
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
+    }
+    if (Config4905.getConfig4905().isFuelRaider()) {
+      setUpFRButtons();
     }
   }
 
@@ -125,5 +130,10 @@ public class DriveController extends ControllerBase {
 
   public boolean getCoralLoadWall() {
     return getPOVwest().getAsBoolean();
+  }
+
+  private void setUpFRButtons() {
+    getAbutton().onTrue(new TowerAlignment(m_subsystemsContainer.getDriveTrain(), 0.3,
+        m_sensorsContainer.getTof1().getFacingAngle(), m_sensorsContainer.getTof1()));
   }
 }

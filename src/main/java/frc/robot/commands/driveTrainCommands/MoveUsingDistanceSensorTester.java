@@ -6,28 +6,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.sensors.distanceSensor.DistanceSensorBase;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.telemetries.Trace;
 
 public class MoveUsingDistanceSensorTester extends Command {
   private DriveTrainBase m_driveTrain;
-  private DoubleSupplier m_distanceValueSupplier;
   private DoubleSupplier m_angle;
+  private DistanceSensorBase m_tof;
 
-  public MoveUsingDistanceSensorTester(DriveTrainBase drivetrain,
-      DoubleSupplier distanceSensorSupplier, DoubleSupplier angle) {
+  public MoveUsingDistanceSensorTester(DriveTrainBase drivetrain, DoubleSupplier angle,
+      DistanceSensorBase tof) {
     m_driveTrain = drivetrain;
-    m_distanceValueSupplier = distanceSensorSupplier;
     m_angle = angle;
+    m_tof = tof;
 
   }
 
   @Override
   public void initialize() {
     double distance = SmartDashboard.getNumber("MoveUsingDistanceSensorTester Distance To Move", 6);
-    CommandScheduler.getInstance()
-        .schedule(new SequentialCommandGroup(new MoveUsingDistanceSensor(m_driveTrain,
-            m_distanceValueSupplier, distance, m_angle, 0.3)));
+    CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+        new MoveUsingDistanceSensor(m_driveTrain, distance, m_angle, 0.3, m_tof)));
     Trace.getInstance().logCommandInfo(this, "Moving to distance sensor value: " + distance);
     Trace.getInstance().logCommandInfo(this, "Moving to angle: " + m_angle.getAsDouble());
   }

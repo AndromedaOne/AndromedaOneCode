@@ -24,10 +24,6 @@ public interface AHIBase extends SubsystemInterface {
 
   public State getState();
 
-  public boolean isLimitSwitchSet();
-
-  public void setOffset();
-
   public boolean atSetpoint();
 
   public void setRetracting();

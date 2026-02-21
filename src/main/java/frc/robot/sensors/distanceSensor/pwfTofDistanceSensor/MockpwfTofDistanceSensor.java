@@ -26,4 +26,9 @@ public class MockpwfTofDistanceSensor implements DistanceSensorBase {
     return () -> 0;
   }
 
+  @Override
+  public boolean isSensorDetecting() {
+    return false;
+  }
+
 }

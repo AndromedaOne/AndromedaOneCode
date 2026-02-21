@@ -78,8 +78,7 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("eject belt right", new EjectBeltRight());
     NamedCommands.registerCommand("tower alignment",
         new TowerAlignment(m_subsystemContainer.getDriveTrain(), 0.3,
-            m_sensorsContainer.getTof1().getDistanceInchesAsSupplier(),
-            m_sensorsContainer.getTof1().getFacingAngle()));
+            m_sensorsContainer.getTof1().getFacingAngle(), m_sensorsContainer.getTof1()));
     NamedCommands.registerCommand("extend climber",
         new ClimberExtensionCommand("LongClimberExtend"));
     NamedCommands.registerCommand("rotate climber", new ClimberRotationCommand("ClimbUp"));
@@ -87,7 +86,6 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());
     NamedCommands.registerCommand("turn to 0", new TurnToCompassHeading(() -> 0));
     NamedCommands.registerCommand("turn to 180", new TurnToCompassHeading(() -> 180));
-
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {

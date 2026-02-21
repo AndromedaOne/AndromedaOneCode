@@ -30,7 +30,7 @@ public class SubsystemController extends ControllerBase {
   }
 
   public void setUpFuelRaiderButtons() {
-    // back is left, start is right
+    // back is LEFT, start is RIGHT
     // do note AHI gets its buttons in the command directly
     // intake roller buttons
     getBbutton().whileTrue(new IntakeRollerIntakeCommand());
