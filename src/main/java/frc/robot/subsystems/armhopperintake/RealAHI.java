@@ -45,6 +45,12 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   // okay now it does
   private State m_state = State.LIMITSWITCHSET;
 
+  // dumb thing for testing with SmDb
+  // gets set in the SmDb commands, then will be read by AHIDefault
+  // once AHIdefault reads it, it will be set to false or smth idk
+  private boolean m_goingToRetracted = false;
+  private boolean m_goingToExtended = false;
+
   public enum State {
     EXTENDED, RETRACTED, EXTENDEDSTART, RETRACTEDSTART, LIMITSWITCHSET
   }
@@ -164,6 +170,38 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   @Override
   public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void setRetracting() {
+    m_goingToRetracted = true;
+  }
+
+  @Override
+  public void setExtending() {
+    m_goingToExtended = true;
+  }
+
+  @Override
+  public boolean isRetracting() {
+    if (m_goingToRetracted) {
+      m_goingToRetracted = false;
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public boolean isExtending() {
+    if (m_goingToExtended) {
+      m_goingToExtended = false;
+      return true;
+    }
+    return false;
+  }
+
+  public void setArmPID(double kP, double kI, double kD) {
+    m_armController.setPID(kP, kI, kD);
   }
 
 }

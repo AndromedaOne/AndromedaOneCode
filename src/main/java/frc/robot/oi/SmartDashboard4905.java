@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.FuelRaiderCommands.SetAHIPID;
+import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
+import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
 import frc.robot.commands.autoCommands.LeftBump;
 import frc.robot.commands.autoCommands.LeftHub;
 import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
@@ -126,15 +129,22 @@ public class SmartDashboard4905 {
           new ClimberRotationCommand("ClimbUpAutoPosition"));
       SmartDashboard.putData("climberCommand/Climb down", new ClimberRotationCommand("ClimbDown"));
     }
-    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider())
-      ;
-    {
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
       SmartDashboard.putData("Right Bump", new RightBump());
       SmartDashboard.putData("Left Bump", new LeftBump());
       SmartDashboard.putData("Right Hub", new RightHub());
       SmartDashboard.putData("Left Hub", new LeftHub());
       SmartDashboard.putData("Set Left Pose", new LeftHubSetPoseManually());
       SmartDashboard.putData("Set Right Pose", new RightHubSetPoseManually());
+    }
+    if (Config4905.getConfig4905().doesAHIExist()) {
+      String name = "ahicommands/";
+      SmartDashboard.putData(name + "Retract AHI", new SmartDashboardRetract());
+      SmartDashboard.putData(name + "Extend AHI", new SmartDashboardExtend());
+      SmartDashboard.putNumber(name + "AHI P value", 0);
+      SmartDashboard.putNumber(name + "AHI I value", 0);
+      SmartDashboard.putNumber(name + "AHI D value", 0);
+      SmartDashboard.putData(name + "Set AHI PID values", new SetAHIPID());
     }
 
   }

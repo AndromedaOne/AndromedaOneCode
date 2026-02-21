@@ -73,4 +73,26 @@ public class MockAHI implements AHIBase {
     return false;
   }
 
+  @Override
+  public void setRetracting() {
+  }
+
+  @Override
+  public void setExtending() {
+  }
+
+  @Override
+  public boolean isRetracting() {
+    return false;
+  }
+
+  @Override
+  public boolean isExtending() {
+    return false;
+  }
+
+  @Override
+  public void setArmPID(double kP, double kI, double kD) {
+  }
+
 }

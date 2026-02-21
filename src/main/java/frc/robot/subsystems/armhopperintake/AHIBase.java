@@ -30,6 +30,16 @@ public interface AHIBase extends SubsystemInterface {
 
   public boolean atSetpoint();
 
+  public void setRetracting();
+
+  public void setExtending();
+
+  public boolean isRetracting();
+
+  public boolean isExtending();
+
+  public void setArmPID(double kP, double kI, double kD);
+
   public void setBrakeMode();
 
   public void setCoastMode();

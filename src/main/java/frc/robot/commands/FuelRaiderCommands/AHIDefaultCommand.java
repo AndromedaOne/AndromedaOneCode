@@ -42,7 +42,13 @@ public class AHIDefaultCommand extends Command {
   @Override
   public void execute() {
     boolean usePID = true;
-    if ((m_subsystemController.getAButtonPressed()) && !m_isPressed) {
+    if (m_ahi.isRetracting()) {
+      m_currentState = State.RETRACTEDSTART;
+      m_ahi.setState(m_currentState);
+    } else if (m_ahi.isExtending()) {
+      m_currentState = State.EXTENDEDSTART;
+      m_ahi.setState(m_currentState);
+    } else if ((m_subsystemController.getAButtonPressed()) && !m_isPressed) {
       m_isPressed = true;
       if (m_currentState == State.EXTENDED) {
         m_currentState = State.RETRACTEDSTART;
