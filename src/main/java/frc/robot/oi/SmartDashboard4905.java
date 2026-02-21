@@ -21,6 +21,7 @@ import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.autoCommands.LeftBump;
 import frc.robot.commands.autoCommands.LeftHub;
+import frc.robot.commands.autoCommands.LeftHubPath;
 import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
 import frc.robot.commands.autoCommands.RightBump;
 import frc.robot.commands.autoCommands.RightHub;
@@ -132,6 +133,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Left Hub", new LeftHub());
       SmartDashboard.putData("Set Left Pose", new LeftHubSetPoseManually());
       SmartDashboard.putData("Set Right Pose", new RightHubSetPoseManually());
+      SmartDashboard.putData("left hub path", new LeftHubPath());
     }
 
   }

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.autoCommands.LeftHubPath;
 import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
 import frc.robot.commands.autoCommands.RightHubSetPoseManually;
 import frc.robot.commands.climberCommands.ClimberExtensionCommand;
@@ -86,7 +87,6 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());
     NamedCommands.registerCommand("turn to 0", new TurnToCompassHeading(() -> 0));
     NamedCommands.registerCommand("turn to 180", new TurnToCompassHeading(() -> 180));
-
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
