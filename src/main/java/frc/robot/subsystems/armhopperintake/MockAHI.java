@@ -61,7 +61,7 @@ public class MockAHI implements AHIBase {
 
   @Override
   public boolean atSetpoint() {
-    return false;
+    return true;
   }
 
   @Override
