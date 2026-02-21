@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -81,8 +80,7 @@ public class PoseEstimation4905 {
           localCamera = m_photonVision.get(i);
           m_robotToCam
               .add(new Transform3d(localCamera.getTranslation3d(), localCamera.getRotation3d()));
-          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout,
-              PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, m_robotToCam.get(i)));
+          m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout, m_robotToCam.get(i)));
           m_posePublisherCamera.add(NetworkTableInstance.getDefault()
               .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
           Trace.getInstance().logInfo("Using Camera " + String.valueOf(i) + "For Pose");
@@ -159,8 +157,13 @@ public class PoseEstimation4905 {
         List<PhotonPipelineResult> pipelineResults = m_photonVision.get(i).getPhotonCamera()
             .getAllUnreadResults();
         for (int results = 0; results < pipelineResults.size(); results++) {
-          final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
-              .update(pipelineResults.get(results));
+          Optional<EstimatedRobotPose> optionalEstimatedPose = Optional.empty();
+          optionalEstimatedPose = m_poseEstimator.get(i)
+              .estimateCoprocMultiTagPose(pipelineResults.get(results));
+          if (optionalEstimatedPose.isEmpty()) {
+            optionalEstimatedPose = m_poseEstimator.get(i)
+                .estimateLowestAmbiguityPose(pipelineResults.get(results));
+          }
           if (optionalEstimatedPose.isPresent()) {
             final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
             usePose = true;
