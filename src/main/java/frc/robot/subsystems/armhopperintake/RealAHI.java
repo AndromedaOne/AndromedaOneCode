@@ -6,6 +6,7 @@ package frc.robot.subsystems.armhopperintake;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
@@ -22,6 +23,9 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   // are assuming
   // ahi has absolute encoder woo hoo
   // make sure angle 0 can't be reached! this will make our lives much easier :D
+  // btw, although the encoder is measured in rotations (0-1), we only use
+  // degrees for calculations. make sure to always multiply by 360 when calling
+  // get absolute encoder position, or just use the get arm angle method.
   private double m_minArmAngle;
   private double m_maxArmAngle;
   private Config m_AHIConfig = Config4905.getConfig4905().getAHIConfig();
@@ -44,15 +48,17 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   private boolean m_goingToRetracted = false;
   private boolean m_goingToExtended = false;
 
+  // table for smart dashboard
+  private String m_tableName = "ahi/";
+
   public enum State {
     EXTENDED, RETRACTED, EXTENDEDSTART, RETRACTEDSTART
   }
 
   public RealAHI() {
     // arm will PID on angle
-    // assume the following:
-    // arm - pos is down, neg is up
-    // arm - higher angles are down, lower angles are up
+    // arm angle will be lower in extended, higher in retracted
+    // pos is up, neg is down
     m_armMotor = new SparkMaxController(m_AHIConfig, "intakeArmMotor", false, false);
     m_minArmAngle = m_AHIConfig.getDouble("intakeArmMotor.minArmAngle");
     m_maxArmAngle = m_AHIConfig.getDouble("intakeArmMotor.maxArmAngle");
@@ -63,12 +69,16 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     m_KiA = m_AHIConfig.getDouble("kia");
     m_KdA = m_AHIConfig.getDouble("kda");
     m_armController.setPID(m_KpA, m_KiA, m_KdA);
+    // do we want this????
+    m_armController.disableContinuousInput();
   }
 
   // may want to consider making this private
   @Override
   public void rotateArm(double speed, boolean override) {
     // override allows you to disable the code stops if need be
+    // SHOULD be correct, with inc angle = pos velocity
+    // and dec angle = neg velocity
     if (!override) {
       if ((speed > 0) && (getArmAngle() >= m_maxArmAngle)) {
         m_armMotor.setSpeed(0);
@@ -90,6 +100,10 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   @Override
   public double getArmAngle() {
     // may want to add an offset
+    // NOTE: at this point in time (11:21 sunday), the abs encoder is 0
+    // at the extended position, and 0.3/108 at the retracted position.
+    // no offset is currently applied, but do note the abs encoder 0 position
+    // is planned to be changed in the near future to prevent wrap around.
     double angle = (m_armMotor.getAbsoluteEncoderPosition() * 360) + m_offset;
     if (angle > 360) {
       angle -= 360;
@@ -114,7 +128,21 @@ public class RealAHI extends SubsystemBase implements AHIBase {
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putNumber(m_tableName + "arm angle", getArmAngle());
+    SmartDashboard.putNumber(m_tableName + "raw encoder value",
+        m_armMotor.getAbsoluteEncoderPosition());
+    SmartDashboard.putNumber(m_tableName + "raw encoder value in degrees",
+        m_armMotor.getAbsoluteEncoderPosition() * 360);
+    SmartDashboard.putNumber(m_tableName + "arm PID setpoint", m_armController.getSetpoint());
+    SmartDashboard.putBoolean(m_tableName + "arm PID is at setpoint", atSetpoint());
+    SmartDashboard.putString(m_tableName + "AHI state", getState().toString());
+    SmartDashboard.putNumber(m_tableName + "arm velocity", m_armMotor.getSpeed());
+    SmartDashboard.putNumber(m_tableName + "P value", m_KpA);
+    SmartDashboard.putNumber(m_tableName + "I value", m_KiA);
+    SmartDashboard.putNumber(m_tableName + "D value", m_KdA);
+    SmartDashboard.putNumber(m_tableName + "min angle", m_minArmAngle);
+    SmartDashboard.putNumber(m_tableName + "max angle", m_maxArmAngle);
+    SmartDashboard.putNumber(m_tableName + "arm offset", m_offset);
   }
 
   // private to ensure this only gets run in periodic
