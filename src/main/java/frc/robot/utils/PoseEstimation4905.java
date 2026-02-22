@@ -148,6 +148,16 @@ public class PoseEstimation4905 {
         .abs(localPose.getRotation().getDegrees() - previousPose.getRotation().getDegrees());
     // putting degree into degrees per second
     degree = degree / 0.02;
+    // on smart dashboard because why not
+    SmartDashboard.putNumber("robot velocity", z);
+    SmartDashboard.putNumber("robot rotation velocity", degree);
+
+    // NOTE: there is a very specific edge case which messes up the rotation.
+    // this edge case requires one of the POV buttons to be held, the robot to have
+    // never seen an april tag, and the ending angle to see an april tag.
+    // when the robot slows down its rotation, the robot will update the pose before
+    // the robot is finished. this messes up the angle a ton. however, due to the
+    // unlikely nature of this occuring, it was deemed not necessary to fix.
 
     // 1.5 is an arbitrary number btw
     // so is 30
@@ -196,7 +206,6 @@ public class PoseEstimation4905 {
         m_updateGyroOffset = false;
       }
     }
-
     m_posePublisherVision.set(localPose);
     return localPose;
   }
