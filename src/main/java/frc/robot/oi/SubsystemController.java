@@ -9,8 +9,6 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.climberCommands.ClimberExtensionCommand;
-import frc.robot.commands.climberCommands.ClimberRotationCommand;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
@@ -36,11 +34,14 @@ public class SubsystemController extends ControllerBase {
     getBbutton().whileTrue(new IntakeRollerIntakeCommand());
     getYbutton().whileTrue(new IntakeRollerEjectCommand());
     // climber buttons
-    getXbutton().whileTrue(new ClimberExtensionCommand("ClimberRetract", true));
-    getStartButton().whileTrue(new ClimberExtensionCommand("ShortClimberExtend", true));
-    getBackButton().whileTrue(new ClimberExtensionCommand("LongClimberExtend", true));
-    getLeftBumperButton().whileTrue(new ClimberRotationCommand("ClimbDown"));
-    getRightBumperButton().whileTrue(new ClimberRotationCommand("ClimbUp"));
+    /*
+     * getXbutton().whileTrue(new ClimberExtensionCommand("ClimberRetract", true));
+     * getStartButton().whileTrue(new ClimberExtensionCommand("ShortClimberExtend",
+     * true)); getBackButton().whileTrue(new
+     * ClimberExtensionCommand("LongClimberExtend", true));
+     * getLeftBumperButton().whileTrue(new ClimberRotationCommand("ClimbDown"));
+     * getRightBumperButton().whileTrue(new ClimberRotationCommand("ClimbUp"));
+     */
 
     // eject belt buttons
     getPOVwest().whileTrue(new EjectBeltLeft());

@@ -31,12 +31,12 @@ public class RealIntakeRollers extends SubsystemBase implements IntakeRollersBas
 
   @Override
   public void intake() {
-    m_roller.setSpeed(0.5);
+    m_roller.setSpeed(-1);
   }
 
   @Override
   public void eject() {
-    m_roller.setSpeed(-0.5);
+    m_roller.setSpeed(1);
   }
 
   @Override

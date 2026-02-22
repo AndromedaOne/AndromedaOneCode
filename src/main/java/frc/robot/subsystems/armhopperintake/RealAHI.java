@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
+import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDController4905;
 
 /** Add your docs here. */
@@ -51,19 +52,32 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   // table for smart dashboard
   private String m_tableName = "ahi/";
 
+  private ArmFeedForward m_feedForward;
+
   public enum State {
     EXTENDED, RETRACTED, EXTENDEDSTART, RETRACTEDSTART
+  }
+
+  private class ArmFeedForward implements FeedForward {
+
+    private double m_kG = 0.04;
+
+    @Override
+    public double calculate() {
+      return (m_kG * Math.cos(Math.toRadians(getArmAngle())));
+    }
   }
 
   public RealAHI() {
     // arm will PID on angle
     // arm angle will be lower in extended, higher in retracted
     // pos is up, neg is down
-    m_armMotor = new SparkMaxController(m_AHIConfig, "intakeArmMotor", false, false);
-    m_minArmAngle = m_AHIConfig.getDouble("intakeArmMotor.minArmAngle");
-    m_maxArmAngle = m_AHIConfig.getDouble("intakeArmMotor.maxArmAngle");
-
     m_offset = m_AHIConfig.getDouble("offset");
+    m_armMotor = new SparkMaxController(m_AHIConfig, "intakeArmMotor", false, false);
+    m_minArmAngle = m_AHIConfig.getDouble("intakeArmMotor.minArmAngle") - m_offset;
+    m_maxArmAngle = m_AHIConfig.getDouble("intakeArmMotor.maxArmAngle") - m_offset;
+
+    m_feedForward = new ArmFeedForward();
 
     m_KpA = m_AHIConfig.getDouble("kpa");
     m_KiA = m_AHIConfig.getDouble("kia");
@@ -71,6 +85,8 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     m_armController.setPID(m_KpA, m_KiA, m_KdA);
     // do we want this????
     m_armController.disableContinuousInput();
+    m_armController.setTolerance(1);
+    m_armController.setFeedforward(m_feedForward);
   }
 
   // may want to consider making this private
@@ -104,9 +120,9 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     // at the extended position, and 0.3/108 at the retracted position.
     // no offset is currently applied, but do note the abs encoder 0 position
     // is planned to be changed in the near future to prevent wrap around.
-    double angle = (m_armMotor.getAbsoluteEncoderPosition() * 360) + m_offset;
-    if (angle > 360) {
-      angle -= 360;
+    double angle = (m_armMotor.getAbsoluteEncoderPosition() * 360) - m_offset;
+    if (angle < 0) {
+      angle += 360;
     }
     return angle;
   }
@@ -214,8 +230,12 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     return false;
   }
 
+  @Override
   public void setArmPID(double kP, double kI, double kD) {
     m_armController.setPID(kP, kI, kD);
+    m_KpA = kP;
+    m_KiA = kI;
+    m_KdA = kD;
   }
 
 }
