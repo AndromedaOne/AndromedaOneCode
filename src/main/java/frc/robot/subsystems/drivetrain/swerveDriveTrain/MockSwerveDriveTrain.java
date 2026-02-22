@@ -148,7 +148,11 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   @Override
   public double getModZeroAngle() {
-    throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
+    return (0);
+  }
+
+  @Override
+  public void vibrateRobot(double speed) {
   }
 
 }

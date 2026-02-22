@@ -559,4 +559,18 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       return new RobotConfig(massKG, MOI, moduleConfig, trackwidth);
     }
   }
+
+  @Override
+  public void vibrateRobot(double speed) {
+    for (SwerveModuleBase mod : m_SwerveMods) {
+      double localSpeed = speed;
+      int angle = 45;
+      if ((mod.getModuleNumber() == 0) || (mod.getModuleNumber() == 3)) {
+        localSpeed = -speed;
+        angle = -angle;
+      }
+      mod.setDesiredState(new SwerveModuleState(localSpeed, Rotation2d.fromDegrees(angle)), true,
+          true);
+    }
+  }
 }

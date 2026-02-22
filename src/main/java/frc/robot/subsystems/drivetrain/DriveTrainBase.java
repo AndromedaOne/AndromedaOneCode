@@ -86,6 +86,8 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract double getModZeroAngle();
 
+  public abstract void vibrateRobot(double speed);
+
   public Pose2d currentPose2d();
 
 }
