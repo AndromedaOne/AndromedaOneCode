@@ -9,6 +9,7 @@ public class PIDController4905 extends PIDControllerProposed {
   private double m_minOutputToMove;
   private String m_controllerName;
   private double m_maxOutput = 1.0;
+  private double m_minOutput = -1.0;
   private FeedForward m_feedForward;
 
   public PIDController4905(String controllerName, double Kp, double Ki, double Kd,
@@ -38,7 +39,7 @@ public class PIDController4905 extends PIDControllerProposed {
     } else if ((preCalculationOutput > 0) && (preCalculationOutput < m_minOutputToMove)) {
       output = m_minOutputToMove;
     }
-    output = MathUtil.clamp(output, -m_maxOutput, m_maxOutput);
+    output = MathUtil.clamp(output, m_minOutput, m_maxOutput);
     Trace.getInstance().addTrace(true, m_controllerName,
         new TracePair("pError x10", super.getPError() * 10),
         new TracePair("iError x10", super.getIError() * 10),
@@ -56,6 +57,16 @@ public class PIDController4905 extends PIDControllerProposed {
 
   public void setMaxOutput(double maxOutput) {
     m_maxOutput = maxOutput;
+    m_minOutput = -maxOutput;
+  }
+
+  public void setMinAndMaxOutput(double minOutput, double maxOutput) {
+    m_minOutput = minOutput;
+    m_maxOutput = maxOutput;
+    if (m_maxOutput < m_minOutput) {
+      throw new RuntimeException("Max output: " + Double.toString(m_maxOutput)
+          + " is less than min output:" + Double.toString(m_minOutput));
+    }
   }
 
   public void setFeedforward(FeedForward feedForward) {
