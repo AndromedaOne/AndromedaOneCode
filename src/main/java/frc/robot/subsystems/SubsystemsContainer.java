@@ -32,6 +32,9 @@ import frc.robot.subsystems.intakerollers.MockIntakeRollers;
 import frc.robot.subsystems.intakerollers.RealIntakeRollers;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
+import frc.robot.subsystems.shooter.MockShooter;
+import frc.robot.subsystems.shooter.RealShooter;
+import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 
 public class SubsystemsContainer {
@@ -47,6 +50,7 @@ public class SubsystemsContainer {
   HopperBeltsBase m_hopperBelts;
   AHIBase m_AHI;
   IntakeRollersBase m_intakeRollers;
+  ShooterBase m_shooter;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -111,6 +115,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock AHI");
       m_AHI = new MockAHI();
     }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      Trace.getInstance().logInfo("using real shooter");
+      m_shooter = new RealShooter();
+    } else {
+      Trace.getInstance().logInfo("using mock shooter");
+      m_shooter = new MockShooter();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -139,6 +150,10 @@ public class SubsystemsContainer {
 
   public IntakeRollersBase getIntakeRollers() {
     return m_intakeRollers;
+  }
+
+  public ShooterBase getShooter() {
+    return m_shooter;
   }
 
   public void setDefaultCommands() {
