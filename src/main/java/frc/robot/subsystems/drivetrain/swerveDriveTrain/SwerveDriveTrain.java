@@ -54,7 +54,7 @@ import frc.robot.utils.PoseEstimation4905;
  */
 public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Pose2d m_currentPose;
-  private Boolean needToReset = true;
+  private boolean m_needToReset = true;
   private Gyro4905 m_gyro;
   private PoseEstimation4905 m_poseEstimation;
   private SwerveModuleBase[] m_SwerveMods;
@@ -282,9 +282,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       m_count = 0;
     }
     m_count++;
-    if (needToReset) {
+    if (m_needToReset) {
       if (resetOdometry(getPose())) {
-        needToReset = false;
+        m_needToReset = false;
       }
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
