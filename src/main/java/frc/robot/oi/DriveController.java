@@ -12,7 +12,6 @@ import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
-import frc.robot.commands.driveTrainCommands.TowerAlignment;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 
@@ -133,7 +132,6 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpFRButtons() {
-    getAbutton().onTrue(new TowerAlignment(m_subsystemsContainer.getDriveTrain(), 0.3,
-        m_sensorsContainer.getTof1().getFacingAngle(), m_sensorsContainer.getTof1()));
+
   }
 }

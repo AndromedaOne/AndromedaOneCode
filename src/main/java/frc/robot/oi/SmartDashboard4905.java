@@ -29,20 +29,15 @@ import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
 import frc.robot.commands.autoCommands.RightBump;
 import frc.robot.commands.autoCommands.RightHub;
 import frc.robot.commands.autoCommands.RightHubSetPoseManually;
-import frc.robot.commands.climberCommands.ClimberExtensionCommand;
-import frc.robot.commands.climberCommands.ClimberRotationCommand;
-import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorDifferenceTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
-import frc.robot.commands.driveTrainCommands.TowerAlignment;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
-import frc.robot.commands.groupCommands.MoveAndAlignTower;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
@@ -95,15 +90,6 @@ public class SmartDashboard4905 {
               sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       SmartDashboard.putNumber("SensorDifferenceTesterAngle", 0);
-      SmartDashboard.putData("MoveUsingDistanceSensorDifferenceTester",
-          new MoveUsingDistanceSensorDifferenceTester(subsystemsContainer.getDriveTrain()));
-      // SmartDashboard.putNumber("MoveUsingDistanceSensorTester angle", 0);
-      SmartDashboard.putData("Tower Alignment",
-          new TowerAlignment(subsystemsContainer.getDriveTrain(), 0.3,
-              sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
-      SmartDashboard.putData("Move and align tower",
-          new MoveAndAlignTower(subsystemsContainer.getDriveTrain(), 0.3,
-              sensorsContainer.getTof1().getFacingAngle(), sensorsContainer.getTof1()));
       SmartDashboard.putData("SpinTest", new Spinner());
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
@@ -115,18 +101,6 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Intake roller eject", new IntakeRollerEjectCommand());
     }
 
-    if (Config4905.getConfig4905().doesClimberExist()) {
-      SmartDashboard.putData("climberCommand/Short climber extend",
-          new ClimberExtensionCommand("ShortClimberExtend"));
-      SmartDashboard.putData("climberCommand/Long climber extend",
-          new ClimberExtensionCommand("LongClimberExtend"));
-      SmartDashboard.putData("climberCommand/Climber retract",
-          new ClimberExtensionCommand("ClimberRetract"));
-      SmartDashboard.putData("climberCommand/Climb up", new ClimberRotationCommand("ClimbUp"));
-      SmartDashboard.putData("Climb up auto position",
-          new ClimberRotationCommand("ClimbUpAutoPosition"));
-      SmartDashboard.putData("climberCommand/Climb down", new ClimberRotationCommand("ClimbDown"));
-    }
     if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
       SmartDashboard.putData("Right Bump", new RightBump());
       SmartDashboard.putData("Left Bump", new LeftBump());

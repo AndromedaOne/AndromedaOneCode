@@ -9,16 +9,12 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
-import frc.robot.commands.climberCommands.DefaultClimberCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.ejectBeltCommands.DefaultEjectBeltCommand;
 import frc.robot.commands.intakeCommands.DefaultIntakeRollerCommand;
 import frc.robot.subsystems.armhopperintake.AHIBase;
 import frc.robot.subsystems.armhopperintake.MockAHI;
 import frc.robot.subsystems.armhopperintake.RealAHI;
-import frc.robot.subsystems.climber.ClimberBase;
-import frc.robot.subsystems.climber.MockClimber;
-import frc.robot.subsystems.climber.RealClimber;
 import frc.robot.subsystems.compressor.CompressorBase;
 import frc.robot.subsystems.compressor.MockCompressor;
 import frc.robot.subsystems.compressor.RealCompressor;
@@ -51,7 +47,6 @@ public class SubsystemsContainer {
   HopperBeltsBase m_hopperBelts;
   AHIBase m_AHI;
   IntakeRollersBase m_intakeRollers;
-  ClimberBase m_climber;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -116,14 +111,6 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock AHI");
       m_AHI = new MockAHI();
     }
-    if (Config4905.getConfig4905().doesClimberExist()) {
-      Trace.getInstance().logInfo("using real climber.");
-      m_climber = new RealClimber();
-    } else {
-      Trace.getInstance().logInfo("Using mock climber");
-      m_climber = new MockClimber();
-    }
-
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -150,10 +137,6 @@ public class SubsystemsContainer {
     return m_AHI;
   }
 
-  public ClimberBase getClimber() {
-    return m_climber;
-  }
-
   public IntakeRollersBase getIntakeRollers() {
     return m_intakeRollers;
   }
@@ -161,9 +144,6 @@ public class SubsystemsContainer {
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
-    }
-    if (Config4905.getConfig4905().doesClimberExist()) {
-      m_climber.setDefaultCommand(new DefaultClimberCommand());
     }
     if (Config4905.getConfig4905().doesAHIExist()) {
       m_AHI.setDefaultCommand(new AHIDefaultCommand());

@@ -30,7 +30,7 @@ public class TeleOpCommand extends Command {
   private double m_kProportion = 0.0;
   private boolean m_isStrafe = true;
   private double m_angleKP = 0.0;
-  private final double m_bumpAngle = 45;
+  private final double m_bumpAngle = 225;
 
   private enum SlowMidFastModeStates {
     FASTMODEBUTTONRELEASED, FASTMODEBUTTONPRESSED, MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED,

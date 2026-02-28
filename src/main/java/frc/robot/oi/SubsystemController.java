@@ -33,12 +33,7 @@ public class SubsystemController extends ControllerBase {
     // intake roller buttons
     getBbutton().whileTrue(new IntakeRollerIntakeCommand());
     getYbutton().whileTrue(new IntakeRollerEjectCommand());
-    // climber buttons
-    /*
-     * getXbutton().whileTrue(new ClimberExtensionCommand("ClimberRetract", true));
-     * getStartButton().whileTrue(new ClimberExtensionCommand("ShortClimberExtend",
-     * true)); getBackButton().whileTrue(new
-     * ClimberExtensionCommand("LongClimberExtend", true));
+    // climber buttons NO LONGER EXIST!!!
      * getLeftBumperButton().whileTrue(new ClimberRotationCommand("ClimbDown"));
      * getRightBumperButton().whileTrue(new ClimberRotationCommand("ClimbUp"));
      */
