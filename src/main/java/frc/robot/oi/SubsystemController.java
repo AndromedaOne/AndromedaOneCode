@@ -34,9 +34,6 @@ public class SubsystemController extends ControllerBase {
     getBbutton().whileTrue(new IntakeRollerIntakeCommand());
     getYbutton().whileTrue(new IntakeRollerEjectCommand());
     // climber buttons NO LONGER EXIST!!!
-     * getLeftBumperButton().whileTrue(new ClimberRotationCommand("ClimbDown"));
-     * getRightBumperButton().whileTrue(new ClimberRotationCommand("ClimbUp"));
-     */
 
     // eject belt buttons
     getPOVwest().whileTrue(new EjectBeltLeft());
