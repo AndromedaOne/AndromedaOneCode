@@ -17,12 +17,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
 import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
 import frc.robot.commands.FuelRaiderCommands.SetAHIPID;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
+import frc.robot.commands.FuelRaiderCommands.TuneShooterFeedForward;
 import frc.robot.commands.autoCommands.LeftBump;
 import frc.robot.commands.autoCommands.LeftHub;
 import frc.robot.commands.autoCommands.LeftHubPath;
@@ -44,6 +46,7 @@ import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.shooter.ShooterBase;
 
 /**
  * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
@@ -121,10 +124,11 @@ public class SmartDashboard4905 {
       SmartDashboard.putData(name + "Set AHI PID values", new SetAHIPID());
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
-      String name = "shootercommands/";
-      SmartDashboard.putNumber(name + "RPM for shooter", 0);
+      String name = ShooterBase.getSmartDashboardShooterString() + "commands/";
       SmartDashboard.putData(name + "Run shooter RPM",
-          new RunShooterRPM(SmartDashboard.getNumber(name + "RPM for shooter", 0)));
+          new RunShooterRPM(Robot.getInstance().getSubsystemsContainer().getShooter()));
+      SmartDashboard.putData(name + "Tune shooter feed forward",
+          new TuneShooterFeedForward(Robot.getInstance().getSubsystemsContainer().getShooter()));
     }
 
   }

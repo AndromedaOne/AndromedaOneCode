@@ -21,29 +21,16 @@ public class MockShooter implements ShooterBase {
   }
 
   @Override
-  public void setVelocitySetpoint(double RPM) {
-  }
-
-  @Override
   public double getShooterVelocity() {
     return 0;
   }
 
   @Override
-  public void runShooter() {
-  }
-
-  @Override
-  public boolean isAtSetpoint() {
-    return true;
+  public void runShooter(double power) {
   }
 
   @Override
   public void stop() {
-  }
-
-  @Override
-  public void setPID(double kp, double ki, double kd) {
   }
 
   @Override
@@ -52,6 +39,15 @@ public class MockShooter implements ShooterBase {
 
   @Override
   public void setCoastMode() {
+  }
+
+  @Override
+  public void setSetpointStatus(boolean isAtSetpoint) {
+  }
+
+  @Override
+  public boolean isAtRPMSetpoint() {
+    return true;
   }
 
 }

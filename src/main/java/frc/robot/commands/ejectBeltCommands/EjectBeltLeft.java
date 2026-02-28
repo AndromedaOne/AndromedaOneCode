@@ -30,7 +30,7 @@ public class EjectBeltLeft extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.isAtSetpoint()) {
+    if (m_shooter.isAtRPMSetpoint()) {
       m_ejectBelts.feedShooter();
     } else {
       m_ejectBelts.stop();

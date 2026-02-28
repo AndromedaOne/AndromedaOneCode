@@ -9,7 +9,6 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
@@ -35,8 +34,6 @@ public class SubsystemController extends ControllerBase {
     getBbutton().whileTrue(new IntakeRollerIntakeCommand());
     getYbutton().whileTrue(new IntakeRollerEjectCommand());
     // shooter buttons
-    getXbutton().whileTrue(
-        new RunShooterRPM(Config4905.getConfig4905().getShooterConfig().getDouble("wantedRPM")));
     // eject belt buttons
     getPOVwest().whileTrue(new EjectBeltLeft());
     getPOVeast().whileTrue(new EjectBeltRight());

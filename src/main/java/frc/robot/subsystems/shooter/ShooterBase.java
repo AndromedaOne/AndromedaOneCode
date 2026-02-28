@@ -8,8 +8,7 @@ import frc.robot.subsystems.SubsystemInterface;
 
 /** Add your docs here. */
 public interface ShooterBase extends SubsystemInterface {
-
-  public void setVelocitySetpoint(double RPM);
+  final static String s_shooterString = "shooter/";
 
   /**
    * In RPM
@@ -19,15 +18,19 @@ public interface ShooterBase extends SubsystemInterface {
   /**
    * Run this in the command
    */
-  public void runShooter();
-
-  public boolean isAtSetpoint();
+  public void runShooter(double power);
 
   public void stop();
 
-  public void setPID(double kp, double ki, double kd);
-
   public void setBrakeMode();
+
+  public void setSetpointStatus(boolean isAtSetpoint);
+
+  public boolean isAtRPMSetpoint();
+
+  public static String getSmartDashboardShooterString() {
+    return s_shooterString;
+  }
 
   public void setCoastMode();
 

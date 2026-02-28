@@ -104,6 +104,13 @@ public class SparkMaxController {
       sparkConfig.inverted(subsystemConfig.getBoolean(configString + ".inverted"));
     }
 
+    if (subsystemConfig.hasPath(configString + ".isFollower")) {
+      if (subsystemConfig.getBoolean(configString + ".isFollower")) {
+        sparkConfig.follow(subsystemConfig.getInt(configString + ".leader"),
+            subsystemConfig.getBoolean(configString + ".inverted"));
+      }
+    }
+
     m_sparkMax.configure(sparkConfig, ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
   }
@@ -182,5 +189,4 @@ public class SparkMaxController {
   public double getAbsoluteEncoderPosition() {
     return m_absoluteEncoder.getPosition();
   }
-
 }
