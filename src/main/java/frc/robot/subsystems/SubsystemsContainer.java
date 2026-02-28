@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
+import frc.robot.commands.FuelRaiderCommands.ShooterDefaultCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.ejectBeltCommands.DefaultEjectBeltCommand;
 import frc.robot.commands.intakeCommands.DefaultIntakeRollerCommand;
@@ -168,6 +169,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       m_ejectBelt.setDefaultCommand(new DefaultEjectBeltCommand());
+    }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      m_shooter.setDefaultCommand(new ShooterDefaultCommand());
     }
   }
 }

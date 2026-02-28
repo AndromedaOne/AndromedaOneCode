@@ -9,6 +9,7 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
+import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
@@ -27,14 +28,15 @@ public class SubsystemController extends ControllerBase {
     }
   }
 
-  public void setUpFuelRaiderButtons() {
+  private void setUpFuelRaiderButtons() {
     // back is LEFT, start is RIGHT
     // do note AHI gets its buttons in the command directly
     // intake roller buttons
     getBbutton().whileTrue(new IntakeRollerIntakeCommand());
     getYbutton().whileTrue(new IntakeRollerEjectCommand());
-    // climber buttons NO LONGER EXIST!!!
-
+    // shooter buttons
+    getXbutton().whileTrue(
+        new RunShooterRPM(Config4905.getConfig4905().getShooterConfig().getDouble("wantedRPM")));
     // eject belt buttons
     getPOVwest().whileTrue(new EjectBeltLeft());
     getPOVeast().whileTrue(new EjectBeltRight());

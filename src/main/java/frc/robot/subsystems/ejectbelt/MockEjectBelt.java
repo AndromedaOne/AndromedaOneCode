@@ -18,7 +18,7 @@ public class MockEjectBelt implements EjectBeltBase {
   }
 
   @Override
-  public void ejectLeft() {
+  public void feedShooter() {
   }
 
   @Override

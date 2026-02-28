@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
 import frc.robot.commands.FuelRaiderCommands.SetAHIPID;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
@@ -118,6 +119,12 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber(name + "AHI I value", 0);
       SmartDashboard.putNumber(name + "AHI D value", 0);
       SmartDashboard.putData(name + "Set AHI PID values", new SetAHIPID());
+    }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      String name = "shootercommands/";
+      SmartDashboard.putNumber(name + "RPM for shooter", 0);
+      SmartDashboard.putData(name + "Run shooter RPM",
+          new RunShooterRPM(SmartDashboard.getNumber(name + "RPM for shooter", 0)));
     }
 
   }

@@ -25,7 +25,7 @@ public class RealEjectBelt extends SubsystemBase implements EjectBeltBase {
 
   // not sure which way this will actually go...
   @Override
-  public void ejectLeft() {
+  public void feedShooter() {
     m_leaderMotor.setSpeed(-0.5);
     m_followerMotor.setSpeed(-0.5);
   }
