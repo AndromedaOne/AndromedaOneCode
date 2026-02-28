@@ -28,24 +28,6 @@
           "data": {
             "name": "turn to 180"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "tower alignment"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "extend climber"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "rotate climber"
-          }
         }
       ]
     }

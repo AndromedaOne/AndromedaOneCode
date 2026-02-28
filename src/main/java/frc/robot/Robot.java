@@ -23,10 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
 import frc.robot.commands.autoCommands.RightHubSetPoseManually;
-import frc.robot.commands.climberCommands.ClimberExtensionCommand;
-import frc.robot.commands.climberCommands.ClimberRotationCommand;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
-import frc.robot.commands.driveTrainCommands.TowerAlignment;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
@@ -76,12 +73,6 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
     NamedCommands.registerCommand("eject belt left", new EjectBeltLeft());
     NamedCommands.registerCommand("eject belt right", new EjectBeltRight());
-    NamedCommands.registerCommand("tower alignment",
-        new TowerAlignment(m_subsystemContainer.getDriveTrain(), 0.3,
-            m_sensorsContainer.getTof1().getFacingAngle(), m_sensorsContainer.getTof1()));
-    NamedCommands.registerCommand("extend climber",
-        new ClimberExtensionCommand("LongClimberExtend"));
-    NamedCommands.registerCommand("rotate climber", new ClimberRotationCommand("ClimbUp"));
     NamedCommands.registerCommand("right hub set pose", new RightHubSetPoseManually());
     NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());
     NamedCommands.registerCommand("turn to 0", new TurnToCompassHeading(() -> 0));
