@@ -1,10 +1,12 @@
 package frc.robot.commands.driveTrainCommands;
 
+import java.lang.reflect.Field;
 import java.util.function.BooleanSupplier;
 
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
@@ -15,6 +17,7 @@ import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
+import frc.robot.utils.FieldConstants;
 
 public class TeleOpCommand extends Command {
 
@@ -23,6 +26,7 @@ public class TeleOpCommand extends Command {
   private DriveTrainBase m_driveTrain = Robot.getInstance().getSubsystemsContainer()
       .getDriveTrain();
   private Config m_drivetrainConfig = Config4905.getConfig4905().getSwerveDrivetrainConfig();
+  private double  m_robotToFieldElementAngleOffset = Config4905.getConfig4905().getSwerveDrivetrainConfig().getDouble("robotToFieldElementAngleOffset");
   private Gyro4905 m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
   private int m_currentDelay = 0;
   private int m_kDelay = 0;
@@ -31,6 +35,7 @@ public class TeleOpCommand extends Command {
   private boolean m_isStrafe = true;
   private double m_angleKP = 0.0;
   private final double m_bumpAngle = 225;
+  private FieldConstants m_fieldConstants = Robot.getInstance().getFieldConstants();
 
   private enum SlowMidFastModeStates {
     FASTMODEBUTTONRELEASED, FASTMODEBUTTONPRESSED, MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED,
@@ -145,6 +150,14 @@ public class TeleOpCommand extends Command {
     strafeStickValue = Math.cos(angle) * magnitude;
     forwardBackwardStickValue = Math.sin(angle) * magnitude;
 
+    String alignment = "alignment/";
+    SmartDashboard.putNumber(alignment + "hubX", m_fieldConstants.getHubPose().getX());
+    SmartDashboard.putNumber(alignment + "hubY", m_fieldConstants.getHubPose().getY());
+    SmartDashboard.putNumber(alignment + "robotX", m_driveTrain.getPose().getX());
+    SmartDashboard.putNumber(alignment + "robotY", m_driveTrain.getPose().getY());
+    SmartDashboard.putNumber(alignment + "robotToHubAngle", calculateRobotToFieldElementAngle
+    (m_fieldConstants.getHubPose(), m_driveTrain.getPose()));
+
     // it's here now
     // when the strafe is exponented while the forwardback isn't zero, it screws up
     // it can't be zero but it needs to be low
@@ -153,10 +166,13 @@ public class TeleOpCommand extends Command {
     // PoV button changing to angle without stopping the drivetrain
     if (m_driveController.getBButtonPressed() || m_driveController.getUpArrowPressed()
         || m_driveController.getLeftArrowPressed() || m_driveController.getDownArrowPressed()
-        || m_driveController.getRightArrowPressed()) {
+        || m_driveController.getRightArrowPressed() || m_driveController.getAButtonPressed()) {
       double targetAngle = 0.0;
-      // b button is season specific to 26
+      // a and b button is season specific to 26
       // will change/get removed based on seasonal needs
+      if (m_driveController.getAButtonPressed()) {
+        targetAngle = calculateRobotToFieldElementAngle(m_fieldConstants.getHubPose(), m_driveTrain.getPose());
+      }
       if (m_driveController.getBButtonPressed()) {
         targetAngle = m_bumpAngle;
       } else if (m_driveController.getUpArrowPressed()) {
@@ -256,5 +272,15 @@ public class TeleOpCommand extends Command {
       Trace.getInstance().logCommandInfo(this,
           "WARNING: unknown state detected: " + m_slowMidFastMode.toString());
     }
+  }
+  private double calculateRobotToFieldElementAngle(Pose2d objPose, Pose2d robotPose){
+    double a = objPose.getX() - robotPose.getX();
+    double b = objPose.getY() - robotPose.getY();
+    double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+    double angle = m_robotToFieldElementAngleOffset - (Math.toDegrees(Math.asin(a/c)));
+    if (b < 0){
+      angle = (-1) * angle;
+    }
+    return angle;
   }
 }
