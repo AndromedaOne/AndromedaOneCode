@@ -79,7 +79,7 @@ public class Robot extends TimedRobot {
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
-    NamedCommands.registerCommand("eject belt left", new EjectBeltLeft());
+    NamedCommands.registerCommand("eject belt into shooter", new EjectBeltLeft());
     NamedCommands.registerCommand("eject belt right", new EjectBeltRight());
     NamedCommands.registerCommand("right hub set pose", new RightHubSetPoseManually());
     NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());

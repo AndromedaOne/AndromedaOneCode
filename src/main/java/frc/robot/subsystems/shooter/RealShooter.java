@@ -61,10 +61,12 @@ public class RealShooter extends SubsystemBase implements ShooterBase {
     m_followerMotor.setCoastMode();
   }
 
+  @Override
   public void setSetpointStatus(boolean isAtSetpoint) {
     m_isAtSetpoint = isAtSetpoint;
   }
 
+  @Override
   public boolean isAtRPMSetpoint() {
     return m_isAtSetpoint;
   }
