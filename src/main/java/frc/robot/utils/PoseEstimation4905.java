@@ -9,7 +9,6 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -58,13 +57,7 @@ public class PoseEstimation4905 {
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
-      // when the new field comes out, remember to change this
-      if (Config4905.getConfig4905().getSensorConfig()
-          .getBoolean("photonvision.useAndyMarkField")) {
-        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
-      } else {
-        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
-      }
+      m_aprilTagFieldLayout = Robot.getInstance().getFieldConstants().getFieldLayout();
       m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
       m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
       if (m_currentAlliance == Alliance.Red) {

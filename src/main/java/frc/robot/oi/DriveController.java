@@ -44,6 +44,10 @@ public class DriveController extends ControllerBase {
     }
   }
 
+  public boolean getAButtonPressed() {
+    return getAbutton().getAsBoolean();
+  }
+
   public boolean getBButtonPressed() {
     return getBbutton().getAsBoolean();
   }
