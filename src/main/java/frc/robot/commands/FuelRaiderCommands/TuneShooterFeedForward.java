@@ -17,8 +17,8 @@ public class TuneShooterFeedForward extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
     SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward Value", 0.00025);
-    SmartDashboard.putNumber(m_smartDashboardName + "p Value", 0.0001);
-    SmartDashboard.putNumber(m_smartDashboardName + "ShooterRPMTarget", 3000);
+    SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward p Value", 0.0001);
+    SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward ShooterRPMTarget", 3000);
     System.out.println("end constructor of TuneShooterFeedForward");
   }
 
@@ -28,8 +28,9 @@ public class TuneShooterFeedForward extends Command {
     System.out.println("TuneShooterInitialize");
     double feedForward = SmartDashboard.getNumber(m_smartDashboardName + "Feed Forward Value",
         0.00025);
-    double PValue = SmartDashboard.getNumber(m_smartDashboardName + "p Value", 0.0001);
-    double shootRPM = SmartDashboard.getNumber(m_smartDashboardName + "ShooterRPMTarget", 3000);
+    double PValue = SmartDashboard.getNumber(m_smartDashboardName + "Feed Forward p Value", 0.0001);
+    double shootRPM = SmartDashboard
+        .getNumber(m_smartDashboardName + "Feed Forward ShooterRPMTarget", 3000);
     System.out.println("Scheduling RunShooterWheelVelocity");
     CommandScheduler.getInstance().schedule(new RunShooterWheelVelocity(m_shooter, () -> shootRPM,
         true, feedForward, PValue, Config4905.getConfig4905().getShooterConfig(), () -> false));

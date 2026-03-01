@@ -41,7 +41,6 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
         SmartDashboard.putString(m_smartDashboardName + "Use Interp", " " + kv);
       }
       SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward ", kv);
-      SmartDashboard.putNumber(m_smartDashboardName + "m_target", m_target);
       return kv;
     }
   }
@@ -92,6 +91,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     if (m_tuneValues) {
       pValue = m_pValue;
     } else {
+      // replace with pmap at some point
       pValue = m_shooterConfig.getDouble("runshooterwheelvelocity.p");
     }
     m_shooter.setSetpointStatus(false);
@@ -107,6 +107,8 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_target = m_setpoint.getAsDouble();
     super.execute();
     SmartDashboard.putNumber(m_smartDashboardName + "Shooter Wheel Velocity Setpoint", m_target);
+    SmartDashboard.putNumber(m_smartDashboardName + "Shooter angular velocity",
+        m_shooter.getShooterVelocity());
     m_shooter.setSetpointStatus(atSetpoint());
   }
 

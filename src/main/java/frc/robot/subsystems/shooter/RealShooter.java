@@ -21,7 +21,7 @@ public class RealShooter extends SubsystemBase implements ShooterBase {
   private Config m_config = Config4905.getConfig4905().getShooterConfig();
 
   public RealShooter() {
-    m_leaderMotor = new SparkMaxController(m_config, "shooterMotor", false, false);
+    m_leaderMotor = new SparkMaxController(m_config, "leaderMotor", false, false);
     m_followerMotor = new SparkMaxController(m_config, "followerMotor", false, false);
   }
 
