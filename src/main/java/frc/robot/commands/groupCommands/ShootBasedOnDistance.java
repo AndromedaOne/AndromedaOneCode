@@ -25,7 +25,7 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
   // because the maps are not filled out correctly right now (2/28),
   // this should not be run until they are.
   private ShooterBase m_shooter;
-  private DoubleSupplier m_setpoint;
+  private DoubleSupplier m_setpoint = () -> 0.0;
   private InterpolatingMap m_distanceRPMMap;
   private Config m_config = Config4905.getConfig4905().getShooterConfig();
 
