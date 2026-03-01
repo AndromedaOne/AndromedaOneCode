@@ -39,6 +39,7 @@ import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
+import frc.robot.utils.FieldConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -52,6 +53,7 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
+  private FieldConstants m_fieldConstants;
 
   private Robot() {
   }
@@ -76,6 +78,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     Trace.getInstance().setTracePairsEnable(false);
     Trace.getInstance().logInfo("robot init started");
+    m_fieldConstants = new FieldConstants();
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
@@ -332,4 +335,7 @@ public class Robot extends TimedRobot {
     }
   }
 
+  public FieldConstants getFieldConstants() {
+    return m_fieldConstants;
+  }
 }

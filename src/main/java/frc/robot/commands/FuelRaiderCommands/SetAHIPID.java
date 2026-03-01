@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.armhopperintake.AHIBase;
+import frc.robot.telemetries.Trace;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SetAHIPID extends Command {
@@ -29,6 +30,7 @@ public class SetAHIPID extends Command {
     double kP = SmartDashboard.getNumber(name + "AHI P value", 0);
     double kI = SmartDashboard.getNumber(name + "AHI I value", 0);
     double kD = SmartDashboard.getNumber(name + "AHI D value", 0);
+    Trace.getInstance().logInfo("P: " + kP + " I: " + kI + " D: " + kD);
     m_ahi.setArmPID(kP, kI, kD);
   }
 

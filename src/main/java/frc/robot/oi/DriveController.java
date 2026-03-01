@@ -34,14 +34,18 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")
         || Config4905.getConfig4905().getSwerveDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
-      setUpFRButtons();
+      // setUpFRButtons();
     }
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
     }
     if (Config4905.getConfig4905().isFuelRaider()) {
-      setUpFRButtons();
+      // setUpFRButtons();
     }
+  }
+
+  public boolean getAButtonPressed() {
+    return getAbutton().getAsBoolean();
   }
 
   public boolean getBButtonPressed() {

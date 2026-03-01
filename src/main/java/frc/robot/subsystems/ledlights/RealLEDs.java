@@ -44,6 +44,9 @@ public abstract class RealLEDs extends LEDs {
         setWhite(1);
         setSolid();
       }
+    } else if (Robot.getInstance().isTest()) {
+      setPurple(1);
+      setBlinking(0.05);
     } else {
       setRainbow();
     }

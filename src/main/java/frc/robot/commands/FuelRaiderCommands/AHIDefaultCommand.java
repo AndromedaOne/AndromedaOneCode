@@ -26,8 +26,9 @@ public class AHIDefaultCommand extends Command {
 
   public AHIDefaultCommand() {
     m_ahiConfig = Config4905.getConfig4905().getAHIConfig();
-    m_retractArmAngle = m_ahiConfig.getDouble("retractArm");
-    m_extendArmAngle = m_ahiConfig.getDouble("extendArm");
+    double offset = m_ahiConfig.getDouble("offset");
+    m_retractArmAngle = m_ahiConfig.getDouble("retractArm") - offset;
+    m_extendArmAngle = m_ahiConfig.getDouble("extendArm") - offset;
     m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
     addRequirements(m_ahi.getSubsystemBase());
   }

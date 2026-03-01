@@ -48,8 +48,17 @@ public class SparkMaxController {
       m_absoluteEncoder = m_sparkMax.getAbsoluteEncoder();
       sparkConfig.absoluteEncoder
           .inverted(subsystemConfig.getBoolean(configString + ".absoluteEncoderInverted"));
-      sparkConfig.absoluteEncoder
-          .zeroOffset(subsystemConfig.getDouble(configString + ".absoluteEncoderZeroOffset"));
+      // used to have a set zero offset... put this back in later with some code or
+      // smth
+      if (subsystemConfig.hasPath(configString + ".useOffset")) {
+        if (subsystemConfig.getBoolean(configString + ".useOffset")) {
+          sparkConfig.absoluteEncoder
+              .zeroOffset(subsystemConfig.getDouble(configString + ".absoluteEncoderZeroOffset"));
+        }
+      } else {
+        sparkConfig.absoluteEncoder
+            .zeroOffset(subsystemConfig.getDouble(configString + ".absoluteEncoderZeroOffset"));
+      }
     }
     /*********
      * NOTE: you CANNOT disable the hard limit capability on sparkmax controllers
