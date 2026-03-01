@@ -25,13 +25,16 @@ import frc.robot.commands.FuelRaiderCommands.SetAHIPID;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
 import frc.robot.commands.FuelRaiderCommands.TuneShooterFeedForward;
+import frc.robot.commands.autoCommands.CCWFuelRaid;
+import frc.robot.commands.autoCommands.CenterToLeftSideDrop;
+import frc.robot.commands.autoCommands.GoToCenterRight;
 import frc.robot.commands.autoCommands.LeftBump;
 import frc.robot.commands.autoCommands.LeftHub;
 import frc.robot.commands.autoCommands.LeftHubPath;
-import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
+import frc.robot.commands.autoCommands.LeftToCenterAfterDrop;
 import frc.robot.commands.autoCommands.RightBump;
 import frc.robot.commands.autoCommands.RightHub;
-import frc.robot.commands.autoCommands.RightHubSetPoseManually;
+import frc.robot.commands.autoCommands.RightToLeftPickup;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
@@ -106,13 +109,19 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
-      SmartDashboard.putData("Right Bump", new RightBump());
-      SmartDashboard.putData("Left Bump", new LeftBump());
-      SmartDashboard.putData("Right Hub", new RightHub());
-      SmartDashboard.putData("Left Hub", new LeftHub());
-      SmartDashboard.putData("Set Left Pose", new LeftHubSetPoseManually());
-      SmartDashboard.putData("Set Right Pose", new RightHubSetPoseManually());
-      SmartDashboard.putData("left hub path", new LeftHubPath());
+      String pathName = "pathcommands/";
+      String autoName = "autocommands/";
+      SmartDashboard.putData(autoName + "Right Bump", new RightBump());
+      SmartDashboard.putData(autoName + "Left Bump", new LeftBump());
+      SmartDashboard.putData(autoName + "Right Hub", new RightHub());
+      SmartDashboard.putData(autoName + "Left Hub", new LeftHub());
+      SmartDashboard.putData(autoName + "CCW fuel raid", new CCWFuelRaid());
+
+      SmartDashboard.putData(pathName + "left hub path", new LeftHubPath());
+      SmartDashboard.putData(pathName + "Go To Center Right", new GoToCenterRight());
+      SmartDashboard.putData(pathName + "Right to left pickup", new RightToLeftPickup());
+      SmartDashboard.putData(pathName + "Center to left side drop", new CenterToLeftSideDrop());
+      SmartDashboard.putData(pathName + "Left to center after drop", new LeftToCenterAfterDrop());
     }
     if (Config4905.getConfig4905().doesAHIExist()) {
       String name = "ahicommands/";

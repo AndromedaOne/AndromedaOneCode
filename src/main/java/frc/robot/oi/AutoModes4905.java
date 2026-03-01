@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
+import frc.robot.commands.autoCommands.CCWFuelRaid;
 import frc.robot.commands.autoCommands.LeftBump;
 import frc.robot.commands.autoCommands.LeftHub;
 import frc.robot.commands.autoCommands.RightBump;
@@ -40,6 +41,11 @@ public class AutoModes4905 {
       }
       try {
         m_autoChooser.addOption("Left Hub", new LeftHub());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      try {
+        m_autoChooser.addOption("CCWFuelRaid", new CCWFuelRaid());
       } catch (Exception e) {
         e.printStackTrace();
       }
