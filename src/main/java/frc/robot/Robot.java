@@ -27,6 +27,7 @@ import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
+import frc.robot.commands.groupCommands.ShootBasedOnDistance;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -77,6 +78,7 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());
     NamedCommands.registerCommand("turn to 0", new TurnToCompassHeading(() -> 0));
     NamedCommands.registerCommand("turn to 180", new TurnToCompassHeading(() -> 180));
+    NamedCommands.registerCommand("shoot based on distance", new ShootBasedOnDistance());
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
