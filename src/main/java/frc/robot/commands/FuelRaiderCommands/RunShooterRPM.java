@@ -16,15 +16,12 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
   // tables... yeah we do
   private ShooterBase m_shooter;
   private DoubleSupplier m_setpoint;
-  private boolean m_useSmartDashboardRPM = false;
   private RunShooterWheelVelocity m_shooterCommand;
   private String m_smartDashboardName = ShooterBase.getSmartDashboardShooterString();
 
-  public RunShooterRPM(ShooterBase shooter, DoubleSupplier setpoint, boolean useSmartDashboardRPM) {
+  public RunShooterRPM(ShooterBase shooter, DoubleSupplier setpoint) {
     m_shooter = shooter;
-    m_useSmartDashboardRPM = useSmartDashboardRPM;
     m_setpoint = setpoint;
-
     m_shooterCommand = new RunShooterWheelVelocity(m_shooter, m_setpoint,
         Config4905.getConfig4905().getShooterConfig(), () -> false);
 
@@ -32,21 +29,15 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
     SmartDashboard.putNumber(m_smartDashboardName + "Set Shooter RPM", 1000);
   }
 
-  public RunShooterRPM(ShooterBase shooter, DoubleSupplier setpoint) {
-    this(shooter, setpoint, false);
-  }
-
   public RunShooterRPM(ShooterBase shooter) {
-    this(shooter, () -> 0, true);
+    this(shooter, () -> (double) SmartDashboard
+        .getNumber(ShooterBase.getSmartDashboardShooterString() + "Set Shooter RPM", 1000));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    if (m_useSmartDashboardRPM) {
-      m_setpoint = () -> SmartDashboard.getNumber(m_smartDashboardName + "Set Shooter RPM", 1000);
-    }
-    Trace.getInstance().logCommandInfo(this, "setpoint set to " + m_setpoint);
+    Trace.getInstance().logCommandInfo(this, "setpoint set to " + m_setpoint.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

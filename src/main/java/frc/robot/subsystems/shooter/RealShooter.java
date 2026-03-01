@@ -30,7 +30,7 @@ public class RealShooter extends SubsystemBase implements ShooterBase {
    */
   @Override
   public double getShooterVelocity() {
-    return m_leaderMotor.getBuiltInEncoderVelocityTicks();
+    return -m_leaderMotor.getBuiltInEncoderVelocityTicks();
   }
 
   /**
@@ -38,9 +38,7 @@ public class RealShooter extends SubsystemBase implements ShooterBase {
    */
   @Override
   public void runShooter(double speed) {
-    m_leaderMotor.setSpeed(speed);
-    // probably won't do anything
-    m_followerMotor.setSpeed(speed);
+    m_leaderMotor.setSpeed(-speed);
   }
 
   @Override

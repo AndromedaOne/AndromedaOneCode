@@ -76,6 +76,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_tuneValues = tuneValues;
     m_kMap = new InterpolatingMap(shooterConfig, "shooterTargetRPMAndKValues");
     m_finishedCondition = finishedCondition;
+    Trace.getInstance().logInfo("Setpoint " + m_setpoint.getAsDouble());
   }
 
   public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, Config shooterConfig,
@@ -109,6 +110,8 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     SmartDashboard.putNumber(m_smartDashboardName + "Shooter Wheel Velocity Setpoint", m_target);
     SmartDashboard.putNumber(m_smartDashboardName + "Shooter angular velocity",
         m_shooter.getShooterVelocity());
+    SmartDashboard.putNumber(m_smartDashboardName + "Shooter PID controller setpoint",
+        getController().getSetpoint());
     m_shooter.setSetpointStatus(atSetpoint());
   }
 

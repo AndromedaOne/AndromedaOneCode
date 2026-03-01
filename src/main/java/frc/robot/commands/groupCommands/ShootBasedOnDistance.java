@@ -33,7 +33,7 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = Robot.getInstance().getSubsystemsContainer().getShooter();
     m_distanceRPMMap = new InterpolatingMap(m_config, "shotShootingRPM");
-    addCommands(new RunShooterRPM(m_shooter, m_setpoint, false));
+    addCommands(new RunShooterRPM(m_shooter, m_setpoint));
   }
 
   public void additionalInitialize() {
