@@ -175,6 +175,8 @@ public class TeleOpCommand extends Command {
       }
       if (m_driveController.getBButtonPressed()) {
         targetAngle = m_bumpAngle;
+
+
       } else if (m_driveController.getUpArrowPressed()) {
         targetAngle = 0;
       } else if (m_driveController.getLeftArrowPressed()) {
@@ -277,9 +279,13 @@ public class TeleOpCommand extends Command {
     double a = objPose.getX() - robotPose.getX();
     double b = objPose.getY() - robotPose.getY();
     double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-    double angle = m_robotToFieldElementAngleOffset - (Math.toDegrees(Math.asin(a/c)));
+    double angle = (Math.toDegrees(Math.asin(a/c))) - 90.0; //90 normalizes the angle;
     if (b < 0){
+      angle = angle + m_robotToFieldElementAngleOffset;
       angle = (-1) * angle;
+    }
+    else{
+      angle = angle - m_robotToFieldElementAngleOffset;
     }
     return angle;
   }
