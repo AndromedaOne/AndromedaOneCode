@@ -1,6 +1,5 @@
 package frc.robot.commands.driveTrainCommands;
 
-import java.lang.reflect.Field;
 import java.util.function.BooleanSupplier;
 
 import com.typesafe.config.Config;
@@ -26,7 +25,8 @@ public class TeleOpCommand extends Command {
   private DriveTrainBase m_driveTrain = Robot.getInstance().getSubsystemsContainer()
       .getDriveTrain();
   private Config m_drivetrainConfig = Config4905.getConfig4905().getSwerveDrivetrainConfig();
-  private double  m_robotToFieldElementAngleOffset = Config4905.getConfig4905().getSwerveDrivetrainConfig().getDouble("robotToFieldElementAngleOffset");
+  private double m_robotToFieldElementAngleOffset = Config4905.getConfig4905()
+      .getSwerveDrivetrainConfig().getDouble("robotToFieldElementAngleOffset");
   private Gyro4905 m_gyro = Robot.getInstance().getSensorsContainer().getGyro();
   private int m_currentDelay = 0;
   private int m_kDelay = 0;
@@ -155,8 +155,8 @@ public class TeleOpCommand extends Command {
     SmartDashboard.putNumber(alignment + "hubY", m_fieldConstants.getHubPose().getY());
     SmartDashboard.putNumber(alignment + "robotX", m_driveTrain.getPose().getX());
     SmartDashboard.putNumber(alignment + "robotY", m_driveTrain.getPose().getY());
-    SmartDashboard.putNumber(alignment + "robotToHubAngle", calculateRobotToFieldElementAngle
-    (m_fieldConstants.getHubPose(), m_driveTrain.getPose()));
+    SmartDashboard.putNumber(alignment + "robotToHubAngle",
+        calculateRobotToFieldElementAngle(m_fieldConstants.getHubPose(), m_driveTrain.getPose()));
 
     // it's here now
     // when the strafe is exponented while the forwardback isn't zero, it screws up
@@ -171,11 +171,11 @@ public class TeleOpCommand extends Command {
       // a and b button is season specific to 26
       // will change/get removed based on seasonal needs
       if (m_driveController.getAButtonPressed()) {
-        targetAngle = calculateRobotToFieldElementAngle(m_fieldConstants.getHubPose(), m_driveTrain.getPose());
+        targetAngle = calculateRobotToFieldElementAngle(m_fieldConstants.getHubPose(),
+            m_driveTrain.getPose());
       }
       if (m_driveController.getBButtonPressed()) {
         targetAngle = m_bumpAngle;
-
 
       } else if (m_driveController.getUpArrowPressed()) {
         targetAngle = 0;
@@ -186,19 +186,27 @@ public class TeleOpCommand extends Command {
       } else if (m_driveController.getRightArrowPressed()) {
         targetAngle = 90;
       }
-      double error = targetAngle - m_gyro.getAngle();
+
       // this code makes sure the robot always turns the shortest path
+
+      SmartDashboard.putNumber(alignment + "gyro angle", m_gyro.getAngle());
+      double gyroAngle = m_gyro.getAngle();
+      int truncatedGyroValue = (int) gyroAngle;
+      double remainder = gyroAngle - truncatedGyroValue;
+      double normalizedGyroValue = (truncatedGyroValue % 360) + remainder;
+      double error = targetAngle - normalizedGyroValue;
+      SmartDashboard.putNumber(alignment + "raw error value", error);
       if (error > 180) {
         error -= 360;
       } else if (error < -180) {
         error += 360;
       }
-      SmartDashboard.putNumber("error before kp", error);
+      SmartDashboard.putNumber(alignment + "error before kp", error);
       if (Math.abs(error) <= 2) {
         error = 0;
       }
       error *= m_angleKP;
-      SmartDashboard.putNumber("error after kp", error);
+      SmartDashboard.putNumber(alignment + "error after kp", error);
       rotateStickValue = -MathUtil.clamp(error, -1, 1);
       // without this, if the robot is moving both before AND after the button is
       // pressed, the robot will go to the saved angle
@@ -275,16 +283,17 @@ public class TeleOpCommand extends Command {
           "WARNING: unknown state detected: " + m_slowMidFastMode.toString());
     }
   }
-  private double calculateRobotToFieldElementAngle(Pose2d objPose, Pose2d robotPose){
+
+  private double calculateRobotToFieldElementAngle(Pose2d objPose, Pose2d robotPose) {
     double a = objPose.getX() - robotPose.getX();
     double b = objPose.getY() - robotPose.getY();
     double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-    double angle = (Math.toDegrees(Math.asin(a/c))) - 90.0; //90 normalizes the angle;
-    if (b < 0){
+    double angle = (Math.toDegrees(Math.asin(a / c))) - 90.0; // 90 normalizes the angle;
+    // adjusting the angle based on being on the left side of the field
+    if (b < 0) {
       angle = angle + m_robotToFieldElementAngleOffset;
       angle = (-1) * angle;
-    }
-    else{
+    } else {
       angle = angle - m_robotToFieldElementAngleOffset;
     }
     return angle;
