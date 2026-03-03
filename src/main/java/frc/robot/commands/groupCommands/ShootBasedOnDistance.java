@@ -53,7 +53,7 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
     // meters to inches
     m_setpoint = () -> m_distanceRPMMap.getInterpolatedValue(distance * 39.3701);
     Trace.getInstance().logCommandInfo(this, "setting the setpoint to " + m_setpoint.getAsDouble());
-    Trace.getInstance().logCommandInfo(this, "the distance was " + distance);
+    Trace.getInstance().logCommandInfo(this, "the distance was " + distance + " in meters");
   }
 
 }
