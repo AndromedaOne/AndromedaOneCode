@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
+import frc.robot.commands.autoCommands.CCWChaos;
 import frc.robot.commands.autoCommands.CCWFuelRaid;
 import frc.robot.commands.autoCommands.CWFuelRaid;
 import frc.robot.commands.driveTrainCommands.DoNothingAuto;
@@ -28,6 +29,11 @@ public class AutoModes4905 {
       }
       try {
         m_autoChooser.addOption("CWFuelRaid", new CWFuelRaid());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      try {
+        m_autoChooser.addOption("CCWChaos", new CCWChaos());
       } catch (Exception e) {
         e.printStackTrace();
       }
