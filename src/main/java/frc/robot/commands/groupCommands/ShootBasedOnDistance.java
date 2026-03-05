@@ -46,14 +46,11 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
     // get the distance from the hub here! when we eventually add a rotation,
     // we would get the rotation angle here.
     // we probably wont add a rotation...
-    Pose2d robotPose = m_driveTrain.currentPose2d();
-    double a = m_hubPose.getX() - robotPose.getX();
-    double b = m_hubPose.getY() - robotPose.getY();
-    double distance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-    // meters to inches
-    m_setpoint = () -> m_distanceRPMMap.getInterpolatedValue(distance * 39.3701);
+    m_setpoint = () -> m_distanceRPMMap
+        .getInterpolatedValue(m_driveTrain.getHubDistanceToRobotInInches());
     Trace.getInstance().logCommandInfo(this, "setting the setpoint to " + m_setpoint.getAsDouble());
-    Trace.getInstance().logCommandInfo(this, "the distance was " + distance);
+    Trace.getInstance().logCommandInfo(this,
+        "the distance was " + m_driveTrain.getHubDistanceToRobotInInches());
   }
 
 }
