@@ -9,9 +9,9 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.groupCommands.ShootBasedOnDistance;
+import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -38,7 +38,7 @@ public class SubsystemController extends ControllerBase {
     // in order to shoot fuel, POV west (eject belt left) must be held
     getXbutton().whileTrue(new ShootBasedOnDistance());
     // eject belt buttons
-    getPOVwest().whileTrue(new EjectBeltLeft());
+    getPOVwest().whileTrue(new TurnToHubAndRunEjectBelts());
     getPOVeast().whileTrue(new EjectBeltRight());
   }
 

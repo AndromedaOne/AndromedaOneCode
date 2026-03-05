@@ -39,6 +39,7 @@ import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.driveTrainCommands.TurnToFieldElement;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
@@ -98,6 +99,8 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       SmartDashboard.putNumber("SensorDifferenceTesterAngle", 0);
       SmartDashboard.putData("SpinTest", new Spinner());
+      SmartDashboard.putData("Turn to hub",
+          new TurnToFieldElement(Robot.getInstance().getFieldConstants().getHubPose()));
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       SmartDashboard.putData("Run eject belt left", new EjectBeltLeft());
