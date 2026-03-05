@@ -15,14 +15,14 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
   // we probably want another command to call this and use the interpolation
   // tables... yeah we do
   private ShooterBase m_shooter;
-  private DoubleSupplier m_setpoint;
+  private DoubleSupplier m_setpointSupplier;
   private RunShooterWheelVelocity m_shooterCommand;
   private String m_smartDashboardName = ShooterBase.getSmartDashboardShooterString();
 
   public RunShooterRPM(ShooterBase shooter, DoubleSupplier setpoint) {
     m_shooter = shooter;
-    m_setpoint = setpoint;
-    m_shooterCommand = new RunShooterWheelVelocity(m_shooter, m_setpoint,
+    m_setpointSupplier = setpoint;
+    m_shooterCommand = new RunShooterWheelVelocity(m_shooter, m_setpointSupplier,
         Config4905.getConfig4905().getShooterConfig(), () -> false);
 
     addCommands(m_shooterCommand);
@@ -37,7 +37,7 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    Trace.getInstance().logCommandInfo(this, "setpoint set to " + m_setpoint.getAsDouble());
+    Trace.getInstance().logCommandInfo(this, "setpoint set to " + m_setpointSupplier.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

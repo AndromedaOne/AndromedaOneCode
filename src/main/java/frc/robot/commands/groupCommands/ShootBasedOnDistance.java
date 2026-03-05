@@ -28,18 +28,22 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
   // because the maps are not filled out correctly right now (2/28),
   // this should not be run until they are.
   private ShooterBase m_shooter;
-  private DoubleSupplier m_setpoint = () -> 0.0;
+
+  private double m_setpoint;
+  private DoubleSupplier m_setpointSupplier = () -> m_setpoint;
   private InterpolatingMap m_distanceRPMMap;
   private Config m_config = Config4905.getConfig4905().getShooterConfig();
   private Pose2d m_hubPose = new FieldConstants().getHubPose();
   private DriveTrainBase m_driveTrain;
+  private RunShooterRPM m_command;
 
   public ShootBasedOnDistance() {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = Robot.getInstance().getSubsystemsContainer().getShooter();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
     m_distanceRPMMap = new InterpolatingMap(m_config, "shotShootingRPM");
-    addCommands(new RunShooterRPM(m_shooter, m_setpoint));
+    m_command = new RunShooterRPM(m_shooter, m_setpointSupplier);
+    addCommands(m_command);
   }
 
   public void additionalInitialize() {
@@ -51,8 +55,10 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
     double b = m_hubPose.getY() - robotPose.getY();
     double distance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     // meters to inches
-    m_setpoint = () -> m_distanceRPMMap.getInterpolatedValue(distance * 39.3701);
-    Trace.getInstance().logCommandInfo(this, "setting the setpoint to " + m_setpoint.getAsDouble());
+    m_setpoint = m_distanceRPMMap.getInterpolatedValue(distance * 39.3701);
+    Trace.getInstance().logCommandInfo(this, "m_setpoint = " + m_setpoint);
+    Trace.getInstance().logCommandInfo(this,
+        "setting the setpoint to " + m_setpointSupplier.getAsDouble());
     Trace.getInstance().logCommandInfo(this, "the distance was " + distance + " in meters");
   }
 
