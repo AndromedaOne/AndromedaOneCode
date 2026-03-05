@@ -35,7 +35,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "eject belt into shooter"
+                  "name": "turn to hub and run eject belts"
                 }
               }
             ]
@@ -103,7 +103,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "eject belt into shooter"
+                  "name": "turn to hub and run eject belts"
                 }
               }
             ]
