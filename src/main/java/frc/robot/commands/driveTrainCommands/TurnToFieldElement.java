@@ -26,10 +26,18 @@ public class TurnToFieldElement extends ParallelCommandGroup4905 {
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
+    if (m_objPose == null) {
+      // yucky way to fix issue of the hub pose not being correctly passed in
+      // we can make this work better LATER we are rushing too hard
+      m_objPose = Robot.getInstance().getFieldConstants().getHubPose();
+    }
     Trace.getInstance().logCommandInfo(this, "Starting turn to field element command with angle of "
         + getFieldElementAngle().getAsDouble());
     Trace.getInstance().logCommandInfo(this, "Current robot angle of "
         + m_driveTrain.getPose().getRotation().getDegrees() + " from -180 to 180");
+    m_command.setSetpoint(getFieldElementAngle());
+    Trace.getInstance().logCommandInfo(this,
+        "current setpoint of " + m_command.getSetpoint().getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +47,10 @@ public class TurnToFieldElement extends ParallelCommandGroup4905 {
   }
 
   private DoubleSupplier getFieldElementAngle() {
+    if (m_objPose == null) {
+      // failsafe
+      return () -> 0;
+    }
     Pose2d robotPose = m_driveTrain.currentPose2d();
     double offset = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getDouble("robotToFieldElementAngleOffset");
