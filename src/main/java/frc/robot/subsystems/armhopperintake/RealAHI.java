@@ -85,7 +85,7 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     m_armController.setPID(m_KpA, m_KiA, m_KdA);
     // do we want this????
     m_armController.disableContinuousInput();
-    m_armController.setTolerance(1);
+    m_armController.setTolerance(3);
     m_armController.setFeedforward(m_feedForward);
     m_armController.setMinAndMaxOutput(m_AHIConfig.getDouble("intakeArmMotor.minOutput"),
         m_AHIConfig.getDouble("intakeArmMotor.maxOutput"));
