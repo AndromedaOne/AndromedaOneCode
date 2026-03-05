@@ -151,4 +151,9 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
   }
 
+  @Override
+  public double getHubDistanceToRobotInInches() {
+    return (0);
+  }
+
 }

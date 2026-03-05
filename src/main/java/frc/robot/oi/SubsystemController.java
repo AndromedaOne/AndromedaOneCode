@@ -9,6 +9,8 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
+import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
+import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.groupCommands.ShootBasedOnDistance;
 import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
@@ -21,7 +23,10 @@ import frc.robot.subsystems.SubsystemsContainer;
  * they are easier to find.
  */
 public class SubsystemController extends ControllerBase {
+  private SubsystemsContainer m_subsystemsContainer;
+
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
+    m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
     if (Config4905.getConfig4905().isFuelRaider()) {
       setUpFuelRaiderButtons();
@@ -40,6 +45,11 @@ public class SubsystemController extends ControllerBase {
     // eject belt buttons
     getPOVwest().whileTrue(new TurnToHubAndRunEjectBelts());
     getPOVeast().whileTrue(new EjectBeltRight());
+    // shuttle shot buttons
+    getLeftBumperButton().whileTrue(new EjectBeltLeft());
+    // arbitrary RPM :)
+    getRightBumperButton().whileTrue(new RunShooterRPM(m_subsystemsContainer.getShooter(),
+        () -> Config4905.getConfig4905().getShooterConfig().getDouble("shuttleRPM")));
   }
 
   public void rumbleOn(double value) {

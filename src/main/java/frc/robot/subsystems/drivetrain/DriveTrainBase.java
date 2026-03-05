@@ -88,4 +88,5 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public Pose2d currentPose2d();
 
+  public abstract double getHubDistanceToRobotInInches();
 }

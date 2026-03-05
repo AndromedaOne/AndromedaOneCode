@@ -6,6 +6,7 @@ package frc.robot.subsystems.shooter;
 
 import com.typesafe.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
@@ -77,6 +78,11 @@ public class RealShooter extends SubsystemBase implements ShooterBase {
   @Override
   public void setDefaultCommand(Command command) {
     super.setDefaultCommand(command);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber(s_shooterString + "Shooter Speed", getShooterVelocity());
   }
 
 }
