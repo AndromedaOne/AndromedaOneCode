@@ -73,6 +73,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private int m_count = 0;
   private double m_highestAccel = 0;
   private boolean m_isLeftSide = false;
+  private boolean m_changingMidMode = false;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -433,6 +434,18 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public DriveTrainModeEnum getDriveTrainMode() {
     return m_driveTrainMode.getDriveTrainMode();
+  }
+
+  public void setMidModeValueBoolean() {
+    m_changingMidMode = true;
+  }
+
+  public boolean getMidModeValueBoolean() {
+    if (m_changingMidMode) {
+      m_changingMidMode = false;
+      return true;
+    }
+    return false;
   }
 
   private void setX() {

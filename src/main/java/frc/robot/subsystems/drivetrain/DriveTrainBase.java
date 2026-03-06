@@ -86,6 +86,10 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract double getModZeroAngle();
 
+  public abstract void setMidModeValueBoolean();
+
+  public abstract boolean getMidModeValueBoolean();
+
   public Pose2d currentPose2d();
 
   public abstract double getHubDistanceToRobotInInches();

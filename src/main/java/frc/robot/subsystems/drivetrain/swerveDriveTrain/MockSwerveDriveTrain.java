@@ -156,4 +156,13 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     return (0);
   }
 
+  @Override
+  public void setMidModeValueBoolean() {
+  }
+
+  @Override
+  public boolean getMidModeValueBoolean() {
+    return false;
+  }
+
 }
