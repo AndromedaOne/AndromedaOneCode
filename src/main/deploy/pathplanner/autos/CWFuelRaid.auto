@@ -23,7 +23,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.5
+                  "waitTime": 4.5
                 }
               },
               {
@@ -45,6 +45,12 @@
           "type": "path",
           "data": {
             "pathName": "GoToCenterLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
           }
         },
         {

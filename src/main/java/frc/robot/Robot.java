@@ -96,7 +96,6 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("eject using intake", new IntakeRollerEjectCommand());
     NamedCommands.registerCommand("turn to hub and run eject belts",
         new TurnToHubAndRunEjectBelts());
-
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
