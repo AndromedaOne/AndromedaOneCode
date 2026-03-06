@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Config4905;
 import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
+import frc.robot.commands.FuelRaiderCommands.ShooterDefaultCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.ejectBeltCommands.DefaultEjectBeltCommand;
 import frc.robot.commands.intakeCommands.DefaultIntakeRollerCommand;
@@ -32,6 +33,9 @@ import frc.robot.subsystems.intakerollers.MockIntakeRollers;
 import frc.robot.subsystems.intakerollers.RealIntakeRollers;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
+import frc.robot.subsystems.shooter.MockShooter;
+import frc.robot.subsystems.shooter.RealShooter;
+import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 
 public class SubsystemsContainer {
@@ -47,6 +51,7 @@ public class SubsystemsContainer {
   HopperBeltsBase m_hopperBelts;
   AHIBase m_AHI;
   IntakeRollersBase m_intakeRollers;
+  ShooterBase m_shooter;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -111,6 +116,13 @@ public class SubsystemsContainer {
       Trace.getInstance().logInfo("Using mock AHI");
       m_AHI = new MockAHI();
     }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      Trace.getInstance().logInfo("using real shooter");
+      m_shooter = new RealShooter();
+    } else {
+      Trace.getInstance().logInfo("using mock shooter");
+      m_shooter = new MockShooter();
+    }
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -141,6 +153,10 @@ public class SubsystemsContainer {
     return m_intakeRollers;
   }
 
+  public ShooterBase getShooter() {
+    return m_shooter;
+  }
+
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
@@ -153,6 +169,9 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       m_ejectBelt.setDefaultCommand(new DefaultEjectBeltCommand());
+    }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      m_shooter.setDefaultCommand(new ShooterDefaultCommand());
     }
   }
 }

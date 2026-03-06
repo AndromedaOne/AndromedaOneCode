@@ -17,22 +17,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
+import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
 import frc.robot.commands.FuelRaiderCommands.SetAHIPID;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
-import frc.robot.commands.autoCommands.LeftBump;
-import frc.robot.commands.autoCommands.LeftHub;
-import frc.robot.commands.autoCommands.LeftHubPath;
-import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
-import frc.robot.commands.autoCommands.RightBump;
-import frc.robot.commands.autoCommands.RightHub;
-import frc.robot.commands.autoCommands.RightHubSetPoseManually;
+import frc.robot.commands.FuelRaiderCommands.TuneShooterFeedForward;
+import frc.robot.commands.autoCommands.CCWFuelRaid;
+import frc.robot.commands.autoCommands.CWFuelRaid;
+import frc.robot.commands.autoCommands.CenterToLeftSideDrop;
+import frc.robot.commands.autoCommands.CenterToRightSideDrop;
+import frc.robot.commands.autoCommands.GoToCenterLeft;
+import frc.robot.commands.autoCommands.GoToCenterRight;
+import frc.robot.commands.autoCommands.LeftToCenterAfterDrop;
+import frc.robot.commands.autoCommands.LeftToRightPickup;
+import frc.robot.commands.autoCommands.RightToCenterAfterDrop;
+import frc.robot.commands.autoCommands.RightToLeftPickup;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
+import frc.robot.commands.driveTrainCommands.SetMidSpeed;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.driveTrainCommands.TurnToFieldElement;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.examplePathCommands.Spinner;
@@ -43,6 +51,7 @@ import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.commands.photonVisionCommands.SetPoseUsingSmartDashboard;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
+import frc.robot.subsystems.shooter.ShooterBase;
 
 /**
  * This class is for adding SmartDashboard Buttons, putData, (clickable buttons
@@ -55,7 +64,7 @@ public class SmartDashboard4905 {
 
   public SmartDashboard4905(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) throws FileVersionException, IOException, ParseException {
-    if (Config4905.getConfig4905().isSwerveBot()) {
+    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
       AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     }
     SmartDashboard.putNumber("Auto Delay", 0);
@@ -91,6 +100,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber("MoveUsingDistanceSensorTester Distance To Move", 24);
       SmartDashboard.putNumber("SensorDifferenceTesterAngle", 0);
       SmartDashboard.putData("SpinTest", new Spinner());
+      SmartDashboard.putData("Turn to hub",
+          new TurnToFieldElement(Robot.getInstance().getFieldConstants().getHubPose()));
+      SmartDashboard.putNumber("MidMode/Mid mode value to set", 0.7);
+      SmartDashboard.putData("MidMode/set mid mode value", new SetMidSpeed());
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       SmartDashboard.putData("Run eject belt left", new EjectBeltLeft());
@@ -102,13 +115,26 @@ public class SmartDashboard4905 {
     }
 
     if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
-      SmartDashboard.putData("Right Bump", new RightBump());
-      SmartDashboard.putData("Left Bump", new LeftBump());
-      SmartDashboard.putData("Right Hub", new RightHub());
-      SmartDashboard.putData("Left Hub", new LeftHub());
-      SmartDashboard.putData("Set Left Pose", new LeftHubSetPoseManually());
-      SmartDashboard.putData("Set Right Pose", new RightHubSetPoseManually());
-      SmartDashboard.putData("left hub path", new LeftHubPath());
+      String pathName = "pathcommands/";
+      String autoName = "autocommands/";
+      String ccw = "ccw/";
+      String cw = "cw/";
+      SmartDashboard.putData(autoName + "CCW fuel raid", new CCWFuelRaid());
+      SmartDashboard.putData(autoName + "CW fuel raid", new CWFuelRaid());
+
+      SmartDashboard.putData(pathName + ccw + "Go To Center Right", new GoToCenterRight());
+      SmartDashboard.putData(pathName + ccw + "Right to left pickup", new RightToLeftPickup());
+      SmartDashboard.putData(pathName + ccw + "Center to left side drop",
+          new CenterToLeftSideDrop());
+      SmartDashboard.putData(pathName + ccw + "Left to center after drop",
+          new LeftToCenterAfterDrop());
+
+      SmartDashboard.putData(pathName + cw + "Go To Center Left", new GoToCenterLeft());
+      SmartDashboard.putData(pathName + cw + "Left to right pickup", new LeftToRightPickup());
+      SmartDashboard.putData(pathName + cw + "Center to right side drop",
+          new CenterToRightSideDrop());
+      SmartDashboard.putData(pathName + cw + "Right to center after drop",
+          new RightToCenterAfterDrop());
     }
     if (Config4905.getConfig4905().doesAHIExist()) {
       String name = "ahicommands/";
@@ -118,6 +144,13 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber(name + "AHI I value", 0);
       SmartDashboard.putNumber(name + "AHI D value", 0);
       SmartDashboard.putData(name + "Set AHI PID values", new SetAHIPID());
+    }
+    if (Config4905.getConfig4905().doesShooterExist()) {
+      String name = ShooterBase.getSmartDashboardShooterString() + "commands/";
+      SmartDashboard.putData(name + "Run shooter RPM",
+          new RunShooterRPM(Robot.getInstance().getSubsystemsContainer().getShooter()));
+      SmartDashboard.putData(name + "Tune shooter feed forward",
+          new TuneShooterFeedForward(Robot.getInstance().getSubsystemsContainer().getShooter()));
     }
 
   }

@@ -9,8 +9,11 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
+import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
+import frc.robot.commands.groupCommands.ShootBasedOnDistance;
+import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -20,24 +23,33 @@ import frc.robot.subsystems.SubsystemsContainer;
  * they are easier to find.
  */
 public class SubsystemController extends ControllerBase {
+  private SubsystemsContainer m_subsystemsContainer;
+
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
+    m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
     if (Config4905.getConfig4905().isFuelRaider()) {
       setUpFuelRaiderButtons();
     }
   }
 
-  public void setUpFuelRaiderButtons() {
+  private void setUpFuelRaiderButtons() {
     // back is LEFT, start is RIGHT
     // do note AHI gets its buttons in the command directly
     // intake roller buttons
     getBbutton().whileTrue(new IntakeRollerIntakeCommand());
     getYbutton().whileTrue(new IntakeRollerEjectCommand());
-    // climber buttons NO LONGER EXIST!!!
-
+    // shooter buttons
+    // in order to shoot fuel, POV west (eject belt left) must be held
+    getXbutton().whileTrue(new ShootBasedOnDistance());
     // eject belt buttons
-    getPOVwest().whileTrue(new EjectBeltLeft());
+    getPOVwest().whileTrue(new TurnToHubAndRunEjectBelts());
     getPOVeast().whileTrue(new EjectBeltRight());
+    // shuttle shot buttons
+    getLeftBumperButton().whileTrue(new EjectBeltLeft());
+    // arbitrary RPM :)
+    getRightBumperButton().whileTrue(new RunShooterRPM(m_subsystemsContainer.getShooter(),
+        () -> Config4905.getConfig4905().getShooterConfig().getDouble("shuttleRPM")));
   }
 
   public void rumbleOn(double value) {

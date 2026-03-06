@@ -34,6 +34,13 @@ public class TeleOpCommand extends Command {
   private double m_kProportion = 0.0;
   private boolean m_isStrafe = true;
   private double m_angleKP = 0.0;
+  private double m_slowModeFBSpeed;
+  private double m_slowModeRSpeed;
+  private double m_midModeFBSpeed;
+  private double m_midModeRSpeed;
+  private double m_fastModeFBSpeed;
+  private double m_fastModeRSpeed;
+
   private final double m_bumpAngle = 225;
   private FieldConstants m_fieldConstants = Robot.getInstance().getFieldConstants();
 
@@ -59,6 +66,12 @@ public class TeleOpCommand extends Command {
     m_kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
     m_robotCentricSup = robotCentricSup;
     m_angleKP = m_drivetrainConfig.getDouble("SwerveDriveConstants.turningAngleKP");
+    m_slowModeFBSpeed = m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
+    m_slowModeRSpeed = m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
+    m_midModeFBSpeed = m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
+    m_midModeRSpeed = m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
+    m_fastModeFBSpeed = m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
+    m_fastModeRSpeed = m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
   }
 
   // use this constructor for TankDrive
@@ -115,24 +128,28 @@ public class TeleOpCommand extends Command {
       m_savedRobotAngle = m_gyro.getZAngle();
       m_currentDelay = 0;
     }
+    if (m_driveTrain.getMidModeValueBoolean()) {
+      m_midModeFBSpeed = SmartDashboard.getNumber("MidMode/Mid mode value to set", 0.7);
+    }
     if ((m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
-      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
+      forwardBackwardStickValue *= m_slowModeFBSpeed;
+      rotateStickValue *= m_slowModeRSpeed;
+      strafeStickValue *= m_slowModeFBSpeed;
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.SLOW);
     } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
-      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
+      forwardBackwardStickValue *= m_midModeFBSpeed;
+      rotateStickValue *= m_midModeRSpeed;
+      strafeStickValue *= m_midModeFBSpeed;
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.MID);
     } else {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
-      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
+      forwardBackwardStickValue *= m_fastModeFBSpeed;
+      rotateStickValue *= m_fastModeRSpeed;
+      strafeStickValue *= m_fastModeFBSpeed;
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.FAST);
     }
+    SmartDashboard.putNumber("MidMode/mid mode actual value", m_midModeFBSpeed);
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
     Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
         new TracePair("savedAngle", m_savedRobotAngle),

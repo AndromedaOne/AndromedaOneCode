@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoToCenterRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "turn to 180"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CCWChaosLoop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CCWChaosLoop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CCWChaosLoop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CCWChaosLoop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": null,
+  "choreoAuto": false
+}

@@ -42,6 +42,7 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
+import frc.robot.utils.FieldConstants;
 import frc.robot.utils.PoseEstimation4905;
 
 /**
@@ -72,6 +73,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private int m_count = 0;
   private double m_highestAccel = 0;
   private boolean m_isLeftSide = false;
+  private boolean m_changingMidMode = false;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -268,9 +270,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   public void periodic() {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
-    SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
-    SmartDashboard.putNumber("Odometry Input Heading", -1 * m_gyro.getCompassHeading());
     if (m_count == 25) {
       double currentPosition = m_SwerveMods[0].getPosition().distanceMeters;
       double currentVelocity = (currentPosition - m_modDistance) * 2;
@@ -288,9 +288,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       }
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
-      SmartDashboard.putNumber("Pose X ", metersToInches(m_currentPose.getX()));
-      SmartDashboard.putNumber("Pose Y ", metersToInches(m_currentPose.getY()));
-      SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
+      String name = "DriveTrain";
+      SmartDashboard.putNumber(name + "Pose X ", metersToInches(m_currentPose.getX()));
+      SmartDashboard.putNumber(name + "Pose Y ", metersToInches(m_currentPose.getY()));
+      SmartDashboard.putNumber(name + "Pose angle ", m_currentPose.getRotation().getDegrees());
+      SmartDashboard.putNumber(name + "Distance To Hub", getHubDistanceToRobotInInches());
     }
   }
 
@@ -434,6 +436,18 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return m_driveTrainMode.getDriveTrainMode();
   }
 
+  public void setMidModeValueBoolean() {
+    m_changingMidMode = true;
+  }
+
+  public boolean getMidModeValueBoolean() {
+    if (m_changingMidMode) {
+      m_changingMidMode = false;
+      return true;
+    }
+    return false;
+  }
+
   private void setX() {
     for (SwerveModuleBase mod : m_SwerveMods) {
       int angle = -45;
@@ -558,5 +572,15 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
       return new RobotConfig(massKG, MOI, moduleConfig, trackwidth);
     }
+  }
+
+  @Override
+  public double getHubDistanceToRobotInInches() {
+    Pose2d hubPose2d = new FieldConstants().getHubPose();
+    double xDistance = hubPose2d.getX() - currentPose2d().getX();
+    double yDistance = hubPose2d.getY() - currentPose2d().getY();
+    double distance = Math.sqrt(Math.pow(yDistance, 2) + Math.pow(xDistance, 2));
+    // convert from meters to inches.
+    return (distance * 39.3701);
   }
 }

@@ -35,6 +35,7 @@ public class Config4905 {
   private Config m_hopperBeltsConfig;
   private Config m_AHIConfig;
   private Config m_intakerollersConfig;
+  private Config m_shooterConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -95,6 +96,7 @@ public class Config4905 {
     m_hopperBeltsConfig = load("hopperbelts.conf");
     m_AHIConfig = load("ahi.conf");
     m_intakerollersConfig = load("intakerollers.conf");
+    m_shooterConfig = load("shooter.conf");
   }
 
   public Config getControllersConfig() {
@@ -176,6 +178,14 @@ public class Config4905 {
 
   public Config getEjectBeltConfig() {
     return m_ejectBeltConfig;
+  }
+
+  public boolean doesShooterExist() {
+    return m_config.hasPath("subsystems.shooter");
+  }
+
+  public Config getShooterConfig() {
+    return m_shooterConfig;
   }
 
   public boolean isSwerveBot() {
