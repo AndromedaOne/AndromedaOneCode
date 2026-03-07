@@ -13,6 +13,7 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDController4905;
+import frc.robot.telemetries.Trace;
 
 /** Add your docs here. */
 public class RealAHI extends SubsystemBase implements AHIBase {
@@ -55,7 +56,7 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   private ArmFeedForward m_feedForward;
 
   public enum State {
-    EXTENDED, RETRACTED, EXTENDEDSTART, RETRACTEDSTART
+    EXTENDED, RETRACTED, EXTENDEDSTART, RETRACTEDSTART, HOLDEXTENDED
   }
 
   private class ArmFeedForward implements FeedForward {
@@ -182,7 +183,9 @@ public class RealAHI extends SubsystemBase implements AHIBase {
 
   @Override
   public void setState(State state) {
+    Trace.getInstance().logInfo(m_tableName + "setting arm state to: "+ state);
     m_state = state;
+    Trace.getInstance().logInfo((m_tableName+ "setting arm angle:"+ m_armController.getSetpoint()));
   }
 
   @Override
