@@ -3,6 +3,7 @@ package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 import static edu.wpi.first.math.util.Units.*;
 
 import java.io.IOException;
+import java.util.function.DoubleSupplier;
 
 import org.json.simple.parser.ParseException;
 
@@ -582,5 +583,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     double distance = Math.sqrt(Math.pow(yDistance, 2) + Math.pow(xDistance, 2));
     // convert from meters to inches.
     return (distance * 39.3701);
+  }
+
+  public DoubleSupplier getHubDistanceToRobotInInchesSupplier() {
+    return () -> getHubDistanceToRobotInInches();
   }
 }

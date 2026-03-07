@@ -106,7 +106,7 @@ public class AHIDefaultCommand extends Command {
     if (usePID) {
       m_ahi.rotateArmPID();
     }
-    
+
   }
 
   // Called once the command ends or is interrupted.
