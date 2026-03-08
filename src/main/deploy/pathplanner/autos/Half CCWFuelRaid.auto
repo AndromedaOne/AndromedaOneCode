@@ -1,0 +1,111 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CCW Starting Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 4.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot based on distance"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "turn to hub and run eject belts"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoToCenterRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AHI extend"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Half RightToLeftPickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Half RightToLeftPickup Back"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 4.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot based on distance"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "turn to hub and run eject belts"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": null,
+  "choreoAuto": false
+}
