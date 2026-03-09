@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CCW Starting Path"
+            "pathName": "CW Starting Path"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GoToCenterRight"
+            "pathName": "GoToCenterLeft"
           }
         },
         {
@@ -60,15 +60,34 @@
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Half RightToLeftPickup"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Half LeftToRightPickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Half RightToLeftPickup Back"
+            "pathName": "Half LeftToRightPickup Back"
           }
         },
         {
