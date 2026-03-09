@@ -42,6 +42,7 @@ public class AHIDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    boolean usePID = true;
     if (m_ahi.isRetracting()) {
       m_currentState = State.RETRACTEDSTART;
       m_ahi.setState(m_currentState);
@@ -50,7 +51,7 @@ public class AHIDefaultCommand extends Command {
       m_ahi.setState(m_currentState);
     } else if ((m_subsystemController.getAButtonPressed()) && !m_isPressed) {
       m_isPressed = true;
-      if (m_currentState == State.EXTENDED) {
+      if (m_currentState == State.EXTENDED || m_currentState == State.HOLDEXTENDED) {
         m_currentState = State.RETRACTEDSTART;
         m_ahi.setState(m_currentState);
       } else if (m_currentState == State.RETRACTED) {
@@ -64,6 +65,9 @@ public class AHIDefaultCommand extends Command {
       } else if (m_currentState == State.RETRACTEDSTART) {
         m_currentState = State.RETRACTED;
         m_ahi.setState(m_currentState);
+      } else if (m_ahi.atSetpoint() && m_currentState == State.EXTENDED) {
+        m_currentState = State.HOLDEXTENDED;
+        m_ahi.setState(m_currentState);
       }
     } else {
       m_isPressed = false;
@@ -73,12 +77,19 @@ public class AHIDefaultCommand extends Command {
       } else if (m_currentState == State.RETRACTEDSTART) {
         m_currentState = State.RETRACTED;
         m_ahi.setState(m_currentState);
+      } else if (m_ahi.atSetpoint() && m_currentState == State.EXTENDED) {
+        m_currentState = State.HOLDEXTENDED;
+        m_ahi.setState(m_currentState);
       }
     }
     switch (m_currentState) {
     case RETRACTED:
       break;
     case EXTENDED:
+      break;
+    case HOLDEXTENDED:
+      m_ahi.rotateArm(-0.1, false);
+      usePID = false;
       break;
     case RETRACTEDSTART:
       m_ahi.setArmSetpoint(m_retractArmAngle);
@@ -92,7 +103,10 @@ public class AHIDefaultCommand extends Command {
     }
     // later on, we might need to have separate move and hold states.
     // TODO: do we set brake mode or keep PID'ing?
-    m_ahi.rotateArmPID();
+    if (usePID) {
+      m_ahi.rotateArmPID();
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
