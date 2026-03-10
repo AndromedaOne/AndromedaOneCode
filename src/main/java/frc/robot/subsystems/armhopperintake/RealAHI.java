@@ -183,9 +183,10 @@ public class RealAHI extends SubsystemBase implements AHIBase {
 
   @Override
   public void setState(State state) {
-    Trace.getInstance().logInfo(m_tableName + "setting arm state to: "+ state);
+    Trace.getInstance().logInfo(m_tableName + "setting arm state to: " + state);
     m_state = state;
-    Trace.getInstance().logInfo((m_tableName+ "setting arm angle:"+ m_armController.getSetpoint()));
+    Trace.getInstance()
+        .logInfo((m_tableName + "setting arm angle:" + m_armController.getSetpoint()));
   }
 
   @Override

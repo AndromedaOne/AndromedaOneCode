@@ -4,9 +4,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
-import frc.robot.commands.autoCommands.CCWChaos;
 import frc.robot.commands.autoCommands.CCWFuelRaid;
 import frc.robot.commands.autoCommands.CWFuelRaid;
+import frc.robot.commands.autoCommands.HalfLeftFuelRaidBump;
+import frc.robot.commands.autoCommands.HalfRightFuelRaidBump;
 import frc.robot.commands.driveTrainCommands.DoNothingAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -33,10 +34,16 @@ public class AutoModes4905 {
         e.printStackTrace();
       }
       try {
-        m_autoChooser.addOption("CCWChaos", new CCWChaos());
+        m_autoChooser.addOption("Half RightFuelRaid Bump", new HalfRightFuelRaidBump());
       } catch (Exception e) {
         e.printStackTrace();
       }
+      try {
+        m_autoChooser.addOption("Half LeftFuelRaid Bump", new HalfLeftFuelRaidBump());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
     }
     SmartDashboard.putData("autoModes", m_autoChooser);
   }
