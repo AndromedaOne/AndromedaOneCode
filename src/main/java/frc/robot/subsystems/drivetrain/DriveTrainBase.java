@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.subsystems.SubsystemInterface;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
@@ -93,4 +95,6 @@ public interface DriveTrainBase extends SubsystemInterface {
   public Pose2d currentPose2d();
 
   public abstract double getHubDistanceToRobotInInches();
+
+  public abstract DoubleSupplier getHubDistanceToRobotInInchesSupplier();
 }

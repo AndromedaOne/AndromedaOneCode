@@ -76,7 +76,6 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
     m_tuneValues = tuneValues;
     m_kMap = new InterpolatingMap(shooterConfig, "shooterTargetRPMAndKValues");
     m_finishedCondition = finishedCondition;
-    Trace.getInstance().logInfo("Setpoint " + m_setpoint.getAsDouble());
   }
 
   public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, Config shooterConfig,
