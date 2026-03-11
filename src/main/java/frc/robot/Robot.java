@@ -32,6 +32,7 @@ import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
+import frc.robot.commands.groupCommands.Shoot;
 import frc.robot.commands.groupCommands.ShootBasedOnDistance;
 import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
@@ -96,6 +97,7 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("eject using intake", new IntakeRollerEjectCommand());
     NamedCommands.registerCommand("turn to hub and run eject belts",
         new TurnToHubAndRunEjectBelts());
+    NamedCommands.registerCommand("shoot for 4.5 seconds", new Shoot(4500));
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
