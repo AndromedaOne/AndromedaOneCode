@@ -1,0 +1,74 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot for 4.5 seconds"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TrenchRightToCenter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AHI extend"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Half RightToLeftPickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TrenchRightBack"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot for 4.5 seconds"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": null,
+  "choreoAuto": false
+}

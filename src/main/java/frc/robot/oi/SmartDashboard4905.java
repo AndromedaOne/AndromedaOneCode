@@ -33,8 +33,10 @@ import frc.robot.commands.autoCommands.GoToCenterLeft;
 import frc.robot.commands.autoCommands.GoToCenterRight;
 import frc.robot.commands.autoCommands.LeftToCenterAfterDrop;
 import frc.robot.commands.autoCommands.LeftToRightPickup;
+import frc.robot.commands.autoCommands.LeftTrench;
 import frc.robot.commands.autoCommands.RightToCenterAfterDrop;
 import frc.robot.commands.autoCommands.RightToLeftPickup;
+import frc.robot.commands.autoCommands.RightTrench;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SetMidSpeed;
@@ -121,6 +123,8 @@ public class SmartDashboard4905 {
       String cw = "cw/";
       SmartDashboard.putData(autoName + "CCW fuel raid", new CCWFuelRaid());
       SmartDashboard.putData(autoName + "CW fuel raid", new CWFuelRaid());
+      SmartDashboard.putData(autoName + "Left Trench", new LeftTrench());
+      SmartDashboard.putData(autoName + "Right Trench", new RightTrench());
 
       SmartDashboard.putData(pathName + ccw + "Go To Center Right", new GoToCenterRight());
       SmartDashboard.putData(pathName + ccw + "Right to left pickup", new RightToLeftPickup());
