@@ -37,6 +37,7 @@ import frc.robot.commands.groupCommands.ShootBasedOnDistance;
 import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerStop;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -98,6 +99,7 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("turn to hub and run eject belts",
         new TurnToHubAndRunEjectBelts());
     NamedCommands.registerCommand("shoot for 4.5 seconds", new Shoot(4500));
+    NamedCommands.registerCommand("stop intake rollers", new IntakeRollerStop());
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {

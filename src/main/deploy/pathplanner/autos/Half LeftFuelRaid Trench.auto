@@ -54,6 +54,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "stop intake rollers"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "TrenchLeftBack"
