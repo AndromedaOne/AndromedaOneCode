@@ -54,7 +54,7 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     /* drive motor config */
     var talonFXConfigurator = m_driveMotor.getConfigurator();
     var limitConfigs = new CurrentLimitsConfigs();
-    limitConfigs.SupplyCurrentLimit = 120; // this number might not be what we want
+    limitConfigs.SupplyCurrentLimit = 60; // this number might not be what we want
     limitConfigs.SupplyCurrentLimitEnable = true;
     talonFXConfigurator.apply(limitConfigs);
     m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
