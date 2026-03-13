@@ -66,9 +66,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Half LeftToRightPickup Back"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Half LeftToRightPickup Back"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AHI retract"
+                }
+              }
+            ]
           }
         },
         {
