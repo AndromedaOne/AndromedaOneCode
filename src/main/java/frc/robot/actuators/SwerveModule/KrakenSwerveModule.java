@@ -52,11 +52,6 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     configAngleMotor();
 
     /* drive motor config */
-    var talonFXConfigurator = m_driveMotor.getConfigurator();
-    var limitConfigs = new CurrentLimitsConfigs();
-    limitConfigs.SupplyCurrentLimit = 60; // this number might not be what we want
-    limitConfigs.SupplyCurrentLimitEnable = true;
-    talonFXConfigurator.apply(limitConfigs);
     m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
         new CANBus("rio"));
     m_driveConfiguration = new TalonFXConfiguration();
@@ -66,6 +61,11 @@ public class KrakenSwerveModule extends SwerveModuleBase {
   private void configDriveMotor() {
     m_driveConfiguration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
         .getDouble("drivekRampRate");
+    var talonFXConfigurator = m_driveMotor.getConfigurator();
+    var limitConfigs = new CurrentLimitsConfigs();
+    limitConfigs.SupplyCurrentLimit = 80; // this number might not be what we want
+    limitConfigs.SupplyCurrentLimitEnable = true;
+    talonFXConfigurator.apply(limitConfigs);
     if (m_config.getBoolean("driveInvert")) {
       m_driveConfiguration.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     } else {
