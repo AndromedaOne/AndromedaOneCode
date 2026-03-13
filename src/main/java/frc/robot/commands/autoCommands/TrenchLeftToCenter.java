@@ -9,14 +9,14 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class LeftTrench extends SequentialCommandGroup4905 {
+public class TrenchLeftToCenter extends SequentialCommandGroup4905 {
   /**
    * Creates a new GoToCenterRight.
    * 
@@ -24,10 +24,11 @@ public class LeftTrench extends SequentialCommandGroup4905 {
    * @throws IOException
    * @throws FileVersionException
    */
-  public LeftTrench() throws FileVersionException, IOException, ParseException {
+  public TrenchLeftToCenter() throws FileVersionException, IOException, ParseException {
     // Use addRequirements() here to declare subsystem dependencies.
-    Command autoCommand = AutoBuilder.buildAuto("Half LeftFuelRaid Trench");
-    addCommands(new DelayedSequentialCommandGroup(autoCommand));
+    PathPlannerPath path = PathPlannerPath.fromPathFile("TrenchLeftToCenter");
+    Command pathCommand = AutoBuilder.followPath(path);
+    addCommands(pathCommand);
   }
 
 }

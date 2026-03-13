@@ -37,6 +37,7 @@ import frc.robot.commands.autoCommands.LeftTrench;
 import frc.robot.commands.autoCommands.RightToCenterAfterDrop;
 import frc.robot.commands.autoCommands.RightToLeftPickup;
 import frc.robot.commands.autoCommands.RightTrench;
+import frc.robot.commands.autoCommands.TrenchLeftToCenter;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SetMidSpeed;
@@ -139,6 +140,7 @@ public class SmartDashboard4905 {
           new CenterToRightSideDrop());
       SmartDashboard.putData(pathName + cw + "Right to center after drop",
           new RightToCenterAfterDrop());
+      SmartDashboard.putData(pathName + "TrenchLeftToCenter", new TrenchLeftToCenter());
     }
     if (Config4905.getConfig4905().doesAHIExist()) {
       String name = "ahicommands/";

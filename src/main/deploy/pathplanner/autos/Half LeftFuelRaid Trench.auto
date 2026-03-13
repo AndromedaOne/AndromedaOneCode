@@ -60,9 +60,28 @@
           }
         },
         {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "ReverseLeftToRightPickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AHI retract"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "TrenchLeftBack"
+            "pathName": "TrenchCenterToLeft"
           }
         },
         {
