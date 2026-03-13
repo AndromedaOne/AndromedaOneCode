@@ -5,6 +5,7 @@
 package frc.robot.actuators.SwerveModule;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -51,6 +52,11 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     configAngleMotor();
 
     /* drive motor config */
+    var talonFXConfigurator = m_driveMotor.getConfigurator();
+    var limitConfigs = new CurrentLimitsConfigs();
+    limitConfigs.SupplyCurrentLimit = 120; // this number might not be what we want
+    limitConfigs.SupplyCurrentLimitEnable = true;
+    talonFXConfigurator.apply(limitConfigs);
     m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
         new CANBus("rio"));
     m_driveConfiguration = new TalonFXConfiguration();
