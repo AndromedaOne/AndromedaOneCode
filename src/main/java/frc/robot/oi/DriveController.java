@@ -10,6 +10,7 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
+import frc.robot.commands.FuelRaiderCommands.RumbleSubsystemController;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.sensors.SensorsContainer;
@@ -22,6 +23,7 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class DriveController extends ControllerBase {
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
+  private SubsystemController m_subsystemController;
 
   public DriveController(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
@@ -40,12 +42,13 @@ public class DriveController extends ControllerBase {
       // setUpPhotonVision();
     }
     if (Config4905.getConfig4905().isFuelRaider()) {
-      // setUpFRButtons();
+      setUpFRButtons();
     }
   }
 
   public boolean getAButtonPressed() {
     return getAbutton().getAsBoolean();
+
   }
 
   public boolean getBButtonPressed() {
@@ -136,6 +139,6 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpFRButtons() {
-
+    getAbutton().whileTrue(new RumbleSubsystemController(0.5));
   }
 }
