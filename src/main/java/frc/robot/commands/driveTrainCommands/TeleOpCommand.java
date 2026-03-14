@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
+import frc.robot.oi.SubsystemController;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
@@ -22,6 +23,8 @@ public class TeleOpCommand extends Command {
 
   private DriveController m_driveController = Robot.getInstance().getOIContainer()
       .getDriveController();
+  private SubsystemController m_SubsystemController = Robot.getInstance().getOIContainer()
+      .getSubsystemController();
   private DriveTrainBase m_driveTrain = Robot.getInstance().getSubsystemsContainer()
       .getDriveTrain();
   private Config m_drivetrainConfig = Config4905.getConfig4905().getSwerveDrivetrainConfig();
@@ -190,10 +193,12 @@ public class TeleOpCommand extends Command {
       if (m_driveController.getAButtonPressed()) {
         targetAngle = calculateRobotToFieldElementAngle(m_fieldConstants.getHubPose(),
             m_driveTrain.getPose());
+        m_SubsystemController.rumbleOn(1);
+      } else {
+        m_SubsystemController.rumbleOff();
       }
       if (m_driveController.getBButtonPressed()) {
         targetAngle = m_bumpAngle;
-
       } else if (m_driveController.getUpArrowPressed()) {
         targetAngle = 0;
       } else if (m_driveController.getLeftArrowPressed()) {
