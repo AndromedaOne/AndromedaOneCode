@@ -23,7 +23,7 @@ public class TeleOpCommand extends Command {
 
   private DriveController m_driveController = Robot.getInstance().getOIContainer()
       .getDriveController();
-  private SubsystemController m_SubsystemController = Robot.getInstance().getOIContainer()
+  private SubsystemController m_subsystemController = Robot.getInstance().getOIContainer()
       .getSubsystemController();
   private DriveTrainBase m_driveTrain = Robot.getInstance().getSubsystemsContainer()
       .getDriveTrain();
@@ -184,6 +184,7 @@ public class TeleOpCommand extends Command {
     rotateStickValue = MathUtil.clamp(getExponential(rotateStickValue, 4.3, 0.7, .1), -1, 1);
     // do not use moveWithGyro here as we're providing the drive straight correction
     // PoV button changing to angle without stopping the drivetrain
+    boolean useRumble = false;
     if (m_driveController.getBButtonPressed() || m_driveController.getUpArrowPressed()
         || m_driveController.getLeftArrowPressed() || m_driveController.getDownArrowPressed()
         || m_driveController.getRightArrowPressed() || m_driveController.getAButtonPressed()) {
@@ -193,9 +194,7 @@ public class TeleOpCommand extends Command {
       if (m_driveController.getAButtonPressed()) {
         targetAngle = calculateRobotToFieldElementAngle(m_fieldConstants.getHubPose(),
             m_driveTrain.getPose());
-        m_SubsystemController.rumbleOn(1);
-      } else {
-        m_SubsystemController.rumbleOff();
+        useRumble = true;
       }
       if (m_driveController.getBButtonPressed()) {
         targetAngle = m_bumpAngle;
@@ -233,6 +232,11 @@ public class TeleOpCommand extends Command {
       // without this, if the robot is moving both before AND after the button is
       // pressed, the robot will go to the saved angle
       m_savedRobotAngle = m_gyro.getAngle();
+    }
+    if (useRumble) {
+      m_subsystemController.rumbleOn(1);
+    } else {
+      m_subsystemController.rumbleOff();
     }
     SmartDashboard.putNumber("rotatestickvalue", rotateStickValue);
     if (m_isStrafe) {
