@@ -12,6 +12,7 @@ import frc.robot.Robot;
 import frc.robot.oi.SubsystemController;
 import frc.robot.subsystems.armhopperintake.AHIBase;
 import frc.robot.subsystems.armhopperintake.RealAHI.State;
+import frc.robot.telemetries.Trace;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AHIDefaultCommand extends Command {
@@ -43,13 +44,7 @@ public class AHIDefaultCommand extends Command {
   @Override
   public void execute() {
     boolean usePID = true;
-    if (m_ahi.isRetracting()) {
-      m_currentState = State.RETRACTEDSTART;
-      m_ahi.setState(m_currentState);
-    } else if (m_ahi.isExtending()) {
-      m_currentState = State.EXTENDEDSTART;
-      m_ahi.setState(m_currentState);
-    } else if ((m_subsystemController.getAButtonPressed()) && !m_isPressed) {
+    if ((m_subsystemController.getAButtonPressed()) && !m_isPressed) {
       m_isPressed = true;
       if (m_currentState == State.EXTENDED || m_currentState == State.HOLDEXTENDED) {
         m_currentState = State.RETRACTEDSTART;
@@ -81,6 +76,13 @@ public class AHIDefaultCommand extends Command {
         m_currentState = State.HOLDEXTENDED;
         m_ahi.setState(m_currentState);
       }
+      if (m_ahi.isRetracting()) {
+        m_currentState = State.RETRACTEDSTART;
+        m_ahi.setState(m_currentState);
+      } else if (m_ahi.isExtending()) {
+        m_currentState = State.EXTENDEDSTART;
+        m_ahi.setState(m_currentState);
+      }
     }
     switch (m_currentState) {
     case RETRACTED:
@@ -93,9 +95,11 @@ public class AHIDefaultCommand extends Command {
       break;
     case RETRACTEDSTART:
       m_ahi.setArmSetpoint(m_retractArmAngle);
+      Trace.getInstance().logCommandInfo(this, "setpoint: " + m_retractArmAngle);
       break;
     case EXTENDEDSTART:
       m_ahi.setArmSetpoint(m_extendArmAngle);
+      Trace.getInstance().logCommandInfo(this, "setpoint: " + m_extendArmAngle);
       break;
     default:
       break;
