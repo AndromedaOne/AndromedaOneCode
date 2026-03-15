@@ -99,6 +99,7 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("turn to hub and run eject belts",
         new TurnToHubAndRunEjectBelts());
     NamedCommands.registerCommand("shoot for 4.5 seconds", new Shoot(4500));
+    NamedCommands.registerCommand("shoot for 10 seconds", new Shoot(10000));
     NamedCommands.registerCommand("stop intake rollers", new IntakeRollerStop());
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
