@@ -5,7 +5,6 @@
 package frc.robot.actuators.SwerveModule;
 
 import com.ctre.phoenix6.CANBus;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -61,11 +60,8 @@ public class KrakenSwerveModule extends SwerveModuleBase {
   private void configDriveMotor() {
     m_driveConfiguration.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = m_config
         .getDouble("drivekRampRate");
-    var talonFXConfigurator = m_driveMotor.getConfigurator();
-    var limitConfigs = new CurrentLimitsConfigs();
-    limitConfigs.SupplyCurrentLimit = 80; // this number might not be what we want
-    limitConfigs.SupplyCurrentLimitEnable = true;
-    talonFXConfigurator.apply(limitConfigs);
+    m_driveConfiguration.CurrentLimits.SupplyCurrentLimit = 60;
+    m_driveConfiguration.CurrentLimits.SupplyCurrentLimitEnable = true;
     if (m_config.getBoolean("driveInvert")) {
       m_driveConfiguration.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     } else {
