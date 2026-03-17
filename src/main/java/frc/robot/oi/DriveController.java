@@ -10,7 +10,6 @@ package frc.robot.oi;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
 import frc.robot.commands.CalibrateGyro;
-import frc.robot.commands.FuelRaiderCommands.RumbleSubsystemController;
 import frc.robot.commands.driveTrainCommands.PauseRobot;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.sensors.SensorsContainer;
@@ -42,7 +41,7 @@ public class DriveController extends ControllerBase {
       // setUpPhotonVision();
     }
     if (Config4905.getConfig4905().isFuelRaider()) {
-      setUpFRButtons();
+      // setUpFRButtons();
     }
   }
 
@@ -139,6 +138,5 @@ public class DriveController extends ControllerBase {
   }
 
   private void setUpFRButtons() {
-    getAbutton().whileTrue(new RumbleSubsystemController(0.5));
   }
 }
