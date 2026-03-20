@@ -42,17 +42,17 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     /* Angle Motor Config */
     m_angleMotorEncoder = new CANcoder(
         m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID"),
-        new CANBus("rio"));
+        new CANBus("DriveTrainRAWR"));
 
     m_angleMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorID"),
-        new CANBus("rio"));
+        new CANBus("DriveTrainRAWR"));
 
     m_angleConfiguration = new TalonFXConfiguration();
     configAngleMotor();
 
     /* drive motor config */
     m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
-        new CANBus("rio"));
+        new CANBus("DriveTrainRAWR"));
     m_driveConfiguration = new TalonFXConfiguration();
     configDriveMotor();
   }

@@ -35,7 +35,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
         int pigeonId = pigeonConfig.getInt("id");
         Trace.getInstance().logInfo("Creating a pigeon Gyro on port: " + pigeonId);
         /* Alternatives: SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
-        m_gyro = new Pigeon2(pigeonId, new CANBus("rio"));
+        m_gyro = new Pigeon2(pigeonId, new CANBus("DriveTrainRAWR"));
         Trace.getInstance().logInfo("Created pigeon instance");
         Trace.getInstance().logInfo("Setting Initial Gyro Angle");
         setInitialZAngleReading(getCorrectedZAngle());
