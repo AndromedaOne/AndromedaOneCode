@@ -22,7 +22,6 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class DriveController extends ControllerBase {
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
-  private SubsystemController m_subsystemController;
 
   public DriveController(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
