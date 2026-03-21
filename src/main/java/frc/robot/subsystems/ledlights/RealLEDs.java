@@ -8,7 +8,6 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 public abstract class RealLEDs extends LEDs {
 
   private DriveTrainBase m_driveTrain;
-  private double m_intakeBlinkRate = 0.1;
   private LEDRobotInformation m_ledRobotInfo = LEDRobotInformation.getInstance();
 
   public RealLEDs(DriveTrainBase driveTrain) {

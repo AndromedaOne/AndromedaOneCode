@@ -64,7 +64,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private static SwerveSetpointGenerator m_generator;
   private double m_modSpeed = 0;
   private double m_modDistance = 0;
-  private double m_robotAngle = 0;
   private boolean m_isInsideUnsafeZone = false;
   private int m_count = 0;
   private double m_highestAccel = 0;
@@ -276,9 +275,6 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
       SmartDashboard.putString("PoseRegion", m_region.toString());
       SmartDashboard.putBoolean("Is Left Side ", m_isLeftSide);
-      double currentAngle = m_currentPose.getRotation().getDegrees();
-      double currentAngularVelocity = (currentAngle - m_robotAngle) * 2;
-      m_robotAngle = currentAngle;
     }
   }
 
