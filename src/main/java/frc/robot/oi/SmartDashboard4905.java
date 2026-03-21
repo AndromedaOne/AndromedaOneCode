@@ -117,7 +117,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("Intake roller eject", new IntakeRollerEjectCommand());
     }
 
-    if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
+    if (Config4905.getConfig4905().isSwerveBot()) {
       String pathName = "pathcommands/";
       String autoName = "autocommands/";
       String ccw = "ccw/";
