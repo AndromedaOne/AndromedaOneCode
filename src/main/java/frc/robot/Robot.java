@@ -151,6 +151,7 @@ public class Robot extends TimedRobot {
     m_sensorsContainer.periodic();
     SmartDashboard.putBoolean("is hub active", isHubActive());
     SmartDashboard.putNumber("shift time remaining", hubShiftMatchTime());
+    SmartDashboard.putString("Hub state", hubShiftState());
     Trace.getInstance().flushCommandTraceFile();
   }
 
@@ -338,15 +339,15 @@ public class Robot extends TimedRobot {
       return shift1Active;
     } else if (matchTime > 80) {
       // Shift 2
-      SmartDashboard.putString(smdbString, "Shift 1, " + !shift1Active);
+      SmartDashboard.putString(smdbString, "Shift 2, " + !shift1Active);
       return !shift1Active;
     } else if (matchTime > 55) {
       // Shift 3
-      SmartDashboard.putString(smdbString, "Shift 1, " + shift1Active);
+      SmartDashboard.putString(smdbString, "Shift 3, " + shift1Active);
       return shift1Active;
     } else if (matchTime > 30) {
       // Shift 4
-      SmartDashboard.putString(smdbString, "Shift 1, " + !shift1Active);
+      SmartDashboard.putString(smdbString, "Shift 4, " + !shift1Active);
       return !shift1Active;
     } else {
       // End game, hub always active.
@@ -361,7 +362,10 @@ public class Robot extends TimedRobot {
     // 10 sec for transition
     // 25 * 4 for hub shifts
     // 30 for endgame
-    if (matchTime <= 30) {
+    if (matchTime <= -1) {
+      // disabled
+      return -1;
+    } else if (matchTime <= 30) {
       // end game
       return matchTime + 1;
     } else if (matchTime <= 130) {
@@ -371,6 +375,41 @@ public class Robot extends TimedRobot {
     } else {
       // transition
       return (matchTime - 130);
+    }
+  }
+
+  public String hubShiftState() {
+    double matchTime = DriverStation.getMatchTime();
+    // total teleop match time is 140 seconds
+    // 10 sec for transition
+    // 25 * 4 for hub shifts
+    // 30 for endgame
+    // auto
+    if (DriverStation.isAutonomousEnabled()) {
+      return "Autonomous";
+    }
+    // disabled
+    if (!DriverStation.isTeleopEnabled()) {
+      return "Disabled";
+    }
+    if (matchTime > 130) {
+      // transition
+      return "Transition";
+    } else if (matchTime > 105) {
+      // shift 1
+      return "Shift 1";
+    } else if (matchTime > 80) {
+      // shift 2
+      return "Shift 2";
+    } else if (matchTime > 55) {
+      // shift 3
+      return "Shift 3";
+    } else if (matchTime > 30) {
+      // shift 4
+      return "Shift 4";
+    } else {
+      // end game
+      return "End game";
     }
   }
 
