@@ -149,9 +149,9 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
-    SmartDashboard.putBoolean("is hub active", isHubActive());
-    SmartDashboard.putNumber("shift time remaining", hubShiftMatchTime());
-    SmartDashboard.putString("Hub state", hubShiftState());
+    SmartDashboard.putBoolean("FMS Hub Data/is hub active", isHubActive());
+    SmartDashboard.putNumber("FMS Hub Data/shift time remaining", hubShiftMatchTime());
+    SmartDashboard.putString("FMS Hub Data/Hub state", hubShiftState());
     Trace.getInstance().flushCommandTraceFile();
   }
 
@@ -286,7 +286,7 @@ public class Robot extends TimedRobot {
    */
   public boolean isHubActive() {
     Optional<Alliance> alliance = DriverStation.getAlliance();
-    String smdbString = "Hub Active Call";
+    String smdbString = "FMS Hub Data/Hub Active Call";
     // If we have no alliance, we cannot be enabled, therefore no hub.
     if (alliance.isEmpty()) {
       SmartDashboard.putString(smdbString, "Alliance empty, false");
@@ -364,14 +364,14 @@ public class Robot extends TimedRobot {
     // 30 for endgame
     if (matchTime <= -1) {
       // disabled
-      return -1;
+      return 0;
     } else if (matchTime <= 30) {
       // end game
-      return matchTime + 1;
+      return matchTime ;
     } else if (matchTime <= 130) {
       // hub shifts
       matchTime -= 30;
-      return (matchTime % 25) + 1;
+      return (matchTime % 25) ;
     } else {
       // transition
       return (matchTime - 130);
