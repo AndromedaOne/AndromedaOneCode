@@ -1,15 +1,8 @@
 {
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-    "fileName": "Phoenix6-25.2.1.json",
+    "fileName": "Phoenix6-26.1.2.json",
     "name": "CTRE-Phoenix (v6)",
-    "version": "25.2.1",
-    "frcYear": "2025",
-========
-    "fileName": "Phoenix6-26.1.0.json",
-    "name": "CTRE-Phoenix (v6)",
-    "version": "26.1.0",
+    "version": "26.1.2",
     "frcYear": "2026",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
     "uuid": "e995de00-2c64-4df5-8831-c1441420ff19",
     "mavenUrls": [
         "https://maven.ctr-electronics.com/release/"
@@ -26,22 +19,14 @@
         {
             "groupId": "com.ctre.phoenix6",
             "artifactId": "wpiapi-java",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1"
-========
-            "version": "26.1.0"
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2"
         }
     ],
     "jniDependencies": [
         {
             "groupId": "com.ctre.phoenix6",
             "artifactId": "api-cpp",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -55,11 +40,7 @@
         {
             "groupId": "com.ctre.phoenix6",
             "artifactId": "tools",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -73,11 +54,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "api-cpp-sim",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -91,11 +68,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "tools-sim",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -109,11 +82,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simTalonSRX",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -127,11 +96,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simVictorSPX",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -145,25 +110,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simPigeonIMU",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-            "isJar": false,
-            "skipInvalidPlatforms": true,
-            "validPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "osxuniversal"
-            ],
-            "simMode": "swsim"
-        },
-        {
-            "groupId": "com.ctre.phoenix6.sim",
-            "artifactId": "simCANCoder",
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -177,11 +124,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProTalonFX",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -195,11 +138,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProTalonFXS",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -213,11 +152,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProCANcoder",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -231,11 +166,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProPigeon2",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -249,10 +180,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProCANrange",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -266,7 +194,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProCANdi",
-            "version": "26.1.0",
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -280,8 +208,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProCANdle",
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -297,11 +224,7 @@
         {
             "groupId": "com.ctre.phoenix6",
             "artifactId": "wpiapi-cpp",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_Phoenix6_WPI",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -317,11 +240,7 @@
         {
             "groupId": "com.ctre.phoenix6",
             "artifactId": "tools",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_PhoenixTools",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -337,11 +256,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "wpiapi-cpp-sim",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_Phoenix6_WPISim",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -357,11 +272,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "tools-sim",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_PhoenixTools_Sim",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -377,11 +288,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simTalonSRX",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_SimTalonSRX",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -397,11 +304,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simVictorSPX",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_SimVictorSPX",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -417,11 +320,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simPigeonIMU",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_SimPigeonIMU",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -436,29 +335,8 @@
         },
         {
             "groupId": "com.ctre.phoenix6.sim",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "artifactId": "simCANCoder",
-            "version": "25.2.1",
-            "libName": "CTRE_SimCANCoder",
-            "headerClassifier": "headers",
-            "sharedLibrary": true,
-            "skipInvalidPlatforms": true,
-            "binaryPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "osxuniversal"
-            ],
-            "simMode": "swsim"
-        },
-        {
-            "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProTalonFX",
-            "version": "25.2.1",
-========
-            "artifactId": "simProTalonFX",
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_SimProTalonFX",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -474,11 +352,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProTalonFXS",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_SimProTalonFXS",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -494,11 +368,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProCANcoder",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_SimProCANcoder",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -514,11 +384,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProPigeon2",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_SimProPigeon2",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -534,11 +400,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProCANrange",
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-            "version": "25.2.1",
-========
-            "version": "26.1.0",
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
+            "version": "26.1.2",
             "libName": "CTRE_SimProCANrange",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -550,13 +412,11 @@
                 "osxuniversal"
             ],
             "simMode": "swsim"
-<<<<<<<< HEAD:vendordeps/Phoenix6-25.2.1.json
-========
         },
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProCANdi",
-            "version": "26.1.0",
+            "version": "26.1.2",
             "libName": "CTRE_SimProCANdi",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -572,7 +432,7 @@
         {
             "groupId": "com.ctre.phoenix6.sim",
             "artifactId": "simProCANdle",
-            "version": "26.1.0",
+            "version": "26.1.2",
             "libName": "CTRE_SimProCANdle",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -584,7 +444,6 @@
                 "osxuniversal"
             ],
             "simMode": "swsim"
->>>>>>>> 72f27b36 (update codebase to wpilib 2026. it does compile, but has not been tested. there are MANY warnings about deprecated stuff):vendordeps/Phoenix6-26.1.0.json
         }
     ]
 }
