@@ -154,9 +154,12 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().doesShooterExist()) {
       String name = ShooterBase.getSmartDashboardShooterString() + "commands/";
       SmartDashboard.putData(name + "Run shooter RPM",
-          new RunShooterRPM(Robot.getInstance().getSubsystemsContainer().getShooter()));
-      SmartDashboard.putData(name + "Tune shooter feed forward",
-          new TuneShooterFeedForward(Robot.getInstance().getSubsystemsContainer().getShooter()));
+          new RunShooterRPM(Robot.getInstance().getSubsystemsContainer().getBottomShooter(),
+              Robot.getInstance().getSubsystemsContainer().getTopShooter()));
+      SmartDashboard.putData(name + "Tune shooter feed forward bottom", new TuneShooterFeedForward(
+          Robot.getInstance().getSubsystemsContainer().getBottomShooter(), "bottomShooter"));
+      SmartDashboard.putData(name + "Tune shooter feed forward top", new TuneShooterFeedForward(
+          Robot.getInstance().getSubsystemsContainer().getTopShooter(), "topShooter"));
     }
 
   }

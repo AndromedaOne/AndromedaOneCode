@@ -28,6 +28,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
   private FeedForward m_feedForward = new ShooterFeedForward();
   private InterpolatingMap m_kMap;
   private BooleanSupplier m_finishedCondition;
+  private String m_shooterName;
   private String m_smartDashboardName = ShooterBase.getSmartDashboardShooterString();
 
   private class ShooterFeedForward implements FeedForward {
@@ -47,10 +48,10 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
 
   public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, boolean tuneValues,
       double feedForwardValue, double pValue, Config shooterConfig,
-      BooleanSupplier finishedCondition) {
+      BooleanSupplier finishedCondition, String shooterName) {
     super(
         // The controller that the command will use
-        new PIDController4905SampleStop("ShooterPID"),
+        new PIDController4905SampleStop(shooterName + "ShooterPID"),
         // This should return the measurement
         // () -> 0,
         () -> shooter.getShooterVelocity(),
@@ -63,9 +64,11 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
           shooter.runShooter(output);
         });
     addRequirements(shooter.getSubsystemBase());
+    m_shooterName = shooterName;
+    m_smartDashboardName.concat(m_shooterName + "/");
     // Configure additional PID options by calling `getController` here.
     m_shooterConfig = shooterConfig;
-    getController().setTolerance(m_shooterConfig.getDouble("tolerance"));
+    getController().setTolerance(m_shooterConfig.getDouble(m_shooterName + ".tolerance"));
     getController().setFeedforward(m_feedForward);
     m_shooter = shooter;
     m_setpoint = setpoint;
@@ -74,13 +77,13 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
       m_pValue = pValue;
     }
     m_tuneValues = tuneValues;
-    m_kMap = new InterpolatingMap(shooterConfig, "shooterTargetRPMAndKValues");
+    m_kMap = new InterpolatingMap(shooterConfig, m_shooterName + ".shooterTargetRPMAndKValues");
     m_finishedCondition = finishedCondition;
   }
 
   public RunShooterWheelVelocity(ShooterBase shooter, DoubleSupplier setpoint, Config shooterConfig,
-      BooleanSupplier finishedCondition) {
-    this(shooter, setpoint, false, 0, 0, shooterConfig, finishedCondition);
+      BooleanSupplier finishedCondition, String name) {
+    this(shooter, setpoint, false, 0, 0, shooterConfig, finishedCondition, name);
   }
 
   // Returns true when the command should end.
@@ -92,12 +95,12 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
       pValue = m_pValue;
     } else {
       // replace with pmap at some point
-      pValue = m_shooterConfig.getDouble("runshooterwheelvelocity.p");
+      pValue = m_shooterConfig.getDouble(m_shooterName + ".runshooterwheelvelocity.p");
     }
     m_shooter.setSetpointStatus(false);
     getController().setP(pValue);
-    getController().setI(m_shooterConfig.getDouble("runshooterwheelvelocity.i"));
-    getController().setD(m_shooterConfig.getDouble("runshooterwheelvelocity.d"));
+    getController().setI(m_shooterConfig.getDouble(m_shooterName + ".runshooterwheelvelocity.i"));
+    getController().setD(m_shooterConfig.getDouble(m_shooterName + ".runshooterwheelvelocity.d"));
     Trace.getInstance().logCommandInfo(this, "  P = " + pValue);
     Trace.getInstance().logCommandInfo(this, "setpoint: " + getController().getSetpoint());
   }

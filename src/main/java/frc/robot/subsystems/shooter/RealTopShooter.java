@@ -13,17 +13,15 @@ import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
-public class RealShooter extends SubsystemBase implements ShooterBase {
+public class RealTopShooter extends SubsystemBase implements ShooterBase {
 
-  private SparkMaxController m_leaderMotor;
+  private SparkMaxController m_topMotor;
   // the follower motor should mirror the output of the leader
-  private SparkMaxController m_followerMotor;
   private boolean m_isAtSetpoint = true;
   private Config m_config = Config4905.getConfig4905().getShooterConfig();
 
-  public RealShooter() {
-    m_leaderMotor = new SparkMaxController(m_config, "leaderMotor", false, false);
-    m_followerMotor = new SparkMaxController(m_config, "followerMotor", false, false);
+  public RealTopShooter() {
+    m_topMotor = new SparkMaxController(m_config, "leaderMotor", false, false);
   }
 
   /**
@@ -31,7 +29,7 @@ public class RealShooter extends SubsystemBase implements ShooterBase {
    */
   @Override
   public double getShooterVelocity() {
-    return -m_leaderMotor.getBuiltInEncoderVelocityTicks();
+    return -m_topMotor.getBuiltInEncoderVelocityTicks();
   }
 
   /**
@@ -39,25 +37,22 @@ public class RealShooter extends SubsystemBase implements ShooterBase {
    */
   @Override
   public void runShooter(double speed) {
-    m_leaderMotor.setSpeed(-speed);
+    m_topMotor.setSpeed(-speed);
   }
 
   @Override
   public void stop() {
-    m_leaderMotor.setSpeed(0);
-    m_followerMotor.setSpeed(0);
+    m_topMotor.setSpeed(0);
   }
 
   @Override
   public void setBrakeMode() {
-    m_leaderMotor.setBrakeMode();
-    m_followerMotor.setBrakeMode();
+    m_topMotor.setBrakeMode();
   }
 
   @Override
   public void setCoastMode() {
-    m_leaderMotor.setCoastMode();
-    m_followerMotor.setCoastMode();
+    m_topMotor.setCoastMode();
   }
 
   @Override

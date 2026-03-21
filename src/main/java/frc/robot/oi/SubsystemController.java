@@ -48,8 +48,10 @@ public class SubsystemController extends ControllerBase {
     // shuttle shot buttons
     getLeftBumperButton().whileTrue(new EjectBeltLeft());
     // arbitrary RPM :)
-    getRightBumperButton().whileTrue(new RunShooterRPM(m_subsystemsContainer.getShooter(),
-        () -> Config4905.getConfig4905().getShooterConfig().getDouble("shuttleRPM")));
+    getRightBumperButton().whileTrue(new RunShooterRPM(m_subsystemsContainer.getBottomShooter(),
+        () -> Config4905.getConfig4905().getShooterConfig().getDouble("bottomShooter.shuttleRPM"),
+        m_subsystemsContainer.getBottomShooter(),
+        () -> Config4905.getConfig4905().getShooterConfig().getDouble("topShooter.shuttleRPM")));
   }
 
   public void rumbleOn(double value) {

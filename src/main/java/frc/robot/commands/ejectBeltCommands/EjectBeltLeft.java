@@ -17,7 +17,7 @@ public class EjectBeltLeft extends Command {
 
   public EjectBeltLeft() {
     m_ejectBelts = Robot.getInstance().getSubsystemsContainer().getEjectBelt();
-    m_shooter = Robot.getInstance().getSubsystemsContainer().getShooter();
+    m_shooter = Robot.getInstance().getSubsystemsContainer().getBottomShooter();
     addRequirements(m_ejectBelts.getSubsystemBase());
     // Use addRequirements() here to declare subsystem dependencies.
   }

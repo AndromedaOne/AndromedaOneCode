@@ -14,43 +14,56 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
 
   // we probably want another command to call this and use the interpolation
   // tables... yeah we do
-  private ShooterBase m_shooter;
-  private DoubleSupplier m_setpointSupplier;
-  private RunShooterWheelVelocity m_shooterCommand;
+  private ShooterBase m_bottomShooter;
+  private DoubleSupplier m_bottomSetpointSupplier;
+  private RunShooterWheelVelocity m_bottomShooterCommand;
+  private ShooterBase m_topShooter;
+  private DoubleSupplier m_topSetpointSupplier;
+  private RunShooterWheelVelocity m_topShooterCommand;
   private String m_smartDashboardName = ShooterBase.getSmartDashboardShooterString();
 
-  public RunShooterRPM(ShooterBase shooter, DoubleSupplier setpoint) {
-    m_shooter = shooter;
-    m_setpointSupplier = setpoint;
-    m_shooterCommand = new RunShooterWheelVelocity(m_shooter, m_setpointSupplier,
-        Config4905.getConfig4905().getShooterConfig(), () -> false);
+  public RunShooterRPM(ShooterBase bottomShooter, DoubleSupplier bottomSetpoint,
+      ShooterBase topShooter, DoubleSupplier topSetpoint) {
+    m_bottomShooter = bottomShooter;
+    m_bottomSetpointSupplier = bottomSetpoint;
+    m_bottomShooterCommand = new RunShooterWheelVelocity(m_bottomShooter, m_bottomSetpointSupplier,
+        Config4905.getConfig4905().getShooterConfig(), () -> false, "bottomShooter");
+    m_topShooter = topShooter;
+    m_topSetpointSupplier = topSetpoint;
+    m_topShooterCommand = new RunShooterWheelVelocity(m_topShooter, m_topSetpointSupplier,
+        Config4905.getConfig4905().getShooterConfig(), () -> false, "topShooter");
 
-    addCommands(m_shooterCommand);
+    addCommands(m_bottomShooterCommand, m_topShooterCommand);
     SmartDashboard.putNumber(m_smartDashboardName + "Set Shooter RPM", 1000);
   }
 
-  public RunShooterRPM(ShooterBase shooter) {
-    this(shooter, () -> (double) SmartDashboard
-        .getNumber(ShooterBase.getSmartDashboardShooterString() + "Set Shooter RPM", 1000));
+  public RunShooterRPM(ShooterBase bottomShooter, ShooterBase topShooter) {
+    this(bottomShooter,
+        () -> (double) SmartDashboard
+            .getNumber(ShooterBase.getSmartDashboardShooterString() + "Set Shooter RPM", 1000),
+        topShooter, () -> (double) SmartDashboard
+            .getNumber(ShooterBase.getSmartDashboardShooterString() + "Set Shooter RPM", 1000));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
-    Trace.getInstance().logCommandInfo(this, "setpoint set to " + m_setpointSupplier.getAsDouble());
+    Trace.getInstance().logCommandInfo(this,
+        "setpoint set to " + m_bottomSetpointSupplier.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void additionalEnd(boolean interrupted) {
-    m_shooter.runShooter(0);
+    m_bottomShooter.runShooter(0);
+    m_topShooter.runShooter(0);
   }
 
   private class OnTarget implements BooleanSupplier {
 
     @Override
     public boolean getAsBoolean() {
-      return m_shooterCommand.atSetpoint();
+      return m_bottomShooterCommand.atSetpoint();
     }
   }
 

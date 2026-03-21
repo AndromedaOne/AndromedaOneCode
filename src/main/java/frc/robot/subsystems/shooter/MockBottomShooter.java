@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MockSubsystem;
 
 /** Add your docs here. */
-public class MockShooter implements ShooterBase {
+public class MockBottomShooter implements ShooterBase {
 
   @Override
   public SubsystemBase getSubsystemBase() {

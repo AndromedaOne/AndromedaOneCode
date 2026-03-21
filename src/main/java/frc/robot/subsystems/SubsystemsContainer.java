@@ -33,8 +33,9 @@ import frc.robot.subsystems.intakerollers.MockIntakeRollers;
 import frc.robot.subsystems.intakerollers.RealIntakeRollers;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
-import frc.robot.subsystems.shooter.MockShooter;
-import frc.robot.subsystems.shooter.RealShooter;
+import frc.robot.subsystems.shooter.MockBottomShooter;
+import frc.robot.subsystems.shooter.RealBottomShooter;
+import frc.robot.subsystems.shooter.RealTopShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 
@@ -51,7 +52,8 @@ public class SubsystemsContainer {
   HopperBeltsBase m_hopperBelts;
   AHIBase m_AHI;
   IntakeRollersBase m_intakeRollers;
-  ShooterBase m_shooter;
+  ShooterBase m_bottomShooter;
+  ShooterBase m_topShooter;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -118,11 +120,14 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       Trace.getInstance().logInfo("using real shooter");
-      m_shooter = new RealShooter();
+      m_bottomShooter = new RealBottomShooter();
+      m_topShooter = new RealTopShooter();
     } else {
       Trace.getInstance().logInfo("using mock shooter");
-      m_shooter = new MockShooter();
+      m_bottomShooter = new MockBottomShooter();
+      m_topShooter = new RealBottomShooter();
     }
+
   }
 
   public DriveTrainBase getDriveTrain() {
@@ -153,8 +158,12 @@ public class SubsystemsContainer {
     return m_intakeRollers;
   }
 
-  public ShooterBase getShooter() {
-    return m_shooter;
+  public ShooterBase getBottomShooter() {
+    return m_bottomShooter;
+  }
+
+  public ShooterBase getTopShooter() {
+    return m_topShooter;
   }
 
   public void setDefaultCommands() {
@@ -171,7 +180,8 @@ public class SubsystemsContainer {
       m_ejectBelt.setDefaultCommand(new DefaultEjectBeltCommand());
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
-      m_shooter.setDefaultCommand(new ShooterDefaultCommand());
+      m_bottomShooter.setDefaultCommand(new ShooterDefaultCommand());
+      m_topShooter.setDefaultCommand(new ShooterDefaultCommand());
     }
   }
 }

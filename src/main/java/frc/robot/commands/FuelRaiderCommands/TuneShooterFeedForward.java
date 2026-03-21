@@ -11,11 +11,13 @@ public class TuneShooterFeedForward extends Command {
    * Creates a new TuneBillShooterFeedForward.
    */
   private ShooterBase m_shooter;
+  private String m_shooterName;
   private String m_smartDashboardName = ShooterBase.getSmartDashboardShooterString();
 
-  public TuneShooterFeedForward(ShooterBase shooter) {
+  public TuneShooterFeedForward(ShooterBase shooter, String shooterName) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
+    m_shooterName = shooterName;
     SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward Value", 0.00025);
     SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward p Value", 0.0001);
     SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward ShooterRPMTarget", 3000);
@@ -32,8 +34,9 @@ public class TuneShooterFeedForward extends Command {
     double shootRPM = SmartDashboard
         .getNumber(m_smartDashboardName + "Feed Forward ShooterRPMTarget", 3000);
     System.out.println("Scheduling RunShooterWheelVelocity");
-    CommandScheduler.getInstance().schedule(new RunShooterWheelVelocity(m_shooter, () -> shootRPM,
-        true, feedForward, PValue, Config4905.getConfig4905().getShooterConfig(), () -> false));
+    CommandScheduler.getInstance()
+        .schedule(new RunShooterWheelVelocity(m_shooter, () -> shootRPM, true, feedForward, PValue,
+            Config4905.getConfig4905().getShooterConfig(), () -> false, m_shooterName));
   }
 
   // Returns true when the command should end.
