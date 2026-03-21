@@ -34,6 +34,7 @@ public class SparkMaxController {
     configure(subsystemConfig, configString, isSwerve, isDrive);
   }
 
+  @SuppressWarnings("removal")
   private void configure(Config subsystemConfig, String configString, boolean isSwerve,
       boolean isDrive) {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
@@ -47,8 +48,17 @@ public class SparkMaxController {
       m_absoluteEncoder = m_sparkMax.getAbsoluteEncoder();
       sparkConfig.absoluteEncoder
           .inverted(subsystemConfig.getBoolean(configString + ".absoluteEncoderInverted"));
-      sparkConfig.absoluteEncoder
-          .zeroOffset(subsystemConfig.getDouble(configString + ".absoluteEncoderZeroOffset"));
+      // used to have a set zero offset... put this back in later with some code or
+      // smth
+      if (subsystemConfig.hasPath(configString + ".useOffset")) {
+        if (subsystemConfig.getBoolean(configString + ".useOffset")) {
+          sparkConfig.absoluteEncoder
+              .zeroOffset(subsystemConfig.getDouble(configString + ".absoluteEncoderZeroOffset"));
+        }
+      } else {
+        sparkConfig.absoluteEncoder
+            .zeroOffset(subsystemConfig.getDouble(configString + ".absoluteEncoderZeroOffset"));
+      }
     }
     /*********
      * NOTE: you CANNOT disable the hard limit capability on sparkmax controllers
@@ -103,6 +113,13 @@ public class SparkMaxController {
       sparkConfig.inverted(subsystemConfig.getBoolean(configString + ".inverted"));
     }
 
+    if (subsystemConfig.hasPath(configString + ".isFollower")) {
+      if (subsystemConfig.getBoolean(configString + ".isFollower")) {
+        sparkConfig.follow(subsystemConfig.getInt(configString + ".leader"),
+            subsystemConfig.getBoolean(configString + ".inverted"));
+      }
+    }
+
     m_sparkMax.configure(sparkConfig, ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
   }
@@ -131,6 +148,7 @@ public class SparkMaxController {
     return m_reverseLimitSwitch.isPressed();
   }
 
+  @SuppressWarnings("removal")
   public void setCoastMode() {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.idleMode(SparkBaseConfig.IdleMode.kCoast);
@@ -139,6 +157,7 @@ public class SparkMaxController {
     System.out.println("SparkMax set to coast");
   }
 
+  @SuppressWarnings("removal")
   public void setBrakeMode() {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
@@ -147,6 +166,7 @@ public class SparkMaxController {
     System.out.println("SparkMax set to brake");
   }
 
+  @SuppressWarnings("removal")
   public void disableAccelerationLimiting() {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.openLoopRampRate(0);
@@ -154,6 +174,7 @@ public class SparkMaxController {
         PersistMode.kNoPersistParameters);
   }
 
+  @SuppressWarnings("removal")
   public void enableAccelerationLimiting(double rate) {
     SparkMaxConfig sparkConfig = new SparkMaxConfig();
     sparkConfig.openLoopRampRate(rate);
@@ -177,5 +198,4 @@ public class SparkMaxController {
   public double getAbsoluteEncoderPosition() {
     return m_absoluteEncoder.getPosition();
   }
-
 }

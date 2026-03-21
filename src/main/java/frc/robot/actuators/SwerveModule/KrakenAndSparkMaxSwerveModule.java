@@ -4,6 +4,7 @@
 
 package frc.robot.actuators.SwerveModule;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -11,7 +12,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
@@ -25,23 +25,19 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
   private Config m_config;
   private double m_driveMotorPositionOffset = 0;
 
-  private SimpleMotorFeedforward m_feedForward;
-
   // The drive motor code is different because it uses the krakens
   // The angle motor code is the same because it uses the SparkMaxes
   public KrakenAndSparkMaxSwerveModule(int moduleNumber) {
     super(moduleNumber);
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getConfig("SwerveDriveConstants");
-    new SimpleMotorFeedforward(m_config.getDouble("driveKS"), m_config.getDouble("driveKV"),
-        m_config.getDouble("driveKA"));
     /* Angle Motor Config */
     m_angleMotor = new SparkMaxController(m_config, "Mod" + getModuleNumber() + ".angleMotorID",
         true, false);
 
     /* drive motor config */
     m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
-        "rio");
+        new CANBus("rio"));
     m_configuration = new TalonFXConfiguration();
     configDriveMotor();
   }
@@ -82,7 +78,7 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     if (angle < 0) {
       angle += 360;
     }
-    m_angleMotor.getMotorController().getClosedLoopController().setReference(angle,
+    m_angleMotor.getMotorController().getClosedLoopController().setSetpoint(angle,
         ControlType.kPosition);
   }
 

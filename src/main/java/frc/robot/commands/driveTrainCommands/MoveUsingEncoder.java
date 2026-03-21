@@ -72,12 +72,6 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
             // Use the output here
             drivetrain.moveUsingGyroStrafe(output, angle.getAsDouble(), false, heading);
           });
-      double correctedAngle;
-      correctedAngle = angle.getAsDouble();
-      if (distance.getAsDouble() < 0) {
-        correctedAngle = angle.getAsDouble() + 360;
-      }
-
       /*
        * if ((correctedAngle >= 0 && correctedAngle < 180 && distance.getAsDouble() >
        * 0) || (correctedAngle <= 180 && distance.getAsDouble() < 0)) { m_distance =
