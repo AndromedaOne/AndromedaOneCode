@@ -82,7 +82,7 @@ public class RealBottomShooter extends SubsystemBase implements ShooterBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(s_shooterString + "Shooter Speed", getShooterVelocity());
+    SmartDashboard.putNumber(s_shooterString + "Bottom Shooter Speed", getShooterVelocity());
   }
 
 }

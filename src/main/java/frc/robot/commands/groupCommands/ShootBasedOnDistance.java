@@ -63,7 +63,8 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
     // we would get the rotation angle here.
     // we probably wont add a rotation...
 
-    Trace.getInstance().logCommandInfo(this, "m_setpoint = " + m_bottomSetpoint);
+    Trace.getInstance().logCommandInfo(this, "bottom setpoint:" + m_bottomSetpoint);
+    Trace.getInstance().logCommandInfo(this, "top setpoint:" + m_topSetpoint);
     Trace.getInstance().logCommandInfo(this,
         "the distance was " + m_distance.getAsDouble() + " inches");
   }

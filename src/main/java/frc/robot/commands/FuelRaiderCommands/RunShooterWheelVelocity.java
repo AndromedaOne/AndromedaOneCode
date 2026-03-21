@@ -65,7 +65,7 @@ public class RunShooterWheelVelocity extends PIDCommand4905 {
         });
     addRequirements(shooter.getSubsystemBase());
     m_shooterName = shooterName;
-    m_smartDashboardName.concat(m_shooterName + "/");
+    m_smartDashboardName = m_smartDashboardName.concat(m_shooterName + "/");
     // Configure additional PID options by calling `getController` here.
     m_shooterConfig = shooterConfig;
     getController().setTolerance(m_shooterConfig.getDouble(m_shooterName + ".tolerance"));

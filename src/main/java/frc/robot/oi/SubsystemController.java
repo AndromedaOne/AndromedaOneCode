@@ -50,7 +50,7 @@ public class SubsystemController extends ControllerBase {
     // arbitrary RPM :)
     getRightBumperButton().whileTrue(new RunShooterRPM(m_subsystemsContainer.getBottomShooter(),
         () -> Config4905.getConfig4905().getShooterConfig().getDouble("bottomShooter.shuttleRPM"),
-        m_subsystemsContainer.getBottomShooter(),
+        m_subsystemsContainer.getTopShooter(),
         () -> Config4905.getConfig4905().getShooterConfig().getDouble("topShooter.shuttleRPM")));
   }
 

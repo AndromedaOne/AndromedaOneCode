@@ -18,6 +18,7 @@ public class TuneShooterFeedForward extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
     m_shooterName = shooterName;
+    m_smartDashboardName = m_smartDashboardName.concat(m_shooterName + "/");
     SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward Value", 0.00025);
     SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward p Value", 0.0001);
     SmartDashboard.putNumber(m_smartDashboardName + "Feed Forward ShooterRPMTarget", 3000);

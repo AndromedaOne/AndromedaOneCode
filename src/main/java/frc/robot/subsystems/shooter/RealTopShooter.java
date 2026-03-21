@@ -21,7 +21,7 @@ public class RealTopShooter extends SubsystemBase implements ShooterBase {
   private Config m_config = Config4905.getConfig4905().getShooterConfig();
 
   public RealTopShooter() {
-    m_topMotor = new SparkMaxController(m_config, "leaderMotor", false, false);
+    m_topMotor = new SparkMaxController(m_config, "topMotor", false, false);
   }
 
   /**
@@ -77,7 +77,7 @@ public class RealTopShooter extends SubsystemBase implements ShooterBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(s_shooterString + "Shooter Speed", getShooterVelocity());
+    SmartDashboard.putNumber(s_shooterString + "Top Shooter Speed", getShooterVelocity());
   }
 
 }

@@ -34,22 +34,25 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
         Config4905.getConfig4905().getShooterConfig(), () -> false, "topShooter");
 
     addCommands(m_bottomShooterCommand, m_topShooterCommand);
-    SmartDashboard.putNumber(m_smartDashboardName + "Set Shooter RPM", 1000);
+    SmartDashboard.putNumber(m_smartDashboardName + "Set Bottom Shooter RPM", 1000);
+    SmartDashboard.putNumber(m_smartDashboardName + "Set Top Shooter RPM", 1000);
   }
 
   public RunShooterRPM(ShooterBase bottomShooter, ShooterBase topShooter) {
     this(bottomShooter,
-        () -> (double) SmartDashboard
-            .getNumber(ShooterBase.getSmartDashboardShooterString() + "Set Shooter RPM", 1000),
+        () -> (double) SmartDashboard.getNumber(
+            ShooterBase.getSmartDashboardShooterString() + "Set Bottom Shooter RPM", 1000),
         topShooter, () -> (double) SmartDashboard
-            .getNumber(ShooterBase.getSmartDashboardShooterString() + "Set Shooter RPM", 1000));
+            .getNumber(ShooterBase.getSmartDashboardShooterString() + "Set Top Shooter RPM", 1000));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void additionalInitialize() {
     Trace.getInstance().logCommandInfo(this,
-        "setpoint set to " + m_bottomSetpointSupplier.getAsDouble());
+        "bottom setpoint set to " + m_bottomSetpointSupplier.getAsDouble());
+    Trace.getInstance().logCommandInfo(this,
+        "top setpoint set to " + m_topSetpointSupplier.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
