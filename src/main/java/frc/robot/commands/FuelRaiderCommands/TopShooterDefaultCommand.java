@@ -9,15 +9,13 @@ import frc.robot.Robot;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShooterDefaultCommand extends Command {
+public class TopShooterDefaultCommand extends Command {
   /** Creates a new ShooterDefaultCommand. */
-  private ShooterBase m_bottomShooter;
   private ShooterBase m_topShooter;
 
-  public ShooterDefaultCommand() {
-    m_bottomShooter = Robot.getInstance().getSubsystemsContainer().getBottomShooter();
+  public TopShooterDefaultCommand() {
     m_topShooter = Robot.getInstance().getSubsystemsContainer().getTopShooter();
-    addRequirements(m_bottomShooter.getSubsystemBase(), m_topShooter.getSubsystemBase());
+    addRequirements(m_topShooter.getSubsystemBase());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,7 +27,6 @@ public class ShooterDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_bottomShooter.stop();
     m_topShooter.stop();
   }
 

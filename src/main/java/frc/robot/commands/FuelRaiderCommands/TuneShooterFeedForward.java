@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.subsystems.shooter.ShooterBase;
+import frc.robot.telemetries.Trace;
 
 public class TuneShooterFeedForward extends Command {
   /**
@@ -31,6 +32,7 @@ public class TuneShooterFeedForward extends Command {
     System.out.println("TuneShooterInitialize");
     double feedForward = SmartDashboard.getNumber(m_smartDashboardName + "Feed Forward Value",
         0.00025);
+    Trace.getInstance().logCommandInfo(this, "Feed forward: " + feedForward);
     double PValue = SmartDashboard.getNumber(m_smartDashboardName + "Feed Forward p Value", 0.0001);
     double shootRPM = SmartDashboard
         .getNumber(m_smartDashboardName + "Feed Forward ShooterRPMTarget", 3000);
