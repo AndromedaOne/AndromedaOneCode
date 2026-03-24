@@ -8,6 +8,7 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -31,6 +32,7 @@ public class KrakenSwerveModule extends SwerveModuleBase {
   private double m_driveMotorPositionOffset = 0;
   private int m_moduleNumber;
   private PositionVoltage m_angleSetter;
+
 
   // The drive motor code is different because it uses the krakens
   // The angle motor code is the same because it uses the SparkMaxes
@@ -71,6 +73,10 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     // getVelocity
     m_driveMotor.getConfigurator().apply(m_driveConfiguration, 0.1);
     m_driveMotorPositionOffset = m_driveMotor.getPosition().getValueAsDouble();
+    if (m_config.getBoolean("enableFOCDrive")){
+      TorqueCurrentFOC torque = new TorqueCurrentFOC(m_config.getDouble("torqueCurrentDrive"));
+      m_driveMotor.setControl(torque);
+    }
 
   }
 
@@ -91,6 +97,10 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     m_angleMotor.getConfigurator().apply(m_angleConfiguration, 0.1);
     m_angleSetter = new PositionVoltage(0.0).withSlot(0).withUpdateFreqHz(50);
     m_angleSetter.FeedForward = 0;
+    if (m_config.getBoolean("enableFOCAngle")){
+      TorqueCurrentFOC torque = new TorqueCurrentFOC(m_config.getDouble("torqueCurrentAngle"));
+      m_angleMotor.setControl(torque);
+    }
   }
 
   @Override
