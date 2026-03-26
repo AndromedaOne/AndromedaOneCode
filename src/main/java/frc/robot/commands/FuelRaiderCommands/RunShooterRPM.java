@@ -33,7 +33,7 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
     m_topShooterCommand = new RunShooterWheelVelocity(m_topShooter, m_topSetpointSupplier,
         Config4905.getConfig4905().getShooterConfig(), () -> false, "topShooter");
 
-    addCommands(m_bottomShooterCommand, m_topShooterCommand);
+    addCommands(m_bottomShooterCommand);
     SmartDashboard.putNumber(m_smartDashboardName + "Set Bottom Shooter RPM", 1000);
     SmartDashboard.putNumber(m_smartDashboardName + "Set Top Shooter RPM", 1000);
   }

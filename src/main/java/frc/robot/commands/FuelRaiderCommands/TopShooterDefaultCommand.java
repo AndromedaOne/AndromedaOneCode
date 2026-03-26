@@ -22,12 +22,12 @@ public class TopShooterDefaultCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_topShooter.setBrakeMode();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_topShooter.stop();
   }
 
   // Called once the command ends or is interrupted.
