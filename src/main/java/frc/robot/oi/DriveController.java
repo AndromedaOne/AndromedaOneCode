@@ -53,6 +53,10 @@ public class DriveController extends ControllerBase {
     return getBbutton().getAsBoolean();
   }
 
+  public boolean getXButtonPressed() {
+    return getXbutton().getAsBoolean();
+  }
+
   public boolean getUpArrowPressed() {
     return getPOVnorthPressed();
   }

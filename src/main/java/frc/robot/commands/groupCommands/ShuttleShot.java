@@ -18,7 +18,7 @@ import frc.robot.telemetries.Trace;
 import frc.robot.utils.InterpolatingMap;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
+public class ShuttleShot extends SequentialCommandGroup4905 {
   /** Creates a new ShootBasedOnDistance. */
   // okay so basically grab the distance from what gio is currently doing
   // (will have to be filled in later) and use said distance to
@@ -35,20 +35,20 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
   private RunShooterRPM m_command;
   private DoubleSupplier m_distance;
 
-  public ShootBasedOnDistance() {
+  public ShuttleShot() {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = Robot.getInstance().getSubsystemsContainer().getShooter();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
     m_distanceRPMMap = new InterpolatingMap(m_config, "shotShootingRPM");
-    m_distance = m_driveTrain.getHubDistanceToRobotInInchesSupplier();
+    m_distance = m_driveTrain.getShuttleDistanceToRobotInInchesSupplier();
     m_setpointSupplier = () -> (m_distanceRPMMap.getInterpolatedValue(m_distance.getAsDouble()));
     m_command = new RunShooterRPM(m_shooter, m_setpointSupplier);
     addCommands(m_command);
   }
 
   public void additionalInitialize() {
-    // get the distance from the hub here! when we eventually add a rotation,
-    // we would get the rotation angle here.
+    // get the distance from the SHUTTLE SPOT here! when we eventually add a
+    // rotation, we would get the rotation angle here.
     // we probably wont add a rotation...
 
     Trace.getInstance().logCommandInfo(this, "m_setpoint = " + m_setpoint);

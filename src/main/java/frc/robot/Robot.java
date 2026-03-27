@@ -367,11 +367,11 @@ public class Robot extends TimedRobot {
       return 0;
     } else if (matchTime <= 30) {
       // end game
-      return matchTime ;
+      return matchTime;
     } else if (matchTime <= 130) {
       // hub shifts
       matchTime -= 30;
-      return (matchTime % 25) ;
+      return (matchTime % 25);
     } else {
       // transition
       return (matchTime - 130);

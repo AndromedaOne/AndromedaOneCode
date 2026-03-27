@@ -187,7 +187,8 @@ public class TeleOpCommand extends Command {
     boolean useRumble = false;
     if (m_driveController.getBButtonPressed() || m_driveController.getUpArrowPressed()
         || m_driveController.getLeftArrowPressed() || m_driveController.getDownArrowPressed()
-        || m_driveController.getRightArrowPressed() || m_driveController.getAButtonPressed()) {
+        || m_driveController.getRightArrowPressed() || m_driveController.getAButtonPressed()
+        || m_driveController.getXButtonPressed()) {
       double targetAngle = 0.0;
       // a and b button is season specific to 26
       // will change/get removed based on seasonal needs
@@ -195,6 +196,15 @@ public class TeleOpCommand extends Command {
         targetAngle = calculateRobotToFieldElementAngle(m_fieldConstants.getHubPose(),
             m_driveTrain.getPose());
         useRumble = true;
+      } else if (m_driveController.getXButtonPressed()) {
+        useRumble = true;
+        if (m_fieldConstants.isRightSide(m_driveTrain.getPose())) {
+          targetAngle = calculateRobotToFieldElementAngle(
+              m_fieldConstants.getTargetPoseShuttleRight(), m_driveTrain.getPose());
+        } else {
+          targetAngle = calculateRobotToFieldElementAngle(
+              m_fieldConstants.getTargetPoseShuttleLeft(), m_driveTrain.getPose());
+        }
       }
       if (m_driveController.getBButtonPressed()) {
         targetAngle = m_bumpAngle;

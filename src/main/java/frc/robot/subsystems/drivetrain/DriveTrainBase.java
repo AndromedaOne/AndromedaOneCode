@@ -97,4 +97,8 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract double getHubDistanceToRobotInInches();
 
   public abstract DoubleSupplier getHubDistanceToRobotInInchesSupplier();
+
+  public abstract double getShuttleDistanceToRobotInInches();
+
+  public abstract DoubleSupplier getShuttleDistanceToRobotInInchesSupplier();
 }
