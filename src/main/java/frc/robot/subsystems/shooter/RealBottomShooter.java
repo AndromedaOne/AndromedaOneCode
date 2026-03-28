@@ -40,6 +40,7 @@ public class RealBottomShooter extends SubsystemBase implements ShooterBase {
   @Override
   public void runShooter(double speed) {
     m_leaderMotor.setSpeed(-speed);
+    m_followerMotor.setSpeed(-speed);
   }
 
   @Override
@@ -82,7 +83,9 @@ public class RealBottomShooter extends SubsystemBase implements ShooterBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(s_shooterString + "Bottom Shooter Speed", getShooterVelocity());
+    SmartDashboard.putNumber(s_shooterString + "Bottom Shooter Speed leader", getShooterVelocity());
+    SmartDashboard.putNumber(s_shooterString + "Bottom Shooter Speed follower",
+        -m_followerMotor.getBuiltInEncoderVelocityTicks());
   }
 
 }

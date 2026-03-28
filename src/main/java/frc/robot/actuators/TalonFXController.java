@@ -2,12 +2,10 @@ package frc.robot.actuators;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.typesafe.config.Config;
 
@@ -33,12 +31,10 @@ public class TalonFXController {
   }
 
   private void configure(Config subsystemConfig, String configString) {
-    // might want to reverse the logic here
-    // atm, inverted is CCW+, and normal is CW+
     if (subsystemConfig.getBoolean(configString + ".inverted")) {
-      m_talonConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-    } else {
       m_talonConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    } else {
+      m_talonConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     }
 
     // The Kraken cannot have a set conversion factor for getPosition and
@@ -57,19 +53,15 @@ public class TalonFXController {
        * subsystemConfig.getInt("dude idk");
        */
     }
-
-    if (subsystemConfig.hasPath(configString + ".isFollower")) {
-      if (subsystemConfig.getBoolean(configString + ".isFollower")) {
-        MotorAlignmentValue MAV;
-        if (subsystemConfig.getBoolean(configString + ".inverted")) {
-          MAV = MotorAlignmentValue.Opposed;
-        } else {
-          MAV = MotorAlignmentValue.Aligned;
-        }
-        m_talonFXMotor
-            .setControl(new Follower(subsystemConfig.getInt(configString + ".leader"), MAV));
-      }
-    }
+    // follower code does not work so it is commented
+    /*
+     * if (subsystemConfig.hasPath(configString + ".isFollower")) { if
+     * (subsystemConfig.getBoolean(configString + ".isFollower")) {
+     * MotorAlignmentValue MAV; if (subsystemConfig.getBoolean(configString +
+     * ".inverted")) { MAV = MotorAlignmentValue.Opposed; } else { MAV =
+     * MotorAlignmentValue.Aligned; } m_talonFXMotor .setControl(new
+     * Follower(subsystemConfig.getInt(configString + ".leader"), MAV)); } }
+     */
 
     if (subsystemConfig.getBoolean(configString + ".enableFOC")) {
       TorqueCurrentFOC torque = new TorqueCurrentFOC(
@@ -89,8 +81,8 @@ public class TalonFXController {
   }
 
   public double getBuiltInEncoderVelocityTicks() {
-    // in rotations per second
-    return m_talonFXMotor.getVelocity().getValueAsDouble();
+    // in rotations per minute
+    return m_talonFXMotor.getVelocity().getValueAsDouble() * 60;
   }
 
   public boolean hasAbsoluteEncoder() {
