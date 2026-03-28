@@ -10,20 +10,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Config4905;
-import frc.robot.actuators.SparkMaxController;
+import frc.robot.actuators.TalonFXController;
 
 /** Add your docs here. */
 public class RealBottomShooter extends SubsystemBase implements ShooterBase {
 
-  private SparkMaxController m_leaderMotor;
+  private TalonFXController m_leaderMotor;
   // the follower motor should mirror the output of the leader
-  private SparkMaxController m_followerMotor;
+  private TalonFXController m_followerMotor;
   private boolean m_isAtSetpoint = true;
   private Config m_config = Config4905.getConfig4905().getShooterConfig();
 
   public RealBottomShooter() {
-    m_leaderMotor = new SparkMaxController(m_config, "leaderMotor", false, false);
-    m_followerMotor = new SparkMaxController(m_config, "followerMotor", false, false);
+    m_leaderMotor = new TalonFXController(m_config, "leaderMotor");
+    m_followerMotor = new TalonFXController(m_config, "followerMotor");
   }
 
   /**
