@@ -1,12 +1,11 @@
 package frc.robot.actuators;
 
 import com.ctre.phoenix6.CANBus;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -24,7 +23,7 @@ public class TalonFXController {
 
   public TalonFXController(Config subsystemConfig, String configString) {
     m_talonFXMotor = new TalonFX(subsystemConfig.getInt("ports." + configString),
-        new CANBus("rio"));
+        new CANBus(subsystemConfig.getString(configString + ".canBus")));
     System.out.println("Enabling talonFX \"" + configString + "\" for port "
         + subsystemConfig.getInt("ports." + configString));
     m_hasAbsoluteEncoder = subsystemConfig.getBoolean(configString + ".hasAbsoluteEncoder");
@@ -46,10 +45,17 @@ public class TalonFXController {
     // getVelocity
     if (m_hasAbsoluteEncoder) {
       // legit no clue what this does. something about abs encoders?
-      m_talonConfig.Slot0 = new Slot0Configs().withKP(100).withKI(0.0).withKD(0);
-      m_talonConfig.ClosedLoopGeneral.ContinuousWrap = true;
-      m_talonConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-      m_talonConfig.Feedback.FeedbackRemoteSensorID = subsystemConfig.getInt("dude idk");
+      throw new UnsupportedOperationException("hasAbsoluteEncoder set for kraken motor with id "
+          + subsystemConfig.getInt("ports." + configString)
+          + ", but this config should not be set with the current code.");
+      /*
+       * m_talonConfig.Slot0 = new Slot0Configs().withKP(100).withKI(0.0).withKD(0);
+       * m_talonConfig.ClosedLoopGeneral.ContinuousWrap = true;
+       * m_talonConfig.Feedback.FeedbackSensorSource =
+       * FeedbackSensorSourceValue.RemoteCANcoder;
+       * m_talonConfig.Feedback.FeedbackRemoteSensorID =
+       * subsystemConfig.getInt("dude idk");
+       */
     }
 
     if (subsystemConfig.hasPath(configString + ".isFollower")) {
@@ -65,6 +71,11 @@ public class TalonFXController {
       }
     }
 
+    if (subsystemConfig.getBoolean(configString + ".enableFOC")) {
+      TorqueCurrentFOC torque = new TorqueCurrentFOC(
+          subsystemConfig.getDouble(configString + ".torqueCurrent"));
+      m_talonFXMotor.setControl(torque);
+    }
     m_talonFXMotor.getConfigurator().apply(m_talonConfig);
   }
 
