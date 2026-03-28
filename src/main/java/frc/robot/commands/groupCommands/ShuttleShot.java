@@ -25,7 +25,7 @@ public class ShuttleShot extends SequentialCommandGroup4905 {
   // calculate the RPM based on the interpolation maps
   // because the maps are not filled out correctly right now (2/28),
   // this should not be run until they are.
-  private ShooterBase m_shooter;
+  private ShooterBase m_bottomShooter;
 
   private double m_setpoint;
   private DoubleSupplier m_setpointSupplier = () -> m_setpoint;
@@ -37,12 +37,13 @@ public class ShuttleShot extends SequentialCommandGroup4905 {
 
   public ShuttleShot() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_shooter = Robot.getInstance().getSubsystemsContainer().getShooter();
+    m_bottomShooter = Robot.getInstance().getSubsystemsContainer().getBottomShooter();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
     m_distanceRPMMap = new InterpolatingMap(m_config, "shotShootingRPM");
     m_distance = m_driveTrain.getShuttleDistanceToRobotInInchesSupplier();
     m_setpointSupplier = () -> (m_distanceRPMMap.getInterpolatedValue(m_distance.getAsDouble()));
-    m_command = new RunShooterRPM(m_shooter, m_setpointSupplier);
+    m_command = new RunShooterRPM(m_bottomShooter, m_setpointSupplier, m_bottomShooter,
+        m_setpointSupplier);
     addCommands(m_command);
   }
 
