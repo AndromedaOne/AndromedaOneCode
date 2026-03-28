@@ -22,7 +22,6 @@ import frc.robot.subsystems.SubsystemsContainer;
 public class DriveController extends ControllerBase {
   private SensorsContainer m_sensorsContainer;
   private SubsystemsContainer m_subsystemsContainer;
-  private SubsystemController m_subsystemController;
 
   public DriveController(SubsystemsContainer subsystemsContainer,
       SensorsContainer sensorsContainer) {
@@ -52,6 +51,10 @@ public class DriveController extends ControllerBase {
 
   public boolean getBButtonPressed() {
     return getBbutton().getAsBoolean();
+  }
+
+  public boolean getXButtonPressed() {
+    return getXbutton().getAsBoolean();
   }
 
   public boolean getUpArrowPressed() {

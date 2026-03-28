@@ -75,6 +75,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private double m_highestAccel = 0;
   private boolean m_isLeftSide = false;
   private boolean m_changingMidMode = false;
+  private FieldConstants m_fieldConstants;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -119,6 +120,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
     m_poseEstimation = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
+    m_fieldConstants = new FieldConstants();
   }
 
   @Override
@@ -289,11 +291,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       }
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
-      String name = "DriveTrain";
+      String name = "DriveTrain/";
       SmartDashboard.putNumber(name + "Pose X ", metersToInches(m_currentPose.getX()));
       SmartDashboard.putNumber(name + "Pose Y ", metersToInches(m_currentPose.getY()));
       SmartDashboard.putNumber(name + "Pose angle ", m_currentPose.getRotation().getDegrees());
       SmartDashboard.putNumber(name + "Distance To Hub", getHubDistanceToRobotInInches());
+      SmartDashboard.putNumber(name + "Distance to shuttle spot",
+          getShuttleDistanceToRobotInInches());
     }
   }
 
@@ -577,7 +581,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public double getHubDistanceToRobotInInches() {
-    Pose2d hubPose2d = new FieldConstants().getHubPose();
+    Pose2d hubPose2d = m_fieldConstants.getHubPose();
     double xDistance = hubPose2d.getX() - currentPose2d().getX();
     double yDistance = hubPose2d.getY() - currentPose2d().getY();
     double distance = Math.sqrt(Math.pow(yDistance, 2) + Math.pow(xDistance, 2));
@@ -585,7 +589,28 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return (distance * 39.3701);
   }
 
+  @Override
   public DoubleSupplier getHubDistanceToRobotInInchesSupplier() {
     return () -> getHubDistanceToRobotInInches();
+  }
+
+  @Override
+  public double getShuttleDistanceToRobotInInches() {
+    Pose2d shuttlePose2d;
+    if (m_fieldConstants.isRightSide(currentPose2d())) {
+      shuttlePose2d = m_fieldConstants.getTargetPoseShuttleRight();
+    } else {
+      shuttlePose2d = m_fieldConstants.getTargetPoseShuttleLeft();
+    }
+    double xDistance = shuttlePose2d.getX() - currentPose2d().getX();
+    double yDistance = shuttlePose2d.getY() - currentPose2d().getY();
+    double distance = Math.sqrt(Math.pow(yDistance, 2) + Math.pow(xDistance, 2));
+    // convert from meters to inches.
+    return (distance * 39.3701);
+  }
+
+  @Override
+  public DoubleSupplier getShuttleDistanceToRobotInInchesSupplier() {
+    return () -> getShuttleDistanceToRobotInInches();
   }
 }

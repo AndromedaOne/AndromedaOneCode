@@ -149,7 +149,9 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
-    SmartDashboard.putBoolean("is hub active", isHubActive());
+    SmartDashboard.putBoolean("FMS Hub Data/is hub active", isHubActive());
+    SmartDashboard.putNumber("FMS Hub Data/shift time remaining", hubShiftMatchTime());
+    SmartDashboard.putString("FMS Hub Data/Hub state", hubShiftState());
     Trace.getInstance().flushCommandTraceFile();
   }
 
@@ -284,16 +286,20 @@ public class Robot extends TimedRobot {
    */
   public boolean isHubActive() {
     Optional<Alliance> alliance = DriverStation.getAlliance();
+    String smdbString = "FMS Hub Data/Hub Active Call";
     // If we have no alliance, we cannot be enabled, therefore no hub.
     if (alliance.isEmpty()) {
+      SmartDashboard.putString(smdbString, "Alliance empty, false");
       return false;
     }
     // Hub is always enabled in autonomous.
     if (DriverStation.isAutonomousEnabled()) {
+      SmartDashboard.putString(smdbString, "In auto, true");
       return true;
     }
     // At this point, if we're not teleop enabled, there is no hub.
     if (!DriverStation.isTeleopEnabled()) {
+      SmartDashboard.putString(smdbString, "Not in teleop, false");
       return false;
     }
 
@@ -303,6 +309,7 @@ public class Robot extends TimedRobot {
     // If we have no game data, we cannot compute, assume hub is active, as its
     // likely early in teleop.
     if (gameData.isEmpty()) {
+      SmartDashboard.putString(smdbString, "No game data, true");
       return true;
     }
     boolean redInactiveFirst = false;
@@ -311,6 +318,7 @@ public class Robot extends TimedRobot {
     case 'B' -> redInactiveFirst = false;
     default -> {
       // If we have invalid game data, assume hub is active.
+      SmartDashboard.putString(smdbString, "Invalid game data, true");
       return true;
     }
     }
@@ -323,22 +331,85 @@ public class Robot extends TimedRobot {
 
     if (matchTime > 130) {
       // Transition shift, hub is active.
+      SmartDashboard.putString(smdbString, "Transition shift, true");
       return true;
     } else if (matchTime > 105) {
       // Shift 1
+      SmartDashboard.putString(smdbString, "Shift 1, " + shift1Active);
       return shift1Active;
     } else if (matchTime > 80) {
       // Shift 2
+      SmartDashboard.putString(smdbString, "Shift 2, " + !shift1Active);
       return !shift1Active;
     } else if (matchTime > 55) {
       // Shift 3
+      SmartDashboard.putString(smdbString, "Shift 3, " + shift1Active);
       return shift1Active;
     } else if (matchTime > 30) {
       // Shift 4
+      SmartDashboard.putString(smdbString, "Shift 4, " + !shift1Active);
       return !shift1Active;
     } else {
       // End game, hub always active.
+      SmartDashboard.putString(smdbString, "End game, true");
       return true;
+    }
+  }
+
+  public double hubShiftMatchTime() {
+    double matchTime = DriverStation.getMatchTime();
+    // total teleop match time is 140 seconds
+    // 10 sec for transition
+    // 25 * 4 for hub shifts
+    // 30 for endgame
+    if (matchTime <= -1) {
+      // disabled
+      return 0;
+    } else if (matchTime <= 30) {
+      // end game
+      return matchTime;
+    } else if (matchTime <= 130) {
+      // hub shifts
+      matchTime -= 30;
+      return (matchTime % 25);
+    } else {
+      // transition
+      return (matchTime - 130);
+    }
+  }
+
+  public String hubShiftState() {
+    double matchTime = DriverStation.getMatchTime();
+    // total teleop match time is 140 seconds
+    // 10 sec for transition
+    // 25 * 4 for hub shifts
+    // 30 for endgame
+    // auto
+    if (DriverStation.isAutonomousEnabled()) {
+      return "Autonomous";
+    }
+    // disabled
+    if (!DriverStation.isTeleopEnabled()) {
+      return "Disabled";
+    }
+    if (matchTime > 130) {
+      // transition
+      return "Transition";
+    } else if (matchTime > 105) {
+      // shift 1
+      return "Shift 1";
+    } else if (matchTime > 80) {
+      // shift 2
+      return "Shift 2";
+    } else if (matchTime > 55) {
+      // shift 3
+      return "Shift 3";
+    } else if (matchTime > 30) {
+      // shift 4
+      return "Shift 4";
+    } else {
+      // end game
+      return "End game";
     }
   }
 

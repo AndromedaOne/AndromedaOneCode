@@ -172,4 +172,14 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     return () -> 0;
   }
 
+  @Override
+  public double getShuttleDistanceToRobotInInches() {
+    return 0;
+  }
+
+  @Override
+  public DoubleSupplier getShuttleDistanceToRobotInInchesSupplier() {
+    return () -> getShuttleDistanceToRobotInInches();
+  }
+
 }
