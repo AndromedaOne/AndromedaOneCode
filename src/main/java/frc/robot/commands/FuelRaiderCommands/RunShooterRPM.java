@@ -72,7 +72,6 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
       Trace.getInstance().logCommandInfo(this,
           "top setpoint set to " + m_topSetpointSupplier.getAsDouble());
     }
-
   }
 
   // Called once the command ends or is interrupted.
@@ -82,7 +81,6 @@ public class RunShooterRPM extends ParallelCommandGroup4905 {
     if (m_useTopShooter) {
       m_topShooter.runShooter(0);
     }
-
   }
 
   private class OnTarget implements BooleanSupplier {

@@ -35,6 +35,7 @@ import frc.robot.subsystems.intakerollers.RealIntakeRollers;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.subsystems.shooter.MockBottomShooter;
+import frc.robot.subsystems.shooter.MockTopShooter;
 import frc.robot.subsystems.shooter.RealBottomShooter;
 import frc.robot.subsystems.shooter.RealTopShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
@@ -126,7 +127,7 @@ public class SubsystemsContainer {
     } else {
       Trace.getInstance().logInfo("using mock shooter");
       m_bottomShooter = new MockBottomShooter();
-      m_topShooter = new RealBottomShooter();
+      m_topShooter = new MockTopShooter();
     }
 
   }
