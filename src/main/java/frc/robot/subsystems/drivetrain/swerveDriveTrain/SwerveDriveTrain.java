@@ -291,11 +291,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       }
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
-      String name = "DriveTrain";
+      String name = "DriveTrain/";
       SmartDashboard.putNumber(name + "Pose X ", metersToInches(m_currentPose.getX()));
       SmartDashboard.putNumber(name + "Pose Y ", metersToInches(m_currentPose.getY()));
       SmartDashboard.putNumber(name + "Pose angle ", m_currentPose.getRotation().getDegrees());
       SmartDashboard.putNumber(name + "Distance To Hub", getHubDistanceToRobotInInches());
+      SmartDashboard.putNumber(name + "Distance to shuttle spot",
+          getShuttleDistanceToRobotInInches());
     }
   }
 
