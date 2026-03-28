@@ -42,8 +42,7 @@ public class ShuttleShot extends SequentialCommandGroup4905 {
     m_distanceRPMMap = new InterpolatingMap(m_config, "shotShootingRPM");
     m_distance = m_driveTrain.getShuttleDistanceToRobotInInchesSupplier();
     m_setpointSupplier = () -> (m_distanceRPMMap.getInterpolatedValue(m_distance.getAsDouble()));
-    m_command = new RunShooterRPM(m_bottomShooter, m_setpointSupplier, m_bottomShooter,
-        m_setpointSupplier);
+    m_command = new RunShooterRPM(m_bottomShooter, m_setpointSupplier);
     addCommands(m_command);
   }
 
