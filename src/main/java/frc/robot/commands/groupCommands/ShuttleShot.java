@@ -27,13 +27,9 @@ public class ShuttleShot extends SequentialCommandGroup4905 {
   // this should not be run until they are.
 
   private ShooterBase m_bottomShooter;
-  private ShooterBase m_topShooter;
   private double m_bottomSetpoint;
   private DoubleSupplier m_bottomSetpointSupplier = () -> m_bottomSetpoint;
   private InterpolatingMap m_bottomDistanceRPMMap;
-  private double m_topSetpoint;
-  private DoubleSupplier m_topSetpointSupplier = () -> m_topSetpoint;
-  private InterpolatingMap m_topDistanceRPMMap;
   private Config m_config = Config4905.getConfig4905().getShooterConfig();
   private DriveTrainBase m_driveTrain;
   private RunShooterRPM m_command;
@@ -42,17 +38,12 @@ public class ShuttleShot extends SequentialCommandGroup4905 {
   public ShuttleShot() {
     // Use addRequirements() here to declare subsystem dependencies.
     m_bottomShooter = Robot.getInstance().getSubsystemsContainer().getBottomShooter();
-    m_topShooter = Robot.getInstance().getSubsystemsContainer().getTopShooter();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
     m_bottomDistanceRPMMap = new InterpolatingMap(m_config, "bottomShooter.shotShootingRPM");
-    m_topDistanceRPMMap = new InterpolatingMap(m_config, "topShooter.shotShootingRPM");
     m_distance = m_driveTrain.getHubDistanceToRobotInInchesSupplier();
     m_bottomSetpointSupplier = () -> (m_bottomDistanceRPMMap
         .getInterpolatedValue(m_distance.getAsDouble()));
-    m_topSetpointSupplier = () -> (m_topDistanceRPMMap
-        .getInterpolatedValue(m_distance.getAsDouble()));
-    m_command = new RunShooterRPM(m_bottomShooter, m_bottomSetpointSupplier, m_topShooter,
-        m_topSetpointSupplier);
+    m_command = new RunShooterRPM(m_bottomShooter, m_bottomSetpointSupplier);
     addCommands(m_command);
   }
 
@@ -61,7 +52,6 @@ public class ShuttleShot extends SequentialCommandGroup4905 {
     // rotation, we would get the rotation angle here.
     // we probably wont add a rotation...
     Trace.getInstance().logCommandInfo(this, "bottom setpoint:" + m_bottomSetpoint);
-    Trace.getInstance().logCommandInfo(this, "top setpoint:" + m_topSetpoint);
     Trace.getInstance().logCommandInfo(this,
         "the distance was " + m_distance.getAsDouble() + " inches");
   }

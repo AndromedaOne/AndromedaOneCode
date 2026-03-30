@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import frc.robot.Config4905;
 import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
 import frc.robot.commands.FuelRaiderCommands.BottomShooterDefaultCommand;
-import frc.robot.commands.FuelRaiderCommands.TopShooterDefaultCommand;
 import frc.robot.commands.driveTrainCommands.TeleOpCommand;
 import frc.robot.commands.ejectBeltCommands.DefaultEjectBeltCommand;
 import frc.robot.commands.intakeCommands.DefaultIntakeRollerCommand;
@@ -35,9 +34,7 @@ import frc.robot.subsystems.intakerollers.RealIntakeRollers;
 import frc.robot.subsystems.ledlights.LEDs;
 import frc.robot.subsystems.ledlights.WS2812LEDs;
 import frc.robot.subsystems.shooter.MockBottomShooter;
-import frc.robot.subsystems.shooter.MockTopShooter;
 import frc.robot.subsystems.shooter.RealBottomShooter;
-import frc.robot.subsystems.shooter.RealTopShooter;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;
 
@@ -55,7 +52,6 @@ public class SubsystemsContainer {
   AHIBase m_AHI;
   IntakeRollersBase m_intakeRollers;
   ShooterBase m_bottomShooter;
-  ShooterBase m_topShooter;
 
   /**
    * The container responsible for setting all the subsystems to real or mock.
@@ -123,11 +119,9 @@ public class SubsystemsContainer {
     if (Config4905.getConfig4905().doesShooterExist()) {
       Trace.getInstance().logInfo("using real shooter");
       m_bottomShooter = new RealBottomShooter();
-      m_topShooter = new RealTopShooter();
     } else {
       Trace.getInstance().logInfo("using mock shooter");
       m_bottomShooter = new MockBottomShooter();
-      m_topShooter = new MockTopShooter();
     }
 
   }
@@ -164,10 +158,6 @@ public class SubsystemsContainer {
     return m_bottomShooter;
   }
 
-  public ShooterBase getTopShooter() {
-    return m_topShooter;
-  }
-
   public void setDefaultCommands() {
     if (Config4905.getConfig4905().doesSwerveDrivetrainExist()) {
       m_driveTrain.setDefaultCommand(new TeleOpCommand(() -> false));
@@ -183,7 +173,6 @@ public class SubsystemsContainer {
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       m_bottomShooter.setDefaultCommand(new BottomShooterDefaultCommand());
-      m_topShooter.setDefaultCommand(new TopShooterDefaultCommand());
     }
   }
 }
