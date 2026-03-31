@@ -40,7 +40,7 @@ public class ShuttleShot extends SequentialCommandGroup4905 {
     m_bottomShooter = Robot.getInstance().getSubsystemsContainer().getBottomShooter();
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
     m_bottomDistanceRPMMap = new InterpolatingMap(m_config, "bottomShooter.shotShootingRPM");
-    m_distance = m_driveTrain.getHubDistanceToRobotInInchesSupplier();
+    m_distance = m_driveTrain.getShuttleDistanceToRobotInInchesSupplier();
     m_bottomSetpointSupplier = () -> (m_bottomDistanceRPMMap
         .getInterpolatedValue(m_distance.getAsDouble()));
     m_command = new RunShooterRPM(m_bottomShooter, m_bottomSetpointSupplier);
