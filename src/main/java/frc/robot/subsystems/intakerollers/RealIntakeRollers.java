@@ -13,7 +13,8 @@ import frc.robot.actuators.SparkMaxController;
 
 /** Add your docs here. */
 public class RealIntakeRollers extends SubsystemBase implements IntakeRollersBase {
-  private SparkMaxController m_roller;
+  private SparkMaxController m_leaderMotor;
+  private SparkMaxController m_followerMotor;
   private Config m_intakeRollersConfig = Config4905.getConfig4905().getIntakeRollersConfig();
 
   // need to make a config for intake
@@ -21,22 +22,24 @@ public class RealIntakeRollers extends SubsystemBase implements IntakeRollersBas
     // we need to set the rollers
     // it is assumed pos is intake and neg is eject
     // all values are arbitrary
-    m_roller = new SparkMaxController(m_intakeRollersConfig, "intakeRollersMotor", false, false);
+    m_leaderMotor = new SparkMaxController(m_intakeRollersConfig, "leaderMotor", false, false);
+    m_followerMotor = new SparkMaxController(m_intakeRollersConfig, "leaderMotor", false, false);
   }
 
   @Override
   public void stop() {
-    m_roller.setSpeed(0);
+    m_leaderMotor.setSpeed(0);
+    m_followerMotor.setSpeed(0);
   }
 
   @Override
   public void intake() {
-    m_roller.setSpeed(-1);
+    m_leaderMotor.setSpeed(-1);
   }
 
   @Override
   public void eject() {
-    m_roller.setSpeed(1);
+    m_leaderMotor.setSpeed(1);
   }
 
   @Override

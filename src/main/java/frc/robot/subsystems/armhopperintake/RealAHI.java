@@ -19,6 +19,7 @@ import frc.robot.telemetries.Trace;
 public class RealAHI extends SubsystemBase implements AHIBase {
 
   private SparkMaxController m_armMotor;
+  private SparkMaxController m_armFollowerMotor;
   // these are for safety reasons and represent the min/max angles able to be
   // safely reached
   // these would require the arm to have an absolute encoder (maybe?), which we
@@ -75,6 +76,7 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     // pos is up, neg is down
     m_offset = m_AHIConfig.getDouble("offset");
     m_armMotor = new SparkMaxController(m_AHIConfig, "intakeArmMotor", false, false);
+    m_armFollowerMotor = new SparkMaxController(m_AHIConfig, "intakeFollowerMotor", false, false);
     m_minArmAngle = m_AHIConfig.getDouble("intakeArmMotor.minArmAngle") - m_offset;
     m_maxArmAngle = m_AHIConfig.getDouble("intakeArmMotor.maxArmAngle") - m_offset;
 
@@ -101,8 +103,10 @@ public class RealAHI extends SubsystemBase implements AHIBase {
     if (!override) {
       if ((speed > 0) && (getArmAngle() >= m_maxArmAngle)) {
         m_armMotor.setSpeed(0);
+        m_armFollowerMotor.setSpeed(0);
       } else if ((speed < 0) && (getArmAngle() <= m_minArmAngle)) {
         m_armMotor.setSpeed(0);
+        m_armFollowerMotor.setSpeed(0);
       } else {
         m_armMotor.setSpeed(speed);
       }
@@ -138,11 +142,13 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   @Override
   public void setBrakeMode() {
     m_armMotor.setBrakeMode();
+    m_armFollowerMotor.setBrakeMode();
   }
 
   @Override
   public void setCoastMode() {
     m_armMotor.setCoastMode();
+    m_armFollowerMotor.setCoastMode();
   }
 
   @Override
