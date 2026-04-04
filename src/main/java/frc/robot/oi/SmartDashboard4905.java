@@ -20,6 +20,7 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
+import frc.robot.commands.FuelRaiderCommands.BackAndForthAHI;
 import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
 import frc.robot.commands.FuelRaiderCommands.SetAHIPID;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
@@ -150,6 +151,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber(name + "AHI I value", 0);
       SmartDashboard.putNumber(name + "AHI D value", 0);
       SmartDashboard.putData(name + "Set AHI PID values", new SetAHIPID());
+      SmartDashboard.putData(name + "Wiggle AHI", new BackAndForthAHI());
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       String name = ShooterBase.getSmartDashboardShooterString() + "commands/";
