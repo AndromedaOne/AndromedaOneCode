@@ -8,6 +8,7 @@ import frc.robot.commands.autoCommands.HalfLeftFuelRaidBump;
 import frc.robot.commands.autoCommands.HalfRightFuelRaidBump;
 import frc.robot.commands.autoCommands.LeftTrench;
 import frc.robot.commands.autoCommands.RightTrench;
+import frc.robot.commands.autoCommands.RightTrenchLoop;
 import frc.robot.commands.driveTrainCommands.DoNothingAuto;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
@@ -40,6 +41,11 @@ public class AutoModes4905 {
       }
       try {
         m_autoChooser.addOption("Half RightFuelRaid Trench", new RightTrench());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      try {
+        m_autoChooser.addOption("RightTrenchLoop", new RightTrenchLoop());
       } catch (Exception e) {
         e.printStackTrace();
       }
