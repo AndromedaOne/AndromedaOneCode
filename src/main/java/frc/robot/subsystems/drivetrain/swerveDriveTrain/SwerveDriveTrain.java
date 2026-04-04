@@ -1,7 +1,5 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
-import static edu.wpi.first.math.util.Units.*;
-
 import java.io.IOException;
 import java.util.function.DoubleSupplier;
 
@@ -76,6 +74,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private boolean m_isLeftSide = false;
   private boolean m_changingMidMode = false;
   private FieldConstants m_fieldConstants;
+  private double m_robotFieldElementPoseOffset;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -121,6 +120,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     m_poseEstimation = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
     m_fieldConstants = new FieldConstants();
+    m_robotFieldElementPoseOffset = Config4905.getConfig4905().getSwerveDrivetrainConfig()
+        .getDouble("robotToFieldElementAngleOffset");
   }
 
   @Override
@@ -609,5 +610,36 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   @Override
   public DoubleSupplier getShuttleDistanceToRobotInInchesSupplier() {
     return () -> getShuttleDistanceToRobotInInches();
+  }
+
+  @Override
+  public double getRobotToFieldElementAngle(Pose2d objPose) {
+    if (objPose == null) {
+      // failsafe
+      return 0;
+    }
+    Pose2d robotPose = currentPose2d();
+    double a = objPose.getX() - robotPose.getX();
+    double b = objPose.getY() - robotPose.getY();
+    double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+    double angle = (Math.toDegrees(Math.asin(a / c))) - 90; // 90 normalizes the angle;
+    // adjusting the angle based on being on the left side of the field
+    if (b < 0) {
+      angle = angle + m_robotFieldElementPoseOffset;
+      angle = (-1) * angle;
+    } else {
+      angle = angle - m_robotFieldElementPoseOffset;
+    }
+    // negative angles don't work with auto
+    // either the robot goes to the wrong angle or it never finishes
+    if (angle < 0) {
+      angle += 360;
+    }
+    return angle;
+  }
+
+  @Override
+  public DoubleSupplier getRobotToFieldElementAngleSupplier(Pose2d objPose) {
+    return () -> getRobotToFieldElementAngle(objPose);
   }
 }
