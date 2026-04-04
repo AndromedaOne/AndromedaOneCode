@@ -4,6 +4,8 @@
 
 package frc.robot.commands.FuelRaiderCommands;
 
+import java.time.Instant;
+
 import com.typesafe.config.Config;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +21,8 @@ public class WiggleAHI extends Command {
   private double m_angleOffset = m_ahiConfig.getDouble("offset");
   private double m_retractArmAngle = m_ahiConfig.getDouble("retractArm") - m_angleOffset;
   private double m_wiggleAngleDelta = 50;
+  private long m_timeoutDurationInMilliSeconds = 500;
+  private Instant m_endTime;
 
   private enum ArmState {
     RETRACT, WIGGLE
@@ -34,6 +38,7 @@ public class WiggleAHI extends Command {
   @Override
   public void initialize() {
     m_ahi.setArmSetpoint(m_retractArmAngle);
+    m_endTime = Instant.now().plusMillis(m_timeoutDurationInMilliSeconds);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,8 +47,9 @@ public class WiggleAHI extends Command {
     switch (m_armState) {
     case RETRACT:
       m_ahi.setArmSetpoint(m_retractArmAngle);
-      if (m_ahi.atSetpoint()) {
+      if (m_ahi.atSetpoint() || (m_endTime.compareTo(Instant.now()) <= 0)) {
         m_armState = ArmState.WIGGLE;
+        m_endTime = Instant.now().plusMillis(m_timeoutDurationInMilliSeconds);
       }
       break;
     case WIGGLE:
