@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TrenchRightToCenter"
+            "pathName": "TrenchLeftToCenter"
           }
         },
         {
@@ -42,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Half RightToLeftPickup"
+                  "pathName": "HalfLeftPickupLoop"
                 }
               },
               {
@@ -61,19 +61,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "stop intake rollers"
-          }
-        },
-        {
           "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "ReverseRightToLeftPickup"
+                  "waitTime": 0.5
                 }
               },
               {
@@ -88,7 +82,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TrenchCenterToRight"
+            "pathName": "TrenchCenterLeftLoop"
           }
         },
         {

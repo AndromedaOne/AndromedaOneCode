@@ -6,6 +6,7 @@ package frc.robot.commands.groupCommands;
 
 import frc.robot.commands.Timer;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
+import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.rewrittenWPIclasses.ParallelDeadlineGroup4905;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 
@@ -15,7 +16,8 @@ public class Shoot extends SequentialCommandGroup4905 {
 
   public Shoot(long timeInMs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addCommands(new SwerveDriveSetVelocityToZero(), new ParallelDeadlineGroup4905(
-        new Timer(timeInMs), new ShootBasedOnDistance(), new TurnToHubAndRunEjectBelts()));
+    addCommands(new SwerveDriveSetVelocityToZero(),
+        new ParallelDeadlineGroup4905(new Timer(timeInMs), new ShootBasedOnDistance(),
+            new TurnToHubAndRunEjectBelts(), new IntakeRollerIntakeCommand()));
   }
 }
