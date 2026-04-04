@@ -148,20 +148,10 @@ public class RealAHI extends SubsystemBase implements AHIBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber(m_tableName + "arm angle", getArmAngle());
-    SmartDashboard.putNumber(m_tableName + "raw encoder value",
-        m_armMotor.getAbsoluteEncoderPosition());
     SmartDashboard.putNumber(m_tableName + "raw encoder value in degrees",
         m_armMotor.getAbsoluteEncoderPosition() * 360);
-    SmartDashboard.putNumber(m_tableName + "arm PID setpoint", m_armController.getSetpoint());
     SmartDashboard.putBoolean(m_tableName + "arm PID is at setpoint", atSetpoint());
     SmartDashboard.putString(m_tableName + "AHI state", getState().toString());
-    SmartDashboard.putNumber(m_tableName + "arm velocity", m_armMotor.getSpeed());
-    SmartDashboard.putNumber(m_tableName + "P value", m_KpA);
-    SmartDashboard.putNumber(m_tableName + "I value", m_KiA);
-    SmartDashboard.putNumber(m_tableName + "D value", m_KdA);
-    SmartDashboard.putNumber(m_tableName + "min angle", m_minArmAngle);
-    SmartDashboard.putNumber(m_tableName + "max angle", m_maxArmAngle);
-    SmartDashboard.putNumber(m_tableName + "arm offset", m_offset);
   }
 
   // private to ensure this only gets run in periodic

@@ -141,10 +141,6 @@ public class PoseEstimation4905 {
         .abs(localPose.getRotation().getDegrees() - previousPose.getRotation().getDegrees());
     // putting degree into degrees per second
     degree = degree / 0.02;
-    // on smart dashboard because why not
-    SmartDashboard.putNumber("robot velocity", z);
-    SmartDashboard.putNumber("robot rotation velocity", degree);
-
     // NOTE: there is a very specific edge case which messes up the rotation.
     // this edge case requires one of the POV buttons to be held, the robot to have
     // never seen an april tag, and the ending angle to see an april tag.
@@ -186,8 +182,6 @@ public class PoseEstimation4905 {
         }
       }
       localPose = m_swerveOdometry.getEstimatedPosition();
-      SmartDashboard.putNumber("localpose", localPose.getRotation().getDegrees());
-      SmartDashboard.putBoolean("UsePose", usePose);
       if (m_updateGyroOffset) {
         m_poseAngleDelayCounter++;
       }
