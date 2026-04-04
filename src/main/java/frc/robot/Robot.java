@@ -30,10 +30,10 @@ import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
 import frc.robot.commands.autoCommands.RightHubSetPoseManually;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
 import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
-import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
-import frc.robot.commands.groupCommands.Shoot;
+import frc.robot.commands.ejectBeltCommands.EjectBeltShoot;
 import frc.robot.commands.groupCommands.ShootBasedOnDistance;
+import frc.robot.commands.groupCommands.ShootInAuto;
 import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
-    NamedCommands.registerCommand("eject belt into shooter", new EjectBeltLeft());
+    NamedCommands.registerCommand("eject belt into shooter", new EjectBeltShoot());
     NamedCommands.registerCommand("eject belt right", new EjectBeltRight());
     NamedCommands.registerCommand("right hub set pose", new RightHubSetPoseManually());
     NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());
@@ -98,8 +98,8 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("eject using intake", new IntakeRollerEjectCommand());
     NamedCommands.registerCommand("turn to hub and run eject belts",
         new TurnToHubAndRunEjectBelts());
-    NamedCommands.registerCommand("shoot for 4.5 seconds", new Shoot(4500));
-    NamedCommands.registerCommand("shoot for 10 seconds", new Shoot(10000));
+    NamedCommands.registerCommand("shoot for 4.5 seconds", new ShootInAuto(4500));
+    NamedCommands.registerCommand("shoot for 10 seconds", new ShootInAuto(10000));
     NamedCommands.registerCommand("stop intake rollers", new IntakeRollerStop());
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();

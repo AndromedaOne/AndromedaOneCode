@@ -20,12 +20,12 @@ import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.commands.CalibrateGyro;
 import frc.robot.commands.ConfigReload;
-import frc.robot.commands.FuelRaiderCommands.BackAndForthAHI;
 import frc.robot.commands.FuelRaiderCommands.RunShooterRPM;
 import frc.robot.commands.FuelRaiderCommands.SetAHIPID;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
 import frc.robot.commands.FuelRaiderCommands.TuneShooterFeedForward;
+import frc.robot.commands.FuelRaiderCommands.WiggleAHI;
 import frc.robot.commands.autoCommands.CCWFuelRaid;
 import frc.robot.commands.autoCommands.CWFuelRaid;
 import frc.robot.commands.autoCommands.CenterToLeftSideDrop;
@@ -45,8 +45,8 @@ import frc.robot.commands.driveTrainCommands.SetMidSpeed;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
 import frc.robot.commands.driveTrainCommands.TurnToFieldElement;
-import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
+import frc.robot.commands.ejectBeltCommands.EjectBeltShoot;
 import frc.robot.commands.examplePathCommands.Spinner;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPath;
 import frc.robot.commands.examplePathCommands.SwervePathPlanningPathReturn;
@@ -110,7 +110,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putData("MidMode/set mid mode value", new SetMidSpeed());
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
-      SmartDashboard.putData("Run eject belt left", new EjectBeltLeft());
+      SmartDashboard.putData("Run eject belt left", new EjectBeltShoot());
       SmartDashboard.putData("Run eject belt right", new EjectBeltRight());
     }
     if (Config4905.getConfig4905().doesIntakeRollersExist()) {
@@ -151,7 +151,7 @@ public class SmartDashboard4905 {
       SmartDashboard.putNumber(name + "AHI I value", 0);
       SmartDashboard.putNumber(name + "AHI D value", 0);
       SmartDashboard.putData(name + "Set AHI PID values", new SetAHIPID());
-      SmartDashboard.putData(name + "Wiggle AHI", new BackAndForthAHI());
+      SmartDashboard.putData(name + "Wiggle AHI", new WiggleAHI());
     }
     if (Config4905.getConfig4905().doesShooterExist()) {
       String name = ShooterBase.getSmartDashboardShooterString() + "commands/";

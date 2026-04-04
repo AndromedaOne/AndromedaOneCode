@@ -9,9 +9,9 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
-import frc.robot.commands.ejectBeltCommands.EjectBeltLeft;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.groupCommands.ShootBasedOnDistance;
+import frc.robot.commands.groupCommands.ShootInTeleop;
 import frc.robot.commands.groupCommands.ShuttleShot;
 import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
 import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
@@ -46,7 +46,7 @@ public class SubsystemController extends ControllerBase {
     getPOVwest().whileTrue(new TurnToHubAndRunEjectBelts());
     getPOVeast().whileTrue(new EjectBeltRight());
     // shuttle shot buttons
-    getLeftBumperButton().whileTrue(new EjectBeltLeft());
+    getLeftBumperButton().whileTrue(new ShootInTeleop());
     // arbitrary RPM :)
     getRightBumperButton().whileTrue(new ShuttleShot());
   }

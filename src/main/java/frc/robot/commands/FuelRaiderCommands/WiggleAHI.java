@@ -12,7 +12,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.armhopperintake.AHIBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class BackAndForthAHI extends Command {
+public class WiggleAHI extends Command {
   /** Creates a new BackAndForthAHI. */
   private Config m_ahiConfig = Config4905.getConfig4905().getAHIConfig();
   private AHIBase m_ahi = Robot.getInstance().getSubsystemsContainer().getAHI();
@@ -26,7 +26,7 @@ public class BackAndForthAHI extends Command {
 
   private ArmState m_armState = ArmState.RETRACT;
 
-  public BackAndForthAHI() {
+  public WiggleAHI() {
     addRequirements(m_ahi.getSubsystemBase());
   }
 
