@@ -57,13 +57,17 @@ public class TurnToFieldElement extends ParallelCommandGroup4905 {
     double a = m_objPose.getX() - robotPose.getX();
     double b = m_objPose.getY() - robotPose.getY();
     double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-    double angle = (Math.toDegrees(Math.asin(a / c))) - 90.0; // 90 normalizes the angle;
+    double angle = (Math.toDegrees(Math.asin(a / c))) - 90; // 90 normalizes the angle;
     // adjusting the angle based on being on the left side of the field
     if (b < 0) {
       angle = angle + offset;
       angle = (-1) * angle;
     } else {
       angle = angle - offset;
+    }
+    // negative angles mess up stuff
+    if (angle < 0) {
+      angle += 360;
     }
     double middleAngle = angle;
     return () -> middleAngle;
