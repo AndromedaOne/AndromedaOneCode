@@ -54,9 +54,11 @@ public class WiggleAHI extends Command {
       break;
     case WIGGLE:
       m_ahi.setArmSetpoint(m_retractArmAngle - m_wiggleAngleDelta);
-      if (m_ahi.atSetpoint()) {
+      if (m_ahi.atSetpoint() || (m_endTime.compareTo(Instant.now()) <= 0)) {
         m_armState = ArmState.RETRACT;
+        m_endTime = Instant.now().plusMillis(m_timeoutDurationInMilliSeconds);
       }
+      break;
     default:
       m_armState = ArmState.RETRACT;
       break;
