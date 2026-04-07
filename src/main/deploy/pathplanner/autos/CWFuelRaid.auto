@@ -125,6 +125,6 @@
     }
   },
   "resetOdom": false,
-  "folder": null,
+  "folder": "Old and Unused Autos",
   "choreoAuto": false
 }

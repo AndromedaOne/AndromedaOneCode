@@ -182,4 +182,14 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
     return () -> getShuttleDistanceToRobotInInches();
   }
 
+  @Override
+  public double getRobotToFieldElementAngle(Pose2d objPose) {
+    return 0;
+  }
+
+  @Override
+  public DoubleSupplier getRobotToFieldElementAngleSupplier(Pose2d objPose) {
+    return () -> 0;
+  }
+
 }

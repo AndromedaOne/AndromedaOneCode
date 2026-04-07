@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CCW Starting Path"
+            "pathName": "TrenchLeftToCenter"
           }
         },
         {
@@ -23,40 +23,16 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.5
+                  "waitTime": 0.5
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shoot based on distance"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "turn to hub and run eject belts"
+                  "name": "AHI extend"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GoToCenterRight"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "setVelocityToZero"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AHI extend"
           }
         },
         {
@@ -66,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RightToLeftPickup"
+                  "pathName": "HalfLeftPickupLoop"
                 }
               },
               {
@@ -79,12 +55,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "CenterToLeftSideDrop"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "setVelocityToZero"
@@ -97,19 +67,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 5.0
+                  "waitTime": 0.5
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shoot based on distance"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "turn to hub and run eject belts"
+                  "name": "AHI retract"
                 }
               }
             ]
@@ -118,13 +82,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeftSideToCenterAfterDrop"
+            "pathName": "TrenchCenterLeftLoop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot for 10 seconds"
           }
         }
       ]
     }
   },
   "resetOdom": false,
-  "folder": "Old and Unused Autos",
+  "folder": null,
   "choreoAuto": false
 }

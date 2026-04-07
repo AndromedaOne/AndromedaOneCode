@@ -101,4 +101,8 @@ public interface DriveTrainBase extends SubsystemInterface {
   public abstract double getShuttleDistanceToRobotInInches();
 
   public abstract DoubleSupplier getShuttleDistanceToRobotInInchesSupplier();
+
+  public abstract double getRobotToFieldElementAngle(Pose2d objPose);
+
+  public abstract DoubleSupplier getRobotToFieldElementAngleSupplier(Pose2d objPose);
 }
