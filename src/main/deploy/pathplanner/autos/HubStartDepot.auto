@@ -17,6 +17,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "AHI default"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "AHI extend"
                 }
               }
