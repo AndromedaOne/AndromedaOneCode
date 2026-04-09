@@ -29,7 +29,6 @@ public class AHIDefaultCommand extends Command {
     double offset = m_ahiConfig.getDouble("offset");
     m_retractArmAngle = m_ahiConfig.getDouble("retractArm") - offset;
     m_extendArmAngle = m_ahiConfig.getDouble("extendArm") - offset;
-    m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
     addRequirements(m_ahi.getSubsystemBase());
   }
 
@@ -37,6 +36,7 @@ public class AHIDefaultCommand extends Command {
   @Override
   public void initialize() {
     m_ahi.setArmSetpoint(m_retractArmAngle);
+    m_subsystemController = Robot.getInstance().getOIContainer().getSubsystemController();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
