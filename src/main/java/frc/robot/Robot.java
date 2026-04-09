@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
+import frc.robot.commands.FuelRaiderCommands.AHIMockDefaultCommand;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
 import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
@@ -102,7 +103,16 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("shoot for 4.5 seconds", new ShootInAuto(4500));
     NamedCommands.registerCommand("shoot for 10 seconds", new ShootInAuto(10000));
     NamedCommands.registerCommand("stop intake rollers", new IntakeRollerStop());
-    NamedCommands.registerCommand("AHI default", new AHIDefaultCommand());
+    /* This if statement prevents the code from crashing when deployed to robot with no AHI. 
+    * We need to create a new AHIDefaultCommand() to satisfy path planner when it gets configured, 
+    which in turn requires an AHI subsystem.
+    */
+    if (Config4905.getConfig4905().doesAHIExist()){
+      NamedCommands.registerCommand("AHI default", new AHIDefaultCommand());
+    }
+    else{
+      NamedCommands.registerCommand("AHI default", new AHIMockDefaultCommand());
+    }
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
