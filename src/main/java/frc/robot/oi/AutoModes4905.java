@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
-import frc.robot.commands.autoCommands.HalfLeftFuelRaidBump;
-import frc.robot.commands.autoCommands.HalfRightFuelRaidBump;
+import frc.robot.commands.autoCommands.HubStartDepot;
 import frc.robot.commands.autoCommands.LeftTrench;
+import frc.robot.commands.autoCommands.LeftTrenchLoop;
 import frc.robot.commands.autoCommands.RightTrench;
 import frc.robot.commands.autoCommands.RightTrenchLoop;
 import frc.robot.commands.driveTrainCommands.DoNothingAuto;
@@ -25,12 +25,12 @@ public class AutoModes4905 {
 
     if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
       try {
-        m_autoChooser.addOption("Half LeftFuelRaid Bump", new HalfLeftFuelRaidBump());
+        m_autoChooser.addOption("LeftTrenchLoop", new LeftTrenchLoop());
       } catch (Exception e) {
         e.printStackTrace();
       }
       try {
-        m_autoChooser.addOption("Half RightFuelRaid Bump", new HalfRightFuelRaidBump());
+        m_autoChooser.addOption("RightTrenchLoop", new RightTrenchLoop());
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -45,11 +45,10 @@ public class AutoModes4905 {
         e.printStackTrace();
       }
       try {
-        m_autoChooser.addOption("RightTrenchLoop", new RightTrenchLoop());
+        m_autoChooser.addOption("HubStartDepot", new HubStartDepot());
       } catch (Exception e) {
         e.printStackTrace();
       }
-
     }
     SmartDashboard.putData("autoModes", m_autoChooser);
   }

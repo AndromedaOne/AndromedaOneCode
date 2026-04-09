@@ -3,11 +3,12 @@
   "robotLength": 0.864,
   "holonomicMode": true,
   "pathFolders": [
+    "Old and Unused Paths",
     "Practice Paths",
     "TeleOp Paths"
   ],
   "autoFolders": [
-    "New Folder",
+    "Old and Unused Autos",
     "Practice Autos"
   ],
   "defaultMaxVel": 5.0,

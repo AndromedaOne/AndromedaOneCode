@@ -10,12 +10,12 @@ import frc.robot.subsystems.ejectbelt.EjectBeltBase;
 import frc.robot.subsystems.shooter.ShooterBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class EjectBeltLeft extends Command {
+public class EjectBeltShoot extends Command {
   /** Creates a new DefaultEjectBeltCommand. */
   private EjectBeltBase m_ejectBelts;
   private ShooterBase m_shooter;
 
-  public EjectBeltLeft() {
+  public EjectBeltShoot() {
     m_ejectBelts = Robot.getInstance().getSubsystemsContainer().getEjectBelt();
     m_shooter = Robot.getInstance().getSubsystemsContainer().getBottomShooter();
     addRequirements(m_ejectBelts.getSubsystemBase());
