@@ -1,6 +1,8 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.function.DoubleSupplier;
 
 import org.json.simple.parser.ParseException;
@@ -54,6 +56,9 @@ import frc.robot.utils.PoseEstimation4905;
  */
 public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Pose2d m_currentPose;
+  public Pose2d m_oldPose;
+  public Instant m_oldPoseTime;
+  public double m_velocityToHub;
   private boolean m_needToReset = true;
   private Gyro4905 m_gyro;
   private PoseEstimation4905 m_poseEstimation;
@@ -122,6 +127,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     m_fieldConstants = new FieldConstants();
     m_robotFieldElementPoseOffset = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getDouble("robotToFieldElementAngleOffset");
+    m_oldPose = new Pose2d();
+    m_oldPoseTime = Instant.now();
   }
 
   @Override
@@ -270,6 +277,24 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         : Rotation2d.fromDegrees(m_gyro.getCompassHeading()));
   }
 
+  public double getVelocityToHub(Pose2d pose, Instant time) {
+    double velocity = 0;
+    double oldDistance = getHubDistanceToRobotInInches(m_oldPose);
+    double currentDistance = getHubDistanceToRobotInInches(pose);
+    velocity = ((currentDistance - oldDistance) / (Duration.between(time, m_oldPoseTime).toMillis())
+        / 1000.0);
+    String name = "DriveTrain/";
+    SmartDashboard.putNumber(name + "velocity to hub", velocity);
+    SmartDashboard.putNumber(name + "delta distance from hub", currentDistance - oldDistance);
+    SmartDashboard.putNumber(name + "delta time in seconds",
+        (Duration.between(time, m_oldPoseTime).toMillis()) / 1000.0);
+    return velocity;
+  }
+
+  public DoubleSupplier getVelocityToHubDoubleSupplier() {
+    return () -> m_velocityToHub;
+  }
+
   @Override
   public void periodic() {
     // publish the states to NetworkTables for AdvantageScope
@@ -293,9 +318,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
       String name = "DriveTrain/";
-      SmartDashboard.putNumber(name + "Distance To Hub", getHubDistanceToRobotInInches());
+      SmartDashboard.putNumber(name + "", getHubDistanceToRobotInInches());
       SmartDashboard.putNumber(name + "Distance to shuttle spot",
           getShuttleDistanceToRobotInInches());
+      Instant newPoseTime = Instant.now();
+      m_velocityToHub = getVelocityToHub(m_currentPose, newPoseTime);
+      m_oldPose = m_currentPose;
+      m_oldPoseTime = newPoseTime;
     }
   }
 
@@ -579,9 +608,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   @Override
   public double getHubDistanceToRobotInInches() {
+    return getHubDistanceToRobotInInches(currentPose2d());
+  }
+
+  private double getHubDistanceToRobotInInches(Pose2d pose) {
     Pose2d hubPose2d = m_fieldConstants.getHubPose();
-    double xDistance = hubPose2d.getX() - currentPose2d().getX();
-    double yDistance = hubPose2d.getY() - currentPose2d().getY();
+    double xDistance = hubPose2d.getX() - pose.getX();
+    double yDistance = hubPose2d.getY() - pose.getY();
     double distance = Math.sqrt(Math.pow(yDistance, 2) + Math.pow(xDistance, 2));
     // convert from meters to inches.
     return (distance * 39.3701);
