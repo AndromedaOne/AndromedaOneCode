@@ -103,14 +103,14 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("shoot for 4.5 seconds", new ShootInAuto(4500));
     NamedCommands.registerCommand("shoot for 10 seconds", new ShootInAuto(10000));
     NamedCommands.registerCommand("stop intake rollers", new IntakeRollerStop());
-    /* This if statement prevents the code from crashing when deployed to robot with no AHI. 
-    * We need to create a new AHIDefaultCommand() to satisfy path planner when it gets configured, 
-    which in turn requires an AHI subsystem.
-    */
-    if (Config4905.getConfig4905().doesAHIExist()){
+    /*
+     * This if statement prevents the code from crashing when deployed to robot with
+     * no AHI. We need to create a new AHIDefaultCommand() to satisfy path planner
+     * when it gets configured, which in turn requires an AHI subsystem.
+     */
+    if (Config4905.getConfig4905().doesAHIExist()) {
       NamedCommands.registerCommand("AHI default", new AHIDefaultCommand());
-    }
-    else{
+    } else {
       NamedCommands.registerCommand("AHI default", new AHIMockDefaultCommand());
     }
     try {
