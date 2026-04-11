@@ -71,13 +71,8 @@ public class FuelPhysicsSim {
   private static final double BALL_DIAMETER = 0.1501; // m, game manual 5.10.1
   private static final double BALL_RADIUS = BALL_DIAMETER / 2.0;
   private static final double BALL_CROSS_AREA = Math.PI * BALL_RADIUS * BALL_RADIUS;
-  private static final double BALL_MOMENT_OF_INERTIA = 0.4 * BALL_MASS * BALL_RADIUS * BALL_RADIUS; // 2/5
-                                                                                                    // *
-                                                                                                    // m
-                                                                                                    // *
-                                                                                                    // r^2,
-                                                                                                    // solid
-                                                                                                    // sphere
+  private static final double BALL_MOMENT_OF_INERTIA = 0.4 * BALL_MASS * BALL_RADIUS * BALL_RADIUS;
+  // 2/5 * m * r^2, solid sphere
 
   // Aerodynamic coefficients
   private static final double DEFAULT_CD = 0.47; // drag coefficient, smooth sphere
