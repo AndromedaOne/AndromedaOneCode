@@ -16,6 +16,7 @@ public class SwerveDriveSetWheelsToAngle extends Command {
   int m_count = 0;
   DoubleSupplier m_angle = () -> 0;
   boolean m_useSmartDashboard = false;
+  private final String m_smartdashboardName = "command/SwerveDriveSetWheelsToAngle/";
 
   /**
    * Creates a new SwerveDriveSetWheelsToAngle. The angle passed in is counter
@@ -49,7 +50,7 @@ public class SwerveDriveSetWheelsToAngle extends Command {
   public void initialize() {
     m_count = 0;
     if (m_useSmartDashboard) {
-      m_driveTrainBase.setToAngle(SmartDashboard.getNumber("Set swerve drive angle for test", 0));
+      m_driveTrainBase.setToAngle(SmartDashboard.getNumber(m_smartdashboardName + "angle", 0));
     } else {
       m_driveTrainBase.setToAngle(m_angle.getAsDouble());
     }

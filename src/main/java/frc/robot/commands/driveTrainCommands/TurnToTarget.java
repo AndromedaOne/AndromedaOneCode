@@ -27,6 +27,7 @@ public class TurnToTarget extends PIDCommand4905 {
   private boolean m_useSmartDashboard = false;
   // m_targettingCamera will be set in the constructor.
   private PhotonVisionBase m_targettingCamera;
+  private final String m_smartdashboardName = "command/TurnToTarget/";
 
   public TurnToTarget(IntSupplier wantedID, DoubleSupplier setpoint, boolean useSmartDashboard) {
     super(
@@ -51,7 +52,7 @@ public class TurnToTarget extends PIDCommand4905 {
     getController().setTolerance(m_pidConfig.getDouble("TurnToTarget.positionTolerance"));
     getController().setMaxOutput(0.25);
     m_useSmartDashboard = useSmartDashboard;
-    SmartDashboard.putNumber("Turn To Target ID", -1);
+    SmartDashboard.putNumber(m_smartdashboardName + "ID", -1);
     // you need to set m_targettingCamera to the camera you want to use
     // example:
     // m_targettingCamera =
@@ -73,7 +74,7 @@ public class TurnToTarget extends PIDCommand4905 {
       m_wantedID = 7;
     }
     if (m_useSmartDashboard) {
-      m_wantedID = (int) SmartDashboard.getNumber("Turn To Target ID", -1);
+      m_wantedID = (int) SmartDashboard.getNumber(m_smartdashboardName + "ID", -1);
     }
     setMeasurementSource(
         new PhotonVisionYawSupplier(() -> m_wantedID, getSetpoint(), m_targettingCamera));

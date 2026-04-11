@@ -14,6 +14,7 @@ public class MoveUsingDistanceSensorTester extends Command {
   private DriveTrainBase m_driveTrain;
   private DoubleSupplier m_angle;
   private DistanceSensorBase m_tof;
+  private final String m_smartdashboardName = "command/MoveUsingDistanceSensorTester/";
 
   public MoveUsingDistanceSensorTester(DriveTrainBase drivetrain, DoubleSupplier angle,
       DistanceSensorBase tof) {
@@ -25,7 +26,7 @@ public class MoveUsingDistanceSensorTester extends Command {
 
   @Override
   public void initialize() {
-    double distance = SmartDashboard.getNumber("MoveUsingDistanceSensorTester Distance To Move", 6);
+    double distance = SmartDashboard.getNumber(m_smartdashboardName + "Distance To Move", 6);
     CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
         new MoveUsingDistanceSensor(m_driveTrain, distance, m_angle, 0.3, m_tof)));
     Trace.getInstance().logCommandInfo(this, "Moving to distance sensor value: " + distance);

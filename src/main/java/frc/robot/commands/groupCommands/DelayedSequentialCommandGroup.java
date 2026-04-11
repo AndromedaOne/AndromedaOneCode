@@ -27,10 +27,11 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
   private class SpecialWaitCommand extends Command {
     protected Timer m_timer = new Timer();
     private double m_duration;
+    private final String m_smartdashboardName = "command/DelayedSequentialCommand/";
 
     @Override
     public void initialize() {
-      m_duration = SmartDashboard.getNumber("Auto Delay", 0);
+      m_duration = SmartDashboard.getNumber(m_smartdashboardName + "Auto Delay", 0);
       m_timer.reset();
       m_timer.start();
       Trace.getInstance().logCommandInfo(this, "Auto Delay; " + m_duration);

@@ -43,7 +43,7 @@ public class TeleOpCommand extends Command {
   private double m_midModeRSpeed;
   private double m_fastModeFBSpeed;
   private double m_fastModeRSpeed;
-
+  private final String m_smartdashboardName = "command/TeleOpCommand/";
   private final double m_bumpAngle = 225;
   private FieldConstants m_fieldConstants = Robot.getInstance().getFieldConstants();
 
@@ -132,7 +132,8 @@ public class TeleOpCommand extends Command {
       m_currentDelay = 0;
     }
     if (m_driveTrain.getMidModeValueBoolean()) {
-      m_midModeFBSpeed = SmartDashboard.getNumber("MidMode/Mid mode value to set", 0.7);
+      m_midModeFBSpeed = SmartDashboard
+          .getNumber(m_smartdashboardName + "MidMode/Mid mode value to set", 0.7);
     }
     if ((m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
@@ -152,8 +153,8 @@ public class TeleOpCommand extends Command {
       strafeStickValue *= m_fastModeFBSpeed;
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.FAST);
     }
-    SmartDashboard.putNumber("MidMode/mid mode actual value", m_midModeFBSpeed);
-    SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
+    SmartDashboard.putString(m_smartdashboardName + "mode",
+        m_driveTrain.getDriveTrainMode().toString());
     Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
         new TracePair("savedAngle", m_savedRobotAngle),
         new TracePair("rotateStick", rotateStickValue));
@@ -170,7 +171,7 @@ public class TeleOpCommand extends Command {
     strafeStickValue = Math.cos(angle) * magnitude;
     forwardBackwardStickValue = Math.sin(angle) * magnitude;
 
-    String alignment = "alignment/";
+    String alignment = m_smartdashboardName + "alignment/";
     SmartDashboard.putNumber(alignment + "hubX", m_fieldConstants.getHubPose().getX());
     SmartDashboard.putNumber(alignment + "hubY", m_fieldConstants.getHubPose().getY());
     SmartDashboard.putNumber(alignment + "robotX", m_driveTrain.getPose().getX());
@@ -220,7 +221,6 @@ public class TeleOpCommand extends Command {
 
       // this code makes sure the robot always turns the shortest path
 
-      SmartDashboard.putNumber(alignment + "gyro angle", m_gyro.getAngle());
       double gyroAngle = m_gyro.getAngle();
       int truncatedGyroValue = (int) gyroAngle;
       double remainder = gyroAngle - truncatedGyroValue;
@@ -248,7 +248,7 @@ public class TeleOpCommand extends Command {
     } else {
       m_subsystemController.rumbleOff();
     }
-    SmartDashboard.putNumber("rotatestickvalue", rotateStickValue);
+    SmartDashboard.putNumber(m_smartdashboardName + "rotatestickvalue", rotateStickValue);
     if (m_isStrafe) {
       m_driveTrain.move(forwardBackwardStickValue, strafeStickValue, rotateStickValue,
           !m_robotCentricSup.getAsBoolean(), true);

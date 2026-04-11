@@ -53,6 +53,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
     private DoubleSupplier m_angle = () -> 0;
     private double m_target = 0;
     private boolean m_useCurrentHeading = false;
+    private final String m_smartdashboardName = "command/MoveUsingEncoder/";
 
     /**
      * Creates a new MoveUsingEncoder.
@@ -123,7 +124,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandInfo(this, "Starting encoder position: "
           + m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle.getAsDouble()));
       m_driveTrain.disableAccelerationLimiting();
-      SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", false);
+      SmartDashboard.putBoolean(m_smartdashboardName + "OnTarget ", false);
     }
 
     public void setDistance(DoubleSupplier distance) {
@@ -144,7 +145,7 @@ public class MoveUsingEncoder extends SequentialCommandGroup4905 {
       Trace.getInstance().logCommandInfo(this, "Ending position: "
           + m_driveTrain.getRobotPositionInchesBasedOnAngle(m_angle.getAsDouble()));
       m_driveTrain.enableAccelerationLimiting();
-      SmartDashboard.putBoolean("MoveUsingEncoder OnTarget ", true);
+      SmartDashboard.putBoolean(m_smartdashboardName + "OnTarget ", true);
     }
   }
 }
