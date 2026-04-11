@@ -15,6 +15,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -80,6 +81,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private boolean m_changingMidMode = false;
   private FieldConstants m_fieldConstants;
   private double m_robotFieldElementPoseOffset;
+  private LinearFilter m_linearFilter;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -129,6 +131,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         .getDouble("robotToFieldElementAngleOffset");
     m_oldPose = new Pose2d();
     m_oldPoseTime = Instant.now();
+    m_linearFilter = LinearFilter.movingAverage(10);
   }
 
   @Override
@@ -322,7 +325,8 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       SmartDashboard.putNumber(name + "Distance to shuttle spot",
           getShuttleDistanceToRobotInInches());
       Instant newPoseTime = Instant.now();
-      m_velocityToHub = getVelocityToHub(m_currentPose, newPoseTime);
+      m_velocityToHub = m_linearFilter.calculate(getVelocityToHub(m_currentPose, newPoseTime));
+      SmartDashboard.putNumber(name + "filtered velocity to hub", m_velocityToHub);
       m_oldPose = m_currentPose;
       m_oldPoseTime = newPoseTime;
     }
