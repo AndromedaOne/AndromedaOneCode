@@ -281,13 +281,13 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     double velocity = 0;
     double oldDistance = getHubDistanceToRobotInInches(m_oldPose);
     double currentDistance = getHubDistanceToRobotInInches(pose);
-    velocity = ((currentDistance - oldDistance) / (Duration.between(time, m_oldPoseTime).toMillis())
-        / 1000.0);
+    velocity = ((currentDistance - oldDistance) * 1000.0
+        / (Duration.between(m_oldPoseTime, time).toMillis()));
     String name = "DriveTrain/";
     SmartDashboard.putNumber(name + "velocity to hub", velocity);
     SmartDashboard.putNumber(name + "delta distance from hub", currentDistance - oldDistance);
     SmartDashboard.putNumber(name + "delta time in seconds",
-        (Duration.between(time, m_oldPoseTime).toMillis()) / 1000.0);
+        (Duration.between(m_oldPoseTime, time).toMillis()) / 1000.0);
     return velocity;
   }
 
@@ -318,7 +318,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
       String name = "DriveTrain/";
-      SmartDashboard.putNumber(name + "", getHubDistanceToRobotInInches());
+      SmartDashboard.putNumber(name + "Distance To Hub", getHubDistanceToRobotInInches());
       SmartDashboard.putNumber(name + "Distance to shuttle spot",
           getShuttleDistanceToRobotInInches());
       Instant newPoseTime = Instant.now();
