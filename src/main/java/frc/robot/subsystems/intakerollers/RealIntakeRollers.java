@@ -15,6 +15,7 @@ import frc.robot.actuators.TalonFXController;
 public class RealIntakeRollers extends SubsystemBase implements IntakeRollersBase {
   private TalonFXController m_leaderMotor;
   private TalonFXController m_followerMotor;
+  private double m_speed = 1;
   private Config m_intakeRollersConfig = Config4905.getConfig4905().getIntakeRollersConfig();
 
   // need to make a config for intake
@@ -34,16 +35,14 @@ public class RealIntakeRollers extends SubsystemBase implements IntakeRollersBas
 
   @Override
   public void intake() {
-    double speed = 0.75;
-    m_leaderMotor.setSpeed(speed);
-    m_followerMotor.setSpeed(speed);
+    m_leaderMotor.setSpeed(m_speed);
+    m_followerMotor.setSpeed(m_speed);
   }
 
   @Override
   public void eject() {
-    double speed = -0.75;
-    m_leaderMotor.setSpeed(speed);
-    m_followerMotor.setSpeed(speed);
+    m_leaderMotor.setSpeed(-m_speed);
+    m_followerMotor.setSpeed(-m_speed);
   }
 
   @Override

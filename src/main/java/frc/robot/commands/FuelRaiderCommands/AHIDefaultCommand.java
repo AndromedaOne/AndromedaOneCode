@@ -88,7 +88,7 @@ public class AHIDefaultCommand extends Command {
     case EXTENDED:
       break;
     case HOLDEXTENDED:
-      m_ahi.rotateArm(-0.05, false);
+      m_ahi.rotateArm(-0.1, false);
       usePID = false;
       break;
     case RETRACTEDSTART:

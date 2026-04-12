@@ -41,7 +41,8 @@ public class ShootBasedOnDistance extends SequentialCommandGroup4905 {
     m_driveTrain = Robot.getInstance().getSubsystemsContainer().getDriveTrain();
     m_distanceRPMMap = new InterpolatingMap(m_config, "bottomShooter.shotShootingRPM");
     m_distance = m_driveTrain.getHubDistanceToRobotInInchesSupplier();
-    m_setpointSupplier = () -> (m_distanceRPMMap.getInterpolatedValue(m_distance.getAsDouble()));
+    m_setpointSupplier = () -> (m_distanceRPMMap.getInterpolatedValue(m_distance.getAsDouble())
+        + 150);
     m_command = new RunShooterRPM(m_bottomShooter, m_setpointSupplier);
     addCommands(m_command);
   }
