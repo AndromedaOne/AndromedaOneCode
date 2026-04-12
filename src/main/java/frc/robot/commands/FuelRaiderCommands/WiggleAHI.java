@@ -19,7 +19,7 @@ public class WiggleAHI extends Command {
   private Config m_ahiConfig = Config4905.getConfig4905().getAHIConfig();
   private AHIBase m_ahi = Robot.getInstance().getSubsystemsContainer().getAHI();
   private double m_angleOffset = m_ahiConfig.getDouble("offset");
-  private double m_retractArmAngle = m_ahiConfig.getDouble("retractArm") - m_angleOffset;
+  private double m_retractArmAngle = m_ahiConfig.getDouble("retractArm") - m_angleOffset - 15;
   private double m_wiggleAngleDelta = 50;
   private long m_timeoutDurationInMilliSeconds = 500;
   private Instant m_endTime;
