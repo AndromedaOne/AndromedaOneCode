@@ -81,18 +81,6 @@
                 "data": {
                   "pathName": "ReverseRightToLeftPickup"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AHI default"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AHI retract"
-                }
               }
             ]
           }

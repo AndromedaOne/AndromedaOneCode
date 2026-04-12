@@ -67,31 +67,6 @@
           }
         },
         {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AHI default"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AHI retract"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "TrenchCenterLeftLoop"
