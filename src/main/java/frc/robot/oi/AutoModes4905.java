@@ -9,6 +9,7 @@ import frc.robot.commands.autoCommands.LeftTrench;
 import frc.robot.commands.autoCommands.LeftTrenchDoubleLoop;
 import frc.robot.commands.autoCommands.LeftTrenchLoop;
 import frc.robot.commands.autoCommands.RightTrench;
+import frc.robot.commands.autoCommands.RightTrenchDoubleLoop;
 import frc.robot.commands.autoCommands.RightTrenchLoop;
 import frc.robot.commands.driveTrainCommands.DoNothingAuto;
 import frc.robot.sensors.SensorsContainer;
@@ -52,6 +53,11 @@ public class AutoModes4905 {
       }
       try {
         m_autoChooser.addOption("LeftTrenchDoubleLoop", new LeftTrenchDoubleLoop());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+       try {
+        m_autoChooser.addOption("RightTrenchDoubleLoop", new RightTrenchDoubleLoop());
       } catch (Exception e) {
         e.printStackTrace();
       }
