@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.autoCommands.HubStartDepot;
 import frc.robot.commands.autoCommands.LeftTrench;
+import frc.robot.commands.autoCommands.LeftTrenchDoubleLoop;
 import frc.robot.commands.autoCommands.LeftTrenchLoop;
 import frc.robot.commands.autoCommands.RightTrench;
 import frc.robot.commands.autoCommands.RightTrenchLoop;
@@ -46,6 +47,11 @@ public class AutoModes4905 {
       }
       try {
         m_autoChooser.addOption("HubStartDepot", new HubStartDepot());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      try {
+        m_autoChooser.addOption("LeftTrenchDoubleLoop", new LeftTrenchDoubleLoop());
       } catch (Exception e) {
         e.printStackTrace();
       }
