@@ -56,7 +56,7 @@ public class AutoModes4905 {
       } catch (Exception e) {
         e.printStackTrace();
       }
-       try {
+      try {
         m_autoChooser.addOption("RightTrenchDoubleLoop", new RightTrenchDoubleLoop());
       } catch (Exception e) {
         e.printStackTrace();

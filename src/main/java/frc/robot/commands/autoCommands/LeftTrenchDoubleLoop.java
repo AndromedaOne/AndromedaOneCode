@@ -12,7 +12,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.groupCommands.DelayedSequentialCommandGroup;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 
