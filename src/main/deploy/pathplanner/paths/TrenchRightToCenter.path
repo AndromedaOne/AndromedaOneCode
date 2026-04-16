@@ -55,8 +55,8 @@
   "eventMarkers": [
     {
       "name": "AHI default",
-      "waypointRelativePos": 1.4197860962566855,
-      "endWaypointRelativePos": null,
+      "waypointRelativePos": 1.3680430879712746,
+      "endWaypointRelativePos": 2.0,
       "command": null
     },
     {
