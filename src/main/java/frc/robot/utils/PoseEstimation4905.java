@@ -44,6 +44,8 @@ public class PoseEstimation4905 {
   private Alliance m_currentAlliance;
   private AprilTagFieldLayout m_aprilTagFieldLayout;
   private int m_poseAngleDelayCounter = 0;
+  private int m_leftHubUnwantedAprilTag = 0;
+  private int m_rightHubUnwantedAprilTag = 0;
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
       .getStructTopic("/OdometryPose", Pose2d.struct).publish();
@@ -122,8 +124,14 @@ public class PoseEstimation4905 {
       if (alliance == Alliance.Red) {
         m_aprilTagFieldLayout.setOrigin(
             new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
+        // blue hub
+        m_leftHubUnwantedAprilTag = 19;
+        m_rightHubUnwantedAprilTag = 20;
       } else {
         m_aprilTagFieldLayout.setOrigin(new Pose3d(0, 0, 0, new Rotation3d(0, 0, 0)));
+        // red hub
+        m_leftHubUnwantedAprilTag = 3;
+        m_rightHubUnwantedAprilTag = 4;
       }
       m_currentAlliance = alliance;
     }
@@ -168,6 +176,12 @@ public class PoseEstimation4905 {
             usePose = true;
             for (int j = 0; j < estimatedPose.targetsUsed.size(); j++) {
               if (estimatedPose.targetsUsed.get(j).getPoseAmbiguity() > 0.1) {
+                usePose = false;
+              } else if (estimatedPose.targetsUsed.get(j)
+                  .getFiducialId() == m_leftHubUnwantedAprilTag) {
+                usePose = false;
+              } else if (estimatedPose.targetsUsed.get(j)
+                  .getFiducialId() == m_rightHubUnwantedAprilTag) {
                 usePose = false;
               }
             }
