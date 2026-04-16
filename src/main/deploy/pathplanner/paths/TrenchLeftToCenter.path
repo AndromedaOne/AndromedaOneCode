@@ -52,7 +52,20 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "AHI default",
+      "waypointRelativePos": 1.1577540106951882,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "AHI extend",
+      "waypointRelativePos": 1.16,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 3.0,
