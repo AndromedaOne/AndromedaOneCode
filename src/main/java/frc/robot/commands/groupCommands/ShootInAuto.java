@@ -19,6 +19,8 @@ public class ShootInAuto extends SequentialCommandGroup4905 {
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands(new SwerveDriveSetVelocityToZero(),
         new ParallelDeadlineGroup4905(new Timer(timeInMs), new ShootBasedOnDistance(),
-            new TurnToHubAndRunEjectBelts(), new WiggleAHI(), new IntakeRollerIntakeCommand()));
+            new TurnToHubAndRunEjectBelts(),
+            new SequentialCommandGroup4905(new Timer((long) 4000.0), new WiggleAHI()),
+            new IntakeRollerIntakeCommand()));
   }
 }
