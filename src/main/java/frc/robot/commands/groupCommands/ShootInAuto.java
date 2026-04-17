@@ -20,7 +20,7 @@ public class ShootInAuto extends SequentialCommandGroup4905 {
     addCommands(new SwerveDriveSetVelocityToZero(),
         new ParallelDeadlineGroup4905(new Timer(timeInMs), new ShootBasedOnDistance(),
             new TurnToHubAndRunEjectBelts(),
-            new SequentialCommandGroup4905(new Timer((long) 4000.0), new WiggleAHI()),
+            new SequentialCommandGroup4905(new Timer((long) 2000.0), new WiggleAHI()),
             new IntakeRollerIntakeCommand()));
   }
 }

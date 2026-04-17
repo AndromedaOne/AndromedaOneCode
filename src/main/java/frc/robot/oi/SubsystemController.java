@@ -62,4 +62,8 @@ public class SubsystemController extends ControllerBase {
   public boolean getAButtonPressed() {
     return getAbutton().getAsBoolean();
   }
+
+  public boolean eitherTriggerPressed() {
+    return (getLeftTriggerPressedBoolean()) || (getRightTriggerPressedBoolean());
+  }
 }
