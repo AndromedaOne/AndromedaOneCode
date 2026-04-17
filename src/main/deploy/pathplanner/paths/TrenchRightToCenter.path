@@ -54,12 +54,6 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "AHI default",
-      "waypointRelativePos": 1.4197860962566855,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "AHI extend",
       "waypointRelativePos": 1.42,
       "endWaypointRelativePos": null,

@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "TrenchRightToCenter"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AHI default"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "TrenchRightToCenter"
+                }
+              }
+            ]
           }
         },
         {
