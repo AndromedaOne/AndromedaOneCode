@@ -4,7 +4,6 @@
 
 package frc.robot.commands.groupCommands;
 
-import frc.robot.commands.FuelRaiderCommands.WiggleAHI;
 import frc.robot.commands.ejectBeltCommands.EjectBeltShoot;
 import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
@@ -15,6 +14,6 @@ import frc.robot.rewrittenWPIclasses.ParallelCommandGroup4905;
 public class ShootInTeleop extends ParallelCommandGroup4905 {
   /** Creates a new ShootInTeleop. */
   public ShootInTeleop() {
-    addCommands(new WiggleAHI(), new EjectBeltShoot(), new IntakeRollerIntakeCommand());
+    addCommands(new EjectBeltShoot(), new IntakeRollerIntakeCommand());
   }
 }

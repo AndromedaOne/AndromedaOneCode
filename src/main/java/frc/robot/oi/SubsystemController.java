@@ -9,6 +9,7 @@ package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Config4905;
+import frc.robot.commands.FuelRaiderCommands.WiggleAHI;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.groupCommands.ShootBasedOnDistance;
 import frc.robot.commands.groupCommands.ShootInTeleop;
@@ -49,6 +50,7 @@ public class SubsystemController extends ControllerBase {
     getLeftBumperButton().whileTrue(new ShootInTeleop());
     // arbitrary RPM :)
     getRightBumperButton().whileTrue(new ShuttleShot());
+    getRightTriggerPressed().whileTrue(new WiggleAHI());
   }
 
   public void rumbleOn(double value) {
