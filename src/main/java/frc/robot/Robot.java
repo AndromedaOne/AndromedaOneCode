@@ -82,6 +82,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
+    SignalLogger.enableAutoLogging(false);
+    StatusLogger.stop();
+    StatusLogger.disableAutoLogging();
     Trace.getInstance().setTracePairsEnable(false);
     Trace.getInstance().logInfo("robot init started");
     m_fieldConstants = new FieldConstants();
@@ -136,9 +139,6 @@ public class Robot extends TimedRobot {
         .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));
     CommandScheduler.getInstance()
         .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
-    SignalLogger.enableAutoLogging(false);
-    StatusLogger.stop();
-    StatusLogger.disableAutoLogging();
     CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     Trace.getInstance().logInfo("robot init finished");
   }
