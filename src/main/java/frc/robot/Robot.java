@@ -16,6 +16,7 @@ import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
+import com.revrobotics.util.StatusLogger;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -136,6 +137,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance()
         .onCommandFinish(command -> Trace.getInstance().logCommandStop(command));
     SignalLogger.enableAutoLogging(false);
+    StatusLogger.stop();
+    StatusLogger.disableAutoLogging();
     CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     Trace.getInstance().logInfo("robot init finished");
   }
