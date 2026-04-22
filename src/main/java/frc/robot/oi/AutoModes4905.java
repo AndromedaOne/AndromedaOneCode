@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.autoCommands.BackupLeft;
 import frc.robot.commands.autoCommands.BackupRight;
+import frc.robot.commands.autoCommands.HubLeft;
+import frc.robot.commands.autoCommands.HubRight;
 import frc.robot.commands.autoCommands.HubStartDepot;
 import frc.robot.commands.autoCommands.LeftTrench;
 import frc.robot.commands.autoCommands.LeftTrenchDoubleLoop;
@@ -70,6 +72,16 @@ public class AutoModes4905 {
       }
       try {
         m_autoChooser.addOption("BackupRight", new BackupRight());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      try {
+        m_autoChooser.addOption("HubLeft", new HubLeft());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      try {
+        m_autoChooser.addOption("HubRight", new HubRight());
       } catch (Exception e) {
         e.printStackTrace();
       }

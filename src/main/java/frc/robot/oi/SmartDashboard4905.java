@@ -44,6 +44,7 @@ import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
 import frc.robot.commands.driveTrainCommands.SetMidSpeed;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
 import frc.robot.commands.driveTrainCommands.TurnToFieldElement;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.ejectBeltCommands.EjectBeltShoot;
@@ -108,6 +109,9 @@ public class SmartDashboard4905 {
           new TurnToFieldElement(Robot.getInstance().getFieldConstants().getHubPose()));
       SmartDashboard.putNumber("MidMode/Mid mode value to set", 0.7);
       SmartDashboard.putData("MidMode/set mid mode value", new SetMidSpeed());
+      SmartDashboard.putNumber("TurnToCompassHeading angle", 0);
+      SmartDashboard.putData("TurnToCompassHeading", new TurnToCompassHeading(
+          () -> SmartDashboard.getNumber("TurnToCompassHeading angle", 0)));
     }
     if (Config4905.getConfig4905().doesEjectBeltExist()) {
       SmartDashboard.putData("Run eject belt left", new EjectBeltShoot());

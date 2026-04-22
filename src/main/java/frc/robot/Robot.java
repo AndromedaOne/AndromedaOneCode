@@ -102,6 +102,7 @@ public class Robot extends TimedRobot {
         new TurnToHubAndRunEjectBelts());
     NamedCommands.registerCommand("shoot for 4.5 seconds", new ShootInAuto(4500));
     NamedCommands.registerCommand("shoot for 10 seconds", new ShootInAuto(10000));
+    NamedCommands.registerCommand("shoot for 20 seconds", new ShootInAuto(20000));
     NamedCommands.registerCommand("stop intake rollers", new IntakeRollerStop());
     /*
      * This if statement prevents the code from crashing when deployed to robot with
