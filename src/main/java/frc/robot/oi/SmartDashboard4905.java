@@ -72,7 +72,7 @@ public class SmartDashboard4905 {
     if (Config4905.getConfig4905().isSwerveBot() || Config4905.getConfig4905().isFuelRaider()) {
       AutoModes4905.initializeAutoChooser(subsystemsContainer, sensorsContainer, m_autoChooser);
     }
-    SmartDashboard.putNumber("Auto Delay", 0);
+    SmartDashboard.putNumber("Auto Delay", 2);
     SmartDashboard.putData("Reload Config", new ConfigReload());
     SmartDashboard.putData("Calibrate Gyro",
         new CalibrateGyro(sensorsContainer.getGyro(), subsystemsContainer.getDriveTrain()));

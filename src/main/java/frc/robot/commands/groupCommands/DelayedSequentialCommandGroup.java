@@ -30,7 +30,7 @@ public class DelayedSequentialCommandGroup extends SequentialCommandGroup {
 
     @Override
     public void initialize() {
-      m_duration = SmartDashboard.getNumber("Auto Delay", 0);
+      m_duration = SmartDashboard.getNumber("Auto Delay", 2);
       m_timer.reset();
       m_timer.start();
       Trace.getInstance().logCommandInfo(this, "Auto Delay; " + m_duration);
