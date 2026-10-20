@@ -268,8 +268,12 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
+    int count = 1;
     for (SwerveModuleBase mod : m_SwerveMods) {
       positions[mod.getModuleNumber()] = mod.getPosition();
+      String name = "DriveTrain/";
+      SmartDashboard.putNumber(name + "mod:" + count, mod.getPosition().distanceMeters);
+      ++count;
     }
     return positions;
   }
