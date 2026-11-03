@@ -23,6 +23,9 @@ import frc.robot.sensors.gyro.RealPigeonGyroSensor;
 import frc.robot.sensors.photonvision.MockPhotonVision;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.sensors.photonvision.RealPhotonVision;
+import frc.robot.sensors.targetDetection.MockTargetDetection;
+import frc.robot.sensors.targetDetection.RealTargetDetection;
+import frc.robot.sensors.targetDetection.TargetDetectionBase;
 import frc.robot.telemetries.Trace;
 
 /**
@@ -34,7 +37,9 @@ public class SensorsContainer {
   private Camera m_camera1;
   private Gyro4905 m_gyro;
   private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
+  private ArrayList<TargetDetectionBase> m_targetDetection = new ArrayList<TargetDetectionBase>();
   private boolean m_hasPhotonVision = false;
+  private boolean m_hasTargetDetection = false;
   private DistanceSensorBase m_tof0;
   private DistanceSensorBase m_tof1;
   private DistanceSensorBase m_tof2;
@@ -70,6 +75,21 @@ public class SensorsContainer {
       m_camera0 = new MockCamera();
       m_camera1 = new MockCamera();
     }
+    if (m_sensorConfig.hasPath("targetDetection")) {
+      Trace.getInstance().logInfo("Using real target detection");
+      for (int i = 1; i <= m_sensorConfig.getInt("targetDetection.numberOfCameras"); i++) {
+        String cameraName = m_sensorConfig.getString("targetDetection.cameraName" + i);
+        m_targetDetection.add(new RealTargetDetection(cameraName));
+        Trace.getInstance().logInfo("added camera: " + cameraName);
+      }
+      m_hasTargetDetection = true;
+
+    } else {
+      Trace.getInstance().logInfo("using mock target detection");
+      m_targetDetection.add(new MockTargetDetection());
+
+    }
+
     if (m_sensorConfig.hasPath("photonvision")) {
       Trace.getInstance().logInfo("Using real Photon Vision");
       for (int i = 1; i <= m_sensorConfig.getInt("photonvision.numberOfCameras"); i++) {
@@ -115,6 +135,14 @@ public class SensorsContainer {
 
   public Camera getCamera1() {
     return m_camera1;
+  }
+
+  public boolean hasTargetDetection() {
+    return m_hasTargetDetection;
+  }
+
+  public ArrayList<TargetDetectionBase> getTargetDetectionList() {
+    return m_targetDetection;
   }
 
   public boolean hasPhotonVision() {

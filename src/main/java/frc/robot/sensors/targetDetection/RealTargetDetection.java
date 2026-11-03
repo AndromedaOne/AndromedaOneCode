@@ -20,6 +20,11 @@ public class RealTargetDetection extends RealSensorBase implements TargetDetecti
 
   public RealTargetDetection(String cameraName) {
     m_camera = new PhotonCamera(cameraName);
+    SmartDashboard.putNumber(sensorName + "/Skew", m_skew);
+    SmartDashboard.putNumber(sensorName + "/Yaw", m_yaw);
+    SmartDashboard.putNumber(sensorName + "/Confidence", m_confidence);
+    SmartDashboard.putNumber(sensorName + "/Pitch", m_pitch);
+    SmartDashboard.putNumber(sensorName + "/Area", m_area);
   }
 
   @Override
@@ -31,7 +36,7 @@ public class RealTargetDetection extends RealSensorBase implements TargetDetecti
       for (int item = 0; item < resultList.size(); item++) {
         m_skew = resultList.get(item).skew;
         m_yaw = resultList.get(item).yaw;
-        // confidence m_confidence = resultList.get(item).
+        m_confidence = resultList.get(item).objDetectConf;
         m_pitch = resultList.get(item).pitch;
         m_area = resultList.get(item).area;
 
