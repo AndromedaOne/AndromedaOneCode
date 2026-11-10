@@ -1,5 +1,7 @@
 package frc.robot.sensors.targetDetection;
 
+import java.util.function.DoubleSupplier;
+
 public class MockTargetDetection implements TargetDetectionBase {
 
   public double getYaw() {
@@ -20,5 +22,9 @@ public class MockTargetDetection implements TargetDetectionBase {
 
   public double getArea() {
     return 0.0;
+  }
+
+  public DoubleSupplier getYawAsDoubleSupplier() {
+    return () -> getYaw();
   }
 }

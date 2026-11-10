@@ -1,6 +1,7 @@
 package frc.robot.sensors.targetDetection;
 
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -68,5 +69,10 @@ public class RealTargetDetection extends RealSensorBase implements TargetDetecti
 
   public double getArea() {
     return m_area;
+  }
+
+  @Override
+  public DoubleSupplier getYawAsDoubleSupplier() {
+    return () -> getYaw();
   }
 }
