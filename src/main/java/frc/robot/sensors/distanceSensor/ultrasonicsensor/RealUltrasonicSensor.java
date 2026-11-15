@@ -4,8 +4,8 @@ import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.Ultrasonic;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.Ultrasonic;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;

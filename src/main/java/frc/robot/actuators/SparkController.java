@@ -6,8 +6,8 @@ package frc.robot.actuators;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import org.wpilib.hardware.rotation.Encoder;
+import org.wpilib.drivers.motor.Spark;
 
 /** Add your docs here. */
 public class SparkController extends Spark {

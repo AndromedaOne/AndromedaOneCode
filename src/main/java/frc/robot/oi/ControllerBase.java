@@ -4,10 +4,10 @@
 
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
+import org.wpilib.driverstation.GenericHID.RumbleType;
+import org.wpilib.driverstation.XboxController;
+import org.wpilib.command2.button.JoystickButton;
+import org.wpilib.command2.button.POVButton;
 import frc.robot.lib.ButtonsEnumerated;
 import frc.robot.lib.POVDirectionNames;
 

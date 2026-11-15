@@ -8,19 +8,19 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructPublisher;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.vision.apriltag.AprilTagFieldLayout;
+import org.wpilib.math.estimator.SwerveDrivePoseEstimator;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation3d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.math.kinematics.SwerveDriveKinematics;
+import org.wpilib.math.kinematics.SwerveModulePosition;
+import org.wpilib.networktables.NetworkTableInstance;
+import org.wpilib.networktables.StructPublisher;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.sensors.SensorsContainer;
@@ -62,7 +62,7 @@ public class PoseEstimation4905 {
       m_aprilTagFieldLayout = Robot.getInstance().getFieldConstants().getFieldLayout();
       m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
       m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
-      if (m_currentAlliance == Alliance.Red) {
+      if (m_currentAlliance == Alliance.RED) {
         m_aprilTagFieldLayout.setOrigin(
             new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
         m_minAprilTag = 1;
@@ -123,7 +123,7 @@ public class PoseEstimation4905 {
 
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     if (alliance != m_currentAlliance) {
-      if (alliance == Alliance.Red) {
+      if (alliance == Alliance.RED) {
         m_aprilTagFieldLayout.setOrigin(
             new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
         // blue hub

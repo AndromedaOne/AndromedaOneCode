@@ -10,7 +10,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import frc.robot.Robot;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;

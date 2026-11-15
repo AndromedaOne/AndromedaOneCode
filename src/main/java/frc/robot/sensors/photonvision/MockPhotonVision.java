@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.photonvision.PhotonCamera;
 
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Translation3d;
+import org.wpilib.math.geometry.Rotation3d;
+import org.wpilib.math.geometry.Translation3d;
 
 /** Add your docs here. */
 public class MockPhotonVision implements PhotonVisionBase {

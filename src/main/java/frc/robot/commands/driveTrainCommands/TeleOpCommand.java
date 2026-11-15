@@ -4,9 +4,9 @@ import java.util.function.BooleanSupplier;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.math.util.MathUtil;
+import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.command2.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
@@ -160,7 +160,7 @@ public class TeleOpCommand extends Command {
     // strafe should be in there, it's not being exponented at the moment and it
     // needs to be
 
-    double magnitude = MathUtil.clamp(
+    double magnitude = Math.clamp(
         getExponential(Math.hypot(strafeStickValue, forwardBackwardStickValue), 3.6, 0.75, .1), -1,
         1);
     double angle = Math.atan2(forwardBackwardStickValue, strafeStickValue);
@@ -178,7 +178,7 @@ public class TeleOpCommand extends Command {
     // it's here now
     // when the strafe is exponented while the forwardback isn't zero, it screws up
     // it can't be zero but it needs to be low
-    rotateStickValue = MathUtil.clamp(getExponential(rotateStickValue, 4.3, 0.7, .1), -1, 1);
+    rotateStickValue = Math.clamp(getExponential(rotateStickValue, 4.3, 0.7, .1), -1, 1);
     // do not use moveWithGyro here as we're providing the drive straight correction
     // PoV button changing to angle without stopping the drivetrain
     boolean useRumble = false;
@@ -234,7 +234,7 @@ public class TeleOpCommand extends Command {
       }
       error *= m_angleKP;
       SmartDashboard.putNumber(alignment + "error after kp", error);
-      rotateStickValue = -MathUtil.clamp(error, -1, 1);
+      rotateStickValue = -Math.clamp(error, -1, 1);
       // without this, if the robot is moving both before AND after the button is
       // pressed, the robot will go to the saved angle
       m_savedRobotAngle = m_gyro.getAngle();

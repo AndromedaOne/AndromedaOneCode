@@ -7,7 +7,7 @@ package frc.robot.sensors.photonvision;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
 public class PhotonVisionYawSupplier implements DoubleSupplier {

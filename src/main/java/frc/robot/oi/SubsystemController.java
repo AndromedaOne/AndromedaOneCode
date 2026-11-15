@@ -7,7 +7,7 @@
 
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.XboxController;
+import org.wpilib.driverstation.XboxController;
 import frc.robot.Config4905;
 import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
 import frc.robot.commands.groupCommands.ShootBasedOnDistance;

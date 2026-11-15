@@ -1,6 +1,6 @@
 package pathgeneratortests;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 
 public class DummyTurnCommand extends Command {
   private double m_angle;

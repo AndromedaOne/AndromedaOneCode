@@ -6,7 +6,7 @@ package frc.robot.actuators;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
+import org.wpilib.hardware.discrete.DigitalOutput;
 
 /** Add your docs here. */
 public class DigitalOutput4905 {

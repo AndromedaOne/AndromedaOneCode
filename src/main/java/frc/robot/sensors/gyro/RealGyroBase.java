@@ -2,7 +2,7 @@ package frc.robot.sensors.gyro;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.sensors.RealSensorBase;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.AngleConversionUtils;

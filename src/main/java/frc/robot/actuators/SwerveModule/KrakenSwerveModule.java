@@ -16,8 +16,9 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
+import org.wpilib.telemetry.Telemetry;
+
 import frc.robot.Config4905;
 
 /** Add your docs here. */
@@ -103,32 +104,31 @@ public class KrakenSwerveModule extends SwerveModuleBase {
   }
 
   @Override
-  protected void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
+  protected void setSpeed(SwerveModuleVelocity desiredState, boolean isOpenLoop) {
     if (isOpenLoop) {
-      double percentOutput = desiredState.speedMetersPerSecond / m_config.getDouble("maxSpeed");
-      m_driveMotor.set(percentOutput);
+      double percentOutput = desiredState.velocity / m_config.getDouble("maxSpeed");
+      m_driveMotor.setThrottle(percentOutput);
     }
   }
 
   @Override
-  protected void setAngle(SwerveModuleState desiredState, boolean override) {
+  protected void setAngle(SwerveModuleVelocity desiredState, boolean override) {
     double angle = desiredState.angle.getRotations();
     if (!override
-        && Math.abs(desiredState.speedMetersPerSecond) <= (m_config.getDouble("maxSpeed") * 0.01)) {
+        && Math.abs(desiredState.velocity) <= (m_config.getDouble("maxSpeed") * 0.01)) {
       angle = m_lastAngle;
     }
     m_lastAngle = angle;
     // need to invert the angle because inverting the motor through the motor
     // controller causes issues with the onboard pidcontroller
-    SmartDashboard.putNumber("swervedrive/steerangle/" + m_moduleNumber, angle);
+    Telemetry.log("swervedrive/steerangle/" + m_moduleNumber, angle);
     m_angleMotor.setControl(m_angleSetter.withPosition(angle));
   }
 
   @Override
   protected double getAngleMotorRawAngle() {
     double angle = m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble() * 360;
-    SmartDashboard.putNumber("CanCoder " + m_moduleNumber,
-        m_angleMotorEncoder.getAbsolutePosition().getValueAsDouble());
+    Telemetry.log("swervedrive/angleencoder/" + m_moduleNumber, angle);
     if (angle < 0) {
       angle += 360;
     }
@@ -156,11 +156,12 @@ public class KrakenSwerveModule extends SwerveModuleBase {
 
     NeutralModeValue kMode = NeutralModeValue.Brake;
     if (value) {
-
       kMode = NeutralModeValue.Coast;
     }
-    m_driveMotor.setNeutralMode(kMode);
-    m_angleMotor.setNeutralMode(kMode);
+    TalonFXConfiguration modeConfig = new TalonFXConfiguration();
+    modeConfig.MotorOutput.NeutralMode = kMode;
+    m_driveMotor.getConfigurator().apply(modeConfig);
+    m_angleMotor.getConfigurator().apply(modeConfig);
   }
 
   @Override

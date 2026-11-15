@@ -4,7 +4,11 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.RobotState;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.driverstation.MatchType;
+import org.wpilib.driverstation.DriverStationErrors;
 import frc.robot.Config4905;
 import frc.robot.telemetries.Trace;
 import frc.robot.utils.AngleConversionUtils;
@@ -47,7 +51,7 @@ public class RealPigeonGyroSensor extends RealGyroBase {
                 + "\n\tXangle: " + m_gyro.getPitch() + "\n\tYangle: " + m_gyro.getRoll() + "\n");
         m_calibrated = true;
       } catch (RuntimeException ex) {
-        DriverStation.reportError("Error instantiating pigeon: " + ex.getMessage(), true);
+        DriverStationErrors.reportError("Error instantiating pigeon: " + ex.getMessage(), true);
       }
     }
   }

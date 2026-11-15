@@ -1,8 +1,8 @@
 package frc.robot.lib;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.Joystick;
+import org.wpilib.command2.button.JoystickButton;
 
 public enum ButtonsEnumerated {
   ABUTTON(1), BBUTTON(2), XBUTTON(3), YBUTTON(4), LEFTBUMPERBUTTON(5), RIGHTBUMPERBUTTON(6),

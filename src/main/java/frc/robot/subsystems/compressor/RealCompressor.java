@@ -6,12 +6,12 @@ package frc.robot.subsystems.compressor;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.SensorUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.wpilib.hardware.pneumatic.Compressor;
+import org.wpilib.hardware.pneumatic.PneumaticsModuleType;
+import org.wpilib.system.SensorUtil;
+import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.SubsystemBase;
 import frc.robot.Config4905;
 
 /** Add your docs here. */
@@ -24,21 +24,21 @@ public class RealCompressor extends SubsystemBase implements CompressorBase {
     Config compressorConfig = Config4905.getConfig4905().getCompressorConfig();
     if (compressorConfig.hasPath("ModuleType")) {
       String moduleString = compressorConfig.getString("ModuleType");
-      if (moduleString.equals("REVPH")) {
+      if (moduleString.equals("REV_PH")) {
         m_portInt = compressorConfig.getInt("port");
-        m_compressor = new Compressor(m_portInt, PneumaticsModuleType.REVPH);
-        m_compressorModuleType = PneumaticsModuleType.REVPH;
-      } else if (moduleString.equals("CTREPCM")) {
-        m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-        m_compressorModuleType = PneumaticsModuleType.CTREPCM;
-        m_portInt = SensorUtil.getDefaultCTREPCMModule();
+        m_compressor = new Compressor(m_portInt, PneumaticsModuleType.REV_PH);
+        m_compressorModuleType = PneumaticsModuleType.REV_PH;
+      } else if (moduleString.equals("CTRE_PCM")) {
+        m_compressor = new Compressor(PneumaticsModuleType.CTRE_PCM);
+        m_compressorModuleType = PneumaticsModuleType.CTRE_PCM;
+        m_portInt = SensorUtil.getDefaultCTRE_PCMModule();
       } else {
         throw (new RuntimeException("Unknown PCM Module Type"));
       }
     } else {
-      m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-      m_compressorModuleType = PneumaticsModuleType.CTREPCM;
-      m_portInt = SensorUtil.getDefaultCTREPCMModule();
+      m_compressor = new Compressor(PneumaticsModuleType.CTRE_PCM);
+      m_compressorModuleType = PneumaticsModuleType.CTRE_PCM;
+      m_portInt = SensorUtil.getDefaultCTRE_PCMModule();
     }
   }
 

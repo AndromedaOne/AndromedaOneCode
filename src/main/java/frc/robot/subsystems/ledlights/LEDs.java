@@ -1,7 +1,7 @@
 package frc.robot.subsystems.ledlights;
 
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.wpilib.util.Color;
+import org.wpilib.command2.SubsystemBase;
 
 public abstract class LEDs extends SubsystemBase {
 

@@ -8,9 +8,9 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.wpilib.util.sendable.SendableBuilder;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
 import frc.robot.telemetries.Trace;
 
 /**

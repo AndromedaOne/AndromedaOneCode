@@ -4,12 +4,12 @@
 
 package frc.robot.rewrittenWPIclasses;
 
-import edu.wpi.first.math.MathSharedStore;
-import edu.wpi.first.math.MathUsageId;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.util.sendable.SendableRegistry;
+import org.wpilib.math.util.MathSharedStore;
+import org.wpilib.math.MathUsageId;
+import org.wpilib.math.util.MathUtil;
+import org.wpilib.util.sendable.Sendable;
+import org.wpilib.util.sendable.SendableBuilder;
+import org.wpilib.util.sendable.SendableRegistry;
 
 /**
  * Implements a PID control loop.
@@ -476,7 +476,7 @@ public class PIDControllerProposed implements Sendable, AutoCloseable {
     if (Math.abs(m_error) > m_iZone) {
       m_totalError = 0;
     } else if (m_ki != 0) {
-      m_totalError = MathUtil.clamp(m_totalError + m_error * m_period, m_minimumIntegral / m_ki,
+      m_totalError = Math.clamp(m_totalError + m_error * m_period, m_minimumIntegral / m_ki,
           m_maximumIntegral / m_ki);
     }
     m_pError = m_kp * m_error;

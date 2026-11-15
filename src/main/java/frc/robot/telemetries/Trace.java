@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import frc.robot.Robot;
 
 // utility to store trace information to a file on the roborio. this class uses the 

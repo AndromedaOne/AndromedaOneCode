@@ -1,6 +1,6 @@
 package frc.robot.pidcontroller;
 
-import edu.wpi.first.math.MathUtil;
+import org.wpilib.math.util.MathUtil;
 import frc.robot.rewrittenWPIclasses.PIDControllerProposed;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
@@ -39,7 +39,7 @@ public class PIDController4905 extends PIDControllerProposed {
     } else if ((preCalculationOutput > 0) && (preCalculationOutput < m_minOutputToMove)) {
       output = m_minOutputToMove;
     }
-    output = MathUtil.clamp(output, m_minOutput, m_maxOutput);
+    output = Math.clamp(output, m_minOutput, m_maxOutput);
     Trace.getInstance().addTrace(true, m_controllerName,
         new TracePair("pError x10", super.getPError() * 10),
         new TracePair("iError x10", super.getIError() * 10),

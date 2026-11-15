@@ -9,10 +9,10 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkLowLevel.ControlType;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
@@ -57,19 +57,17 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     m_driveMotorPositionOffset = m_driveMotor.getPosition().getValueAsDouble();
   }
 
-  @Override
-  protected void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
+  protected void setSpeed(SwerveModuleVelocity desiredState, boolean isOpenLoop) {
     if (isOpenLoop) {
-      double percentOutput = desiredState.speedMetersPerSecond / m_config.getDouble("maxSpeed");
-      m_driveMotor.set(percentOutput);
+      double percentOutput = desiredState.velocity / m_config.getDouble("maxSpeed");
+      m_driveMotor.setThrottle(percentOutput);
     }
   }
 
-  @Override
-  protected void setAngle(SwerveModuleState desiredState, boolean override) {
+  protected void setAngle(SwerveModuleVelocity desiredState, boolean override) {
     double angle = desiredState.angle.getDegrees();
     if (!override
-        && Math.abs(desiredState.speedMetersPerSecond) <= (m_config.getDouble("maxSpeed") * 0.01)) {
+        && Math.abs(desiredState.velocity) <= (m_config.getDouble("maxSpeed") * 0.01)) {
       angle = m_lastAngle;
     }
     m_lastAngle = angle;
@@ -117,7 +115,9 @@ public class KrakenAndSparkMaxSwerveModule extends SwerveModuleBase {
     } else {
       m_angleMotor.setBrakeMode();
     }
-    m_driveMotor.setNeutralMode(kMode);
+    TalonFXConfiguration modeConfig = new TalonFXConfiguration();
+    modeConfig.MotorOutput.NeutralMode = kMode;
+    m_driveMotor.getConfigurator().apply(modeConfig);
   }
 
   @Override

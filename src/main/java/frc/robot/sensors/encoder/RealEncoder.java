@@ -4,8 +4,8 @@
 
 package frc.robot.sensors.encoder;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.hardware.rotation.Encoder;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 

@@ -12,7 +12,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import frc.robot.rewrittenWPIclasses.SequentialCommandGroup4905;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

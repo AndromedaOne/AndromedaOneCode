@@ -5,7 +5,7 @@
 
 package frc.robot.commands.driveTrainCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 public class SwerveDriveSetWheelsToZeroDegrees extends Command {

@@ -2,8 +2,8 @@ package frc.robot.actuators;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.PWM.PeriodMultiplier;
+import org.wpilib.hardware.discrete.PWM;
+import org.wpilib.hardware.discrete.PWM.PeriodMultiplier;
 
 /**
  * Standard hobby style servo that rotates continuously, ie you cannot set this

@@ -4,8 +4,8 @@
 
 package frc.robot.commands.FuelRaiderCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.command2.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.armhopperintake.AHIBase;
 import frc.robot.telemetries.Trace;

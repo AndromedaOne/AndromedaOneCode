@@ -17,13 +17,16 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.RobotState;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.driverstation.MatchType;
+import org.wpilib.driverstation.DriverStationErrors;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.framework.TimedRobot;
+import org.wpilib.telemetry.Telemetry;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
 import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
 import frc.robot.commands.FuelRaiderCommands.AHIMockDefaultCommand;
 import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
@@ -76,7 +79,6 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
-  @Override
   public void robotInit() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -131,7 +133,6 @@ public class Robot extends TimedRobot {
         || Config4905.getConfig4905().doesTankDrivetrainExist()) {
     }
     m_subsystemContainer.getDriveTrain().setCoast(true);
-    LiveWindow.disableAllTelemetry();
     CommandScheduler.getInstance()
         .onCommandInitialize(command -> Trace.getInstance().logCommandStart(command));
     CommandScheduler.getInstance()
@@ -162,9 +163,6 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
-    SmartDashboard.putBoolean("FMS Hub Data/is hub active", isHubActive());
-    SmartDashboard.putNumber("FMS Hub Data/shift time remaining", hubShiftMatchTime());
-    SmartDashboard.putString("FMS Hub Data/Hub state", hubShiftState());
     Trace.getInstance().flushCommandTraceFile();
   }
 
@@ -174,8 +172,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Trace.getInstance().logInfo("disabledInit called");
-    if (DriverStation.isFMSAttached()) {
-      Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
+    if (RobotState.isFMSAttached()) {
+      Trace.getInstance().matchStarted(MatchState.getMatchNumber());
     }
     m_subsystemContainer.getDriveTrain().setCoast(true);
     Trace.getInstance().flushTraceFiles();
@@ -201,13 +199,11 @@ public class Robot extends TimedRobot {
     } else {
       System.out.println("No Autonamous Command Scheduled");
     }
-    if (DriverStation.isFMSAttached()) {
-      Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
+    if (RobotState.isFMSAttached()) {
+      Trace.getInstance().matchStarted(MatchState.getMatchNumber());
     }
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
-    LiveWindow.disableAllTelemetry();
-
     Trace.getInstance().logInfo("autonomousInit finished");
   }
 
@@ -240,12 +236,11 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     setInitialZangleOffset();
-    if (DriverStation.isFMSAttached()) {
-      Trace.getInstance().matchStarted(DriverStation.getMatchNumber());
+    if (RobotState.isFMSAttached()) {
+      Trace.getInstance().matchStarted(MatchState.getMatchNumber());
     }
     m_subsystemContainer.getDriveTrain().setCoast(false);
     m_subsystemContainer.getDriveTrain().disableParkingBrakes();
-    LiveWindow.disableAllTelemetry();
     Trace.getInstance().logInfo("teleopInit finished");
   }
 
@@ -264,7 +259,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testInit() {
+  public void utilityInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     m_subsystemContainer.getDriveTrain().setCoast(false);
@@ -274,7 +269,7 @@ public class Robot extends TimedRobot {
    * This function is called periodically during test mode.
    */
   @Override
-  public void testPeriodic() {
+  public void utilityPeriodic() {
   }
 
   // getters for various OI things below
@@ -289,141 +284,6 @@ public class Robot extends TimedRobot {
 
   public OIContainer getOIContainer() {
     return m_oiContainer;
-  }
-
-  /**
-   * Took this from the FIRST website. Put in robot.java because it seemed like it
-   * would make the most sense to be in here. May want to create another method to
-   * return true only when it changes, allowing for the controller to rumble when
-   * the hub switches.
-   */
-  public boolean isHubActive() {
-    Optional<Alliance> alliance = DriverStation.getAlliance();
-    String smdbString = "FMS Hub Data/Hub Active Call";
-    // If we have no alliance, we cannot be enabled, therefore no hub.
-    if (alliance.isEmpty()) {
-      SmartDashboard.putString(smdbString, "Alliance empty, false");
-      return false;
-    }
-    // Hub is always enabled in autonomous.
-    if (DriverStation.isAutonomousEnabled()) {
-      SmartDashboard.putString(smdbString, "In auto, true");
-      return true;
-    }
-    // At this point, if we're not teleop enabled, there is no hub.
-    if (!DriverStation.isTeleopEnabled()) {
-      SmartDashboard.putString(smdbString, "Not in teleop, false");
-      return false;
-    }
-
-    // We're teleop enabled, compute.
-    double matchTime = DriverStation.getMatchTime();
-    String gameData = DriverStation.getGameSpecificMessage();
-    // If we have no game data, we cannot compute, assume hub is active, as its
-    // likely early in teleop.
-    if (gameData.isEmpty()) {
-      SmartDashboard.putString(smdbString, "No game data, true");
-      return true;
-    }
-    boolean redInactiveFirst = false;
-    switch (gameData.charAt(0)) {
-    case 'R' -> redInactiveFirst = true;
-    case 'B' -> redInactiveFirst = false;
-    default -> {
-      // If we have invalid game data, assume hub is active.
-      SmartDashboard.putString(smdbString, "Invalid game data, true");
-      return true;
-    }
-    }
-
-    // Shift was is active for blue if red won auto, or red if blue won auto.
-    boolean shift1Active = switch (alliance.get()) {
-    case Red -> !redInactiveFirst;
-    case Blue -> redInactiveFirst;
-    };
-
-    if (matchTime > 130) {
-      // Transition shift, hub is active.
-      SmartDashboard.putString(smdbString, "Transition shift, true");
-      return true;
-    } else if (matchTime > 105) {
-      // Shift 1
-      SmartDashboard.putString(smdbString, "Shift 1, " + shift1Active);
-      return shift1Active;
-    } else if (matchTime > 80) {
-      // Shift 2
-      SmartDashboard.putString(smdbString, "Shift 2, " + !shift1Active);
-      return !shift1Active;
-    } else if (matchTime > 55) {
-      // Shift 3
-      SmartDashboard.putString(smdbString, "Shift 3, " + shift1Active);
-      return shift1Active;
-    } else if (matchTime > 30) {
-      // Shift 4
-      SmartDashboard.putString(smdbString, "Shift 4, " + !shift1Active);
-      return !shift1Active;
-    } else {
-      // End game, hub always active.
-      SmartDashboard.putString(smdbString, "End game, true");
-      return true;
-    }
-  }
-
-  public double hubShiftMatchTime() {
-    double matchTime = DriverStation.getMatchTime();
-    // total teleop match time is 140 seconds
-    // 10 sec for transition
-    // 25 * 4 for hub shifts
-    // 30 for endgame
-    if (matchTime <= -1) {
-      // disabled
-      return 0;
-    } else if (matchTime <= 30) {
-      // end game
-      return matchTime;
-    } else if (matchTime <= 130) {
-      // hub shifts
-      matchTime -= 30;
-      return (matchTime % 25);
-    } else {
-      // transition
-      return (matchTime - 130);
-    }
-  }
-
-  public String hubShiftState() {
-    double matchTime = DriverStation.getMatchTime();
-    // total teleop match time is 140 seconds
-    // 10 sec for transition
-    // 25 * 4 for hub shifts
-    // 30 for endgame
-    // auto
-    if (DriverStation.isAutonomousEnabled()) {
-      return "Autonomous";
-    }
-    // disabled
-    if (!DriverStation.isTeleopEnabled()) {
-      return "Disabled";
-    }
-    if (matchTime > 130) {
-      // transition
-      return "Transition";
-    } else if (matchTime > 105) {
-      // shift 1
-      return "Shift 1";
-    } else if (matchTime > 80) {
-      // shift 2
-      return "Shift 2";
-    } else if (matchTime > 55) {
-      // shift 3
-      return "Shift 3";
-    } else if (matchTime > 30) {
-      // shift 4
-      return "Shift 4";
-    } else {
-      // end game
-      return "End game";
-    }
   }
 
   public FieldConstants getFieldConstants() {

@@ -7,8 +7,8 @@ import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.playingwithfusion.TimeOfFlight.Status;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.filter.LinearFilter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.math.filter.LinearFilter;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;

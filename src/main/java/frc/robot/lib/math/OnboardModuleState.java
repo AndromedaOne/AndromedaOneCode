@@ -1,14 +1,14 @@
 package frc.robot.lib.math;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.kinematics.SwerveModuleState;
 
 public class OnboardModuleState {
   public static SwerveModuleState optimize(SwerveModuleState desiredState,
       Rotation2d currentAngle) {
     double targetAngle = placeInAppropriate0To360Scope(currentAngle.getDegrees(),
         desiredState.angle.getDegrees());
-    double targetSpeed = desiredState.speedMetersPerSecond;
+    double targetSpeed = desiredState.velocity;
     double delta = targetAngle - currentAngle.getDegrees();
     if (Math.abs(delta) > 90) {
       targetSpeed = -targetSpeed;

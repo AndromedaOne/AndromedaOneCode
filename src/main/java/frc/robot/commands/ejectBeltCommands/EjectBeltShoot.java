@@ -4,7 +4,7 @@
 
 package frc.robot.commands.ejectBeltCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.ejectbelt.EjectBeltBase;
 import frc.robot.subsystems.shooter.ShooterBase;

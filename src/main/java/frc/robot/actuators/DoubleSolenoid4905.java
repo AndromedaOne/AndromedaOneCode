@@ -1,10 +1,10 @@
 package frc.robot.actuators;
 
-import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
+import static org.wpilib.util.ErrorMessages.requireNonNullParam;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import org.wpilib.hardware.pneumatic.DoubleSolenoid;
 import frc.robot.subsystems.compressor.CompressorBase;
 
 public class DoubleSolenoid4905 {
@@ -22,17 +22,17 @@ public class DoubleSolenoid4905 {
   }
 
   public void extendPiston() {
-    m_doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+    m_doubleSolenoid.set(DoubleSolenoid.Value.FORWARD);
     m_isSolenoidOpen = true;
   }
 
   public void retractPiston() {
-    m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+    m_doubleSolenoid.set(DoubleSolenoid.Value.REVERSE);
     m_isSolenoidOpen = false;
   }
 
   public void stopPiston() {
-    m_doubleSolenoid.set(DoubleSolenoid.Value.kOff);
+    m_doubleSolenoid.set(DoubleSolenoid.Value.OFF);
   }
 
   public boolean isSolenoidOpen() {

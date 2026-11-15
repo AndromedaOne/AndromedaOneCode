@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.compressor;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import org.wpilib.hardware.pneumatic.PneumaticsModuleType;
 import frc.robot.subsystems.SubsystemInterface;
 
 public interface CompressorBase extends SubsystemInterface {

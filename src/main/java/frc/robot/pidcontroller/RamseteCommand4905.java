@@ -7,24 +7,24 @@ package frc.robot.pidcontroller;
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
+import static org.wpilib.util.ErrorMessages.requireNonNullParam;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.Trajectory.State;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.wpilib.math.controller.PIDController;
+import org.wpilib.math.controller.RamseteController;
+import org.wpilib.math.controller.SimpleMotorFeedforward;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.kinematics.ChassisVelocities;
+import org.wpilib.math.kinematics.DifferentialDriveKinematics;
+import org.wpilib.math.kinematics.DifferentialDriveWheelSpeeds;
+import org.wpilib.math.trajectory.Trajectory;
+import org.wpilib.math.trajectory.Trajectory.State;
+import org.wpilib.math.trajectory.TrajectoryGenerator;
+import org.wpilib.system.Timer;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.Subsystem;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 
@@ -148,7 +148,7 @@ public class RamseteCommand4905 extends Command {
     m_prevTime = 0;
     var initialState = m_trajectory.sample(0);
     m_prevSpeeds = m_kinematics
-        .toWheelSpeeds(new ChassisSpeeds(initialState.velocityMetersPerSecond, 0,
+        .toWheelSpeeds(new ChassisVelocities(initialState.velocityMetersPerSecond, 0,
             initialState.curvatureRadPerMeter * initialState.velocityMetersPerSecond));
     m_timer.reset();
     m_timer.start();
@@ -164,11 +164,11 @@ public class RamseteCommand4905 extends Command {
     double dt = curTime - m_prevTime;
     Pose2d currentPos = m_pose.get();
     State desiredState = m_trajectory.sample(curTime);
-    ChassisSpeeds chassisSpeeds = m_follower.calculate(currentPos, desiredState);
+    ChassisVelocities chassisSpeeds = m_follower.calculate(currentPos, desiredState);
 
-    Trace.getInstance().addTrace(true, m_name + "ChassisSpeeds",
-        new TracePair("vxMetersPerSecond", chassisSpeeds.vxMetersPerSecond),
-        new TracePair("omegaRadiansPerSecond", chassisSpeeds.omegaRadiansPerSecond));
+    Trace.getInstance().addTrace(true, m_name + "ChassisVelocities",
+        new TracePair("vxMetersPerSecond", chassisSpeeds.vx),
+        new TracePair("omegaRadiansPerSecond", chassisSpeeds.omega));
 
     var targetWheelSpeeds = m_kinematics.toWheelSpeeds(chassisSpeeds);
 

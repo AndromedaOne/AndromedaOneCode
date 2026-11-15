@@ -3,12 +3,13 @@ package frc.robot.actuators.SwerveModule;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkLowLevel.ControlType;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.wpilib.math.controller.SimpleMotorFeedforward;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
 import frc.robot.Config4905;
 import frc.robot.actuators.SparkMaxController;
 
@@ -45,20 +46,20 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
     m_driveMotorPositionOffset = m_driveMotor.getBuiltInEncoderPositionTicks();
   }
 
-  protected void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
+  protected void setSpeed(SwerveModuleVelocity desiredState, boolean isOpenLoop) {
     if (isOpenLoop) {
-      double percentOutput = desiredState.speedMetersPerSecond / m_config.getDouble("maxSpeed");
-      m_driveMotor.getMotorController().set(percentOutput);
+      double percentOutput = desiredState.velocity / m_config.getDouble("maxSpeed");
+      m_driveMotor.getMotorController().setThrottle(percentOutput);
     } else {
-      m_driveController.setSetpoint(desiredState.speedMetersPerSecond, ControlType.kVelocity,
-          ClosedLoopSlot.kSlot0, m_feedForward.calculate(desiredState.speedMetersPerSecond));
+      m_driveController.setSetpoint(desiredState.velocity, ControlType.kVelocity,
+          ClosedLoopSlot.kSlot0, m_feedForward.calculate(desiredState.velocity));
     }
   }
 
-  protected void setAngle(SwerveModuleState desiredState, boolean overRide) {
+  protected void setAngle(SwerveModuleVelocity desiredState, boolean overRide) {
     double angle = desiredState.angle.getDegrees();
     if (!overRide
-        && Math.abs(desiredState.speedMetersPerSecond) <= (m_config.getDouble("maxSpeed") * 0.01)) {
+        && Math.abs(desiredState.velocity) <= (m_config.getDouble("maxSpeed") * 0.01)) {
       angle = m_lastAngle;
     }
     m_lastAngle = angle;
@@ -72,7 +73,7 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
 
   @Override
   protected double getAngleMotorRawAngle() {
-    double angle = m_absoluteAngleEncoder.getPosition();
+    double angle = m_absoluteAngleEncoder.getPosition().get();
     if (angle < 0) {
       angle += 360;
     }
@@ -99,12 +100,12 @@ public class SparkMaxSwerveModule extends SwerveModuleBase {
 
   @Override
   public double getDriveEncoderPosition() {
-    return m_driveEncoder.getPosition() - m_driveMotorPositionOffset;
+    return m_driveEncoder.getPosition().get() - m_driveMotorPositionOffset;
   }
 
   @Override
   public double getDriveEncoderVelocity() {
-    return m_driveEncoder.getVelocity();
+    return m_driveEncoder.getVelocity().get();
   }
 
 }

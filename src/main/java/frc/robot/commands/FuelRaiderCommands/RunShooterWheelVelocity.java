@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.pidcontroller.FeedForward;
 import frc.robot.pidcontroller.PIDCommand4905;
 import frc.robot.pidcontroller.PIDController4905SampleStop;

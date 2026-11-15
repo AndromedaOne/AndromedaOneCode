@@ -6,7 +6,7 @@ package frc.robot.actuators;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.PWM.PeriodMultiplier;
+import org.wpilib.hardware.discrete.PWM.PeriodMultiplier;
 
 /**
  * Hitec HS-322HD servo provided in the FIRST Kit of Parts in 2008.

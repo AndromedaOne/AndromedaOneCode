@@ -14,9 +14,9 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.util.Units;
+import org.wpilib.math.geometry.Rotation3d;
+import org.wpilib.math.geometry.Translation3d;
+import org.wpilib.math.util.Units;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 

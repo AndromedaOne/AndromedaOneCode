@@ -9,8 +9,8 @@ import java.util.function.IntSupplier;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.pidcontroller.PIDCommand4905;
@@ -69,7 +69,7 @@ public class TurnToTarget extends PIDCommand4905 {
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     // 4 is the middle speaker april tag on red, 8 is blue
     m_wantedID = 4;
-    if (alliance == Alliance.Blue) {
+    if (alliance == Alliance.BLUE) {
       m_wantedID = 7;
     }
     if (m_useSmartDashboard) {

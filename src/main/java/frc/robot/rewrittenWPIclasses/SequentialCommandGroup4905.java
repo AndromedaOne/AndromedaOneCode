@@ -7,8 +7,8 @@ package frc.robot.rewrittenWPIclasses;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj2.command.*;
+import org.wpilib.util.sendable.SendableBuilder;
+import org.wpilib.command2.*;
 import frc.robot.telemetries.Trace;
 
 /**

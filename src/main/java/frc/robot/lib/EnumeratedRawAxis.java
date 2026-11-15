@@ -1,6 +1,6 @@
 package frc.robot.lib;
 
-import edu.wpi.first.wpilibj.Joystick;
+import org.wpilib.driverstation.Joystick;
 
 public enum EnumeratedRawAxis {
   LEFTSTICKHORIZONTAL(0), LEFTSTICKVERTICAL(1), LEFTTRIGGER(2), RIGHTTRIGGER(3),

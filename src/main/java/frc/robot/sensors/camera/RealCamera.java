@@ -2,8 +2,8 @@ package frc.robot.sensors.camera;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
+import org.wpilib.vision.stream.CameraServer;
+import org.wpilib.vision.camera.UsbCamera;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 

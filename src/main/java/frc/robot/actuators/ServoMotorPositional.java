@@ -2,10 +2,10 @@ package frc.robot.actuators;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.PWM.PeriodMultiplier;
+import org.wpilib.hardware.hal.FRCNetComm.tResourceType;
+import org.wpilib.hardware.hal.HAL;
+import org.wpilib.hardware.discrete.PWM;
+import org.wpilib.hardware.discrete.PWM.PeriodMultiplier;
 
 /**
  * Standard hobby style servo.

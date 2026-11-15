@@ -4,9 +4,9 @@
 
 package frc.robot.commands.autoCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.command2.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 

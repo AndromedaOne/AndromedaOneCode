@@ -1,7 +1,7 @@
 package frc.robot.utils;
 
-import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import org.wpilib.math.geometry.*;
+import org.wpilib.math.kinematics.ChassisVelocities;
 
 public class PathPlannerUtils {
   private static final double kEpsilon = 1E-8;
@@ -19,9 +19,9 @@ public class PathPlannerUtils {
     return epsilonEquals(a, b, kEpsilon);
   }
 
-  public static boolean epsilonEquals(ChassisSpeeds s1, ChassisSpeeds s2) {
-    return epsilonEquals(s1.vxMetersPerSecond, s2.vxMetersPerSecond)
-        && PathPlannerUtils.epsilonEquals(s1.vyMetersPerSecond, s2.vyMetersPerSecond)
-        && PathPlannerUtils.epsilonEquals(s1.omegaRadiansPerSecond, s2.omegaRadiansPerSecond);
+  public static boolean epsilonEquals(ChassisVelocities s1, ChassisVelocities s2) {
+    return epsilonEquals(s1.vx, s2.vx)
+        && PathPlannerUtils.epsilonEquals(s1.vy, s2.vy)
+        && PathPlannerUtils.epsilonEquals(s1.omega, s2.omega);
   }
 }

@@ -6,7 +6,7 @@ package frc.robot.commands.FuelRaiderCommands;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.SubsystemController;

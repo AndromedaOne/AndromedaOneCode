@@ -15,21 +15,21 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.math.filter.LinearFilter;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructArrayPublisher;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.wpilib.math.filter.LinearFilter;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.kinematics.ChassisVelocities;
+import org.wpilib.math.kinematics.SwerveDriveKinematics;
+import org.wpilib.math.kinematics.SwerveModulePosition;
+import org.wpilib.math.kinematics.SwerveModuleState;
+import org.wpilib.math.system.DCMotor;
+import org.wpilib.networktables.NetworkTableInstance;
+import org.wpilib.networktables.StructArrayPublisher;
+import org.wpilib.smartdashboard.Field2d;
+import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.SubsystemBase;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.actuators.SwerveModule.KrakenAndSparkMaxSwerveModule;
@@ -68,7 +68,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Config m_config;
   private ParkingBrakeStates m_ParkingBrakeState = ParkingBrakeStates.BRAKESOFF;
   public static SwerveDriveKinematics m_swerveKinematics;
-  private ChassisSpeeds m_currentChassisSpeeds;
+  private ChassisVelocities m_currentChassisVelocities;
   private SwerveSetpoint m_prevSetpoint;
   private DriveTrainMode m_driveTrainMode = new DriveTrainMode();
   private static SwerveSetpointGenerator m_generator;
@@ -125,7 +125,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       swerveModulePositions[i] = m_SwerveMods[i].getPosition();
     }
     m_poseEstimation = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
-    m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
+    m_currentChassisVelocities = m_swerveKinematics.toChassisVelocities(getStates());
     m_fieldConstants = new FieldConstants();
     m_robotFieldElementPoseOffset = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getDouble("robotToFieldElementAngleOffset");
@@ -167,7 +167,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
       m_generator = new SwerveSetpointGenerator(robotConfig,
           m_config.getDouble("maxAngularVelocity"));
-      m_prevSetpoint = new SwerveSetpoint(m_currentChassisSpeeds, getStates(),
+      m_prevSetpoint = new SwerveSetpoint(m_currentChassisVelocities, getStates(),
           DriveFeedforwards.zeros(4));
       // the numbers for the holonomic path are extremely inaccurate.
       AutoBuilder.configure(this::getPoseForPathPlanner, this::resetOdometry,
@@ -186,11 +186,11 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
     Translation2d translation2d = new Translation2d(forwardBackward, strafe)
         .times(m_config.getDouble("maxSpeed"));
-    ChassisSpeeds chassisSpeeds = fieldRelative
+    ChassisVelocities chassisSpeeds = fieldRelative
 
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(translation2d.getX(), translation2d.getY(),
+        ? ChassisVelocities.fromFieldRelativeSpeeds(translation2d.getX(), translation2d.getY(),
             rotation, getYaw())
-        : new ChassisSpeeds(translation2d.getX(), translation2d.getY(), rotation);
+        : new ChassisVelocities(translation2d.getX(), translation2d.getY(), rotation);
 
     SwerveModuleState[] swerveModuleStates = m_swerveKinematics.toSwerveModuleStates(chassisSpeeds);
 
@@ -200,7 +200,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
   }
 
-  public void driveRobotRelativeBetter(ChassisSpeeds speeds) {
+  public void driveRobotRelativeBetter(ChassisVelocities speeds) {
     // Note: it is important to not discretize speeds before or after
     // using the setpoint generator, as it will discretize them for you
     m_prevSetpoint = m_generator.generateSetpoint(m_prevSetpoint, // The previous setpoint
@@ -229,9 +229,9 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return pathPlannerPose;
   }
 
-  public ChassisSpeeds getCurrentSpeeds() {
-    ChassisSpeeds speeds = new ChassisSpeeds(m_currentChassisSpeeds.vxMetersPerSecond,
-        m_currentChassisSpeeds.vyMetersPerSecond, m_currentChassisSpeeds.omegaRadiansPerSecond);
+  public ChassisVelocities getCurrentSpeeds() {
+    ChassisVelocities speeds = new ChassisVelocities(m_currentChassisVelocities.vx,
+        m_currentChassisVelocities.vy, m_currentChassisVelocities.omega);
     return speeds;
   }
 
@@ -306,7 +306,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   public void periodic() {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
-    m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
+    m_currentChassisVelocities = m_swerveKinematics.toChassisVelocities(getStates());
     if (m_count == 25) {
       double currentPosition = m_SwerveMods[0].getPosition().distanceMeters;
       double currentVelocity = (currentPosition - m_modDistance) * 2;

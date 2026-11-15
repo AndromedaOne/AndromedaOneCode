@@ -7,7 +7,7 @@ package frc.robot.commands.photonVisionCommands;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import frc.robot.Robot;
 import frc.robot.sensors.photonvision.PhotonVisionBase;
 import frc.robot.sensors.photonvision.TargetDetectedAndAngle;

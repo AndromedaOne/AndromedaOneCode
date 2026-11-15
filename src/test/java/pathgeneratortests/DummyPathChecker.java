@@ -2,7 +2,7 @@ package pathgeneratortests;
 
 import java.util.List;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 
 public class DummyPathChecker {
   public static final double TOLERANCE = 0.1;

@@ -1,6 +1,6 @@
 package frc.robot.subsystems.ledlights;
 
-import edu.wpi.first.wpilibj.util.Color;
+import org.wpilib.util.Color;
 
 public class MockLEDs extends LEDs {
 

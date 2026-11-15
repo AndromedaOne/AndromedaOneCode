@@ -6,7 +6,7 @@ package frc.robot.sensors.gyro;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation2d;
 
 /** Add your docs here. */
 public interface Gyro4905 extends AutoCloseable {
@@ -60,7 +60,7 @@ public interface Gyro4905 extends AutoCloseable {
 
   /**
    * Return the heading of the robot as a
-   * {@link edu.wpi.first.math.geometry.Rotation2d}.
+   * {@link org.wpilib.math.geometry.Rotation2d}.
    *
    * <p>
    * The angle is continuous, that is it will continue from 360 to 361 degrees.
@@ -75,7 +75,7 @@ public interface Gyro4905 extends AutoCloseable {
    * This heading is based on integration of the returned rate from the gyro.
    *
    * @return the current heading of the robot as a
-   *         {@link edu.wpi.first.math.geometry.Rotation2d}.
+   *         {@link org.wpilib.math.geometry.Rotation2d}.
    */
   default Rotation2d getRotation2d() {
     return Rotation2d.fromDegrees(-getAngle());

@@ -6,7 +6,7 @@ package frc.robot.commands.driveTrainCommands;
 
 import java.time.*;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 
 public class PauseRobot extends Command {

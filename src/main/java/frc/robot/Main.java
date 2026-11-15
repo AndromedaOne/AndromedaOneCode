@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import org.wpilib.framework.RobotBase;
 import frc.robot.telemetries.Trace;
 
 /**

@@ -1,8 +1,8 @@
 package frc.robot.commands.FuelRaiderCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
 import frc.robot.Config4905;
 import frc.robot.subsystems.shooter.ShooterBase;
 import frc.robot.telemetries.Trace;

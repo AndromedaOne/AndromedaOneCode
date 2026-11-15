@@ -8,7 +8,11 @@ import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.RobotState;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.driverstation.MatchType;
+import org.wpilib.driverstation.DriverStationErrors;
 import frc.robot.Config4905;
 
 public class RealNavXGyroSensor extends RealGyroBase {
@@ -51,7 +55,7 @@ public class RealNavXGyroSensor extends RealGyroBase {
         System.out.println("Created NavX instance");
         calibrate();
       } catch (RuntimeException ex) {
-        DriverStation.reportError("Error instantiating navX MXP: " + ex.getMessage(), true);
+        DriverStationErrors.reportError("Error instantiating navX MXP: " + ex.getMessage(), true);
       }
     }
   }

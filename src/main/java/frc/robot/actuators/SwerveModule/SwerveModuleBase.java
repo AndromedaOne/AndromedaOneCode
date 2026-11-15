@@ -4,9 +4,9 @@
 
 package frc.robot.actuators.SwerveModule;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.kinematics.SwerveModulePosition;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
 
 /** Add your docs here. */
 public abstract class SwerveModuleBase {
@@ -17,22 +17,22 @@ public abstract class SwerveModuleBase {
     m_moduleNumber = moduleNumber;
   }
 
-  public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop,
+  public void setDesiredState(SwerveModuleVelocity desiredState, boolean isOpenLoop,
       boolean overRide) {
     desiredState.optimize(getAngle());
     setAngle(desiredState, overRide);
     setSpeed(desiredState, isOpenLoop);
   }
 
-  public void setDesiredStateNoOptimize(SwerveModuleState desiredState, boolean isOpenLoop,
+  public void setDesiredStateNoOptimize(SwerveModuleVelocity desiredState, boolean isOpenLoop,
       boolean overRide) {
     setAngle(desiredState, overRide);
     setSpeed(desiredState, isOpenLoop);
   }
 
-  protected abstract void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop);
+  protected abstract void setSpeed(SwerveModuleVelocity desiredState, boolean isOpenLoop);
 
-  protected abstract void setAngle(SwerveModuleState desiredState, boolean overRide);
+  protected abstract void setAngle(SwerveModuleVelocity desiredState, boolean overRide);
 
   public int getModuleNumber() {
     return m_moduleNumber;
@@ -48,8 +48,8 @@ public abstract class SwerveModuleBase {
 
   public abstract double getDriveEncoderVelocity();
 
-  public SwerveModuleState getState() {
-    return new SwerveModuleState(getDriveEncoderPosition(), getAngle());
+  public SwerveModuleVelocity getState() {
+    return new SwerveModuleVelocity(getDriveEncoderPosition(), getAngle());
   }
 
   public SwerveModulePosition getPosition() {

@@ -2,8 +2,8 @@ package frc.robot.sensors.limitswitchsensor;
 
 import com.typesafe.config.Config;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.hardware.discrete.DigitalInput;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 

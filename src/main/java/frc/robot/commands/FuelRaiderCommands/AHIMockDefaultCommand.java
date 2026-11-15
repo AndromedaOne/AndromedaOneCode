@@ -4,7 +4,7 @@
 
 package frc.robot.commands.FuelRaiderCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AHIMockDefaultCommand extends Command {

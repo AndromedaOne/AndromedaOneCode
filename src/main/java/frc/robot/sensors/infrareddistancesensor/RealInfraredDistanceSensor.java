@@ -1,7 +1,7 @@
 package frc.robot.sensors.infrareddistancesensor;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.wpilib.hardware.discrete.AnalogInput;
+import org.wpilib.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 

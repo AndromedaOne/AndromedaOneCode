@@ -1,8 +1,8 @@
 package frc.robot.oi;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.smartdashboard.SendableChooser;
+import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.command2.Command;
 import frc.robot.Config4905;
 import frc.robot.commands.autoCommands.BackupLeft;
 import frc.robot.commands.autoCommands.BackupRight;
