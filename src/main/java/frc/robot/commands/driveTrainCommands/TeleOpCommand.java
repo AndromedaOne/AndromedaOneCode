@@ -10,16 +10,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Config4905;
 import frc.robot.Robot;
 import frc.robot.oi.DriveController;
+import frc.robot.oi.SubsystemController;
 import frc.robot.sensors.gyro.Gyro4905;
 import frc.robot.subsystems.drivetrain.DriveTrainBase;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
+import frc.robot.utils.FieldConstants;
 
 public class TeleOpCommand extends Command {
 
   private DriveController m_driveController = Robot.getInstance().getOIContainer()
       .getDriveController();
+  private SubsystemController m_subsystemController = Robot.getInstance().getOIContainer()
+      .getSubsystemController();
   private DriveTrainBase m_driveTrain = Robot.getInstance().getSubsystemsContainer()
       .getDriveTrain();
   private Config m_drivetrainConfig = Config4905.getConfig4905().getSwerveDrivetrainConfig();
@@ -30,7 +34,15 @@ public class TeleOpCommand extends Command {
   private double m_kProportion = 0.0;
   private boolean m_isStrafe = true;
   private double m_angleKP = 0.0;
-  private final double m_bumpAngle = 45;
+  private double m_slowModeFBSpeed;
+  private double m_slowModeRSpeed;
+  private double m_midModeFBSpeed;
+  private double m_midModeRSpeed;
+  private double m_fastModeFBSpeed;
+  private double m_fastModeRSpeed;
+
+  private final double m_bumpAngle = 225;
+  private FieldConstants m_fieldConstants = Robot.getInstance().getFieldConstants();
 
   private enum SlowMidFastModeStates {
     FASTMODEBUTTONRELEASED, FASTMODEBUTTONPRESSED, MIDMODEBUTTONRELEASED, MIDMODEBUTTONPRESSED,
@@ -54,6 +66,12 @@ public class TeleOpCommand extends Command {
     m_kProportion = m_drivetrainConfig.getDouble("teleop.kproportion");
     m_robotCentricSup = robotCentricSup;
     m_angleKP = m_drivetrainConfig.getDouble("SwerveDriveConstants.turningAngleKP");
+    m_slowModeFBSpeed = m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
+    m_slowModeRSpeed = m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
+    m_midModeFBSpeed = m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
+    m_midModeRSpeed = m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
+    m_fastModeFBSpeed = m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
+    m_fastModeRSpeed = m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
   }
 
   // use this constructor for TankDrive
@@ -110,24 +128,28 @@ public class TeleOpCommand extends Command {
       m_savedRobotAngle = m_gyro.getZAngle();
       m_currentDelay = 0;
     }
+    if (m_driveTrain.getMidModeValueBoolean()) {
+      m_midModeFBSpeed = SmartDashboard.getNumber("MidMode/Mid mode value to set", 0.7);
+    }
     if ((m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.SLOWMODEBUTTONRELEASED)) {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
-      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.slowmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.slowmodeforwardbackscale");
+      forwardBackwardStickValue *= m_slowModeFBSpeed;
+      rotateStickValue *= m_slowModeRSpeed;
+      strafeStickValue *= m_slowModeFBSpeed;
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.SLOW);
     } else if ((m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONPRESSED)
         || (m_slowMidFastMode == SlowMidFastModeStates.MIDMODEBUTTONRELEASED)) {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
-      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.midmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.midmodeforwardbackscale");
+      forwardBackwardStickValue *= m_midModeFBSpeed;
+      rotateStickValue *= m_midModeRSpeed;
+      strafeStickValue *= m_midModeFBSpeed;
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.MID);
     } else {
-      forwardBackwardStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
-      rotateStickValue *= m_drivetrainConfig.getDouble("teleop.fastmoderotatescale");
-      strafeStickValue *= m_drivetrainConfig.getDouble("teleop.fastmodeforwardbackscale");
+      forwardBackwardStickValue *= m_fastModeFBSpeed;
+      rotateStickValue *= m_fastModeRSpeed;
+      strafeStickValue *= m_fastModeFBSpeed;
       m_driveTrain.setDriveTrainMode(DriveTrainModeEnum.FAST);
     }
+    SmartDashboard.putNumber("MidMode/mid mode actual value", m_midModeFBSpeed);
     SmartDashboard.putString("Teleop drive mode", m_driveTrain.getDriveTrainMode().toString());
     Trace.getInstance().addTrace(true, "TeleopDrive", new TracePair("Gyro", m_gyro.getZAngle()),
         new TracePair("savedAngle", m_savedRobotAngle),
@@ -145,18 +167,41 @@ public class TeleOpCommand extends Command {
     strafeStickValue = Math.cos(angle) * magnitude;
     forwardBackwardStickValue = Math.sin(angle) * magnitude;
 
+    String alignment = "alignment/";
+    SmartDashboard.putNumber(alignment + "hubX", m_fieldConstants.getHubPose().getX());
+    SmartDashboard.putNumber(alignment + "hubY", m_fieldConstants.getHubPose().getY());
+    SmartDashboard.putNumber(alignment + "robotX", m_driveTrain.getPose().getX());
+    SmartDashboard.putNumber(alignment + "robotY", m_driveTrain.getPose().getY());
+    SmartDashboard.putNumber(alignment + "robotToHubAngle",
+        m_driveTrain.getRobotToFieldElementAngle(m_fieldConstants.getHubPose()));
+
     // it's here now
     // when the strafe is exponented while the forwardback isn't zero, it screws up
     // it can't be zero but it needs to be low
     rotateStickValue = MathUtil.clamp(getExponential(rotateStickValue, 4.3, 0.7, .1), -1, 1);
     // do not use moveWithGyro here as we're providing the drive straight correction
     // PoV button changing to angle without stopping the drivetrain
+    boolean useRumble = false;
     if (m_driveController.getBButtonPressed() || m_driveController.getUpArrowPressed()
         || m_driveController.getLeftArrowPressed() || m_driveController.getDownArrowPressed()
-        || m_driveController.getRightArrowPressed()) {
+        || m_driveController.getRightArrowPressed() || m_driveController.getAButtonPressed()
+        || m_driveController.getXButtonPressed()) {
       double targetAngle = 0.0;
-      // b button is season specific to 26
+      // a and b button is season specific to 26
       // will change/get removed based on seasonal needs
+      if (m_driveController.getAButtonPressed()) {
+        targetAngle = m_driveTrain.getRobotToFieldElementAngle(m_fieldConstants.getHubPose());
+        useRumble = true;
+      } else if (m_driveController.getXButtonPressed()) {
+        useRumble = true;
+        if (m_fieldConstants.isRightSide(m_driveTrain.getPose())) {
+          targetAngle = m_driveTrain
+              .getRobotToFieldElementAngle(m_fieldConstants.getTargetPoseShuttleRight());
+        } else {
+          targetAngle = m_driveTrain
+              .getRobotToFieldElementAngle(m_fieldConstants.getTargetPoseShuttleLeft());
+        }
+      }
       if (m_driveController.getBButtonPressed()) {
         targetAngle = m_bumpAngle;
       } else if (m_driveController.getUpArrowPressed()) {
@@ -168,23 +213,36 @@ public class TeleOpCommand extends Command {
       } else if (m_driveController.getRightArrowPressed()) {
         targetAngle = 90;
       }
-      double error = targetAngle - m_gyro.getAngle();
+
       // this code makes sure the robot always turns the shortest path
+
+      SmartDashboard.putNumber(alignment + "gyro angle", m_gyro.getAngle());
+      double gyroAngle = m_gyro.getAngle();
+      int truncatedGyroValue = (int) gyroAngle;
+      double remainder = gyroAngle - truncatedGyroValue;
+      double normalizedGyroValue = (truncatedGyroValue % 360) + remainder;
+      double error = targetAngle - normalizedGyroValue;
+      SmartDashboard.putNumber(alignment + "raw error value", error);
       if (error > 180) {
         error -= 360;
       } else if (error < -180) {
         error += 360;
       }
-      SmartDashboard.putNumber("error before kp", error);
+      SmartDashboard.putNumber(alignment + "error before kp", error);
       if (Math.abs(error) <= 2) {
         error = 0;
       }
       error *= m_angleKP;
-      SmartDashboard.putNumber("error after kp", error);
+      SmartDashboard.putNumber(alignment + "error after kp", error);
       rotateStickValue = -MathUtil.clamp(error, -1, 1);
       // without this, if the robot is moving both before AND after the button is
       // pressed, the robot will go to the saved angle
       m_savedRobotAngle = m_gyro.getAngle();
+    }
+    if (useRumble) {
+      m_subsystemController.rumbleOn(1);
+    } else {
+      m_subsystemController.rumbleOff();
     }
     SmartDashboard.putNumber("rotatestickvalue", rotateStickValue);
     if (m_isStrafe) {

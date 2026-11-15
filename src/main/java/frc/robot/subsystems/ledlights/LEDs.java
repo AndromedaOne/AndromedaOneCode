@@ -236,7 +236,10 @@ public abstract class LEDs extends SubsystemBase {
       g = progress % 255;
       break;
     }
-    return new Color(r / 256.0, g / 256.0, b / 256.0);
+    // These used to be divided by 256. Note: The Color class multiplies the color
+    // value by 2048. If you want darker/less saturated colors, divide it by a
+    // significant amount. These were adjusted because they hurt my eyes.
+    return new Color(r / 8192.0, g / 8192.0, b / 8192.0);
   }
 
   protected abstract void updateRGBcolor(Color color);

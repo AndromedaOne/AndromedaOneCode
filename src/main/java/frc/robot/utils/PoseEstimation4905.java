@@ -9,7 +9,6 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -44,6 +43,9 @@ public class PoseEstimation4905 {
   private double m_fieldWidth;
   private Alliance m_currentAlliance;
   private AprilTagFieldLayout m_aprilTagFieldLayout;
+  private int m_poseAngleDelayCounter = 0;
+  private int m_minAprilTag = 17;
+  private int m_maxAprilTag = 32;
 
   StructPublisher<Pose2d> m_posePublisherOdometry = NetworkTableInstance.getDefault()
       .getStructTopic("/OdometryPose", Pose2d.struct).publish();
@@ -57,19 +59,14 @@ public class PoseEstimation4905 {
     m_currentAlliance = AllianceConfig.getCurrentAlliance();
     if (sensorsContainer.hasPhotonVision()) {
       m_photonVision = (sensorsContainer.getPhotonVisionList());
-      // TODO: when the 2026 field comes out, remember to change this
-      if (Config4905.getConfig4905().getSensorConfig()
-          .getBoolean("photonvision.useAndyMarkField")) {
-        m_aprilTagFieldLayout = AprilTagFieldLayout
-            .loadField(AprilTagFields.k2025ReefscapeAndyMark);
-      } else {
-        m_aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
-      }
+      m_aprilTagFieldLayout = Robot.getInstance().getFieldConstants().getFieldLayout();
       m_fieldLength = m_aprilTagFieldLayout.getFieldLength();
       m_fieldWidth = m_aprilTagFieldLayout.getFieldWidth();
       if (m_currentAlliance == Alliance.Red) {
         m_aprilTagFieldLayout.setOrigin(
             new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
+        m_minAprilTag = 1;
+        m_maxAprilTag = 16;
       }
       PhotonVisionBase localCamera;
       if (m_photonVision.isEmpty()) {
@@ -83,10 +80,11 @@ public class PoseEstimation4905 {
           m_poseEstimator.add(new PhotonPoseEstimator(m_aprilTagFieldLayout, m_robotToCam.get(i)));
           m_posePublisherCamera.add(NetworkTableInstance.getDefault()
               .getStructTopic("/CameraPose" + i, Pose2d.struct).publish());
-          Trace.getInstance().logInfo(m_robotToCam.get(i).toString());
+          Trace.getInstance().logInfo("Using Camera " + String.valueOf(i) + "For Pose");
         }
         m_useVisionForPose = Config4905.getConfig4905().getSensorConfig()
             .getBoolean("photonvision.useVisionForPose");
+
       }
     } else {
       m_cameraPresent = false;
@@ -121,35 +119,69 @@ public class PoseEstimation4905 {
     // where we collect the camera info
     // get camera info - calculate april tags and where you at
     Pose2d localPose;
+    Pose2d previousPose;
 
     Alliance alliance = AllianceConfig.getCurrentAlliance();
     if (alliance != m_currentAlliance) {
       if (alliance == Alliance.Red) {
         m_aprilTagFieldLayout.setOrigin(
             new Pose3d(m_fieldLength, m_fieldWidth, 0, new Rotation3d(0, 0, Math.toRadians(180))));
+        // blue hub
+        m_minAprilTag = 1;
+        m_maxAprilTag = 16;
       } else {
         m_aprilTagFieldLayout.setOrigin(new Pose3d(0, 0, 0, new Rotation3d(0, 0, 0)));
+        // red hub
+        m_minAprilTag = 17;
+        m_maxAprilTag = 32;
       }
       m_currentAlliance = alliance;
     }
 
+    previousPose = m_swerveOdometry.getEstimatedPosition();
     localPose = m_swerveOdometry.update(Rotation2d.fromDegrees(-1 * m_gyro.getCompassHeading()),
         modulePositions);
     m_posePublisherOdometry.set(localPose);
+    double xprime = localPose.getX() - previousPose.getX();
+    double yprime = localPose.getY() - previousPose.getY();
+    double z = Math.sqrt((xprime * xprime) + (yprime * yprime));
+    // putting z into meters per second
+    z = z / 0.02;
+    double degree = Math
+        .abs(localPose.getRotation().getDegrees() - previousPose.getRotation().getDegrees());
+    // putting degree into degrees per second
+    degree = degree / 0.02;
+    // NOTE: there is a very specific edge case which messes up the rotation.
+    // this edge case requires one of the POV buttons to be held, the robot to have
+    // never seen an april tag, and the ending angle to see an april tag.
+    // when the robot slows down its rotation, the robot will update the pose before
+    // the robot is finished. this messes up the angle a ton. however, due to the
+    // unlikely nature of this occuring, it was deemed not necessary to fix.
 
-    if (m_cameraPresent) {
+    // 1.5 is an arbitrary number btw
+    // so is 30
+    if (m_cameraPresent && z <= 1.5 && degree <= 30) {
       boolean usePose = false;
       for (int i = 0; i < m_poseEstimator.size(); i++) {
         List<PhotonPipelineResult> pipelineResults = m_photonVision.get(i).getPhotonCamera()
             .getAllUnreadResults();
         for (int results = 0; results < pipelineResults.size(); results++) {
-          final Optional<EstimatedRobotPose> optionalEstimatedPose = m_poseEstimator.get(i)
+          Optional<EstimatedRobotPose> optionalEstimatedPose = Optional.empty();
+          optionalEstimatedPose = m_poseEstimator.get(i)
               .estimateCoprocMultiTagPose(pipelineResults.get(results));
+          if (optionalEstimatedPose.isEmpty()) {
+            optionalEstimatedPose = m_poseEstimator.get(i)
+                .estimateLowestAmbiguityPose(pipelineResults.get(results));
+          }
           if (optionalEstimatedPose.isPresent()) {
             final EstimatedRobotPose estimatedPose = optionalEstimatedPose.get();
             usePose = true;
             for (int j = 0; j < estimatedPose.targetsUsed.size(); j++) {
               if (estimatedPose.targetsUsed.get(j).getPoseAmbiguity() > 0.1) {
+                usePose = false;
+              } else if (estimatedPose.targetsUsed.get(j).getFiducialId() < m_minAprilTag) {
+                usePose = false;
+              } else if (estimatedPose.targetsUsed.get(j).getFiducialId() > m_maxAprilTag) {
                 usePose = false;
               }
             }
@@ -164,14 +196,17 @@ public class PoseEstimation4905 {
         }
       }
       localPose = m_swerveOdometry.getEstimatedPosition();
-      if (m_useVisionForPose && usePose && m_updateGyroOffset) {
-        Trace.getInstance()
-            .logInfo("Setting vision pose offset: " + localPose.getRotation().getDegrees());
-        m_gyro.setVisionPoseOffset(localPose.getRotation().getDegrees());
+      if (m_updateGyroOffset) {
+        m_poseAngleDelayCounter++;
+      }
+      if (m_useVisionForPose && usePose && m_updateGyroOffset && (m_poseAngleDelayCounter > 40)) {
+        double poseAngle = localPose.getRotation().getDegrees();
+        Trace.getInstance().logInfo("Setting vision pose offset: " + poseAngle);
+        m_gyro.setVisionPoseOffset(poseAngle);
+        SmartDashboard.putNumber("visionposeoffset", poseAngle);
         m_updateGyroOffset = false;
       }
     }
-
     m_posePublisherVision.set(localPose);
     return localPose;
   }

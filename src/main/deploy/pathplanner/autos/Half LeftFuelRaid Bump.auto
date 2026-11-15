@@ -1,0 +1,99 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CW Starting Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot for 4.5 seconds"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoToCenterLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AHI extend"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Half LeftToRightPickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "setVelocityToZero"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stop intake rollers"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Half LeftToRightPickup Back"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AHI retract"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot for 4.5 seconds"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "Old and Unused Autos",
+  "choreoAuto": false
+}

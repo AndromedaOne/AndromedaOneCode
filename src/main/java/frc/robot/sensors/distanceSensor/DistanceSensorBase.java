@@ -16,4 +16,6 @@ public interface DistanceSensorBase {
   public DoubleSupplier getDistanceInchesAsSupplier();
 
   public DoubleSupplier getFacingAngle();
+
+  public boolean isSensorDetecting();
 }

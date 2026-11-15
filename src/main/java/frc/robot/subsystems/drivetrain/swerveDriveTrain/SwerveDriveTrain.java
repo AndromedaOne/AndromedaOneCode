@@ -1,8 +1,9 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
-import static edu.wpi.first.math.util.Units.*;
-
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.function.DoubleSupplier;
 
 import org.json.simple.parser.ParseException;
 
@@ -14,6 +15,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.typesafe.config.Config;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -42,6 +44,7 @@ import frc.robot.subsystems.drivetrain.ParkingBrakeStates;
 import frc.robot.telemetries.Trace;
 import frc.robot.telemetries.TracePair;
 import frc.robot.utils.AngleConversionUtils;
+import frc.robot.utils.FieldConstants;
 import frc.robot.utils.PoseEstimation4905;
 
 /**
@@ -54,7 +57,10 @@ import frc.robot.utils.PoseEstimation4905;
  */
 public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private Pose2d m_currentPose;
-  private Boolean needToReset = true;
+  public Pose2d m_oldPose;
+  public Instant m_oldPoseTime;
+  public double m_velocityToHub;
+  private boolean m_needToReset = true;
   private Gyro4905 m_gyro;
   private PoseEstimation4905 m_poseEstimation;
   private SwerveModuleBase[] m_SwerveMods;
@@ -72,6 +78,10 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
   private int m_count = 0;
   private double m_highestAccel = 0;
   private boolean m_isLeftSide = false;
+  private boolean m_changingMidMode = false;
+  private FieldConstants m_fieldConstants;
+  private double m_robotFieldElementPoseOffset;
+  private LinearFilter m_linearFilter;
 
   // this is used to publish the swervestates to NetworkTables so that they can be
   // used
@@ -116,6 +126,12 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     }
     m_poseEstimation = new PoseEstimation4905(m_swerveKinematics, swerveModulePositions);
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
+    m_fieldConstants = new FieldConstants();
+    m_robotFieldElementPoseOffset = Config4905.getConfig4905().getSwerveDrivetrainConfig()
+        .getDouble("robotToFieldElementAngleOffset");
+    m_oldPose = new Pose2d();
+    m_oldPoseTime = Instant.now();
+    m_linearFilter = LinearFilter.movingAverage(10);
   }
 
   @Override
@@ -252,8 +268,12 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
+    int count = 1;
     for (SwerveModuleBase mod : m_SwerveMods) {
       positions[mod.getModuleNumber()] = mod.getPosition();
+      String name = "DriveTrain/";
+      SmartDashboard.putNumber(name + "mod:" + count, mod.getPosition().distanceMeters);
+      ++count;
     }
     return positions;
   }
@@ -264,13 +284,29 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
         : Rotation2d.fromDegrees(m_gyro.getCompassHeading()));
   }
 
+  public double getVelocityToHub(Pose2d pose, Instant time) {
+    double velocity = 0;
+    double oldDistance = getHubDistanceToRobotInInches(m_oldPose);
+    double currentDistance = getHubDistanceToRobotInInches(pose);
+    velocity = ((currentDistance - oldDistance) * 1000.0
+        / (Duration.between(m_oldPoseTime, time).toMillis()));
+    String name = "DriveTrain/";
+    SmartDashboard.putNumber(name + "velocity to hub", velocity);
+    SmartDashboard.putNumber(name + "delta distance from hub", currentDistance - oldDistance);
+    SmartDashboard.putNumber(name + "delta time in seconds",
+        (Duration.between(m_oldPoseTime, time).toMillis()) / 1000.0);
+    return velocity;
+  }
+
+  public DoubleSupplier getVelocityToHubDoubleSupplier() {
+    return () -> m_velocityToHub;
+  }
+
   @Override
   public void periodic() {
     // publish the states to NetworkTables for AdvantageScope
     m_publisher.set(getStates());
-    SmartDashboard.putNumber("robotDistance", getRobotPositionInches());
     m_currentChassisSpeeds = m_swerveKinematics.toChassisSpeeds(getStates());
-    SmartDashboard.putNumber("Odometry Input Heading", -1 * m_gyro.getCompassHeading());
     if (m_count == 25) {
       double currentPosition = m_SwerveMods[0].getPosition().distanceMeters;
       double currentVelocity = (currentPosition - m_modDistance) * 2;
@@ -282,15 +318,21 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
       m_count = 0;
     }
     m_count++;
-    if (needToReset) {
+    if (m_needToReset) {
       if (resetOdometry(getPose())) {
-        needToReset = false;
+        m_needToReset = false;
       }
     } else {
       m_currentPose = m_poseEstimation.update(getPositions());
-      SmartDashboard.putNumber("Pose X ", metersToInches(m_currentPose.getX()));
-      SmartDashboard.putNumber("Pose Y ", metersToInches(m_currentPose.getY()));
-      SmartDashboard.putNumber("Pose angle ", m_currentPose.getRotation().getDegrees());
+      String name = "DriveTrain/";
+      SmartDashboard.putNumber(name + "Distance To Hub", getHubDistanceToRobotInInches());
+      SmartDashboard.putNumber(name + "Distance to shuttle spot",
+          getShuttleDistanceToRobotInInches());
+      Instant newPoseTime = Instant.now();
+      m_velocityToHub = m_linearFilter.calculate(getVelocityToHub(m_currentPose, newPoseTime));
+      SmartDashboard.putNumber(name + "filtered velocity to hub", m_velocityToHub);
+      m_oldPose = m_currentPose;
+      m_oldPoseTime = newPoseTime;
     }
   }
 
@@ -434,6 +476,18 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     return m_driveTrainMode.getDriveTrainMode();
   }
 
+  public void setMidModeValueBoolean() {
+    m_changingMidMode = true;
+  }
+
+  public boolean getMidModeValueBoolean() {
+    if (m_changingMidMode) {
+      m_changingMidMode = false;
+      return true;
+    }
+    return false;
+  }
+
   private void setX() {
     for (SwerveModuleBase mod : m_SwerveMods) {
       int angle = -45;
@@ -455,6 +509,22 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
     for (SwerveModuleBase mod : m_SwerveMods) {
       mod.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), true, true);
     }
+  }
+
+  /*
+   * This method sets the swerve modules in the same heading (90 degress) but
+   * different angles to mitigate robot shift when the wheels turn to face the
+   * direction that it is going to drive to approach the tower (2026 game
+   * Rebuilt). Swerves modules 0 and 3 turn clockwise while swerve modules 1 and 2
+   * turn counterclockwise. From our tests it did reduce our shifting.
+   */
+  public void setToNinety() {
+    double[] angles = { 90.0, 270.0, 270.0, 90.0 };
+    for (int i = 0; i < m_SwerveMods.length; i++) {
+      m_SwerveMods[i].setDesiredStateNoOptimize(
+          new SwerveModuleState(0, Rotation2d.fromDegrees(angles[i])), true, true);
+    }
+
   }
 
   @Override
@@ -542,5 +612,75 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
 
       return new RobotConfig(massKG, MOI, moduleConfig, trackwidth);
     }
+  }
+
+  @Override
+  public double getHubDistanceToRobotInInches() {
+    return getHubDistanceToRobotInInches(currentPose2d());
+  }
+
+  private double getHubDistanceToRobotInInches(Pose2d pose) {
+    Pose2d hubPose2d = m_fieldConstants.getHubPose();
+    double xDistance = hubPose2d.getX() - pose.getX();
+    double yDistance = hubPose2d.getY() - pose.getY();
+    double distance = Math.sqrt(Math.pow(yDistance, 2) + Math.pow(xDistance, 2));
+    // convert from meters to inches.
+    return (distance * 39.3701);
+  }
+
+  @Override
+  public DoubleSupplier getHubDistanceToRobotInInchesSupplier() {
+    return () -> getHubDistanceToRobotInInches();
+  }
+
+  @Override
+  public double getShuttleDistanceToRobotInInches() {
+    Pose2d shuttlePose2d;
+    if (m_fieldConstants.isRightSide(currentPose2d())) {
+      shuttlePose2d = m_fieldConstants.getTargetPoseShuttleRight();
+    } else {
+      shuttlePose2d = m_fieldConstants.getTargetPoseShuttleLeft();
+    }
+    double xDistance = shuttlePose2d.getX() - currentPose2d().getX();
+    double yDistance = shuttlePose2d.getY() - currentPose2d().getY();
+    double distance = Math.sqrt(Math.pow(yDistance, 2) + Math.pow(xDistance, 2));
+    // convert from meters to inches.
+    return (distance * 39.3701);
+  }
+
+  @Override
+  public DoubleSupplier getShuttleDistanceToRobotInInchesSupplier() {
+    return () -> getShuttleDistanceToRobotInInches();
+  }
+
+  @Override
+  public double getRobotToFieldElementAngle(Pose2d objPose) {
+    if (objPose == null) {
+      // failsafe
+      return 0;
+    }
+    Pose2d robotPose = currentPose2d();
+    double a = objPose.getX() - robotPose.getX();
+    double b = objPose.getY() - robotPose.getY();
+    double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+    double angle = (Math.toDegrees(Math.asin(a / c))) - 90; // 90 normalizes the angle;
+    // adjusting the angle based on being on the left side of the field
+    if (b < 0) {
+      angle = angle + m_robotFieldElementPoseOffset;
+      angle = (-1) * angle;
+    } else {
+      angle = angle - m_robotFieldElementPoseOffset;
+    }
+    // negative angles don't work with auto
+    // either the robot goes to the wrong angle or it never finishes
+    if (angle < 0) {
+      angle += 360;
+    }
+    return angle;
+  }
+
+  @Override
+  public DoubleSupplier getRobotToFieldElementAngleSupplier(Pose2d objPose) {
+    return () -> getRobotToFieldElementAngle(objPose);
   }
 }

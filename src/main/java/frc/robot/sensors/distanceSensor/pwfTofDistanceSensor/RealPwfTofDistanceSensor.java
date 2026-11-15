@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
+import com.playingwithfusion.TimeOfFlight.Status;
 import com.typesafe.config.Config;
 
 import edu.wpi.first.math.filter.LinearFilter;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Config4905;
 import frc.robot.sensors.RealSensorBase;
 import frc.robot.sensors.distanceSensor.DistanceSensorBase;
+import frc.robot.telemetries.Trace;
 
 public class RealPwfTofDistanceSensor extends RealSensorBase implements DistanceSensorBase {
   private TimeOfFlight m_tof;
@@ -20,6 +22,7 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
   private boolean m_useLF = false;
   private double m_offsetInches = 0.0;
   private double m_facingAngle = 0.0;
+  private double m_lastValidValue = 50 * 25.4;
 
   public RealPwfTofDistanceSensor(String sensorName) {
     m_sensorName = sensorName;
@@ -71,8 +74,9 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
       m_linearFilter = LinearFilter
           .movingAverage(m_sensorConfig.getInt("sensors." + sensorName + ".numberOfTaps"));
     }
-    m_offsetInches = m_sensorConfig.getInt("sensors." + m_sensorName + ".sensorOffset_inches");
+    m_offsetInches = m_sensorConfig.getDouble("sensors." + m_sensorName + ".sensorOffset_inches");
     m_facingAngle = m_sensorConfig.getDouble("sensors." + m_sensorName + ".facingAngle");
+    m_lastValidValue -= (m_offsetInches * 25.4);
   }
 
   @Override
@@ -94,11 +98,11 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
   }
 
   public double getUnfilteredDistance_mm() {
-    return m_tof.getRange() + (m_offsetInches * 25.4);
+    return getLastValidValue() + (m_offsetInches * 25.4);
   }
 
   public double getUnfilteredDistance_Inches() {
-    return (m_tof.getRange() / 25.4) + m_offsetInches;
+    return (getLastValidValue() / 25.4) + m_offsetInches;
   }
 
   @Override
@@ -116,6 +120,26 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
       return m_linearFilter.lastValue();
     }
     return getUnfilteredDistance_Inches();
+  }
+
+  // returns in millimeters
+  private double getLastValidValue() {
+    TimeOfFlight.Status status = m_tof.getStatus();
+    if (status == Status.Valid) {
+      m_lastValidValue = m_tof.getRange();
+      return m_lastValidValue;
+    } else if (status == Status.Invalid) {
+      return (getLastFilteredValue() * 25.4) - (m_offsetInches * 25.4);
+    } else if (status == Status.ReturnSignalLow) {
+      // 50 (max value sensor can read in inches) * 25.4 (conversion #)
+      return 1270 - (m_offsetInches * 25.4);
+    } else if (status == Status.ReturnPhaseBad || status == Status.WrappedTarget
+        || status == Status.SigmaHigh) {
+      return m_lastValidValue;
+    }
+    Trace.getInstance()
+        .logInfo("Non-expected status off " + m_sensorName + ", status = " + status.toString());
+    return m_lastValidValue;
   }
 
   @Override
@@ -162,5 +186,10 @@ public class RealPwfTofDistanceSensor extends RealSensorBase implements Distance
   @Override
   public DoubleSupplier getFacingAngle() {
     return () -> m_facingAngle;
+  }
+
+  @Override
+  public boolean isSensorDetecting() {
+    return !(m_tof.getStatus() == Status.ReturnSignalLow);
   }
 }

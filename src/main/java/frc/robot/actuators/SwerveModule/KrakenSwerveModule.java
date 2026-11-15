@@ -8,6 +8,7 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -39,20 +40,21 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     m_moduleNumber = moduleNumber;
     m_config = Config4905.getConfig4905().getSwerveDrivetrainConfig()
         .getConfig("SwerveDriveConstants");
+    String canBus = m_config.getString("canBus");
     /* Angle Motor Config */
     m_angleMotorEncoder = new CANcoder(
         m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorEncoderID"),
-        new CANBus("rio"));
+        new CANBus(canBus));
 
     m_angleMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".angleMotorID"),
-        new CANBus("rio"));
+        new CANBus(canBus));
 
     m_angleConfiguration = new TalonFXConfiguration();
     configAngleMotor();
 
     /* drive motor config */
     m_driveMotor = new TalonFX(m_config.getInt("ports.Mod" + getModuleNumber() + ".driveMotorID"),
-        new CANBus("rio"));
+        new CANBus(canBus));
     m_driveConfiguration = new TalonFXConfiguration();
     configDriveMotor();
   }
@@ -70,6 +72,10 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     // getVelocity
     m_driveMotor.getConfigurator().apply(m_driveConfiguration, 0.1);
     m_driveMotorPositionOffset = m_driveMotor.getPosition().getValueAsDouble();
+    if (m_config.getBoolean("enableFOCDrive")) {
+      TorqueCurrentFOC torque = new TorqueCurrentFOC(m_config.getDouble("torqueCurrentDrive"));
+      m_driveMotor.setControl(torque);
+    }
 
   }
 
@@ -90,6 +96,10 @@ public class KrakenSwerveModule extends SwerveModuleBase {
     m_angleMotor.getConfigurator().apply(m_angleConfiguration, 0.1);
     m_angleSetter = new PositionVoltage(0.0).withSlot(0).withUpdateFreqHz(50);
     m_angleSetter.FeedForward = 0;
+    if (m_config.getBoolean("enableFOCAngle")) {
+      TorqueCurrentFOC torque = new TorqueCurrentFOC(m_config.getDouble("torqueCurrentAngle"));
+      m_angleMotor.setControl(torque);
+    }
   }
 
   @Override

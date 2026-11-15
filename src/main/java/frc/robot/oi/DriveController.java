@@ -34,14 +34,27 @@ public class DriveController extends ControllerBase {
     if (Config4905.getConfig4905().getDrivetrainConfig().hasPath("parkingbrake")
         || Config4905.getConfig4905().getSwerveDrivetrainConfig().hasPath("parkingbrake")) {
       setUpParkingBrake();
+      // setUpFRButtons();
     }
     if (Config4905.getConfig4905().getSensorConfig().hasPath("photonvision")) {
       // setUpPhotonVision();
     }
+    if (Config4905.getConfig4905().isFuelRaider()) {
+      // setUpFRButtons();
+    }
+  }
+
+  public boolean getAButtonPressed() {
+    return getAbutton().getAsBoolean();
+
   }
 
   public boolean getBButtonPressed() {
     return getBbutton().getAsBoolean();
+  }
+
+  public boolean getXButtonPressed() {
+    return getXbutton().getAsBoolean();
   }
 
   public boolean getUpArrowPressed() {
@@ -125,5 +138,8 @@ public class DriveController extends ControllerBase {
 
   public boolean getCoralLoadWall() {
     return getPOVwest().getAsBoolean();
+  }
+
+  private void setUpFRButtons() {
   }
 }

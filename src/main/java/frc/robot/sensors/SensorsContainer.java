@@ -34,10 +34,10 @@ public class SensorsContainer {
   private Camera m_camera1;
   private Gyro4905 m_gyro;
   private ArrayList<PhotonVisionBase> m_photonVision = new ArrayList<PhotonVisionBase>();
-  private PhotonVisionBase m_targetPhotonVision;
   private boolean m_hasPhotonVision = false;
   private DistanceSensorBase m_tof0;
   private DistanceSensorBase m_tof1;
+  private DistanceSensorBase m_tof2;
   private Config m_sensorConfig;
 
   public SensorsContainer() {
@@ -73,16 +73,14 @@ public class SensorsContainer {
     if (m_sensorConfig.hasPath("photonvision")) {
       Trace.getInstance().logInfo("Using real Photon Vision");
       for (int i = 1; i <= m_sensorConfig.getInt("photonvision.numberOfCameras"); i++) {
-        m_photonVision
-            .add(new RealPhotonVision(m_sensorConfig.getString("photonvision.cameraName" + i)));
+        String cameraName = m_sensorConfig.getString("photonvision.cameraName" + i);
+        m_photonVision.add(new RealPhotonVision(cameraName));
+        Trace.getInstance().logInfo("added camera: " + cameraName);
       }
-      m_targetPhotonVision = new RealPhotonVision(
-          m_sensorConfig.getString("photonvision.targetCameraName"));
       m_hasPhotonVision = true;
     } else {
       Trace.getInstance().logInfo("Using mock Photon Vision");
       m_photonVision.add(new MockPhotonVision());
-      m_targetPhotonVision = new MockPhotonVision();
     }
     if (m_sensorConfig.hasPath("sensors.tof0")) {
       Trace.getInstance().logInfo("Using real tof sensor 0");
@@ -97,6 +95,13 @@ public class SensorsContainer {
     } else {
       Trace.getInstance().logInfo("Using mock tof sensor 1");
       m_tof1 = new MockpwfTofDistanceSensor();
+    }
+    if (m_sensorConfig.hasPath("sensors.tof2")) {
+      Trace.getInstance().logInfo("Using real tof sensor 2");
+      m_tof2 = new RealPwfTofDistanceSensor("tof2");
+    } else {
+      Trace.getInstance().logInfo("Using mock tof sensor 2");
+      m_tof2 = new MockpwfTofDistanceSensor();
     }
   }
 
@@ -120,16 +125,16 @@ public class SensorsContainer {
     return m_photonVision;
   }
 
-  public PhotonVisionBase getPhotonVision() {
-    return m_targetPhotonVision;
-  }
-
   public DistanceSensorBase getTof0() {
     return m_tof0;
   }
 
   public DistanceSensorBase getTof1() {
     return m_tof1;
+  }
+
+  public DistanceSensorBase getTof2() {
+    return m_tof2;
   }
 
   public void periodic() {

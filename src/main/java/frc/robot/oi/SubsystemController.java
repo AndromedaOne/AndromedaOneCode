@@ -8,6 +8,14 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Config4905;
+import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
+import frc.robot.commands.groupCommands.ShootBasedOnDistance;
+import frc.robot.commands.groupCommands.ShootInTeleop;
+import frc.robot.commands.groupCommands.ShuttleShot;
+import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
+import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
 import frc.robot.subsystems.SubsystemsContainer;
 
 /**
@@ -15,8 +23,32 @@ import frc.robot.subsystems.SubsystemsContainer;
  * they are easier to find.
  */
 public class SubsystemController extends ControllerBase {
+  private SubsystemsContainer m_subsystemsContainer;
+
   public SubsystemController(SubsystemsContainer subsystemsContainer) {
+    m_subsystemsContainer = subsystemsContainer;
     setController(new XboxController(1));
+    if (Config4905.getConfig4905().isFuelRaider()) {
+      setUpFuelRaiderButtons();
+    }
+  }
+
+  private void setUpFuelRaiderButtons() {
+    // back is LEFT, start is RIGHT
+    // do note AHI gets its buttons in the command directly
+    // intake roller buttons
+    getBbutton().whileTrue(new IntakeRollerIntakeCommand());
+    getYbutton().whileTrue(new IntakeRollerEjectCommand());
+    // shooter buttons
+    // in order to shoot fuel, POV west (eject belt left) must be held
+    getXbutton().whileTrue(new ShootBasedOnDistance());
+    // eject belt buttons
+    getPOVwest().whileTrue(new TurnToHubAndRunEjectBelts());
+    getPOVeast().whileTrue(new EjectBeltRight());
+    // shuttle shot buttons
+    getLeftBumperButton().whileTrue(new ShootInTeleop());
+    // arbitrary RPM :)
+    getRightBumperButton().whileTrue(new ShuttleShot());
   }
 
   public void rumbleOn(double value) {
@@ -25,5 +57,13 @@ public class SubsystemController extends ControllerBase {
 
   public void rumbleOff() {
     setRumble(0);
+  }
+
+  public boolean getAButtonPressed() {
+    return getAbutton().getAsBoolean();
+  }
+
+  public boolean eitherTriggerPressed() {
+    return (getLeftTriggerPressedBoolean()) || (getRightTriggerPressedBoolean());
   }
 }

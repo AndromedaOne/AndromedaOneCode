@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.subsystems.SubsystemInterface;
 import frc.robot.subsystems.drivetrain.DriveTrainMode.DriveTrainModeEnum;
@@ -70,6 +72,8 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract void setToZero();
 
+  public abstract void setToNinety();
+
   public abstract void enableAccelerationLimiting();
 
   public abstract void disableAccelerationLimiting();
@@ -84,6 +88,21 @@ public interface DriveTrainBase extends SubsystemInterface {
 
   public abstract double getModZeroAngle();
 
+  public abstract void setMidModeValueBoolean();
+
+  public abstract boolean getMidModeValueBoolean();
+
   public Pose2d currentPose2d();
 
+  public abstract double getHubDistanceToRobotInInches();
+
+  public abstract DoubleSupplier getHubDistanceToRobotInInchesSupplier();
+
+  public abstract double getShuttleDistanceToRobotInInches();
+
+  public abstract DoubleSupplier getShuttleDistanceToRobotInInchesSupplier();
+
+  public abstract double getRobotToFieldElementAngle(Pose2d objPose);
+
+  public abstract DoubleSupplier getRobotToFieldElementAngleSupplier(Pose2d objPose);
 }

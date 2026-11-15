@@ -8,6 +8,7 @@
 package frc.robot;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.json.simple.parser.ParseException;
 
@@ -17,15 +18,33 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.FuelRaiderCommands.AHIDefaultCommand;
+import frc.robot.commands.FuelRaiderCommands.AHIMockDefaultCommand;
+import frc.robot.commands.FuelRaiderCommands.SmartDashboardExtend;
+import frc.robot.commands.FuelRaiderCommands.SmartDashboardRetract;
+import frc.robot.commands.autoCommands.LeftHubSetPoseManually;
+import frc.robot.commands.autoCommands.RightHubSetPoseManually;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetVelocityToZero;
+import frc.robot.commands.driveTrainCommands.TurnToCompassHeading;
+import frc.robot.commands.ejectBeltCommands.EjectBeltRight;
+import frc.robot.commands.ejectBeltCommands.EjectBeltShoot;
+import frc.robot.commands.groupCommands.ShootBasedOnDistance;
+import frc.robot.commands.groupCommands.ShootInAuto;
+import frc.robot.commands.groupCommands.TurnToHubAndRunEjectBelts;
+import frc.robot.commands.intakeCommands.IntakeRollerEjectCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerIntakeCommand;
+import frc.robot.commands.intakeCommands.IntakeRollerStop;
 import frc.robot.oi.OIContainer;
 import frc.robot.sensors.SensorsContainer;
 import frc.robot.subsystems.SubsystemsContainer;
 import frc.robot.telemetries.Trace;
+import frc.robot.utils.FieldConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,6 +58,7 @@ public class Robot extends TimedRobot {
   private SubsystemsContainer m_subsystemContainer;
   private SensorsContainer m_sensorsContainer;
   private OIContainer m_oiContainer;
+  private FieldConstants m_fieldConstants;
 
   private Robot() {
   }
@@ -63,10 +83,37 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     Trace.getInstance().setTracePairsEnable(false);
     Trace.getInstance().logInfo("robot init started");
+    m_fieldConstants = new FieldConstants();
     m_sensorsContainer = new SensorsContainer();
     m_subsystemContainer = new SubsystemsContainer();
     NamedCommands.registerCommand("setVelocityToZero", new SwerveDriveSetVelocityToZero());
-
+    NamedCommands.registerCommand("eject belt into shooter", new EjectBeltShoot());
+    NamedCommands.registerCommand("eject belt right", new EjectBeltRight());
+    NamedCommands.registerCommand("right hub set pose", new RightHubSetPoseManually());
+    NamedCommands.registerCommand("left hub set pose", new LeftHubSetPoseManually());
+    NamedCommands.registerCommand("turn to 0", new TurnToCompassHeading(() -> 0));
+    NamedCommands.registerCommand("turn to 180", new TurnToCompassHeading(() -> 180));
+    NamedCommands.registerCommand("shoot based on distance", new ShootBasedOnDistance());
+    NamedCommands.registerCommand("AHI extend", new SmartDashboardExtend());
+    NamedCommands.registerCommand("AHI retract", new SmartDashboardRetract());
+    NamedCommands.registerCommand("intake", new IntakeRollerIntakeCommand());
+    NamedCommands.registerCommand("eject using intake", new IntakeRollerEjectCommand());
+    NamedCommands.registerCommand("turn to hub and run eject belts",
+        new TurnToHubAndRunEjectBelts());
+    NamedCommands.registerCommand("shoot for 4.5 seconds", new ShootInAuto(4500));
+    NamedCommands.registerCommand("shoot for 10 seconds", new ShootInAuto(10000));
+    NamedCommands.registerCommand("shoot for 20 seconds", new ShootInAuto(20000));
+    NamedCommands.registerCommand("stop intake rollers", new IntakeRollerStop());
+    /*
+     * This if statement prevents the code from crashing when deployed to robot with
+     * no AHI. We need to create a new AHIDefaultCommand() to satisfy path planner
+     * when it gets configured, which in turn requires an AHI subsystem.
+     */
+    if (Config4905.getConfig4905().doesAHIExist()) {
+      NamedCommands.registerCommand("AHI default", new AHIDefaultCommand());
+    } else {
+      NamedCommands.registerCommand("AHI default", new AHIMockDefaultCommand());
+    }
     try {
       m_subsystemContainer.getDriveTrain().configurePathPlanner();
     } catch (Exception e) {
@@ -115,6 +162,9 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_sensorsContainer.periodic();
+    SmartDashboard.putBoolean("FMS Hub Data/is hub active", isHubActive());
+    SmartDashboard.putNumber("FMS Hub Data/shift time remaining", hubShiftMatchTime());
+    SmartDashboard.putString("FMS Hub Data/Hub state", hubShiftState());
     Trace.getInstance().flushCommandTraceFile();
   }
 
@@ -241,4 +291,142 @@ public class Robot extends TimedRobot {
     return m_oiContainer;
   }
 
+  /**
+   * Took this from the FIRST website. Put in robot.java because it seemed like it
+   * would make the most sense to be in here. May want to create another method to
+   * return true only when it changes, allowing for the controller to rumble when
+   * the hub switches.
+   */
+  public boolean isHubActive() {
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+    String smdbString = "FMS Hub Data/Hub Active Call";
+    // If we have no alliance, we cannot be enabled, therefore no hub.
+    if (alliance.isEmpty()) {
+      SmartDashboard.putString(smdbString, "Alliance empty, false");
+      return false;
+    }
+    // Hub is always enabled in autonomous.
+    if (DriverStation.isAutonomousEnabled()) {
+      SmartDashboard.putString(smdbString, "In auto, true");
+      return true;
+    }
+    // At this point, if we're not teleop enabled, there is no hub.
+    if (!DriverStation.isTeleopEnabled()) {
+      SmartDashboard.putString(smdbString, "Not in teleop, false");
+      return false;
+    }
+
+    // We're teleop enabled, compute.
+    double matchTime = DriverStation.getMatchTime();
+    String gameData = DriverStation.getGameSpecificMessage();
+    // If we have no game data, we cannot compute, assume hub is active, as its
+    // likely early in teleop.
+    if (gameData.isEmpty()) {
+      SmartDashboard.putString(smdbString, "No game data, true");
+      return true;
+    }
+    boolean redInactiveFirst = false;
+    switch (gameData.charAt(0)) {
+    case 'R' -> redInactiveFirst = true;
+    case 'B' -> redInactiveFirst = false;
+    default -> {
+      // If we have invalid game data, assume hub is active.
+      SmartDashboard.putString(smdbString, "Invalid game data, true");
+      return true;
+    }
+    }
+
+    // Shift was is active for blue if red won auto, or red if blue won auto.
+    boolean shift1Active = switch (alliance.get()) {
+    case Red -> !redInactiveFirst;
+    case Blue -> redInactiveFirst;
+    };
+
+    if (matchTime > 130) {
+      // Transition shift, hub is active.
+      SmartDashboard.putString(smdbString, "Transition shift, true");
+      return true;
+    } else if (matchTime > 105) {
+      // Shift 1
+      SmartDashboard.putString(smdbString, "Shift 1, " + shift1Active);
+      return shift1Active;
+    } else if (matchTime > 80) {
+      // Shift 2
+      SmartDashboard.putString(smdbString, "Shift 2, " + !shift1Active);
+      return !shift1Active;
+    } else if (matchTime > 55) {
+      // Shift 3
+      SmartDashboard.putString(smdbString, "Shift 3, " + shift1Active);
+      return shift1Active;
+    } else if (matchTime > 30) {
+      // Shift 4
+      SmartDashboard.putString(smdbString, "Shift 4, " + !shift1Active);
+      return !shift1Active;
+    } else {
+      // End game, hub always active.
+      SmartDashboard.putString(smdbString, "End game, true");
+      return true;
+    }
+  }
+
+  public double hubShiftMatchTime() {
+    double matchTime = DriverStation.getMatchTime();
+    // total teleop match time is 140 seconds
+    // 10 sec for transition
+    // 25 * 4 for hub shifts
+    // 30 for endgame
+    if (matchTime <= -1) {
+      // disabled
+      return 0;
+    } else if (matchTime <= 30) {
+      // end game
+      return matchTime;
+    } else if (matchTime <= 130) {
+      // hub shifts
+      matchTime -= 30;
+      return (matchTime % 25);
+    } else {
+      // transition
+      return (matchTime - 130);
+    }
+  }
+
+  public String hubShiftState() {
+    double matchTime = DriverStation.getMatchTime();
+    // total teleop match time is 140 seconds
+    // 10 sec for transition
+    // 25 * 4 for hub shifts
+    // 30 for endgame
+    // auto
+    if (DriverStation.isAutonomousEnabled()) {
+      return "Autonomous";
+    }
+    // disabled
+    if (!DriverStation.isTeleopEnabled()) {
+      return "Disabled";
+    }
+    if (matchTime > 130) {
+      // transition
+      return "Transition";
+    } else if (matchTime > 105) {
+      // shift 1
+      return "Shift 1";
+    } else if (matchTime > 80) {
+      // shift 2
+      return "Shift 2";
+    } else if (matchTime > 55) {
+      // shift 3
+      return "Shift 3";
+    } else if (matchTime > 30) {
+      // shift 4
+      return "Shift 4";
+    } else {
+      // end game
+      return "End game";
+    }
+  }
+
+  public FieldConstants getFieldConstants() {
+    return m_fieldConstants;
+  }
 }

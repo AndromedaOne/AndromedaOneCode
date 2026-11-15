@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drivetrain.swerveDriveTrain;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -98,7 +100,11 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
 
   @Override
   public void setToZero() {
-  };
+  }
+
+  @Override
+  public void setToNinety() {
+  }
 
   @Override
   public void enableAccelerationLimiting() {
@@ -145,6 +151,45 @@ public class MockSwerveDriveTrain implements DriveTrainBase {
   @Override
   public double getModZeroAngle() {
     throw new UnsupportedOperationException("Unimplemented method 'getModZeroAngle'");
+  }
+
+  @Override
+  public double getHubDistanceToRobotInInches() {
+    return (0);
+  }
+
+  @Override
+  public void setMidModeValueBoolean() {
+  }
+
+  @Override
+  public boolean getMidModeValueBoolean() {
+    return false;
+  }
+
+  @Override
+  public DoubleSupplier getHubDistanceToRobotInInchesSupplier() {
+    return () -> 0;
+  }
+
+  @Override
+  public double getShuttleDistanceToRobotInInches() {
+    return 0;
+  }
+
+  @Override
+  public DoubleSupplier getShuttleDistanceToRobotInInchesSupplier() {
+    return () -> getShuttleDistanceToRobotInInches();
+  }
+
+  @Override
+  public double getRobotToFieldElementAngle(Pose2d objPose) {
+    return 0;
+  }
+
+  @Override
+  public DoubleSupplier getRobotToFieldElementAngleSupplier(Pose2d objPose) {
+    return () -> 0;
   }
 
 }

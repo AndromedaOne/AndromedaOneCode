@@ -35,7 +35,7 @@ public class Config4905 {
   private Config m_hopperBeltsConfig;
   private Config m_AHIConfig;
   private Config m_intakerollersConfig;
-  private Config m_climberConfig;
+  private Config m_shooterConfig;
   private static Config4905 m_config4905 = null;
 
   // current linux home dir on a roborio
@@ -44,6 +44,7 @@ public class Config4905 {
   private String m_baseDir;
   private String m_robotName;
   private boolean m_isSwerveBot = false;
+  private boolean m_isFuelRaider = false;
 
   private Config4905() {
     // first look to see if this is a roborio
@@ -53,6 +54,8 @@ public class Config4905 {
       m_robotName = m_nameConfig.getString("robot.name");
       if (m_robotName.equals("SwerveBot")) {
         m_isSwerveBot = true;
+      } else if (m_robotName.equalsIgnoreCase("FuelRaider")) {
+        m_isFuelRaider = true;
       }
     }
     if ((m_robotName == null) || m_robotName.isEmpty()) {
@@ -93,7 +96,7 @@ public class Config4905 {
     m_hopperBeltsConfig = load("hopperbelts.conf");
     m_AHIConfig = load("ahi.conf");
     m_intakerollersConfig = load("intakerollers.conf");
-    m_climberConfig = load("climber.conf");
+    m_shooterConfig = load("shooter.conf");
   }
 
   public Config getControllersConfig() {
@@ -161,14 +164,6 @@ public class Config4905 {
     return m_intakerollersConfig;
   }
 
-  public boolean doesClimberExist() {
-    return m_config.hasPath("subsystems.climber");
-  }
-
-  public Config getClimberConfig() {
-    return m_climberConfig;
-  }
-
   public Config getSensorConfig() {
     return m_sensorConfig;
   }
@@ -185,8 +180,20 @@ public class Config4905 {
     return m_ejectBeltConfig;
   }
 
+  public boolean doesShooterExist() {
+    return m_config.hasPath("subsystems.shooter");
+  }
+
+  public Config getShooterConfig() {
+    return m_shooterConfig;
+  }
+
   public boolean isSwerveBot() {
     return m_isSwerveBot;
+  }
+
+  public boolean isFuelRaider() {
+    return m_isFuelRaider;
   }
 
   public String getRobotName() {
