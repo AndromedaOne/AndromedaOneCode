@@ -34,12 +34,13 @@ public class MoveUsingTargetDetection extends SequentialCommandGroup4905 {
     private double m_targetYaw;
     private double m_maxOutput;
     private TargetDetectionBase m_targetDetection;
+    private double m_numberOfMissedDetections = 0;
 
     public MoveUsingTargetDetectionInternal(DriveTrainBase drivetrain, double targetYaw,
         double maxOutput, TargetDetectionBase targetDetection) {
       super(new PIDController4905SampleStop("MoveUsingTargetDetection"),
           targetDetection.getYawAsDoubleSupplier(), () -> targetYaw, output -> {
-            drivetrain.moveUsingGyro(0.0, targetYaw, false, 0.0);
+            drivetrain.moveUsingGyro(0.0, maxOutput, false, 0.0);
           }
 
       );
@@ -53,6 +54,7 @@ public class MoveUsingTargetDetection extends SequentialCommandGroup4905 {
     public void initialize() {
       Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
       super.initialize();
+      Trace.getInstance().logCommandInfo(this, "maxOutput " + m_maxOutput);
       Trace.getInstance().logCommandInfo(this, "Target Yaw: " + m_targetYaw);
       getController().setP(pidConstantsConfig.getDouble("MoveUsingTargetYaw.Kp"));
       getController().setI(pidConstantsConfig.getDouble("MoveUsingTargetYaw.Ki"));
@@ -79,7 +81,18 @@ public class MoveUsingTargetDetection extends SequentialCommandGroup4905 {
 
     @Override
     public boolean isFinished() {
-      return (getController().atSetpoint()) || (!m_targetDetection.getTargetDetected());
+      if (getController().atSetpoint()) {
+        Trace.getInstance().logCommandInfo(this, "target detection at Set Point");
+      }
+      if (!m_targetDetection.getTargetDetected()) {
+        m_numberOfMissedDetections = m_numberOfMissedDetections + 1;
+        Trace.getInstance().logCommandInfo(this,
+            "No target detected " + m_numberOfMissedDetections);
+      } else {
+        m_numberOfMissedDetections = 0;
+      }
+
+      return (getController().atSetpoint()) || (m_numberOfMissedDetections > 5);
     }
 
     public void end(boolean interrupted) {

@@ -393,6 +393,7 @@ public class SwerveDriveTrain extends SubsystemBase implements DriveTrainBase {
           new TracePair("robotDeltaAngle", robotDeltaAngle), new TracePair("rotation", rotation),
           new TracePair("ForwardBackward", forwardBackward));
     }
+    System.out.println("rotation " + rotation);
     move(forwardBackward, 0, rotation, false, true);
   }
 

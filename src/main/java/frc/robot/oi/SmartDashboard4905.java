@@ -41,6 +41,7 @@ import frc.robot.commands.autoCommands.RightTrench;
 import frc.robot.commands.autoCommands.TrenchLeftToCenter;
 import frc.robot.commands.driveTrainCommands.MoveUsingDistanceSensorTester;
 import frc.robot.commands.driveTrainCommands.MoveUsingEncoderTester;
+import frc.robot.commands.driveTrainCommands.MoveUsingTargetDetectionTester;
 import frc.robot.commands.driveTrainCommands.SetMidSpeed;
 import frc.robot.commands.driveTrainCommands.SwerveDriveSetWheelsToAngle;
 import frc.robot.commands.driveTrainCommands.ToggleBrakes;
@@ -164,7 +165,10 @@ public class SmartDashboard4905 {
       SmartDashboard.putData(name + "Tune shooter feed forward bottom", new TuneShooterFeedForward(
           Robot.getInstance().getSubsystemsContainer().getBottomShooter(), "bottomShooter"));
     }
-
+    if (sensorsContainer.hasTargetDetection()) {
+      SmartDashboard.putData(new MoveUsingTargetDetectionTester(subsystemsContainer.getDriveTrain(),
+          sensorsContainer.getTargetDetectionList().get(0)));
+    }
   }
 
   public Command getSelectedAutoChooserCommand() {

@@ -17,6 +17,7 @@ public class MoveUsingTargetDetectionTester extends Command {
   private DriveTrainBase m_driveTrain;
   private TargetDetectionBase m_targetDetection;
   private double m_yaw = 0;
+  private double m_maxOutput = .5;
 
   /** Creates a new MoveUsingTargetDetectionTester. */
   public MoveUsingTargetDetectionTester(DriveTrainBase drivetrain,
@@ -24,6 +25,7 @@ public class MoveUsingTargetDetectionTester extends Command {
     m_driveTrain = drivetrain;
     m_targetDetection = targetDetection;
     SmartDashboard.putNumber("TargetDetectionTester/TargetYaw", m_yaw);
+    SmartDashboard.putNumber("TargetDetectionTester/MaxOutput", m_maxOutput);
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +33,7 @@ public class MoveUsingTargetDetectionTester extends Command {
   public void initialize() {
     m_yaw = SmartDashboard.getNumber("TargetDetectionTester/TargetYaw", 0);
     CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-        new MoveUsingTargetDetection(m_driveTrain, m_yaw, 0.2, m_targetDetection)
+        new MoveUsingTargetDetection(m_driveTrain, m_yaw, m_maxOutput, m_targetDetection)
 
     ));
     Trace.getInstance().logCommandInfo(this, "Moving to Target Yaw: " + m_yaw);
