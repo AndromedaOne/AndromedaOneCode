@@ -15,4 +15,5 @@ public interface TargetDetectionBase {
 
   public DoubleSupplier getYawAsDoubleSupplier();
 
+  public boolean getTargetDetected();
 }

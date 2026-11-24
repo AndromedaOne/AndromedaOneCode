@@ -18,6 +18,7 @@ public class RealTargetDetection extends RealSensorBase implements TargetDetecti
   private double m_area = 0.0;
   private PhotonCamera m_camera;
   private String sensorName = "TargetDetection";
+  private boolean m_targetDetected = false;
 
   public RealTargetDetection(String cameraName) {
     m_camera = new PhotonCamera(cameraName);
@@ -30,6 +31,7 @@ public class RealTargetDetection extends RealSensorBase implements TargetDetecti
 
   @Override
   protected void periodicUpdate() {
+    boolean localtargetDetected = false;
     List<PhotonTrackedTarget> resultList;
     List<PhotonPipelineResult> pipelineResults = m_camera.getAllUnreadResults();
     for (int results = 0; results < pipelineResults.size(); results++) {
@@ -40,7 +42,7 @@ public class RealTargetDetection extends RealSensorBase implements TargetDetecti
         m_confidence = resultList.get(item).objDetectConf;
         m_pitch = resultList.get(item).pitch;
         m_area = resultList.get(item).area;
-
+        localtargetDetected = true;
         SmartDashboard.putNumber(sensorName + "/Skew", m_skew);
         SmartDashboard.putNumber(sensorName + "/Yaw", m_yaw);
         SmartDashboard.putNumber(sensorName + "/Confidence", m_confidence);
@@ -49,6 +51,9 @@ public class RealTargetDetection extends RealSensorBase implements TargetDetecti
       }
 
     }
+    m_targetDetected = localtargetDetected;
+
+    SmartDashboard.putBoolean(sensorName + "/targetDetected", m_targetDetected);
   }
 
   public double getYaw() {
@@ -75,4 +80,11 @@ public class RealTargetDetection extends RealSensorBase implements TargetDetecti
   public DoubleSupplier getYawAsDoubleSupplier() {
     return () -> getYaw();
   }
+
+  @Override
+  public boolean getTargetDetected() {
+    return m_targetDetected;
+
+  }
+
 }

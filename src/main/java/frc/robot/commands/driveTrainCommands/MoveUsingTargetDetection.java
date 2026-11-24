@@ -54,9 +54,9 @@ public class MoveUsingTargetDetection extends SequentialCommandGroup4905 {
       Config pidConstantsConfig = Config4905.getConfig4905().getCommandConstantsConfig();
       super.initialize();
       Trace.getInstance().logCommandInfo(this, "Target Yaw: " + m_targetYaw);
-      getController().setP(pidConstantsConfig.getDouble("MoveUsingTargetYaw.kp"));
-      getController().setI(pidConstantsConfig.getDouble("MoveUsingTargetYaw.ki"));
-      getController().setD(pidConstantsConfig.getDouble("MoveUsingTargetYaw.kd"));
+      getController().setP(pidConstantsConfig.getDouble("MoveUsingTargetYaw.Kp"));
+      getController().setI(pidConstantsConfig.getDouble("MoveUsingTargetYaw.Ki"));
+      getController().setD(pidConstantsConfig.getDouble("MoveUsingTargetYaw.Kd"));
       getController()
           .setMinOutputToMove(pidConstantsConfig.getDouble("MoveUsingTargetYaw.minOutputToMove"));
       getController()
@@ -67,11 +67,25 @@ public class MoveUsingTargetDetection extends SequentialCommandGroup4905 {
       } else if (pidConstantsConfig.hasPath("MoveUsingTargetYaw.maxOutput")) {
         getController().setMaxOutput(pidConstantsConfig.getDouble("MoveUsingTargetYaw.maxOutput"));
       }
-
+      Trace.getInstance().logCommandInfo(this,
+          "Moving with TargetDetection to Yaw: " + getSetPoint().getAsDouble());
+      Trace.getInstance().logCommandInfo(this,
+          "Starting TargetDetection Yaw: " + m_targetDetection.getYaw());
     }
 
     public DoubleSupplier getSetPoint() {
       return () -> m_targetYaw;
+    }
+
+    @Override
+    public boolean isFinished() {
+      return (getController().atSetpoint()) || (!m_targetDetection.getTargetDetected());
+    }
+
+    public void end(boolean interrupted) {
+      super.end(interrupted);
+      m_drivetrain.stop();
+      Trace.getInstance().logCommandInfo(this, "Ending Yaw Reading: " + m_targetDetection.getYaw());
     }
   }
 }

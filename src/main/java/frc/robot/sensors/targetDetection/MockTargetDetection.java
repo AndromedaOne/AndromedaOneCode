@@ -27,4 +27,10 @@ public class MockTargetDetection implements TargetDetectionBase {
   public DoubleSupplier getYawAsDoubleSupplier() {
     return () -> getYaw();
   }
+
+  public boolean getTargetDetected() {
+    return false;
+
+  }
+
 }
